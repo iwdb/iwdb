@@ -1,0 +1,655 @@
+/* style.css */
+
+/* Diese Style-CSS ist in 2 Teile aufgeteilt */
+/* der erste Teil kann durch ein Modul ausgelesen werden */
+/* deswegen dort nichts ändern! */
+
+/* Diese Teil wurde automatsich erstellt */
+/* Zeitcode: Monday 13th 2011f June 2011 11:39:09 AM */
+/* Script: admin_style.php */
+/* Generator: Fiedler */
+/* Browsererkennung: Mozilla/5.0 (Windows; U; Windows NT 6.1; de; rv:1.9.2.17) Gecko/20110420 Firefox/3.6.17 */
+/* IP: 88.77.196.165 */
+
+
+/* !N a */
+/* !T Links */
+/* !A */
+
+a:link         {
+  font-family: Verdana, arial, helvetica, serif; 
+  text-decoration: none; 
+  color: #22282E;
+}
+
+a:visited      {
+  font-family: Verdana, arial, helvetica, serif;
+  text-decoration: none;
+  color: #22282E;
+}
+
+a:hover        {
+  font-family: Verdana, arial, helvetica, serif;
+  text-decoration: none;
+  color: #6E7B87;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* !N html */
+/* !T Seite */
+/* !I */
+
+  html {
+   padding-top:0; 
+   padding-right:0; 
+   padding-bottom:0; 
+   padding-left:0; 
+   border-top-width:0; 
+   border-right-width:0; 
+   border-bottom-width:0; 
+   border-left-width:0; 
+   margin:0; 
+ }
+
+
+/* !N body */
+/* !T Seite */
+/* !I */
+
+  body {
+   height:100%; 
+   margin:0px; 
+   background-color:#000000; 
+   color:#000000; 
+   background-image:url(bilder/bg.gif); 
+ }
+
+
+/* !N seite */
+/* !T Seite */
+/* !I */
+
+  .seite {
+   height:100%; 
+   width:90%; 
+   border-width:1px; 
+   border-color:#000000; 
+   border-style:solid; 
+   margin:1px; 
+ }
+
+
+/* !N textsmall */
+/* !T kleiner Text alt */
+/* !I */
+
+  .textsmall {
+   font-size:7pt; 
+ }
+
+
+/* !N td */
+/* !T Tabellenzellen */
+/* !I */
+
+  td {
+   font-family:Verdana, Arial, Helvetica, sans-serif; 
+   font-size:8pt; 
+   font-style:normal; 
+ }
+
+
+/* !N help */
+/* !T Hilfe */
+/* !I */
+
+  .help {
+   background-color:#FFFF80; 
+   color:#000000; 
+   font-size:10pt; 
+ }
+
+
+/* !N help a */
+/* !T Links in der Hilfe */
+/* !I */
+
+  .help a {
+   text-decoration:underline; 
+ }
+
+
+/* !N ranking */
+/* !T Ranking gut */
+/* !I */
+
+  .ranking_green {
+   color:#00AA00; 
+ }
+
+
+/* !N ranking */
+/* !T Ranking mittel */
+/* !I */
+
+  .ranking_yellow {
+   color:#AAAA00; 
+ }
+
+
+/* !N ranking */
+/* !T Ranking schlecht */
+/* !I */
+
+  .ranking_red {
+   color:#FF0000; 
+ }
+
+
+/* !N menu */
+/* !T Menustyles */
+/* !A */
+
+.menu {
+	background-color: #BEBEBE;
+	color: #000000;
+}
+.menu a {
+	text-decoration: none;
+	white-space: nowrap;
+	display: block;
+	padding: 3px;
+	padding-left: 15px;
+}
+.menu a:hover {
+	background-color: #FFFFFF;
+	color: #000000;
+}
+.menutop {
+	background-color: #BEBEBE;
+	color: #000000;
+	width: 150px;	
+}
+.menutop a {
+	text-decoration: none;
+	font-weight: bold;
+	display: block;
+	white-space: nowrap;
+	padding: 10px;
+}
+.menutop a:hover {
+	background-color: #FFFFFF;
+	color: #000000;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* !N titelbg */
+/* !T Titelzellen */
+/* !I */
+
+  .titlebg {
+   color:#FFFFFF; 
+   background-color:#4F94CD; 
+ }
+
+
+/* !N windowbg1 */
+/* !T Hintergrund 1 */
+/* !I */
+
+  .windowbg1 {
+   background-color:#FFFFFF; 
+   color:#000000; 
+ }
+
+
+/* !N windowbg2 */
+/* !T Hintergrund 2 */
+/* !I */
+
+  .windowbg2 {
+   background-color:#4682B4; 
+   color:#000000; 
+ }
+
+
+/* !N windowbg3 */
+/* !T Hintergrund 3 neu */
+/* !I */
+
+  .windowbg3 {
+   background-color:#C2DFEF; 
+   color:#000000; 
+ }
+
+
+/* !N windowbg4 */
+/* !T Hintergrund 4: IKEA-Markierung */
+/* !I */
+
+  .windowbg4 {
+   background-color:#CFFECC; 
+   color:#000000; 
+ }
+
+
+/* !N hr */
+/* !T Linie */
+/* !I */
+
+  .hr {
+   color:#000000; 
+   background-color:transparent; 
+ }
+
+
+/* !N background */
+/* !T Hintergrund */
+/* !I */
+
+  .background {
+   background-color:#F5F9FA; 
+   background-image:url(bilder/bg.gif); 
+ }
+
+
+/* !N bigtext */
+/* !T grosser Text alt */
+/* !I */
+
+  .bigtext {
+   font-size:13pt; 
+ }
+
+
+/* !N .doc_message */
+/* !T Systemmessage */
+/* !I */
+
+  .doc_title {
+   color:#FF0000; 
+   text-align:center; 
+ }
+
+
+/* !N system_notification */
+/* !T Systemnotice */
+/* !I */
+
+  .system_notification {
+   font-size:1.1em; 
+   text-align:center; 
+ }
+
+
+/* !N system_notification b */
+/* !T Systemwarning */
+/* !I */
+
+  .system_notification {
+   font-size:1.1em; 
+   color:#FF0000; 
+   font-weight:bold; 
+   text-align:center; 
+ }
+
+
+/* !N system_notification b */
+/* !T Systemfehler */
+/* !I */
+
+  .system_error {
+   color:#FF0000; 
+   font-size:1.5em; 
+   text-align:center; 
+ }
+
+
+/* !N .doc_title */
+/* !T Ueberschrift in Modulen */
+/* !I */
+
+  .doc_title {
+   color:#004466; 
+   font-size:23px; 
+   text-align:center; 
+ }
+
+
+/* !N .doc_greeting */
+/* !T Begruessung */
+/* !I */
+
+  .doc_greeting {
+   font-size:7pt; 
+ }
+
+
+/* !N .doc_mainmenu */
+/* !T Mainmenu oben */
+/* !I */
+
+  .doc_mainmenu {
+   font-size:7pt; 
+   text-align:right; 
+   font-weight:bold; 
+ }
+
+
+/* !N .doc_menu */
+/* !T Menu links neu */
+/* !I */
+
+  .doc_menu {
+   text-align:left; 
+ }
+
+
+/* !N .doc_main */
+/* !T Sichtfenster Aussen */
+/* !I */
+
+  table.doc_main {
+   width:100%; 
+   border:0; 
+   padding:5px; 
+   border-spacing:1px; 
+   border-color:black; 
+   border-style:solid; 
+   border-width:1px; 
+ }
+
+
+/* !N .doc_main */
+/* !T Sichtfenster Innen */
+/* !I */
+
+  td.doc_main {
+   width:100%; 
+   padding-left:15px; 
+   background-color:#FFFFFF; 
+   color:#000000; 
+ }
+
+
+/* !N .doc_blue */
+/* !T Blaue Schrift */
+/* !I */
+
+  .doc_blue {
+   color:#000088; 
+ }
+
+
+/* !N .doc_red */
+/* !T Rote Schrift */
+/* !I */
+
+  .doc_red {
+   color:#FF0000; 
+ }
+
+
+/* !N .doc_green */
+/* !T Gruene Schrift */
+/* !I */
+
+  .doc_green {
+   color:#008800; 
+ }
+
+
+/* !N .doc_yellow */
+/* !T Gelbe Schrift */
+/* !I */
+
+  .doc_yellow {
+   color:#00FFFF; 
+ }
+
+
+/* !N .doc_lightred */
+/* !T hellrote Schrift */
+/* !I */
+
+  .doc_lightred {
+   color:#FF4466; 
+ }
+
+
+/* !N .doc_black */
+/* !T Schwarze Schrift */
+/* !I */
+
+  .doc_black {
+   color:#000000; 
+ }
+
+
+/* !N .doc_centered */
+/* !T zentriert */
+/* !I */
+
+  .doc_centered {
+   text-align:center; 
+ }
+
+
+/* !N .doc_centered_blue */
+/* !T Blaue zentrierte Schrift */
+/* !I */
+
+  .doc_centered_blue {
+   color:#000088; 
+   text-align:center; 
+ }
+
+
+/* !N .doc_centered_red */
+/* !T Rote zentrierte Schrift */
+/* !I */
+
+  .doc_centered_red {
+   color:#FF0000; 
+   text-align:center; 
+ }
+
+
+/* !N .doc_centered_green */
+/* !T Gruene zentrierte Schrift */
+/* !I */
+
+  .doc_centered_green {
+   color:#008800; 
+   text-align:center; 
+ }
+
+
+/* !N .doc_small_centered */
+/* !T Kleine zentrierte Schrift */
+/* !I */
+
+  .doc_small_centered {
+   font-size:15px; 
+   text-align:center; 
+ }
+
+
+/* !N .doc_big_black */
+/* !T Schwarze grosse Schrift */
+/* !I */
+
+  .doc_big_black {
+   font-size:1.5em; 
+   color:black; 
+ }
+
+
+/* !N .doc_big_white */
+/* !T Weisse grosse Schrift */
+/* !I */
+
+  .doc_big_white {
+   font-size:1.5em; 
+   color:white; 
+ }
+
+
+/* !N input */
+/* !T Textfelder, Buttons, Checkboxen */
+/* !I */
+
+  input     {
+   height:20px; 
+   font-family:Verdana, arial, helvetica, serif; 
+   color:#22282E; 
+   font-size:8pt; 
+   border-width:1px; 
+   border-style:solid; 
+   border-color:#22282E; 
+   background-color:#FFFFFF; 
+   vertical-align:middle; 
+ }
+
+
+/* !N textarea */
+/* !T Textfelder ueber mehrere Zeilen */
+/* !I */
+
+  textarea       {
+   font-family:Verdana, arial, helvetica, serif; 
+   color:#22282E; 
+   font-size:8pt; 
+   border-width:1px; 
+   border-style:solid; 
+   border-color:#22282E; 
+   background-color:#FFFFFF; 
+ }
+
+
+/* !N select */
+/* !T Auswahllisten */
+/* !I */
+
+  select         {
+   font-family:Verdana, arial, helvetica, serif; 
+   color:#22282E; 
+   font-size:8pt; 
+   border-width:1px; 
+   border-style:solid; 
+   border-color:#22282E; 
+   background-color:#FFFFFF; 
+ }
+
+
+/* !N fadein */
+/* !T Fadein bei unerledigten Sitetrauftraegen */
+/* !I */
+
+  #fadein {
+   position:fixed; 
+   top:2px; 
+   right:2px; 
+   width:150px; 
+   height:40px; 
+   background-color:#FFEEDD; 
+   margin:5px; 
+   border-style:solid; 
+   border-color:#000000; 
+   border-width:0px; 
+   align:center; 
+   text-align:center; 
+ }
+
+
+/* !N fadein */
+/* !T Fenster des Fadeins */
+/* !I */
+
+  .fadein {
+   background-color:#C4D7DF; 
+   color:#000000; 
+   align:center; 
+   text-align:center; 
+ }
+
+
+/* !END */
+
+/* ab hier wird nicht mehr ausgelesen */
+
+.scan_table {
+width:100%;
+}
+
+.scan_value {
+text-align:right;
+}
+
+
+.bordercolor {
+	background-color: #000000;
+}
+
+/* fuer die members.php */
+
+td[abbr=newtask] {
+	font-style:italic;
+	text-align:center;
+	white-space:nowrap;
+}
+
+td[abbr=login] {
+	font-weigh:bold;
+	text-align:center;
+	white-space:nowrap;
+}
+
+td[abbr=both] {
+	font-weigh:bold;
+	font-style:italic;
+	text-align:center;
+	white-space:nowrap;
+}
+
+/* ma was testen */
+
+.m_war_header {
+	text-color: #ff000000;
+}
+
+/* ab hier kommt was anderes */
+
+
+
+
+
+
+
+
+
+
+
+

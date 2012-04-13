@@ -54,16 +54,16 @@ $config_mailfrom = "iwdb@iw-allianz.de";
 $config_server   = "localhost";
 $config_url      = "http://iwdb.de";
 // Titel der AllianzDatenbank
-$config_allytitle = "VS Datenbank";
+$config_allytitle = "IWDB Datenbank";
 
 // Tag der Allianz - wird fuer die Anzeige der Mitglieder auf der Karte benoetigt
-$config_allytag = "VS";
+$config_allytag = "IWDB";
 
 // Aktuelle Spielversion (wird auch fuer den Techtree benoetigt).
 $config_gameversion = "11.74";
 
 // Default Galaxy
-$config_map_default_galaxy = 19;
+$config_map_default_galaxy = 10;
 
 // maximale Anzahl der Galaxien
 $config_map_galaxy_count = 20;

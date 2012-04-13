@@ -27,7 +27,7 @@
 if (!defined('IRA'))
 	die('Hacking attempt...');
 
-global $db, $db_tb_sid, $db_prefix;
+global $db, $db_tb_sid, $db_prefix, $db_tb_user;
 
 // get user ip 
 // $REMOTE_ADDR kann je nach Server die IP des Servers enthalten, wenn ein
@@ -78,7 +78,7 @@ else {
 	if ( !empty($cookie) )
 	{
 		list($cookie_id, $cookie_password) = explode(';', $cookie);
-		//check_username, damit man keine fremden zeichen in cookie id und password übers cookie einfügen kann
+		//check_username, damit man keine fremden zeichen in cookie id und password ï¿½bers cookie einfï¿½gen kann
 		$alert = check_username($cookie_id);
 		if(!empty($alert)) {
 			die ($alert);

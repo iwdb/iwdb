@@ -67,6 +67,7 @@ if(isset($REMOTE_ADDR) && !empty($REMOTE_ADDR)) {
   $REMOTE_IPADDR = "127.0.0.1";
 }
 
+global $db_host, $db_user, $db_pass, $db_name, $db_prefix;
 include_once("config/configsql.php");
 include_once("includes/function.php");
 include_once("includes/db_mysql.php");
@@ -195,7 +196,7 @@ if (( ( $user_adminsitten == SITTEN_BOTH ) || ( $user_adminsitten == SITTEN_ONLY
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title><?= $config_allytitle ?></title>
+<title><?php echo  $config_allytitle ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <?php
 if(defined('CONFIG_SERVER_URI') && CONFIG_SERVER_URI === TRUE ) {
@@ -241,7 +242,7 @@ include ('includes/sitterfadein.php');
 if (isset($config_banner))
 {
 ?>
-            	<img src="<?= $config_banner ?>" width="<?= $config_banner_width ?>">
+            	<img src="<?php echo $config_banner; ?>" width="<?php echo $config_banner_width; ?>">
 <?php
 }
 ?>
@@ -359,7 +360,7 @@ if ( ( $user_id <> "guest" ) && ( $user_rules == "1" ) )
 <br><br>
 <div class='doc_title'>Account l&ouml;schen</div>
 <br>
-<div class='system_notification'>Account '<?=$sitterlogin;?>' gel&ouml;scht!</div>
+<div class='system_notification'>Account '<?php echo $sitterlogin;?>' gel&ouml;scht!</div>
 <?php
 	}
 }
@@ -375,7 +376,7 @@ elseif ( ( $user_id <> "guest" ) && ( $user_rules != "1" ) )
   </td>
  </tr>
 </table><br><br>
-<form method="POST" action="index.php?sid=<?=$sid;?>" enctype="multipart/form-data">
+<form method="POST" action="index.php?sid=<?php echo $sid;?>" enctype="multipart/form-data">
 Regeln akzeptieren? <input type="checkbox" name="rules" value="1"> <input type="submit" value="speichern" name="B1" class="submit"></form>
 <?php
 }

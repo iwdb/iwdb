@@ -34,16 +34,16 @@ if ( $sitterlogin === FALSE ) $sitterlogin = $user_sitterlogin;
 <table border="0" cellpadding="0" cellspacing="1" class="bordercolor">
  <tr> 
   <td class="menutop" align="center">
-   <a href="index.php?action=profile&amp;sitterlogin=<?=urlencode($sitterlogin);?>&amp;sid=<?=$sid;?>">Einstellungen</a>
+   <a href="index.php?action=profile&amp;sitterlogin=<?php echo urlencode($sitterlogin);?>&amp;sid=<?php echo $sid;?>">Einstellungen</a>
   </td>
   <td class="menutop" align="center">
-   <a href="index.php?action=profile&amp;sitterlogin=<?=urlencode($sitterlogin);?>&amp;uaction=editplaneten&amp;sid=<?=$sid;?>">eigene Planeten</a>
+   <a href="index.php?action=profile&amp;sitterlogin=<?php echo urlencode($sitterlogin);?>&amp;uaction=editplaneten&amp;sid=<?php echo $sid;?>">eigene Planeten</a>
   </td>
   <td class="menutop" align="center">
-   <a href="index.php?action=profile&amp;sitterlogin=<?=urlencode($sitterlogin);?>&amp;uaction=editpresets&amp;sid=<?=$sid;?>">eigene Presets</a>
+   <a href="index.php?action=profile&amp;sitterlogin=<?php echo urlencode($sitterlogin);?>&amp;uaction=editpresets&amp;sid=<?php echo $sid;?>">eigene Presets</a>
   </td>
   <td class="menutop" align="center">
-   <a href="index.php?action=profile&amp;sitterlogin=<?=urlencode($sitterlogin);?>&amp;uaction=gebaeude&amp;sid=<?=$sid;?>">Gebaeude ausblenden</a>
+   <a href="index.php?action=profile&amp;sitterlogin=<?php echo urlencode($sitterlogin);?>&amp;uaction=gebaeude&amp;sid=<?php echo $sid;?>">Gebaeude ausblenden</a>
   </td>
  </tr>
 </table>

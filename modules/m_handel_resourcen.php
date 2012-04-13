@@ -214,13 +214,13 @@ while($row_data = $db->db_fetch_array($result))
 <table border="0" cellpadding="0" cellspacing="1" class="bordercolor">
  <tr> 
   <td class="menutop" align="center">
-   <a href="index.php?action=m_handel_resourcen&menu=suche&sid=<?=$sid;?>">Suche</a>
+   <a href="index.php?action=m_handel_resourcen&menu=suche&sid=<?php echo $sid;?>">Suche</a>
   </td>
   <td class="menutop" align="center">
-   <a href="index.php?action=m_handel_resourcen&menu=biete&sid=<?=$sid;?>">Biete</a>
+   <a href="index.php?action=m_handel_resourcen&menu=biete&sid=<?php echo $sid;?>">Biete</a>
   </td>
   <td class="menutop" align="center">
-   <a href="index.php?action=m_handel_resourcen&menu=meine&sid=<?=$sid;?>">Meine Ress</a>
+   <a href="index.php?action=m_handel_resourcen&menu=meine&sid=<?php echo $sid;?>">Meine Ress</a>
   </td>
  </tr>
 </table><br><br>
@@ -360,19 +360,19 @@ if( $_GET['menu'] == "suche" || $_GET['menu'] == "" )
 				echo '<meta http-equiv="refresh" content="0"';
 			}
 ?>
-<form action="index.php?action=m_handel_resourcen&menu=<?=$_GET['menu'];?>&sid=<?=$sid;?>" method="post">
+<form action="index.php?action=m_handel_resourcen&menu=<?php echo $_GET['menu'];?>&sid=<?php echo $sid;?>" method="post">
 <tr>
 <td class="windowbg1">
-<?=strftime($config_sitter_timeformat, $row['order_time']);?>
+<?php echo strftime($config_sitter_timeformat, $row['order_time']);?>
 </td>
 <td class="windowbg1">
-<?=$row['coords'];?>
+<?php echo $row['coords'];?>
 </td>
 <td class="windowbg1">
-<?=$row['user'];?>
+<?php echo $row['user'];?>
 </td>
 <td class="windowbg1">
-<?=$row['squad'];?>
+<?php echo $row['squad'];?>
 </td>
 <td class="windowbg1">
 <?php
@@ -393,7 +393,7 @@ if( $row['transport'] == "2" ) echo "Mach du mal";
 ?>
 </td>
 <td class="windowbg1" align="center">
-<input type="submit" name="<?=$row['id'];?>_edit_suche" value="&auml;ndern">
+<input type="submit" name="<?php echo $row['id'];?>_edit_suche" value="&auml;ndern">
 </td>
 </tr>
 </form>
@@ -452,19 +452,19 @@ if( $_GET['menu'] == "biete")
 		}
 
 ?>
-<form action="index.php?action=m_handel_resourcen&menu=<?=$_GET['menu'];?>&sid=<?=$sid;?>" method="post">
+<form action="index.php?action=m_handel_resourcen&menu=<?php echo $_GET['menu'];?>&sid=<?php echo $sid;?>" method="post">
 <tr>
 <td class="windowbg1">
-<?=strftime($config_sitter_timeformat, $row['order_time']);?>
+<?php echo strftime($config_sitter_timeformat, $row['order_time']);?>
 </td>
 <td class="windowbg1">
-<?=$row['coords'];?>
+<?php echo $row['coords'];?>
 </td>
 <td class="windowbg1">
-<?=$row['user'];?>
+<?php echo $row['user'];?>
 </td>
 <td class="windowbg1">
-<?=$row['squad'];?>
+<?php echo $row['squad'];?>
 </td>
 <td class="windowbg1">
 <?php
@@ -485,7 +485,7 @@ if( $row['transport'] == "2" ) echo "Mach du mal";
 ?>
 </td>
 <td class="windowbg1" align="center">
-<input type="submit" name="<?=$row['id'];?>_holen" value="Meins!!">
+<input type="submit" name="<?php echo $row['id'];?>_holen" value="Meins!!">
 </td>
 </tr>
 <?php
@@ -498,7 +498,7 @@ if( $row['transport'] == "2" ) echo "Mach du mal";
 if ( $_GET['menu'] == "meine" )
 {
 ?>
-<form action="index.php?action=m_handel_resourcen&menu=<?=$_GET['menu'];?>&sid=<?=$sid;?>" method="post">
+<form action="index.php?action=m_handel_resourcen&menu=<?php echo $_GET['menu'];?>&sid=<?php echo $sid;?>" method="post">
 <table border="0" cellpadding="2" cellspacing="1" class="bordercolor" style="width: 95%;">
 <tr>
 <td class="titlebg" align="center" colspan="7">
@@ -544,13 +544,13 @@ if ( $_GET['menu'] == "meine" )
 ?>
 <tr>
 <td class="windowbg1">
-<?=$row['coords'];?>
+<?php echo $row['coords'];?>
 </td>
 <td class="windowbg1">
-<?=$row['angenommen'];?>
+<?php echo $row['angenommen'];?>
 </td>
 <td class="windowbg1">
-<?=$row['coords2'];?>
+<?php echo $row['coords2'];?>
 </td>
 <td class="windowbg1">
 <?php
@@ -579,7 +579,7 @@ if( $row['bs'] == "2" ) echo "Biete";
 ?>
 </td>
 <td class="windowbg1">
-<input type="checkbox" name="<?=$row['id'];?>_del">
+<input type="checkbox" name="<?php echo $row['id'];?>_del">
 </td>
 </tr>
 <?php
@@ -592,7 +592,7 @@ if( $row['bs'] == "2" ) echo "Biete";
 </tr>
 </table>
 </form><br><br>
-<form action="index.php?action=m_handel_resourcen&menu=<?=$_GET['menu'];?>&sid=<?=$sid;?>" method="post">
+<form action="index.php?action=m_handel_resourcen&menu=<?php echo $_GET['menu'];?>&sid=<?php echo $sid;?>" method="post">
 <table border="0" cellpadding="2" cellspacing="1" class="bordercolor" style="width: 95%;">
 <tr>
 <td class="titlebg" align="center" colspan="9">
@@ -677,10 +677,10 @@ if( $row['bs'] == "2" ) echo "Biete";
 ?>
 <tr>
 <td class="windowbg1">
-<?=$row['user'];?>
+<?php echo $row['user'];?>
 </td>
 <td class="windowbg1">
-<?=$row['coords'];?>
+<?php echo $row['coords'];?>
 </td>
 <td class="windowbg1">
 <select name="coords">
@@ -729,17 +729,17 @@ if( $row['bs'] == "2" ) echo "Biete";
 ?>
 </td>
 <td class="windowbg1">
-<input type="submit" name="<?=$row['id'];?>_edit" value="&auml;ndern">
+<input type="submit" name="<?php echo $row['id'];?>_edit" value="&auml;ndern">
 </td>
 <td class="windowbg1">
-<input type="submit" name="<?=$row['id'];?>_del" value="l&ouml;schen">
+<input type="submit" name="<?php echo $row['id'];?>_del" value="l&ouml;schen">
 </td>
 <?php
 if( $row['bs'] == "2" )
 {
 ?>
 <td class="windowbg1">
-<input type="submit" name="<?=$row['id'];?>_deins" value="Ach behalts">
+<input type="submit" name="<?php echo $row['id'];?>_deins" value="Ach behalts">
 </td>
 <?php
 }else{

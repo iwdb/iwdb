@@ -401,7 +401,7 @@ if ( ! empty($erledigt) )
 Den Auftrag, den du eben erledigt hast, hat Folgeauftr&auml;ge eingetragen.<br>
 Bitte aktualisiere f&uuml;r diese die Zeit, indem du folgendes Formular ausf&uuml;llst.<br>
 Danach wird der Auftrag als erledigt markiert. Danke.<br><br>
-<form method="POST" action="index.php?action=sitterliste&amp;sid=<?=$sid;?>" enctype="multipart/form-data">
+<form method="POST" action="index.php?action=sitterliste&amp;sid=<?php echo $sid;?>" enctype="multipart/form-data">
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 60%;">
 <?php
 				if ( $count > 1 )
@@ -412,7 +412,7 @@ Danach wird der Auftrag als erledigt markiert. Danke.<br><br>
    Zeit fr&uuml;hstens 2:
   </td>
   <td class="windowbg1">
-   <input type="text" name="date_b2" id="date_b2_<?=$row['id'];?>" value="" style="width: 200;">
+   <input type="text" name="date_b2" id="date_b2_<?php echo $row['id'];?>" value="" style="width: 200;">
   </td>
  </tr>
 <?php
@@ -425,8 +425,8 @@ Danach wird der Auftrag als erledigt markiert. Danke.<br><br>
    Zeit fr&uuml;hstens 1:
   </td>
   <td class="windowbg1">
-   <input type="text" name="date_b1" id="date_b1_<?=$row['id'];?>" value="" style="width: 120;">
-   <input type="button" name="kopieren" value="kopieren" onclick="kopiere_zeit('<?=$row['id'];?>');">
+   <input type="text" name="date_b1" id="date_b1_<?php echo $row['id'];?>" value="" style="width: 120;">
+   <input type="button" name="kopieren" value="kopieren" onclick="kopiere_zeit('<?php echo $row['id'];?>');">
   </td>
  </tr>
 <?php
@@ -438,7 +438,7 @@ Danach wird der Auftrag als erledigt markiert. Danke.<br><br>
    <i>Zeit, zu der alle Bauschleifenauftr&auml;ge auslaufen.</i>
   </td>
   <td class="windowbg1">
-   <input type="text" name="date" id="date_<?=$row['id'];?>" value="" style="width: 200;">
+   <input type="text" name="date" id="date_<?php echo $row['id'];?>" value="" style="width: 200;">
   </td>
  </tr>
  <tr>
@@ -452,7 +452,7 @@ Danach wird der Auftrag als erledigt markiert. Danke.<br><br>
  </tr>
  <tr>
   <td colspan="2" class="titlebg" align="center">
-   <input type="hidden" name="erledigt" value="<?=$erledigt;?>"><input type="submit" value="speichern" name="B1" class="submit">
+   <input type="hidden" name="erledigt" value="<?php echo $erledigt;?>"><input type="submit" value="speichern" name="B1" class="submit">
   </td>
  </tr>
 </form>
@@ -645,31 +645,31 @@ $sql = "SELECT id, auftrag, bauid, bauschleife, typ, refid, user, date_b1, date_
     }
 ?>
  <tr>
-  <td class="windowbg<?=$num;?>">
+  <td class="windowbg<?php echo $num;?>">
 <?php
 if ( $user_status == "admin" ) echo "<a href=\"index.php?action=profile&amp;sitterlogin=" . urlencode($row['user']) . "&amp;sid=" . $sid . "\">" . $row['user'] . "</a>";
 else echo $row['user'];
 ?>
-   [<?=$users_sitterpunkte;?> + <?=$users_sitterpunkte_user;?>]
-   <?=( ($users_sitterpunkte+$users_sitterpunkte_user) > (3 * round($row_avg['AVG(sitterpunkte)']) ) ) ? "<img src=\"bilder/star1.gif\" border=\0\" style=\"vertical-align:middle;\">": ( ( ($users_sitterpunkte+$users_sitterpunkte_user) > (2 * round($row_avg['AVG(sitterpunkte)']) ) ) ? "<img src=\"bilder/star2.gif\" border=\0\" style=\"vertical-align:middle;\">" : ( ( ($users_sitterpunkte+$users_sitterpunkte_user) > (round($row_avg['AVG(sitterpunkte)']) ) ) ? "<img src=\"bilder/star3.gif\" border=\0\" style=\"vertical-align:middle;\">" : ""));?>
+   [<?php echo $users_sitterpunkte;?> + <?php echo $users_sitterpunkte_user;?>]
+   <?php echo ( ($users_sitterpunkte+$users_sitterpunkte_user) > (3 * round($row_avg['AVG(sitterpunkte)']) ) ) ? "<img src=\"bilder/star1.gif\" border=\0\" style=\"vertical-align:middle;\">": ( ( ($users_sitterpunkte+$users_sitterpunkte_user) > (2 * round($row_avg['AVG(sitterpunkte)']) ) ) ? "<img src=\"bilder/star2.gif\" border=\0\" style=\"vertical-align:middle;\">" : ( ( ($users_sitterpunkte+$users_sitterpunkte_user) > (round($row_avg['AVG(sitterpunkte)']) ) ) ? "<img src=\"bilder/star3.gif\" border=\0\" style=\"vertical-align:middle;\">" : ""));?>
 <?php
   if(!empty($row['ByUser']) && ($row['user'] != $row['ByUser'])) {
 	  echo "<br>(eingestellt von " . $row['ByUser'] . ")";
 	}
 ?>
   </td>
-  <td class="windowbg<?=$num;?>">
-   <?=( empty($row['date_b2']) || empty($row['bauschleife']) || $row['date_b2'] == $row['date_b1'] ) ? "": strftime($config_sitter_timeformat, $row['date_b2']) . "<br>";?>
-   <?=( empty($row['date_b1']) || empty($row['bauschleife']) || $row['date_b1'] == $row['date'] ) ? "": strftime($config_sitter_timeformat, $row['date_b1']) . "<br>";?>
-   <?=strftime($config_sitter_timeformat, $row['date']);?>
+  <td class="windowbg<?php echo $num;?>">
+   <?php echo ( empty($row['date_b2']) || empty($row['bauschleife']) || $row['date_b2'] == $row['date_b1'] ) ? "": strftime($config_sitter_timeformat, $row['date_b2']) . "<br>";?>
+   <?php echo ( empty($row['date_b1']) || empty($row['bauschleife']) || $row['date_b1'] == $row['date'] ) ? "": strftime($config_sitter_timeformat, $row['date_b1']) . "<br>";?>
+   <?php echo strftime($config_sitter_timeformat, $row['date']);?>
   </td>
-  <td class="windowbg<?=$num;?>">
-   <?=$row_planet['planetenname'];?> [<?=$row['planet'];?>]
+  <td class="windowbg<?php echo $num;?>">
+   <?php echo $row_planet['planetenname'];?> [<?php echo $row['planet'];?>]
   </td>
-  <td class="windowbg<?=$num;?>">
-   <?=$row['auftrag'];?>
+  <td class="windowbg<?php echo $num;?>">
+   <?php echo $row['auftrag'];?>
   </td>
-  <td class="windowbg<?=$num;?>" align="center">
+  <td class="windowbg<?php echo $num;?>" align="center">
 <?php
 
 if (is_array($users_logged_in)) { 
@@ -693,15 +693,15 @@ if (is_array($users_logged_in)) {
 	else echo $users_logged_in . " ist eingeloggt";
 	
 ?>
-<br><a href="javascript:Collapse('<?=$row['id'];?>');"><img src="bilder/plus.gif" alt="" border="0" id="collapse_<?=$row['id'];?>"></a>
+<br><a href="javascript:Collapse('<?php echo $row['id'];?>');"><img src="bilder/plus.gif" alt="" border="0" id="collapse_<?php echo $row['id'];?>"></a>
   </td>
-  <td class="windowbg<?=$num;?>">
-   <?=( empty($users_lastlogin_user) ) ? "": strftime($config_sitter_timeformat, $users_lastlogin) . " - " . $users_lastlogin_user;?>
+  <td class="windowbg<?php echo $num;?>">
+   <?php echo ( empty($users_lastlogin_user) ) ? "": strftime($config_sitter_timeformat, $users_lastlogin) . " - " . $users_lastlogin_user;?>
   </td>
  </tr>
- <tr id="row_<?=$row['id'];?>" style="display: none;">
+ <tr id="row_<?php echo $row['id'];?>" style="display: none;">
   <td colspan="6" class="windowbg1" valign="top" align="center" style="width: 100%;">
-<form method="POST" action="index.php?action=sitterliste&amp;sid=<?=$sid;?>" enctype="multipart/form-data">
+<form method="POST" action="index.php?action=sitterliste&amp;sid=<?php echo $sid;?>" enctype="multipart/form-data">
 <table border="0" cellpadding="4" cellspacing="0" class="bordercolor">
  <tr>
   <td colspan="2" class="windowbg1" align="center">
@@ -734,7 +734,7 @@ if (is_array($users_logged_in)) {
    Zeit fr&uuml;hstens 2:
   </td>
   <td class="windowbg1">
-   <input type="text" name="date_b2" id="date_b2_<?=$row['id'];?>" value="<?=strftime($config_sitter_timeformat, $row['date_b2']);?>" style="width: 200;">
+   <input type="text" name="date_b2" id="date_b2_<?php echo $row['id'];?>" value="<?php echo strftime($config_sitter_timeformat, $row['date_b2']);?>" style="width: 200;">
   </td>
  </tr>
 <?php
@@ -749,8 +749,8 @@ if (is_array($users_logged_in)) {
    Zeit fr&uuml;hstens 1:
   </td>
   <td class="windowbg1">
-   <input type="text" name="date_b1" id="date_b1_<?=$row['id'];?>" value="<?=strftime($config_sitter_timeformat, $row['date_b1']);?>" style="width: 120;">
-   <input type="button" name="kopieren" value="kopieren" onclick="kopiere_zeit('<?=$row['id'];?>');">
+   <input type="text" name="date_b1" id="date_b1_<?php echo $row['id'];?>" value="<?php echo strftime($config_sitter_timeformat, $row['date_b1']);?>" style="width: 120;">
+   <input type="button" name="kopieren" value="kopieren" onclick="kopiere_zeit('<?php echo $row['id'];?>');">
   </td>
  </tr>
 <?php
@@ -762,7 +762,7 @@ if (is_array($users_logged_in)) {
    <i>Zeit, zu der alle Bauschleifenauftr&auml;ge auslaufen.</i>
   </td>
   <td class="windowbg1">
-   <input type="text" name="date" id="date_<?=$row['id'];?>" value="<?=strftime($config_sitter_timeformat, $row['date']);?>" style="width: 200;">
+   <input type="text" name="date" id="date_<?php echo $row['id'];?>" value="<?php echo strftime($config_sitter_timeformat, $row['date']);?>" style="width: 200;">
   </td>
  </tr>
 
@@ -824,7 +824,7 @@ if (is_array($users_logged_in)) {
 ?>
  <tr>
   <td colspan="2" class="windowbg1" align="center">
-   <input type="hidden" name="auftragid" value="<?=$row['id'];?>"><input type="hidden" name="edit" value="1"><input type="submit" value="speichern" name="B1" class="submit">
+   <input type="hidden" name="auftragid" value="<?php echo $row['id'];?>"><input type="hidden" name="edit" value="1"><input type="submit" value="speichern" name="B1" class="submit">
   </td>
  </tr>
 </form>
@@ -840,7 +840,7 @@ if (is_array($users_logged_in)) {
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">
  <tr>
   <td class="titlebg" colspan="4" align="center">
-   <b>Sitterauftr&auml;ge der n&auml;chsten <?=(round($config_sitterliste_timeout / 60 / 60));?> Stunden</b>
+   <b>Sitterauftr&auml;ge der n&auml;chsten <?php echo (round($config_sitterliste_timeout / 60 / 60));?> Stunden</b>
   </td>
  </tr>
  <tr>
@@ -900,13 +900,13 @@ if(!empty($row['ByUser']) && ($row['user'] != $row['ByUser'])) {
 ?>
   </td>
   <td class="windowbg1">
-   <?=( empty($row['date_b2']) || empty($row['bauschleife']) || $row['date_b2'] == $row['date_b1'] ) ? "": strftime($config_sitter_timeformat, $row['date_b2']) . "<br>";?><?=( empty($row['date_b1']) || empty($row['bauschleife']) || $row['date_b1'] == $row['date'] ) ? "": strftime($config_sitter_timeformat, $row['date_b1']) . "<br>";?><?=strftime($config_sitter_timeformat, $row['date']);?>
+   <?php echo ( empty($row['date_b2']) || empty($row['bauschleife']) || $row['date_b2'] == $row['date_b1'] ) ? "": strftime($config_sitter_timeformat, $row['date_b2']) . "<br>";?><?php echo ( empty($row['date_b1']) || empty($row['bauschleife']) || $row['date_b1'] == $row['date'] ) ? "": strftime($config_sitter_timeformat, $row['date_b1']) . "<br>";?><?php echo strftime($config_sitter_timeformat, $row['date']);?>
   </td>
   <td class="windowbg1">
-   <?=$row_planet['planetenname'];?> [<?=$row['planet'];?>]
+   <?php echo $row_planet['planetenname'];?> [<?php echo $row['planet'];?>]
   </td>
   <td class="windowbg1">
-   <?=$row['auftrag'];?>
+   <?php echo $row['auftrag'];?>
   </td>
  </tr>
 <?php

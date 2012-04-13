@@ -94,7 +94,7 @@ if ( ! empty($newlog) )
 }
 ?>
 <br>
-<form method="POST" action="index.php?action=sitterlogins&amp;sid=<?=$sid;?>" enctype="multipart/form-data">
+<form method="POST" action="index.php?action=sitterlogins&amp;sid=<?php echo $sid;?>" enctype="multipart/form-data">
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor">
  <tr>
   <td class="titlebg" colspan="2" align="center">
@@ -125,10 +125,10 @@ if ( ! empty($newlog) )
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 95%;">
  <tr>
   <td class="titlebg" style="width:25%;">
-   <a href="index.php?action=sitterlogins&amp;order=sitterlogin&amp;ordered=asc&amp;sid=<?=$sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>Username</b> <a href="index.php?action=sitterlogins&amp;order=sitterlogin&amp;ordered=desc&amp;sid=<?=$sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a>
+   <a href="index.php?action=sitterlogins&amp;order=sitterlogin&amp;ordered=asc&amp;sid=<?php echo $sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>Username</b> <a href="index.php?action=sitterlogins&amp;order=sitterlogin&amp;ordered=desc&amp;sid=<?php echo $sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a>
   </td>
   <td class="titlebg" style="width:15%;">
-   <a href="index.php?action=sitterlogins&amp;order=sitterpunkte&amp;ordered=asc&amp;sid=<?=$sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>Aktivitaet</b> <a href="index.php?action=sitterlogins&amp;order=sitterpunkte&amp;ordered=desc&amp;sid=<?=$sid;?>"><img src="bilder/desc.gif" border="0" alt="asc"></a>
+   <a href="index.php?action=sitterlogins&amp;order=sitterpunkte&amp;ordered=asc&amp;sid=<?php echo $sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>Aktivitaet</b> <a href="index.php?action=sitterlogins&amp;order=sitterpunkte&amp;ordered=desc&amp;sid=<?php echo $sid;?>"><img src="bilder/desc.gif" border="0" alt="asc"></a>
   </td>
   <td class="titlebg" style="width:30%;">
    <b>Sitterlogin</b>
@@ -137,7 +137,7 @@ if ( ! empty($newlog) )
    <b>Besonderheiten</b>
   </td>
   <td class="titlebg" style="width:30%;">
-   <a href="index.php?action=sitterlogins&amp;order=lastlogin&amp;ordered=asc&amp;sid=<?=$sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>letzter Login</b> <a href="index.php?action=sitterlogins&amp;order=lastlogin&amp;ordered=desc&amp;sid=<?=$sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a>
+   <a href="index.php?action=sitterlogins&amp;order=lastlogin&amp;ordered=asc&amp;sid=<?php echo $sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>letzter Login</b> <a href="index.php?action=sitterlogins&amp;order=lastlogin&amp;ordered=desc&amp;sid=<?php echo $sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a>
   </td>
  </tr>
 <?php
@@ -216,18 +216,18 @@ foreach ($users_sitterlogin as $key => $data)
 	else $count++;
 ?>
  <tr>
-  <td class="windowbg<?=$num;?>" valign="top">
+  <td class="windowbg<?php echo $num;?>" valign="top">
 <?php
 	if ( $user_status == "admin" ) echo "<a href=\"index.php?action=profile&amp;sitterlogin=" . urlencode($data) . "&amp;sid=" . $sid . "\">" . $data . "</a>";
 	else echo $data;
 	if ( ! empty ($users_sittercomment[$key]) ) echo "<br><font size=\"1\"><i>[" . $users_sittercomment[$key] . "]</i></font>";
 ?>
   </td>
-  <td class="windowbg<?=$num;?>" valign="top">
-   <?=( $users_sitterpunkte[$key] > (3 * round($row_avg['AVG(sitterpunkte)']) ) ) ? "<img src=\"bilder/star1.gif\" border=\0\" style=\"vertical-align:middle;\">": ( ( $users_sitterpunkte[$key] > (2 * round($row_avg['AVG(sitterpunkte)']) ) ) ? "<img src=\"bilder/star2.gif\" border=\0\" style=\"vertical-align:middle;\">" : ( ( $users_sitterpunkte[$key] > round($row_avg['AVG(sitterpunkte)'] ) ) ? "<img src=\"bilder/star3.gif\" border=\0\" style=\"vertical-align:middle;\">" : ""));?>
-   <?=$users_sitterpunkte_anz[$key];?>
+  <td class="windowbg<?php echo $num;?>" valign="top">
+   <?php echo ( $users_sitterpunkte[$key] > (3 * round($row_avg['AVG(sitterpunkte)']) ) ) ? "<img src=\"bilder/star1.gif\" border=\0\" style=\"vertical-align:middle;\">": ( ( $users_sitterpunkte[$key] > (2 * round($row_avg['AVG(sitterpunkte)']) ) ) ? "<img src=\"bilder/star2.gif\" border=\0\" style=\"vertical-align:middle;\">" : ( ( $users_sitterpunkte[$key] > round($row_avg['AVG(sitterpunkte)'] ) ) ? "<img src=\"bilder/star3.gif\" border=\0\" style=\"vertical-align:middle;\">" : ""));?>
+   <?php echo $users_sitterpunkte_anz[$key];?>
   </td>
-  <td class="windowbg<?=$num;?>" valign="top">
+  <td class="windowbg<?php echo $num;?>" valign="top">
 <?php
 	if ( ! empty($users_logged_in[$key]) ) 
 	  echo "<b><font color='#ff0000'>" . $users_logged_in[$key] . " ist eingeloggt </font></b>".
@@ -279,8 +279,8 @@ foreach ($users_sitterlogin as $key => $data)
 ?>
 
   </td>
-  <td class="windowbg<?=$num;?>" valign="top" style="white-space:nowrap;">
-   <?=( empty($users_lastlogin_user[$key]) ) ? "": strftime($config_sitter_timeformat, $users_lastlogin[$key]) . "<br> von: " . $users_lastlogin_user[$key];?>
+  <td class="windowbg<?php echo $num;?>" valign="top" style="white-space:nowrap;">
+   <?php echo ( empty($users_lastlogin_user[$key]) ) ? "": strftime($config_sitter_timeformat, $users_lastlogin[$key]) . "<br> von: " . $users_lastlogin_user[$key];?>
   </td>
  </tr>
 <?php

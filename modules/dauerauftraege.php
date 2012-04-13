@@ -148,32 +148,32 @@ if ( ! empty($anz) )
 		else $num = 2;
 ?>
  <tr>
-  <td class="windowbg<?=$num;?>" valign="top">
+  <td class="windowbg<?php echo $num;?>" valign="top">
 <?php
 		if ( $user_status == "admin" ) echo "<a href=\"index.php?action=profile&amp;sitterlogin=" . urlencode($data) . "&amp;sid=" . $sid . "\">" . $data . "</a>";
 		else echo $data;
 ?>
-   <?=$users_sitterpunkte_anz[$key];?>
-   <?=( $users_sitterpunkte[$key] > (3 * round($row_avg['AVG(sitterpunkte)']) ) ) ? "<img src=\"bilder/star1.gif\" border=\0\" style=\"vertical-align:middle;\">": ( ( $users_sitterpunkte[$key] > (2 * round($row_avg['AVG(sitterpunkte)']) ) ) ? "<img src=\"bilder/star2.gif\" border=\0\" style=\"vertical-align:middle;\">" : ( ( $users_sitterpunkte[$key] > round($row_avg['AVG(sitterpunkte)'] ) ) ? "<img src=\"bilder/star3.gif\" border=\0\" style=\"vertical-align:middle;\">" : ""));?> 
+   <?php echo $users_sitterpunkte_anz[$key];?>
+   <?php echo ( $users_sitterpunkte[$key] > (3 * round($row_avg['AVG(sitterpunkte)']) ) ) ? "<img src=\"bilder/star1.gif\" border=\0\" style=\"vertical-align:middle;\">": ( ( $users_sitterpunkte[$key] > (2 * round($row_avg['AVG(sitterpunkte)']) ) ) ? "<img src=\"bilder/star2.gif\" border=\0\" style=\"vertical-align:middle;\">" : ( ( $users_sitterpunkte[$key] > round($row_avg['AVG(sitterpunkte)'] ) ) ? "<img src=\"bilder/star3.gif\" border=\0\" style=\"vertical-align:middle;\">" : ""));?> 
   </td>
-  <td class="windowbg<?=$num;?>" valign="top">
-   <?=nl2br($users_sittercomment[$key]);?>
-   <?=( $users_sitterpeitschen[$key] == "1" ) ? "<br><br><i>Meister d. Peitschen</i>": "";?>
+  <td class="windowbg<?php echo $num;?>" valign="top">
+   <?php echo nl2br($users_sittercomment[$key]);?>
+   <?php echo ( $users_sitterpeitschen[$key] == "1" ) ? "<br><br><i>Meister d. Peitschen</i>": "";?>
   </td>
-  <td class="windowbg<?=$num;?>" valign="middle" align="center">
+  <td class="windowbg<?php echo $num;?>" valign="middle" align="center">
 <?php
 		if ( ! empty($users_logged_in[$key]) ) echo $users_logged_in[$key] . " ist eingeloggt";
 		else echo "<a href=\"index.php?action=sitterlogins&amp;sitterlogin=" . urlencode($data) . "&amp;sid=" . $sid . "\" target=\"_blank\">[einloggen]</a>";
 ?>
-   <br><a href="javascript:Collapse('d<?=$key;?>');"><img src="bilder/plus.gif" alt="" border="0" id="collapse_d<?=$key;?>"></a>
+   <br><a href="javascript:Collapse('d<?php echo $key;?>');"><img src="bilder/plus.gif" alt="" border="0" id="collapse_d<?php echo $key;?>"></a>
   </td>
-  <td class="windowbg<?=$num;?>" valign="top">
-   <?=( empty($users_lastlogin_user[$key]) ) ? "": strftime($config_sitter_timeformat, $users_lastlogin[$key]) . " - " . $users_lastlogin_user[$key];?>
+  <td class="windowbg<?php echo $num;?>" valign="top">
+   <?php echo ( empty($users_lastlogin_user[$key]) ) ? "": strftime($config_sitter_timeformat, $users_lastlogin[$key]) . " - " . $users_lastlogin_user[$key];?>
   </td>
  </tr>
- <tr id="row_d<?=$key;?>" style="display: none;">
+ <tr id="row_d<?php echo $key;?>" style="display: none;">
   <td colspan="4" class="windowbg1" valign="top" align="center" style="width: 100%;">
-<form method="POST" action="index.php?action=sitterliste&amp;sid=<?=$sid;?>" enctype="multipart/form-data">
+<form method="POST" action="index.php?action=sitterliste&amp;sid=<?php echo $sid;?>" enctype="multipart/form-data">
 <table border="0" cellpadding="4" cellspacing="0" class="bordercolor">
  <tr>
   <td colspan="2" class="windowbg1" align="center">
@@ -192,7 +192,7 @@ if ( ! empty($anz) )
  </tr>
  <tr>
   <td colspan="2" class="windowbg1" align="center">
-   <input type="hidden" name="newlog" value="true"><input type="hidden" name="sitterlogin" value="<?=$data;?>"><input type="submit" value="speichern" name="B1" class="submit">
+   <input type="hidden" name="newlog" value="true"><input type="hidden" name="sitterlogin" value="<?php echo $data;?>"><input type="submit" value="speichern" name="B1" class="submit">
   </td>
  </tr>
 </table>

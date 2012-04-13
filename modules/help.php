@@ -32,7 +32,7 @@ if (!defined('IRA'))
 <table border="0" cellpadding="8" cellspacing="1" class="bordercolor" style="width: 70%;">
  <tr>
   <td class="help">
-<p align="right"><a href="index.php?action=help&amp;topic=index&amp;sid=<?=$sid;?>">Index</a></p><hr><br>
+<p align="right"><a href="index.php?action=help&amp;topic=index&amp;sid=<?php echo $sid;?>">Index</a></p><hr><br>
 <?php
 $topic = getVar('topic');
 $topic = ( empty($topic) ) ? "index" : $topic;

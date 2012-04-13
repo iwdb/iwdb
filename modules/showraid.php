@@ -30,7 +30,7 @@ if (!defined('IRA'))
 if ( empty($coords) ) $coords = getVar('coords');
 ?>
 
-<div class='doc_title'>Raids von <?=$coords;?></div>
+<div class='doc_title'>Raids von <?php echo $coords;?></div>
 <br>
 
 <?php
@@ -50,12 +50,12 @@ if ( ! empty($coords) )
    Datum:
   </td>
   <td class="windowbg1">
-   <?=strftime($config_timeformat, $row['date']);?>
+   <?php echo strftime($config_timeformat, $row['date']);?>
   </td>
  </tr>
  <tr>
   <td colspan="2" class="windowbg1">
-   <?=nl2br($row['bericht']);?>
+   <?php echo nl2br($row['bericht']);?>
   </td>
  </tr>
 </table>

@@ -50,7 +50,7 @@ if (!defined('IRA'))
 	}
 ?>
 <br>
-<form method="POST" action="index.php?action=profile&amp;uaction=editplaneten&amp;sid=<?=$sid;?>" enctype="multipart/form-data">
+<form method="POST" action="index.php?action=profile&amp;uaction=editplaneten&amp;sid=<?php echo$sid;?>" enctype="multipart/form-data">
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 80%;">
  <tr>
   <td class="windowbg2" style="width:10%;">
@@ -108,25 +108,25 @@ while ($row = $db->db_fetch_array($result))
 ?>
  <tr>
   <td class="windowbg1">
-   <?=$row['coords'];?>
+   <?php echo$row['coords'];?>
   </td>
   <td class="windowbg1">
-   <?=$row['planetenname'];?>
+   <?php echo$row['planetenname'];?>
   </td>
   <td class="windowbg1">
-   <?=$row['objekt'];?>
+   <?php echo$row['objekt'];?>
   </td>
   <td class="windowbg1">
-   <input type="text" name="<?=$row['coords'];?>_dsmod" value="<?=$row['dsmod'];?>" style="width: 100">
+   <input type="text" name="<?php echo$row['coords'];?>_dsmod" value="<?php echo$row['dsmod'];?>" style="width: 100">
   </td>
   <td class="windowbg1">
-   <input type="text" name="<?=$row['coords'];?>_dgmod" value="<?=$row['dgmod'];?>" style="width: 100">
+   <input type="text" name="<?php echo$row['coords'];?>_dgmod" value="<?php echo$row['dgmod'];?>" style="width: 100">
   </td>
   <td class="windowbg1">
-   <input type="text" name="<?=$row['coords'];?>_planet_farbe" value="<?=$row['planet_farbe'];?>" style="width: 60">
+   <input type="text" name="<?php echo$row['coords'];?>_planet_farbe" value="<?php echo$row['planet_farbe'];?>" style="width: 60">
   </td>
   <td class="windowbg1">
-   <input type="text" name="<?=$row['coords'];?>_sortierung" value="<?=$row['sortierung'];?>" style="width: 50">
+   <input type="text" name="<?php echo$row['coords'];?>_sortierung" value="<?php echo$row['sortierung'];?>" style="width: 50">
   </td>
  </tr>
 <?php
@@ -134,7 +134,7 @@ while ($row = $db->db_fetch_array($result))
 ?>
   <tr>
     <td colspan="7" class="titlebg" align="center">
-      <input type="hidden" name="sitterlogin" value="<?=$sitterlogin;?>"><input type="hidden" name="editplaneten" value="true"><input type="submit" value="speichern" name="B1" class="submit">
+      <input type="hidden" name="sitterlogin" value="<?php echo$sitterlogin;?>"><input type="hidden" name="editplaneten" value="true"><input type="submit" value="speichern" name="B1" class="submit">
     </td>
   </tr>
 </form>

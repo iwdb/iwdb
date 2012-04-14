@@ -38,9 +38,9 @@ if($row = $db->db_fetch_array($result)) {
 }
 ?>
 <div class='doc_title'>Memberliste</div>
-<div class='doc_centered_blue'><?=$lastreport; ?></div>
+<div class='doc_centered_blue'><?php echo$lastreport; ?></div>
 
-<form method="POST" action="index.php?action=members&amp;graph=1&amp;sid=<?=$sid;?>" enctype="multipart/form-data">
+<form method="POST" action="index.php?action=members&amp;graph=1&amp;sid=<?php echo$sid;?>" enctype="multipart/form-data">
 <?php
 $graph_typs = array (
    "gesamtp" => "GesamtP",
@@ -85,7 +85,7 @@ if ( ! empty($graph) )
 	}
 ?>
 <p align="center">
-Achsen optimieren? <input type="checkbox" name="fitthis" value="1"<?=($fitthis) ? " checked": "";?>> 
+Achsen optimieren? <input type="checkbox" name="fitthis" value="1"<?php echo($fitthis) ? " checked": "";?>> 
 <select name="graph_typ">
 <?php
   foreach ($graph_typs as $key => $data)
@@ -105,29 +105,29 @@ Achsen optimieren? <input type="checkbox" name="fitthis" value="1"<?=($fitthis) 
   </td>
 <?php } ?>
   <td class="titlebg" style="width:23%;" align="center">
-   <a href="index.php?action=members&amp;order=sitterlogin&amp;ordered=asc&amp;sid=<?=$sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>Username</b> <a href="index.php?action=members&amp;order=sitterlogin&amp;ordered=desc&amp;sid=<?=$sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a><br>
-   <a href="index.php?action=members&amp;order=budflesol&amp;ordered=asc&amp;sid=<?=$sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>Spielart</b> <a href="index.php?action=members&amp;order=budflesol&amp;ordered=desc&amp;sid=<?=$sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a>
+   <a href="index.php?action=members&amp;order=sitterlogin&amp;ordered=asc&amp;sid=<?php echo$sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>Username</b> <a href="index.php?action=members&amp;order=sitterlogin&amp;ordered=desc&amp;sid=<?php echo$sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a><br>
+   <a href="index.php?action=members&amp;order=budflesol&amp;ordered=asc&amp;sid=<?php echo$sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>Spielart</b> <a href="index.php?action=members&amp;order=budflesol&amp;ordered=desc&amp;sid=<?php echo$sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a>
   </td>
   <td class="titlebg" style="width:4%;" align="center">
-   <a href="index.php?action=members&amp;order=allianz&amp;ordered=desc&amp;sid=<?=$sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a><br><b>Alli</b><br><a href="index.php?action=members&amp;order=allianz&amp;ordered=asc&amp;sid=<?=$sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a>
+   <a href="index.php?action=members&amp;order=allianz&amp;ordered=desc&amp;sid=<?php echo$sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a><br><b>Alli</b><br><a href="index.php?action=members&amp;order=allianz&amp;ordered=asc&amp;sid=<?php echo$sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a>
   </td>
   <td class="titlebg" style="width:8%;" align="center">
-   <a href="index.php?action=members&amp;order=rang&amp;ordered=desc&amp;sid=<?=$sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a><br><b>Rang</b><br><a href="index.php?action=members&amp;order=rang&amp;ordered=asc&amp;sid=<?=$sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a>
+   <a href="index.php?action=members&amp;order=rang&amp;ordered=desc&amp;sid=<?php echo$sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a><br><b>Rang</b><br><a href="index.php?action=members&amp;order=rang&amp;ordered=asc&amp;sid=<?php echo$sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a>
   </td>
   <td class="titlebg" style="width:8%;" align="center">
-   <a href="index.php?action=members&amp;order=gebp&amp;ordered=desc&amp;sid=<?=$sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a><br><b>GebP</b><br><a href="index.php?action=members&amp;order=gebp&amp;ordered=asc&amp;sid=<?=$sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a>
+   <a href="index.php?action=members&amp;order=gebp&amp;ordered=desc&amp;sid=<?php echo$sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a><br><b>GebP</b><br><a href="index.php?action=members&amp;order=gebp&amp;ordered=asc&amp;sid=<?php echo$sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a>
   </td>
   <td class="titlebg" style="width:8%;" align="center">
-   <a href="index.php?action=members&amp;order=fp&amp;ordered=desc&amp;sid=<?=$sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a><br><b>FP</b><br><a href="index.php?action=members&amp;order=fp&amp;ordered=asc&amp;sid=<?=$sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a>
+   <a href="index.php?action=members&amp;order=fp&amp;ordered=desc&amp;sid=<?php echo$sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a><br><b>FP</b><br><a href="index.php?action=members&amp;order=fp&amp;ordered=asc&amp;sid=<?php echo$sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a>
   </td>
   <td class="titlebg" style="width:9%;" align="center">
-   <a href="index.php?action=members&amp;order=gesamtp&amp;ordered=desc&amp;sid=<?=$sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a><br><b>GesamtP</b><br><a href="index.php?action=members&amp;order=gesamtp&amp;ordered=asc&amp;sid=<?=$sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a>
+   <a href="index.php?action=members&amp;order=gesamtp&amp;ordered=desc&amp;sid=<?php echo$sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a><br><b>GesamtP</b><br><a href="index.php?action=members&amp;order=gesamtp&amp;ordered=asc&amp;sid=<?php echo$sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a>
   </td>
   <td class="titlebg" style="width:8%;" align="center">
-   <a href="index.php?action=members&amp;order=ptag&amp;ordered=desc&amp;sid=<?=$sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a><br><b>P/Tag</b><br><a href="index.php?action=members&amp;order=ptag&amp;ordered=asc&amp;sid=<?=$sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a>
+   <a href="index.php?action=members&amp;order=ptag&amp;ordered=desc&amp;sid=<?php echo$sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a><br><b>P/Tag</b><br><a href="index.php?action=members&amp;order=ptag&amp;ordered=asc&amp;sid=<?php echo$sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a>
   </td>
   <td class="titlebg" style="width:10%;" align="center">
-   <a href="index.php?action=members&amp;order=dabei&amp;ordered=desc&amp;sid=<?=$sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a><br><b>dabei s.</b><br><a href="index.php?action=members&amp;order=dabei&amp;ordered=asc&amp;sid=<?=$sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a>
+   <a href="index.php?action=members&amp;order=dabei&amp;ordered=desc&amp;sid=<?php echo$sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a><br><b>dabei s.</b><br><a href="index.php?action=members&amp;order=dabei&amp;ordered=asc&amp;sid=<?php echo$sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a>
   </td>
   <td class="titlebg" style="width:20%;" align="center">
 <?php
@@ -206,44 +206,44 @@ while($row = $db->db_fetch_array($result))
 ?>
  <tr>
 <?php 	if ( $user_status == "admin" ) { ?>
- 	<td class="windowbg<?=$num;?>" valign="top">
- 		<a href="index.php?action=profile&amp;sitterlogin=<?= $sitterlogin; ?>&amp;sid=<?=$sid;?>">
+ 	<td class="windowbg<?php echo$num;?>" valign="top">
+ 		<a href="index.php?action=profile&amp;sitterlogin=<?php echo $sitterlogin; ?>&amp;sid=<?php echo$sid;?>">
  		  <img border="0" src="bilder/user-profil.gif" alt="P" title="Profil">	
  		</a>	
- 		<a href="index.php?action=sitterlogins&amp;sitterlogin=<?= $sitterlogin; ?>&amp;sid=<?=$sid;?>">
+ 		<a href="index.php?action=sitterlogins&amp;sitterlogin=<?php echo $sitterlogin; ?>&amp;sid=<?php echo$sid;?>">
  		  <img border="0" src="bilder/user-login.gif" alt="L" title="Einloggen">	
  		</a>	
   </td>
 <?php } ?>
-  <td class="windowbg<?=$num;?>">
+  <td class="windowbg<?php echo$num;?>">
 <?php
 if ( $user_status == "admin" ) echo "<a href=\"index.php?action=profile&amp;sitterlogin=" . urlencode($row['sitterlogin']) . "&amp;sid=" . $sid . "\">" . $row['sitterlogin'] . "</a>";
 else echo $row['sitterlogin'];
 ?>
-   <br><font size="1"><i style="color:<?=$color;?>">[<?=$row['budflesol'];?><?=($row['buddlerfrom']) ? " v. " . $row['buddlerfrom']: "";?>]</i></font>
+   <br><font size="1"><i style="color:<?php echo$color;?>">[<?php echo$row['budflesol'];?><?php echo($row['buddlerfrom']) ? " v. " . $row['buddlerfrom']: "";?>]</i></font>
   </td>
-  <td class="windowbg<?=$num;?>" valign="top">
-   <?=$row['allianz'];?>
+  <td class="windowbg<?php echo$num;?>" valign="top">
+   <?php echo$row['allianz'];?>
   </td>
-  <td class="windowbg<?=$num;?>" valign="top">
-   <?=$row['rang'];?>
+  <td class="windowbg<?php echo$num;?>" valign="top">
+   <?php echo$row['rang'];?>
   </td>
-  <td class="windowbg<?=$num;?>" align="right" valign="top">
-   <?=$row['gebp'];?>
+  <td class="windowbg<?php echo$num;?>" align="right" valign="top">
+   <?php echo$row['gebp'];?>
   </td>
-  <td class="windowbg<?=$num;?>" align="right" valign="top">
-   <?=$row['fp'];?>
+  <td class="windowbg<?php echo$num;?>" align="right" valign="top">
+   <?php echo$row['fp'];?>
   </td>
-  <td class="windowbg<?=$num;?>" align="right" valign="top">
-   <?=$row['gesamtp'];?>
+  <td class="windowbg<?php echo$num;?>" align="right" valign="top">
+   <?php echo$row['gesamtp'];?>
   </td>
-  <td class="windowbg<?=$num;?>" align="right" valign="top">
-   <?=$row['ptag'];?>
+  <td class="windowbg<?php echo$num;?>" align="right" valign="top">
+   <?php echo$row['ptag'];?>
   </td>
-  <td class="windowbg<?=$num;?>" align="right" valign="top">
-   <?=strftime($config_members_timeformat, $row['dabei']);?>
+  <td class="windowbg<?php echo$num;?>" align="right" valign="top">
+   <?php echostrftime($config_members_timeformat, $row['dabei']);?>
   </td>
-<!--  <td class="windowbg<?=$num;?>" valign="top"> -->
+<!--  <td class="windowbg<?php echo$num;?>" valign="top"> -->
 <?php
 $output = "<td class=\"windowbg" . $num. "\" ";
 if ( $user_status == "admin" ) {
@@ -265,11 +265,11 @@ else $output .= $row['titel'];
 echo $output;
 ?>
   </td>
-  <td class="windowbg<?=$num;?>" valign="top">
+  <td class="windowbg<?php echo$num;?>" valign="top">
   <?php
     $tempname  = 'graph_' . str_replace(".", "%99", rawurlencode($row['sitterlogin']));
     $graphname = getVar($tempname); 
-  ?><input type="checkbox" name="<?=$tempname?>" value="true"<?=($select_none) ? "": (($select_all) ? " checked" : (($graphname) ?  " checked": ""));?>>
+  ?><input type="checkbox" name="<?php echo$tempname?>" value="true"<?php echo($select_none) ? "": (($select_all) ? " checked" : (($graphname) ?  " checked": ""));?>>
   </td> 
  </tr>
 <?php
@@ -279,8 +279,8 @@ echo $output;
 <table border="0" cellpadding="2" cellspacing="1" style="width: 90%;">
  <tr>
   <td align="right">
-   <a href="index.php?action=members&amp;order=<?=$order;?>&amp;ordered=<?=$ordered;?>&amp;select_all=true&amp;graph=<?=$graph;?>&amp;graph_typ=<?=$graph_typ;?>&amp;fitthis=<?=$fitthis;?>&amp;sid=<?=$sid;?>">Alle auswaehlen</a> / 
-   <a href="index.php?action=members&amp;order=<?=$order;?>&amp;ordered=<?=$ordered;?>&amp;select_none=true&amp;graph=<?=$graph;?>&amp;graph_typ=<?=$graph_typ;?>&amp;fitthis=<?=$fitthis;?>&amp;sid=<?=$sid;?>">Auswahl entfernen</a>
+   <a href="index.php?action=members&amp;order=<?php echo$order;?>&amp;ordered=<?php echo$ordered;?>&amp;select_all=true&amp;graph=<?php echo$graph;?>&amp;graph_typ=<?php echo$graph_typ;?>&amp;fitthis=<?php echo$fitthis;?>&amp;sid=<?php echo$sid;?>">Alle auswaehlen</a> / 
+   <a href="index.php?action=members&amp;order=<?php echo$order;?>&amp;ordered=<?php echo$ordered;?>&amp;select_none=true&amp;graph=<?php echo$graph;?>&amp;graph_typ=<?php echo$graph_typ;?>&amp;fitthis=<?php echo$fitthis;?>&amp;sid=<?php echo$sid;?>">Auswahl entfernen</a>
   </td>
  </tr>
 <?php
@@ -289,7 +289,7 @@ if ( empty($graph) )
 ?>
  <tr>
   <td align="right">
-   Achsen optimieren? <input type="checkbox" name="fitthis" value="1"<?=($fitthis) ? " checked": "";?>> 
+   Achsen optimieren? <input type="checkbox" name="fitthis" value="1"<?php echo($fitthis) ? " checked": "";?>> 
    <select name="graph_typ">
 <?php
   foreach ($graph_typs as $key => $data)

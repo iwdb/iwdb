@@ -79,13 +79,13 @@ while ($row = $db->db_fetch_array($result))
 ?>
  <tr>
   <td class="windowbg1">
-   <?=$row['name'];?>
+   <?php echo$row['name'];?>
   </td>
   <td class="windowbg1">
-   <?=( empty($row['fromuser']) ) ? "<b>global</b>": $row['fromuser'];?>
+   <?php echo( empty($row['fromuser']) ) ? "<b>global</b>": $row['fromuser'];?>
   </td>
   <td class="windowbg1">
-   <a href="index.php?action=profile&amp;uaction=editpresets&amp;delid=<?=$row['id'];?>&amp;sitterlogin=<?=urlencode($sitterlogin);?>&amp;sid=<?=$sid;?>"">loeschen</a>
+   <a href="index.php?action=profile&amp;uaction=editpresets&amp;delid=<?php echo$row['id'];?>&amp;sitterlogin=<?php echourlencode($sitterlogin);?>&amp;sid=<?php echo$sid;?>"">loeschen</a>
   </td>
  </tr>
 <?php

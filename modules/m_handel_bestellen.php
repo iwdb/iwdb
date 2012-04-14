@@ -323,14 +323,14 @@ $result_schiff = $db->db_query($sql)
 	or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);		
 
 ?>
-<form method="post" action="index.php?action=m_handel_bestellen&sid=<?=$sid;?>" enctype="multipart/form-data" name="test">
+<form method="post" action="index.php?action=m_handel_bestellen&sid=<?php echo$sid;?>" enctype="multipart/form-data" name="test">
 <table border="0" cellpadding="2" cellspacing="1" class="bordercolor" style="width: 60%;">
 <tr>
 <td class="windowbg2" style="width:40%;">
 Typ
 </td>
 <td class="windowbg1">
-<select name="typ" onChange="window.location='index.php?action=m_handel_bestellen&sid=<?=$sid;?>&typ=' + document.test.typ.options[document.test.typ.selectedIndex].value">
+<select name="typ" onChange="window.location='index.php?action=m_handel_bestellen&sid=<?php echo$sid;?>&typ=' + document.test.typ.options[document.test.typ.selectedIndex].value">
 <!--<option value="">---</option>-->
 <option value="1" <?php if($typ == "1") { echo "selected"; }?>>Schiffe</option>
 <?php $typ="1"; ?>

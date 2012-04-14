@@ -147,7 +147,7 @@ if ($action == 'default') {
 ?>
 
 <div class='doc_title'>Style</div>
-<form action='index.php?sid=<?=$sid;?>&action=admin&uaction=style&daction=send' method='post'>
+<form action='index.php?sid=<?php echo$sid;?>&action=admin&uaction=style&daction=send' method='post'>
 <table width="100%">
   <tr>
     <td colspan="4">&nbsp;</td>

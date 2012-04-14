@@ -144,7 +144,7 @@ if ( ! empty($preset) )
 	class="bordercolor" style="width: 80%;">
 	<tr>
 		<td colspan="2" class="windowbg2" align="center"><br>
-		<form method="POST" action="index.php?action=searchdb&sid=<?=$sid;?>"
+		<form method="POST" action="index.php?action=searchdb&sid=<?php echo$sid;?>"
 			enctype="multipart/form-data"><select name="preset"
 			style="width: 100px;" onchange="this.form.submit();">
 			<?php
@@ -161,7 +161,7 @@ if ( ! empty($preset) )
 		<br>
 		</td>
 	</tr>
-	<form method="POST" action="index.php?action=showgalaxy&sid=<?=$sid;?>"
+	<form method="POST" action="index.php?action=showgalaxy&sid=<?php echo$sid;?>"
 		enctype="multipart/form-data">
 	
 	
@@ -172,17 +172,17 @@ if ( ! empty($preset) )
 		<td class="windowbg2" style="width: 40%;">Galaxie:<br>
 		<i>In welchem Galaxiebereich sollen Planeten gesucht werden?</i></td>
 		<td class="windowbg1">von <input type="text" name="gal_start"
-			value="<?=((isset($gal_start)) ? $gal_start:'')?>" style="width: 30">
+			value="<?php echo((isset($gal_start)) ? $gal_start:'')?>" style="width: 30">
 		bis <input type="text" name="gal_end"
-			value="<?=((isset($gal_end)) ? $gal_end : '')?>" style="width: 30"></td>
+			value="<?php echo((isset($gal_end)) ? $gal_end : '')?>" style="width: 30"></td>
 	</tr>
 	<tr>
 		<td class="windowbg2">System:<br>
 		<i>In welchem Systemberich sollen Planeten gesucht werden?</i></td>
 		<td class="windowbg1">von <input type="text" name="sys_start"
-			value="<?=((isset($sys_start)) ? $sys_start: '')?>" style="width: 30">
+			value="<?php echo((isset($sys_start)) ? $sys_start: '')?>" style="width: 30">
 		bis <input type="text" name="sys_end"
-			value="<?=((isset($sys_end)) ? $sys_end: '')?>" style="width: 30"></td>
+			value="<?php echo((isset($sys_end)) ? $sys_end: '')?>" style="width: 30"></td>
 	</tr>
 	<tr>
 		<td colspan="2" class="titlebg"><b>Eigenschaften:</b></td>
@@ -212,9 +212,9 @@ if ( ! empty($preset) )
 		<i>Wie viel Gravitation soll der Planet mindestens und maximal haben?</i>
 		</td>
 		<td class="windowbg1">von <input type="text" name="grav_von"
-			value="<?=((isset($grav_von)) ? $grav_von : '')?>" style="width: 30"
+			value="<?php echo((isset($grav_von)) ? $grav_von : '')?>" style="width: 30"
 			maxlength="3"> bis <input type="text" name="grav_bis"
-			value="<?=((isset($grav_bis)) ? $grav_bis: '')?>" style="width: 30"
+			value="<?php echo((isset($grav_bis)) ? $grav_bis: '')?>" style="width: 30"
 			maxlength="3">
 			<?php
 			$grav_von=str_replace(",",".",$grav_von);
@@ -226,22 +226,22 @@ if ( ! empty($preset) )
 		<td class="windowbg2">Spielername (mehrere mit ; getrennt):<br>
 		<i>Planeten eines bestimmten Spielers suchen</i></td>
 		<td class="windowbg1"><input type="text" name="user"
-			value="<?=((isset($user)) ? $user: '')?>" style="width: 100"><br>
+			value="<?php echo((isset($user)) ? $user: '')?>" style="width: 100"><br>
 		<input type="checkbox" name="exact" value="1"
-		<?=(isset($exact) && $exact) ? "checked": "";?>> exakte Suche?</td>
+		<?php echo(isset($exact) && $exact) ? "checked": "";?>> exakte Suche?</td>
 	</tr>
 	<tr>
 		<td class="windowbg2">Allianzen (mehrere mit ; getrennt):<br>
 		<i>Planeten einer bestimmten Allianz suchen</i></td>
 		<td class="windowbg1"><input type="text" name="allianz"
-			value="<?=((isset($allianz)) ? $allianz: '');?>" style="width: 100">
+			value="<?php echo((isset($allianz)) ? $allianz: '');?>" style="width: 100">
 		</td>
 	</tr>
 	<tr>
 		<td class="windowbg2">Planetenname:<br>
 		<i>Nach Planetennamen suchen</i></td>
 		<td class="windowbg1"><input type="text" name="planetenname"
-			value="<?=((isset($planetenname)) ? $planetenname : '');?>"
+			value="<?php echo((isset($planetenname)) ? $planetenname : '');?>"
 			style="width: 100"></td>
 	</tr>
 	<tr>
@@ -257,7 +257,7 @@ if ( ! empty($preset) )
 	</tr>
 	<td class="windowbg2">Geb&auml;udekosten:</td>
 	<td class="windowbg1"><input type="text" name="kgmod_bis"
-		value="<?=((isset($kgmod)) ? $kgmod: '')?>" style="width: 100"
+		value="<?php echo((isset($kgmod)) ? $kgmod: '')?>" style="width: 100"
 		<?php
 		$kgmod=str_replace(",",".",$kgmod);
 		?>
@@ -266,7 +266,7 @@ if ( ! empty($preset) )
 	<tr>
 		<td class="windowbg2">Geb&auml;udedauer:</td>
 		<td class="windowbg1"><input type="text" name="dgmod_bis"
-			value="<?=((isset($dgmod)) ? $dgmod: '')?>" style="width: 100"
+			value="<?php echo((isset($dgmod)) ? $dgmod: '')?>" style="width: 100"
 			<?php
 			$dgmod=str_replace(",",".",$dgmod);
 			?>
@@ -275,7 +275,7 @@ if ( ! empty($preset) )
 	<tr>
 		<td class="windowbg2">Schiffkosten:</td>
 		<td class="windowbg1"><input type="text" name="ksmod_bis"
-			value="<?=((isset($ksmod)) ? $ksmod: '')?>" style="width: 100"
+			value="<?php echo((isset($ksmod)) ? $ksmod: '')?>" style="width: 100"
 			<?php
 			$ksmod=str_replace(",",".",$ksmod);
 			?>
@@ -284,7 +284,7 @@ if ( ! empty($preset) )
 	<tr>
 		<td class="windowbg2">Schiffdauer:</td>
 		<td class="windowbg1"><input type="text" name="dsmod_bis"
-			value="<?=((isset($dsmod)) ? $dsmod: '')?>" style="width: 100"
+			value="<?php echo((isset($dsmod)) ? $dsmod: '')?>" style="width: 100"
 			<?php
 			$dsmod=str_replace(",",".",$dsmod);
 			?>
@@ -295,7 +295,7 @@ if ( ! empty($preset) )
     Forschung:(UNDER CONSTRUCTION)
    </td>
    <td class="windowbg1">
-      <input type="text" name="fmod_bis" value="<?=((isset($fmod)) ? $fmod: '')?>" style="width: 100" maxlength="5">
+      <input type="text" name="fmod_bis" value="<?php echo((isset($fmod)) ? $fmod: '')?>" style="width: 100" maxlength="5">
    </td>
  </tr>
  <tr> //-->
@@ -305,19 +305,19 @@ if ( ! empty($preset) )
 	<tr>
 		<td class="windowbg2">Eisengehalt:</td>
 		<td class="windowbg1"><input type="text" name="eisengehalt"
-			value="<?=((isset($eisengehalt)) ? $eisengehalt: '')?>"
+			value="<?php echo((isset($eisengehalt)) ? $eisengehalt: '')?>"
 			style="width: 100" maxlength="3"></td>
 	</tr>
 	<tr>
 		<td class="windowbg2">Chemievorkommen:</td>
 		<td class="windowbg1"><input type="text" name="chemievorkommen"
-			value="<?=((isset($chemievorkommen)) ? $chemievorkommen: '')?>"
+			value="<?php echo((isset($chemievorkommen)) ? $chemievorkommen: '')?>"
 			style="width: 100" maxlength="3"></td>
 	</tr>
 	<tr>
 		<td class="windowbg2">Eisdichte:</td>
 		<td class="windowbg1"><input type="text" name="eisdichte"
-			value="<?=((isset($eisdichte)) ? $eisdichte: '')?>"
+			value="<?php echo((isset($eisdichte)) ? $eisdichte: '')?>"
 			style="width: 100" maxlength="3"></td>
 	</tr>
 	<tr>
@@ -333,7 +333,7 @@ if ( ! empty($preset) )
 	<tr>
 		<td class="windowbg2">Lebensbedingungen:</td>
 		<td class="windowbg1"><input type="text" name="lebensbedingungen"
-			value="<?=((isset($lebensbedingungen)) ? $lebensbedingungen: '')?>"
+			value="<?php echo((isset($lebensbedingungen)) ? $lebensbedingungen: '')?>"
 			style="width: 100" maxlength="3"></td>
 	</tr>
 	<?php if(defined('SPECIALSEARCH') && SPECIALSEARCH === TRUE ) { ?>
@@ -350,7 +350,7 @@ if ( ! empty($preset) )
 	<tr>
 		<td class="windowbg2">Rating:</td>
 		<td class="windowbg1"><input type="text" name="ratingmin"
-			value="<?=((isset($ratingmin)) ? $ratingmin: '')?>"
+			value="<?php echo((isset($ratingmin)) ? $ratingmin: '')?>"
 			style="width: 100" maxlength="6"> <select name="ratingtyp" style="width: 170">
 			<?php
 			$ratingtyp = (isset($ratingtyp) ) ? $ratingtyp: '';
@@ -411,7 +411,7 @@ if ( ! empty($preset) )
 	</tr>
 	<tr>
 		<td class="windowbg1" colspan="2" align="center">maximale Ergebnisse:
-		<input type="text" name="max" value="<?=( (isset($max)) ? $max: '')?>"
+		<input type="text" name="max" value="<?php echo( (isset($max)) ? $max: '')?>"
 			style="width: 100" maxlength="6"></td>
 	</tr>
 	<tr>

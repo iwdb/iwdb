@@ -27,7 +27,8 @@
 if (!defined('IRA'))
 	die('Hacking attempt...');
 
-global $db, $db_tb_sid, $db_prefix;
+global $db, $db_tb_sid, $db_prefix, $db_tb_user;
+
 
 // get user ip 
 // $REMOTE_ADDR kann je nach Server die IP des Servers enthalten, wenn ein

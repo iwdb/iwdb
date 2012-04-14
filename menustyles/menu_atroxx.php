@@ -75,14 +75,14 @@ include ('configmenu.php');
       <li>
         <table align="left">
                   <tr>
-                      <td><strong>Hallo, <?=$user_id;?>.</strong><td>
+                      <td><strong>Hallo, <?php echo$user_id;?>.</strong><td>
                     </tr>
                 </table>
       </li>
       <li>
               <table align="right">
                   <tr>
-                    <td><strong>Online: <?=($counter_guest+$counter_member);?></strong><td>
+                    <td><strong>Online: <?php echo($counter_guest+$counter_member);?></strong><td>
                     </tr>
                 </table>
       </li>
@@ -199,10 +199,10 @@ include ('configmenu.php');
       <a href=\"index.php?action=profile&amp;sid=$sid\"><img src=\"bilder/icon_mini_profile.gif\" width=\"12\" height=\"13\" alt=\"profil\" border=\"0\" align=\"absmiddle\"> profil</a>
       ";
       if ( $user_status == "admin" )  {      ?>
-        <a href="index.php?action=admin&amp;sid=<?=$sid;?>"><img src="bilder/icon_mini_members.gif" width="12" height="13" alt="admin" border="0" align="absmiddle"> <font color="#e50f9f">admin</font></a></strong>
+        <a href="index.php?action=admin&amp;sid=<?php echo$sid;?>"><img src="bilder/icon_mini_members.gif" width="12" height="13" alt="admin" border="0" align="absmiddle"> <font color="#e50f9f">admin</font></a></strong>
       <?php  } ?>
-      <a href="index.php?action=help&amp;topic=<?=$action;?>&amp;sid=<?=$sid;?>"><img src="bilder/icon_mini_search.gif" width="12" height="13" alt="profile" border="0" align="absmiddle"><font color="#e50f9f"> hilfe</font></a>
-      <a href="index.php?action=memberlogout2&amp;sid=<?=$sid;?>"><img src="bilder/icon_mini_login.gif" width="12" height="13" alt="login" border="0" align="absmiddle"> logout</a>
+      <a href="index.php?action=help&amp;topic=<?php echo$action;?>&amp;sid=<?php echo$sid;?>"><img src="bilder/icon_mini_search.gif" width="12" height="13" alt="profile" border="0" align="absmiddle"><font color="#e50f9f"> hilfe</font></a>
+      <a href="index.php?action=memberlogout2&amp;sid=<?php echo$sid;?>"><img src="bilder/icon_mini_login.gif" width="12" height="13" alt="login" border="0" align="absmiddle"> logout</a>
     </div>
   <!-- main menu ende -->
   <script type="text/javascript"> cssdropdown.startchrome("chromemenu") </script>

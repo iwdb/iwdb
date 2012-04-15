@@ -57,7 +57,7 @@ end_form();
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">
  <tr>
   <td class="titlebg" colspan="4" align="center">
-   <b>Was andere bei <?php echo$selecteduser;?> gemacht haben</b>
+   <b>Was andere bei <?php echo $selecteduser;?> gemacht haben</b>
   </td>
  </tr>
  <tr>
@@ -92,10 +92,10 @@ else
 ?>
   </td>
   <td class="windowbg1">
-   <?php echostrftime($config_sitter_timeformat, $row['date']);?>
+   <?php echo strftime($config_sitter_timeformat, $row['date']);?>
   </td>
   <td class="windowbg1">
-   <?php echo$row['action'];?>
+   <?php echo $row['action'];?>
   </td>
  </tr>
 <?php
@@ -107,7 +107,7 @@ else
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">
  <tr>
   <td class="titlebg" colspan="4" align="center">
-   <b>Was <?php echo$selecteduser;?> bei anderen gemacht hat</b>
+   <b>Was <?php echo $selecteduser;?> bei anderen gemacht hat</b>
   </td>
  </tr>
  <tr>
@@ -140,10 +140,10 @@ else
 ?>
   </td>
   <td class="windowbg1">
-   <?php echostrftime($config_sitter_timeformat, $row['date']);?>
+   <?php echo strftime($config_sitter_timeformat, $row['date']);?>
   </td>
   <td class="windowbg1">
-   <?php echo$row['action'];?>
+   <?php echo $row['action'];?>
   </td>
  </tr>
 <?php

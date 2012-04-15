@@ -288,16 +288,16 @@ if ( empty($umenu) )
 <table border="0" cellpadding="0" cellspacing="1" class="bordercolor">
  <tr> 
   <td class="menutop" align="center">
-   <a href="index.php?action=sitterauftrag&amp;typ=Gebaeude&amp;umenu=1&amp;sitterid=<?php echourlencode($id);?>&amp;sid=<?php echo$sid;?>">[Geb&auml;ude]</a>
+   <a href="index.php?action=sitterauftrag&amp;typ=Gebaeude&amp;umenu=1&amp;sitterid=<?php echo urlencode($id);?>&amp;sid=<?php echo $sid;?>">[Geb&auml;ude]</a>
   </td>
   <td class="menutop" align="center">
-   <a href="index.php?action=sitterauftrag&amp;typ=Schiffe&amp;umenu=1&amp;sitterid=<?php echourlencode($id);?>&amp;sid=<?php echo$sid;?>">[Schiffe]</a>
+   <a href="index.php?action=sitterauftrag&amp;typ=Schiffe&amp;umenu=1&amp;sitterid=<?php echo urlencode($id);?>&amp;sid=<?php echo $sid;?>">[Schiffe]</a>
   </td>
   <td class="menutop" align="center">
-   <a href="index.php?action=sitterauftrag&amp;typ=Forschung&amp;umenu=1&amp;sitterid=<?php echourlencode($id);?>&amp;sid=<?php echo$sid;?>">[Forschung]</a>
+   <a href="index.php?action=sitterauftrag&amp;typ=Forschung&amp;umenu=1&amp;sitterid=<?php echo urlencode($id);?>&amp;sid=<?php echo $sid;?>">[Forschung]</a>
   </td>
   <td class="menutop" align="center">
-   <a href="index.php?action=sitterauftrag&amp;typ=Sonstiges&amp;umenu=1&amp;sitterid=<?php echourlencode($id);?>&amp;sid=<?php echo$sid;?>">[Sonstiges]</a>
+   <a href="index.php?action=sitterauftrag&amp;typ=Sonstiges&amp;umenu=1&amp;sitterid=<?php echo urlencode($id);?>&amp;sid=<?php echo $sid;?>">[Sonstiges]</a>
   </td>
  </tr>
 </table>
@@ -310,13 +310,13 @@ if($id == $user_sitterlogin ) {
 <?php
 } else {
 ?>
-<font style="font-size: 22px; color: #004466">Sitterauftr&auml;ge von <?php echo$id;?></font><br>
+<font style="font-size: 22px; color: #004466">Sitterauftr&auml;ge von <?php echo $id;?></font><br>
 <?php
 }
 	echo ( empty($alert) ) ? "": $alert;
 ?>
 <br>
-<form method="POST" action="index.php?action=sitterauftrag&amp;sitterid=<?php echourlencode($id);?>&amp;sid=<?php echo$sid;?>" enctype="multipart/form-data">
+<form method="POST" action="index.php?action=sitterauftrag&amp;sitterid=<?php echo urlencode($id);?>&amp;sid=<?php echo $sid;?>" enctype="multipart/form-data">
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">
  <tr>
   <td class="titlebg" colspan="4" align="center">
@@ -339,7 +339,7 @@ if($id == $user_sitterlogin ) {
   </td>
   <td class="windowbg1" style="width:15%;">
    Bauschleife:
-   <input type="checkbox" name="bauschleife" value="1"<?php echo($user_peitschen) ? " checked": "";?>>
+   <input type="checkbox" name="bauschleife" value="1"<?php echo ($user_peitschen) ? " checked": "";?>>
   </td>
   <td class="windowbg1" style="width:15%;">
    <textarea name="auftrag" rows="2" style="width: 200;">Auftrag</textarea>
@@ -456,7 +456,7 @@ if($id == $user_sitterlogin ) {
 		$row['auftrag'] = auftrag($row['typ'], $row['bauschleife'], $row['bauid'], $row['auftrag'], $row['schiffanz'], $planetmod, $row['user'], $bauschleifenmod);
 ?>
  <tr>
-  <td class="windowbg<?php echo$num;?>" align="center">
+  <td class="windowbg<?php echo $num;?>" align="center">
 <?php
     if( !$differentid  || ( ($user_status == "admin") OR ($user_status == "SV") ) || ($user_sitterlogin == $row['ByUser'])) {
 		  echo ( empty($row_bev['id']) ) ? 
@@ -470,7 +470,7 @@ if($id == $user_sitterlogin ) {
   <?php
   	if (!isset($row['planet_farbe'])) { $row['planet_farbe']="white"; }
   ?>
-  <td class="windowbg<?php echo$num;?>" style="background-color:<?php echo$row['planet_farbe']?>;">
+  <td class="windowbg<?php echo $num;?>" style="background-color:<?php echo $row['planet_farbe']?>;">
 <? 
 if(!empty($row['planet']) && isset($planets[$row['planet']]))
   echo $planets[$row['planet']] . " [" . $row['planet']. "]\n";
@@ -482,33 +482,33 @@ if(!empty($row['ByUser']) && ($row['user'] != $row['ByUser'])) {
 }
 ?>
   </td>
-  <td class="windowbg<?php echo$num;?>">
-   <?php echo( empty($row['date_b2']) || empty($row['bauschleife']) || $row['date_b2'] == $row['date_b1'] ) ? "": strftime($config_sitter_timeformat, $row['date_b2']) . "<br>";?>
-   <?php echo( empty($row['date_b1']) || empty($row['bauschleife']) || $row['date_b1'] == $row['date'] ) ? "": strftime($config_sitter_timeformat, $row['date_b1']) . "<br>";?>
-   <?php echostrftime($config_sitter_timeformat, $row['date']);?>
+  <td class="windowbg<?php echo $num;?>">
+   <?php echo ( empty($row['date_b2']) || empty($row['bauschleife']) || $row['date_b2'] == $row['date_b1'] ) ? "": strftime($config_sitter_timeformat, $row['date_b2']) . "<br>";?>
+   <?php echo ( empty($row['date_b1']) || empty($row['bauschleife']) || $row['date_b1'] == $row['date'] ) ? "": strftime($config_sitter_timeformat, $row['date_b1']) . "<br>";?>
+   <?php echo strftime($config_sitter_timeformat, $row['date']);?>
   </td>
-  <td class="windowbg<?php echo$num;?>">
-   <?php echo$row['typ'];?>
+  <td class="windowbg<?php echo $num;?>">
+   <?php echo $row['typ'];?>
   </td>
-  <td class="windowbg<?php echo$num;?>">
-   <?php echo$row['auftrag'];?>
+  <td class="windowbg<?php echo $num;?>">
+   <?php echo $row['auftrag'];?>
   </td>
-  <td class="windowbg<?php echo$num;?>" align="center">
+  <td class="windowbg<?php echo $num;?>" align="center">
 <?php
     if( !$differentid || ( ($user_status == "admin") OR ($user_status == "SV") ) || ($user_sitterlogin == $row['ByUser'])) {
 ?>
-   <a href="index.php?action=sitterauftrag&amp;typ=<?php echo$row['typ'];?>&amp;auftragid=<?php echo$row['id'];?>&amp;umenu=1&amp;sitterid=<?php echourlencode($id);?>&amp;sid=<?php echo$sid;?>"><img src="bilder/file_edit_s.gif" border="0" alt="editieren"></a>
+   <a href="index.php?action=sitterauftrag&amp;typ=<?php echo $row['typ'];?>&amp;auftragid=<?php echo $row['id'];?>&amp;umenu=1&amp;sitterid=<?php echo urlencode($id);?>&amp;sid=<?php echo $sid;?>"><img src="bilder/file_edit_s.gif" border="0" alt="editieren"></a>
 <?php
     }
 		if ( $row['typ'] == "Gebaeude" )
 		{
 ?>
-    <a href="index.php?action=sitterauftrag&amp;umenu=1&amp;parentid=<?php echo$row['id'];?>&amp;sitterid=<?php echourlencode($id);?>&amp;sid=<?php echo$sid;?>"><img src="bilder/file_new_s.gif" border="0" alt="anhaengen"></a>
+    <a href="index.php?action=sitterauftrag&amp;umenu=1&amp;parentid=<?php echo $row['id'];?>&amp;sitterid=<?php echo urlencode($id);?>&amp;sid=<?php echo $sid;?>"><img src="bilder/file_new_s.gif" border="0" alt="anhaengen"></a>
 <?php
 		}
     if( !$differentid || ( ($user_status == "admin") OR ($user_status == "SV") )  || ($user_sitterlogin == $row['ByUser'])) {
 ?>
-    <a href="index.php?action=sitterauftrag&amp;parentid=<?php echo$row['id'];?>&amp;delid=<?php echo$row['id'];?>&amp;sitterid=<?php echourlencode($id);?>&amp;sid=<?php echo$sid;?>" onclick="return confirmlink(this, 'Auftrag wirklich loeschen?')"><img src="bilder/file_delete_s.gif" border="0" alt="loeschen"></a>
+    <a href="index.php?action=sitterauftrag&amp;parentid=<?php echo $row['id'];?>&amp;delid=<?php echo $row['id'];?>&amp;sitterid=<?php echo urlencode($id);?>&amp;sid=<?php echo $sid;?>" onclick="return confirmlink(this, 'Auftrag wirklich loeschen?')"><img src="bilder/file_delete_s.gif" border="0" alt="loeschen"></a>
 <?php
     }
 ?>
@@ -604,11 +604,11 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 	echo ( empty($alert) ) ? "": $alert;
 ?>
 <br>
-<form method="POST" action="index.php?action=sitterauftrag&amp;sitterid=<?php echourlencode($id);?>&amp;sid=<?php echo$sid;?>" enctype="multipart/form-data">
+<form method="POST" action="index.php?action=sitterauftrag&amp;sitterid=<?php echo urlencode($id);?>&amp;sid=<?php echo $sid;?>" enctype="multipart/form-data">
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 60%;">
  <tr>
   <td class="windowbg2" style="width: 30%;">
-   Planet:<?php echo($typ == "Forschung") ? "<br><i>(optional)</i>": "";?>
+   Planet:<?php echo ($typ == "Forschung") ? "<br><i>(optional)</i>": "";?>
   </td>
   <td class="windowbg1" style="width: 70%;">
 <?php
@@ -648,7 +648,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 			else
 			{
 ?>
-   <input type="text" name="date_b2" value="<?php echo(isset($date_b2) ? $date_b2 : "");?>" style="width: 200;">
+   <input type="text" name="date_b2" value="<?php echo (isset($date_b2) ? $date_b2 : "");?>" style="width: 200;">
 <?php
 			}
 ?>  </td>
@@ -668,7 +668,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 		else
 		{
 ?>
-   <input type="text" name="date_b1" value="<?php echo(isset($date_b1) ? $date_b1 : "");?>" style="width: 200;">
+   <input type="text" name="date_b1" value="<?php echo (isset($date_b1) ? $date_b1 : "");?>" style="width: 200;">
 <?php
 		}
 ?>  </td>
@@ -704,7 +704,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 	else
 	{
 ?>
-   <input type="text" name="date" value="<?php echo(isset($date) ? $date : "");?>" style="width: 200;">
+   <input type="text" name="date" value="<?php echo (isset($date) ? $date : "");?>" style="width: 200;">
 <?php
 	}
 ?>
@@ -743,11 +743,11 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 <?php if( defined('RESEARCH') && (RESEARCH === TRUE)) { ?>
    <select name="researchid" style="width: 400;">
 <!--  	 <optgroup label="Unbekannt" title="Unbekannt"></optgroup> -->
-		 <?php echo fill_selection($resid); ?>
+		 <?php echo  fill_selection($resid); ?>
 	 </select>
     Sollte eine Forschung noch nicht aufgef&uuml;hrt sein, bitte die Forschungsinfo einfach von ingame bei neuer Bericht einf&uuml;gen.
 <?php } else {?>
-   <input type="text" name="auftrag" value="<?php echo$auftrag;?>" style="width: 200;">
+   <input type="text" name="auftrag" value="<?php echo $auftrag;?>" style="width: 200;">
 <?php } ?>
   </td>
 <?php
@@ -756,10 +756,10 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 	{
 ?>
   <td class="windowbg2">
-   Notizen:<?php echo($typ == "Sonstiges") ? "": "<br><i>(optional)</i>";?>
+   Notizen:<?php echo ($typ == "Sonstiges") ? "": "<br><i>(optional)</i>";?>
   </td>
   <td class="windowbg1">
-   <textarea name="auftrag" rows="4" style="width: 200;"><?php echo$auftrag;?></textarea>
+   <textarea name="auftrag" rows="4" style="width: 200;"><?php echo $auftrag;?></textarea>
   </td>
 <?php
 	}
@@ -792,7 +792,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 	}
 ?>
    </select>
-   Anzahl: <input type="text" name="schiffanz" value="<?php echo(isset($schiffanz) ? $schiffanz : "");?>" style="width: 100;">
+   Anzahl: <input type="text" name="schiffanz" value="<?php echo (isset($schiffanz) ? $schiffanz : "");?>" style="width: 100;">
   </td>
  </tr>
 <?php
@@ -805,7 +805,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
    Bauschleife nutzen?:
   </td>
   <td class="windowbg1">
-   <input type="checkbox" name="bauschleife" value="1"<?php echo($bauschleife) ? " checked": "";?>>
+   <input type="checkbox" name="bauschleife" value="1"<?php echo ($bauschleife) ? " checked": "";?>>
   </td>
  </tr>
 
@@ -819,7 +819,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 	   Schiebeauftrag?:
 	  </td>
 	  <td class="windowbg1">
-	   <input type="checkbox" name="schieben" value="1"<?php echo($schieben) ? " checked": "";?>>
+	   <input type="checkbox" name="schieben" value="1"<?php echo ($schieben) ? " checked": "";?>>
 	  </td>		
 	 </tr>
  	<?php
@@ -837,7 +837,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
  <tr>
   <td class="windowbg1" colspan="2">
    <table border="0" cellpadding="4" cellspacing="4" style="width: 100%;">
-    <tr><td colspan="2" class="windowbg2">Zeiten ohne Bauschleifenmodifikator (x <?php echo$bauschleifenmod;?>) und Planetenmodifikator.</td></tr>
+    <tr><td colspan="2" class="windowbg2">Zeiten ohne Bauschleifenmodifikator (x <?php echo $bauschleifenmod;?>) und Planetenmodifikator.</td></tr>
 <?php
 	$catprev = "";
 	$rownum = 0;
@@ -918,7 +918,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 ?>
  <tr>
   <td colspan="2" class="titlebg" align="center">
-   <input type="hidden" name="parentid" value="<?php echo$thisid;?>"><input type="hidden" name="typ" value="<?php echo$typ;?>"><input type="hidden" name="auftragid" value="<?php echo$auftragid;?>"><input type="hidden" name="editauftrag" value="true"><input type="submit" value="speichern" name="B1" class="submit">
+   <input type="hidden" name="parentid" value="<?php echo $thisid;?>"><input type="hidden" name="typ" value="<?php echo $typ;?>"><input type="hidden" name="auftragid" value="<?php echo $auftragid;?>"><input type="hidden" name="editauftrag" value="true"><input type="submit" value="speichern" name="B1" class="submit">
   </td>
  </tr>
 </form>

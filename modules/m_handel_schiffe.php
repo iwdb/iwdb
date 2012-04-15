@@ -233,17 +233,17 @@ function uncheck_delivery(id_del) {
 <table border="0" cellpadding="0" cellspacing="1" class="bordercolor">
 <tr>
   <td class="menutop" align="center">
-   <a href="index.php?action=m_handel_schiffe&menu=squadanzeige&sid=<?php echo$sid;?>">Bestellte Schiffe<br>- eigener Squad -</a>
+   <a href="index.php?action=m_handel_schiffe&menu=squadanzeige&sid=<?php echo $sid;?>">Bestellte Schiffe<br>- eigener Squad -</a>
   </td>
   <td class="menutop" align="center">
-   <a href="index.php?action=m_handel_schiffe&menu=anzeige&sid=<?php echo$sid;?>">Alle bestellten Schiffe<br> - Reihenfolge -</a>
+   <a href="index.php?action=m_handel_schiffe&menu=anzeige&sid=<?php echo $sid;?>">Alle bestellten Schiffe<br> - Reihenfolge -</a>
   </td>
   <?php 
   if( $user_status == "admin" || strpos($user_rang, "HC") !== FALSE || strpos($user_rang, "Gründer") !== FALSE)
   {
   ?>
   <td class="menutop" align="center">
-   <a href="index.php?action=m_handel_schiffe&menu=ausblenden&sid=<?php echo$sid;?>">Schiffe freischalten</a>
+   <a href="index.php?action=m_handel_schiffe&menu=ausblenden&sid=<?php echo $sid;?>">Schiffe freischalten</a>
   </td>
   <?php
   }
@@ -276,8 +276,8 @@ $phpself = $_SERVER['PHP_SELF']."?".$_SERVER['QUERY_STRING'];
 
 ?>
 
-<form method="POST" action="<?php echo$phpself;?>" enctype="multipart/form-data">
-<table border="0" cellpadding="2" cellspacing="1" class="bordercolor" style="width: <?php echo$breite;?>%;">
+<form method="POST" action="<?php echo $phpself;?>" enctype="multipart/form-data">
+<table border="0" cellpadding="2" cellspacing="1" class="bordercolor" style="width: <?php echo $breite;?>%;">
 <tr>
 <td class="titlebg" colspan="7" align="center">
 <b>Schiffe</b>
@@ -344,29 +344,29 @@ $result = $db->db_query($sql)
 ?>
 <tr>
 <td class="windowbg1">
-<?php echostrftime($config_sitter_timeformat, $row['order_time']);?>
+<?php echo strftime($config_sitter_timeformat, $row['order_time']);?>
 </td>
 <td class="windowbg1">
-<?php echo$row['coords'];?>
+<?php echo $row['coords'];?>
 </td>
 <td class="windowbg1">
-<?php echo$row['user'];?>
+<?php echo $row['user'];?>
 </td>
 <?php
 if ( @$_GET['menu'] == "anzeige" ) 
 {
 ?>
 <td class="windowbg1">
-<?php echo$row['squad'];?>
+<?php echo $row['squad'];?>
 </td>
 <?php
 }
 ?>
 <td class="windowbg1">
-<?php echo$row['schiff'];?>
+<?php echo $row['schiff'];?>
 </td>
 <td class="windowbg1">
-<?php echo$row['menge'];?>
+<?php echo $row['menge'];?>
 
 </td>
 <?php
@@ -379,13 +379,13 @@ if ( $user_status == "admin" || strpos($user_rang, "HC") !== FALSE || strpos($us
 if ( $user_status == "admin" || strpos($user_rang, "HC") !== FALSE || strpos($user_rang, "Gründer") !== FALSE || strpos($user_rang, "iHC") !== FALSE )
 {
 ?>
-geliefert: <input type="text" size="3" name="<?php echo$row['id'];?>_edit" id="<?php echo$row['id'];?>_edit" value="0" onChange="javascript:uncheck_delivery('<?php echo$row['id'];?>_del');">
+geliefert: <input type="text" size="3" name="<?php echo $row['id'];?>_edit" id="<?php echo $row['id'];?>_edit" value="0" onChange="javascript:uncheck_delivery('<?php echo $row['id'];?>_del');">
 
 <?php
 }
 ?>
 
-<input type="checkbox" name="<?php echo$row['id'];?>_del" id="<?php echo$row['id'];?>_del" onclick="javascript:fill_delivery('<?php echo$row['id'];?>_edit','<?php echo$row['id'];?>_del','<?php echo$row['menge'];?>');">
+<input type="checkbox" name="<?php echo $row['id'];?>_del" id="<?php echo $row['id'];?>_del" onclick="javascript:fill_delivery('<?php echo $row['id'];?>_edit','<?php echo $row['id'];?>_del','<?php echo $row['menge'];?>');">
 </td>
 <?php
 }else{
@@ -412,7 +412,7 @@ geliefert: <input type="text" size="3" name="<?php echo$row['id'];?>_edit" id="<
 if( $user_status <> "admin" && strpos($user_rang, "HC") !== FALSE && strpos($user_rang, "Gründer") !== FALSE)
 	die('Hacking attempt...');
 ?>
-<form method="POST" action="index.php?action=m_handel_schiffe&menu=ausblenden&sid=<?php echo$sid;?>" enctype="multipart/form-data">
+<form method="POST" action="index.php?action=m_handel_schiffe&menu=ausblenden&sid=<?php echo $sid;?>" enctype="multipart/form-data">
 <table border="0" cellpadding="2" cellspacing="1" class="bordercolor" style="width: 50%;">
 <tr>
 <td class="titlebg">
@@ -522,19 +522,19 @@ if( $user_status == "admin" || $user_rang == "HC" || $user_rang == "Gründer")
 ?>
 <tr>
 <td class="windowbg1">
-<?php echo$row['abk'];?>
+<?php echo $row['abk'];?>
 </td>
 <td class="windowbg1" align="center">
-<input type="checkbox" name="<?php echo$row['id'];?>_WildesStiefmuetterchen_accept" <?php echo$WildesStiefmuetterchen;?>>
+<input type="checkbox" name="<?php echo $row['id'];?>_WildesStiefmuetterchen_accept" <?php echo $WildesStiefmuetterchen;?>>
 </td>
 <td class="windowbg1" align="center">
-<input type="checkbox" name="<?php echo$row['id'];?>_Vergissmeinnicht_accept" <?php echo$Vergissmeinnicht;?>>
+<input type="checkbox" name="<?php echo $row['id'];?>_Vergissmeinnicht_accept" <?php echo $Vergissmeinnicht;?>>
 </td>
 <td class="windowbg1" align="center">
-<input type="checkbox" name="<?php echo$row['id'];?>_Ferocactus_accept" <?php echo$Ferocactus;?>>
+<input type="checkbox" name="<?php echo $row['id'];?>_Ferocactus_accept" <?php echo $Ferocactus;?>>
 </td>
 <td class="windowbg1" align="center">
-<input type="checkbox" name="<?php echo$row['id'];?>_Omega_accept" <?php echo$omega;?>>
+<input type="checkbox" name="<?php echo $row['id'];?>_Omega_accept" <?php echo $omega;?>>
 </td>
 </tr>
 <?php

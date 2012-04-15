@@ -148,11 +148,11 @@ if ( empty($soundon) OR $soundon == '1' OR $soundon == '3' ) {
 <?php
 if (!empty($sound)) {
 ?>
-<object type="application/x-shockwave-flash" data="fadein.swf?src=<?php echo$sound;?>&amp;autostart=yes&amp;streaming=yes" width="100" height="30"> 
- <param name="movie" value="fadein.swf?src=<?php echo$sound;?>&amp;autostart=yes&amp;streaming=yes" /> 
+<object type="application/x-shockwave-flash" data="fadein.swf?src=<?php echo $sound;?>&amp;autostart=yes&amp;streaming=yes" width="100" height="30"> 
+ <param name="movie" value="fadein.swf?src=<?php echo $sound;?>&amp;autostart=yes&amp;streaming=yes" /> 
  <param name="quality" value="high" /> 
  <param name="bgcolor" value="#C4D7DF" /> 
-<EMBED src="<?php echo$sound;?>" autostart=true loop=1 volume=100 hidden=true><NOEMBED><BGSOUND src="<?php echo$sound;?>"></NOEMBED> 
+<EMBED src="<?php echo $sound;?>" autostart=true loop=1 volume=100 hidden=true><NOEMBED><BGSOUND src="<?php echo$sound;?>"></NOEMBED> 
 </object> 
 <?php 
 } 
@@ -164,28 +164,28 @@ if (!empty($sound)) {
 <?php 
 if ( ($anzahl == 1) AND ($anzahl_n == 0) ) { 
 ?> 
-<a href="index.php?sid=<?php echo$sid;?>&action=sitterliste">Es ist ein Auftrag offen!</a> 
+<a href="index.php?sid=<?php echo $sid;?>&action=sitterliste">Es ist ein Auftrag offen!</a> 
 <?php 
 }
 ?> 
 <?php 
 if ( ($anzahl == 1) AND ($anzahl_n == 1) ) { 
 ?> 
-<a href="index.php?sid=<?php echo$sid;?>&action=sitterliste"><b class="doc_red">Es ist ein Forschungsauftrag offen!</b></a> 
+<a href="index.php?sid=<?php echo $sid;?>&action=sitterliste"><b class="doc_red">Es ist ein Forschungsauftrag offen!</b></a> 
 <?php 
 }
 ?> 
 <?php 
 if ( ($anzahl > 1) AND ($anzahl_n == 0) ) { 
 ?> 
-<a href="index.php?sid=<?php echo$sid;?>&action=sitterliste">Es sind <?php echo$anzahl;?> Auftr&auml;ge offen!</a> 
+<a href="index.php?sid=<?php echo $sid;?>&action=sitterliste">Es sind <?php echo $anzahl;?> Auftr&auml;ge offen!</a> 
 <?php 
 }
 ?> 
 <?php 
 if ( ($anzahl > 1) AND ($anzahl_n >= 1) ) { 
 ?> 
-<a href="index.php?sid=<?php echo$sid;?>&action=sitterliste"><span class="doc_red">Es sind <?php echo$anzahl;?> Auftr&auml;ge offen!</span></a> 
+<a href="index.php?sid=<?php echo $sid;?>&action=sitterliste"><span class="doc_red">Es sind <?php echo $anzahl;?> Auftr&auml;ge offen!</span></a> 
 <?php 
 }
 ?> 

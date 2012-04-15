@@ -250,19 +250,19 @@ function workUninstallDatabase() {
 	
 	
 	<tr>
-		<td colspan="2"><?php echo$rowB['category'];?></td>
+		<td colspan="2"><?php echo $rowB['category'];?></td>
 	</tr>
 	<?php
 }
 ?>
 	<tr>
 		<td><?php if (!empty($rowB['bild'])) { ?> <a
-			href="index.php?action=m_building&show_building=<?php echo$rowB['id']?>&sid=<?php echo$sid;?>"><img
-			src="bilder/gebs/<?php echo$rowB['bild'];?>.jpg"></a> <?php } else { ?> <a
-			href="index.php?action=m_building&show_building=<?php echo$rowB['id']?>&sid=<?php echo$sid;?>"><img
+			href="index.php?action=m_building&show_building=<?php echo $rowB['id']?>&sid=<?php echo $sid;?>"><img
+			src="bilder/gebs/<?php echo $rowB['bild'];?>.jpg"></a> <?php } else { ?> <a
+			href="index.php?action=m_building&show_building=<?php echo $rowB['id']?>&sid=<?php echo $sid;?>"><img
 			src="bilder/gebs/blank.jpg"></a> <?php } ?></td>
 		<td><a
-			href="index.php?action=m_building&show_building=<?php echo$rowB['id']?>&sid=<?php echo$sid;?>"><?php echo$rowB['name'];?></a>
+			href="index.php?action=m_building&show_building=<?php echo $rowB['id']?>&sid=<?php echo $sid;?>"><?php echo $rowB['name'];?></a>
 		</td>
 	</tr>
 	<?php
@@ -332,9 +332,9 @@ function workUninstallDatabase() {
 		<tbody>
 			<tr>
 
-				<td class="windowbg2" valign="middle" align="center"><?php echo$img;?></td>
+				<td class="windowbg2" valign="middle" align="center"><?php echo $img;?></td>
 				<td class="windowbg2" valign="middle" align="center">
-				<div class="doc_title"><span class="bigtext"><?php echo$build['name'];?></span></div>
+				<div class="doc_title"><span class="bigtext"><?php echo $build['name'];?></span></div>
 				</td>
 				</td>
 			</tr>
@@ -343,7 +343,7 @@ function workUninstallDatabase() {
 				<td class="windowbg2" style="width: 20%;" valign="top">
 				<div class="doc_blue">Beschreibung:</div>
 				</td>
-				<td class="windowbg1" valign="top"><?php echo$build['besch'];?></td>
+				<td class="windowbg1" valign="top"><?php echo $build['besch'];?></td>
 			</tr>
 			<?php
 			if ($typ != 'pteur' AND $typ != 'gteur') {
@@ -352,7 +352,7 @@ function workUninstallDatabase() {
 				<td class="windowbg2" style="width: 20%;" valign="top">
 				<div class="doc_blue">Kosten:</div>
 				</td>
-				<td class="windowbg1" valign="top"><?php echo$rowB['Kosten'];?></td>
+				<td class="windowbg1" valign="top"><?php echo $rowB['Kosten'];?></td>
 				</td>
 			</tr>
 
@@ -360,7 +360,7 @@ function workUninstallDatabase() {
 				<td class="windowbg2" style="width: 20%;" valign="top">
 				<div class="doc_blue">Dauer:</div>
 				</td>
-				<td class="windowbg1" valign="top"><?php echo$build['dauer'];?></td>
+				<td class="windowbg1" valign="top"><?php echo $build['dauer'];?></td>
 				</td>
 			</tr>
 
@@ -368,14 +368,14 @@ function workUninstallDatabase() {
 				<td class="windowbg2" style="width: 20%;" valign="top">
 				<div class="doc_blue">bringt:</div>
 				</td>
-				<td class="windowbg1" valign="top"><?php echo$rowB['bringt'];?></td>
+				<td class="windowbg1" valign="top"><?php echo $rowB['bringt'];?></td>
 				</td>
 			</tr>
 			<?php
 } else {
 	?>
 			<tr>
-				<td class="windowbg1" colspan="2" valign="top"><?php echo$teuer;?> in
+				<td class="windowbg1" colspan="2" valign="top"><?php echo $teuer;?> in
 				Stufen teurer werdendes Geb&auml;ude.</td>
 			</tr>
 			<?php
@@ -385,7 +385,7 @@ function workUninstallDatabase() {
 				<td class="windowbg2" style="width: 20%;" valign="top">
 				<div class="doc_blue">kostet:</div>
 				</td>
-				<td class="windowbg1" valign="top"><?php echo$rowB['kostet'];?></td>
+				<td class="windowbg1" valign="top"><?php echo $rowB['kostet'];?></td>
 				</td>
 			</tr>
 
@@ -393,7 +393,7 @@ function workUninstallDatabase() {
 				<td class="windowbg2" style="width: 20%;" valign="top">
 				<div class="doc_blue">Highscorepunkte:</div>
 				</td>
-				<td class="windowbg1" valign="top"><?php echo$rowB['Punkte'];?></td>
+				<td class="windowbg1" valign="top"><?php echo $rowB['Punkte'];?></td>
 				</td>
 			</tr>
 			<?php if (!empty($build['kolotyp'])) { ?>
@@ -401,7 +401,7 @@ function workUninstallDatabase() {
 				<td class="windowbg2" style="width: 20%;" valign="top">
 				<div class="doc_blue">ben&ouml;tigter Kolotyp:</div>
 				</td>
-				<td class="windowbg1" valign="top"><?php echo$build['kolotyp'];?></td>
+				<td class="windowbg1" valign="top"><?php echo $build['kolotyp'];?></td>
 				</td>
 			</tr>
 			<?php } ?>
@@ -410,7 +410,7 @@ function workUninstallDatabase() {
 				<td class="windowbg2" style="width: 20%;" valign="top">
 				<div class="doc_blue">ben&ouml;tigter Kolotyp:</div>
 				</td>
-				<td class="windowbg1" valign="top"><?php echo$build['planityp'];?></td>
+				<td class="windowbg1" valign="top"><?php echo $build['planityp'];?></td>
 				</td>
 			</tr>
 			<?php } ?>

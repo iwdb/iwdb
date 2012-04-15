@@ -198,7 +198,7 @@ switch ($rowP['value']) {
 ?>
 
 <br>
-<form method="POST" action="index.php?action=admin&amp;uaction=einstellungen&amp;send=sound&amp;sid=<?php echo$sid;?>" enctype="multipart/form-data">
+<form method="POST" action="index.php?action=admin&amp;uaction=einstellungen&amp;send=sound&amp;sid=<?php echo $sid;?>" enctype="multipart/form-data">
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 80%;">
  <tr>
   <td colspan="2" class="titlebg">
@@ -213,10 +213,10 @@ switch ($rowP['value']) {
   <td class="windowbg1">
     <select name="sound_menu[]" size="10" multiple="multiple">
       <?php foreach ($menu_sel as $menu): ?>
-        <option selected="selected" value="<?php echo$menu['id']?>"><?php echo$menu['name']?></option> 
+        <option selected="selected" value="<?php echo $menu['id']?>"><?php echo $menu['name']?></option> 
       <?php endforeach; ?>
       <?php foreach ($menu_not as $menu): ?>
-        <option value="<?php echo$menu['id']?>"><?php echo$menu['name']?></option> 
+        <option value="<?php echo $menu['id']?>"><?php echo $menu['name']?></option> 
       <?php endforeach; ?>
     </select>
   </td>
@@ -227,7 +227,7 @@ switch ($rowP['value']) {
    <i>Soll der Script auch beim Login geladnen werden?</i>
   </td>
   <td class="windowbg1">
-   <input type="checkbox" name="sound_login" <?php echo$sel_login;?> value="1">Yes
+   <input type="checkbox" name="sound_login" <?php echo $sel_login;?> value="1">Yes
   </td>
  </tr>
  <tr>
@@ -236,12 +236,12 @@ switch ($rowP['value']) {
    <i>Welche Erninnerung k&ouml;nnen die User maximal anw&auml;hlen:</i>
   </td>
   <td class="windowbg1">
-    <select value="<?php echo$sel_val;?>" name="sound_global" size="1">
-        <option <?php echo$sel0;?> value="0">ausgeschaltet</option> 
-        <option <?php echo$sel1;?> value="1">fenster</option> 
-        <option <?php echo$sel2;?> value="2">fenster mit sound</option> 
-        <option <?php echo$sel3;?> value="3">fenster (blinkend)</option> 
-        <option <?php echo$sel4;?> value="4">fenster (blinkend) mit Sound</option> 
+    <select value="<?php echo $sel_val;?>" name="sound_global" size="1">
+        <option <?php echo $sel0;?> value="0">ausgeschaltet</option> 
+        <option <?php echo $sel1;?> value="1">fenster</option> 
+        <option <?php echo $sel2;?> value="2">fenster mit sound</option> 
+        <option <?php echo $sel3;?> value="3">fenster (blinkend)</option> 
+        <option <?php echo $sel4;?> value="4">fenster (blinkend) mit Sound</option> 
     </select>
   </td>
  </tr>
@@ -251,8 +251,8 @@ switch ($rowP['value']) {
    <i>Welche Einstellung sollen neu installierte Module haben?</i>
   </td>
   <td class="windowbg1">
-   <input type="radio" name="sound_standart" <?php echo$sel_sel;?> value="1">Sound eingeschaltet
-   <input type="radio" name="sound_standart" <?php echo$sel_not;?> value="0">Sound ausgeschaltet
+   <input type="radio" name="sound_standart" <?php echo $sel_sel;?> value="1">Sound eingeschaltet
+   <input type="radio" name="sound_standart" <?php echo $sel_not;?> value="0">Sound ausgeschaltet
   </td>
  </tr>
  <tr>
@@ -371,7 +371,7 @@ if ( !empty($rowP['value']) ) {
 
 ?>
 
-<form method="POST" action="index.php?action=admin&amp;uaction=einstellungen&amp;send=bericht&amp;sid=<?php echo$sid;?>" enctype="multipart/form-data">
+<form method="POST" action="index.php?action=admin&amp;uaction=einstellungen&amp;send=bericht&amp;sid=<?php echo $sid;?>" enctype="multipart/form-data">
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 80%;">
  <tr>
   <td colspan="2" class="titlebg">
@@ -385,15 +385,15 @@ if ( !empty($rowP['value']) ) {
   </td>
   <td class="windowbg1">
     Rang:<br>
-    <select value="<?php echo$sel_val;?>" name="bericht_fuer_rang" size="1">
-        <option <?php echo$sel0;?> value="all">Alle</option> 
-        <option <?php echo$sel1a;?> value="mv">MV / HC und Admin</option> 
-        <option <?php echo$sel1b;?> value="hc">HC und Admin</option> 
-        <option <?php echo$sel2;?> value="admin">Admin</option> 
+    <select value="<?php echo $sel_val;?>" name="bericht_fuer_rang" size="1">
+        <option <?php echo $sel0;?> value="all">Alle</option> 
+        <option <?php echo $sel1a;?> value="mv">MV / HC und Admin</option> 
+        <option <?php echo $sel1b;?> value="hc">HC und Admin</option> 
+        <option <?php echo $sel2;?> value="admin">Admin</option> 
     </select>
      <br><br>
     Sittertyp:<br>
-    <select value="<?php echo$sitter_val;?>" name="bericht_fuer_sitter" size="1">
+    <select value="<?php echo $sitter_val;?>" name="bericht_fuer_sitter" size="1">
     <?php
     echo "<option $sitval2 value=\"2\"".$st[2].">Sitterbereich deaktiviert</option>";
     echo "<option $sitval0 value=\"0\"".$st[0].">kann Sitterauftraege erstellen, darf keine anderen sitten</option>";

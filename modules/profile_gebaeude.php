@@ -54,7 +54,7 @@ if ( ! empty($editgebaeude) )
 }
 ?>
 <br>
-<form method="POST" action="index.php?action=profile&amp;uaction=gebaeude&amp;sid=<?php echo$sid;?>" enctype="multipart/form-data">
+<form method="POST" action="index.php?action=profile&amp;uaction=gebaeude&amp;sid=<?php echo $sid;?>" enctype="multipart/form-data">
 <?php
 $inactive = ( empty($editgebaeude) ) ? $user_gebaeude: "";
 
@@ -72,7 +72,7 @@ while($row = $db->db_fetch_array($result))
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">
  <tr>
   <td class="titlebg" align="center" colspan="4">
-    <b><?php echo( empty($row['category']) ) ? "Sonstige": $row['category'];?></b>
+    <b><?php echo ( empty($row['category']) ) ? "Sonstige": $row['category'];?></b>
   </td>
  </tr>
  <tr>
@@ -106,7 +106,7 @@ while($row = $db->db_fetch_array($result))
 ?>
  <tr>
   <td class="windowbg1" align="center">
-    <input type="checkbox" name="<?php echo$row_gebaeude['id'];?>_inactive" value="1"<?php echo(strpos($inactive, "|" . $row_gebaeude['id'] . "|") !== FALSE) ?  " checked": "";?>>
+    <input type="checkbox" name="<?php echo $row_gebaeude['id'];?>_inactive" value="1"<?php echo (strpos($inactive, "|" . $row_gebaeude['id'] . "|") !== FALSE) ?  " checked": "";?>>
   </td>
   <td class="windowbg1" align="center">
 <?php
@@ -114,7 +114,7 @@ while($row = $db->db_fetch_array($result))
 		{
 			$bild_url = ( empty($row_gebaeude['bild']) ) ? "bilder/gebs/blank.jpg": "bilder/gebs/" . $row_gebaeude['bild'] . ".jpg";
 ?>
-    <img src="<?php echo$bild_url;?>" border="0" width="50" height="50" style="vertical-align:middle;">
+    <img src="<?php echo $bild_url;?>" border="0" width="50" height="50" style="vertical-align:middle;">
 <?php
 		}
 ?>
@@ -135,7 +135,7 @@ if(defined('RESEARCH') && RESEARCH === TRUE) {
     ?>
   </td>
   <td class="windowbg1">
-    <?php echo$dauer;?>
+    <?php echo $dauer;?>
   </td>
  </tr>
 <?php
@@ -156,7 +156,7 @@ if ( ! empty($editgebaeude) )
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">
   <tr>
     <td class="titlebg" align="center">
-      <input type="hidden" name="sitterlogin" value="<?php echo$sitterlogin;?>"><input type="hidden" name="editgebaeude" value="true"><input type="submit" value="speichern" name="B1" class="submit">
+      <input type="hidden" name="sitterlogin" value="<?php echo $sitterlogin;?>"><input type="hidden" name="editgebaeude" value="true"><input type="submit" value="speichern" name="B1" class="submit">
     </td>
   </tr>
 </form>

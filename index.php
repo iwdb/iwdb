@@ -359,7 +359,7 @@ if ( ( $user_id <> "guest" ) && ( $user_rules == "1" ) )
 <br><br>
 <div class='doc_title'>Account l&ouml;schen</div>
 <br>
-<div class='system_notification'>Account '<?php echo$sitterlogin;?>' gel&ouml;scht!</div>
+<div class='system_notification'>Account '<?php echo $sitterlogin;?>' gel&ouml;scht!</div>
 <?php
 	}
 }
@@ -375,7 +375,7 @@ elseif ( ( $user_id <> "guest" ) && ( $user_rules != "1" ) )
   </td>
  </tr>
 </table><br><br>
-<form method="POST" action="index.php?sid=<?php echo$sid;?>" enctype="multipart/form-data">
+<form method="POST" action="index.php?sid=<?php echo $sid;?>" enctype="multipart/form-data">
 Regeln akzeptieren? <input type="checkbox" name="rules" value="1"> <input type="submit" value="speichern" name="B1" class="submit"></form>
 <?php
 }

@@ -136,8 +136,8 @@ if ( ! empty($coords) )
 		if ( $row['objekt'] == "Schwarzes Loch" ) $path = 'bilder/planeten/200x200/schwarzesloch.jpg';
 		?>
 	<tr>
-		<td colspan="2" align="center"><img src="<?php echo$path;?>" border="0"
-			alt="<?php echo$row['typ']?>"></td>
+		<td colspan="2" align="center"><img src="<?php echo $path;?>" border="0"
+			alt="<?php echo $row['typ']?>"></td>
 	</tr>
 	<?php
 }
@@ -147,7 +147,7 @@ if ( ! empty($coords) )
 	</tr>
 	<tr>
 		<td class="windowbg2" style="width: 20%;">Koordinaten:</td>
-		<td class="windowbg1"><?php echo$row['coords'];?></td>
+		<td class="windowbg1"><?php echo $row['coords'];?></td>
 	</tr>
 	<tr>
 		<td class="windowbg2">letztes Update:</td>
@@ -161,21 +161,21 @@ if ( ! empty($coords) )
 		?>
 	<tr>
 		<td class="windowbg2">Spielername:</td>
-		<td class="windowbg1"><?php echo$row['user'];?></td>
+		<td class="windowbg1"><?php echo $row['user'];?></td>
 	</tr>
 	<tr>
 		<td class="windowbg2">Allianz:</td>
-		<td class="windowbg1" style=" background-color: <?php echo$color;?>;"><a
-			href="index.php?action=showgalaxy&amp;allianz=<?php echo$row['allianz'];?>&amp;sid=<?php echo$sid;?>"><?php echo$row['allianz'];?><?php echo( ( empty($row_status['status']) ) || ( $row_status['status'] == 'own' ) ) ? "": " (" . $row_status['status'] . ")";?></a>
+		<td class="windowbg1" style=" background-color: <?php echo $color;?>;"><a
+			href="index.php?action=showgalaxy&amp;allianz=<?php echo $row['allianz'];?>&amp;sid=<?php echo $sid;?>"><?php echo $row['allianz'];?><?php echo ( ( empty($row_status['status']) ) || ( $row_status['status'] == 'own' ) ) ? "": " (" . $row_status['status'] . ")";?></a>
 		</td>
 	</tr>
 	<tr>
 		<td class="windowbg2">Planetennamen:</td>
-		<td class="windowbg1"><?php echo$row['planetenname'];?></td>
+		<td class="windowbg1"><?php echo $row['planetenname'];?></td>
 	</tr>
 	<tr>
 		<td class="windowbg2">Punkte:</td>
-		<td class="windowbg1"><?php echo$row['punkte'];?></td>
+		<td class="windowbg1"><?php echo $row['punkte'];?></td>
 	</tr>
 	<?php
 }
@@ -185,15 +185,15 @@ if ( ! empty($coords) )
 	</tr>
 	<tr>
 		<td class="windowbg2">Planetentyp:</td>
-		<td class="windowbg1"><?php echo$row['typ'];?></td>
+		<td class="windowbg1"><?php echo $row['typ'];?></td>
 	</tr>
 	<tr>
 		<td class="windowbg2">Objekttyp:</td>
-		<td class="windowbg1"><?php echo$row['objekt'];?></td>
+		<td class="windowbg1"><?php echo $row['objekt'];?></td>
 	</tr>
 	<tr>
 		<td class="windowbg2">Planetengr&ouml;&szlig;e:</td>
-		<td class="windowbg1"><?php echo$row['bevoelkerungsanzahl'];?></td>
+		<td class="windowbg1"><?php echo $row['bevoelkerungsanzahl'];?></td>
 	</tr>
 	<tr>
 		<td colspan="2" class="titlebg"><b>Notizen:</b></td>
@@ -248,31 +248,31 @@ if ( ! empty($coords) )
 		?>
 	<tr>
 		<td class="windowbg2">Gravitation:</td>
-		<td class="windowbg1"><?php echo$row['gravitation'];?></td>
+		<td class="windowbg1"><?php echo $row['gravitation'];?></td>
 	</tr>
 	<tr>
 		<td class="windowbg2">Forschungsmod.:</td>
-		<td class="windowbg1"><?php echo($row['fmod'] < 100) ? "<div class='doc_red'>" . $row['fmod'] . " %</div>": $row['fmod'] . ' %';?>
+		<td class="windowbg1"><?php echo ($row['fmod'] < 100) ? "<div class='doc_red'>" . $row['fmod'] . " %</div>": $row['fmod'] . ' %';?>
 		</td>
 	</tr>
 	<tr>
 		<td class="windowbg2">Geb&auml;udekostenmod.:</td>
-		<td class="windowbg1"><?php echo($row['kgmod'] > 1) ? "<div class='doc_red'>" . $row['kgmod'] . "</div>": $row['kgmod'];?>
+		<td class="windowbg1"><?php echo ($row['kgmod'] > 1) ? "<div class='doc_red'>" . $row['kgmod'] . "</div>": $row['kgmod'];?>
 		</td>
 	</tr>
 	<tr>
 		<td class="windowbg2">Geb&auml;udedauermod.:</td>
-		<td class="windowbg1"><?php echo($row['dgmod'] > 1) ? "<div class='doc_red'>" . $row['dgmod'] . "</div>": $row['dgmod'];?>
+		<td class="windowbg1"><?php echo ($row['dgmod'] > 1) ? "<div class='doc_red'>" . $row['dgmod'] . "</div>": $row['dgmod'];?>
 		</td>
 	</tr>
 	<tr>
 		<td class="windowbg2">Schiffskostenmod.:</td>
-		<td class="windowbg1"><?php echo($row['ksmod'] > 1) ? "<div class='doc_red'>" . $row['ksmod'] . "</div>": $row['ksmod'];?>
+		<td class="windowbg1"><?php echo ($row['ksmod'] > 1) ? "<div class='doc_red'>" . $row['ksmod'] . "</div>": $row['ksmod'];?>
 		</td>
 	</tr>
 	<tr>
 		<td class="windowbg2">Schiffsdauermod.:</td>
-		<td class="windowbg1"><?php echo($row['dsmod'] > 1) ? "<div class='doc_red'>" . $row['dsmod'] . "</div>": $row['dsmod'];?>
+		<td class="windowbg1"><?php echo ($row['dsmod'] > 1) ? "<div class='doc_red'>" . $row['dsmod'] . "</div>": $row['dsmod'];?>
 		</td>
 	</tr>
 	<tr>
@@ -280,39 +280,39 @@ if ( ! empty($coords) )
 	</tr>
 	<tr>
 		<td class="windowbg2">Eisengehalt:</td>
-		<td class="windowbg1"><?php echo($row['eisengehalt'] > 100) ? "<b>" . $row['eisengehalt'] . " %</b>": $row['eisengehalt'] . ' %';?>
-		<?php echo "mit TechTeam: " ?> <?php echo($row['tteisen'] > 130) ? "<b>" . $row['tteisen'] . "%</b>": $row['tteisen'] . "%";?>
-		<?php echo "=> effektiv Eisen: " ?> <?php echo($eisen_effektiv) ? "<b>" . $eisen_effektiv . "%</b>": $eisen_effektiv . "%";?>
-		<?php echo "mit TechTeam: " ?> <?php echo($tteisen_effektiv) ? "<b>" . $tteisen_effektiv . "%</b>": $tteisen_effektiv . "%";?>
+		<td class="windowbg1"><?php echo ($row['eisengehalt'] > 100) ? "<b>" . $row['eisengehalt'] . " %</b>": $row['eisengehalt'] . ' %';?>
+		<?php echo  "mit TechTeam: " ?> <?php echo ($row['tteisen'] > 130) ? "<b>" . $row['tteisen'] . "%</b>": $row['tteisen'] . "%";?>
+		<?php echo  "=> effektiv Eisen: " ?> <?php echo ($eisen_effektiv) ? "<b>" . $eisen_effektiv . "%</b>": $eisen_effektiv . "%";?>
+		<?php echo  "mit TechTeam: " ?> <?php echo ($tteisen_effektiv) ? "<b>" . $tteisen_effektiv . "%</b>": $tteisen_effektiv . "%";?>
 		</td>
 	
 	</tr>
 	<tr>
 		<td class="windowbg2">Chemievorkommen:</td>
-		<td class="windowbg1"><?php echo($row['chemievorkommen'] > 100) ? "<b>" . $row['chemievorkommen'] . " %</b>": $row['chemievorkommen'] . ' %';?>
-		<?php echo "mit TechTeam: " ?> <?php echo($row['ttchemie'] > 130) ? "<b>" . $row['ttchemie'] . "%</b>": $row['ttchemie'] . "%";?>
-		<?php echo "=> effektiv Chemie: " ?> <?php echo($chemie_effektiv) ? "<b>" . $chemie_effektiv . "%</b>": $chemie_effektiv . "%";?>
-		<?php echo "mit TechTeam: " ?> <?php echo($ttchemie_effektiv) ? "<b>" . $ttchemie_effektiv . "%</b>": $ttchemie_effektiv . "%";?>
+		<td class="windowbg1"><?php echo ($row['chemievorkommen'] > 100) ? "<b>" . $row['chemievorkommen'] . " %</b>": $row['chemievorkommen'] . ' %';?>
+		<?php echo  "mit TechTeam: " ?> <?php echo ($row['ttchemie'] > 130) ? "<b>" . $row['ttchemie'] . "%</b>": $row['ttchemie'] . "%";?>
+		<?php echo  "=> effektiv Chemie: " ?> <?php echo ($chemie_effektiv) ? "<b>" . $chemie_effektiv . "%</b>": $chemie_effektiv . "%";?>
+		<?php echo  "mit TechTeam: " ?> <?php echo ($ttchemie_effektiv) ? "<b>" . $ttchemie_effektiv . "%</b>": $ttchemie_effektiv . "%";?>
 		</td>
 	</tr>
 	<tr>
 		<td class="windowbg2">Eisdichte:</td>
-		<td class="windowbg1"><?php echo($row['eisdichte'] > 30) ? "<b>" . $row['eisdichte'] . " %</b>": $row['eisdichte'] . ' %';?>
-		<?php echo "mit TechTeam: " ?> <?php echo($row['tteis'] > 30) ? "<b>" . $row['tteis'] . "%</b>": $row['tteis'] . "%";?>
-		<?php echo "=> effektiv Eis: " ?> <?php echo($eis_effektiv) ? "<b>" . $eis_effektiv . "%</b>": $eis_effektiv . "%";?>
-		<?php echo "mit TechTeam: " ?> <?php echo($tteis_effektiv) ? "<b>" . $tteis_effektiv . "%</b>": $tteis_effektiv . "%";?>
+		<td class="windowbg1"><?php echo ($row['eisdichte'] > 30) ? "<b>" . $row['eisdichte'] . " %</b>": $row['eisdichte'] . ' %';?>
+		<?php echo  "mit TechTeam: " ?> <?php echo ($row['tteis'] > 30) ? "<b>" . $row['tteis'] . "%</b>": $row['tteis'] . "%";?>
+		<?php echo  "=> effektiv Eis: " ?> <?php echo ($eis_effektiv) ? "<b>" . $eis_effektiv . "%</b>": $eis_effektiv . "%";?>
+		<?php echo  "mit TechTeam: " ?> <?php echo ($tteis_effektiv) ? "<b>" . $tteis_effektiv . "%</b>": $tteis_effektiv . "%";?>
 		</td>
 	</tr>
 	<tr>
 		<td class="windowbg2">Lebensbedingungen:</td>
-		<td class="windowbg1"><?php echo($row['lebensbedingungen'] > 100) ? "<b>" . $row['lebensbedingungen'] . " %</b>": $row['lebensbedingungen'] . ' %';?>
+		<td class="windowbg1"><?php echo ($row['lebensbedingungen'] > 100) ? "<b>" . $row['lebensbedingungen'] . " %</b>": $row['lebensbedingungen'] . ' %';?>
 		</td>
 	</tr>
 	<tr>
 		<td colspan="2" class="titlebg"><b>Besonderheiten:</b></td>
 	</tr>
 	<tr>
-		<td colspan="2" class="windowbg2"><?php echo !empty($row['besonderheiten']) ? str_replace(", ", "<br>", $row['besonderheiten']): "keine *moep*";?>
+		<td colspan="2" class="windowbg2"><?php echo  !empty($row['besonderheiten']) ? str_replace(", ", "<br>", $row['besonderheiten']): "keine *moep*";?>
 		</td>
 	</tr>
 	<tr>
@@ -320,7 +320,7 @@ if ( ! empty($coords) )
 	</tr>
 	<tr>
 		<td colspan="2" class="windowbg2">
-Dieser Planet wird vorraussichtlich in <?php echo makeduration($row['geoscantime'] + $row['reset_timestamp']) ?> (plusminus 24h) für den Bau einer Hyperraumumgehungsstrasse gesprengt.
+Dieser Planet wird vorraussichtlich in <?php echo  makeduration($row['geoscantime'] + $row['reset_timestamp']) ?> (plusminus 24h) für den Bau einer Hyperraumumgehungsstrasse gesprengt.
 		</td>
 	</tr>
 	<?php
@@ -332,7 +332,7 @@ if ( $row['objekt'] == "---" )
 		<td colspan="2" class="titlebg"><b>Rating:</b></td>
 	</tr>
 	<tr>
-		<td colspan="2" class="windowbg2" align="center"><b><?php echo(!empty($rating) ? "<div class='doc_big_black'>" . $rating : "<div class='doc_red'>Kein Rating berechenbar, neuer Geoscan erforderlich");?>
+		<td colspan="2" class="windowbg2" align="center"><b><?php echo (!empty($rating) ? "<div class='doc_big_black'>" . $rating : "<div class='doc_red'>Kein Rating berechenbar, neuer Geoscan erforderlich");?>
 		</div>
 		</b></td>
 	</tr>
@@ -342,7 +342,7 @@ if ( $row['objekt'] == "---" )
 	<tr>
 		<td colspan="2" class="windowbg2" align="center">
 		<form method="POST"
-			action="index.php?action=showplanet&amp;coords=<?php echo$row['coords'];?>&amp;sid=<?php echo$sid;?>"
+			action="index.php?action=showplanet&amp;coords=<?php echo $row['coords'];?>&amp;sid=<?php echo $sid;?>"
 			enctype="multipart/form-data"><?php
 			if ( empty($row['reserviert']) )
 			echo "Diesen Planeten f&uuml;r dich reservieren? <input type=\"checkbox\" name=\"reservieren\"><input type=\"hidden\" name=\"editplanet\" value=\"true\"> <input type=\"submit\" value=\"speichern\" name=\"B1\" class=\"submit\">";
@@ -371,31 +371,31 @@ if ( ( ( $ansicht == "auto") && ( $row['objekt'] != "---" ) ) || ( $ansicht == "
 	</tr>
 	<tr>
 		<td class="windowbg2">Eisen:</td>
-		<td class="windowbg1"><?php echo$row['eisen'];?></td>
+		<td class="windowbg1"><?php echo $row['eisen'];?></td>
 	</tr>
 	<tr>
 		<td class="windowbg2">Stahl:</td>
-		<td class="windowbg1"><?php echo$row['stahl'];?></td>
+		<td class="windowbg1"><?php echo $row['stahl'];?></td>
 	</tr>
 	<tr>
 		<td class="windowbg2">VV4A:</td>
-		<td class="windowbg1"><?php echo$row['vv4a'];?></td>
+		<td class="windowbg1"><?php echo $row['vv4a'];?></td>
 	</tr>
 	<tr>
 		<td class="windowbg2">Chemie:</td>
-		<td class="windowbg1"><?php echo$row['chemie'];?></td>
+		<td class="windowbg1"><?php echo $row['chemie'];?></td>
 	</tr>
 	<tr>
 		<td class="windowbg2">Eis:</td>
-		<td class="windowbg1"><?php echo$row['eis'];?></td>
+		<td class="windowbg1"><?php echo $row['eis'];?></td>
 	</tr>
 	<tr>
 		<td class="windowbg2">Wasser:</td>
-		<td class="windowbg1"><?php echo$row['wasser'];?></td>
+		<td class="windowbg1"><?php echo $row['wasser'];?></td>
 	</tr>
 	<tr>
 		<td class="windowbg2">Energie:</td>
-		<td class="windowbg1"><?php echo$row['energie'];?></td>
+		<td class="windowbg1"><?php echo $row['energie'];?></td>
 	
 	
 	<tr>
@@ -403,11 +403,11 @@ if ( ( ( $ansicht == "auto") && ( $row['objekt'] != "---" ) ) || ( $ansicht == "
 	</tr>
 	<tr>
 		<td class="windowbg2">Klasse 1:</td>
-		<td class="windowbg1"><?php echo$class1;?></td>
+		<td class="windowbg1"><?php echo $class1;?></td>
 	</tr>
 	<tr>
 		<td class="windowbg2">Klasse 2:</td>
-		<td class="windowbg1"><?php echo$class2;?></td>
+		<td class="windowbg1"><?php echo $class2;?></td>
 	</tr>
 
 	<?php
@@ -421,15 +421,15 @@ if ( ( ( $ansicht == "auto") && ( $row['objekt'] != "---" ) ) || ( $ansicht == "
 	</tr>
 	<tr>
 		<td class="windowbg2">Lager Chemie:</td>
-		<td class="windowbg1"><?php echo$row['lager_chemie'];?></td>
+		<td class="windowbg1"><?php echo $row['lager_chemie'];?></td>
 	</tr>
 	<tr>
 		<td class="windowbg2">Lager Eis:</td>
-		<td class="windowbg1"><?php echo$row['lager_eis'];?></td>
+		<td class="windowbg1"><?php echo $row['lager_eis'];?></td>
 	</tr>
 	<tr>
 		<td class="windowbg2">Lager Energie:</td>
-		<td class="windowbg1"><?php echo$row['lager_energie'];?></td>
+		<td class="windowbg1"><?php echo $row['lager_energie'];?></td>
 	</tr>
 
 	<?php
@@ -445,7 +445,7 @@ if ( ! empty($row['geb']) )
 		<td colspan="2" class="titlebg"><b>Gebaeude:</b></td>
 	</tr>
 	<tr>
-		<td class="windowbg1" colspan="2"><?php echo$row['geb'];?></td>
+		<td class="windowbg1" colspan="2"><?php echo $row['geb'];?></td>
 	</tr>
 	<?php
 }
@@ -459,7 +459,7 @@ if ( ! empty($row['plan']) )
 		<td colspan="2" class="titlebg"><b>planetare Flotte:</b></td>
 	</tr>
 	<tr>
-		<td class="windowbg1" colspan="2"><?php echo$row['plan'];?></td>
+		<td class="windowbg1" colspan="2"><?php echo $row['plan'];?></td>
 	</tr>
 	<?php
 }
@@ -473,7 +473,7 @@ if ( ! empty($row['stat']) )
 		<td colspan="2" class="titlebg"><b>stationierte Flotte:</b></td>
 	</tr>
 	<tr>
-		<td class="windowbg1" colspan="2"><?php echo$row['stat'];?></td>
+		<td class="windowbg1" colspan="2"><?php echo $row['stat'];?></td>
 	</tr>
 	<?php
 }
@@ -487,7 +487,7 @@ if ( ! empty($row['def']) )
 		<td colspan="2" class="titlebg"><b>Verteidigung:</b></td>
 	</tr>
 	<tr>
-		<td class="windowbg1" colspan="2"><?php echo$row['def'];?></td>
+		<td class="windowbg1" colspan="2"><?php echo $row['def'];?></td>
 	</tr>
 
 	<?php

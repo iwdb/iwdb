@@ -674,7 +674,7 @@ $isornot = $rowIA['value'];
 
 if ($isornot != 1) {
 ?>
-<form name="form" action="index.php?action=admin_menue&amp;sid=<?php echo$sid;?>&amp;sperre=ab" method="post">
+<form name="form" action="index.php?action=admin_menue&amp;sid=<?php echo $sid;?>&amp;sperre=ab" method="post">
 <div class='doc_green'>Datenbank ist aktiv</div><br>
 <input name="grund" type="text" size="50" value=""><br>
 <input name="submit" type="submit" value="Sperre Datenbank">
@@ -682,9 +682,9 @@ if ($isornot != 1) {
 <?php
 } else {
 ?>
-<form name="form" action="index.php?action=admin_menue&amp;sid=<?php echo$sid;?>&amp;sperre=auf" method="post">
+<form name="form" action="index.php?action=admin_menue&amp;sid=<?php echo $sid;?>&amp;sperre=auf" method="post">
 <div class='doc_red'>Datenbank ist inaktiv</div><br>
-Grund: <?php echo$grund;?><br>
+Grund: <?php echo $grund;?><br>
 <input name="submit" type="submit" value="Entriegele Datenbank">
 </form>
 <?php

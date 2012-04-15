@@ -149,23 +149,23 @@ if ($row['time'] < (time() - 24 * 60 * 60)) {
 ?>
           <table width="95%" border="0" cellspacing="0" cellpadding="1">
             <tr>
-              <td class="doc_greeting" width="20%">Hallo, <?php echo$user_id;?>.</td>
+              <td class="doc_greeting" width="20%">Hallo, <?php echo $user_id;?>.</td>
               <td class="doc_greeting" width="20%">Online: <?php echo ($counter_guest+$counter_member) . " (" . $online_member . ")";?></td>
               <td class="doc_mainmenu" width="60%">
 <?php
 if ( $user_id <> "guest" )
 {
 ?>
-              <a href="index.php?sid=<?php echo$sid;?>"><img
+              <a href="index.php?sid=<?php echo $sid;?>"><img
 							           src="bilder/icon_mini_home.gif" width="12" height="13"
 											   alt="Startseite" border="0" align="middle"> Startseite</a> |
-										  <a href="index.php?action=memberlogout2&amp;sid=<?php echo$sid;?>"><img
+										  <a href="index.php?action=memberlogout2&amp;sid=<?php echo $sid;?>"><img
 											   src="bilder/icon_mini_login.gif" width="12" height="13"
 												 alt="login" border="0" align="middle"> logout</a> |
-										  <a href="index.php?action=profile&amp;sid=<?php echo$sid;?>"><img
+										  <a href="index.php?action=profile&amp;sid=<?php echo $sid;?>"><img
 											   src="bilder/icon_mini_profile.gif" width="12" height="13"
 												 alt="profil" border="0" align="middle"> profil</a> |
-											<a href="index.php?action=help&amp;topic=<?php echo$action;?>&amp;sid=<?php echo$sid;?>"><img
+											<a href="index.php?action=help&amp;topic=<?php echo $action;?>&amp;sid=<?php echo $sid;?>"><img
 											   src="bilder/icon_mini_search.gif" width="12" height="13"
 												 alt="profile" border="0" align="middle"> hilfe</a>  	
 <?php
@@ -173,7 +173,7 @@ if ( $user_id <> "guest" )
 if ( $user_status == "admin" )
 {
 ?>
-               | <a href="index.php?action=admin&amp;sid=<?php echo$sid;?>"><img src="bilder/icon_mini_members.gif" width="12" height="13" alt="admin" border="0" align="middle"> admin</a>
+               | <a href="index.php?action=admin&amp;sid=<?php echo $sid;?>"><img src="bilder/icon_mini_members.gif" width="12" height="13" alt="admin" border="0" align="middle"> admin</a>
 <?php
 }
 ?>

@@ -815,14 +815,6 @@ foreach ($data as $row) {
 	}
 }
 end_table();
-start_table(100, 0, 4, 1, "");
-next_row("", "align=\"right\"");
-echo makelink(array('mark_all' => true), "Alle ausw&auml;hlen");
-echo " / ";
-echo makelink(array('mark_all' => false), "Auswahl entfernen");
-next_row("", "align=\"right\"");
-echo "<input type=\"submit\" value=\"Flotte versenden\" name=\"flotte_versenden\" class=\"submit\">";
-end_table();
 end_form();
 
 // Maske ausgeben

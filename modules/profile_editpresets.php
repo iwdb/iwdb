@@ -24,7 +24,7 @@
 /* The GNU GPL can be found in LICENSE in this directory                     */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde. 
+// -> Abfrage ob dieses Modul ï¿½ber die index.php aufgerufen wurde. 
 //    Kann unberechtigte Systemzugriffe verhindern.
 if (basename($_SERVER['PHP_SELF']) != "index.php") { 
 	echo "Hacking attempt...!!"; 
@@ -79,13 +79,13 @@ while ($row = $db->db_fetch_array($result))
 ?>
  <tr>
   <td class="windowbg1">
-   <?=$row['name'];?>
+   <?php echo $row['name'];?>
   </td>
   <td class="windowbg1">
-   <?=( empty($row['fromuser']) ) ? "<b>global</b>": $row['fromuser'];?>
+   <?php echo ( empty($row['fromuser']) ) ? "<b>global</b>": $row['fromuser'];?>
   </td>
   <td class="windowbg1">
-   <a href="index.php?action=profile&amp;uaction=editpresets&amp;delid=<?=$row['id'];?>&amp;sitterlogin=<?=urlencode($sitterlogin);?>&amp;sid=<?=$sid;?>"">loeschen</a>
+   <a href="index.php?action=profile&amp;uaction=editpresets&amp;delid=<?php echo $row['id'];?>&amp;sitterlogin=<?php echo urlencode($sitterlogin);?>&amp;sid=<?php echo $sid;?>"">loeschen</a>
   </td>
  </tr>
 <?php

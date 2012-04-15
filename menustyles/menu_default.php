@@ -139,7 +139,7 @@ if ($row['time'] < (time() - 24 * 60 * 60)) {
 	<table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
 	<tr>
 	<td align='center' style='color:red; font-weight:bold; font-size:1.5em;'>
-	Die Highscore wurde seit <?php echo  intval((time() - $row['time']) / (60*60)) ?>h nicht mehr aktualisiert!
+	Die Highscore wurde seit <?php echo intval((time() - $row['time']) / (60*60)) ?>h nicht mehr aktualisiert!
 	</td>
 	</tr>
 	</table>

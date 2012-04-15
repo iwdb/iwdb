@@ -29,18 +29,18 @@ if (!defined('IRA'))
 ?>
 <div class='doc_title'>Sprengung</div>
 <br>
-Hier könnt ihr nachsehen, wann die pösen Vogonen die nächsten Planeten sprengen um Platz für eine Hyperraum-Umgehungsstrasse zu schaffen.
+Hier kï¿½nnt ihr nachsehen, wann die pï¿½sen Vogonen die nï¿½chsten Planeten sprengen um Platz fï¿½r eine Hyperraum-Umgehungsstrasse zu schaffen.
 <br>
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">
  <tr>
   <td class="titlebg" style="width:15%;">
-   <a href="index.php?action=planeten&amp;order=coords&amp;ordered=asc&amp;sid=<?=$sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>Koordinaten</b> <a href="index.php?action=planeten&amp;order=coords&amp;ordered=desc&amp;sid=<?=$sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a>
+   <a href="index.php?action=planeten&amp;order=coords&amp;ordered=asc&amp;sid=<?php echo $sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>Koordinaten</b> <a href="index.php?action=planeten&amp;order=coords&amp;ordered=desc&amp;sid=<?php echo $sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a>
   </td>
   <td class="titlebg" style="width:25%;">
-   <a href="index.php?action=planeten&amp;order=t2.budflesol&amp;ordered=asc&amp;sid=<?=$sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>Objekttyp</b> <a href="index.php?action=planeten&amp;order=t2.budflesol&amp;ordered=desc&amp;sid=<?=$sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a>
+   <a href="index.php?action=planeten&amp;order=t2.budflesol&amp;ordered=asc&amp;sid=<?php echo $sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>Objekttyp</b> <a href="index.php?action=planeten&amp;order=t2.budflesol&amp;ordered=desc&amp;sid=<?php echo $sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a>
   </td>
   <td class="titlebg" style="width:25%;">
-   <a href="index.php?action=planeten&amp;order=t2.budflesol&amp;ordered=asc&amp;sid=<?=$sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>Sprengung</b> <a href="index.php?action=planeten&amp;order=t2.budflesol&amp;ordered=desc&amp;sid=<?=$sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a>
+   <a href="index.php?action=planeten&amp;order=t2.budflesol&amp;ordered=asc&amp;sid=<?php echo $sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>Sprengung</b> <a href="index.php?action=planeten&amp;order=t2.budflesol&amp;ordered=desc&amp;sid=<?php echo $sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a>
   </td>
  </tr>
 <?php
@@ -63,13 +63,13 @@ while($row = $db->db_fetch_array($result))
 {
 ?>
  <tr>
-  <td class="windowbg<?=$num;?>">
-   <a href="index.php?action=showplanet&amp;coords=<?=$row['coords'];?>&amp;ansicht=auto&amp;sid=<?=$sid;?>"><?=$row['coords'];?></a>
+  <td class="windowbg<?php echo $num;?>">
+   <a href="index.php?action=showplanet&amp;coords=<?php echo $row['coords'];?>&amp;ansicht=auto&amp;sid=<?php echo $sid;?>"><?php echo $row['coords'];?></a>
   </td>
-  <td class="windowbg<?=$num;?>">
+  <td class="windowbg<?php echo $num;?>">
     Steinklumpen
   </td>
-  <td class="windowbg<?=$num;?>">
+  <td class="windowbg<?php echo $num;?>">
     1.1.1800
   </td>
  </tr>

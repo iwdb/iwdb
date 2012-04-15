@@ -24,7 +24,7 @@
 /* The GNU GPL can be found in LICENSE in this directory                     */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde. 
+// -> Abfrage ob dieses Modul ï¿½ber die index.php aufgerufen wurde. 
 //    Kann unberechtigte Systemzugriffe verhindern.
 if (basename($_SERVER['PHP_SELF']) != "index.php") { 
 	echo "Hacking attempt...!!"; 
@@ -39,9 +39,9 @@ $submit = GetVar('submit');
 //submit existiert also neue Datei erstellen
 if ( !empty($submit) AND !empty($daction) AND ($daction == 'send') ) {
 
-  //datei löschen
+  //datei lï¿½schen
   //unlink("style2.css") or die ("Ich konnte die Datei nicht lesen!");
-  // datei erstellen und zum schrieben öffnen
+  // datei erstellen und zum schrieben ï¿½ffnen
   $fp=@fopen("style2.css","w+") or die ("Kann Datei nicht lesen.");
 
   //standartzeug am Anfang in die Datei schreiben
@@ -50,7 +50,7 @@ if ( !empty($submit) AND !empty($daction) AND ($daction == 'send') ) {
   $newlines[1] = '';
   $newlines[2] = '/* Diese Style-CSS ist in 2 Teile aufgeteilt */';
   $newlines[3] = '/* der erste Teil kann durch ein Modul ausgelesen werden */';
-  $newlines[4] = '/* deswegen dort nichts ändern! */';
+  $newlines[4] = '/* deswegen dort nichts ï¿½ndern! */';
   $newlines[5] = '';
   $newlines[6] = '/* Diese Teil wurde automatsich erstellt */';
   $newlines[7] = '/* Zeitcode: ' . date("l dS of F Y h:i:s A") . ' */';
@@ -70,7 +70,7 @@ if ( !empty($submit) AND !empty($daction) AND ($daction == 'send') ) {
   //jede Eigenschaft durchgehen
   for ($i = 1; $i <= $rowcount; $i++) {
 
-    //header für dei Eigenschaft schrieben
+    //header fï¿½r dei Eigenschaft schrieben
     $newlines = array();
     $newlines[0] = '';
     $newlines[1] = '/* !N ' . trim(GetVar('row_'.$i.'_name')) . ' */';
@@ -130,7 +130,7 @@ if ( !empty($submit) AND !empty($daction) AND ($daction == 'send') ) {
     }
     unset($newlines);  
 
-  //und die Dateiw rieder shcließen, damit sie zum elsen wieder geöffnetw erden kann
+  //und die Dateiw rieder shclieï¿½en, damit sie zum elsen wieder geï¿½ffnetw erden kann
   fclose($fp);
 
   //datei zum guten Schluss (also im Erfolgsfall) verschieben
@@ -147,14 +147,14 @@ if ($action == 'default') {
 ?>
 
 <div class='doc_title'>Style</div>
-<form action='index.php?sid=<?=$sid;?>&action=admin&uaction=style&daction=send' method='post'>
+<form action='index.php?sid=<?php echo $sid;?>&action=admin&uaction=style&daction=send' method='post'>
 <table width="100%">
   <tr>
     <td colspan="4">&nbsp;</td>
   </tr>
 
 <?php
-  // datei öffnen
+  // datei ï¿½ffnen
   $fp=@fopen("style.css","r") or die ("Kann Datei nicht lesen.");
 
   //Dataen resetten
@@ -164,7 +164,7 @@ if ($action == 'default') {
   // datei zeilenweise auslesen
   while($line=fgets($fp,"1024")){
 
-//Dtaei auslesen, alle <> parse, da die eh nicht vorkommen dürfen
+//Dtaei auslesen, alle <> parse, da die eh nicht vorkommen dï¿½rfen
   $line = htmlentities($line);
 
 //Neue Eigenschaft 
@@ -250,7 +250,7 @@ if ($action == 'default') {
   }
 
 //Rest einfach noch eintragen
-//CSS läuft durch bei A 
+//CSS lï¿½uft durch bei A 
   if ($where == 350) {
     echo $line;
 
@@ -275,7 +275,7 @@ if ($action == 'default') {
   }
 
 
-//CSS läuft durch bei A 
+//CSS lï¿½uft durch bei A 
   if ($where == 200) {
     echo $line;
 

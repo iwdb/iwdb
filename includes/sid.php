@@ -29,6 +29,7 @@ if (!defined('IRA'))
 
 global $db, $db_tb_sid, $db_prefix, $db_tb_user;
 
+
 // get user ip 
 // $REMOTE_ADDR kann je nach Server die IP des Servers enthalten, wenn ein
 // Skript mit "include" eingebunden wird. Je nach Proxy ist die Variable manchmal

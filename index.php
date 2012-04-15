@@ -196,7 +196,7 @@ if (( ( $user_adminsitten == SITTEN_BOTH ) || ( $user_adminsitten == SITTEN_ONLY
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title><?php echo  $config_allytitle ?></title>
+<title><?php echo $config_allytitle ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <?php
 if(defined('CONFIG_SERVER_URI') && CONFIG_SERVER_URI === TRUE ) {

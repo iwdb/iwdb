@@ -26,18 +26,18 @@
 
 /*****************************************************************************/
 /* Dieses Modul dient als Vorlage zum Erstellen von eigenen Zusatzmodulen    */
-/* für die Iw DB: Icewars geoscan and sitter database                        */
+/* fï¿½r die Iw DB: Icewars geoscan and sitter database                        */
 /*---------------------------------------------------------------------------*/
-/* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  */
+/* Diese Erweiterung der ursprï¿½nglichen DB ist ein Gemeinschaftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
+/* Bei Problemen kannst du dich an das eigens dafï¿½r eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
 /*                   http://www.iw-smf.pericolini.de                         */
 /*                                                                           */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
+// -> Abfrage ob dieses Modul ï¿½ber die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
 if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	echo "Hacking attempt...!!";
@@ -46,23 +46,23 @@ if (basename($_SERVER['PHP_SELF']) != "index.php") {
 
 //****************************************************************************
 //
-// -> Name des Moduls, ist notwendig für die Benennung der zugehörigen
+// -> Name des Moduls, ist notwendig fï¿½r die Benennung der zugehï¿½rigen
 //    Config.cfg.php
-// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung für
-//    eine Installation über das Menü
+// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung fï¿½r
+//    eine Installation ï¿½ber das Menï¿½
 //
 $modulname  = "m_ress";
 
 //****************************************************************************
 //
-// -> Menütitel des Moduls der in der Navigation dargestellt werden soll.
+// -> Menï¿½titel des Moduls der in der Navigation dargestellt werden soll.
 //
 $modultitle = "Produktion";
 
 //****************************************************************************
 //
-// -> Status des Moduls, bestimmt wer dieses Modul über die Navigation
-//    ausführen darf. Mögliche Werte:
+// -> Status des Moduls, bestimmt wer dieses Modul ï¿½ber die Navigation
+//    ausfï¿½hren darf. Mï¿½gliche Werte:
 //    - ""      <- nix = jeder,
 //    - "admin" <- na wer wohl
 //
@@ -133,7 +133,7 @@ function workInstallMenu() {
 		$actionparamters = "";
   	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparameters );
 	  //
-	  // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
+	  // Weitere Wiederholungen fï¿½r weitere Menï¿½-Eintrï¿½ge, z.B.
 	  //
 	  // 	insertMenuItem( $_POST['menu'], ($_POST['submenu']+1), "Titel2", "hc", "&weissichnichtwas=1" );
 	  //
@@ -179,12 +179,12 @@ function workUninstallDatabase() {
 //
 // Installationsroutine
 //
-// Dieser Abschnitt wird nur ausgeführt wenn das Modul mit dem Parameter
+// Dieser Abschnitt wird nur ausgefï¿½hrt wenn das Modul mit dem Parameter
 // "install" aufgerufen wurde. Beispiel des Aufrufs:
 //
 //      http://Mein.server/iwdb/index.php?action=ress&was=install
 //
-// Anstatt "Mein.Server" natürlich deinen Server angeben und default
+// Anstatt "Mein.Server" natï¿½rlich deinen Server angeben und default
 // durch den Dateinamen des Moduls ersetzen.
 //
 if( !empty($_REQUEST['was'])) {
@@ -199,7 +199,7 @@ if( !empty($_REQUEST['was'])) {
 	  die( "Cannot load menu functions" );
 
   // Wenn ein Modul administriert wird, soll der Rest nicht mehr
-  // ausgeführt werden.
+  // ausgefï¿½hrt werden.
   return;
 }
 
@@ -220,11 +220,11 @@ function make_link($order, $ordered) {
 //bestehende zeit holen
 
 $sql = "SELECT
-			switch
-		FROM
-			prefix_user
-		WHERE
-            id = '$user_id'";
+		switch
+	FROM
+		$db_tb_user
+	WHERE
+           id = '$user_id'";
 
 $result = mysql_query($sql) OR die(mysql_error());
 
@@ -232,7 +232,7 @@ $row = mysql_fetch_assoc($result);
 
 $switch = $row['switch'];
 
-//zeit ändern?
+//zeit ï¿½ndern?
 
 echo '
 <form action="index.php?action=m_ress&sid='.$sid.'" method="post">
@@ -243,22 +243,22 @@ echo '
 
 if(isset($_POST['switch'])) {
 $sql = "UPDATE
-			prefix_user
-		SET
-			switch = '$_POST[switch]'
-		WHERE
-			id = '$user_id'";
+		$db_tb_user
+	SET
+		switch = '$_POST[switch]'
+	WHERE
+		id = '$user_id'";
 mysql_query($sql) OR die(mysql_error());
 }
 
 //aktualisiere die Zeit
 
 $sql = "SELECT
-			switch
-		FROM
-			prefix_user
-		WHERE
-            id = '$user_id'";
+		switch
+	FROM
+		$db_tb_user
+	WHERE
+           id = '$user_id'";
 
 $result = mysql_query($sql) OR die(mysql_error());
 
@@ -270,7 +270,7 @@ if (empty($switch) || $switch == 24) {
 	$switch = 24;
 	doc_title("Tagesproduktion/-Verbrauch");
 } else doc_title("Verbrauch in ".$switch." Stunde(n)");
-doc_title("sowie Bevölkerungsdaten");
+doc_title("sowie Bevï¿½lkerungsdaten");
 
 echo "<br>";
 
@@ -471,7 +471,7 @@ end_row();
 end_table();
 
 // 
-// Erweiterung für Zusatz-Tabellen; sortiert nach Usern, die einem Fleeter zugeordnet sind
+// Erweiterung fï¿½r Zusatz-Tabellen; sortiert nach Usern, die einem Fleeter zugeordnet sind
 // 
 
 global $db, $db_tb_ressuebersicht, $db_tb_user, $config_sitter_timeformat;

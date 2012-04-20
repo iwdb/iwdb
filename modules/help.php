@@ -37,7 +37,7 @@ if (!defined('IRA'))
 $topic = getVar('topic');
 $topic = ( empty($topic) ) ? "index" : $topic;
 
-if (! ereg('^[a-zA-Z0-9_-]*$', $topic)) {
+if (! preg_match('/^[a-zA-Z0-9_-]*$/', $topic)) {
   error(GENERAL_ERROR, 'Malformed help topic string (' . $topic . ') .', '',
         __FILE__, __LINE__);
   exit(1);

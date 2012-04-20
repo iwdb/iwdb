@@ -291,7 +291,7 @@ if ( ( empty($user_sitterpwd) ) && ( $user_sitten == "1" ) )
 if ( ( $user_id <> "guest" ) && ( $user_rules == "1" ) )
 {
   # check action string for valid chars         
-  if (! ereg('^[a-zA-Z0-9_-]*$', $action)) {
+  if (! preg_match('/^[a-zA-Z0-9_-]*$/', $action)) {
     error(GENERAL_ERROR, 'Malformed action string (' . $action . ') .', '',
           __FILE__, __LINE__);
     exit(1);

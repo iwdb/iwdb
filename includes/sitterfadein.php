@@ -152,7 +152,7 @@ if (!empty($sound)) {
  <param name="movie" value="fadein.swf?src=<?php echo $sound;?>&amp;autostart=yes&amp;streaming=yes" /> 
  <param name="quality" value="high" /> 
  <param name="bgcolor" value="#C4D7DF" /> 
-<EMBED src="<?php echo $sound;?>" autostart=true loop=1 volume=100 hidden=true><NOEMBED><BGSOUND src="<?php echo$sound;?>"></NOEMBED> 
+<EMBED src="<?php echo $sound;?>" autostart=true loop=1 volume=100 hidden=true><NOEMBED><BGSOUND src="<?php echo $sound;?>"></NOEMBED> 
 </object> 
 <?php 
 } 

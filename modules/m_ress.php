@@ -28,16 +28,16 @@
 /* Dieses Modul dient als Vorlage zum Erstellen von eigenen Zusatzmodulen    */
 /* f�r die Iw DB: Icewars geoscan and sitter database                        */
 /*---------------------------------------------------------------------------*/
-/* Diese Erweiterung der urspr�nglichen DB ist ein Gemeinschaftsprojekt von  */
+/* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens daf�r eingerichtete            */
+/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
 /*                   http://www.iw-smf.pericolini.de                         */
 /*                                                                           */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul �ber die index.php aufgerufen wurde.
+// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
 if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	echo "Hacking attempt...!!";
@@ -46,10 +46,10 @@ if (basename($_SERVER['PHP_SELF']) != "index.php") {
 
 //****************************************************************************
 //
-// -> Name des Moduls, ist notwendig f�r die Benennung der zugeh�rigen
+// -> Name des Moduls, ist notwendig für die Benennung der zugehörigen
 //    Config.cfg.php
-// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung f�r
-//    eine Installation �ber das Men�
+// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung für
+//    eine Installation über das Menü
 //
 $modulname  = "m_ress";
 
@@ -61,8 +61,8 @@ $modultitle = "Produktion";
 
 //****************************************************************************
 //
-// -> Status des Moduls, bestimmt wer dieses Modul �ber die Navigation
-//    ausf�hren darf. M�gliche Werte:
+// -> Status des Moduls, bestimmt wer dieses Modul über die Navigation
+//    ausführen darf. Mögliche Werte:
 //    - ""      <- nix = jeder,
 //    - "admin" <- na wer wohl
 //
@@ -133,7 +133,7 @@ function workInstallMenu() {
 		$actionparamters = "";
   	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparameters );
 	  //
-	  // Weitere Wiederholungen f�r weitere Men�-Eintr�ge, z.B.
+	  // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
 	  //
 	  // 	insertMenuItem( $_POST['menu'], ($_POST['submenu']+1), "Titel2", "hc", "&weissichnichtwas=1" );
 	  //
@@ -179,7 +179,7 @@ function workUninstallDatabase() {
 //
 // Installationsroutine
 //
-// Dieser Abschnitt wird nur ausgef�hrt wenn das Modul mit dem Parameter
+// Dieser Abschnitt wird nur ausgeführt wenn das Modul mit dem Parameter
 // "install" aufgerufen wurde. Beispiel des Aufrufs:
 //
 //      http://Mein.server/iwdb/index.php?action=ress&was=install
@@ -199,7 +199,7 @@ if( !empty($_REQUEST['was'])) {
 	  die( "Cannot load menu functions" );
 
   // Wenn ein Modul administriert wird, soll der Rest nicht mehr
-  // ausgef�hrt werden.
+  // ausgeführt werden.
   return;
 }
 
@@ -232,7 +232,7 @@ $row = mysql_fetch_assoc($result);
 
 $switch = $row['switch'];
 
-//zeit �ndern?
+//zeit ändern?
 
 echo '
 <form action="index.php?action=m_ress&sid='.$sid.'" method="post">
@@ -270,7 +270,7 @@ if (empty($switch) || $switch == 24) {
 	$switch = 24;
 	doc_title("Tagesproduktion/-Verbrauch");
 } else doc_title("Verbrauch in ".$switch." Stunde(n)");
-doc_title("sowie Bev�lkerungsdaten");
+doc_title("sowie Bev&ouml;lkerungsdaten");
 
 echo "<br>";
 
@@ -471,7 +471,7 @@ end_row();
 end_table();
 
 // 
-// Erweiterung f�r Zusatz-Tabellen; sortiert nach Usern, die einem Fleeter zugeordnet sind
+// Erweiterung für Zusatz-Tabellen; sortiert nach Usern, die einem Fleeter zugeordnet sind
 // 
 
 global $db, $db_tb_ressuebersicht, $db_tb_user, $config_sitter_timeformat;

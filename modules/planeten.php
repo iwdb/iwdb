@@ -88,12 +88,14 @@ else echo $row['sitterlogin'];
 	 if($row['objekt'] == "Kolonie") echo "black"; 
 	 else if($row['objekt'] == "Kampfbasis") echo "red";
 	 else if($row['objekt'] == "Sammelbasis") echo "green";
+	 else if($row['objekt'] == "Artefaktbasis") echo "blue";
 	 else echo "\"black\""; 	  
 	 ?>'><?php echo $row['planetenname'];?> (<?php 
 	 if($row['objekt'] == "Kolonie") echo "K"; 
 	 else if($row['objekt'] == "Kampfbasis") echo "B";
 	 else if($row['objekt'] == "Sammelbasis") echo "S";
-	 else echo "-"; 	  
+	 else if($row['objekt'] == "Artefaktbasis") echo "A";
+	 else echo "-"; 	  	  
 	 ?>)</div></a>
   </td>
   <td class="windowbg<?php echo $num;?>">
@@ -105,4 +107,4 @@ else echo $row['sitterlogin'];
 ?>
 </table>
 <br/>
-<b>K = Kolonie, B = Kampfbasis, S = Sammelbasis</b> 
+<b>K = Kolonie, B = Kampfbasis, S = Sammelbasis, A = Artefaktbasis</b> 

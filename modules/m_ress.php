@@ -270,7 +270,7 @@ if (empty($switch) || $switch == 24) {
 	$switch = 24;
 	doc_title("Tagesproduktion/-Verbrauch");
 } else doc_title("Verbrauch in ".$switch." Stunde(n)");
-doc_title("sowie Bev�lkerungsdaten");
+doc_title("sowie Bev&ouml;lkerungsdaten");
 
 echo "<br>";
 

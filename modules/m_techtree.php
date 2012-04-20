@@ -26,41 +26,41 @@
 
 /*****************************************************************************/
 /* Dieses Modul dient als Vorlage zum Erstellen von eigenen Zusatzmodulen    */
-/* f�r die Iw DB: Icewars geoscan and sitter database  
+/* für die Iw DB: Icewars geoscan and sitter database  
  /*---------------------------------------------------------------------------*/
-/* Diese Erweiterung der urspr�nglichen DB ist ein Gemeinschaftsprojekt von  
+/* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  
  /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens daf�r eingerichtete  
+/* Bei Problemen kannst du dich an das eigens dafuer eingerichtete  
  /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
 /*                   http://www.iw-smf.pericolini.de                         */
 /*                                                                           */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul �ber die index.php aufgerufen wurde.
+// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
 if (!defined('IRA'))
 die('Hacking attempt...');
 
 //****************************************************************************
 //
-// -> Name des Moduls, ist notwendig f�r die Benennung der zugeh�rigen
+// -> Name des Moduls, ist notwendig für die Benennung der zugehörigen
 //    Config.cfg.php
-// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung f�r
-//    eine Installation �ber das Men�
+// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung für
+//    eine Installation über das Menü
 //
 $modulname  = "m_techtree";
 
 //****************************************************************************
 //
-// -> Men�titel des Moduls der in der Navigation dargestellt werden soll.
+// -> Menütitel des Moduls der in der Navigation dargestellt werden soll.
 //
 $modultitle = "graph. Techtree";
 
 //****************************************************************************
 //
-// -> Status des Moduls, bestimmt wer dieses Modul �ber die Navigation
-//    ausf�hren darf. M�gliche Werte:
+// -> Status des Moduls, bestimmt wer dieses Modul über die Navigation
+//    ausführen darf. Mögliche Werte:
 //    - ""      <- nix = jeder,
 //    - "admin" <- na wer wohl
 //
@@ -68,10 +68,10 @@ $modulstatus = "";
 
 //****************************************************************************
 //
-// -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
+// -> Beschreibung des Moduls, wie es in der Menue-Übersicht angezeigt wird.
 //
 $moduldesc =
-  "Ein graphsicher Technoligiebaum, der jede Evolutionsstufe als �bersicht mit Forschungsverkn�pfungen und Informationen anzeigt. Besonders Wert gelegt wurde auf die optische Integration in die AlliDB und schnelle Ladezeiten.";
+  "Ein graphsicher Technoligiebaum, der jede Evolutionsstufe als Übersicht mit Forschungsverknüpfungen und Informationen anzeigt. Besonders Wert gelegt wurde auf die optische Integration in die AlliDB und schnelle Ladezeiten.";
 
 //****************************************************************************
 //
@@ -102,7 +102,7 @@ function workInstallMenu() {
 	$actionparamters = "";
 	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparameters );
 	//
-	// Weitere Wiederholungen f�r weitere Men�-Eintr�ge, z.B.
+	// Weitere Wiederholungen für weitere Menü-Einträge, z.B.
 	//
 	// 	insertMenuItem( $_POST['menu'], ($_POST['submenu']+1), "Titel2", "hc", "&weissichnichtwas=1" );
 	//
@@ -138,12 +138,12 @@ function workUninstallDatabase() {
 //
 // Installationsroutine
 //
-// Dieser Abschnitt wird nur ausgef�hrt wenn das Modul mit dem Parameter
+// Dieser Abschnitt wird nur ausgeführt wenn das Modul mit dem Parameter
 // "install" aufgerufen wurde. Beispiel des Aufrufs:
 //
 //      http://Mein.server/iwdb/index.php?action=default&was=install
 //
-// Anstatt "Mein.Server" nat�rlich deinen Server angeben und default
+// Anstatt "Mein.Server" natürlich deinen Server angeben und default
 // durch den Dateinamen des Moduls ersetzen.
 //
 if( !empty($_REQUEST['was'])) {
@@ -157,7 +157,7 @@ if( !empty($_REQUEST['was'])) {
 	die( "Cannot load menu functions" );
 
 	// Wenn ein Modul administriert wird, soll der Rest nicht mehr
-	// ausgef�hrt werden.
+	// ausgeführt werden.
 	return;
 }
 
@@ -169,22 +169,22 @@ if (!@include("./config/".$modulname.".cfg.php")) {
 //
 // -> Und hier beginnt das eigentliche Modul
 
-$lastevo="evo1neu.png"; // -> F�r EVO1
+$lastevo="blobtree-evo0.png"; // -> Für EVO1
 
 // -> Nachsehen ob der dynamische Techtree installiert ist.
 if(file_exists("./config/m_research.cfg.php")){
 
-	// -> Schl�sselforschungen zum Erreichen einer neuen Evostufe, kann sein das es im Laufe der Runde angepasst werden mu�.
+	// -> Schlüsselforschungen zum Erreichen einer neuen Evostufe, kann sein das es im Laufe der Runde angepasst werden mu�.
 	$evo =array("blobtree-evo1.png"=>"Race into Space",
-              "evo2neu.png"=>"Interstellares Vordringen",
+              "blobtree-evo2.png"=>"Interstellares Vordringen",
               "blobtree-evo3.png"=>"Aufnahme in die zivilisierten Welten",
-              "evo4beta.png"=>"Imperiale Gedanken",
-              "evo5beta.png"=>"Die Macht des Seins",
+              "blobtree-evo4.png"=>"Imperiale Gedanken",
+              "blobtree-evo5.png"=>"Die Macht des Seins",
               "evo6neu.png"=>"Verstehen der Zusammenh�nge",
-              "evo7neu.png"=>"Verstehen der Zusammenh�nge");
+              "blobtree-evo7.png"=>"Verstehen der Zusammenh�nge");
 
 	for($x=0;$x<sizeof($evo);$x++) {
-		// -> Nach der ID f�r die Schl�sselforschungen suchen.
+		// -> Nach der ID für die Schlüsselforschungen suchen.
 		$sql = "SELECT ID FROM " . $db_tb_research . " WHERE name='" . current($evo) . "'";
 		$result = $db->db_query($sql)
 		or error(GENERAL_ERROR,
@@ -264,7 +264,7 @@ echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TreeEvo7";
 echo "</select>";
 echo "<input type=\"button\" value=\"ansehen\" onClick=\"imgchange()\">";
 echo "<br>";
-echo "wir danken H.G. Blob f&uuml;r die Grafiken der EVO 0, 1, 3, 4 und 5";
+//echo "wir danken H.G. Blob f&uuml;r die Grafiken der EVO 0, 1, 3, 4 und 5";
 echo "<br><br>";
 echo "<IMG SRC=\"bilder/techtree/".$lastevo."\"  NAME=\"img\">";
 echo "</form>";

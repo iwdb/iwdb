@@ -2,7 +2,7 @@
 
 //definition der Sounddateien (leer = global ausgeschaltet)
 //nur mp3 Dateien m&ouml;glich da anderes nciht unerstuetzt werden kann
-//achten sie darauf, dass die Dtaie nicht zu groﬂ ist.
+//achten sie darauf, dass die Dtaie nicht zu gro? ist.
 $soundnormal = 'sittersound.mp3';
 $soundwichtig = 'sittersound.mp3';
 

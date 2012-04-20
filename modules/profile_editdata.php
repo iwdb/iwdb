@@ -387,7 +387,7 @@ if ( $user_status == "admin" )
   </td>
  </tr>
 <?php
-//Squadname INPUT eingefügt!
+//Squadname INPUT eingefï¿½gt!
 ?>
  <tr>
   <td class="windowbg2">
@@ -687,7 +687,7 @@ von
  <tr>
   <td class="windowbg2">
    Deine Farbe:<br>
-   <i>Sollest du Fleeter sein trage hier eine Farbe für deine Buddler ein (Format: #RRGGBB)</i>
+   <i>Sollest du Fleeter sein trage hier eine Farbe fï¿½r deine Buddler ein (Format: #RRGGBB)</i>
   </td>
   <td class="windowbg1">
    <input type="text" name="color" size="8" maxlength="7" value="<?php echo $color;?>">
@@ -842,7 +842,7 @@ if ($user_status == "admin" )
  <tr>
   <td class="windowbg2">
    Proportionale Universumsansicht?:<br>
-   <i>Sollen alle Zeilenhöhen der Planeten in der Universumsansicht gleich hoch sein?</i>
+   <i>Sollen alle Zeilenhï¿½hen der Planeten in der Universumsansicht gleich hoch sein?</i>
   </td>
   <td class="windowbg1">
    <input type="checkbox" name="uniprop" value="1"<?php echo ($uniprop) ? " checked": "";?>>

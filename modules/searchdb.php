@@ -91,10 +91,10 @@ $ansichten = array (
 );
 
 $techteams = array (
-   "" => "kein Techteam berücksichtigen",
-   "EisenTT" => "Techteam Eisen berücksichtigen",
-   "ChemieTT" => "Techteam Chemie berücksichtigen",
-   "EisTT" => "Techteam Eis berücksichtigen"
+   "" => "kein Techteam berï¿½cksichtigen",
+   "EisenTT" => "Techteam Eisen berï¿½cksichtigen",
+   "ChemieTT" => "Techteam Chemie berï¿½cksichtigen",
+   "EisTT" => "Techteam Eis berï¿½cksichtigen"
 );
 
 $merkmale = array (

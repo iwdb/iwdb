@@ -320,7 +320,7 @@ if ( ! empty($coords) )
 	</tr>
 	<tr>
 		<td colspan="2" class="windowbg2">
-Dieser Planet wird vorraussichtlich in <?php echo  makeduration($row['geoscantime'] + $row['reset_timestamp']) ?> (plusminus 24h) für den Bau einer Hyperraumumgehungsstrasse gesprengt.
+Dieser Planet wird vorraussichtlich in <?php echo  makeduration($row['geoscantime'] + $row['reset_timestamp']) ?> (plusminus 24h) fï¿½r den Bau einer Hyperraumumgehungsstrasse gesprengt.
 		</td>
 	</tr>
 	<?php

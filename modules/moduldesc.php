@@ -26,7 +26,7 @@
 
 /*****************************************************************************/
 /* moduldesc.php                                                             */
-/* Hier werden die Beschreibungen für die Module gespeichert                 */
+/* Hier werden die Beschreibungen fï¿½r die Module gespeichert                 */
 /*****************************************************************************/
 if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	echo "Hacking attempt...!!";
@@ -79,7 +79,7 @@ $modulary["m_raidview"]["desc"] = "Durch dieses Modul werden eine Raid&uuml;bers
 
 $modulary["m_galastats"]["name"] = "m_galastats";
 $modulary["m_galastats"]["titel"] = "Galastatistiken";
-$modulary["m_galastats"]["desc"] = "Das Galastatistiken-modul berechnet eine Highscore für Kolonien, Plannipunkte und Kampfbasen für jede Galaxie und für die gesamte Sichtweite";
+$modulary["m_galastats"]["desc"] = "Das Galastatistiken-modul berechnet eine Highscore fï¿½r Kolonien, Plannipunkte und Kampfbasen fï¿½r jede Galaxie und fï¿½r die gesamte Sichtweite";
 
 $modulary["m_kasse"]["name"] = "m_kasse";
 $modulary["m_kasse"]["titel"] = "Allianzkasse";

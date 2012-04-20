@@ -38,7 +38,7 @@ if ( $user_rules == "1" )
 
     if(( $user_adminsitten == SITTEN_BOTH ) || ( $user_adminsitten == SITTEN_ONLY_LOGINS ))
     {
-      // Anstehende Aufträge zählen
+      // Anstehende Auftrï¿½ge zï¿½hlen
       $anzauftrag = "";
 
       $sql = "SELECT count(*) AS anzahl FROM " . $db_tb_sitterauftrag .
@@ -97,7 +97,7 @@ include ('configmenu.php');
         $miscmenu = 0;
     // Alle Menu-Eintraege durchgehen
     while( $row = $db->db_fetch_array($result)) {
-      // Ist sitten für diesen Menu-Eintrag erlaubt?
+      // Ist sitten fï¿½r diesen Menu-Eintrag erlaubt?
       $sitterentry = ($user_adminsitten == SITTEN_BOTH) ||
                                    ($row['sittertyp'] == 0 ) ||
                        ($user_adminsitten == SITTEN_ONLY_LOGINS &&
@@ -127,7 +127,7 @@ include ('configmenu.php');
               echo "      </li>\n";
             }
         }
-        // Standard Menü
+        // Standard Menï¿½
     echo "      <li>\n";
         echo "        <a href=\"#\" rel=\"dropmenu" . $miscmenu . "\">Misc</a>\n";
     echo "      <li>\n";
@@ -136,7 +136,7 @@ include ('configmenu.php');
         echo "    </ul>\n";
         echo "  </div>\n";
 
-    // Menu nochmal auslesen, diesmal die Submenüs
+    // Menu nochmal auslesen, diesmal die Submenï¿½s
     $sql = "SELECT menu, submenu, title, status, action, extlink, sittertyp FROM " .
                $db_tb_menu . " WHERE active=1 AND submenu > 0 ORDER BY menu ASC, submenu ASC";
     $result = $db->db_query($sql)
@@ -147,7 +147,7 @@ include ('configmenu.php');
 
     // Alle Menu-Eintraege durchgehen
     while( $row = $db->db_fetch_array($result)) {
-      // Ist sitten für diesen Menu-Eintrag erlaubt?
+      // Ist sitten fï¿½r diesen Menu-Eintrag erlaubt?
       $sitterentry = ($user_adminsitten == SITTEN_BOTH) ||
                                    ($row['sittertyp'] == 0 ) ||
                        ($user_adminsitten == SITTEN_ONLY_LOGINS &&

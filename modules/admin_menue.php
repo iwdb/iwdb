@@ -26,24 +26,24 @@
 
 /*****************************************************************************/
 /*Dieses Modul dient als Vorlage zum Erstellen von eigenen Zusatzmodulen     */
-/*für die Iw DB: Icewars geoscan and sitter database                         */
+/*fï¿½r die Iw DB: Icewars geoscan and sitter database                         */
 /*---------------------------------------------------------------------------*/
-/*Diese Erweiterung der urspünglichen DB ist ein Gemeinschafftsprojekt von   */
+/*Diese Erweiterung der urspï¿½nglichen DB ist ein Gemeinschafftsprojekt von   */
 /*IW-Spielern.                                                               */
-/*Bei Problemen kannst du dich an das eigens dafür eingerichtete             */
+/*Bei Problemen kannst du dich an das eigens dafï¿½r eingerichtete             */
 /*Entwiklerforum wenden:                                                     */
 /*                                                                           */
 /*                   http://www.iw-smf.pericolini.de                         */
 /*                                                                           */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde. Kann unberechtigte Systemzugriffe verhindern.
+// -> Abfrage ob dieses Modul ï¿½ber die index.php aufgerufen wurde. Kann unberechtigte Systemzugriffe verhindern.
 if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	die("Hacking attempt...!!");
 	exit;
 }
 
-// -> ladet die Datei config.php und führt diese aus. In der config.php sind wichtige Variablen definiert.
+// -> ladet die Datei config.php und fï¿½hrt diese aus. In der config.php sind wichtige Variablen definiert.
 if (!@include("./config/config.php")) {
   echo "<div class='system_error'>Error:<br><b>Cannot load Master-Config!</b></div>";
 	exit;
@@ -53,12 +53,12 @@ if (!@include("./config/config.php")) {
 if ( $user_status != "admin" )
   die('Hacking attempt...');
 
-// -> läd die statischen Modulbeschreibungen
+// -> lï¿½d die statischen Modulbeschreibungen
   @include ('moduldesc.php');
   
 ?>  
 <script type="text/javascript" language="javascript">
-var confirmMsg  = 'Menütitel wirklich Löschen?';
+var confirmMsg  = 'Menï¿½titel wirklich Lï¿½schen?';
 function confirmLink(theLink, theSqlQuery)
 {
     if (confirmMsg == '') {
@@ -78,7 +78,7 @@ function confirmLink(theLink, theSqlQuery)
 
 /* #############################################################################
 
-   Menütitel löschen
+   Menï¿½titel lï¿½schen
 
    ###########################################################################*/
 
@@ -91,12 +91,12 @@ if (!empty($_GET['delid'])) {
 
 /* #############################################################################
 
-   Neuer Menüeinträg
+   Neuer Menï¿½eintrï¿½g
 
    ###########################################################################*/
 if (!empty($_POST['new'])) {
     unset($fehler);
-    // nach höchsten Menüeintrag suchen
+    // nach hï¿½chsten Menï¿½eintrag suchen
     $sql = "SELECT * FROM " . $db_tb_menu . " ORDER BY menu DESC, submenu DESC LIMIT 0, 1";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -108,7 +108,7 @@ if (!empty($_POST['new'])) {
 
 
     $title  = trim($_POST['new_title']);
-    if (empty($title)) $fehler = "Menütext vergessen!";
+    if (empty($title)) $fehler = "Menï¿½text vergessen!";
     if (empty($fehler)) {
        $sql = "INSERT INTO " . $db_tb_menu . "
               Set menu      ='" . $hmenu . "',
@@ -128,7 +128,7 @@ if (!empty($_POST['new'])) {
 
 /* #############################################################################
 
-   Menüeinträge Bearbeiten
+   Menï¿½eintrï¿½ge Bearbeiten
 
    ###########################################################################*/
 if (!empty($_POST['edit'])) {
@@ -137,7 +137,7 @@ if (!empty($_POST['edit'])) {
     if (empty($_POST['edit_extlink'])) $_POST['edit_extlink'] = "";
     $title  = trim($_POST['edit_title']);
     $action = trim($_POST['edit_action']);
-    if (empty($title)) $fehler = "Menütext vergessen!";
+    if (empty($title)) $fehler = "Menï¿½text vergessen!";
     if (empty($fehler)) {
        $sql = "UPDATE " . $db_tb_menu . "
               Set active='" . $_POST['edit_active'] . "',
@@ -185,7 +185,7 @@ if (!empty($_GET['sort']) AND !empty($_GET['id'])) {
         $merk=1;
       }
     }
-    //  -> Wenn beide Menüzeilen Module sind einfach die Variablen menu und submenu tauschen
+    //  -> Wenn beide Menï¿½zeilen Module sind einfach die Variablen menu und submenu tauschen
     if (($row1['submenu'] != "0") AND ($row2['submenu'] != "0")){
       $sql = "UPDATE " . $db_tb_menu . "
               Set menu='" . $row1['menu'] . "',submenu='" . $row1['submenu'] . "'
@@ -198,7 +198,7 @@ if (!empty($_GET['sort']) AND !empty($_GET['id'])) {
       $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     }
-    //  -> Wenn beide Menüzeilen Titel sind einfach die Variablen menu und submenu tauschen
+    //  -> Wenn beide Menï¿½zeilen Titel sind einfach die Variablen menu und submenu tauschen
     if (($row1['submenu']== 0) AND ($row2['submenu']== 0)){
       $sql = "UPDATE " . $db_tb_menu . "
               Set menu='" . $row1['menu'] . "',submenu='" . $row1['submenu'] . "'
@@ -211,10 +211,10 @@ if (!empty($_GET['sort']) AND !empty($_GET['id'])) {
       $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     }
-    //  -> Wenn ein Modul nach oben geschoben wird und sich darüber ein Titel befindet.
-    // die Nummeration des Titels bleibt unverändert, das Modul bekommt den Menüwert der weiter darüberliegenden Zeile und den Submenuwert plus eins
+    //  -> Wenn ein Modul nach oben geschoben wird und sich darï¿½ber ein Titel befindet.
+    // die Nummeration des Titels bleibt unverï¿½ndert, das Modul bekommt den Menï¿½wert der weiter darï¿½berliegenden Zeile und den Submenuwert plus eins
     if (($row1['submenu']!= 0) AND ($row2['submenu']== 0)){
-    // gibt es eine weiter darüberliegende Zeile?
+    // gibt es eine weiter darï¿½berliegende Zeile?
       if (!empty($row3)){
         $subm3 = $row3['submenu']+1;
         $sql = "UPDATE " . $db_tb_menu . "
@@ -232,8 +232,8 @@ if (!empty($_GET['sort']) AND !empty($_GET['id'])) {
            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
       }
     }
-    //  -> Wenn ein Titel nach oben geschoben wird und sich darüber ein Modul befindet.
-    // die Nummeration des Titels bleibt unverändert, das Modul und alle Module unter dem Titel müssen neu sortiert werden.
+    //  -> Wenn ein Titel nach oben geschoben wird und sich darï¿½ber ein Modul befindet.
+    // die Nummeration des Titels bleibt unverï¿½ndert, das Modul und alle Module unter dem Titel mï¿½ssen neu sortiert werden.
     if (($row1['submenu']== 0) AND ($row2['submenu']!= 0)){
     // Auslesen aller darunter liegenden Mudule und Zwischenspeichern in einem Array
       $sql = "SELECT * FROM " . $db_tb_menu . " where menu = '" . $row1['menu'] . "' ORDER BY submenu ASC";
@@ -247,7 +247,7 @@ if (!empty($_GET['sort']) AND !empty($_GET['id'])) {
           $zeile[$i]=$row['id'];
         }
       }
-      //das darüberliegen Modul als erste Zeile eintragen
+      //das darï¿½berliegen Modul als erste Zeile eintragen
       $sql = "UPDATE " . $db_tb_menu . "
              Set menu='" . $row1['menu'] . "',submenu='1'
              WHERE id = '".$id2."'";
@@ -290,7 +290,7 @@ if (!empty($_GET['sort']) AND !empty($_GET['id'])) {
         $merk=1;
       }
     }
-    //  -> Wenn beide Menüzeilen Module sind einfach die Variablen menu und submenu tauschen
+    //  -> Wenn beide Menï¿½zeilen Module sind einfach die Variablen menu und submenu tauschen
     if (($row1['submenu'] != "0") AND ($row2['submenu'] != "0")){
       $sql = "UPDATE " . $db_tb_menu . "
               Set menu='" . $row1['menu'] . "',submenu='" . $row1['submenu'] . "'
@@ -303,7 +303,7 @@ if (!empty($_GET['sort']) AND !empty($_GET['id'])) {
       $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     }
-    //  -> Wenn beide Menüzeilen Titel sind einfach die Variablen menu und submenu tauschen
+    //  -> Wenn beide Menï¿½zeilen Titel sind einfach die Variablen menu und submenu tauschen
     if (($row1['submenu']== 0) AND ($row2['submenu']== 0)){
       $sql = "UPDATE " . $db_tb_menu . "
               Set menu='" . $row1['menu'] . "',submenu='" . $row1['submenu'] . "'
@@ -330,7 +330,7 @@ if (!empty($_GET['sort']) AND !empty($_GET['id'])) {
           $zeile[$i]=$row['id'];
         }
       }
-      //das darüberliegen Modul als erste Zeile eintragen
+      //das darï¿½berliegen Modul als erste Zeile eintragen
       $sql = "UPDATE " . $db_tb_menu . "
              Set menu='" . $row2['menu'] . "',submenu='1'
              WHERE id = '".$id1."'";
@@ -351,7 +351,7 @@ if (!empty($_GET['sort']) AND !empty($_GET['id'])) {
     }
     //  -> Wenn ein Titel nach unten geschoben wird und sich darunter ein Modul befindet.
     if (($row1['submenu']== 0) AND ($row2['submenu']!= 0)){
-    // feststellen ob es über dem Titel noch ein weites Menü gibt
+    // feststellen ob es ï¿½ber dem Titel noch ein weites Menï¿½ gibt
       $sql = "SELECT * FROM " . $db_tb_menu . " ORDER BY menu DESC, submenu DESC";
       $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -366,7 +366,7 @@ if (!empty($_GET['sort']) AND !empty($_GET['id'])) {
         $merk=1;
       }
     }
-    // gibt es eine weiter darüberliegende Zeile?
+    // gibt es eine weiter darï¿½berliegende Zeile?
       if (!empty($row4)){
         $subm4 = $row4['submenu']+1;
         $sql = "UPDATE " . $db_tb_menu . "
@@ -433,7 +433,7 @@ echo "<br>\n";
     echo "<td width=\"50%\" class=\"".$cl."\" >&nbsp;".$row['title']."&nbsp;</td>";
     echo "<td width=\"50%\" class=\"".$cl."\" align='right'>";
     if ($row['submenu'] == 0){
-      echo "<a href=\"index.php?action=admin_menue&amp;sid=".$sid."&amp;delid=".$row['id']."\" target=\"_self\"><img src=\"./bilder/delete.gif\" align=\"absmiddle\" border=\"0\" title=\"Menütitel Löschen\" alt=\"Menütitel Löschen\" onclick=\"return confirmLink(this, '" . $row['id'] . "')\"></a>";
+      echo "<a href=\"index.php?action=admin_menue&amp;sid=".$sid."&amp;delid=".$row['id']."\" target=\"_self\"><img src=\"./bilder/delete.gif\" align=\"absmiddle\" border=\"0\" title=\"Menï¿½titel Lï¿½schen\" alt=\"Menï¿½titel Lï¿½schen\" onclick=\"return confirmLink(this, '" . $row['id'] . "')\"></a>";
     }
     if ($row['id'] == $hid){
       echo "<img src=\"./bilder/sort_up2.gif\" align=\"absmiddle\" border=\"0\" title=\"Sortieren: Up\" alt=\"Sortieren: Up\">";
@@ -459,7 +459,7 @@ echo "<br>\n";
     echo "<tr><td colspan=2 width=\"100%\" class=\"".$cl."\" align='center'><table width=\"90%\" class=\"bordercolor\" border=\"0\" cellpadding=\"2\" cellspacing=\"0\" >";
 
     echo "<tr><form name=\"form\" action=\"index.php?action=admin_menue&amp;sid=".$sid."&amp;eid=".$row['id']."\" method=\"post\">";
-    echo "<td width=\"50%\" class=\"".$cl."\" align='left'>Menütext:</td>";
+    echo "<td width=\"50%\" class=\"".$cl."\" align='left'>Menï¿½text:</td>";
     echo "<td width=\"50%\" class=\"".$cl."\" align='left'><input name=\"edit_title\" type=\"text\" size=50 maxlength=\"100\" value=\"".$row['title']."\"></td>";
     echo "</tr><tr>";
     if ($row['active'] == "0") {
@@ -469,7 +469,7 @@ echo "<br>\n";
       $checkyes =" checked";
       $checkno  ="";
     }
-    echo "<td width=\"50%\" class=\"".$cl."\" align='left'>Menütext anzeigen:</td>";
+    echo "<td width=\"50%\" class=\"".$cl."\" align='left'>Menï¿½text anzeigen:</td>";
     echo "<td width=\"50%\" class=\"".$cl."\" align='left'><input type=\"radio\" name=\"edit_active\" value=\"0\"". $checkno."> - Nein&nbsp;<input type=\"radio\" name=\"edit_active\" value=\"1\"". $checkyes."> - Ja</td>";
     echo "</tr><tr>";
     if ($row['status'] == "") {
@@ -487,7 +487,7 @@ echo "<br>\n";
       $checkhc    ="";
       $checkadmin =" checked";
     }
-    echo "<td width=\"50%\" class=\"".$cl."\" align='left'>Wer dieses Menü sehen darf:</td>";
+    echo "<td width=\"50%\" class=\"".$cl."\" align='left'>Wer dieses Menï¿½ sehen darf:</td>";
     echo "<td width=\"50%\" class=\"".$cl."\" align='left'><input type=\"radio\" name=\"edit_status\" value=\"\"". $checkalle."> - Alle&nbsp;<input type=\"radio\" name=\"edit_status\" value=\"HC\"". $checkhc."> - HC&nbsp;<input type=\"radio\" name=\"edit_status\" value=\"admin\"". $checkadmin."> - Admin</td>";
     echo "</tr><tr>";
     $st[0] ="";
@@ -532,15 +532,15 @@ echo "</table><br><br>";
 
 echo "<table width=\"90%\" class=\"bordercolor\" border=\"0\" cellpadding=\"2\" cellspacing=\"1\" >";
     echo "<tr><form name=\"form2\" action=\"index.php?action=admin_menue&amp;sid=".$sid."\" method=\"post\">";
-    echo "<td colspan=2 width=\"100%\" class=\"windowbg2\" align='center'>Neuer Menütitel</td>";
+    echo "<td colspan=2 width=\"100%\" class=\"windowbg2\" align='center'>Neuer Menï¿½titel</td>";
     echo "</tr><tr>";
-    echo "<td width=\"50%\" class=\"windowbg1\" align='left'>Menütext:</td>";
-    echo "<td width=\"50%\" class=\"windowbg1\" align='left'><input name=\"new_title\" type=\"text\" size=50 maxlength=\"100\" value=\"Menütext\"></td>";
+    echo "<td width=\"50%\" class=\"windowbg1\" align='left'>Menï¿½text:</td>";
+    echo "<td width=\"50%\" class=\"windowbg1\" align='left'><input name=\"new_title\" type=\"text\" size=50 maxlength=\"100\" value=\"Menï¿½text\"></td>";
     echo "</tr><tr>";
-    echo "<td width=\"50%\" class=\"windowbg1\" align='left'>Menütext anzeigen:</td>";
+    echo "<td width=\"50%\" class=\"windowbg1\" align='left'>Menï¿½text anzeigen:</td>";
     echo "<td width=\"50%\" class=\"windowbg1\" align='left'><input type=\"radio\" name=\"new_active\" value=\"0\"> - Nein&nbsp;<input type=\"radio\" name=\"new_active\" value=\"1\" checked> - Ja</td>";
     echo "</tr><tr>";
-    echo "<td width=\"50%\" class=\"windowbg1\" align='left'>Wer dieses Menü sehen darf:</td>";
+    echo "<td width=\"50%\" class=\"windowbg1\" align='left'>Wer dieses Menï¿½ sehen darf:</td>";
     echo "<td width=\"50%\" class=\"windowbg1\" align='left'><input type=\"radio\" name=\"new_status\" value=\"\" checked> - Alle&nbsp;<input type=\"radio\" name=\"new_status\" value=\"hc\"> - HC&nbsp;<input type=\"radio\" name=\"new_status\" value=\"admin\"> - Admin</td>";
     echo "</tr><tr>";
     echo "<td width=\"50%\" class=\"windowbg1\" align='left'>Anzeigen bei Sittertyp:</td>";
@@ -565,7 +565,7 @@ echo "</table>";
 
 
 
-// Sucht nach Modulen uns sieht nach ob eine zugehörige Config.cfg.php existiert
+// Sucht nach Modulen uns sieht nach ob eine zugehï¿½rige Config.cfg.php existiert
 // Wenn ein Modul gefunden wird, versucht es dieses zu intallieren.
 $uninstallecho = "";
 $fp6=opendir("./modules");
@@ -634,13 +634,13 @@ if ($uninstallecho <> "") {
 
 echo "<br><div width=\"90%\" class=\"windowbg2\" style=\"padding:2px; width:90%; border-width:1px; border-style: solid; boder-color:black\">Nicht installierte Module:</div><br>";
 
-      echo "Es wurde mindestens ein Modul gefunden, daß noch nicht installiert wurde:<br><br>";
+      echo "Es wurde mindestens ein Modul gefunden, daï¿½ noch nicht installiert wurde:<br><br>";
 
       echo  $uninstallecho;
 
       echo "Solltest du eines dieser Module nicht installieren wollen,<br>";
       echo "oder gar nicht wissen wie es auf deinen Server kommt,<br>";
-      echo "rate ich dir es aus den Ordner \"modules\" zu löschen.<br><br>";
+      echo "rate ich dir es aus den Ordner \"modules\" zu lï¿½schen.<br><br>";
 
       echo "</center> \n";
 

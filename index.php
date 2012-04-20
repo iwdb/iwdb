@@ -67,6 +67,7 @@ if(isset($REMOTE_ADDR) && !empty($REMOTE_ADDR)) {
   $REMOTE_IPADDR = "127.0.0.1";
 }
 
+global $db_host, $db_user, $db_pass, $db_name, $db_prefix;
 include_once("config/configsql.php");
 include_once("includes/function.php");
 include_once("includes/db_mysql.php");
@@ -241,7 +242,7 @@ include ('includes/sitterfadein.php');
 if (isset($config_banner))
 {
 ?>
-            	<img src="<?php echo $config_banner ?>" width="<?php echo $config_banner_width ?>">
+            	<img src="<?php echo $config_banner; ?>" width="<?php echo $config_banner_width; ?>">
 <?php
 }
 ?>

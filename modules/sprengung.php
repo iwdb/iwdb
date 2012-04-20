@@ -29,7 +29,7 @@ if (!defined('IRA'))
 ?>
 <div class='doc_title'>Sprengung</div>
 <br>
-Hier könnt ihr nachsehen, wann die pösen Vogonen die nächsten Planeten sprengen um Platz für eine Hyperraum-Umgehungsstrasse zu schaffen.
+Hier kï¿½nnt ihr nachsehen, wann die pï¿½sen Vogonen die nï¿½chsten Planeten sprengen um Platz fï¿½r eine Hyperraum-Umgehungsstrasse zu schaffen.
 <br>
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">
  <tr>

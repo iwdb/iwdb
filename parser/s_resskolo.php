@@ -56,7 +56,7 @@ function parse_resskolo($scanlines) {
 			continue;
 		debug_var('scanline', $scanline);
 		switch ($state) {
-		case 0: // Aberschrift
+		case 0: // Überschrift
 			if (preg_match('/Ressourcenkolo&uuml;bersicht Teil 2/', $scanline, $match) > 0)
 				debug_var('state', $state = 32);
 			elseif (preg_match('/Ressourcenkolo&uuml;bersicht/', $scanline, $match) > 0)
@@ -515,7 +515,7 @@ function insert_data_total_2($scan_data) {
 }
 
 // ****************************************************************************
-// Entfernt 1000er Trennzeichen aus einer FlieAkommazahl.
+// Entfernt 1000er Trennzeichen aus einer Fließkommazahl.
 function strip_float_number($number) {
 	$number = str_replace("&#039;", "", $number);
 	$number = str_replace("(", "", $number);

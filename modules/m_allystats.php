@@ -265,6 +265,7 @@ function getColor($tuedel) {
       $astros=0;
       $kb=0;
       $rb=0;
+	  $ab=0;
       $pkte=0;
 
       $plannicount=Array(); //hier wird krams für die karte reingeschrieben
@@ -293,6 +294,7 @@ function getColor($tuedel) {
 	if ($row['objekt']=="Kolonie" && $row['typ']=="Asteroid") $astros++;
 	if ($row['objekt']=="Sammelbasis") $rb++;
 	if ($row['objekt']=="Kampfbasis") $kb++;
+	if ($row['objekt']=="Artefaktbasis") $ab++;
 
 	$plannistring="";
 	switch ($row['typ']) {
@@ -418,6 +420,14 @@ function getColor($tuedel) {
       echo "Kampfbasen";
       next_cell("windowbg1", "style=\"width:25%\" align=\"left\"");
       echo "$kb";
+	  next_row("windowbg2", "style=\"width:25%\" align=\"left\"");
+      echo "Artefaktbasen";
+      next_cell("windowbg1", "style=\"width:25%\" align=\"left\"");
+      echo "$ab";
+	  next_cell("windowbg2", "style=\"width:25%\" align=\"left\"");
+      echo "";
+      next_cell("windowbg1", "style=\"width:25%\" align=\"left\"");
+      echo "";
       end_row();
       end_table();
       echo "<br>";
@@ -441,17 +451,17 @@ function getColor($tuedel) {
         foreach ($plannicount[$gala] as $inrange => $count) {
           $color = getColor($plannicount[$gala][$inrange]);
           next_cell("windowbg1", "align=\"center\" style=\"background-color:" . $color . "\"");
-          echo $plannicount[$gala][$inrange]['Kolonie'] . "/" . $plannicount[$gala][$inrange]['Sammelbasis'] . "/" . $plannicount[$gala][$inrange]['Kampfbasis'];
+          echo $plannicount[$gala][$inrange]['Kolonie'] . "/" . $plannicount[$gala][$inrange]['Sammelbasis'] . "/" . $plannicount[$gala][$inrange]['Kampfbasis'] . "/" . $plannicount[$gala][$inrange]['Artefaktbasis'];
         }
       }
       end_row();
       end_table();
-      echo "<b>Kolonien/Sammelbasen/Kampfbasen</b><br>";
+      echo "<b>Kolonien/Sammelbasen/Kampfbasen/Artefaktbasen</b><br>";
 
       //Planniliste
       echo "<br>";
       start_table();
-      start_row("titlebg", "style=\"width:95%\" align=\"center\" colspan=\"4\"");
+      start_row("titlebg", "style=\"width:95%\" align=\"center\" colspan=\"5\"");
       echo "<b>Spieler mit hohem Punkteschnitt</b> (m&ouml;gliche Fleeter)";
       next_row("windowbg2", "style=\"width:22%\" align=\"center\"");
       echo "Username";
@@ -461,6 +471,8 @@ function getColor($tuedel) {
       echo "Ressbasen";
       next_cell("windowbg2", "style=\"width:21%\" align=\"center\"");
       echo "Kampfbasen";
+	  next_cell("windowbg2", "style=\"width:21%\" align=\"center\"");
+      echo "Artefaktbasen";
       if (isset($fleeter))
       {
         foreach ($fleeter as $username => $plannis) {
@@ -517,6 +529,8 @@ function getColor($tuedel) {
       echo "Ressbasen";
       next_cell("windowbg2", "style=\"width:21%\" align=\"center\"");
       echo "Kampfbasen";
+	  next_cell("windowbg2", "style=\"width:21%\" align=\"center\"");
+      echo "Artefaktbasen";
       foreach ($buddler as $username => $plannis) {
         next_row("windowbg3", "style=\"width:22%\" align=\"center\"");
         echo "<b>$username</b><br>" . $buddlers[$username] . " pkte";
@@ -551,6 +565,18 @@ function getColor($tuedel) {
             end_row();
 	  }
           end_table();
+	
+	} else {echo "-";}
+        next_cell("windowbg1", "style=\"width:21%\" align=\"left\"");
+	if (isset($buddler[$username]['Artefaktbasis'])) {
+          start_table(100);
+          foreach ($buddler[$username]['Artefaktbasis'] as $planni)  {
+            start_row("windowbg1", "style=\"width:100%\" align=\"left\"");
+            echo "$planni";
+            end_row();
+	  }
+          end_table();
+	
 	} else {echo "-";}
       }
       end_row();

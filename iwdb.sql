@@ -1074,7 +1074,8 @@ INSERT INTO `prefix_menu` (`id`, `menu`, `submenu`, `active`, `title`, `status`,
 (12, 13, 6, 1, 'Farbtabelle', '', 'm_colors', 'n', 0, 1),
 (18, 13, 7, 1, 'Schiffsklasseneffektivität', '', 'm_effektiv', 'n', 0, 1),
 (19, 13, 8, 1, 'KB Parser', '', 'm_kbparser', 'n', 0, 1),
-(23, 13, 9, 1, 'KB Parser 2', '', 'kbparser', 'n', 0, 0);
+(23, 13, 9, 1, 'KB Parser 2', '', 'kbparser', 'n', 0, 0),
+(80, 11, 6, 1, 'Gebäudeübersicht', '', 'm_gebaeudeuebersicht', 'n', 2, 0);
 
 -- --------------------------------------------------------
 
@@ -1213,7 +1214,7 @@ INSERT INTO `prefix_parser` (`modulename`, `recognizer`, `message`) VALUES
 ('fehlscan', 'Sondierung fehlgeschlagen', 'Fehlgeschlagene Sondierung'),
 ('highscore', 'Letzte Aktualisierung', 'Highscore'),
 ('sbxml', 'http://www.icewars.de/portal/kb/de/sb.php', 'SB-XML'),
-('gebaeudeuebersicht', '__deaktiviert__Geb&auml;ude&uuml;bersicht', 'Geb&auml;ude&uuml;bersicht'),
+('WirtschaftGeb', '/Geb.{1,3}ude.{1,3}bersicht\\s+Forschungs.{1,3}bersicht\\s+Werft.{1,3}bersicht\\s+Defence.{1,3}bersicht.*Geb.{1,3}ude.{1,3}bersicht(?:.*Geb.{1,3}ude.{1,3}bersicht)?/sm', 'Geb&auml;ude&uuml;bersicht'),
 ('research2', 'Die Forscher haben schon', 'Forschungen'),
 ('production', 'Ressourcenkolo&uuml;bersicht', 'Produktions&uuml;bersicht');
 

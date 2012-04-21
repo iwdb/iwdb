@@ -25,15 +25,19 @@
 /*****************************************************************************/
 
 /*****************************************************************************/
-/* Diese Erweiterung der urspünglichen DB ist ein Gemeinschafftsprojekt von  */
+/* Diese Erweiterung der urspï¿½nglichen DB ist ein Gemeinschafftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
+/* Bei Problemen kannst du dich an das eigens dafï¿½r eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
 /*                   http://www.iw-smf.pericolini.de                         */
 /*                                                                           */
 /*****************************************************************************/
 
+/*
+ * Mac: deprecated Version! use de_wirtschaft_geb.php instead
+ * 
+ */
 if (!defined('DEBUG_LEVEL'))
 	define('DEBUG_LEVEL', 0);
 
@@ -56,7 +60,7 @@ function parse_gebaeudeuebersicht($scanlines) {
 			continue;
 		debug_var('scanline', $scanline);
 		switch ($state) {
-		case 0: // 1. Überschrift
+		case 0: // 1. ï¿½berschrift
 			if (preg_match('/Geb&auml;ude&uuml;bersicht/', $scanline, $match) > 0)
 				debug_var("$state", ++$state);
 			break;

@@ -33,6 +33,47 @@ $start = microtime(true);
 
 // $debug = TRUE;
 
+/*
+	Autoload system for plib parser
+*/
+
+$plibfiles = array();
+function __autoload($class)
+{
+	global $plibfiles;
+	if (empty($plibfiles))
+	{
+		function ReadTheDir ($base)
+		{
+			global $plibfiles;
+			$base = realpath($base) . "/";
+			$dir = opendir($base);
+			while($file = readdir($dir)){
+				if	(is_file($base.$file))
+				{
+					$plibfiles[md5($file)] = $base.$file;
+				}
+				else if (is_dir ($base.$file."/") && $file != "." && $file != "..")
+				{
+					ReadTheDir($base.$file."/");
+				}
+			}
+			closedir($dir);
+		}
+		ReadTheDir ('plib/');
+	}
+    if (isset($plibfiles[md5($class.".php")]) && file_exists($plibfiles[md5($class.".php")]))
+	{
+		//! abh. checken
+// 		$file = file_get_contents($plibfiles[md5($class.".php")]);
+// 		if (preg_match_all('%class\s([.]+)\sextends\s([.]+)%',$file,$treffer, PREG_SET_ORDER) != FALSE)
+// 		{
+// 			
+// 		}
+		require_once ($plibfiles[md5($class.".php")]);
+	}
+}
+
 // Load the different parsers from the parser base. 
 $parser = array();
 $sql = "SELECT modulename, recognizer, message FROM " . 
@@ -200,10 +241,10 @@ if ( ! empty($textinput) )
       $ignoremenu = FALSE;
       $ignorekoloinfo = -1;
 
-	foreach ($text as $scan) {
+  foreach ($text as $scan) {
 
 
-//Wirtshcaftsmenu auslassen, da das sonst zu Fehlern mi9t der Koloinfo f&uuml;hrt
+      //Wirtshcaftsmenu auslassen, da das sonst zu Fehlern mi9t der Koloinfo f&uuml;hrt
       if( strpos( $scan, 'Wirtschaft - Men&uuml;' ) !== FALSE ) {
         $ignoremenu = TRUE;
       }
@@ -219,53 +260,50 @@ if ( ! empty($textinput) )
     foreach( $parser as $key => $value ) {
       // Nach der Umstellung in der IWDB.sql ist das Halten der html-Entities 
       // fuer $value[0] nicht mehr noetig ...
-
-	  //da die Koloinfo den gleichen Recognizer wie als Titel hat muss hier Bugcatching betrieben werden
-	  if ( ($value[0] == 'Kolonieinfo') AND ($ignorekoloinfo == 1) AND ( strpos( $scan, $value[0] ) !== FALSE ) ) {
-	    $scan = 'ignored';
-	    $ignorekoloinfo = 0;
-	  }
-
-      if( strpos( $scan, $value[0] ) !== FALSE ) {
-        if( !empty( $scan_type )) {
-          if($parser[$scan_type][1] == 1) {
-            echo "<div class='system_notification'>" . $parser[$scan_type][2] . 
-                 " erkannt. Parse ...</div>\n";
-            include("./parser/s_" . $scan_type . ".php");
-          } else {
-            echo "<div class='system_notification'>Weiteren " . $parser[$scan_type][2] . 
-                 " erkannt. Parse ...</div>\n";
-          }
-
-          $func = "parse_" . $scan_type;
-					
-		  if(isset($debug)) {
-		    echo "<div class='system_debug_blue'>";
-		    echo "Rufe Parserfunktion " . $func . " mit folgendem Parameter:<br>\n";
-		    echo "<br><pre>";
-		    print_r($scanlines);
-		    echo "</pre><br>";
-		    echo "</div>";  
-		  }
-			
-//			// Ausgabe $scanlines
-//			echo "<br><pre>";
-//			print_r($scanlines);
-//			echo "</pre><br>";
-
-          $func($scanlines);
-          $count++;
-        }
+        if (substr($value[0],0,1) == "/")      //! Mac: regExp fuer libIWParser auslassen
+            continue;
         
-        // den ganzen Mist vor dem Schluessel ignorieren. Uns interessiert
-        // wirklich nur, was nach dem Schluessel kommt.
-        unset($scanlines);
-        $scanlines = array();
-         
-        $parser[$key][1]++;
-        $scan_type = $key;
+        //da die Koloinfo den gleichen Recognizer wie als Titel hat muss hier Bugcatching betrieben werden
+        if ( ($value[0] == 'Kolonieinfo') AND ($ignorekoloinfo == 1) AND ( strpos( $scan, $value[0] ) !== FALSE ) ) {
+            $scan = 'ignored';
+            $ignorekoloinfo = 0;
+        }
 
-      }
+        if( strpos( $scan, $value[0] ) !== FALSE ) {
+            if( !empty( $scan_type )) {
+                if($parser[$scan_type][1] == 1) {
+                    echo "<div class='system_notification'>" . $parser[$scan_type][2] . 
+                        " erkannt. Parse ...</div>\n";
+                    include("./parser/s_" . $scan_type . ".php");
+                } else {
+                    echo "<div class='system_notification'>Weiteren " . $parser[$scan_type][2] . 
+                        " erkannt. Parse ...</div>\n";
+                }
+
+                $func = "parse_" . $scan_type;
+
+                if(isset($debug)) {
+                    echo "<div class='system_debug_blue'>";
+                    echo "Rufe Parserfunktion " . $func . " mit folgendem Parameter:<br>\n";
+                    echo "<br><pre>";
+                    print_r($scanlines);
+                    echo "</pre><br>";
+                    echo "</div>";  
+                }
+
+                $func($scanlines);
+                $count++;
+            }
+
+            // den ganzen Mist vor dem Schluessel ignorieren. Uns interessiert
+            // wirklich nur, was nach dem Schluessel kommt.
+            unset($scanlines);
+            $scanlines = array();
+
+            $parser[$key][1]++;
+            $scan_type = $key;
+
+        }
     }
     $scanlines[] = $scan;
   }
@@ -280,18 +318,71 @@ if ( ! empty($textinput) )
            " erkannt. Parse ...</div>\n";
     }
     $func = "parse_" . $scan_type;
-if(isset($debug)) {
-  echo "<div class='system_debug_blue'>";
-  echo "Rufe Parserfunktion " . $func . " mit folgendem Parameter:<br>\n";
-  echo "<br><pre>";
-  print_r($scanlines);
-  echo "</pre><br>";
-  echo "</div>";  
-}
+    if(isset($debug)) {
+        echo "<div class='system_debug_blue'>";
+        echo "Rufe Parserfunktion " . $func . " mit folgendem Parameter:<br>\n";
+        echo "<br><pre>";
+        print_r($scanlines);
+        echo "</pre><br>";
+        echo "</div>";  
+    }
     $func($scanlines);
     $count++;
     
     echo "<br>\n";
+  }
+  
+    if ($count == 0) {
+        $raw_input = getVar("text", true);
+        foreach( $parser as $key => $value ) {
+            if (substr($value[0],0,1) != "/")     //! Mac: "alte" parser ignorieren
+                continue;
+
+            $parser_regexp = $value[0];
+            if (preg_match($parser_regexp,$raw_input) !== FALSE)
+            {
+                if($parser[$key][1] == 1) {
+                    echo "<div class='system_notification'>" . $parser[$key][2] . 
+                        " erkannt. Parse ...</div>\n";
+                } else {
+                    echo "<div class='system_notification'>Weiteren " . $parser[$key][2] . 
+                        " erkannt. Parse ...</div>\n";
+                }
+                
+                $fparser = 'Parser'.$key.'C';
+                require_once ('plib/de/parsers/'.$fparser.'.php');
+                require_once ('plib/DTOParserResultC.php');
+                
+                $parserobj = new $fparser;
+                $b = $parserobj->canParseText($raw_input);
+
+                if ($b)
+                {
+                    $result = new DTOParserResultC ($parserobj);
+                    $parserobj->parseText ($result);
+                    if (!empty($result->aErrors) && count($result->aErrors) > 0)
+                    {
+                        echo "... error:";
+                        print_r(array_merge($return, $result->aErrors));
+                    } else {
+                        $lparser = $result->strIdentifier;
+                        require_once ('parser/'.$lparser.'.php');
+                        echo "... load $lparser";
+                        call_user_func ($lparser.'_parse', $result);
+
+                        if (function_exists($lparser.'_done'))
+                        {
+                            $a = call_user_func ($lparser.'_done', $result);
+                        }	
+                        $parser[$key][1]++;
+                    }
+                } else {
+                    echo "... failed (canParseText = 0)";
+                }
+            }
+        }
+    }
+    
     if($count > 1) {
       echo "<table border=\"0\" cellpadding=\"4\" cellspacing=\"1\" class=\"bordercolor\" style=\"width: 90%;\">\n";
       echo "  <tr><td colspan=\"2\" class=\"windowbg2\" style=\"font-size: 18px;\">Zusammenfassung</td></tr>\n";
@@ -356,7 +447,6 @@ if(isset($debug)) {
 			Dauer: '.round($dauer,4).' sec<br />';
 
 	// Eigenkreation Ende
-  }
   
   return;
 }

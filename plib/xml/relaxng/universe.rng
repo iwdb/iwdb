@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar ns="" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes" xmlns="http://relaxng.org/ns/structure/1.0">
+	<start>
+		<element name="planeten_data">
+			<element name="informationen">
+				<element name="aktualisierungszeit">
+					<data type="integer"/>
+				</element>
+			</element>
+			<oneOrMore>
+				<element name="planet">
+					<element name="id">
+						<data type="integer"/>
+					</element>
+					<element name="koordinaten">
+						<element name="gal">
+							<data type="integer"/>
+						</element>
+						<element name="sol">
+							<data type="integer"/>
+						</element>
+						<element name="pla">
+							<data type="integer"/>
+						</element>
+						<element name="string">
+							<data type="NMTOKEN"/>
+						</element>
+					</element>
+					<element name="planet_typ">
+						<text/>
+					</element>
+					<element name="objekt_typ">
+						<data type="NMTOKEN"/>
+					</element>
+					<ref name="name"/>
+					<element name="user">
+						<ref name="name"/>
+						<element name="allianz_tag">
+							<text/>
+						</element>
+					</element>
+					<optional>
+						<element name="nebel">
+							<data type="NCName"/>
+						</element>
+					</optional>
+				</element>
+			</oneOrMore>
+		</element>
+	</start>
+	<define name="name">
+		<element name="name">
+			<text/>
+		</element>
+	</define>
+</grammar>

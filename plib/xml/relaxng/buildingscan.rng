@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar ns="" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <start>
+    <element name="scann">
+      <element name="plani_data">
+        <element name="user">
+          <ref name="name"/>
+          <element name="allianz_tag">
+            <text/>
+          </element>
+        </element>
+        <element name="koordinaten">
+          <element name="gal">
+            <data type="integer"/>
+          </element>
+          <element name="sol">
+            <data type="integer"/>
+          </element>
+          <element name="pla">
+            <data type="integer"/>
+          </element>
+          <element name="string">
+            <data type="NMTOKEN"/>
+          </element>
+        </element>
+        <element name="planeten_typ">
+          <ref name="name"/>
+        </element>
+        <element name="objekt_typ">
+          <ref name="name"/>
+        </element>
+		<optional>
+			<element name="basis_typ">
+				<ref name="name"/>
+			</element>
+		</optional>        
+      </element>
+      <element name="timestamp">
+        <data type="integer"/>
+      </element>
+      <element name="scann_typ">
+        <ref name="id"/>
+        <ref name="name"/>
+      </element>
+      <element name="gebaeude">
+      	<oneOrMore>
+			<element name="gebaeude">
+            	<ref name="name"/>
+            	<ref name="anzahl"/>
+          	</element>
+		</oneOrMore>
+      </element>
+      <element name="ressourcen">
+      	<oneOrMore>
+			<element name="ressource">
+            	<ref name="id"/>
+            	<ref name="anzahl"/>
+          	</element>
+		</oneOrMore>
+      </element>
+      <element name="informationen">
+        <element name="vollstaendig">
+          <data type="integer"/>
+        </element>
+		<element name="bericht">
+        	<text/>
+        </element>        
+      </element>
+    </element>
+  </start>
+  <define name="name">
+    <element name="name">
+      <text/>
+    </element>
+  </define>
+  <define name="id">
+    <element name="id">
+      <data type="integer"/>
+    </element>
+  </define>
+  <define name="anzahl">
+    <element name="anzahl">
+      <data type="integer"/>
+    </element>
+  </define>
+</grammar>

@@ -71,7 +71,7 @@ $modulstatus = "";
 
 //****************************************************************************
 //
-// -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
+// -> Beschreibung des Moduls, wie es in der Menü-Übersicht angezeigt wird.
 //
 $moduldesc =
   "Das Forschungsmodul erlaubt die Darstellung und das Navigieren innerhalb " .
@@ -738,49 +738,6 @@ if(!empty($buildings)) {
   echo " </tr>\n";
 }
 
-/*
-
-	//FP auselsen des Users
-	$sql = "SELECT fp_ph FROM " . $db_tb_user . " WHERE id = '" . $user_id . "';";
-	$result = $db->db_query($sql)
-	or error(GENERAL_ERROR,
-           'Could not query config information.', '',
-           __FILE__, __LINE__, $sql);
-
-  $userfp = $db->db_fetch_array($result);
-  $userfp = $userfp['fp_ph'];
-  
-  if ($userfp > 0 AND $neededfpforresearch != 0) {
-
-  echo $td1 . "Zeit<br>bis<br>erfroscht:" . $td2;
-
-if ($neededfpforresearch < 0) {
-
-	echo "<div class='doc_red'>Zeit nicht berechnbar, da zur Berechnung nicht alle Forschungen geparsed wurden, die benötigt werden!</div>";
-	$neededfpforresearch = $neededfpforresearch * -1;
-		
-} else {
-	  
-  $neededhours = $neededfpforresearch / $userfp;
-  
-  $neededtime = $neededhours * 60 * 60;
-  $finisheddate = date("d.m.y H:i",(time() + $neededtime));
-  
-  echo "<div class='doc_black'> Bei gleichbleibender FP Zahl zu Forschen: <br/> " . round($neededhours,0) . " Stunden</div>";
-  echo "<div class='doc_black'> Forschung wäre erfroscht am: <br/> " . $finisheddate . "</div>";
-  echo "<div class='doc_black'> FP Zahl zu forschen:  ".$neededfpforresearch." FP";
-}  
-
-
-
-
-  echo "</td>\n";
-  echo " </tr>\n";  
-
-  }
-  
-  */
-
 echo "</table>\n";
 return;
 
@@ -1125,13 +1082,6 @@ function dependencies($resid) {
 	  $colorme_off = "</span>";
 		$isresearched = FALSE;
 		
-		/*$sqlFP = "SELECT FP FROM " . $db_tb_research . " WHERE ID = ".$resid.";";
-    $resultFP = $db->db_query($sqlFP)
-  	or error(GENERAL_ERROR,
-             'Could not query config information.', '',
-             __FILE__, __LINE__, $sqlFP);	
-    $rowFP = $db->db_fetch_array($resultFP);
-    $neededfpforresearch = $neededfpforresearch + $rowFP['FP'];  */    	
 	}
 
 	if($gebiet > 0) {
@@ -1149,8 +1099,7 @@ function dependencies($resid) {
   	     "&amp;sid=". $sid . "&amp;alphaorder=" . $alphaorder . "\"><span class='doc_red'>" .
 				 $researches[$resid] . "</span></a><br />";
 				 
-	/*	//das FP negativ machen, damit man weiß hier fehlt irgednwo eine Forschung dafür.		 
-		if ( $neededfpforresearch > 0) $neededfpforresearch = -1 * $neededfpforresearch;*/
+	
 	}
 
 	return $retVal;

@@ -24,7 +24,7 @@
 /* The GNU GPL can be found in LICENSE in this directory                     */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul �ber die index.php aufgerufen wurde. 
+// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde. 
 //    Kann unberechtigte Systemzugriffe verhindern.
 if (basename($_SERVER['PHP_SELF']) != "index.php") { 
 	echo "Hacking attempt...!!"; 
@@ -39,18 +39,18 @@ $submit = GetVar('submit');
 //submit existiert also neue Datei erstellen
 if ( !empty($submit) AND !empty($daction) AND ($daction == 'send') ) {
 
-  //datei l�schen
+  //datei löschen
   //unlink("style2.css") or die ("Ich konnte die Datei nicht lesen!");
-  // datei erstellen und zum schrieben �ffnen
+  // datei erstellen und zum schrieben öffnen
   $fp=@fopen("style2.css","w+") or die ("Kann Datei nicht lesen.");
 
-  //standartzeug am Anfang in die Datei schreiben
+  //Standartzeug am Anfang in die Datei schreiben
   $newlines = array();
   $newlines[0] = '/* style.css */';
   $newlines[1] = '';
   $newlines[2] = '/* Diese Style-CSS ist in 2 Teile aufgeteilt */';
   $newlines[3] = '/* der erste Teil kann durch ein Modul ausgelesen werden */';
-  $newlines[4] = '/* deswegen dort nichts �ndern! */';
+  $newlines[4] = '/* deswegen dort nichts &auml;ndern! */';
   $newlines[5] = '';
   $newlines[6] = '/* Diese Teil wurde automatsich erstellt */';
   $newlines[7] = '/* Zeitcode: ' . date("l dS of F Y h:i:s A") . ' */';
@@ -70,7 +70,7 @@ if ( !empty($submit) AND !empty($daction) AND ($daction == 'send') ) {
   //jede Eigenschaft durchgehen
   for ($i = 1; $i <= $rowcount; $i++) {
 
-    //header f�r dei Eigenschaft schrieben
+    //header für die Eigenschaft schreiben
     $newlines = array();
     $newlines[0] = '';
     $newlines[1] = '/* !N ' . trim(GetVar('row_'.$i.'_name')) . ' */';
@@ -82,16 +82,16 @@ if ( !empty($submit) AND !empty($daction) AND ($daction == 'send') ) {
     }
     unset($newlines);
 
-    //unterschiedung ob !A oder !I
+    //Unterscheidung ob !A oder !I
     $conf = trim(GetVar('row_'.$i.'_conf'));
     if ( $conf == '!A' ) {
-      //a also einfahc alles was ind er Value steckt rein schreiben
+      //a also einfach alles was in der Value steckt rein schreiben
       $newline = GetVar('row_'.$i.'_value'); 
       fwrite($fp, $newline."\r\n");  
     }
     if ( $conf == '!I' ) {
       //i
-      //start reinschrieben
+      //start reinschreiben
       $newlines = array();
       $newlines[0] = '  ' . trim(GetVar('row_'.$i.'_start')) ;    
 
@@ -102,10 +102,10 @@ if ( !empty($submit) AND !empty($daction) AND ($daction == 'send') ) {
         $newlines[$j] = '   ' . trim(GetVar('cell_k_'.$i.'_'.$j)) . ':' . trim(GetVar('cell_v_'.$i.'_'.$j)) . '; '; 
       }   
 
-      //ende reinschrieben  
+      //ende reinschreiben  
       $newlines[$numwerte+1] = ' ' . trim(GetVar('row_'.$i.'_end')) ;   
 
-      //und nund er ganze Mist in die Datei:
+      //und nun der ganze Mist in die Datei:
       foreach($newlines as $newline) {
         fwrite($fp, $newline."\r\n");  
       }
@@ -130,7 +130,7 @@ if ( !empty($submit) AND !empty($daction) AND ($daction == 'send') ) {
     }
     unset($newlines);  
 
-  //und die Dateiw rieder shclie�en, damit sie zum elsen wieder ge�ffnetw erden kann
+  //und die Datei wieder schließen, damit sie zum lesen wieder geöffnet werden kann
   fclose($fp);
 
   //datei zum guten Schluss (also im Erfolgsfall) verschieben
@@ -154,17 +154,17 @@ if ($action == 'default') {
   </tr>
 
 <?php
-  // datei �ffnen
+  // Datei öffnen
   $fp=@fopen("style.css","r") or die ("Kann Datei nicht lesen.");
 
-  //Dataen resetten
+  //Daten resetten
   $num_eigenschaft = 0;
   $where = 0;
 
-  // datei zeilenweise auslesen
+  // Datei zeilenweise auslesen
   while($line=fgets($fp,"1024")){
 
-//Dtaei auslesen, alle <> parse, da die eh nicht vorkommen d�rfen
+//Datei auslesen, alle <> parse, da die eh nicht vorkommen dürfen
   $line = htmlentities($line);
 
 //Neue Eigenschaft 
@@ -200,7 +200,7 @@ if ($action == 'default') {
     continue;
   }
 
-//ganze Beenden und den Rest nur nochin das Textfeld schreiben
+//ganze Beenden und den Rest nur noch in das Textfeld schreiben
   $pos = strpos($line, '!END');
   if ( !($pos === false) ) {
 
@@ -250,7 +250,7 @@ if ($action == 'default') {
   }
 
 //Rest einfach noch eintragen
-//CSS l�uft durch bei A 
+//CSS läuft durch bei A 
   if ($where == 350) {
     echo $line;
 
@@ -275,7 +275,7 @@ if ($action == 'default') {
   }
 
 
-//CSS l�uft durch bei A 
+//CSS läuft durch bei A 
   if ($where == 200) {
     echo $line;
 
@@ -358,7 +358,7 @@ if ($action == 'default') {
 
 
   }
-  // datei schliessen
+  // Datei schliessen
   fclose($fp);
 
 ?>

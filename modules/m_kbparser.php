@@ -57,12 +57,12 @@ $modulname  = "m_kbparser";
 //
 // -> Menütitel des Moduls der in der Navigation dargestellt werden soll.
 //
-$modultitle = "KbParser";
+$modultitle = "KBParser";
 
 //****************************************************************************
 //
 // -> Status des Moduls, bestimmt wer dieses Modul über die Navigation 
-//    ausfuehren darf. Moegliche Werte:
+//    ausführen darf. Moegliche Werte:
 //    - "jeder"      <- nix = jeder, 
 //    - "admin" <- na wer wohl
 //
@@ -70,11 +70,9 @@ $modulstatus = "jeder";
 
 //****************************************************************************
 //
-// -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
+// -> Beschreibung des Moduls, wie es in der Menü-Übersicht angezeigt wird.
 //
-$moduldesc = 
-  "Zeigt das Forum in einem Frame an".
-	"und hat sonst keine Funktion";
+$moduldesc = "Ausgabe der Kampfberichte im BBCode";
 
 //****************************************************************************
 //

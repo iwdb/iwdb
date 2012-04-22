@@ -26,22 +26,22 @@
 
 /*****************************************************************************/
 /* Sprengungen                                                               */
-/* f? Iw DB: Icewars geoscan and sitter database                        */
+/* für Iw DB: Icewars geoscan and sitter database                            */
 /*---------------------------------------------------------------------------*/
 /* Author: [RoC]Thella (mailto:icewars@thella.de)                            */
 /* Version: 0.x                                                              */
 /* Date: xx/xx/xxxx                                                          */
 /*---------------------------------------------------------------------------*/
-/* Diese Erweiterung der urspr?hen DB ist ein Gemeinschaftsprojekt von  */
+/* Diese Erweiterung der urspr?hen DB ist ein Gemeinschaftsprojekt von       */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens daf?gerichtete            */
+/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
 /*                   http://www.iw-smf.pericolini.de                         */
 /*                                                                           */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul ?ie index.php aufgerufen wurde. 
+// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde. 
 //    Kann unberechtigte Systemzugriffe verhindern.
 if (basename($_SERVER['PHP_SELF']) != "index.php") { 
 	echo "Hacking attempt...!!"; 
@@ -50,29 +50,31 @@ if (basename($_SERVER['PHP_SELF']) != "index.php") {
 
 //****************************************************************************
 //
-// -> Name des Moduls, ist notwendig f? Benennung der zugeh?en 
+// -> Name des Moduls, ist notwendig für die Benennung der zugehörigen
 //    Config.cfg.php
-// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung f?/    eine Installation ?as Men?
+// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung für
+//    eine Installation über das Menü
+//
 $modulname  = "m_sprengung";
 
 //****************************************************************************
 //
-// -> Men? des Moduls der in der Navigation dargestellt werden soll.
+// -> Menütitel des Moduls der in der Navigation dargestellt werden soll.
 //
 $modultitle = "zeige Sprengungen";
 
 //****************************************************************************
 //
-// -> Status des Moduls, bestimmt wer dieses Modul ?ie Navigation 
-//    ausf?darf. M?che Werte: 
-//    - ""      <- nix = jeder, 
+// -> Status des Moduls, bestimmt wer dieses Modul über die Navigation
+//    ausführen darf. Mögliche Werte:
+//    - ""      <- nix = jeder,
 //    - "admin" <- na wer wohl
 //
 $modulstatus = "";
 
 //****************************************************************************
 //
-// -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
+// -> Beschreibung des Moduls, wie es in der Menü-Übersicht angezeigt wird.
 //
 $moduldesc = "zeigt an wann Planeten vorraussichtlich gesprengt werden";
 

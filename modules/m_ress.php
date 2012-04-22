@@ -26,7 +26,7 @@
 
 /*****************************************************************************/
 /* Dieses Modul dient als Vorlage zum Erstellen von eigenen Zusatzmodulen    */
-/* f�r die Iw DB: Icewars geoscan and sitter database                        */
+/* für die Iw DB: Icewars geoscan and sitter database                        */
 /*---------------------------------------------------------------------------*/
 /* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  */
 /* IW-Spielern.                                                              */
@@ -55,7 +55,7 @@ $modulname  = "m_ress";
 
 //****************************************************************************
 //
-// -> Men�titel des Moduls der in der Navigation dargestellt werden soll.
+// -> Menütitel des Moduls der in der Navigation dargestellt werden soll.
 //
 $modultitle = "Produktion";
 

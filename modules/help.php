@@ -47,7 +47,7 @@ if ( file_exists("help/" . $topic . ".htm") === TRUE ) include("help/" . $topic 
 else include("help/default.htm");
 ?>
 <br><hr>
-<p align="right"><a href="javascript:history.back();">zurueck</a></p>
+<p align="right"><a href="javascript:history.back();">zur&uuml;ck</a></p>
   </td>
  </tr>
 </table>

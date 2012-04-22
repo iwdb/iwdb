@@ -1,6 +1,6 @@
 <?php
 /*****************************************************************************/
-/* m_galastats.php                                                             */
+/* m_allystats.php                                                           */
 /*****************************************************************************/
 /* Iw DB: Icewars geoscan and sitter database                                */
 /* Open-Source Project started by Robert Riess (robert@riess.net)            */
@@ -25,12 +25,12 @@
 /*****************************************************************************/
 
 /*****************************************************************************/
-/* Dieses Modul dient der Anzeige von Galastatistiken und Gedöns             */
+/* Dieses Modul dient der Anzeige der Allianzen und Gedöns                   */
 /* für die Iw DB: Icewars geoscan and sitter database                        */
 /*---------------------------------------------------------------------------*/
-/* Diese Erweiterung der urspruenglichen DB ist ein Gemeinschaftsprojekt von */
+/* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafuer eingerichtete           */
+/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
 /*                   http://www.iwdb.de.vu                                   */
@@ -46,7 +46,7 @@ if (basename($_SERVER['PHP_SELF']) != "index.php") {
 
 //****************************************************************************
 //
-// -> Name des Moduls, ist notwendig für die Benennung der zugehoerigen
+// -> Name des Moduls, ist notwendig für die Benennung der zugehörigen
 //    Config.cfg.php
 // -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung für
 //    eine Installation über das Menü
@@ -70,10 +70,10 @@ $modulstatus = "";
 
 //****************************************************************************
 //
-// -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
+// -> Beschreibung des Moduls, wie es in der Menue-Übersicht angezeigt wird.
 //
 $moduldesc =
-  "Das Allianzstatistiken-modul berechnet eine diverse Daten zu einer Allianz";
+  "Das Allianzstatistiken-Modul berechnet diverse Daten zu einer Allianz";
 
 //****************************************************************************
 //
@@ -100,7 +100,7 @@ function workInstallMenu() {
 		$actionparamters = "";
   	insertMenuItem( $menu, $submenu, $modultitle, $modulstatus, $actionparameters );
 	  //
-	  // Weitere Wiederholungen für weitere Menue-Eintraege, z.B.
+	  // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
 	  //
 	  // 	insertMenuItem( $menu+1, ($submenu+1), "Titel2", "hc", "&weissichnichtwas=1" );
 	  //
@@ -180,7 +180,7 @@ function getColor($tuedel) {
 
     global $sid;
 
-    //settings ueberpruefen und entsprechend setzen
+    //settings überprüfen und entsprechend setzen
     $allianz = getVar('allianz') ? getVar('allianz') : "";
     $maxplannis=300;
     $range = 25;
@@ -190,7 +190,7 @@ function getColor($tuedel) {
 
     doc_title("Allianz-Statistiken");
 
-    //Eingabeform fuer die Suche:
+    //Eingabeform für die Suche:
     echo "<br>\n";
     echo "<div class='doc_centered'>\n";
     echo "<form name=\"frm\">\n";
@@ -199,18 +199,18 @@ function getColor($tuedel) {
     echo "<p>";
     echo "Allianztag: <input type=\"text\" name=\"allianz\" value=\"$allianz\" size=\"20\">&nbsp;\n";
     echo "</p>\n<p>";
-    echo "Spieler mit dem <input type=\"text\" name=\"fschnitt\" value=\"$fleeterschnitt\" size=\"5\"> fachen des Allyschnittsf&uuml;r Fleeter halten\n";
+    echo "Spieler mit dem <input type=\"text\" name=\"fschnitt\" value=\"$fleeterschnitt\" size=\"5\"> fachen des Allyschnitts f&uuml;r Fleeter halten\n";
     echo "</p>\n<p>";
     echo "<input type=\"submit\" value=\"suchen\">";
     echo "</p>\n<br>";
     echo "</form>";
     echo "</div>";
 
-    //wenn allianz angegeben, ausgabe
+    //wenn Allianz angegeben, Ausgabe
     if ($allianz!="")
     {
 
-     //Punkteschnitt der Allianz berechnen/pruefen obs die allianz gibt
+     //Punkteschnitt der Allianz berechnen/prüfen ob es die Allianz gibt
      $sql = "SELECT count(DISTINCT user) as usercount, sum(punkte) as pktsum FROM ".$db_tb_scans . " WHERE allianz like '$allianz'";
      $result = $db->db_query($sql)
             or error(GENERAL_ERROR,
@@ -225,11 +225,10 @@ function getColor($tuedel) {
      if (isset($punkteschnitt))
      {
 
-      //ausrechnen, ab welchem punkteschnitt pro planni wir einen spieler für nen fleeter halten
+      //ausrechnen, ab welchem Punkteschnitt pro Plani wir einen Spieler für nen Fleeter halten
       $fleeterschnitt = $punkteschnitt*$fleeterschnitt;
 
-      //user mit ueberdurchschnittlichem pkte aus der db holen, die könnten ja fleeter sein
-      //$sql = "SELECT user, sum(punkte) AS pktsum FROM ".$db_tb_scans . " WHERE allianz like '$allianz' GROUP BY user";
+      //user mit überdurchschnittlichen Punkten aus der DB holen, die könnten ja Fleeter sein
       $sql = "SELECT user, sum(punkte) AS pktsum FROM ".$db_tb_scans . " WHERE allianz like '$allianz' GROUP BY user";
 	  $result = $db->db_query($sql)
             or error(GENERAL_ERROR,
@@ -244,7 +243,7 @@ function getColor($tuedel) {
       }
 
       $allianzgals=array();
-      //auslesen, in welchen Galas die ally vertreten ist
+      //auslesen, in welchen Galas die Allianz vertreten ist
       $sql = "SELECT DISTINCT coords_gal FROM ".$db_tb_scans . " WHERE allianz like '$allianz' ORDER BY coords_gal";
       $result = $db->db_query($sql)
             or error(GENERAL_ERROR,
@@ -257,7 +256,7 @@ function getColor($tuedel) {
         $galmax=$row['coords_gal'];
       }
 
-      //variablen initialisieren
+      //Variablen initialisieren
       $steinis=0;
       $sgsteinis=0;
       $eisis=0;
@@ -268,7 +267,7 @@ function getColor($tuedel) {
 	  $ab=0;
       $pkte=0;
 
-      $plannicount=Array(); //hier wird krams für die karte reingeschrieben
+      $plannicount=Array(); //hier wird Krams für die Karte reingeschrieben
       for ($i=$galmin;$i<=$galmax; $i++) {
         for ($j = 1; $j<=ceil($maxplannis/$range); $j++) {
 	  $plannicount[$i][$j]['Kolonie']=0;
@@ -278,7 +277,7 @@ function getColor($tuedel) {
 	}
       }
 
-      //alle plannis der ally aus der db holen und verarbeiten:
+      //alle Planis der Allianz aus der DB holen und verarbeiten:
       $sql = "SELECT coords, coords_gal, coords_sys, coords_planet, user, allianz, planetenname, punkte, typ, objekt FROM ".$db_tb_scans . " WHERE allianz like '$allianz' ORDER BY user, coords_gal, coords_sys, coords_planet ASC";
       $result = $db->db_query($sql)
             or error(GENERAL_ERROR,
@@ -458,7 +457,7 @@ function getColor($tuedel) {
       end_table();
       echo "<b>Kolonien/Sammelbasen/Kampfbasen/Artefaktbasen</b><br>";
 
-      //Planniliste
+      //Planiliste
       echo "<br>";
       start_table();
       start_row("titlebg", "style=\"width:95%\" align=\"center\" colspan=\"5\"");
@@ -585,7 +584,7 @@ function getColor($tuedel) {
       echo "<br>";
 
 
-      //spezialplanniuebersicht
+      //Spezialplanniübersicht
       if (isset($spezpla)) {
       start_table();
       start_row("titlebg", "style=\"width:95%\" align=\"center\" colspan=\"10\"");

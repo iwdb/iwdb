@@ -47,7 +47,7 @@ function dauer($zeit)
 
 //******************************************************************************
 
-echo "<div class='doc_title'>Admin Gebaeude</div>\n";
+echo "<div class='doc_title'>Admin Geb&auml;ude</div>\n";
 
 $dateis = array();
 $dateis[''] = "keins";
@@ -98,7 +98,8 @@ while($row_gebaeude = $db->db_fetch_array($result_gebaeude)) {
            "', idcat='" . $geb_idcat . 
            "', inactive='" . $geb_inact . 
            "', dauer='" . $dauer .
-           "', bild='" . $geb_bild . 
+           "', bild='" . $geb_bild .
+		   "', id_iw='" . $id_iw .
            "' WHERE id = '" . $row_gebaeude['id'] . "'";
 
          } else {
@@ -156,7 +157,7 @@ echo "<div class='system_notification'>Gebaeude $lastid_name hinzugef&uuml;gt.</
 }
 
 if($editgebaeude) {
-	echo "<div class='system_notification'>Gebaeude aktualisiert.</div>";
+	echo "<div class='system_notification'>Geb&auml;ude aktualisiert.</div>";
 }
 
 echo "<br>\n";

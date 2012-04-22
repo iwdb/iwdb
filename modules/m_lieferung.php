@@ -26,15 +26,15 @@
 
 /*****************************************************************************/
 /* Lieferuebersicht                                                          */
-/* fuer die Iw DB: Icewars geoscan and sitter database                       */
+/* für die Iw DB: Icewars geoscan and sitter database                        */
 /*---------------------------------------------------------------------------*/
 /* Author: [RoC]Thella (mailto:icewars@thella.de)                            */
 /* Version: 0.x                                                              */
 /* Date: xx/xx/xxxx                                                          */
 /*---------------------------------------------------------------------------*/
-/* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von */
+/* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafür eingerichtete           */
+/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
 /*                   http://www.iw-smf.pericolini.de                         */
@@ -78,7 +78,7 @@ $modulstatus = "";
 
 //****************************************************************************
 //
-// -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
+// -> Beschreibung des Moduls, wie es in der Menü-Übersicht angezeigt wird.
 //
 $moduldesc = "Zeigt Informationen zu anfliegenden Lieferungen an";
 
@@ -223,7 +223,7 @@ while ($row = $db->db_fetch_array($result)) {
 $config['users'] = $users;
 $config['teams'] = $teams;
 
-// Abkuerzungen fuer Schiffe abfragen
+// Abkürzungen fuer Schiffe abfragen
 $sql = "SELECT * FROM $db_tb_schiffstyp";
 debug_var("sql", $sql);
 $result = $db->db_query($sql)
@@ -332,7 +332,7 @@ $views = array(
 	),
 );
 
-// Aktuelle Ansicht auswaehlen
+// Aktuelle Ansicht auswählen
 $view = $views[$params['view']];
 $expand = $view['expand'];
 
@@ -510,7 +510,7 @@ function format_value($row, $key, $value, $expand = false) {
 
 //****************************************************************************
 //
-// Vergleichsfunktion fuer das sortieren
+// Vergleichsfunktion fuer das Sortieren
 function sort_data_cmp($a, $b) {
 	global $params;
 

@@ -30,7 +30,7 @@
 /*---------------------------------------------------------------------------*/
 /* Diese Erweiterung der urspruenglichen DB ist ein Gemeinschaftsprojekt von */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafuer eingerichtete           */
+/* Bei Problemen kannst du dich an das eigens dafür eingerichtete           */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
 /*                   http://www.iwdb.de.vu                                   */
@@ -70,7 +70,7 @@ $modulstatus = "";
 
 //****************************************************************************
 //
-// -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
+// -> Beschreibung des Moduls, wie es in der Menü-Übersicht angezeigt wird.
 //
 $moduldesc =
   "In der Raid-Statistik werden die Raids der Member erfasst und statistisch aufbereitet.";
@@ -297,7 +297,7 @@ while($row = $db->db_fetch_array($result2)) {
 	   $g_wasser = 0;
 	   $g_energie = 0;
 
-// addieren der Resswerte fuer Gesamtsumme und schreiben der Zeilen
+// addieren der Resswerte für Gesamtsumme und schreiben der Zeilen
   while($row = $db->db_fetch_array($result)) {
     $count++;
     $ruser=$row['user'];

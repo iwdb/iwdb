@@ -177,7 +177,7 @@ if ( ! empty($anz) )
 <table border="0" cellpadding="4" cellspacing="0" class="bordercolor">
  <tr>
   <td colspan="2" class="windowbg1" align="center">
-   <b>Sitteraktivitaet</b>
+   <b>Sitteraktivit&auml;t</b>
   </td>
  </tr>
  <tr>

@@ -101,7 +101,7 @@ while($row = $db->db_fetch_array($result)) {
   next_cell("windowbg2", "style=\"width:60%;\"");
   echo "Typ";
   next_cell("windowbg2", "style=\"width:0%;\"");
-  echo "Bestellbar";
+  echo "bestellbar";
   end_row();
 
 	$sql = "SELECT * FROM " . $db_tb_schiffstyp . 

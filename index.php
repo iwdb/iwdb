@@ -31,10 +31,10 @@ $startzeit = $startzeit[0]+$startzeit[1];
 
 //ist noch eine install.php vorhanden?
 if (file_exists('install.php')) {
-    die ('<div style="text-align:center;color:red">Eine install.php ist noch vorhanden!</div><div style="text-align:center">Du darfst den Admin slammen, da er vergessen hat diese aus dem Rootordner zu löschen!</div>');
+    die ('<div style="text-align:center;color:red">Eine install.php ist noch vorhanden!</div><div style="text-align:center">Du darfst den Admin slammen, da er vergessen hat, diese aus dem Rootordner zu löschen!</div>');
 }
 
-// define's vor allen anderen Includes durchfuehren 
+// define's vor allen anderen Includes durchführen 
 define('DEBUG', TRUE);
 define('IRA', TRUE);
 
@@ -63,6 +63,7 @@ define('GENERAL_ERROR', 'GENERAL_ERROR');
 // -- Einfallslos
 if(isset($REMOTE_ADDR) && !empty($REMOTE_ADDR)) {
   $REMOTE_IPADDR = $REMOTE_ADDR;
+  //$REMOTE_IPADDR = $_SERVER['REMOTE_ADDR'];
 } else {
   $REMOTE_IPADDR = "127.0.0.1";
 }
@@ -73,7 +74,7 @@ include_once("includes/function.php");
 include_once("includes/db_mysql.php");
 
 // Verschiebung der Erzeugung der globalen DB-Verbindung, da diese jetzt auch
-// beim Laden der Konfiguration benoetigt wird. 
+// beim Laden der Konfiguration benötigt wird. 
 $error = '';
 
 $db = new db();
@@ -102,7 +103,7 @@ global $sid;
  	$result_g = $db->db_query($sql)       
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
       $row_g = $db->db_fetch_array($result_g);
-      if ($row_g['gesperrt'] == 1 ) die ('<div style="text-align:center;color:red">ihr Account ist gesperrt worden!</div>');
+      if ($row_g['gesperrt'] == 1 ) die ('<div style="text-align:center;color:red">Der Account ist gesperrt worden!</div>');
 
 if (isset($user_status)) {
 
@@ -229,7 +230,7 @@ function confirmlink(link, text)
       <td align="center" valign="top" class="background">
         <p>
 <?php
-//hier hin vershcoben da der IE iwe imemr sonst mist baut ^^
+//hier hin verschoben da der IE iwie imemr sonst Mist baut ^^
 include ('includes/sitterfadein.php');
 ?>
 </p>
@@ -254,7 +255,7 @@ if (isset($config_banner))
 if ( ( $user_id <> "guest" ) && ( $user_rules == "1" ) )
 {
    if(getVar("action") == "profile") {
-     // Menue-Aenderung voraus?
+     // Menue-Änderung voraus?
      $newmenustyle = getVar("menu_default");
      if((!empty($newmenustyle)) && ($newmenustyle != $user_menu_default)) {
        $user_menu_default = $newmenustyle;

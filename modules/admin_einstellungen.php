@@ -202,7 +202,7 @@ switch ($rowP['value']) {
  <tr>
   <td class="windowbg2" style="width:40%;">
    Sound beim Login:<br>
-   <i>Soll der Script auch beim Login geladen werden?</i>
+   <i>Soll das Skript auch beim Login geladen werden?</i>
   </td>
   <td class="windowbg1">
    <input type="checkbox" name="sound_login" <?php echo $sel_login;?> value="1">Yes
@@ -349,7 +349,7 @@ if ( !empty($rowP['value']) ) {
  </tr>
  <tr>
   <td class="windowbg2" style="width:40%;">
-   Bericht ein&uuml;gen f&uuml;r:<br>
+   Bericht einf&uuml;gen f&uuml;r:<br>
    <i>Wer darf das Fenster 'Bericht einf&uuml;gen f&uuml;r' nutzen?</i>
   </td>
   <td class="windowbg1">

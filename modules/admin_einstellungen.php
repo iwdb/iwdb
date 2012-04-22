@@ -105,7 +105,7 @@ $sqlM = "SELECT action,sound,id FROM ".$db_prefix."menu ";
   }
 
 
-//auslesen des standarts
+//auslesen des standards
 $sqlP = "SELECT value FROM ".$db_prefix."params WHERE name = 'sound_standart' ";
   $resultP = $db->db_query($sqlP)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
@@ -148,27 +148,27 @@ $sel5 = '';
 
 switch ($rowP['value']) {
  case '0':
-   $sel_val = 'ausgeschaltet';
+   $sel_val = 'Ausgeschaltet';
    $sel0 = 'selected="selected"';
    break;
  case '1':
-   $sel_val = 'fenster';
+   $sel_val = 'Fenster';
    $sel1 = 'selected="selected"';
    break;   
  case '2':
-   $sel_val = 'fenster mit sound';
+   $sel_val = 'Fenster mit Sound';
    $sel2 = 'selected="selected"';
    break;   
  case '3':
-   $sel_val = 'fenster (blinkend)';
+   $sel_val = 'Fenster (blinkend)';
    $sel3 = 'selected="selected"';
    break;   
  case '4':
-   $sel_val = 'fenster (blinkend) mit sound';
+   $sel_val = 'Fenster (blinkend) mit Sound';
    $sel4 = 'selected="selected"';
    break;   
  default:
-   $sel_val = 'ausgeschaltet';
+   $sel_val = 'Ausgeschaltet';
    $sel0 = 'selected="selected"';
    break;   
 }
@@ -180,12 +180,12 @@ switch ($rowP['value']) {
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 80%;">
  <tr>
   <td colspan="2" class="titlebg">
-   <b>Sitternotification:</b>
+   <b>Sitterbenachrichtigung:</b>
   </td>
  </tr>
  <tr>
   <td class="windowbg2" style="width:40%;">
-   Notification m&ouml;glich:<br>
+   Benachrichtigung m&ouml;glich:<br>
    <i>Hier wird das Fenster eingeblendet</i>
   </td>
   <td class="windowbg1">
@@ -210,7 +210,7 @@ switch ($rowP['value']) {
  </tr>
  <tr>
   <td class="windowbg2" style="width:40%;">
-   Notifikation maximal:<br>
+   Benachrichtigung maximal:<br>
    <i>Welche Erinnerungsart k&ouml;nnen die User maximal anw&auml;hlen:</i>
   </td>
   <td class="windowbg1">

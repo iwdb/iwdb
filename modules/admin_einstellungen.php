@@ -211,7 +211,7 @@ switch ($rowP['value']) {
  <tr>
   <td class="windowbg2" style="width:40%;">
    Notifikation maximal:<br>
-   <i>Welche Erninnerungsart k&ouml;nnen die User maximal anw&auml;hlen:</i>
+   <i>Welche Erinnerungsart k&ouml;nnen die User maximal anw&auml;hlen:</i>
   </td>
   <td class="windowbg1">
     <select value="<?php echo $sel_val;?>" name="sound_global" size="1">

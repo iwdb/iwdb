@@ -25,7 +25,7 @@
 /* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                   http://www.iw-smf.pericolini.de                         */
-/*                   https://github.com/iwdb/iwdbe                           */
+/*                   https://github.com/iwdb/iwdb                            */
 /*                                                                           */
 /*****************************************************************************/
 

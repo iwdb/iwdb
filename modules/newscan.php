@@ -174,6 +174,7 @@ echo "</form>\n";
 $textinput = getVar('text');
 if ( ! empty($textinput) )
 {
+    //! Mac: Start - alter IWDB1 Stuff -- wird fuer libIWParser entfernt 
 	$count = 0;
 	$textinput = str_replace(" \t", " ", $textinput);
 	$textinput = str_replace("\t", " ", $textinput);
@@ -331,9 +332,11 @@ if ( ! empty($textinput) )
     
     echo "<br>\n";
   }
+  //! Mac: Ende - alter IWDB1 Stuff -- wird fuer libIWParser entfernt 
   
-    if ($count == 0) {
-        $raw_input = getVar("text", true);
+  //! Mac: eigentlicher Abschnitt der libIWParser beginnt
+    if ($count == 0) {      //! nur wenn Bericht nicht schon geparsed wurde
+        $raw_input = getVar("text", true);      //! ungefilterten Bericht holen
         foreach( $parser as $key => $value ) {
             if (substr($value[0],0,1) != "/")     //! Mac: "alte" parser ignorieren
                 continue;
@@ -383,6 +386,7 @@ if ( ! empty($textinput) )
         }
     }
     
+    //! Anzeige fuer den Spieler ...
     if($count > 1) {
       echo "<table border=\"0\" cellpadding=\"4\" cellspacing=\"1\" class=\"bordercolor\" style=\"width: 90%;\">\n";
       echo "  <tr><td colspan=\"2\" class=\"windowbg2\" style=\"font-size: 18px;\">Zusammenfassung</td></tr>\n";

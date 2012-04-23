@@ -503,12 +503,12 @@ if(!empty($row['ByUser']) && ($row['user'] != $row['ByUser'])) {
 		if ( $row['typ'] == "Gebaeude" )
 		{
 ?>
-    <a href="index.php?action=sitterauftrag&amp;umenu=1&amp;parentid=<?php echo $row['id'];?>&amp;sitterid=<?php echo urlencode($id);?>&amp;sid=<?php echo $sid;?>"><img src="bilder/file_new_s.gif" border="0" alt="anhaengen"></a>
+    <a href="index.php?action=sitterauftrag&amp;umenu=1&amp;parentid=<?php echo $row['id'];?>&amp;sitterid=<?php echo urlencode($id);?>&amp;sid=<?php echo $sid;?>"><img src="bilder/file_new_s.gif" border="0" alt="anh&auml;ngen"></a>
 <?php
 		}
     if( !$differentid || ( ($user_status == "admin") OR ($user_status == "SV") )  || ($user_sitterlogin == $row['ByUser'])) {
 ?>
-    <a href="index.php?action=sitterauftrag&amp;parentid=<?php echo $row['id'];?>&amp;delid=<?php echo $row['id'];?>&amp;sitterid=<?php echo urlencode($id);?>&amp;sid=<?php echo $sid;?>" onclick="return confirmlink(this, 'Auftrag wirklich loeschen?')"><img src="bilder/file_delete_s.gif" border="0" alt="loeschen"></a>
+    <a href="index.php?action=sitterauftrag&amp;parentid=<?php echo $row['id'];?>&amp;delid=<?php echo $row['id'];?>&amp;sitterid=<?php echo urlencode($id);?>&amp;sid=<?php echo $sid;?>" onclick="return confirmlink(this, 'Auftrag wirklich l&ouml;schen?')"><img src="bilder/file_delete_s.gif" border="0" alt="l&ouml;schen"></a>
 <?php
     }
 ?>
@@ -638,7 +638,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 ?>
  <tr>
   <td class="windowbg2">
-   Zeit fruehstens 2:<br>
+   Zeit fr&uuml;hstens 2:<br>
    <i>Nur bei Bauschleifennutzung relevant.</i>
   </td>
   <td class="windowbg1">
@@ -658,7 +658,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 ?>
  <tr>
   <td class="windowbg2">
-   Zeit fruehstens 1:<br>
+   Zeit fr&uuml;hstens 1:<br>
    <i>Nur bei Bauschleifennutzung relevant.</i>
   </td>
   <td class="windowbg1">
@@ -683,7 +683,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 ?>
   <td class="windowbg2">
    Zeit:<br>
-   <i>Zeit, zu der die aktuelle Forschung auslaeuft.</i>
+   <i>Zeit, zu der die aktuelle Forschung ausl&auml;uft.</i>
   </td>
 <?php
 	}
@@ -691,8 +691,8 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 	{
 ?>
   <td class="windowbg2">
-   Zeit spaetestens:<br>
-   <i>Zeit, zu der alle Bauschleifenauftraege auslaufen.</i>
+   Zeit sp&auml;testens:<br>
+   <i>Zeit, zu der alle Bauschleifenauftr&auml;ge auslaufen.</i>
   </td>
 <?php
 	}
@@ -745,7 +745,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 <!--  	 <optgroup label="Unbekannt" title="Unbekannt"></optgroup> -->
 		 <?php echo  fill_selection($resid); ?>
 	 </select>
-    Sollte eine Forschung noch nicht aufgef&uuml;hrt sein, bitte die Forschungsinfo einfach von ingame bei neuer Bericht einf&uuml;gen.
+    Sollte eine Forschung noch nicht aufgef&uuml;hrt sein, bitte die Forschungsinfo ingame in den Parser einf&uuml;gen.
 <?php } else {?>
    <input type="text" name="auftrag" value="<?php echo $auftrag;?>" style="width: 200;">
 <?php } ?>
@@ -906,7 +906,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 ?>
  <tr>
   <td class="windowbg2">
-   Auftrag anhaengen?:
+   Auftrag anh&auml;ngen?:
   </td>
   <td class="windowbg1">
    <input type="checkbox" name="serie" value="1">

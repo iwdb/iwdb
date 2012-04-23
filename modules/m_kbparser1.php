@@ -277,10 +277,20 @@ if (empty($parsstatus)==true) //Angabe für die Datei
 	 </table>
 	 </form>
 EOT;
+   if (empty($KBLink)==true)
+	echo "KB-Link nicht vergessen :) ";
    }
 if ($parsstatus == "read")     // KB einlesen und für die Formatieung ausgeben
   {   $KBLink = getVar ('KBLink') . "&typ=xml";
-      $KBLink = str_replace("&amp;","&",$KBLink);
+      
+	  if ($KBLink=="&typ=xml") {
+		echo "<div class='system_error'>Keinen KB-Link eingetragen!</div>";
+		$parsstatus="";
+		
+		}
+	  else {
+	  
+	  $KBLink = str_replace("&amp;","&",$KBLink);
       $Bericht = file_get_contents($KBLink, 'r');
       $Bericht = explode("\n",$Bericht);
 
@@ -1041,6 +1051,7 @@ if ($parsstatus == "read")     // KB einlesen und für die Formatieung ausgeben
       echo "</table>\n";
       echo "</form>";
 
+   }
    }
 
 if ($parsstatus == "write")     // BB-Code ausgeben

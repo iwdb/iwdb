@@ -98,7 +98,7 @@ if ( ! empty($newlog) )
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor">
  <tr>
   <td class="titlebg" colspan="2" align="center">
-   <b>Sitteraktivitaet</b>
+   <b>Sitteraktivit&auml;t</b>
   </td>
  </tr>
  <tr>
@@ -128,7 +128,7 @@ if ( ! empty($newlog) )
    <a href="index.php?action=sitterlogins&amp;order=sitterlogin&amp;ordered=asc&amp;sid=<?php echo $sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>Username</b> <a href="index.php?action=sitterlogins&amp;order=sitterlogin&amp;ordered=desc&amp;sid=<?php echo $sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a>
   </td>
   <td class="titlebg" style="width:15%;">
-   <a href="index.php?action=sitterlogins&amp;order=sitterpunkte&amp;ordered=asc&amp;sid=<?php echo $sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>Aktivitaet</b> <a href="index.php?action=sitterlogins&amp;order=sitterpunkte&amp;ordered=desc&amp;sid=<?php echo $sid;?>"><img src="bilder/desc.gif" border="0" alt="asc"></a>
+   <a href="index.php?action=sitterlogins&amp;order=sitterpunkte&amp;ordered=asc&amp;sid=<?php echo $sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>Aktivit&auml;t</b> <a href="index.php?action=sitterlogins&amp;order=sitterpunkte&amp;ordered=desc&amp;sid=<?php echo $sid;?>"><img src="bilder/desc.gif" border="0" alt="asc"></a>
   </td>
   <td class="titlebg" style="width:30%;">
    <b>Sitterlogin</b>

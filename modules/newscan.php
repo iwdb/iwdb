@@ -23,6 +23,21 @@
 /*                                                                           */
 /* The GNU GPL can be found in LICENSE in this directory                     */
 /*****************************************************************************/
+
+/*****************************************************************************/
+/* Diese Erweiterung der urspuenglichen DB ist ein Gemeinschafftsprojekt von */
+/* IW-Spielern.                                                              */
+/*                                                                           */
+/* Autor: Mac (MacXY@herr-der-mails.de)                                      */
+/* Datum: April 2012                                                         */
+/*                                                                           */
+/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
+/* Entwicklerforum wenden:                                                   */
+/*                   http://www.iw-smf.pericolini.de                         */
+/*                   https://github.com/iwdb/iwdb                            */
+/*                                                                           */
+/*****************************************************************************/
+
 if (basename($_SERVER['PHP_SELF']) != "index.php")
   die('Hacking attempt...!!');
 
@@ -47,21 +62,21 @@ function __autoload($class)
 		function ReadTheDir ($base)
 		{
 			global $plibfiles;
-			$base = realpath($base) . "/";
+			$base = realpath($base) . DIRECTORY_SEPARATOR;
 			$dir = opendir($base);
 			while($file = readdir($dir)){
 				if	(is_file($base.$file) && substr($file,-4) == ".php")
 				{
 					$plibfiles[md5($file)] = $base.$file;
 				}
-				else if (is_dir ($base.$file."/") && $file != "." && $file != ".." && substr($file,0,1) != ".") //! keine versteckten Verzeichnisse
+				else if (is_dir ($base.$file.DIRECTORY_SEPARATOR) && $file != "." && $file != ".." && substr($file,0,1) != ".") //! keine versteckten Verzeichnisse
 				{
-					ReadTheDir($base.$file."/");
+					ReadTheDir($base.$file.DIRECTORY_SEPARATOR);
 				}
 			}
 			closedir($dir);
 		}
-		ReadTheDir ('plib/');
+		ReadTheDir ('plib'.DIRECTORY_SEPARATOR);
 	}
     if (isset($plibfiles[md5($class.".php")]) && file_exists($plibfiles[md5($class.".php")]))
 	{

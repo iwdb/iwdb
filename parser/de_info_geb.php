@@ -1,6 +1,6 @@
 <?php
 /*****************************************************************************/
-/* de_wirtschaft_geb.php                                                     */
+/* de_info_geb.php                                                     */
 /*****************************************************************************/
 /* This program is free software; you can redistribute it and/or modify it   */
 /* under the terms of the GNU General Public License as published by the     */
@@ -40,61 +40,11 @@ if (!defined('IRA'))
 
 error_reporting(E_ALL);
 
-function parse_de_wirtschaft_geb ( $return )
+function parse_de_info_geb ( $return )
 {
-    global $db, $db_tb_gebaeude_spieler, $selectedusername;
-	$count = 0;
-        
-	foreach ($return->objResultData->aAreas as $area)
-	{		
-		foreach ($area->aBuildings as $building)
-		{
-            $sql = "REPLACE INTO $db_tb_gebaeude_spieler (";
-            $sql .= "coords_gal,coords_sys,coords_planet,kolo_typ,user,category,building,count,time";
-			$sql .= ") VALUES ";
-                
-			foreach ($building->aCounts as $coords => $count)
-			{
-                $aCoords = explode(":",$coords);
-				$sql .= "(";
-                $sql .= $aCoords[0];
-				$sql .= "," . $aCoords[1];
-				$sql .= "," . $aCoords[2];
-				$sql .= ",'" . $return->objResultData->aKolos[$coords]->strObjectType . "'";
-				$sql .= ",'" . $selectedusername . "'";
-				$sql .= ",'" . $area->strAreaName . "'";
-				$sql .= ",'" . $building->strBuildingName . "'";
-				$sql .= "," . $count;
-				$sql .= "," . time() . "),
-                    ";
-            }
-                $sql = preg_replace('@\,\s+\z@',';',$sql);
-                debug_var('sql', $sql);
-				$db->db_query($sql)
-					or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-				$count++;
-		}
-	}
-
-    if ($count)
-		echo "<div class='system_notification'>Geb&auml;ude&uuml;bersicht aktualisiert.</div>";
-
-    return;
+	/* do some database stuff here */
+    echo "InfoGeb Parser not fully implemented<br />";
+	return true;
 }
 
-// ****************************************************************************
-// Gibt den Wert einer Variablen aus.
-if (!defined('DEBUG_VAR')) {
-	define('DEBUG_VAR', true);
-	function debug_var($name, $wert, $level = 2) {
-		if (DEBUG_LEVEL >= $level) {
-			echo "<div class='system_debug_blue'>" . $name . ":'";
-			if (is_array($wert))
-				print_r($wert);
-			else
-				echo $wert;
-			echo "'</div>";
-		}
-	}
-}
 ?>

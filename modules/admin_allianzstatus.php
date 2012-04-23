@@ -72,6 +72,7 @@ if( ! empty($editallianz)) {
 		$lastid = $row['id'];
 	}
   
+  $lastid = $row['id'];
   $temp1 = ($lastid + 1) . '_allianz';
   $temp2 = ($lastid + 1) . '_status';
 
@@ -125,6 +126,9 @@ while($row = $db->db_fetch_array($result)) {
        $row['status'] . "\" style=\"width: 100\">\n";
   end_row();
 }
+
+$lastid = $row['id'];
+$color="#C4F493";
 
 start_row("windowbg1", "style=\"background-color: " . $color. "\"");
 echo "<input type=\"text\" name=\"" . ($lastid + 1) . 

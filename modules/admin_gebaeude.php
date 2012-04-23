@@ -76,8 +76,11 @@ $result_gebaeude = $db->db_query($sql)
 while($row_gebaeude = $db->db_fetch_array($result_gebaeude)) {
 	if ( ! empty($editgebaeude) )	{
     $geb_name  = getVar(($row_gebaeude['id'] . '_name'));
-    $geb_cat   = getVar(($row_gebaeude['id'] . '_category'));
-    $geb_idcat = getVar(($row_gebaeude['id'] . '_idcat'));
+	$geb_name = htmlspecialchars_decode($geb_name);
+    $geb_name = str_replace("&szlig;","ß",$geb_name);
+	$geb_cat   = html_entity_decode(getVar(($row_gebaeude['id'] . '_category')));
+	$geb_cat = htmlspecialchars_decode($geb_cat);
+	$geb_idcat = getVar(($row_gebaeude['id'] . '_idcat'));
     $geb_inact = getVar(($row_gebaeude['id'] . '_inactive'));
     $geb_bild  = getVar(($row_gebaeude['id'] . '_bild'));
     $id_iw     = getVar(($row_gebaeude['id'] . '_id_iw'));

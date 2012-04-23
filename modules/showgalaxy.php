@@ -71,11 +71,15 @@ $chemievorkommen   = getVar('chemievorkommen');
 $eisdichte         = getVar('eisdichte');
 $lebensbedingungen = getVar('lebensbedingungen');
 
-$kgmod = getVar('kgmod_bis');
-$dgmod = getVar('dgmod_bis');
-$ksmod = getVar('ksmod_bis');
-$dsmod = getVar('dsmod_bis');
-$fmod = getVar('fmod_bis');
+$kgmod = getVar('kgmod');
+$dgmod = getVar('dgmod');
+$ksmod = getVar('ksmod');
+$dsmod = getVar('dsmod');
+$fmod = getVar('fmod');
+$kgmod = str_replace(",",".",$kgmod);
+$dgmod=str_replace(",",".",$dgmod);
+$ksmod=str_replace(",",".",$ksmod);
+$dsmod=str_replace(",",".",$dsmod);
 
 $grav_von = getVar('grav_von');
 $grav_bis = getVar('grav_bis');
@@ -328,11 +332,11 @@ else
 		$where .= " AND gravitation <= " . $grav_bis . "";
 	}
 
-	if ( ! empty($kgmod) ) $where .= " AND kgmod <= " . $kgmod;
-	if ( ! empty($dgmod) ) $where .= " AND dgmod <= " . $dgmod;
-	if ( ! empty($ksmod) ) $where .= " AND ksmod <= " . $ksmod;
-	if ( ! empty($dsmod) ) $where .= " AND dsmod <= " . $dsmod;
-	if ( ! empty($fpmod) ) $where .= " AND fpmod <= " . $fpmod;
+	if ( ! empty($kgmod) ) $where .= " AND kgmod <= " . $kgmod . "";
+	if ( ! empty($dgmod) ) $where .= " AND dgmod <= " . $dgmod . "";
+	if ( ! empty($ksmod) ) $where .= " AND ksmod <= " . $ksmod . "";
+	if ( ! empty($dsmod) ) $where .= " AND dsmod <= " . $dsmod . "";
+	if ( ! empty($fpmod) ) $where .= " AND fpmod <= " . $fpmod . "";
 
 	// maximale Anzahl //
 	if ( ! empty($max) ) {

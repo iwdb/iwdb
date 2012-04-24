@@ -84,8 +84,19 @@ function __autoload($class)
 	}
 }
 
-// parser werden nun dynamisch durch die ParserFactory ermittelt
+// parser werden nur noch fier die abwaertskompatibilitaet gebraucht. 
+// libIWParser bestimmen automatisch, den korrekten Parser
 $parser = array();
+$sql = "SELECT modulename, recognizer, message FROM " . 
+        $db_tb_parser . " ORDER BY message ASC";
+$result = $db->db_query($sql)
+	or error(GENERAL_ERROR, 
+           'Could not query config information.', '', 
+           __FILE__, __LINE__, $sql);
+           
+while( $row = $db->db_fetch_array($result)) {
+  $parser[$row['modulename']] = array($row['recognizer'], 0, $row['message']);
+}
 
 function plural($singular) 
 {
@@ -173,18 +184,168 @@ echo "</form>\n";
 $textinput = getVar('text',true);        //! ungefilterten Bericht holen
 if ( ! empty($textinput) )
 {
-	$count = 0;	
-    //! Mac @todo: SB/KB Links verarbeiten
-    //! Mac @todo: UniXML verarbeiten
+     $count = 0;
+     //! Mac @todo: SB/KB Links verarbeiten
+     //! Mac @todo: UniXML verarbeiten
     
-    require_once ('plib/ParserFactoryConfigC.php');
-    $availParsers = new ParserFactoryConfigC();   
-    $aParserIds = $availParsers->getParserIdsFor( $textinput );
+     require_once ('plib/ParserFactoryConfigC.php');
+     $availParsers = new ParserFactoryConfigC();   
+     $aParserIds = $availParsers->getParserIdsFor( $textinput );
 
      if( count($aParserIds) === 0 )
      {
-       //error handling
-       echo "Es konnte kein passender Parser gefunden werden<br />";
+        // Es konnte kein passender Parser gefunden werden - suche alten Parser
+        $textinput = getVar('text');        //! gefilterten Bericht holen       
+        $textinput = str_replace(" \t", " ", $textinput);
+        $textinput = str_replace("\t", " ", $textinput);
+
+        $text = str_replace("%", "\\%", $textinput);
+        $text = str_replace(" (HC)", "", $text);
+        $text = str_replace(" (iHC)", "", $text);
+        $text = str_replace("\r", "\n ", $text);
+        $text = str_replace("\n \n", "\n", $text);
+
+        $text = str_replace("Erdbeeren", "Eisen", $text);
+        $text = str_replace("Erdbeermarmelade", "Stahl", $text);
+        $text = str_replace("Erdbeerkonfit&uuml;re", "VV4A", $text);
+        $text = str_replace("Brause", "chem. Elemente", $text);
+        $text = str_replace("Vanilleeis", "Eis", $text);
+        $text = str_replace("Eismatsch", "Wasser", $text);
+        $text = str_replace("Traubenzucker", "Energie", $text);
+
+    /* Bereich nur aktivieren, wenn im Spiel Ressourcennamen mit Keks vorkommen
+        $text = str_replace("weicher Keks", "Eis", $text);
+        $text = str_replace("Keksmatsch", "Wasser", $text);
+        $text = str_replace("Doppelkeks mit Cremef&uuml;llung", "VV4A", $text);
+        $text = str_replace("Doppelkeks", "Stahl", $text);
+        $text = str_replace("Cremef&uuml;llung", "chem. Elemente", $text);
+        $text = str_replace("Powerkeks", "Energie", $text);
+        $text = str_replace("Sandtaler", "Credits", $text);
+        $text = str_replace("Keksvernichter", "Bev&ouml;lkerung", $text);
+        $text = str_replace("Keks", "Eisen", $text);
+    */
+
+        // Eigenkreation Start
+        // SB/KB-Links finden
+        $suche = array(
+            'sb' => 'www\.icewars\.de/portal/kb/de/sb\.php\?id=(?P<id>[\d]+)&amp;md_hash=(?P<hash>[\w]{32})',
+            'kb' => 'www\.icewars\.de/portal/kb/de/kb\.php\?id=(?P<id>[\d]+)&amp;md_hash=(?P<hash>[\w]{32})',
+            );
+
+        require_once ('parser/xml_kb_sb.php');
+
+        foreach($suche as $typ => $link){
+            preg_match_all('#'.$link.'#', $text, $treffer, PREG_SET_ORDER);
+            foreach($treffer as $value){
+                $typ($value['id'], $value['hash']); //Funktion aufrufen
+            }
+        }
+
+        if (isset($anzahl_kb) && $anzahl_kb >= 1) {
+            echo '
+        <div class="system_notification">',$anzahl_kb,' KB-',($anzahl_kb == 1) ? 'Link': 'Links',' gefunden (',$anzahl_kb_neu,' ',($anzahl_kb_neu == 1) ? 'neuer': 'neue',')</div><br />';
+        }
+        if (isset($anzahl_sb) && $anzahl_sb >= 1) {
+            echo '
+        <div class="system_notification">',$anzahl_kb,' SB-',($anzahl_kb == 1) ? 'Link': 'Links',' gefunden</div><br />';
+        }	
+        // Eigenkreation Ende
+
+        $text = explode("\n", $text);
+
+        $scan_type = '';
+        $cat = '';
+        $update_users = array();
+        $scanlines = array();
+
+        $ignoremenu = FALSE;
+        $ignorekoloinfo = -1;
+
+        foreach ($text as $scan) {
+
+            //Wirtshcaftsmenu auslassen, da das sonst zu Fehlern mi9t der Koloinfo f&uuml;hrt
+            if( strpos( $scan, 'Wirtschaft - Men&uuml;' ) !== FALSE ) {
+                $ignoremenu = TRUE;
+            }
+            if( strpos( $scan, 'Artefakt&uuml;bersicht' ) !== FALSE ) {
+                $ignoremenu = FALSE; 
+                $ignorekoloinfo = 1;
+            }
+            if( $ignoremenu ) {
+                $scan = '';
+            }
+
+            foreach( $parser as $key => $value ) {
+            // Nach der Umstellung in der IWDB.sql ist das Halten der html-Entities 
+            // fuer $value[0] nicht mehr noetig ...
+               
+                //da die Koloinfo den gleichen Recognizer wie als Titel hat muss hier Bugcatching betrieben werden
+                if ( ($value[0] == 'Kolonieinfo') AND ($ignorekoloinfo == 1) AND ( strpos( $scan, $value[0] ) !== FALSE ) ) {
+                    $scan = 'ignored';
+                    $ignorekoloinfo = 0;
+                }
+
+                if( strpos( $scan, $value[0] ) !== FALSE ) {
+                    if( !empty( $scan_type )) {
+                        if($parser[$scan_type][1] == 1) {
+                            echo "<div class='system_notification'>" . $parser[$scan_type][2] . 
+                                " erkannt. Parse ...</div>\n";
+                            include("./parser/s_" . $scan_type . ".php");
+                        } else {
+                            echo "<div class='system_notification'>Weiteren " . $parser[$scan_type][2] . 
+                                " erkannt. Parse ...</div>\n";
+                        }
+
+                        $func = "parse_" . $scan_type;
+
+                        if(isset($debug)) {
+                            echo "<div class='system_debug_blue'>";
+                            echo "Rufe Parserfunktion " . $func . " mit folgendem Parameter:<br>\n";
+                            echo "<br><pre>";
+                            print_r($scanlines);
+                            echo "</pre><br>";
+                            echo "</div>";  
+                        }
+
+                        $func($scanlines);
+                        $count++;
+                    }
+
+                    // den ganzen Mist vor dem Schluessel ignorieren. Uns interessiert
+                    // wirklich nur, was nach dem Schluessel kommt.
+                    unset($scanlines);
+                    $scanlines = array();
+
+                    $parser[$key][1]++;
+                    $scan_type = $key;
+                }
+            }
+            $scanlines[] = $scan;
+        }
+
+        if( !empty( $scan_type )) {
+            if($parser[$scan_type][1] == 1) {
+            echo "<div class='system_notification'>" . $parser[$scan_type][2] . 
+                " erkannt. Parse ...</div>\n";
+            include("./parser/s_" . $scan_type . ".php");
+            } else {
+            echo "<div class='system_notification'>Weiteren " . $parser[$scan_type][2] . 
+                " erkannt. Parse ...</div>\n";
+            }
+            $func = "parse_" . $scan_type;
+            if(isset($debug)) {
+                echo "<div class='system_debug_blue'>";
+                echo "Rufe Parserfunktion " . $func . " mit folgendem Parameter:<br>\n";
+                echo "<br><pre>";
+                print_r($scanlines);
+                echo "</pre><br>";
+                echo "</div>";  
+            }
+            $func($scanlines);
+            $count++;
+
+            echo "<br>\n";
+        }
      }
      else 
      {

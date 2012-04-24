@@ -2937,7 +2937,7 @@ CREATE TABLE IF NOT EXISTS `prefix_user` (
   `fp` int(12) NOT NULL DEFAULT '0',
   `gesamtp` int(12) NOT NULL DEFAULT '0',
   `ptag` float NOT NULL DEFAULT '0',
-  `dabei` varchar(11) NOT NULL DEFAULT '',
+  `dabei` int(11) NOT NULL,
   `titel` varchar(150) NOT NULL DEFAULT '',
   `userlink` char(1) NOT NULL DEFAULT '',
   `lastshipscan` varchar(11) NOT NULL DEFAULT '',

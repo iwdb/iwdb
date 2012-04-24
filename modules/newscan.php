@@ -178,72 +178,81 @@ if ( ! empty($textinput) )
     //! Mac @todo: UniXML verarbeiten
     
     require_once ('plib/ParserFactoryConfigC.php');
-    $availParsers = new ParserFactoryConfigC();
-    $parserObj = $availParsers->getParser($textinput);
+    $availParsers = new ParserFactoryConfigC();   
+    $aParserIds = $availParsers->getParserIdsFor( $textinput );
 
-    if( $parserObj instanceof ParserI )
-    {
-        $key = $parserObj->getIdentifier();
-        if (!isset($parser[$key])) {
-            $parser[$key] = array("/deprecated/", 0, $parserObj->getName());
-        }
-        if($parser[$key][1] == 1) {
-            echo "<div class='system_notification'>" . $parser[$key][2] . 
-                " erkannt. Parse ...</div>\n";
-        } else {
-            echo "<div class='system_notification'>Weiteren " . $parser[$key][2] . 
-                " erkannt. Parse ...</div>\n";
-        }
-
-        $parserResult = new DTOParserResultC ($parserObj);
-        $parserObj->parseText ($parserResult);
-
-        if ($parserResult->bSuccessfullyParsed) {
-            if (!empty($parserResult->aErrors) && count($parserResult->aErrors) > 0)
+     if( count($aParserIds) === 0 )
+     {
+       //error handling
+       echo "Es konnte kein passender Parser gefunden werden<br />";
+     }
+     else 
+     {
+         foreach ($aParserIds as $selectedParserId)
+         {
+            $parserObj = $availParsers->getParser( $textinput, $selectedParserId );
+            if( $parserObj instanceof ParserI )
             {
-                echo "... error:";
-                print_r($parserResult->aErrors);
-                echo "<br />";
-            } else {
-                $lparser = $parserResult->strIdentifier;
-                if (file_exists('parser/'.$lparser.'.php')) {
-                    require_once ('parser/'.$lparser.'.php');
+                $key = $parserObj->getIdentifier();
+                if (!isset($parser[$key])) {
+                    $parser[$key] = array("/deprecated/", 0, $parserObj->getName());
+                }
+                if($parser[$key][1] == 1) {
+                    echo "<div class='system_notification'>" . $parser[$key][2] . 
+                        " erkannt. Parse ...</div>\n";
+                } else {
+                    echo "<div class='system_notification'>Weiteren " . $parser[$key][2] . 
+                        " erkannt. Parse ...</div>\n";
+                }
 
-                    if(isset($debug)) {
-                        echo "<div class='system_debug_blue'>";
-                        echo "Rufe Parserfunktion parse_" . $lparser . " mit folgendem Parameter:<br>\n";
-                        echo "<br><pre>";
-                        print_r($parserResult);
-                        echo "</pre><br>";
-                        echo "</div>";  
-                    }
+                $parserResult = new DTOParserResultC ($parserObj);
+                $parserObj->parseText ($parserResult);
 
-                    call_user_func ('parse_'.$lparser, $parserResult);
-
-                    if (function_exists('done_'.$lparser))
+                if ($parserResult->bSuccessfullyParsed) {
+                    if (!empty($parserResult->aErrors) && count($parserResult->aErrors) > 0)
                     {
-                        call_user_func ('done_'.$lparser, $parserResult);
-                    }	
-                    $parser[$key][1]++;
-                    $count++;
+                        echo "... error:";
+                        print_r($parserResult->aErrors);
+                        echo "<br />";
+                    } else {
+                        $lparser = $parserResult->strIdentifier;
+                        if (file_exists('parser/'.$lparser.'.php')) {
+                            require_once ('parser/'.$lparser.'.php');
+
+                            if(isset($debug)) {
+                                echo "<div class='system_debug_blue'>";
+                                echo "Rufe Parserfunktion parse_" . $lparser . " mit folgendem Parameter:<br>\n";
+                                echo "<br><pre>";
+                                print_r($parserResult);
+                                echo "</pre><br>";
+                                echo "</div>";  
+                            }
+
+                            call_user_func ('parse_'.$lparser, $parserResult);
+
+                            if (function_exists('done_'.$lparser))
+                            {
+                                call_user_func ('done_'.$lparser, $parserResult);
+                            }	
+                            $parser[$key][1]++;
+                            $count++;
+                        }
+                        else {
+                            echo "Input erfolgreich geparsed. Die Daten wurden allerdings nicht in die Datenbank eingetragen!<br />";
+                        }
+                    }
                 }
                 else {
-                    echo "Input konnte erfolgreich geparsed, die Daten allerdings nicht in die Datenbank eingetragen werden!<br />";
+                    echo "Input wurde erkannt, konnte aber nicht fehlerfrei geparsed werden!<br />";
+                    if (!empty($parserResult->aErrors) && count($parserResult->aErrors) > 0)
+                    {
+                        echo "... error:";
+                        print_r($parserResult->aErrors);
+                        echo "<br />";
+                    }
                 }
             }
         }
-        else {
-            echo "... der Input konnte nicht fehlerfrei geparsed werden!<br />";
-            if (!empty($parserResult->aErrors) && count($parserResult->aErrors) > 0)
-            {
-                echo "... error:";
-                print_r($parserResult->aErrors);
-                echo "<br />";
-            }
-        }
-    }
-    else {
-            echo "unrecognised Input (no suitable Parser found)<br />";
     }
     
     //! Anzeige fuer den Spieler ...
@@ -261,6 +270,12 @@ if ( ! empty($textinput) )
           // E.g. recalculating research levels after new researches were added. 
           if(function_exists("finish_".$key)) {
             $func = "finish_" . $key;
+            $func();
+          }
+          
+          // Display hook for displaying the result of the insertation. 
+          if(function_exists("display_".$key)) {
+            $func = "display_" . $key;
             $func();
           }
         }

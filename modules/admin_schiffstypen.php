@@ -27,13 +27,12 @@
 // -> Abfrage ob dieses Modul �ber die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
 if (basename($_SERVER['PHP_SELF']) != "index.php") {
-	die("Hacking attempt...!!"); 
-	exit; 
+	exit("Hacking attempt...!!");
 }
 
-if ( $user_status != "admin" )
+if ( $user_status != "admin" ) {
 	die('Hacking attempt...');
-
+}
   
 function unhtmlentities($string)
 {

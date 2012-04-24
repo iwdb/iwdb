@@ -39,8 +39,7 @@
 
 // -> Abfrage ob dieses Modul über die index.php aufgerufen wurde. Kann unberechtigte Systemzugriffe verhindern.
 if (basename($_SERVER['PHP_SELF']) != "index.php") {
-	die("Hacking attempt...!!");
-	exit;
+	exit("Hacking attempt...!!");
 }
 
 // -> lädt die Datei config.php und führt diese aus. In der config.php sind wichtige Variablen definiert.

@@ -38,7 +38,7 @@ if ( $user_rules == "1" )
 
     if(( $user_adminsitten == SITTEN_BOTH ) || ( $user_adminsitten == SITTEN_ONLY_LOGINS ))
     {
-      // Anstehende Auftr�ge z�hlen
+      // Anstehende Aufträge zählen
       $anzauftrag = "";
 
       $sql = "SELECT count(*) AS anzahl FROM " . $db_tb_sitterauftrag .

@@ -39,7 +39,6 @@ define('NEBULA', TRUE);
 define('SPECIALSEARCH', TRUE);
 define('ALLY_MEMBERS_ON_MAP', TRUE); 
 define('SHOWWITHOUTSCAN', TRUE);
-define('CONFIG_SERVER_URI', TRUE);
 define('GENERAL_ERROR', 'GENERAL_ERROR');
 
 global $db_host, $db_user, $db_pass, $db_name, $db_prefix;
@@ -47,9 +46,7 @@ include_once("config/configsql.php");
 include_once("includes/function.php");
 include_once("includes/db_mysql.php");
 
-// Verschiebung der Erzeugung der globalen DB-Verbindung, da diese jetzt auch
-// beim Laden der Konfiguration benötigt wird. 
-$error = '';
+$error="";
 
 $db = new db();
 $link_id = $db->db_connect($db_host, $db_user, $db_pass, $db_name);
@@ -58,10 +55,6 @@ if(!$link_id) {
 }
 
 include("config/config.php");
-
-//$sql = "SET charset latin1";
-//$result = $db->db_query($sql)
-//	or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
 $action = getVar('action');
 if ( empty($action) )
@@ -168,31 +161,29 @@ if (( ( $user_adminsitten == SITTEN_BOTH ) || ( $user_adminsitten == SITTEN_ONLY
 	exit;
 }
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
+<!DOCTYPE html>
+<html lang="de">
 <head>
-<title><?php echo $config_allytitle ?></title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<?php
-if(defined('CONFIG_SERVER_URI') && CONFIG_SERVER_URI === TRUE ) {
-  $SERVERURI = "index.php?action=" . $action . "&amp;sid=" . $sid;
-} else {
-  $SERVERURI = getServerVar('REQUEST_URI', "index.php?action=".$action."&amp;sid=".$sid);
-}
-if ( ( $action == "sitterlogins" ) || ( $action == "sitterliste" ) )
-  if ( ( $user_adminsitten == SITTEN_BOTH ) || ( $user_adminsitten == SITTEN_ONLY_LOGINS ) )
-    echo "<meta http-equiv=\"refresh\" content=\"" . $config_refresh_timeout . "; URL=" . $SERVERURI . "\">";
-  else
-    echo "<div class='system_error'>Wenn ich sag: \"Du darfst nicht sitten\",<b>DARFST DU NICHT SITTEN !!!</b></div>";
-?>
-<link href="style.css" rel="stylesheet" type="text/css">
-<script language="javascript" type="text/javascript">
-function confirmlink(link, text)
-{
-    var is_confirmed = confirm(text);
-    return is_confirmed;
-}
-</script>
+    <meta charset="utf-8">
+    <title><?php echo $config_allytitle ?></title>
+
+    <?php
+      $SERVERURI = "index.php?action=" . $action . "&amp;sid=" . $sid;
+
+    if ( ( $action == "sitterlogins" ) || ( $action == "sitterliste" ) )
+      if ( ( $user_adminsitten == SITTEN_BOTH ) || ( $user_adminsitten == SITTEN_ONLY_LOGINS ) )
+        echo "<meta http-equiv=\"refresh\" content=\"" . $config_refresh_timeout . "; URL=" . $SERVERURI . "\">";
+      else
+        echo "<div class='system_error'>Wenn ich sag: \"Du darfst nicht sitten\",<b>DARFST DU NICHT SITTEN !!!</b></div>";
+    ?>
+    <link href="style.css" rel="stylesheet" type="text/css">
+    <script language="javascript" type="text/javascript">
+    function confirmlink(link, text)
+    {
+        var is_confirmed = confirm(text);
+        return is_confirmed;
+    }
+    </script>
 </head>
 <?php	if (!getVar("nobody")) { ?>
 <body class="body">
@@ -360,9 +351,9 @@ else
 	if ( $action == 'password' ) include("modules/password.php");
 	else include("modules/login.php");
 }
-echo $error;
-?>
-<?php	if (!getVar("nobody")) { ?>
+    echo $error;
+
+	if (!getVar("nobody")) { ?>
 &nbsp;
                     </td>
                   </tr>

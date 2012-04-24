@@ -471,7 +471,7 @@ echo '<input name="suche" style="width:400px" onkeyup="livesearch(document.Formu
    var zwischen;   //speichert Inhalt der Zelle
    var result;    //speichert, ob ein Treffer gefunden wurde
    result=0;
-   ergebnisse=0;
+   var ergebnisse=0;
    
    text = text.toLowerCase();
    
@@ -498,12 +498,13 @@ echo '<input name="suche" style="width:400px" onkeyup="livesearch(document.Formu
    	 document.forms.Formular.elements.searchselect.options[i-1] = null;
    }	
    
-   isresearch = true;
-   isbuilding = true;
+   var isresearch = true;
+   var isbuilding = true;
    
-   rescount = 0;
-   bcount = 0;
-   
+   var rescount = 0;
+   var bcount = 0;
+   var NeuerEintrag, name;
+
    if ( isresearch ) {
    for (var i=0; i < document.forms.Formular.elements.researchid.length; i++) {
      zwischen = document.forms.Formular.elements.researchid.options[i].text;
@@ -522,7 +523,7 @@ echo '<input name="suche" style="width:400px" onkeyup="livesearch(document.Formu
     }
    }
   }
-  rescount = ergebnisse;
+  var rescount = ergebnisse;
    if (  isbuilding && isresearch && rescount > 0 ) {
       NeuerEintrag = new Option("- - - - - - - - - -  - - - - - - - - - -  - - - - - - - - - -  - - - - - - - - - -  - - - - - - - - - -", "", true, true);
       document.forms.Formular.elements.searchselect.options[document.forms.Formular.elements.searchselect.length] = NeuerEintrag;
@@ -545,7 +546,7 @@ echo '<input name="suche" style="width:400px" onkeyup="livesearch(document.Formu
     }
    }
   }
-  bcount = ergebnisse - rescount;
+  var bcount = ergebnisse - rescount;
   
   if ( ergebnisse == 1) {
   	document.forms.Formular.elements.searchselect.selectedIndex = 0;

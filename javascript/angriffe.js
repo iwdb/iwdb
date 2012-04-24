@@ -2,14 +2,15 @@ function countdown(time,id)
 {
 	var jetzt;
 	var rest;
-	var tage;
+	var tage, stunden, minuten, sekunden;
 	jetzt = new Date();
 	rest = Math.floor(time - jetzt/1000);
-	
+	var verbleibende_zeit;
+
 	if (rest < -900) {
 		verbleibende_zeit = 'Angriff schon vorbei';
 	} else if (rest <= 0) {
-		rest = 900 + rest
+		rest = 900 + rest;
 		minuten = Math.floor(rest/60);
 		if (minuten < 10) minuten = '0' + minuten;
 		rest %= 60;

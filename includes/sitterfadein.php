@@ -61,7 +61,7 @@ function Farbeaendern(Farbe) {
     document.getElementById("test2").style.backgroundColor=Farbe;
 }
 
-bgColor = "#CCCCCC";
+var bgColor = "#CCCCCC";
 
 function nerv_mich() {
    if(bgColor == "#0000FF") {

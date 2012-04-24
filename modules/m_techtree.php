@@ -219,7 +219,7 @@ echo "<br>";
 function imgchange()
 {
         var si =  document.frm.selbox.selectedIndex;
-        var fname = document.frm.selbox.options[si].value
+        var fname = document.frm.selbox.options[si].value;
         document.img.src = fname
 }
 //-->

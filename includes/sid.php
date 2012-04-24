@@ -37,13 +37,9 @@ global $db, $db_tb_sid, $db_prefix, $db_tb_user;
 // Benutzers ausgelesen und in die Variable $REMOTE_IPADDR gepackt. -- Einfallslos
 //$client_ip = $REMOTE_IPADDR;
 $client_ip = $_SERVER['REMOTE_ADDR'];
-
-if( isset($_SERVER['HTTP_X_FORWARDED_FOR']) )
+if(isset($_SERVER['HTTP_X_FORWARDED_FOR']) )
 {
-	if ( preg_match("/^([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)/", $_SERVER['HTTP_X_FORWARDED_FOR'], $ip_list) ) {
-		$private_ip = array('/^0\./', '/^127\.0\.0\.1/', '/^192\.168\..*/', '/^172\.16\..*/', '/^10.\.*/', '/^224.\.*/', '/^240.\.*/');
-		$client_ip = preg_replace($private_ip, $client_ip, $ip_list[1]);
-	}
+	$user_ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
 }
 $user_ip = encode_ip($client_ip);
 // get sid //

@@ -180,8 +180,8 @@ if(file_exists("./config/m_research.cfg.php")){
               "blobtree-evo3.png"=>"Aufnahme in die zivilisierten Welten",
               "blobtree-evo4.png"=>"Imperiale Gedanken",
               "blobtree-evo5.png"=>"Die Macht des Seins",
-              "evo6neu.png"=>"Verstehen der Zusammenh�nge",
-              "blobtree-evo7.png"=>"Verstehen der Zusammenh�nge");
+              "evo6neu.png"=>"Verstehen der Zusammenhänge",
+              "blobtree-evo7.png"=>"Verstehen der Zusammenhänge");
 
 	for($x=0;$x<sizeof($evo);$x++) {
 		// -> Nach der ID für die Schlüsselforschungen suchen.

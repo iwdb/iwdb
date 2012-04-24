@@ -46,7 +46,7 @@ if (!defined('IRA'))
 
 $start = microtime(true);
 
-// $debug = TRUE;
+ $debug = TRUE;
 
 /*
 	Autoload system for plib parser
@@ -217,6 +217,7 @@ if ( ! empty($textinput) )
                         echo "</pre><br>";
                         echo "</div>";  
                     }
+//                    die();
                     call_user_func ('parse_'.$lparser, $parserResult);
 
                     if (function_exists('done_'.$lparser))

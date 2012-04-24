@@ -156,13 +156,17 @@ function action($action, $text) {
 function url($action, $params = 0) {
 	global $sid;
 	$url = "index.php?action=" . $action . "&sid=" . $sid;
-	if (isset($params) && is_array($params))
-		foreach ($params as $key => $value)
+	if (isset($params) && is_array($params)) {
+		foreach ($params as $key => $value) {
 			if (is_array($value)) {
-				foreach ($value as $subkey => $subvalue)
+				foreach ($value as $subkey => $subvalue) {
 					$url .= "&" . $key . "[" . $subkey . "]" . "=" . $subvalue;
-			} else
+                }
+			} else {
 				$url .= "&" . $key . "=" . $value;
+            }
+        }
+    }
 	return $url;
 }
 
@@ -207,6 +211,7 @@ function url($action, $params = 0) {
 function make_table($view, $data) {
 	// Tabelle ausgeben
 	start_table(100);
+
 	// Spalten iterieren
 	$col_index = 0;
 	foreach ($view["columns"] as $col_key => $value) {
@@ -223,57 +228,71 @@ function make_table($view, $data) {
 		echo "</b>";
 	}
 	end_row();
+
 	if (isset($data)) {
 		// Daten iterieren
 		$row_index = 0;
 		foreach ($data as $row_key => $row) {
 			// Zeilenattribute
-			if (isset($row["attributes"]["row_class"]))
+			if (isset($row["attributes"]["row_class"])) {
 				$row_class = $row["attributes"]["row_class"];
-			else
+            } else {
 				$row_class = "windowbg1";
+            }
 			$row_extra = "id=\"" . $row_key . "\"";
-			if (isset($row["attributes"]["row_extra"]))
+			if (isset($row["attributes"]["row_extra"])) {
 				$row_extra .= " " . $row["attributes"]["row_extra"];
-			elseif (isset($view["attributes"]["row_extra"]))			
+            } elseif (isset($view["attributes"]["row_extra"])) {
 				$row_extra .= " " . $view["attributes"]["row_extra"];
+            }
 			// Spalten iterieren
 			$col_index = 0;
 			foreach ($view['columns'] as $col_key => $value) {
 				// Spalte beginnen
-				if (isset($col_span) && --$col_span)
+				if (isset($col_span) && --$col_span) {
 					continue;
+                }
+
 				// Spaltenattribute
-				if (isset($row["attributes"]["col_class"][$col_key]))
+				if (isset($row["attributes"]["col_class"][$col_key])) {
 					$col_class = $row["attributes"]["col_class"][$col_key];
-				elseif (isset($view["attributes"]["col_class"][$col_key]))
+                } elseif (isset($view["attributes"]["col_class"][$col_key])) {
 					$col_class = $view["attributes"]["col_class"][$col_key];
-				else
+                } else {
 					$col_class = $row_class;
+                }
 				$col_extra = "id=\"" . $row_key . "_" . $col_key . "\"";
-				if (isset($row["attributes"]["col_extra"][$col_key]))
+
+                if (isset($row["attributes"]["col_extra"][$col_key]))
 					$col_extra .= " " . $row["attributes"]["col_extra"][$col_key];
-				elseif (isset($view["attributes"]["col_extra"][$col_key]))
+				elseif (isset($view["attributes"]["col_extra"][$col_key])) {
 					$col_extra .= " " . $view["attributes"]["col_extra"][$col_key];
-				if (isset($row["attributes"]["col_span"][$col_key]))
+                }
+
+                if (isset($row["attributes"]["col_span"][$col_key])) {
 					$col_span = $row["attributes"]["col_span"][$col_key];
-				elseif (isset($view["attributes"]["col_span"][$col_key]))
+                } elseif (isset($view["attributes"]["col_span"][$col_key])) {
 					$col_span = $view["attributes"]["col_span"][$col_key];
-				else
+                } else {
 					$col_span = 1;
+                }
+
 				// Zeile beginnen
 				if (!$col_index++) {
 					start_row_only($row_class, $row_extra);
 					cell($col_class, $col_extra);
-				} else
+				} else {
 					next_cell($col_class, $col_extra, $col_span);
+                }
+
 				// Wert ausgeben
-				if (isset($row["attributes"]["col_value_func"][$col_key]))
+				if (isset($row["attributes"]["col_value_func"][$col_key])) {
 					echo $row["attributes"]["col_value_func"][$col_key]($row[$col_key],$row, $data, $row_key, $col_key);
-				elseif (isset($view["attributes"]["col_value_func"][$col_key]))
+                } elseif (isset($view["attributes"]["col_value_func"][$col_key])) {
 					echo $view["attributes"]["col_value_func"][$col_key]($row[$col_key],$row, $data, $row_key, $col_key);
-				else
+                } else {
 					echo $row[$col_key];
+                }
 			}
 			end_row();
 		}

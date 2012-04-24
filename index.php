@@ -32,6 +32,7 @@ if (file_exists('install.php')) {
 }
 
 // define's vor allen anderen Includes durchführen 
+define('DEBUG', TRUE);
 define('IRA', TRUE);
 
 define('NEBULA', TRUE);

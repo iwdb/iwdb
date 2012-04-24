@@ -101,10 +101,11 @@ function error($err_code, $err_msg = '', $err_title = '', $err_file = '', $err_l
 // IP entschluesseln
 function encode_ip($dotquad_ip)
 {
-	return sha1($dotquad_ip);
+    return sha1($dotquad_ip);
 }
 
 //******************************************************************************
+
 //
 // Funktion fuer Zufallsstring mit Zeichen $values und Länge $length
 function randomstring($values = '', $length = 0)

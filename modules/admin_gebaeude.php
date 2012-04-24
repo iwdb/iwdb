@@ -24,9 +24,9 @@
 /* The GNU GPL can be found in LICENSE in this directory                     */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul �ber die index.php aufgerufen wurde. 
+// -> Abfrage ob dieses Modul �ber die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") { 
+if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	die("Hacking attempt...!!"); 
 	exit; 
 }
@@ -47,7 +47,7 @@ function dauer($zeit)
 
 //******************************************************************************
 
-echo "<div class='doc_title'>Admin Geb&auml;ude</div>\n";
+echo "<div class='doc_title'>Admin Gebäude</div>\n";
 
 $dateis = array();
 $dateis[''] = "keins";
@@ -77,7 +77,7 @@ while($row_gebaeude = $db->db_fetch_array($result_gebaeude)) {
 	if ( ! empty($editgebaeude) )	{
     $geb_name  = getVar(($row_gebaeude['id'] . '_name'));
 	$geb_name = htmlspecialchars_decode($geb_name);
-    $geb_name = str_replace("&szlig;","�",$geb_name);
+    $geb_name = str_replace("ß","�",$geb_name);
 	$geb_cat   = html_entity_decode(getVar(($row_gebaeude['id'] . '_category')));
 	$geb_cat = htmlspecialchars_decode($geb_cat);
 	$geb_idcat = getVar(($row_gebaeude['id'] . '_idcat'));
@@ -112,7 +112,7 @@ while($row_gebaeude = $db->db_fetch_array($result_gebaeude)) {
            "'AND category='" . $geb_cat . 
            "'AND idcat='" . $geb_idcat . 
            "'AND id = '" . $row_gebaeude['id'] . "'";
-           echo "<div class='system_notification'>Geb&auml;ude $geb_name gel&ouml;scht</div>";
+           echo "<div class='system_notification'>Gebäude $geb_name gelöscht</div>";
 
          }
            
@@ -156,15 +156,15 @@ if((!empty($lastid_name)) && (empty($editgebaeude))) {
              
 	$lastid++;
 	
-echo "<div class='system_notification'>Gebaeude $lastid_name hinzugef&uuml;gt.</div>";
+echo "<div class='system_notification'>Gebaeude $lastid_name hinzugefügt.</div>";
 }
 
 if($editgebaeude) {
-	echo "<div class='system_notification'>Geb&auml;ude aktualisiert.</div>";
+	echo "<div class='system_notification'>Gebäude aktualisiert.</div>";
 }
 
 echo "<br>\n";
-echo "<form method=\"POST\" action=\"index.php?action=admin&uaction=gebaeude&amp;sid=" . 
+echo "<form method=\"POST\" action=\"index.php?action=admin&uaction=gebaeude&amp;sid=" .
      $sid . "\" enctype=\"multipart/form-data\">\n";
 echo "<table border=\"0\" cellpadding=\"4\" cellspacing=\"1\" class=\"bordercolor\" style=\"width: 90%;\">\n";
 echo " <tr>\n";
@@ -260,8 +260,8 @@ while($row = $db->db_fetch_array($result))
     echo "  <td class=\"windowbg1\" align=\"center\">\n";
     echo "  Ausblenden:  <input type=\"checkbox\" name=\"" . $row_gebaeude['id'] . 
          "_inactive\" value=\"1\"" . (($row_gebaeude['inactive']) ?  " checked": "") . ">\n";
-    echo "  L�schen:  <input type=\"checkbox\" name=\"" . $row_gebaeude['id'] . 
-         "_delete\" onclick=\"return confirmlink(this, 'M&ouml;chten sie dieses Geb&auml;ude wirklich l&ouml;eschen?')\" value=\"1\">\n";
+    echo "  L�schen:  <input type=\"checkbox\" name=\"" . $row_gebaeude['id'] . 
+         "_delete\" onclick=\"return confirmlink(this, 'Möchten sie dieses Gebäude wirklich löeschen?')\" value=\"1\">\n";
     echo "  </td>\n";
     echo "  <td class=\"windowbg1\">\n";
     echo "    <input type=\"text\" name=\"" . $row_gebaeude['id'] . 

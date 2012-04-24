@@ -24,9 +24,9 @@
 /* The GNU GPL can be found in LICENSE in this directory                     */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul �ber die index.php aufgerufen wurde. 
+// -> Abfrage ob dieses Modul �ber die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") { 
+if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	echo "Hacking attempt...!!"; 
 	exit; 
 }

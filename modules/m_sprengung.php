@@ -41,9 +41,9 @@
 /*                                                                           */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde. 
+// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") { 
+if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	echo "Hacking attempt...!!"; 
 	exit; 
 }
@@ -92,7 +92,7 @@ function workInstallDatabase() {
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	}
 
-  echo "<div class='system_notification'>Installation: Datenbank&auml;nderungen = <b>OK</b></div>";*/
+  echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";*/
 }
 
 //****************************************************************************
@@ -134,7 +134,7 @@ function workUninstallDatabase() {
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	}
 
-    echo "<div class='system_notification'>Deinstallation: Datenbank&auml;nderungen = <b>OK</b></div>";*/
+    echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";*/
 }
 
 //****************************************************************************
@@ -216,12 +216,12 @@ else
 // Titelzeile
 echo "<div class='doc_title'>Sprengungen</div>\n";
 echo "<br>\n";
-echo "Hier k&ouml;nnt ihr sehen, wann die p&ouml;sen Vorgonen die n&auml;chsten Planeten sprengen, um Platz f&uuml;r eine Hyperraum-Umgehungsstra&szlig;e zu schaffen.";
+echo "Hier könnt ihr sehen, wann die pösen Vorgonen die nächsten Planeten sprengen, um Platz für eine Hyperraum-Umgehungsstraße zu schaffen.";
 echo "<br>\n";
 echo "<form method=\"POST\" action=\"index.php?action=" . $modulname . "&amp;sid=" . $sid . "\" enctype=\"multipart/form-data\"><p align=\"center\">\n";
 echo "  Galaxie von: <input type=\"text\" name=\"gal_start\" value=\"" . $gal_start . "\" style=\"width: 30\"> bis: <input type=\"text\" name=\"gal_end\" value=\"" . $gal_end . "\" style=\"width: 30\"><br><br>";
 echo "  System von: <input type=\"text\" name=\"sys_start\" value=\"" . $sys_start . "\" style=\"width: 30\"> bis: <input type=\"text\" name=\"sys_end\" value=\"" . $sys_end . "\" style=\"width: 30\"><br><br>";
-echo "  Alle Geoscans l&ouml;schen, deren Sprengung mehr als <input type=\"test\" name=\"spreng_zeit\" value=\"" . $spreng_zeit . "\" style=\"width: 30\"> Stunden in der Vergangenheit liegt<br><br>";
+echo "  Alle Geoscans löschen, deren Sprengung mehr als <input type=\"test\" name=\"spreng_zeit\" value=\"" . $spreng_zeit . "\" style=\"width: 30\"> Stunden in der Vergangenheit liegt<br><br>";
 echo "  <input type=\"submit\" value=\"los\" name=\"B1\" class=\"submit\"><br>";
 echo "</form>\n<br><br>";
 

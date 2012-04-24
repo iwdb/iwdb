@@ -37,9 +37,9 @@
 /*                                                                           */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde. 
+// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") { 
+if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	echo "Hacking attempt...!!"; 
 	exit; 
 }
@@ -96,7 +96,7 @@ function workInstallDatabase() {
                'Could not query config information.', '',
                __FILE__, __LINE__, $sql);
   }
-  echo "<div class='system_notification'>Installation: Datenbank&auml;nderungen = <b>OK</b></div>";
+  echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
 */}
 
 //****************************************************************************
@@ -150,7 +150,7 @@ function workUninstallDatabase() {
                'Could not query config information.', '',
                __FILE__, __LINE__, $sql);
   }
-  echo "<div class='system_notification'>Deinstallation: Datenbank&auml;nderungen = <b>OK</b></div>";
+  echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
 */}
 
 //****************************************************************************
@@ -203,7 +203,7 @@ if (!@include("./config/".$modulname.".cfg.php")) {
 <body>
 
 <form action="index.php?action=kbp" method="post">
-	<textarea name="Eingabe" cols="80" rows="5" ></textarea><br />
+	<textarea name="Eingabe" cols="80" rows="5" ></textarea><br>
 	<input type="submit" value="KB haben will!">
 </form>
 

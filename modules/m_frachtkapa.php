@@ -27,43 +27,43 @@
 
 /*****************************************************************************/
 /* Dieses Modul dient als Vorlage zum Erstellen von eigenen Zusatzmodulen    */
-/* f¸r die Iw DB: Icewars geoscan and sitter database                        */
+/* fÔøΩr die Iw DB: Icewars geoscan and sitter database                        */
 /*---------------------------------------------------------------------------*/
-/* Diese Erweiterung der urspr¸nglichen DB ist ein Gemeinschaftsprojekt von  */
+/* Diese Erweiterung der ursprÔøΩnglichen DB ist ein Gemeinschaftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens daf¸r eingerichtete            */
+/* Bei Problemen kannst du dich an das eigens dafÔøΩr eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
 /*                   http://www.iw-smf.pericolini.de                         */
 /*                                                                           */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul ¸ber die index.php aufgerufen wurde. 
+// -> Abfrage ob dieses Modul ÔøΩber die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") { 
+if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	echo "Hacking attempt...!!"; 
 	exit; 
 }
 
 //****************************************************************************
 //
-// -> Name des Moduls, ist notwendig f¸r die Benennung der zugehˆrigen 
+// -> Name des Moduls, ist notwendig fÔøΩr die Benennung der zugehÔøΩrigen 
 //    Config.cfg.php
-// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung f¸r 
-//    eine Installation ¸ber das Men¸
+// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung fÔøΩr 
+//    eine Installation ÔøΩber das MenÔøΩ
 //
 $modulname  = "m_frachtkapa";
 
 //****************************************************************************
 //
-// -> Men¸titel des Moduls der in der Navigation dargestellt werden soll.
+// -> MenÔøΩtitel des Moduls der in der Navigation dargestellt werden soll.
 //
-$modultitle = "Frachtkapazit&auml;ten";
+$modultitle = "Frachtkapazit√§ten";
 
 //****************************************************************************
 //
-// -> Status des Moduls, bestimmt wer dieses Modul ¸ber die Navigation 
-//    ausf¸hren darf. Mˆgliche Werte: 
+// -> Status des Moduls, bestimmt wer dieses Modul ÔøΩber die Navigation 
+//    ausfÔøΩhren darf. MÔøΩgliche Werte: 
 //    - ""      <- nix = jeder, 
 //    - "admin" <- na wer wohl
 //
@@ -74,8 +74,8 @@ $modulstatus = "";
 // -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
 //
 $moduldesc = 
-  "Das Frachtkapazit&auml;ten-Modul dient zur Berechnung der notwendigen" . 
-  " Transporteranzahl f&uuml;r eine gegebene Menge Ressourcen";
+  "Das Frachtkapazit√§ten-Modul dient zur Berechnung der notwendigen" .
+  " Transporteranzahl f√ºr eine gegebene Menge Ressourcen";
 
 //****************************************************************************
 //
@@ -83,7 +83,7 @@ $moduldesc =
 // installing this module. 
 //
 function workInstallDatabase() {
-  echo "<div class='system_notification'>Installation: Datenbank&auml;nderungen = <b>OK</b></div>";
+  echo "<div class='system_notification'>Installation: Datenbank√§nderungen = <b>OK</b></div>";
 }
 
 //****************************************************************************
@@ -114,19 +114,19 @@ function workInstallConfigString() {
 // removing this module. 
 //
 function workUninstallDatabase() {
-    echo "<div class='system_notification'>Deinstallation: Datenbank&auml;nderungen = <b>OK</b></div>";
+    echo "<div class='system_notification'>Deinstallation: Datenbank√§nderungen = <b>OK</b></div>";
 }
 
 //****************************************************************************
 //
 // Installationsroutine
 //
-// Dieser Abschnitt wird nur ausgef¸hrt wenn das Modul mit dem Parameter 
+// Dieser Abschnitt wird nur ausgefÔøΩhrt wenn das Modul mit dem Parameter 
 // "install" aufgerufen wurde. Beispiel des Aufrufs: 
 //
 //      http://Mein.server/iwdb/index.php?action=default&was=install
 //
-// Anstatt "Mein.Server" nat¸rlich deinen Server angeben und default 
+// Anstatt "Mein.Server" natÔøΩrlich deinen Server angeben und default 
 // durch den Dateinamen des Moduls ersetzen.
 //
 if( !empty($_REQUEST['was'])) {
@@ -141,7 +141,7 @@ if( !empty($_REQUEST['was'])) {
 	  die( "Cannot load menu functions" );
     
   // Wenn ein Modul administriert wird, soll der Rest nicht mehr 
-  // ausgef¸hrt werden. 
+  // ausgefÔøΩhrt werden. 
   return;
 }
 
@@ -180,13 +180,13 @@ $class1ships = array(
 
 $class2ships = array(
   "Lurch(e)" =>            2000,
-  "Eisb&auml;r(en)" =>    10000,
-  "Waschb&auml;r(en)" =>  50000,
+  "Eisb√§r(en)" =>    10000,
+  "Waschb√§r(en)" =>  50000,
   "Seepferdchen" =>      250000
 );
 
-echo "<div class='doc_title'>Frachtkapazit&auml;tenberechnung</div>\n";
-echo "<form method=\"POST\" action=\"index.php?action=" . $modulname . 
+echo "<div class='doc_title'>Frachtkapazit√§tenberechnung</div>\n";
+echo "<form method=\"POST\" action=\"index.php?action=" . $modulname .
      "&amp;sid=" . $sid . "\" enctype=\"multipart/form-data\">\n";
      
 echo " <table border=\"0\" cellpadding=\"4\" cellspacing=\"1\" class=\"bordercolor\" style=\"width: 80%;\">\n";
@@ -222,7 +222,7 @@ foreach( $ressies as $key => $title) {
 }
 
 echo " <tr>\n";
-echo "  <td colspan=\"3\" class=\"titlebg\"><b>Ben&ouml;tigte Frachtkapazit&auml;t</b></td>\n";
+echo "  <td colspan=\"3\" class=\"titlebg\"><b>Ben√∂tigte Frachtkapazit√§t</b></td>\n";
 echo " </tr>\n"; 
 echo " <tr>\n";
 echo "  <td class=\"windowbg2\">Klasse 1:</td>\n";
@@ -233,7 +233,7 @@ echo "  <td class=\"windowbg2\">Klasse 2:</td>\n";
 echo "  <td class=\"windowbg1\" colspan=\"2\">" . $klasse2 . "</td>\n";
 echo " </tr>\n"; 
 echo " <tr>\n";
-echo "  <td colspan=\"3\" class=\"titlebg\"><b>Ben&ouml;tigte Transen f&uuml;r Klasse 1</b></td>\n";
+echo "  <td colspan=\"3\" class=\"titlebg\"><b>Ben√∂tigte Transen f√ºr Klasse 1</b></td>\n";
 echo " </tr>\n"; 
 
 $t1 = "Entweder";
@@ -247,7 +247,7 @@ foreach($class1ships as $name => $divisor) {
 } 
 
 echo " <tr>\n";
-echo "  <td colspan=\"3\" class=\"titlebg\"><b>Ben&ouml;tigte Transen f&uuml;r Klasse 2</b></td>\n";
+echo "  <td colspan=\"3\" class=\"titlebg\"><b>Ben√∂tigte Transen f√ºr Klasse 2</b></td>\n";
 echo " </tr>\n"; 
 
 $t1 = "Entweder";

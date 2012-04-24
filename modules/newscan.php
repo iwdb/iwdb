@@ -103,7 +103,7 @@ if( $user_status == "admin" ) {
 }
 
 if( $allow1 AND $allow2 ) { 
-  echo "   Bericht einf&uuml;gen f&uuml;r\n";
+  echo "   Bericht einfügen für\n";
   echo "	 <select name=\"seluser\" style=\"width: 200px;\">\n";
 
   $sql = "SELECT sitterlogin FROM " . $db_tb_user . " ORDER BY id ASC";
@@ -119,7 +119,7 @@ if( $allow1 AND $allow2 ) {
 }
 
 echo "   <textarea name=\"text\" rows=\"14\" cols=\"70\"></textarea><br>\n";
-echo "   F&uuml;r Hilfe bitte oben auf den \"Hilfe\" Button dr&uuml;cken.\n";
+echo "   Für Hilfe bitte oben auf den \"Hilfe\" Button drücken.\n";
 echo "  </td>\n";
 echo " </tr>\n";
 echo " <tr>\n";
@@ -145,7 +145,7 @@ if ( ! empty($textinput) )
 
 	$text = str_replace("Erdbeeren", "Eisen", $text);
 	$text = str_replace("Erdbeermarmelade", "Stahl", $text);
-	$text = str_replace("Erdbeerkonfit&uuml;re", "VV4A", $text);
+	$text = str_replace("Erdbeerkonfitüre", "VV4A", $text);
 	$text = str_replace("Brause", "chem. Elemente", $text);
 	$text = str_replace("Vanilleeis", "Eis", $text);
 	$text = str_replace("Eismatsch", "Wasser", $text);
@@ -154,12 +154,12 @@ if ( ! empty($textinput) )
 /* Bereich nur aktivieren, wenn im Spiel Ressourcennamen mit Keks vorkommen
 	$text = str_replace("weicher Keks", "Eis", $text);
 	$text = str_replace("Keksmatsch", "Wasser", $text);
-	$text = str_replace("Doppelkeks mit Cremef&uuml;llung", "VV4A", $text);
+	$text = str_replace("Doppelkeks mit Cremefüllung", "VV4A", $text);
 	$text = str_replace("Doppelkeks", "Stahl", $text);
-	$text = str_replace("Cremef&uuml;llung", "chem. Elemente", $text);
+	$text = str_replace("Cremefüllung", "chem. Elemente", $text);
 	$text = str_replace("Powerkeks", "Energie", $text);
 	$text = str_replace("Sandtaler", "Credits", $text);
-	$text = str_replace("Keksvernichter", "Bev&ouml;lkerung", $text);
+	$text = str_replace("Keksvernichter", "Bevölkerung", $text);
 	$text = str_replace("Keks", "Eisen", $text);
 */
 
@@ -181,11 +181,11 @@ if ( ! empty($textinput) )
 	
 	if (isset($anzahl_kb) && $anzahl_kb >= 1) {
 		echo '
-	<div class="system_notification">',$anzahl_kb,' KB-',($anzahl_kb == 1) ? 'Link': 'Links',' gefunden (',$anzahl_kb_neu,' ',($anzahl_kb_neu == 1) ? 'neuer': 'neue',')</div><br />';
+	<div class="system_notification">',$anzahl_kb,' KB-',($anzahl_kb == 1) ? 'Link': 'Links',' gefunden (',$anzahl_kb_neu,' ',($anzahl_kb_neu == 1) ? 'neuer': 'neue',')</div><br>';
 	}
 	if (isset($anzahl_sb) && $anzahl_sb >= 1) {
 		echo '
-	<div class="system_notification">',$anzahl_kb,' SB-',($anzahl_kb == 1) ? 'Link': 'Links',' gefunden</div><br />';
+	<div class="system_notification">',$anzahl_kb,' SB-',($anzahl_kb == 1) ? 'Link': 'Links',' gefunden</div><br>';
 	}	
 	
 	// Eigenkreation Ende
@@ -203,11 +203,11 @@ if ( ! empty($textinput) )
 	foreach ($text as $scan) {
 
 
-//Wirtshcaftsmenu auslassen, da das sonst zu Fehlern mi9t der Koloinfo f&uuml;hrt
-      if( strpos( $scan, 'Wirtschaft - Men&uuml;' ) !== FALSE ) {
+//Wirtshcaftsmenu auslassen, da das sonst zu Fehlern mi9t der Koloinfo führt
+      if( strpos( $scan, 'Wirtschaft - Menü' ) !== FALSE ) {
         $ignoremenu = TRUE;
       }
-      if( strpos( $scan, 'Artefakt&uuml;bersicht' ) !== FALSE ) {
+      if( strpos( $scan, 'Artefaktübersicht' ) !== FALSE ) {
         $ignoremenu = FALSE; 
         $ignorekoloinfo = 1;
       }
@@ -310,7 +310,7 @@ if(isset($debug)) {
           }
         }
       }
-      echo "</table><br />\n";  
+      echo "</table><br>\n";
     } elseif($count == 1) {
       // Closure hook for module after all needed things were inserted.
       // E.g. recalculating research levels after new researches were added. 
@@ -341,19 +341,19 @@ if(isset($debug)) {
 		foreach($ausgabe['KBs'] as $key => $value) {
 			if ($key != 0)
 				echo '
-					<br />_______________________________________________________<br /><br />';
+					<br>_______________________________________________________<br><br>';
 			echo htmlentities($value['Bericht']);
 		}
 		echo '
 				</tr>
-			</table><br />';
+			</table><br>';
  	} 
 
 	
 	$stop = microtime(true);
 	$dauer = $stop - $start;
 	echo '
-			Dauer: '.round($dauer,4).' sec<br />';
+			Dauer: '.round($dauer,4).' sec<br>';
 
 	// Eigenkreation Ende
   }

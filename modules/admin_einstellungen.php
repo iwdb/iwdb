@@ -24,9 +24,9 @@
 /* The GNU GPL can be found in LICENSE in this directory                     */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde. 
+// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") { 
+if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	die("Hacking attempt...!!"); 
 	exit; 
 }
@@ -185,7 +185,7 @@ switch ($rowP['value']) {
  </tr>
  <tr>
   <td class="windowbg2" style="width:40%;">
-   Benachrichtigung m&ouml;glich:<br>
+   Benachrichtigung möglich:<br>
    <i>Hier wird das Fenster eingeblendet</i>
   </td>
   <td class="windowbg1">
@@ -211,7 +211,7 @@ switch ($rowP['value']) {
  <tr>
   <td class="windowbg2" style="width:40%;">
    Benachrichtigung maximal:<br>
-   <i>Welche Erinnerungsart k&ouml;nnen die User maximal anw&auml;hlen:</i>
+   <i>Welche Erinnerungsart können die User maximal anwählen:</i>
   </td>
   <td class="windowbg1">
     <select value="<?php echo $sel_val;?>" name="sound_global" size="1">
@@ -235,7 +235,7 @@ switch ($rowP['value']) {
  </tr>
  <tr>
   <td colspan="2" class="titlebg" align="center">
-   <input type="submit" value="Fadeineinstellungen &auml;ndern" name="BS">
+   <input type="submit" value="Fadeineinstellungen ändern" name="BS">
   </td>
  </tr>
 </table>
@@ -344,13 +344,13 @@ if ( !empty($rowP['value']) ) {
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 80%;">
  <tr>
   <td colspan="2" class="titlebg">
-   <b>'Bericht einf&uuml;gen f&uuml;r':</b>
+   <b>'Bericht einfügen für':</b>
   </td>
  </tr>
  <tr>
   <td class="windowbg2" style="width:40%;">
-   Bericht einf&uuml;gen f&uuml;r:<br>
-   <i>Wer darf das Fenster 'Bericht einf&uuml;gen f&uuml;r' nutzen?</i>
+   Bericht einfügen für:<br>
+   <i>Wer darf das Fenster 'Bericht einfügen für' nutzen?</i>
   </td>
   <td class="windowbg1">
     Rang:<br>
@@ -365,16 +365,16 @@ if ( !empty($rowP['value']) ) {
     <select value="<?php echo $sitter_val;?>" name="bericht_fuer_sitter" size="1">
     <?php
     echo "<option $sitval2 value=\"2\"".$st[2].">Sitterbereich deaktiviert</option>";
-    echo "<option $sitval0 value=\"0\"".$st[0].">kann Sitterauftr&auml;ge erstellen, darf keine anderen sitten</option>";
-    echo "<option $sitval3 value=\"3\"".$st[3].">darf andere sitten, darf keine Sitterauftr&auml;ge erstellen</option>";
-    echo "<option $sitval1 value=\"1\"".$st[1].">darf andere sitten, darf Sitterauftr&auml;ge erstellen</option>";
+    echo "<option $sitval0 value=\"0\"".$st[0].">kann Sitteraufträge erstellen, darf keine anderen sitten</option>";
+    echo "<option $sitval3 value=\"3\"".$st[3].">darf andere sitten, darf keine Sitteraufträge erstellen</option>";
+    echo "<option $sitval1 value=\"1\"".$st[1].">darf andere sitten, darf Sitteraufträge erstellen</option>";
     ?>
     </select>
   </td>
  </tr>
  <tr>
   <td colspan="2" class="titlebg" align="center">
-   <input type="submit" value="'Bericht einf&uuml;gen f&uuml;r' &auml;ndern" name="BE">
+   <input type="submit" value="'Bericht einfügen für' ändern" name="BE">
   </td>
  </tr>
 </table>

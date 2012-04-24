@@ -37,9 +37,9 @@
 /*                                                                           */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul ?ber die index.php aufgerufen wurde. 
+// -> Abfrage ob dieses Modul ?ber die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") { 
+if (basename($_SERVER['PHP_SELF']) != "index.php") {
     echo "Hacking attempt...!!"; 
     exit; 
 }
@@ -73,7 +73,7 @@ $modulstatus = "";
 // -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
 //
 $moduldesc = 
-  "Das Allianzkassenmodul dient zur Speicherung und &uuml;bersichtlichen Anzeige von Daten aus der Allianzkasse";
+  "Das Allianzkassenmodul dient zur Speicherung und übersichtlichen Anzeige von Daten aus der Allianzkasse";
 
 //****************************************************************************
 //
@@ -120,7 +120,7 @@ function workInstallDatabase() {
                'Could not query config information.', '',
                __FILE__, __LINE__, $sql);
   }
-  echo "<div class='system_notification'>Installation: Datenbank&auml;nderungen = <b>OK</b></div>";
+  echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
 }
 
 //****************************************************************************
@@ -179,7 +179,7 @@ function workUninstallDatabase() {
                'Could not query config information.', '',
                __FILE__, __LINE__, $sql);
   }
-  echo "<div class='system_notification'>Deinstallation: Datenbank&auml;nderungen = <b>OK</b></div>";
+  echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
 }
 
 //****************************************************************************
@@ -357,7 +357,7 @@ if (!@include("./config/".$modulname.".cfg.php")) {
      echo "  <b>Wer hat Credits bekommen?</b>\n";
      next_row("windowbg2", "style=\"width:60%\" align=\"center\"");
      echo "<a href=\"$url&amp;order=payedto&amp;ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
-     echo "Empf&auml;nger";
+     echo "Empfänger";
      echo "<a href=\"$url&amp;order=payedto&amp;ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
      next_cell("windowbg2", "align=\"center\"");
      echo "<a href=\"$url&amp;order=sumof&amp;ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
@@ -442,7 +442,7 @@ if (!@include("./config/".$modulname.".cfg.php")) {
      echo "<a href=\"$url&amp;order=payedfrom&amp;ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
      next_cell("windowbg2", "style=\"width:40%\" align=\"center\"");
      echo "<a href=\"$url&amp;order=payedto&amp;ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
-     echo "Empf&auml;nger";
+     echo "Empfänger";
      echo "<a href=\"$url&amp;order=payedto&amp;ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";;
      next_cell("windowbg2", "align=\"center\"");
      echo "<a href=\"$url&amp;order=sumof&amp;ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";

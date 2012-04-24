@@ -45,7 +45,7 @@ if (!@include("./config/" . $_SERVER["HTTP_HOST"] . "/configally.php")) {
 } 
   
 // ***************************************************************************
-//  Ab hier sind Angaben die nicht unbedingt geaendert werden muessen.
+//  Ab hier sind Angaben die nicht unbedingt geändert werden muessen.
 //
 
 // Farben in der Karte der Allianzen (own - eigene Allianz/Wings, NAP, iNAP, VB, Krieg)
@@ -86,7 +86,7 @@ $HOURS   = 60 * $MINUTES;
 $DAYS    = 24 * $HOURS;
 
 // Das aktuelle Datum wird pro Skriptaufruf nur einmal geholt, +-x kann 
-// entsprechend hier geaendert werden
+// entsprechend hier geändert werden
 $config_date = time();
 
 // Zeit, wie lange die SID aktuell bleibt (in Sekunden)
@@ -95,7 +95,7 @@ $config_sid_timeout = 1 * $HOURS;
 // zugelassene Zeichen fuer SIDs
 $config_sid_string = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890-_";
 
-// Laenge der SID
+// Länge der SID
 $config_sid_length = 20;
 
 // zugelassene Zeichen fuer Passwoerter
@@ -146,19 +146,19 @@ $config_sitterpunkte_timeout = 15 * $MINUTES;
 // Zeit, wie lange ein Sitterlogin gesperrt ist in Sekunden, wenn sich jemand eingeloggt hat
 $config_sitterlogin_timeout = 2 * $MINUTES;
 
-// wie viele Sitterauftraege in den naechsten x Sekunden sollen angezeigt werden
+// wie viele Sitteraufträge in den nächsten x Sekunden sollen angezeigt werden
 $config_sitterliste_timeout = 12 * $HOURS;
 
 // Zeit, wie lange Sitterauftrag in der Vergangenheit liegen darf (gewisse Toleranz ist hier zu empfehlen!)
 $config_sitterauftrag_timeout = 1 * $DAYS + 12 * $HOURS;
 
-// Zeit in Sekunden, bei Dauerauftraegen, wie lange ein Auftrag nach Login als "erledigt" markiert werden soll
+// Zeit in Sekunden, bei Daueraufträgen, wie lange ein Auftrag nach Login als "erledigt" markiert werden soll
 $config_dauer_timeout = 3 * $HOURS;
 
 // Zeitformat im Sittertool
 $config_sitter_timeformat = "%d.%m.%y %H:%M";
 
-// nicht aendern
+// nicht ändern
 define('SITTEN_DISABLED', 2);
 define('SITTEN_ONLY_NEWTASKS', 0);
 define('SITTEN_ONLY_LOGINS', 3);

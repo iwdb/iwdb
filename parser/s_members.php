@@ -25,9 +25,9 @@
 /*****************************************************************************/
 
 /*****************************************************************************/
-/* Diese Erweiterung der urspünglichen DB ist ein Gemeinschafftsprojekt von  */
+/* Diese Erweiterung der urspï¿½nglichen DB ist ein Gemeinschafftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
+/* Bei Problemen kannst du dich an das eigens dafï¿½r eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
 /*                   http://www.iw-smf.pericolini.de                         */
@@ -77,7 +77,7 @@ function parse_members($lines) {
               $scan_udata['sitterlogin'] .= " " . trim($temp[$j]);
               $j++;
           }
-      // Als nächstes kommt der Rang des Mitgliedes
+      // Als nï¿½chstes kommt der Rang des Mitgliedes
           $scan_udata['rang'] = trim($temp[$j]);
           $j++;
 
@@ -122,7 +122,7 @@ function parse_members($lines) {
               $scan_udata['sitterlogin'] .= " " . trim($temp[$j]);
               $j++;
           }
-      // Als nächstes kommt der Rang des Mitgliedes
+      // Als nï¿½chstes kommt der Rang des Mitgliedes
           $scan_udata['rang'] = trim($temp[$j]);
           $j++;
 
@@ -155,7 +155,7 @@ function updateuser( $scan_data )
 {
     global $db, $db_tb_user, $db_tb_punktelog, $config_date;
 
-  // Daten ins Punktelog übernehmen.
+  // Daten ins Punktelog ï¿½bernehmen.
     $sql = "INSERT INTO " . $db_tb_punktelog . "(" .
          " user, date, gebp, fp, gesamtp, ptag" .
          ") VALUES (" .
@@ -166,7 +166,7 @@ function updateuser( $scan_data )
         or error(GENERAL_ERROR, 'Could not query config information.', '',
              __FILE__, __LINE__, $sql);
 
-  // Prüfe Mitglied, ob es bereits in der DB gespeichert ist.
+  // Prï¿½fe Mitglied, ob es bereits in der DB gespeichert ist.
     $sql = "SELECT sitterlogin FROM " . $db_tb_user .
          " WHERE sitterlogin='" . $scan_data['sitterlogin'] . "'";
     $result = $db->db_query($sql)
@@ -191,7 +191,7 @@ function updateuser( $scan_data )
     }
     else
     {
-    // Das Mitglied existiert noch nicht, Daten in Tabelle user einfügen.
+    // Das Mitglied existiert noch nicht, Daten in Tabelle user einfï¿½gen.
         $scan_data['id'] = $scan_data['sitterlogin'];
         foreach ($scan_data as $key => $data)
         {

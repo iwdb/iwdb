@@ -25,9 +25,9 @@
 /*****************************************************************************/
 
 /*****************************************************************************/
-/* Diese Erweiterung der urspünglichen DB ist ein Gemeinschafftsprojekt von  */
+/* Diese Erweiterung der urspï¿½nglichen DB ist ein Gemeinschafftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
+/* Bei Problemen kannst du dich an das eigens dafï¿½r eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
 /*                   http://www.iw-smf.pericolini.de                         */

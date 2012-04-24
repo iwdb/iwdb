@@ -27,9 +27,9 @@
 //Definition des Modulnamens
 $modulname  = "sitterauftrag";
 
-// -> Abfrage ob dieses Modul A1/4ber die index.php aufgerufen wurde. 
+// -> Abfrage ob dieses Modul A1/4ber die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") { 
+if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	echo "Hacking attempt...!!"; 
 	exit; 
 }
@@ -198,7 +198,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 	$bauid = ( $typ == "Schiffe" ) ? $schiff: ( ( $typ == "Gebaeude" ) ? $geb: "" );
 
 	if ( ( $date < $config_date - $config_sitterauftrag_timeout ) || ( $date_b1 < $config_date - $config_sitterauftrag_timeout )  || ( $date_b2 < $config_date - $config_sitterauftrag_timeout ) )
-		$alert = "<br><font color=\"#FF0000\"><b>Ung&uuml;ltiger Zeitpunkt.</b></font><br>";
+		$alert = "<br><font color=\"#FF0000\"><b>Ungültiger Zeitpunkt.</b></font><br>";
 	else
 	{
 		if ( empty($auftragid) )
@@ -288,7 +288,7 @@ if ( empty($umenu) )
 <table border="0" cellpadding="0" cellspacing="1" class="bordercolor">
  <tr> 
   <td class="menutop" align="center">
-   <a href="index.php?action=sitterauftrag&amp;typ=Gebaeude&amp;umenu=1&amp;sitterid=<?php echo urlencode($id);?>&amp;sid=<?php echo $sid;?>">[Geb&auml;ude]</a>
+   <a href="index.php?action=sitterauftrag&amp;typ=Gebaeude&amp;umenu=1&amp;sitterid=<?php echo urlencode($id);?>&amp;sid=<?php echo $sid;?>">[Gebäude]</a>
   </td>
   <td class="menutop" align="center">
    <a href="index.php?action=sitterauftrag&amp;typ=Schiffe&amp;umenu=1&amp;sitterid=<?php echo urlencode($id);?>&amp;sid=<?php echo $sid;?>">[Schiffe]</a>
@@ -306,11 +306,11 @@ if ( empty($umenu) )
 <?php
 if($id == $user_sitterlogin ) {
 ?>
-<font style="font-size: 22px; color: #004466">meine Sitterauftr&auml;ge</font><br>
+<font style="font-size: 22px; color: #004466">meine Sitteraufträge</font><br>
 <?php
 } else {
 ?>
-<font style="font-size: 22px; color: #004466">Sitterauftr&auml;ge von <?php echo $id;?></font><br>
+<font style="font-size: 22px; color: #004466">Sitteraufträge von <?php echo $id;?></font><br>
 <?php
 }
 	echo ( empty($alert) ) ? "": $alert;
@@ -320,7 +320,7 @@ if($id == $user_sitterlogin ) {
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">
  <tr>
   <td class="titlebg" colspan="4" align="center">
-   <b>schnell hinzuf&uuml;gen</b>
+   <b>schnell hinzufügen</b>
   </td>
  </tr>
  <tr>
@@ -503,12 +503,12 @@ if(!empty($row['ByUser']) && ($row['user'] != $row['ByUser'])) {
 		if ( $row['typ'] == "Gebaeude" )
 		{
 ?>
-    <a href="index.php?action=sitterauftrag&amp;umenu=1&amp;parentid=<?php echo $row['id'];?>&amp;sitterid=<?php echo urlencode($id);?>&amp;sid=<?php echo $sid;?>"><img src="bilder/file_new_s.gif" border="0" alt="anh&auml;ngen"></a>
+    <a href="index.php?action=sitterauftrag&amp;umenu=1&amp;parentid=<?php echo $row['id'];?>&amp;sitterid=<?php echo urlencode($id);?>&amp;sid=<?php echo $sid;?>"><img src="bilder/file_new_s.gif" border="0" alt="anhängen"></a>
 <?php
 		}
     if( !$differentid || ( ($user_status == "admin") OR ($user_status == "SV") )  || ($user_sitterlogin == $row['ByUser'])) {
 ?>
-    <a href="index.php?action=sitterauftrag&amp;parentid=<?php echo $row['id'];?>&amp;delid=<?php echo $row['id'];?>&amp;sitterid=<?php echo urlencode($id);?>&amp;sid=<?php echo $sid;?>" onclick="return confirmlink(this, 'Auftrag wirklich l&ouml;schen?')"><img src="bilder/file_delete_s.gif" border="0" alt="l&ouml;schen"></a>
+    <a href="index.php?action=sitterauftrag&amp;parentid=<?php echo $row['id'];?>&amp;delid=<?php echo $row['id'];?>&amp;sitterid=<?php echo urlencode($id);?>&amp;sid=<?php echo $sid;?>" onclick="return confirmlink(this, 'Auftrag wirklich löschen?')"><img src="bilder/file_delete_s.gif" border="0" alt="löschen"></a>
 <?php
     }
 ?>
@@ -638,7 +638,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 ?>
  <tr>
   <td class="windowbg2">
-   Zeit fr&uuml;hstens 2:<br>
+   Zeit frühstens 2:<br>
    <i>Nur bei Bauschleifennutzung relevant.</i>
   </td>
   <td class="windowbg1">
@@ -658,7 +658,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 ?>
  <tr>
   <td class="windowbg2">
-   Zeit fr&uuml;hstens 1:<br>
+   Zeit frühstens 1:<br>
    <i>Nur bei Bauschleifennutzung relevant.</i>
   </td>
   <td class="windowbg1">
@@ -683,7 +683,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 ?>
   <td class="windowbg2">
    Zeit:<br>
-   <i>Zeit, zu der die aktuelle Forschung ausl&auml;uft.</i>
+   <i>Zeit, zu der die aktuelle Forschung ausläuft.</i>
   </td>
 <?php
 	}
@@ -691,8 +691,8 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 	{
 ?>
   <td class="windowbg2">
-   Zeit sp&auml;testens:<br>
-   <i>Zeit, zu der alle Bauschleifenauftr&auml;ge auslaufen.</i>
+   Zeit spätestens:<br>
+   <i>Zeit, zu der alle Bauschleifenaufträge auslaufen.</i>
   </td>
 <?php
 	}
@@ -745,7 +745,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 <!--  	 <optgroup label="Unbekannt" title="Unbekannt"></optgroup> -->
 		 <?php echo  fill_selection($resid); ?>
 	 </select>
-    Sollte eine Forschung noch nicht aufgef&uuml;hrt sein, bitte die Forschungsinfo ingame in den Parser einf&uuml;gen.
+    Sollte eine Forschung noch nicht aufgeführt sein, bitte die Forschungsinfo ingame in den Parser einfügen.
 <?php } else {?>
    <input type="text" name="auftrag" value="<?php echo $auftrag;?>" style="width: 200;">
 <?php } ?>
@@ -871,9 +871,9 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
   			  $altname = "";
   			  $resRowName = $row['name'];
   			} else {
-  			  $altname = "Ben&ouml;tigte Forschung:" . find_research_name($resid);
+  			  $altname = "Benötigte Forschung:" . find_research_name($resid);
   				$resRowName = 
-  				    "<a href=\"index.php?action=m_research&amp;researchid=" . $resid . "&amp;sid=" . $sid . "\" title=\"" . $altname . "\">" . $row['name'] . 
+  				    "<a href=\"index.php?action=m_research&amp;researchid=" . $resid . "&amp;sid=" . $sid . "\" title=\"" . $altname . "\">" . $row['name'] .
   				    "</a>";
   			}
       } else {
@@ -906,7 +906,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 ?>
  <tr>
   <td class="windowbg2">
-   Auftrag anh&auml;ngen?:
+   Auftrag anhängen?:
   </td>
   <td class="windowbg1">
    <input type="checkbox" name="serie" value="1">
@@ -1048,7 +1048,7 @@ function find_research_name($researchid) {
 
 /**
  * Find the researchId of the building with the given building identifier.
- * Return 0 if the building was not found (which usually happens for the
+ * return 0 if the building was not found (which usually happens for the
  * buildings at the start of the game).
  */
  

@@ -26,11 +26,6 @@
 
 // -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") {
-	echo "Hacking attempt...!!";
-	exit;
-}
-
 if (!defined('IRA'))
 	die('Hacking attempt...');
 
@@ -121,7 +116,7 @@ if ($row['time']<(time()-24*60*60)) {
 	<table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
 	<tr>
 	<td align='center' style='color:red; font-weight:bold; font-size:1.5em;'>
-	Die Ressourcenkolo&uuml;bersicht wurde seit 24h nicht mehr aktualisiert!
+	Die Ressourcenkoloübersicht wurde seit 24h nicht mehr aktualisiert!
 	</td>
 	</tr>
 	</table>
@@ -135,11 +130,11 @@ $result = $db->db_query($sql)
 $row = $db->db_fetch_array($result);
 if ($row['time'] < (time() - 24 * 60 * 60)) {
 	?>
-	<br>&nbsp;
+	<br>
 	<table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
 	<tr>
 	<td align='center' style='color:red; font-weight:bold; font-size:1.5em;'>
-	Die Highscore wurde seit <?php echo intval((time() - $row['time']) / (60*60)) ?>h nicht mehr aktualisiert!
+	Die Highscore wurde seit über 24h nicht mehr aktualisiert!
 	</td>
 	</tr>
 	</table>
@@ -219,7 +214,7 @@ while( $row = $db->db_fetch_array($result)) {
 			  if($insidetable != 0) {
 				  echo "  </td>\n";
 				}
-  		  echo " </tr>\n</table><br />\n";
+  		  echo " </tr>\n</table><br>\n";
   		}
 
 			// Neue Tabelle aufmachen.
@@ -267,7 +262,7 @@ if($tableopen != 0) {
   if($insidetable != 0) {
     echo "  </td>\n";
   }
-  echo " </tr>\n</table><br />\n";
+  echo " </tr>\n</table><br>\n";
 }
 
 ?>

@@ -58,7 +58,7 @@ if ( $user_status != "admin" )
   
 ?>  
 <script type="text/javascript" language="javascript">
-var confirmMsg  = 'Men&uuml;titel wirklich l&ouml;schen?';
+var confirmMsg  = 'Menütitel wirklich löschen?';
 function confirmLink(theLink, theSqlQuery)
 {
     if (confirmMsg == '') {
@@ -108,7 +108,7 @@ if (!empty($_POST['new'])) {
 
 
     $title  = trim($_POST['new_title']);
-    if (empty($title)) $fehler = "Men&uuml;text vergessen!";
+    if (empty($title)) $fehler = "Menütext vergessen!";
     if (empty($fehler)) {
        $sql = "INSERT INTO " . $db_tb_menu . "
               Set menu      ='" . $hmenu . "',
@@ -137,7 +137,7 @@ if (!empty($_POST['edit'])) {
     if (empty($_POST['edit_extlink'])) $_POST['edit_extlink'] = "";
     $title  = trim($_POST['edit_title']);
     $action = trim($_POST['edit_action']);
-    if (empty($title)) $fehler = "Men&uuml;text vergessen!";
+    if (empty($title)) $fehler = "Menütext vergessen!";
     if (empty($fehler)) {
        $sql = "UPDATE " . $db_tb_menu . "
               Set active='" . $_POST['edit_active'] . "',
@@ -452,7 +452,7 @@ echo "<br>\n";
     echo "<tr><td colspan=2 width=\"100%\" class=\"".$cl."\" align='center'><table width=\"90%\" class=\"bordercolor\" border=\"0\" cellpadding=\"2\" cellspacing=\"0\" >";
 
     echo "<tr><form name=\"form\" action=\"index.php?action=admin_menue&amp;sid=".$sid."&amp;eid=".$row['id']."\" method=\"post\">";
-    echo "<td width=\"50%\" class=\"".$cl."\" align='left'>Men&uuml;text:</td>";
+    echo "<td width=\"50%\" class=\"".$cl."\" align='left'>Menütext:</td>";
     echo "<td width=\"50%\" class=\"".$cl."\" align='left'><input name=\"edit_title\" type=\"text\" size=50 maxlength=\"100\" value=\"".$row['title']."\"></td>";
     echo "</tr><tr>";
     if ($row['active'] == "0") {
@@ -462,7 +462,7 @@ echo "<br>\n";
       $checkyes =" checked";
       $checkno  ="";
     }
-    echo "<td width=\"50%\" class=\"".$cl."\" align='left'>Men&uuml;text anzeigen:</td>";
+    echo "<td width=\"50%\" class=\"".$cl."\" align='left'>Menütext anzeigen:</td>";
     echo "<td width=\"50%\" class=\"".$cl."\" align='left'><input type=\"radio\" name=\"edit_active\" value=\"0\"". $checkno."> - Nein&nbsp;<input type=\"radio\" name=\"edit_active\" value=\"1\"". $checkyes."> - Ja</td>";
     echo "</tr><tr>";
     if ($row['status'] == "") {
@@ -480,7 +480,7 @@ echo "<br>\n";
       $checkhc    ="";
       $checkadmin =" checked";
     }
-    echo "<td width=\"50%\" class=\"".$cl."\" align='left'>Wer dieses Men&uuml; sehen darf:</td>";
+    echo "<td width=\"50%\" class=\"".$cl."\" align='left'>Wer dieses Menü sehen darf:</td>";
     echo "<td width=\"50%\" class=\"".$cl."\" align='left'><input type=\"radio\" name=\"edit_status\" value=\"\"". $checkalle."> - Alle&nbsp;<input type=\"radio\" name=\"edit_status\" value=\"HC\"". $checkhc."> - HC&nbsp;<input type=\"radio\" name=\"edit_status\" value=\"admin\"". $checkadmin."> - Admin</td>";
     echo "</tr><tr>";
     $st[0] ="";
@@ -491,9 +491,9 @@ echo "<br>\n";
     echo "<td width=\"50%\" class=\"".$cl."\" align='left'>Anzeigen bei Sittertyp:</td>";
     echo "<td width=\"50%\" class=\"".$cl."\" align='left'><select name=\"edit_sittertyp\">";
     echo "<option value=\"2\"".$st[2].">Sitterbereich deaktiviert</option>";
-    echo "<option value=\"0\"".$st[0].">kann Sitterauftr&auml;ge erstellen, darf keine anderen sitten</option>";
-    echo "<option value=\"3\"".$st[3].">darf andere sitten, darf keine Sitterauftr&auml;ge erstellen</option>";
-    echo "<option value=\"1\"".$st[1].">darf andere sitten, darf Sitterauftr&auml;ge erstellen</option>";
+    echo "<option value=\"0\"".$st[0].">kann Sitteraufträge erstellen, darf keine anderen sitten</option>";
+    echo "<option value=\"3\"".$st[3].">darf andere sitten, darf keine Sitteraufträge erstellen</option>";
+    echo "<option value=\"1\"".$st[1].">darf andere sitten, darf Sitteraufträge erstellen</option>";
     echo "</select></td>";
     if ($row['submenu'] != 0){
       echo "</tr><tr>";
@@ -525,23 +525,23 @@ echo "</table><br><br>";
 
 echo "<table width=\"90%\" class=\"bordercolor\" border=\"0\" cellpadding=\"2\" cellspacing=\"1\" >";
     echo "<tr><form name=\"form2\" action=\"index.php?action=admin_menue&amp;sid=".$sid."\" method=\"post\">";
-    echo "<td colspan=2 width=\"100%\" class=\"windowbg2\" align='center'>Neuer Men&uuml;titel</td>";
+    echo "<td colspan=2 width=\"100%\" class=\"windowbg2\" align='center'>Neuer Menütitel</td>";
     echo "</tr><tr>";
-    echo "<td width=\"50%\" class=\"windowbg1\" align='left'>Men&uuml;text:</td>";
-    echo "<td width=\"50%\" class=\"windowbg1\" align='left'><input name=\"new_title\" type=\"text\" size=50 maxlength=\"100\" value=\"Men&uuml;text\"></td>";
+    echo "<td width=\"50%\" class=\"windowbg1\" align='left'>Menütext:</td>";
+    echo "<td width=\"50%\" class=\"windowbg1\" align='left'><input name=\"new_title\" type=\"text\" size=50 maxlength=\"100\" value=\"Menütext\"></td>";
     echo "</tr><tr>";
-    echo "<td width=\"50%\" class=\"windowbg1\" align='left'>Men&uuml;text anzeigen:</td>";
+    echo "<td width=\"50%\" class=\"windowbg1\" align='left'>Menütext anzeigen:</td>";
     echo "<td width=\"50%\" class=\"windowbg1\" align='left'><input type=\"radio\" name=\"new_active\" value=\"0\"> - Nein&nbsp;<input type=\"radio\" name=\"new_active\" value=\"1\" checked> - Ja</td>";
     echo "</tr><tr>";
-    echo "<td width=\"50%\" class=\"windowbg1\" align='left'>Wer dieses Men&uuml; sehen darf:</td>";
+    echo "<td width=\"50%\" class=\"windowbg1\" align='left'>Wer dieses Menü sehen darf:</td>";
     echo "<td width=\"50%\" class=\"windowbg1\" align='left'><input type=\"radio\" name=\"new_status\" value=\"\" checked> - Alle&nbsp;<input type=\"radio\" name=\"new_status\" value=\"hc\"> - HC&nbsp;<input type=\"radio\" name=\"new_status\" value=\"admin\"> - Admin</td>";
     echo "</tr><tr>";
     echo "<td width=\"50%\" class=\"windowbg1\" align='left'>Anzeigen bei Sittertyp:</td>";
     echo "<td width=\"50%\" class=\"windowbg1\" align='left'><select name=\"new_sittertyp\">";
-    echo "<option value=\"0\" checked>kann Sitterauftr&auml;ge erstellen, darf keine anderen sitten</option>";
-    echo "<option value=\"1\">darf andere sitten, darf Sitterauftr&auml;ge erstellen</option>";
+    echo "<option value=\"0\" checked>kann Sitteraufträge erstellen, darf keine anderen sitten</option>";
+    echo "<option value=\"1\">darf andere sitten, darf Sitteraufträge erstellen</option>";
     echo "<option value=\"2\">Sitterbereich deaktiviert</option>";
-    echo "<option value=\"3\">darf andere sitten, darf keine Sitterauftr&auml;ge erstellen</option>";
+    echo "<option value=\"3\">darf andere sitten, darf keine Sitteraufträge erstellen</option>";
     echo "</select></td>";
     echo "</tr><tr>";
     echo "<td colspan=2 width=\"100%\" class=\"windowbg2\" align='center'><input type=\"submit\" name=\"new\" value=\"Speichern\"></td>";
@@ -623,7 +623,7 @@ echo "<br><div width=\"90%\" class=\"windowbg2\" style=\"padding:2px; width:90%;
 
       echo "Solltest du eines dieser Module nicht installieren wollen,<br>";
       echo "oder gar nicht wissen wie es auf deinen Server kommt,<br>";
-      echo "rate ich dir es aus den Ordner \"modules\" zu l&ouml;schen.<br><br>";
+      echo "rate ich dir es aus den Ordner \"modules\" zu löschen.<br><br>";
 
       echo "</center> \n";
 

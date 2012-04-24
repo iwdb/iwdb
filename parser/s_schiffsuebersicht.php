@@ -30,9 +30,9 @@ General */
 /*****************************************************************************/
 
 /*****************************************************************************/
-/* Diese Erweiterung der urspünglichen DB ist ein Gemeinschafftsprojekt von  */
+/* Diese Erweiterung der urspï¿½nglichen DB ist ein Gemeinschafftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
+/* Bei Problemen kannst du dich an das eigens dafï¿½r eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
 /*                   http://www.iw-smf.pericolini.de                         */
@@ -60,8 +60,8 @@ function parse_schiffsuebersicht($scanlines) {
     $lines = 0;
   
     // Gehe alle Zeilen des Berichtes durch. Dabei sind die Planeten und 
-    // die Basen in den ersten Zeilen aufgeführt. Erst wenn die aktuelle 
-    // Zeile "Flug", "Stat" und "Gesamt" enthält, sind in den folgenden
+    // die Basen in den ersten Zeilen aufgefï¿½hrt. Erst wenn die aktuelle 
+    // Zeile "Flug", "Stat" und "Gesamt" enthï¿½lt, sind in den folgenden
     // Zeilen Schiffsnamen am Anfang. 
   foreach($scanlines as $scan) {
     
@@ -99,7 +99,7 @@ function parse_schiffsuebersicht($scanlines) {
 
         $schiffsname = str_replace(" ","%", $schiffsname);     
         
-                // Massdriver Pakete sind keine gültigen Schiffe. 
+                // Massdriver Pakete sind keine gï¿½ltigen Schiffe. 
               	if( $schiffsname !== "Massdriver%Paket" ) {
                     // Suche ID des Schiffstyps in der DB
                   	$sql = "SELECT id FROM " . $db_tb_schiffstyp . 
@@ -110,13 +110,13 @@ function parse_schiffsuebersicht($scanlines) {
                                __FILE__, __LINE__, $sql);
                   	$row = $db->db_fetch_array($result); 
 
-                    // ID nicht gefunden -> neu einfügen.
+                    // ID nicht gefunden -> neu einfï¿½gen.
                 		if( empty($row['id'])) {
 /*
         $schiffsname = str_replace("%%","%", $schiffsname);
         $schiffsname = str_replace("%"," ", $schiffsname); 
 
-        echo "<div class='doc_red'>Neues Schiff wurde hinzugef&uuml;gt:<br><pre>";
+        echo "<div class='doc_red'>Neues Schiff wurde hinzugefÃ¼gt:<br><pre>";
         print("[".$schiffsname."]");
         echo "</pre></div> ";   
                   			$sql = "INSERT INTO " . $db_tb_schiffstyp . 
@@ -147,7 +147,7 @@ function parse_schiffsuebersicht($scanlines) {
                 __FILE__, __LINE__, $sql);
 	$deleted = true;
 	}
-                    // Letzte Zahl der Zeile ist die Gesamtzahl der Schiffe für 
+                    // Letzte Zahl der Zeile ist die Gesamtzahl der Schiffe fï¿½r 
                     // diesen Schiffstyp.
                 		$sql = "INSERT INTO " . $db_tb_schiffe . 
                            " (user, schiff, anzahl) VALUES ('" . 
@@ -160,13 +160,13 @@ function parse_schiffsuebersicht($scanlines) {
         }
       }
     } else {
-            // Noch im Prolog. Prüfen, ob der Prolog jetzt abgeschlossen ist.
+            // Noch im Prolog. Prï¿½fen, ob der Prolog jetzt abgeschlossen ist.
       if( strpos($scan, "Flug") > 0 && strpos($scan, "Gesamt") > 0 && strpos($scan, "Stat") > 0)
       {
         $start = 3;
         $lines = $lines + 2;
         } else {
-        if ( strpos($scan, "Schiffs&uuml;bersicht") === 0 ) {
+        if ( strpos($scan, "SchiffsÃ¼bersicht") === 0 ) {
           $start = 2;
         }
         if ( $start == 2 ) $lines++;

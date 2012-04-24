@@ -84,7 +84,7 @@ if ( $user_status == "admin" ) echo "<a href=\"index.php?action=profile&amp;sitt
 else echo $row['sitterlogin'];
 ?>
   </td>
-  <td class="windowbg<?php echo $num;?>"><a href="index.php?action=showplanet&amp;coords=<?php echo $row['coords'];?>&amp;ansicht=auto&amp;sid=<?php echo $sid;?>"><div class='doc_<?php 
+  <td class="windowbg<?php echo $num;?>"><a href="index.php?action=showplanet&amp;coords=<?php echo $row['coords'];?>&amp;ansicht=auto&amp;sid=<?php echo $sid;?>"><div class='doc_<?php
 	 if($row['objekt'] == "Kolonie") echo "black"; 
 	 else if($row['objekt'] == "Kampfbasis") echo "red";
 	 else if($row['objekt'] == "Sammelbasis") echo "green";

@@ -55,7 +55,7 @@ $modulname  = "m_building";
 //
 // -> Menütitel des Moduls der in der Navigation dargestellt werden soll.
 //
-$modultitle = "Geb&auml;udeanzeige";
+$modultitle = "Gebäudeanzeige";
 
 //****************************************************************************
 //
@@ -71,7 +71,7 @@ $modulstatus = "";
 // -> Beschreibung des Moduls, wie es in der Menü-Übersicht angezeigt wird.
 //
 $moduldesc =
-  "Erm&ouml;glicht das Anzeigen der Geb&auml;ude. <br> Dieses Modul braucht eine Installation des dynamischen Techtrees!";
+  "Ermöglicht das Anzeigen der Gebäude. <br> Dieses Modul braucht eine Installation des dynamischen Techtrees!";
 
 //****************************************************************************
 //
@@ -100,7 +100,7 @@ function workInstallDatabase() {
 		"ADD `typ` VARCHAR( 5 ) NOT NULL ",
 		
     "INSERT INTO " . $db_tb_parser . "(modulename,recognizer,message) VALUES " .
-    "('building', 'Geb&auml;udeinfo: ', 'Geb&auml;ude')"
+    "('building', 'Gebäudeinfo: ', 'Gebäude')"
 
 		/*"UPDATE `gebaeude` SET `name` = 'Kraftwerk (Solar) (orbital)' WHERE `id` =23 LIMIT 1 ",
 
@@ -114,7 +114,7 @@ function workInstallDatabase() {
                'Could not query config information.', '',
   	  __FILE__, __LINE__, $sql);
     }
-    echo "<div class='system_notification'>Installation: Datenbank&auml;nderungen = <b>OK</b></div>";
+    echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
 }
 
 //****************************************************************************
@@ -177,7 +177,7 @@ function workUninstallDatabase() {
              'Could not query config information.', '',
  	  __FILE__, __LINE__, $sql);
   }
-	echo "<div class='system_notification'>Deinstallation: Datenbank&auml;nderungen = <b>OK</b></div>";
+	echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
 }
 
 		//****************************************************************************
@@ -376,7 +376,7 @@ function workUninstallDatabase() {
 	?>
 			<tr>
 				<td class="windowbg1" colspan="2" valign="top"><?php echo $teuer;?> in
-				Stufen teurer werdendes Geb&auml;ude.</td>
+				Stufen teurer werdendes Gebäude.</td>
 			</tr>
 			<?php
 }
@@ -399,7 +399,7 @@ function workUninstallDatabase() {
 			<?php if (!empty($build['kolotyp'])) { ?>
 			<tr>
 				<td class="windowbg2" style="width: 20%;" valign="top">
-				<div class="doc_blue">ben&ouml;tigter Kolotyp:</div>
+				<div class="doc_blue">benötigter Kolotyp:</div>
 				</td>
 				<td class="windowbg1" valign="top"><?php echo $build['kolotyp'];?></td>
 				</td>
@@ -408,7 +408,7 @@ function workUninstallDatabase() {
 			<?php if (!empty($build['planityp'])) { ?>
 			<tr>
 				<td class="windowbg2" style="width: 20%;" valign="top">
-				<div class="doc_blue">ben&ouml;tigter Kolotyp:</div>
+				<div class="doc_blue">benötigter Kolotyp:</div>
 				</td>
 				<td class="windowbg1" valign="top"><?php echo $build['planityp'];?></td>
 				</td>
@@ -419,7 +419,7 @@ function workUninstallDatabase() {
 
 			<tr>
 				<td class="windowbg2" style="width: 20%;" valign="top">
-				<div class="doc_blue">Ben&ouml;tigte<br>
+				<div class="doc_blue">Benötigte<br>
 				Forschungen:</div>
 				</td>
 				<td class="windowbg1" valign="top"><?php
@@ -486,7 +486,7 @@ function workUninstallDatabase() {
 
 			<tr>
 				<td class="windowbg2" style="width: 20%;" valign="top">
-				<div class="doc_blue">Erm&ouml;glicht<br>
+				<div class="doc_blue">Ermöglicht<br>
 				Forschungen:</div>
 				</td>
 				<td class="windowbg1" valign="top"><?php
@@ -556,8 +556,8 @@ function workUninstallDatabase() {
 
 			<tr>
 				<td class="windowbg2" style="width: 20%;" valign="top">
-				<div class="doc_blue">Ben&ouml;tigte<br>
-				Geb&auml;ude:</div>
+				<div class="doc_blue">Benötigte<br>
+				Gebäude:</div>
 				</td>
 				<td class="windowbg1" valign="top"><?php
 				$ngebaeude = preg_split('<br>',$rowB['n_building']);
@@ -597,8 +597,8 @@ function workUninstallDatabase() {
 
 			<tr>
 				<td class="windowbg2" style="width: 20%;" valign="top">
-				<div class="doc_blue">Erm&ouml;glicht<br>
-				Geb&auml;ude:</div>
+				<div class="doc_blue">Ermöglicht<br>
+				Gebäude:</div>
 				</td>
 				<td class="windowbg1" valign="top"><?php
 				$ngebaeude = preg_split('<br>',$rowB['e_building']);

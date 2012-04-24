@@ -27,7 +27,7 @@
 // $Id
 */
 
-if (basename($_SERVER['PHP_SELF']) != "index.php") { 
+if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	echo "Hacking attempt...!!"; 
 	exit; 
 }
@@ -133,7 +133,7 @@ while($row = $db->db_fetch_array($result))
   <td class="windowbg1">
 <?php
 if ( $user_status == "admin" ) 
-  echo "<a href=\"index.php?action=profile&amp;sitterlogin=" . urlencode($row['sitterlogin']) . 
+  echo "<a href=\"index.php?action=profile&amp;sitterlogin=" . urlencode($row['sitterlogin']) .
 	     "&amp;sid=" . $sid . "\">" . $row['sitterlogin'] . "</a>";
 else 
   echo $row['sitterlogin'];

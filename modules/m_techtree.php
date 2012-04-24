@@ -87,7 +87,7 @@ function workInstallDatabase() {
 	//  $result = $db->db_query($sql)
 	//	  or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
-	echo "<div class='system_notification'>Installation: Datenbank&auml;nderungen = <b>OK</b></div>";
+	echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
 }
 
 //****************************************************************************
@@ -131,7 +131,7 @@ function workUninstallDatabase() {
 	//  $result = $db->db_query($sql)
 	//    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
-	echo "<div class='system_notification'>Deinstallation: Datenbank&auml;nderungen = <b>OK</b></div>";
+	echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
 }
 
 //****************************************************************************
@@ -264,7 +264,7 @@ echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TreeEvo7";
 echo "</select>";
 echo "<input type=\"button\" value=\"ansehen\" onClick=\"imgchange()\">";
 echo "<br>";
-//echo "wir danken H.G. Blob f&uuml;r die Grafiken der EVO 0, 1, 3, 4 und 5";
+//echo "wir danken H.G. Blob für die Grafiken der EVO 0, 1, 3, 4 und 5";
 echo "<br><br>";
 echo "<IMG SRC=\"bilder/techtree/".$lastevo."\"  NAME=\"img\">";
 echo "</form>";

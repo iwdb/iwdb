@@ -243,7 +243,7 @@ function save_sbxml($scan_data) {
 	/*if (isset($scan_data['vollstaendig']) && $scan_data['vollstaendig'] == 1) {
 		unset($scan_data['vollstaendig']);
 	} else {
-		$results[] = "Der Scan " . $scan_data['coords'] . " ist nicht vollst&auml;ndig.";
+		$results[] = "Der Scan " . $scan_data['coords'] . " ist nicht vollständig.";
 		return $results;
 	}*/
 	// Typänderung
@@ -264,7 +264,7 @@ function save_sbxml($scan_data) {
 		$scan_data['dsmod'] = "";
 		$scan_data['besonderheiten'] = "";
 		$scan_data['reset_timestamp'] = "";
-		$results[] = "Vorhandenen Geoscan wegen Typ&auml;nderung gel&ouml;scht.";
+		$results[] = "Vorhandenen Geoscan wegen Typänderung gelöscht.";
 	}
 	// Neuerer Scan vorhanden
 	if (!empty($row) && $row['time'] > $scan_data['time']) {
@@ -285,7 +285,7 @@ function save_sbxml($scan_data) {
 	}
 	// Neuerer Gebscan vorhanden
 	if (!empty($row) && isset($scan_data['gebscantime']) && $row['gebscantime'] >= $scan_data['gebscantime']) {
-		$results[] = "Neuerer oder aktueller Geb&auml;udescan bereits vorhanden.";
+		$results[] = "Neuerer oder aktueller Gebäudescan bereits vorhanden.";
 		return $results;
 	}
 	// Nebel vorhanden
@@ -314,7 +314,7 @@ function save_sbxml($scan_data) {
 		}
 		$sql .= ")";
 		debug_var("sql", $sql);
-		$results[] = "Scan " . $scan_data['coords'] . " hinzugef&uuml;gt.";
+		$results[] = "Scan " . $scan_data['coords'] . " hinzugefügt.";
 		if (isset($scan_data['geoscantime'])) {
 	 		$sql1 = "UPDATE " . $db_tb_user . " SET geopunkte=geopunkte+1 " . " WHERE sitterlogin='" . $selectedusername . "'";
 	 		$result_u = $db->db_query($sql1)

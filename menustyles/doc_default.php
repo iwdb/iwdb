@@ -147,7 +147,7 @@ function end_form() {
 //
 function action($action, $text) {
   global $sid;
-  echo "<a href=\"index.php?action=" . $action . "&sid=" . $sid ."\">" . 
+  echo "<a href=\"index.php?action=" . $action . "&sid=" . $sid ."\">" .
        $text . "</a>\n";
 }
 

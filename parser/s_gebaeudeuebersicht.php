@@ -25,9 +25,9 @@
 /*****************************************************************************/
 
 /*****************************************************************************/
-/* Diese Erweiterung der urspünglichen DB ist ein Gemeinschafftsprojekt von  */
+/* Diese Erweiterung der urspï¿½nglichen DB ist ein Gemeinschafftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
+/* Bei Problemen kannst du dich an das eigens dafï¿½r eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
 /*                   http://www.iw-smf.pericolini.de                         */
@@ -56,8 +56,8 @@ function parse_gebaeudeuebersicht($scanlines) {
 			continue;
 		debug_var('scanline', $scanline);
 		switch ($state) {
-		case 0: // 1. Überschrift
-			if (preg_match('/Geb&auml;ude&uuml;bersicht/', $scanline, $match) > 0)
+		case 0: // 1. ï¿½berschrift
+			if (preg_match('/GebÃ¤udeÃ¼bersicht/', $scanline, $match) > 0)
 				debug_var("$state", ++$state);
 			break;
 		case 1: // Kategorie oder Tabellenueberschrift oder Zeile
@@ -112,7 +112,7 @@ function parse_gebaeudeuebersicht($scanlines) {
 	}
 	debug_var("insert_data", $result = insert_data_gebaeudeuebersicht($scan_data));
 	if ($result)
-		echo "<div class='system_notification'>Geb&auml;ude&uuml;bersicht aktualisiert.</div>";
+		echo "<div class='system_notification'>GebÃ¤udeÃ¼bersicht aktualisiert.</div>";
 }
 
 function insert_data_gebaeudeuebersicht($scan_data) {

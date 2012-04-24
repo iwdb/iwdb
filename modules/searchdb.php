@@ -44,8 +44,8 @@ $orderprio = array (
    "user" => "Spielername",
    "allianz" => "Allianz",
    "punkte" => "Punkte",
-   "kgmod" => "Geb&auml;udekosten",
-   "dgmod" => "Geb&auml;udedauer",
+   "kgmod" => "Gebäudekosten",
+   "dgmod" => "Gebäudedauer",
    "ksmod" => "Schiffskosten",
    "dsmod" => "Schiffsdauer",
    "fmod" => "Forschungsmultiplikator"
@@ -91,20 +91,20 @@ $ansichten = array (
 );
 
 $techteams = array (
-   "" => "kein Techteam ber&uuml;cksichtigen",
-   "EisenTT" => "Techteam Eisen ber&uuml;cksichtigen",
-   "ChemieTT" => "Techteam Chemie ber&uuml;cksichtigen",
-   "EisTT" => "Techteam Eis ber&uuml;cksichtigen"
+   "" => "kein Techteam berücksichtigen",
+   "EisenTT" => "Techteam Eisen berücksichtigen",
+   "ChemieTT" => "Techteam Chemie berücksichtigen",
+   "EisTT" => "Techteam Eis berücksichtigen"
 );
 
 $merkmale = array (
    "%" => "---",
-   "Asteroideng&uuml;rtel" => "Astrog&uuml;rtel",
+   "Asteroidengürtel" => "Astrogürtel",
    "Gold" => "Gold",
    "instabiler Kern" => "instabil",
    "Mond" => "Mond",
    "planetarer Ring" => "planetarer Ring",
-   "Nat&uuml;rliche Quelle" => "Quelle",
+   "Natürliche Quelle" => "Quelle",
    "radioaktiv" => "radioaktiv",
    "wenig Rohstoffe" => "Rohstoffmangel",
    "alte Ruinen" => "Ruinen",
@@ -255,7 +255,7 @@ if ( ! empty($preset) )
 		<td class="windowbg2">&nbsp;</td>
 		<td class="windowbg1">maximal</td>
 	</tr>
-	<td class="windowbg2">Geb&auml;udekosten:</td>
+	<td class="windowbg2">Gebäudekosten:</td>
 	<td class="windowbg1"><input type="text" name="kgmod"
 		value="<?php echo ((isset($kgmod)) ? $kgmod : '')?>" style="width: 100"
 		maxlength="5">
@@ -263,7 +263,7 @@ if ( ! empty($preset) )
 		</td>
 	</tr>
 	<tr>
-		<td class="windowbg2">Geb&auml;udedauer:</td>
+		<td class="windowbg2">Gebäudedauer:</td>
 		<td class="windowbg1"><input type="text" name="dgmod"
 			value="<?php echo ((isset($dgmod)) ? $dgmod : '')?>" style="width: 100"
 			maxlength="5">

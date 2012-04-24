@@ -26,43 +26,43 @@
 
 /*****************************************************************************/
 /* Dieses Modul dient als Vorlage zum Erstellen von eigenen Zusatzmodulen    */
-/* für die Iw DB: Icewars geoscan and sitter database                        */
+/* fï¿½r die Iw DB: Icewars geoscan and sitter database                        */
 /*---------------------------------------------------------------------------*/
-/* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  */
+/* Diese Erweiterung der ursprï¿½nglichen DB ist ein Gemeinschaftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
+/* Bei Problemen kannst du dich an das eigens dafï¿½r eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
 /*                   http://www.iw-smf.pericolini.de                         */
 /*                                                                           */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde. 
+// -> Abfrage ob dieses Modul ï¿½ber die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") { 
+if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	echo "Hacking attempt...!!"; 
 	exit; 
 }
 
 //****************************************************************************
 //
-// -> Name des Moduls, ist notwendig für die Benennung der zugehörigen 
+// -> Name des Moduls, ist notwendig fï¿½r die Benennung der zugehï¿½rigen 
 //    Config.cfg.php
-// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung für 
-//    eine Installation über das Menü
+// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung fï¿½r 
+//    eine Installation ï¿½ber das Menï¿½
 //
 $modulname  = "m_effektiv";
 
 //****************************************************************************
 //
-// -> Menütitel des Moduls der in der Navigation dargestellt werden soll.
+// -> Menï¿½titel des Moduls der in der Navigation dargestellt werden soll.
 //
-$modultitle = "Effektivit&auml;tsmodul";
+$modultitle = "EffektivitÃ¤tsmodul";
 
 //****************************************************************************
 //
-// -> Status des Moduls, bestimmt wer dieses Modul über die Navigation 
-//    ausführen darf. Mögliche Werte: 
+// -> Status des Moduls, bestimmt wer dieses Modul ï¿½ber die Navigation 
+//    ausfï¿½hren darf. Mï¿½gliche Werte: 
 //    - ""      <- nix = jeder, 
 //    - "admin" <- na wer wohl
 //
@@ -73,7 +73,7 @@ $modulstatus = "";
 // -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
 //
 $moduldesc = 
-  "Modul zum anzeigen der Schiffsklasseneffektivit&auml;ten, beruhend auf der Schiffklasseneffektivit&auml;t ingame";
+  "Modul zum anzeigen der SchiffsklasseneffektivitÃ¤ten, beruhend auf der SchiffklasseneffektivitÃ¤t ingame";
 
 //****************************************************************************
 //
@@ -81,7 +81,7 @@ $moduldesc =
 // installing this module. 
 //
 function workInstallDatabase() {
-  echo "<div class='system_notification'>Installation: Datenbank&auml;nderungen = <b>OK</b></div>";
+  echo "<div class='system_notification'>Installation: DatenbankÃ¤nderungen = <b>OK</b></div>";
 }
 
 //****************************************************************************
@@ -114,19 +114,19 @@ function workInstallConfigString() {
 //
 function workUninstallDatabase() {
 
-    echo "<div class='system_notification'>Deinstallation: Datenbank&auml;nderungen = <b>OK</b></div>";
+    echo "<div class='system_notification'>Deinstallation: DatenbankÃ¤nderungen = <b>OK</b></div>";
 }
 
 //****************************************************************************
 //
 // Installationsroutine
 //
-// Dieser Abschnitt wird nur ausgeführt wenn das Modul mit dem Parameter 
+// Dieser Abschnitt wird nur ausgefï¿½hrt wenn das Modul mit dem Parameter 
 // "install" aufgerufen wurde. Beispiel des Aufrufs: 
 //
 //      http://Mein.server/iwdb/index.php?action=default&was=install
 //
-// Anstatt "Mein.Server" natürlich deinen Server angeben und default 
+// Anstatt "Mein.Server" natï¿½rlich deinen Server angeben und default 
 // durch den Dateinamen des Moduls ersetzen.
 //
 if( !empty($_REQUEST['was'])) {
@@ -141,7 +141,7 @@ if( !empty($_REQUEST['was'])) {
 	  die( "Cannot load menu functions" );
 
   // Wenn ein Modul administriert wird, soll der Rest nicht mehr 
-  // ausgeführt werden. 
+  // ausgefï¿½hrt werden. 
   return;
 }
 

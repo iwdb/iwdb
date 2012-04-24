@@ -209,7 +209,7 @@ include ('configmenu.php');
 <!-- <?$config_menue?> //-->
 <!-- menu Ende -->
 <table width="100%" align="left" style="position:relative; top:25px;"><tr><td><small><strong>Online:</strong> <?php echo ($counter_guest+$counter_member) . " (" . $online_member . ")";?></small></td></tr></table>
-<br /><br />
+<br><br>
 
 <!-- hauptfenster Start -->
           <table width="95%" border="0" cellspacing="0" cellpadding="0">

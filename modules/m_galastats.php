@@ -37,9 +37,9 @@
 /*                                                                           */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde. 
+// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") { 
+if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	echo "Hacking attempt...!!"; 
 	exit; 
 }
@@ -73,7 +73,7 @@ $modulstatus = "";
 // -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
 //
 $moduldesc = 
-  "Das Galastatistiken-Modul berechnet eine Highscore für Kolonien, Planipunkte und Kampfbasen f&uuml;r jede Galaxie und f&uuml;r die gesamte Sichtweite";
+  "Das Galastatistiken-Modul berechnet eine Highscore für Kolonien, Planipunkte und Kampfbasen für jede Galaxie und für die gesamte Sichtweite";
 
 //****************************************************************************
 //
@@ -82,7 +82,7 @@ $moduldesc =
 //
 function workInstallDatabase() {
 
-  echo "<div class='system_notification'>Installation: Datenbank&auml;nderungen = <b>n/V (also OK)</b></div>";
+  echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>n/V (also OK)</b></div>";
 }
 
 //****************************************************************************
@@ -122,7 +122,7 @@ function workInstallConfigString() {
 // removing this module. 
 //
 function workUninstallDatabase() {
- echo "<div class='system_notification'>Deinstallation: Datenbank&auml;nderungen = <b>n/V (also OK)</b></div>";
+ echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>n/V (also OK)</b></div>";
 }
 
 //****************************************************************************
@@ -299,7 +299,7 @@ if (!@include("./config/".$modulname.".cfg.php")) {
      echo "<input type=\"hidden\" name=\"sid\" value=\"$sid\">\n";
      echo "<input type=\"hidden\" name=\"action\" value=\"$modulname\">\n";
      echo "<p>";
-     echo "Statistiken anzeigen f&uuml;r Gala <input type=\"text\" name=\"showfrom\" value=\"$showfrom\" size=\"4\">&nbsp;\n";
+     echo "Statistiken anzeigen für Gala <input type=\"text\" name=\"showfrom\" value=\"$showfrom\" size=\"4\">&nbsp;\n";
      echo "bis <input type=\"text\" name=\"showto\" value=\"$showto\" size=\"4\">&nbsp;\n";
      echo "</p>\n<p>";
      echo "Galaxieliste anzeigen von Ally <input type=\"text\" name=\"galamin\" value=\"$galamin\" size=\"4\">&nbsp;\n";

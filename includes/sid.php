@@ -35,8 +35,8 @@ global $db, $db_tb_sid, $db_prefix, $db_tb_user;
 // Skript mit "include" eingebunden wird. Je nach Proxy ist die Variable manchmal
 // auch garnicht gesetzt. Daher habe ich in der index.php die IP-Adresse des
 // Benutzers ausgelesen und in die Variable $REMOTE_IPADDR gepackt. -- Einfallslos
-$client_ip = $REMOTE_IPADDR;
-//$client_ip = $_SERVER['REMOTE_ADDR'];
+//$client_ip = $REMOTE_IPADDR;
+$client_ip = $_SERVER['REMOTE_ADDR'];
 
 if( isset($_SERVER['HTTP_X_FORWARDED_FOR']) )
 {

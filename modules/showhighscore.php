@@ -25,9 +25,9 @@
 /*****************************************************************************/
 
 /*****************************************************************************/
-/* Diese Erweiterung der urspünglichen DB ist ein Gemeinschafftsprojekt von  */
+/* Diese Erweiterung der urspï¿½nglichen DB ist ein Gemeinschafftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
+/* Bei Problemen kannst du dich an das eigens dafï¿½r eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
 /*                   http://www.iw-smf.pericolini.de                         */
@@ -37,7 +37,7 @@ if (basename($_SERVER['PHP_SELF']) != "index.php")
   die('Hacking attempt...!!');
 
 // Nachfolgendes define auf FALSE setzen, wenn in der Liste der Hall of Shame
-// nur negative Werte vorkommen dürfen.
+// nur negative Werte vorkommen dï¿½rfen.
 define('SHOWNEGATIVE', TRUE);	
 	
 $ressu = (isset($db_tb_ressuebersicht) && !empty($db_tb_ressuebersicht)) ? TRUE : FALSE; 
@@ -46,7 +46,7 @@ $c_to   = stripNumber(getVar('to'));
 
 empty($c_to) ? $c_to = "5" : '';
 
-doc_title("<b>Wer hat den L&auml;ngsten?</b>");
+doc_title("<b>Wer hat den LÃ¤ngsten?</b>");
 
 echo '<br>
 <form action="index.php" method="post"><p>
@@ -168,7 +168,7 @@ return;
 
 //******************************************************************************
 //
-// Füllt eine kleine Tabelle mit den Werten fuer eine Hall of fame/shame.
+// Fï¿½llt eine kleine Tabelle mit den Werten fuer eine Hall of fame/shame.
 // 
 function createRessieTable($ressie, $direction, $altress = "", $decimals=2, $altsql = "") {
   global $db, $db_tb_ressuebersicht, $db_tb_user, $c_to, $user_fremdesitten, $user_allianz;

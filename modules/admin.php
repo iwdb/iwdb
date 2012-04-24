@@ -24,9 +24,9 @@
 /* The GNU GPL can be found in LICENSE in this directory                     */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde. 
+// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") { 
+if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	die ("Hacking attempt...!!"); 
 	exit; 
 }
@@ -40,7 +40,7 @@ if ( $user_status == "admin" ) {
   start_row("menutop", "align=\"center\"");
   action("admin&amp;uaction=schiffstypen", "Schiffstypen");
   next_cell("menutop", "align=\"center\"");
-  action("admin&amp;uaction=gebaeude", "Geb&auml;ude");
+  action("admin&amp;uaction=gebaeude", "Gebäude");
   next_cell("menutop", "align=\"center\"");
   action("admin&amp;uaction=allianzstatus", "Allianzstatus");
   next_cell("menutop", "align=\"center\"");

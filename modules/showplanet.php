@@ -74,7 +74,7 @@ if ( ! empty($coords) )
 		$sql = "UPDATE " . $db_tb_scans . " SET reserviert='" . $row['reserviert'] . "' WHERE coords = '" . $coords . "'";
 		$result_planetedit = $db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-		echo "<div class='system_notification'>Planetenreservierung ge&auml;ndert.</div>";
+		echo "<div class='system_notification'>Planetenreservierung geändert.</div>";
 	}
 
 	$sql = "SELECT status FROM " . $db_tb_allianzstatus . " WHERE allianz LIKE '" . $row['allianz'] . "'";
@@ -192,7 +192,7 @@ if ( ! empty($coords) )
 		<td class="windowbg1"><?php echo $row['objekt'];?></td>
 	</tr>
 	<tr>
-		<td class="windowbg2">Planetengr&ouml;&szlig;e:</td>
+		<td class="windowbg2">Planetengröße:</td>
 		<td class="windowbg1"><?php echo $row['bevoelkerungsanzahl'];?></td>
 	</tr>
 	<tr>
@@ -256,12 +256,12 @@ if ( ! empty($coords) )
 		</td>
 	</tr>
 	<tr>
-		<td class="windowbg2">Geb&auml;udekostenmod.:</td>
+		<td class="windowbg2">Gebäudekostenmod.:</td>
 		<td class="windowbg1"><?php echo ($row['kgmod'] > 1) ? "<div class='doc_red'>" . $row['kgmod'] . "</div>": $row['kgmod'];?>
 		</td>
 	</tr>
 	<tr>
-		<td class="windowbg2">Geb&auml;udedauermod.:</td>
+		<td class="windowbg2">Gebäudedauermod.:</td>
 		<td class="windowbg1"><?php echo ($row['dgmod'] > 1) ? "<div class='doc_red'>" . $row['dgmod'] . "</div>": $row['dgmod'];?>
 		</td>
 	</tr>
@@ -345,12 +345,12 @@ if ( $row['objekt'] == "---" )
 			action="index.php?action=showplanet&amp;coords=<?php echo $row['coords'];?>&amp;sid=<?php echo $sid;?>"
 			enctype="multipart/form-data"><?php
 			if ( empty($row['reserviert']) )
-			echo "Diesen Planeten f&uuml;r dich reservieren? <input type=\"checkbox\" name=\"reservieren\"><input type=\"hidden\" name=\"editplanet\" value=\"true\"> <input type=\"submit\" value=\"speichern\" name=\"B1\" class=\"submit\">";
+			echo "Diesen Planeten für dich reservieren? <input type=\"checkbox\" name=\"reservieren\"><input type=\"hidden\" name=\"editplanet\" value=\"true\"> <input type=\"submit\" value=\"speichern\" name=\"B1\" class=\"submit\">";
 			elseif ( ( isset($user_sitterlogin) ) && ( $row['reserviert'] == $user_sitterlogin ) )
-			echo "Diesen Planeten f&uuml;r dich reservieren? <input type=\"checkbox\" name=\"reservieren\" class=\"checkbox\" checked><input type=\"hidden\" name=\"editplanet\" value=\"true\"> <input type=\"submit\" value=\"speichern\" name=\"B1\" class=\"submit\">";
+			echo "Diesen Planeten für dich reservieren? <input type=\"checkbox\" name=\"reservieren\" class=\"checkbox\" checked><input type=\"hidden\" name=\"editplanet\" value=\"true\"> <input type=\"submit\" value=\"speichern\" name=\"B1\" class=\"submit\">";
 			else
 			{
-				echo "Dieser Planet ist f&uuml;r " . $row['reserviert'] . " reserviert. Bitte besiedel ihn nicht.";
+				echo "Dieser Planet ist für " . $row['reserviert'] . " reserviert. Bitte besiedel ihn nicht.";
 				if ( ( isset($user_status) ) && ( $user_status == "admin" ) )
 				{
 					echo "<br>Aendern? <input type=\"checkbox\" name=\"reservieren\" class=\"checkbox\" checked><input type=\"hidden\" name=\"editplanet\" value=\"true\"> <input type=\"submit\" value=\"speichern\" name=\"B1\" class=\"submit\">";

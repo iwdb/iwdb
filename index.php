@@ -26,47 +26,20 @@
 /*****************************************************************************/
 error_reporting(E_ALL);
 
-$startzeit = explode(" ", microtime());
-$startzeit = $startzeit[0]+$startzeit[1];
-
 //ist noch eine install.php vorhanden?
 if (file_exists('install.php')) {
     die ('<div style="text-align:center;color:red">Eine install.php ist noch vorhanden!</div><div style="text-align:center">Du darfst den Admin slammen, da er vergessen hat, diese aus dem Rootordner zu löschen!</div>');
 }
 
 // define's vor allen anderen Includes durchführen 
-define('DEBUG', TRUE);
 define('IRA', TRUE);
 
-// Setzt diesen Wert auf TRUE, wenn ihr die SQL-Kommandos am unteren Ende 
-// ausgegeben haben wollt.
-define('SQLDEBUG', FALSE);
-
-// define('RESEARCH', FALSE);
-define('ALLYLINKS', TRUE);
 define('NEBULA', TRUE);
 define('SPECIALSEARCH', TRUE);
 define('ALLY_MEMBERS_ON_MAP', TRUE); 
 define('SHOWWITHOUTSCAN', TRUE);
-define('SHOWSHIPCOUNT', TRUE);
-
 define('CONFIG_SERVER_URI', TRUE);
-
 define('GENERAL_ERROR', 'GENERAL_ERROR');
-
-// $REMOTE_ADDR kann je nach Server die IP des Servers enthalten, wenn ein
-// Skript mit "include" eingebunden wird. Je nachdem ist die Variable manchmal
-// auch garnicht gesetzt. Daher habe ich hier in der index.php die IP-Adresse des
-// Benutzers ausgelesen und in die Variable $REMOTE_IPADDR gepackt.
-// Sollte die IP nicht gesetzt oder leer sein, wird der localhost 127.0.0.1
-// als default-IP verwendet.  
-// -- Einfallslos
-if(isset($REMOTE_ADDR) && !empty($REMOTE_ADDR)) {
-  $REMOTE_IPADDR = $REMOTE_ADDR;
-  //$REMOTE_IPADDR = $_SERVER['REMOTE_ADDR'];
-} else {
-  $REMOTE_IPADDR = "127.0.0.1";
-}
 
 global $db_host, $db_user, $db_pass, $db_name, $db_prefix;
 include_once("config/configsql.php");
@@ -78,10 +51,10 @@ include_once("includes/db_mysql.php");
 $error = '';
 
 $db = new db();
-$link_id = $db->db_connect($db_host, $db_user, $db_pass, $db_name)
-	or error(GENERAL_ERROR, 
-           'Could not connect to database.', '', 
-           __FILE__, __LINE__);
+$link_id = $db->db_connect($db_host, $db_user, $db_pass, $db_name);
+if(!$link_id) {
+    exit('Could not connect to Database!');
+}
 
 include("config/config.php");
 
@@ -198,7 +171,7 @@ if (( ( $user_adminsitten == SITTEN_BOTH ) || ( $user_adminsitten == SITTEN_ONLY
 <html>
 <head>
 <title><?php echo $config_allytitle ?></title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <?php
 if(defined('CONFIG_SERVER_URI') && CONFIG_SERVER_URI === TRUE ) {
   $SERVERURI = "index.php?action=" . $action . "&amp;sid=" . $sid;
@@ -284,7 +257,7 @@ else
 
 if ( ( $user_password == "a338268847bac752d23c30b410570c2c" ) || 
      ( $user_password == "2f5a63d542da883a490dd61ef46fe2a9" ) ) 
-  echo "<br><div class='system_notification'><b>*moep* Achtung! &Auml;ndere bitte dein Passwort im Profil. Danke.</b></div><br><br>";
+  echo "<br><div class='system_notification'><b>*moep* Achtung! Ändere bitte dein Passwort im Profil. Danke.</b></div><br><br>";
   
 if ( ( empty($user_sitterpwd) ) && ( $user_sitten == "1" ) ) 
   echo "<br><div class='system_notification'><b>*moep* Achtung! Du hast zwar anderen das Sitten erlaubt, aber kein Sitterpasswort eingetragen.</b></div><br><br>";
@@ -359,9 +332,9 @@ if ( ( $user_id <> "guest" ) && ( $user_rules == "1" ) )
 ?>
 
 <br><br>
-<div class='doc_title'>Account l&ouml;schen</div>
+<div class='doc_title'>Account löschen</div>
 <br>
-<div class='system_notification'>Account '<?php echo $sitterlogin;?>' gel&ouml;scht!</div>
+<div class='system_notification'>Account '<?php echo $sitterlogin;?>' gelöscht!</div>
 <?php
 	}
 }
@@ -396,25 +369,11 @@ echo $error;
               </td>
             </tr>
           </table>
-          <p>&nbsp;</p>
-          <p>&nbsp;</p>
+          <br>
       </td>
     </tr>
   </table>
 </div>
-<?php
-  $endzeit=explode(" ", microtime());
-  $endzeit=$endzeit[0]+$endzeit[1];
-  echo "<div class='doc_small_centered'>";
-	echo " Diese Seite wurde in " . round($endzeit - $startzeit,6) . " Sekunden geladen";
-	if($db->query_count > 0)
-	  echo " und es wurden daf&uuml;r " . $db->query_count  . " Datenbankabfragen ben&ouml;tigt";
-	echo ".</div>";
-	
-	if(defined('SQLDEBUG') && SQLDEBUG === TRUE) {
-	  echo $db->db_queries;
-	} 
-?>
 </body>
 </html>
 <?php	} ?>

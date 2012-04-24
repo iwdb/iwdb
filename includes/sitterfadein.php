@@ -1,7 +1,7 @@
 <?php
 
 //definition der Sounddateien (leer = global ausgeschaltet)
-//nur mp3 Dateien m&ouml;glich da anderes nciht unerstuetzt werden kann
+//nur mp3 Dateien möglich da anderes nciht unerstuetzt werden kann
 //achten sie darauf, dass die Dtaie nicht zu gro? ist.
 $soundnormal = 'sittersound.mp3';
 $soundwichtig = 'sittersound.mp3';
@@ -87,7 +87,7 @@ window.setTimeout(nerv_mich, 500);
 }
 
 
-// Anstehende Auftr&auml;ge z&auml;hlen
+// Anstehende Aufträge zählen
 $anzauftrag = "";
 
 if(( $user_adminsitten == SITTEN_BOTH ) || ( $user_adminsitten == SITTEN_ONLY_LOGINS ))
@@ -164,28 +164,28 @@ if (!empty($sound)) {
 <?php 
 if ( ($anzahl == 1) AND ($anzahl_n == 0) ) { 
 ?> 
-<a href="index.php?sid=<?php echo $sid;?>&action=sitterliste">Es ist ein Auftrag offen!</a> 
+<a href="index.php?sid=<?php echo $sid;?>&action=sitterliste">Es ist ein Auftrag offen!</a>
 <?php 
 }
 ?> 
 <?php 
 if ( ($anzahl == 1) AND ($anzahl_n == 1) ) { 
 ?> 
-<a href="index.php?sid=<?php echo $sid;?>&action=sitterliste"><b class="doc_red">Es ist ein Forschungsauftrag offen!</b></a> 
+<a href="index.php?sid=<?php echo $sid;?>&action=sitterliste"><b class="doc_red">Es ist ein Forschungsauftrag offen!</b></a>
 <?php 
 }
 ?> 
 <?php 
 if ( ($anzahl > 1) AND ($anzahl_n == 0) ) { 
 ?> 
-<a href="index.php?sid=<?php echo $sid;?>&action=sitterliste">Es sind <?php echo $anzahl;?> Auftr&auml;ge offen!</a> 
+<a href="index.php?sid=<?php echo $sid;?>&action=sitterliste">Es sind <?php echo $anzahl;?> Aufträge offen!</a>
 <?php 
 }
 ?> 
 <?php 
 if ( ($anzahl > 1) AND ($anzahl_n >= 1) ) { 
 ?> 
-<a href="index.php?sid=<?php echo $sid;?>&action=sitterliste"><span class="doc_red">Es sind <?php echo $anzahl;?> Auftr&auml;ge offen!</span></a> 
+<a href="index.php?sid=<?php echo $sid;?>&action=sitterliste"><span class="doc_red">Es sind <?php echo $anzahl;?> Aufträge offen!</span></a>
 <?php 
 }
 ?> 

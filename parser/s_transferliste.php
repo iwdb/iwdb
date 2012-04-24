@@ -26,9 +26,9 @@
 // $Id: s_transferliste.php 205 2007-04-24 18:54:05Z reuq tgarfeg $
 
 /*****************************************************************************/
-/* Diese Erweiterung der urspünglichen DB ist ein Gemeinschafftsprojekt von  */
+/* Diese Erweiterung der urspï¿½nglichen DB ist ein Gemeinschafftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
+/* Bei Problemen kannst du dich an das eigens dafï¿½r eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
 /*                   http://www.iw-smf.pericolini.de                         */
@@ -88,7 +88,7 @@ function parse_transferliste($scanlines) {
 				$state = 0;
 			break;
 		case 2: 
-			if (preg_match('/Eine Flotte ist auf dem Planeten (.*) (\d+):(\d+):(\d+) angekommen\. Der Absender ist (.*)\. Der Empf&auml;nger ist (.*)\./', $scan, $match) > 0)
+			if (preg_match('/Eine Flotte ist auf dem Planeten (.*) (\d+):(\d+):(\d+) angekommen\. Der Absender ist (.*)\. Der EmpfÃ¤nger ist (.*)\./', $scan, $match) > 0)
 			{
 				$planet = $match[1];
 				debug_var('planet', $planet);
@@ -105,7 +105,7 @@ function parse_transferliste($scanlines) {
 				$state++;
 				debug_var('state', $state);
 			}
-			else if (preg_match('/Eine Flotte ist auf dem Planeten (\d+):(\d+):(\d+) angekommen\. Der Absender ist (.*)\. Der Empf&auml;nger ist (.*)\./', $scan, $match) > 0)
+			else if (preg_match('/Eine Flotte ist auf dem Planeten (\d+):(\d+):(\d+) angekommen\. Der Absender ist (.*)\. Der EmpfÃ¤nger ist (.*)\./', $scan, $match) > 0)
 			{
 				debug_var('coord_gal', $coord_gal = $match[1]);
 				debug_var('coord_sys', $coord_sys = $match[2]);
@@ -136,7 +136,7 @@ function parse_transferliste($scanlines) {
 				$state = 0;
 			break;
 		case 5:
-			if (preg_match('/(Eisen|Erdbeeren|Stahl|Erdbeermarmelade|VV4A|Erdbeerkonfit&uumlre|chem\. Elemente|Brause|Eis|Vanilleeis|Wasser|Schneematch|Eismatsch|Bev&ouml;lkerung|Energie|Traubenzucker)[\t| ]+(\d+)/', $scan, $match) > 0)
+			if (preg_match('/(Eisen|Erdbeeren|Stahl|Erdbeermarmelade|VV4A|Erdbeerkonfit&uumlre|chem\. Elemente|Brause|Eis|Vanilleeis|Wasser|Schneematch|Eismatsch|BevÃ¶lkerung|Energie|Traubenzucker)[\t| ]+(\d+)/', $scan, $match) > 0)
 			{
 				switch (getRessname($match[1])) {
 				case 'Eisen' : 
@@ -187,7 +187,7 @@ function parse_transferliste($scanlines) {
     // Lieferungen an sich selbst ignorieren
     // Manuell: DELETE FROM `prefix_transferliste` WHERE `buddler`=`fleeter`
     if(!empty($zeitmarke) && $buddler == $fleeter) {
-      doc_message("Bericht ".$zeitmarke." vom ".strftime("%d.%m.%Y %H:%M:%S", $zeitmarke)." ignoriert! - Absender und Empf&auml;nger sind identisch...");
+      doc_message("Bericht ".$zeitmarke." vom ".strftime("%d.%m.%Y %H:%M:%S", $zeitmarke)." ignoriert! - Absender und EmpfÃ¤nger sind identisch...");
       return;
     }
 
@@ -227,7 +227,7 @@ function parse_transferliste($scanlines) {
              'Could not query config information.', '', 
              __FILE__, __LINE__, $sql);
     
-    // Aktualisierungszeit für Transportberichte setzen
+    // Aktualisierungszeit fï¿½r Transportberichte setzen
     $sql = "UPDATE " . $db_tb_user . " SET lasttransport='" . $config_date . 
          "' WHERE sitterlogin='" . $buddler . "'";
     $result = $db->db_query($sql)

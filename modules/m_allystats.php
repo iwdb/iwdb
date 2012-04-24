@@ -82,7 +82,7 @@ $moduldesc =
 //
 function workInstallDatabase() {
 
-  echo "<div class='system_notification'>Installation: Datenbank&auml;nderungen = <b>n/V (also OK)</b></div>";
+  echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>n/V (also OK)</b></div>";
 }
 
 //****************************************************************************
@@ -122,7 +122,7 @@ function workInstallConfigString() {
 // removing this module.
 //
 function workUninstallDatabase() {
- echo "<div class='system_notification'>Deinstallation: Datenbank&auml;nderungen = <b>n/V (also OK)</b></div>";
+ echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>n/V (also OK)</b></div>";
 }
 
 //****************************************************************************
@@ -199,7 +199,7 @@ function getColor($tuedel) {
     echo "<p>";
     echo "Allianztag: <input type=\"text\" name=\"allianz\" value=\"$allianz\" size=\"20\">&nbsp;\n";
     echo "</p>\n<p>";
-    echo "Spieler mit dem <input type=\"text\" name=\"fschnitt\" value=\"$fleeterschnitt\" size=\"5\"> fachen des Allyschnitts f&uuml;r Fleeter halten\n";
+    echo "Spieler mit dem <input type=\"text\" name=\"fschnitt\" value=\"$fleeterschnitt\" size=\"5\"> fachen des Allyschnitts für Fleeter halten\n";
     echo "</p>\n<p>";
     echo "<input type=\"submit\" value=\"suchen\">";
     echo "</p>\n<br>";
@@ -461,7 +461,7 @@ function getColor($tuedel) {
       echo "<br>";
       start_table();
       start_row("titlebg", "style=\"width:95%\" align=\"center\" colspan=\"5\"");
-      echo "<b>Spieler mit hohem Punkteschnitt</b> (m&ouml;gliche Fleeter)";
+      echo "<b>Spieler mit hohem Punkteschnitt</b> (mögliche Fleeter)";
       next_row("windowbg2", "style=\"width:22%\" align=\"center\"");
       echo "Username";
       next_cell("windowbg2", "style=\"width:36%\" align=\"center\"");
@@ -588,7 +588,7 @@ function getColor($tuedel) {
       if (isset($spezpla)) {
       start_table();
       start_row("titlebg", "style=\"width:95%\" align=\"center\" colspan=\"10\"");
-      echo "<b>Spezialplaneten&uuml;bersicht</b>";
+      echo "<b>Spezialplanetenübersicht</b>";
       next_row("windowbg2", "style=\"width:13%\" align=\"center\"");
       echo "Galaxie";
       next_cell("windowbg2", "style=\"width:29%\" align=\"center\"");
@@ -632,7 +632,7 @@ function getColor($tuedel) {
      {
        echo "Allianz dummerweise net gefunden<br>\n";
      }
-      echo "<a href=\"index.php?action=m_allystats&amp;sid=" . $sid . "\">zur&uuml;ck zur Allianzliste</a>";
+      echo "<a href=\"index.php?action=m_allystats&amp;sid=" . $sid . "\">zurück zur Allianzliste</a>";
 
     } else {
       start_table();

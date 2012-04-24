@@ -8,7 +8,7 @@ if (basename($_SERVER['PHP_SELF']) != "index.php")
 if (!defined('IRA'))
 	die('Hacking attempt...');
 
-// Angriff übernehmen
+// Angriff ï¿½bernehmen
 if (isset($_GET['id']) && isset($_GET['subaction']) && $_GET['subaction'] == 'ueb') {
 	
 	$time = time();
@@ -58,7 +58,7 @@ $result = $db->db_query($sql)
 	or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 while($row = $db->db_fetch_array($result))
 {
-	// sortieren nach übernommen/noch frei
+	// sortieren nach ï¿½bernommen/noch frei
 	if (isset($row['ueb']))
 		$sort = 'ueb';
 	else
@@ -83,7 +83,7 @@ while($row = $db->db_fetch_array($result))
 
 echo '
 	<script src="javascript/angriffe.js" type="text/javascript"></script>
-	<div class="doc_title">Angriffe</div><br />';
+	<div class="doc_title">Angriffe</div><br>';
 if (isset($angriffe['frei'])) {
 	echo '
 	<table border="0" cellpadding="5" cellspacing="1" class="bordercolor" style="width: 90%;">
@@ -96,37 +96,37 @@ if (isset($angriffe['frei'])) {
 			<td class="titlebg" align="center"><b>Planet</b></td>
 			<td class="titlebg" align="center"><b>Verteidiger</b></td>
 			<td class="titlebg" align="center"><b>Planet</b></td>
-			<td class="titlebg" align="center"><b>&uuml;bernommen</b></td>
+			<td class="titlebg" align="center"><b>Ã¼bernommen</b></td>
 		</tr>';
 	foreach ($angriffe['frei'] as $key => $value) {
 		echo '
 		<script>setTimeout(\'countdown('.$value['time'].', '.$value['id'].')\',0);</script>
 		<tr>
-			<td class="windowbg1" align="center">',date('d.m.Y H:i:s', $value['time']),'<br /><span id="countdown',$value['id'],'" class="doc_red"> </span></td>
+			<td class="windowbg1" align="center">',date('d.m.Y H:i:s', $value['time']),'<br><span id="countdown',$value['id'],'" class="doc_red"> </span></td>
 			<td class="windowbg1" align="center">',$value['att_user'],'</td>
-			<td class="windowbg1" align="center">',$value['att_pla'],'<br />(',$value['att_coords'],')</td>
+			<td class="windowbg1" align="center">',$value['att_pla'],'<br>(',$value['att_coords'],')</td>
 			<td class="windowbg1" align="center">',$value['def_user'],'</td>
-			<td class="windowbg1" align="center">',$value['def_pla'],'<br />(',$value['def_coords'],')</td>
+			<td class="windowbg1" align="center">',$value['def_pla'],'<br>(',$value['def_coords'],')</td>
 			<td class="windowbg1" align="center">
 				<span class="doc_red">von keinem</span>
-				<br /><br /><a href="index.php?action=angriffe&amp;subaction=ueb&amp;id=', $value['id'] ,'&amp;sid=', $sid ,'">[&uuml;bernehmen]</a>';
-		// Admin, HC und momentan Verantwortlicher dürfen sich einloggen
+				<br><br><a href="index.php?action=angriffe&amp;subaction=ueb&amp;id=', $value['id'] ,'&amp;sid=', $sid ,'">[Ã¼bernehmen]</a>';
+		// Admin, HC und momentan Verantwortlicher dï¿½rfen sich einloggen
 		if ($user_status == "admin" || $user_status == "hc" || ($user_sitterlogin == $value['ueb_user'] && !empty($value['ueb'])) )
 			echo '
-				<br /><br /><a href="index.php?action=sitterlogins&amp;sitterlogin=', urlencode($value['def_user']) ,'&amp;sid=', $sid ,'" target="_blank">[einloggen]</a>';
+				<br><br><a href="index.php?action=sitterlogins&amp;sitterlogin=', urlencode($value['def_user']) ,'&amp;sid=', $sid ,'" target="_blank">[einloggen]</a>';
 		echo '
 			</td>
 		</tr>';
 	}
 	echo '
 	</table>
-	<br />';
+	<br>';
 }
 if (isset($angriffe['ueb'])) {
 	echo '
 	<table border="0" cellpadding="5" cellspacing="1" class="bordercolor" style="width: 90%;">
 		<tr>
-			<td class="titlebg" colspan="6" align="center"><span class="doc_green"><b>laufende Angriffe (&uuml;bernommen)</b></span></td>
+			<td class="titlebg" colspan="6" align="center"><span class="doc_green"><b>laufende Angriffe (Ã¼bernommen)</b></span></td>
 		</tr>
 		<tr>
 			<td class="titlebg" align="center"><b>Zeit</b></td>
@@ -134,38 +134,38 @@ if (isset($angriffe['ueb'])) {
 			<td class="titlebg" align="center"><b>Planet</b></td>
 			<td class="titlebg" align="center"><b>Verteidiger</b></td>
 			<td class="titlebg" align="center"><b>Planet</b></td>
-			<td class="titlebg" align="center"><b>&uuml;bernommen</b></td>
+			<td class="titlebg" align="center"><b>Ã¼bernommen</b></td>
 		</tr>';
 	foreach ($angriffe['ueb'] as $key => $value) {
 		echo '
 		<script>setTimeout(\'countdown('.$value['time'].', '.$value['id'].')\',0);</script>
 		<tr>
-			<td class="windowbg1" align="center">',date('d.m.Y H:i:s', $value['time']),'<br /><span id="countdown',$value['id'],'" class="doc_red"> </span></td>
+			<td class="windowbg1" align="center">',date('d.m.Y H:i:s', $value['time']),'<br><span id="countdown',$value['id'],'" class="doc_red"> </span></td>
 			<td class="windowbg1" align="center">',$value['att_user'],'</td>
-			<td class="windowbg1" align="center">',$value['att_pla'],'<br />(',$value['att_coords'],')</td>
+			<td class="windowbg1" align="center">',$value['att_pla'],'<br>(',$value['att_coords'],')</td>
 			<td class="windowbg1" align="center">',$value['def_user'],'</td>
-			<td class="windowbg1" align="center">',$value['def_pla'],'<br />(',$value['def_coords'],')</td>
+			<td class="windowbg1" align="center">',$value['def_pla'],'<br>(',$value['def_coords'],')</td>
 			<td class="windowbg1" align="center">
 				<span class="doc_green">', $value['ueb_user'] ,'</span>';
-		// Übernahme von Planetenbesitzer
+		// ï¿½bernahme von Planetenbesitzer
 		if ($user_sitterlogin == $value['def_user'])
 			echo '
-				<br /><br /><a href="index.php?action=angriffe&amp;subaction=ueb&amp;id=', $value['id'] ,'&amp;sid=', $sid ,'">[&uuml;bernehmen]</a>';
-		// Admin, HC und momentan Verantwortlicher dürfen sich einloggen
+				<br><br><a href="index.php?action=angriffe&amp;subaction=ueb&amp;id=', $value['id'] ,'&amp;sid=', $sid ,'">[Ã¼bernehmen]</a>';
+		// Admin, HC und momentan Verantwortlicher dï¿½rfen sich einloggen
 		if ($user_status == "admin" || $user_status == "hc" || ($user_sitterlogin == $value['ueb_user'] && !empty($value['ueb'])) )
 			echo '
-				<br /><br /><a href="index.php?action=sitterlogins&amp;sitterlogin=', urlencode($value['def_user']) ,'&amp;sid=', $sid ,'" target="_blank">[einloggen]</a>';
-		// Admin, HC und momentan Verantwortlicher dürfen Angriff wieder freigeben
+				<br><br><a href="index.php?action=sitterlogins&amp;sitterlogin=', urlencode($value['def_user']) ,'&amp;sid=', $sid ,'" target="_blank">[einloggen]</a>';
+		// Admin, HC und momentan Verantwortlicher dï¿½rfen Angriff wieder freigeben
 		if ($user_status == "admin" || $user_status == "hc" || ($user_sitterlogin == $value['ueb_user'] && !empty($value['ueb'])) )
 			echo '
-				<br /><br /><a href="index.php?action=angriffe&amp;subaction=frei&amp;id=', $value['id'] ,'&amp;sid=', $sid ,'">[freigeben]</a>';
+				<br><br><a href="index.php?action=angriffe&amp;subaction=frei&amp;id=', $value['id'] ,'&amp;sid=', $sid ,'">[freigeben]</a>';
 		echo '
 			</td>
 		</tr>';
 	}
 	echo '
 	</table>
-	<br />';
+	<br>';
 }
 if (isset($angriffe) && empty($angriffe)) {
 	echo '
@@ -179,7 +179,7 @@ if (isset($angriffe) && empty($angriffe)) {
 			<td class="titlebg" align="center"><b>Planet</b></td>
 			<td class="titlebg" align="center"><b>Verteidiger</b></td>
 			<td class="titlebg" align="center"><b>Planet</b></td>
-			<td class="titlebg" align="center"><b>&uuml;bernommen</b></td>
+			<td class="titlebg" align="center"><b>Ã¼bernommen</b></td>
 		</tr>
 		<tr>
 			<td class="windowbg1" colspan="6" align="center"><b>keiner traut sich uns anzugreifen MUHAHAHAHA</b></td>

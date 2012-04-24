@@ -47,9 +47,9 @@ define('DEBUG_LEVEL', 0);
 
 include_once("includes/debug.php");
 
-// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde. 
+// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") { 
+if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	echo "Hacking attempt...!!"; 
 	exit; 
 }
@@ -82,7 +82,7 @@ $modulstatus = "";
 //
 // -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
 //
-$moduldesc = "Bestellsystem zur Koordination von Logistikauftr&auml;gen im Buddler-Fleeter-System.";
+$moduldesc = "Bestellsystem zur Koordination von Logistikaufträgen im Buddler-Fleeter-System.";
 
 //****************************************************************************
 //
@@ -126,7 +126,7 @@ function workInstallDatabase() {
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	}
 */
-	echo "<br>Installation: Datenbank&auml;nderungen = <b>OK</b><br>";
+	echo "<br>Installation: Datenbankänderungen = <b>OK</b><br>";
 }
 
 //****************************************************************************
@@ -175,7 +175,7 @@ function workUninstallDatabase() {
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	}
 
-	echo "<br>Deinstallation: Datenbank&auml;nderungen = <b>OK</b><br>";
+	echo "<br>Deinstallation: Datenbankänderungen = <b>OK</b><br>";
 */
 }
 
@@ -273,7 +273,7 @@ debug_var("sql", $sql);
 $result = $db->db_query($sql)
 	or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 while ($row = $db->db_fetch_array($result)) {
-	$config['projects'][$row['name']] = $row['name'] . ($row['prio'] < 999 ? " (Priorit&auml;t " . $row['prio'] . ")" : "");
+	$config['projects'][$row['name']] = $row['name'] . ($row['prio'] < 999 ? " (Priorität " . $row['prio'] . ")" : "");
 	$config['projects_prio'][$row['name']] = $row['prio'];
 }
 
@@ -303,7 +303,7 @@ if (isset($params['delete']) && $params['delete'] != '') {
 	debug_var('sql', $sql);
 	$db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-	$results[] = "<div class='system_notification'>Datensatz gel&ouml;scht.</div><br>";
+	$results[] = "<div class='system_notification'>Datensatz gelöscht.</div><br>";
 	$params['delete'] = '';
 	$params['edit'] = '';
 }
@@ -375,7 +375,7 @@ if (!empty($button_add)) {
 	$result = $db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	if ($row = $db->db_fetch_array($result)) {
-		$results[] = "<div class='system_notification'>Pro Planet kann nur eine Bestellung hinzugef&uuml;gt werden.</div><br>";	
+		$results[] = "<div class='system_notification'>Pro Planet kann nur eine Bestellung hinzugefügt werden.</div><br>";
 		$doppelbelegung="true";		
 	} else {
 		$fields['time_created'] = time();
@@ -393,7 +393,7 @@ if (!empty($button_add)) {
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 		if ($row = $db->db_fetch_array($result))
 			$params['edit'] = $row['id'];
-		$results[] = "<div class='system_notification'>Datensatz hinzugef&uuml;gt.</div><br>";
+		$results[] = "<div class='system_notification'>Datensatz hinzugefügt.</div><br>";
 	}
 }
 
@@ -481,7 +481,7 @@ while ($row = $db->db_fetch_array($result)) {
 			WHERE $db_tb_lieferung.`coords_to_gal`=" . $row['coords_gal'] . "
 			AND $db_tb_lieferung.`coords_to_sys`=" . $row['coords_sys'] . "
 			AND $db_tb_lieferung.`coords_to_planet`=" . $row['coords_planet'] . "
-			AND $db_tb_lieferung.`art`='&Uuml;bergabe'
+			AND $db_tb_lieferung.`art`='Übergabe'
 			AND $db_tb_lieferung.`time`>" . $row['time_created'] . "
 			AND $db_tb_lieferung.`user_from`<>$db_tb_lieferung.`user_to`
 			ORDER BY $db_tb_lieferung.`time`");
@@ -615,7 +615,7 @@ $views = array(
 			),
 			'coords' => array(
 				'title' => 'Koordinaten',
-				'desc' => 'Falls kein Planet ausgew&auml;hlt wird.',
+				'desc' => 'Falls kein Planet ausgewählt wird.',
 				'type' => array(
 					'coords_gal' => array(
 						'type' => 'text',
@@ -643,14 +643,14 @@ $views = array(
 			),
 			'project' => array(
 				'title' => 'Projekt',
-				'desc' => 'F&uuml;r welches Projekt ist die Lieferung?',
+				'desc' => 'Für welches Projekt ist die Lieferung?',
 				'type' => 'select',
 				'values' => $config['projects'],
 				'value' => $edit['project'],
 			),
 			'text' => array(
 				'title' => 'Text',
-				'desc' => 'Bemerkung f&uuml;r diese Bestellung.',
+				'desc' => 'Bemerkung für diese Bestellung.',
 				'type' => 'area',
 				'rows' => 5,
 				'cols' => 80,
@@ -828,7 +828,7 @@ if (isset($params['edit']) && is_numeric($params['edit'])) {
 	echo '<input type="hidden" name="edit" value="' . $params['edit'] . '">' . "\n";
 	// echo '<input type="hidden" name="list_team" value="'.$list_team.'" />' . "\n";
 } else
-	echo " hinzuf&uuml;gen";
+	echo " hinzufügen";
 echo "</b>";
 foreach ($view['edit'] as $key => $field) {
 	if ($field['type'] == 'label') {
@@ -856,7 +856,7 @@ foreach ($view['edit'] as $key => $field) {
 next_row('titlebg', 'align=center colspan=2');
 if (isset($params['edit']) && is_numeric($params['edit']))
 	echo '<input type="submit" value="speichern" name="button_edit" class="submit"> ';
-echo '<input type="submit" value="hinzuf&uuml;gen" name="button_add" class="submit">';
+echo '<input type="submit" value="hinzufügen" name="button_add" class="submit">';
 end_table();
 echo '</form>';
 

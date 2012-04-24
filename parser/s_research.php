@@ -68,7 +68,7 @@ function parse_research($lines) {
 				if(empty($scan_data['description'])) {
 					$scan_data['description'] = trim($scan);
 				} else {
-					$scan_data['description'] .= "<br />\n" . trim($scan);
+					$scan_data['description'] .= "<br>\n" . trim($scan);
 				}
 
 			} else {
@@ -101,22 +101,22 @@ function parse_research($lines) {
 				$scan_data['Prototyp'] = trim(str_replace("Prototyp", "", str_replace("Die Forschung bringt einen Prototyp von ", "", $scan)));
 			} elseif ( strpos($scan, "Voraussetzungen Forschungen") !== FALSE ) {
 				$scan_data['NeededResearch'] = split_parens(trim(str_replace("Voraussetzungen Forschungen", "", $scan)));
-			} elseif ( strpos($scan, "Voraussetzungen Geb&auml;ude") !== FALSE ) {
-				$scan_data['NeededBuildings'] = split_parens(trim(str_replace("Voraussetzungen Geb&auml;ude", "", $scan)));
+			} elseif ( strpos($scan, "Voraussetzungen Gebäude") !== FALSE ) {
+				$scan_data['NeededBuildings'] = split_parens(trim(str_replace("Voraussetzungen Gebäude", "", $scan)));
 			} elseif ( strpos($scan, "Voraussetzungen Objekte") !== FALSE ) {
 				$scan_data['NeededObject'] = split_parens(trim(str_replace("Voraussetzungen Objekte", "", $scan)));
-			} elseif ( strpos($scan, "Erm&ouml;glicht Forschungen") !== FALSE ) {
-				$scan_data['GivesResearch'] = split_parens(trim(str_replace("Erm&ouml;glicht Forschungen", "", $scan)));
-			} elseif ( strpos($scan, "Erm&ouml;glicht Geb&auml;udestufen") !== FALSE ) {
-				$scan_data['GivesBuildingLevel'] = split_parens(trim(str_replace("Erm&ouml;glicht Geb&auml;udestufen", "", $scan)));
-			} elseif ( strpos($scan, "Erm&ouml;glicht Geb&auml;ude") !== FALSE ) {
-				$scan_data['GivesBuilding'] = split_parens(trim(str_replace("Erm&ouml;glicht Geb&auml;ude", "", $scan)));
-			//} elseif ( strpos($scan, "Erm&ouml;glicht Deklarationen") !== FALSE ) {
-			//	$scan_data['GivesDeclares'] = split_parens(trim(str_replace("Erm&ouml;glicht Deklarationen", "", $scan)));
-			} elseif ( strpos($scan, "Erm&ouml;glicht Verteidigungsanlagen") !== FALSE ) {
-				$scan_data['GivesDefense'] = split_parens(trim(str_replace("Erm&ouml;glicht Verteidigungsanlagen", "", $scan)));
-			} elseif ( strpos($scan, "Erm&ouml;glicht Genetikoptionen") !== FALSE ) {
-				$scan_data['GivesGenetics'] = split_parens(trim(str_replace("Erm&ouml;glicht Genetikoptionen", "", $scan)));
+			} elseif ( strpos($scan, "Ermöglicht Forschungen") !== FALSE ) {
+				$scan_data['GivesResearch'] = split_parens(trim(str_replace("Ermöglicht Forschungen", "", $scan)));
+			} elseif ( strpos($scan, "Ermöglicht Gebäudestufen") !== FALSE ) {
+				$scan_data['GivesBuildingLevel'] = split_parens(trim(str_replace("Ermöglicht Gebäudestufen", "", $scan)));
+			} elseif ( strpos($scan, "Ermöglicht Gebäude") !== FALSE ) {
+				$scan_data['GivesBuilding'] = split_parens(trim(str_replace("Ermöglicht Gebäude", "", $scan)));
+			//} elseif ( strpos($scan, "Ermöglicht Deklarationen") !== FALSE ) {
+			//	$scan_data['GivesDeclares'] = split_parens(trim(str_replace("Ermöglicht Deklarationen", "", $scan)));
+			} elseif ( strpos($scan, "Ermöglicht Verteidigungsanlagen") !== FALSE ) {
+				$scan_data['GivesDefense'] = split_parens(trim(str_replace("Ermöglicht Verteidigungsanlagen", "", $scan)));
+			} elseif ( strpos($scan, "Ermöglicht Genetikoptionen") !== FALSE ) {
+				$scan_data['GivesGenetics'] = split_parens(trim(str_replace("Ermöglicht Genetikoptionen", "", $scan)));
 			}
 		}
 	}
@@ -144,7 +144,7 @@ function split_parens($line)
 
 	// Sonderfälle, die sonst auseinander gerissen werden.
 	$line = str_replace("(Solar) (orbital)", "[Solar] [orbital]", $line);
-	$line = str_replace("(en) (mittels eines P&uuml;mpels)", "(en)(mittels eines P&uuml;mpels)", $line);
+	$line = str_replace("(en) (mittels eines Pümpels)", "(en)(mittels eines Pümpels)", $line);
 
   $line  = trim($line);
 	if(substr($line, 0, 1) == '(') {
@@ -170,8 +170,8 @@ function update_research($scan_data) {
          $db_tb_research2research, $db_tb_research2building, $config_gameversion;
 
   // Anpassung des Forschungstitels
-	$scan_data['research'] = str_replace("(en) (mittels eines P&uuml;mpels)",
-                                       "(en)(mittels eines P&uuml;mpels)",
+	$scan_data['research'] = str_replace("(en) (mittels eines Pümpels)",
+                                       "(en)(mittels eines Pümpels)",
                                        $scan_data['research']);
 
   $rid = find_research_id($scan_data['research'], TRUE);
@@ -239,7 +239,7 @@ function update_research($scan_data) {
   if(!empty($scan_data['GivesDeclares'])) {
   	foreach($scan_data['GivesDeclares'] as $decl) {
   	  if( !empty($declares)) {
-  			$declares .= "<br />\n";
+  			$declares .= "<br>\n";
   		}
   	  $declares .= $decl;
     }
@@ -250,7 +250,7 @@ function update_research($scan_data) {
   if(!empty($scan_data['NeededObject'])) {
   	foreach($scan_data['NeededObject'] as $obj) {
   	  if( !empty($objects)) {
-  			$objects .= "<br />\n";
+  			$objects .= "<br>\n";
   		}
   	  $objects .= $obj;
   	}
@@ -261,7 +261,7 @@ function update_research($scan_data) {
   if(!empty($scan_data['GivesBuildingLevel'])) {
   	foreach($scan_data['GivesBuildingLevel'] as $lvl) {
   	  if( !empty($bldlvl)) {
-  			$bldlvl .= "<br />\n";
+  			$bldlvl .= "<br>\n";
   		}
   	  $bldlvl .= $lvl;
 
@@ -275,7 +275,7 @@ function update_research($scan_data) {
   if(!empty($scan_data['GivesDefense'])) {
   	foreach($scan_data['GivesDefense'] as $def) {
   	  if( !empty($defense)) {
-  			$defense .= "<br />\n";
+  			$defense .= "<br>\n";
   		}
   	  $defense .= $def;
   	}
@@ -286,7 +286,7 @@ function update_research($scan_data) {
   if(!empty($scan_data['GivesGenetics'])) {
   	foreach($scan_data['GivesGenetics'] as $gen) {
   	  if( !empty($genetics)) {
-  			$genetics .= "<br />\n";
+  			$genetics .= "<br>\n";
   		}
   	  $genetics .= $gen;
   	}
@@ -465,7 +465,7 @@ function find_building_id($name) {
                __FILE__, __LINE__, $sql2);
 		$row = $db->db_fetch_array($result);
 
-		echo "<div class='doc_blue'>Neues Geb&auml;ude: " . $name . "</div>\n";
+		echo "<div class='doc_blue'>Neues Gebäude: " . $name . "</div>\n";
 	}
 
   return $row['ID'];

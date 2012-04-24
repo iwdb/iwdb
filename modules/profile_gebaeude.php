@@ -24,9 +24,9 @@
 /* The GNU GPL can be found in LICENSE in this directory                     */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul �ber die index.php aufgerufen wurde. 
+// -> Abfrage ob dieses Modul �ber die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") { 
+if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	echo "Hacking attempt...!!"; 
 	exit; 
 }
@@ -35,7 +35,7 @@ if (basename($_SERVER['PHP_SELF']) != "index.php") {
 // 	include('includes/research_functions.php');
 
 ?>
-<div class='doc_title'>Geb&auml;ude ausblenden</div>
+<div class='doc_title'>Gebäude ausblenden</div>
 <?php
 function dauer($zeit)
 {
@@ -50,7 +50,7 @@ function dauer($zeit)
 $editgebaeude = getVar('editgebaeude');
 if ( ! empty($editgebaeude) )
 {
-	echo "<div class='system_notification'>Geb&auml;ude aktualisiert.</div>";
+	echo "<div class='system_notification'>Gebäude aktualisiert.</div>";
 }
 ?>
 <br>

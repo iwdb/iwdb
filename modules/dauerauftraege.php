@@ -165,7 +165,7 @@ if ( ! empty($anz) )
 		if ( ! empty($users_logged_in[$key]) ) echo $users_logged_in[$key] . " ist eingeloggt";
 		else echo "<a href=\"index.php?action=sitterlogins&amp;sitterlogin=" . urlencode($data) . "&amp;sid=" . $sid . "\" target=\"_blank\">[einloggen]</a>";
 ?>
-   <br><a href="javascript:Collapse('d<?php echo $key;?>');"><img src="bilder/plus.gif" alt="" border="0" id="collapse_d<?php echo $key;?>"></a>
+   <br><a href=\"javascript:Collapse('d<?php echo $key;?>');\"><img src="bilder/plus.gif" alt="" border="0" id="collapse_d<?php echo $key;?>"></a>
   </td>
   <td class="windowbg<?php echo $num;?>" valign="top">
    <?php echo ( empty($users_lastlogin_user[$key]) ) ? "": strftime($config_sitter_timeformat, $users_lastlogin[$key]) . " - " . $users_lastlogin_user[$key];?>
@@ -177,7 +177,7 @@ if ( ! empty($anz) )
 <table border="0" cellpadding="4" cellspacing="0" class="bordercolor">
  <tr>
   <td colspan="2" class="windowbg1" align="center">
-   <b>Sitteraktivit&auml;t</b>
+   <b>Sitteraktivität</b>
   </td>
  </tr>
  <tr>

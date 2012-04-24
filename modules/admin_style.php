@@ -24,9 +24,9 @@
 /* The GNU GPL can be found in LICENSE in this directory                     */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde. 
+// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") { 
+if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	echo "Hacking attempt...!!"; 
 	exit; 
 }
@@ -50,7 +50,7 @@ if ( !empty($submit) AND !empty($daction) AND ($daction == 'send') ) {
   $newlines[1] = '';
   $newlines[2] = '/* Diese Style-CSS ist in 2 Teile aufgeteilt */';
   $newlines[3] = '/* der erste Teil kann durch ein Modul ausgelesen werden */';
-  $newlines[4] = '/* deswegen dort nichts &auml;ndern! */';
+  $newlines[4] = '/* deswegen dort nichts ändern! */';
   $newlines[5] = '';
   $newlines[6] = '/* Diese Teil wurde automatsich erstellt */';
   $newlines[7] = '/* Zeitcode: ' . date("l dS of F Y h:i:s A") . ' */';
@@ -367,7 +367,7 @@ if ($action == 'default') {
 </td>
 </tr>
 </table>
-<div class='doc_centered'><input type='submit' name='submit' value='&Auml;nderungen speichern und CSS Datei erstellen'></div>
+<div class='doc_centered'><input type='submit' name='submit' value='Änderungen speichern und CSS Datei erstellen'></div>
 </form>
 
 <?php

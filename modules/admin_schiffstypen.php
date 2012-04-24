@@ -24,9 +24,9 @@
 /* The GNU GPL can be found in LICENSE in this directory                     */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul ¸ber die index.php aufgerufen wurde. 
+// -> Abfrage ob dieses Modul ÔøΩber die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") { 
+if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	die("Hacking attempt...!!"); 
 	exit; 
 }
@@ -97,7 +97,7 @@ while($row = $db->db_fetch_array($result)) {
   next_row("windowbg2", "style=\"width:20%;\"");
   echo "Schiff";
   next_cell("windowbg2", "style=\"width:20%;\"");
-  echo "Abk&uuml;rzung";
+  echo "Abk√ºrzung";
   next_cell("windowbg2", "style=\"width:60%;\"");
   echo "Typ";
   next_cell("windowbg2", "style=\"width:0%;\"");

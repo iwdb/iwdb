@@ -89,7 +89,7 @@ foreach($users as $userx) {
 	}
 }
 
-echo "<div class='doc_title'>Schiffs&uuml;bersicht</div>\n";
+echo "<div class='doc_title'>Schiffsübersicht</div>\n";
 
 $sql = "SELECT typ FROM " . $db_tb_schiffstyp . 
        " GROUP BY typ ORDER BY typ asc";
@@ -134,7 +134,7 @@ while($row = $db->db_fetch_array($result)) {
     echo "    <a href=\"index.php?action=schiffe&amp;order=" . $row_schiffe['id'] .
          "&amp;ordered=asc&amp;sid=" . $sid . "\"><img src=\"bilder/asc.gif\" border=\"0\"></a>\n"; 
 		echo $row_schiffe['abk'];
-    echo "    <a href=\"index.php?action=schiffe&amp;order=" . $row_schiffe['id'] . 
+    echo "    <a href=\"index.php?action=schiffe&amp;order=" . $row_schiffe['id'] .
          "&amp;ordered=desc&amp;sid=" . $sid . "\"><img src=\"bilder/desc.gif\" border=\"0\"></a>\n";
     echo "  </td>\n";
 	}

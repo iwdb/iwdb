@@ -25,9 +25,9 @@
 /*****************************************************************************/
 
 /*****************************************************************************/
-/* Diese Erweiterung der urspünglichen DB ist ein Gemeinschafftsprojekt von  */
+/* Diese Erweiterung der urspï¿½nglichen DB ist ein Gemeinschafftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
+/* Bei Problemen kannst du dich an das eigens dafï¿½r eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
 /*                   http://www.iw-smf.pericolini.de                         */
@@ -79,7 +79,7 @@ function parse_highscore($scanlines) {
 			}
 		}
 	}
-	echo "<div class='system_notification'>" . $count . " Highscore(s) hinzugefügt.</div>";
+	echo "<div class='system_notification'>" . $count . " Highscore(s) hinzugefï¿½gt.</div>";
 }
 
 function save_data($scan_data) {

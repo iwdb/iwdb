@@ -74,7 +74,7 @@ $modulstatus = "";
 //
 $moduldesc =
   "Dieses Modul dient zur Anzeige der Ressproduktion der Spieler in der Allianz.".
-  " Dabei wird anhand der Kolo-/Ress&uuml;bersicht der Tagesbedarf bzw. ". 
+  " Dabei wird anhand der Kolo-/Ressübersicht der Tagesbedarf bzw. ".
   " Tagesoutput errechnet.";
 
 
@@ -108,7 +108,7 @@ function workInstallDatabase() {
     " VALUES('ressuebersicht')",
 
     "INSERT INTO " . $db_tb_parser . "(modulename,recognizer,message) VALUES " .
-    "('production', 'Ressourcenkolo&uuml;bersicht', 'Produktions&uuml;bersicht')"
+    "('production', 'Ressourcenkoloübersicht', 'Produktionsübersicht')"
   );
 
   foreach($sqlscript as $sql) {
@@ -118,7 +118,7 @@ function workInstallDatabase() {
                __FILE__, __LINE__, $sql);
   }
  
-  echo "<div class='system_notification'>Installation: Datenbank&auml;nderungen = <b>OK</b></div>";
+  echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
 }
 
 //****************************************************************************
@@ -172,7 +172,7 @@ function workUninstallDatabase() {
                __FILE__, __LINE__, $sql);
   }
  
-  echo "<div class='system_notification'>Deinstallation: Datenbank&auml;nderungen = <b>OK</b></div>";
+  echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
 }
 
 //****************************************************************************
@@ -213,7 +213,7 @@ if (!@include("./config/".$modulname.".cfg.php")) {
 
 function make_link($order, $ordered) {
  global $sid;
- echo "<a href=\"index.php?action=m_ress&amp;order=" . $order . "&amp;ordered=" . $ordered . 
+ echo "<a href=\"index.php?action=m_ress&amp;order=" . $order . "&amp;ordered=" . $ordered .
       "&amp;sid=$sid\"> <img src=\"bilder/" . $ordered . ".gif\" border=\"0\" alt=\"" . $ordered . "\"> </a>";
 }
 
@@ -236,7 +236,7 @@ $switch = $row['switch'];
 
 echo '
 <form action="index.php?action=m_ress&sid='.$sid.'" method="post">
-	<p>Anzeigen der Produktion f&uuml;r <input type="text" name="switch" size="3"> Stunden <input type="submit" value="speichern" name="form" class="submit">
+	<p>Anzeigen der Produktion für <input type="text" name="switch" size="3"> Stunden <input type="submit" value="speichern" name="form" class="submit">
 	</p>
 </form>
 ';
@@ -270,7 +270,7 @@ if (empty($switch) || $switch == 24) {
 	$switch = 24;
 	doc_title("Tagesproduktion/-Verbrauch");
 } else doc_title("Verbrauch in ".$switch." Stunde(n)");
-doc_title("sowie Bev&ouml;lkerungsdaten");
+doc_title("sowie Bevölkerungsdaten");
 
 echo "<br>";
 

@@ -68,13 +68,13 @@ if ((trim($gala)!='') && (trim($sys)!='')){
 	  'Could not query config information.', '', 
 	__FILE__, __LINE__, $sql);
 
-	echo "<br><div class='system_notification'>Nebel bei ".$id." hinzugef&uuml;gt/gel&ouml;scht. </div><br>\n";
+	echo "<br><div class='system_notification'>Nebel bei ".$id." hinzugefügt/gelöscht. </div><br>\n";
 
 }
 
 else {
 
-	echo "<br><div class='system_notification'>Alle Felder m&uuml;ssen ausgef�llt sein! </div>";
+	echo "<br><div class='system_notification'>Alle Felder müssen ausgef�llt sein! </div>";
 }
 
 
@@ -85,7 +85,7 @@ $nebelart = array (
    "" => "keiner",
    "BLN" => "blau",
    "GEN" => "gelb",
-   "GRN" => "gr&uuml;n",
+   "GRN" => "grün",
    "RON" => "rot",
    "VIN" => "violett"
 );

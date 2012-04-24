@@ -25,19 +25,19 @@
 /*****************************************************************************/
 
 /*****************************************************************************/
-/* Dieses Modul dient für eine politische Karte, in der Allianzstatuse       */
+/* Dieses Modul dient fï¿½r eine politische Karte, in der Allianzstatuse       */
 /*angezeigt werden                                                           */
 /*---------------------------------------------------------------------------*/
-/* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  */
+/* Diese Erweiterung der ursprï¿½nglichen DB ist ein Gemeinschaftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
+/* Bei Problemen kannst du dich an das eigens dafï¿½r eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
 /*                   http://www.iw-smf.pericolini.de                         */
 /*                                                                           */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
+// -> Abfrage ob dieses Modul ï¿½ber die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
 if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	echo "Hacking attempt...!!";
@@ -46,23 +46,23 @@ if (basename($_SERVER['PHP_SELF']) != "index.php") {
 
 //****************************************************************************
 //
-// -> Name des Moduls, ist notwendig für die Benennung der zugehörigen
+// -> Name des Moduls, ist notwendig fï¿½r die Benennung der zugehï¿½rigen
 //    Config.cfg.php
-// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung für
-//    eine Installation über das Menü
+// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung fï¿½r
+//    eine Installation ï¿½ber das Menï¿½
 //
 $modulname  = "m_polkarte";
 
 //****************************************************************************
 //
-// -> Menütitel des Moduls der in der Navigation dargestellt werden soll.
+// -> Menï¿½titel des Moduls der in der Navigation dargestellt werden soll.
 //
 $modultitle = "politische Karte";
 
 //****************************************************************************
 //
-// -> Status des Moduls, bestimmt wer dieses Modul über die Navigation
-//    ausführen darf. Mögliche Werte:
+// -> Status des Moduls, bestimmt wer dieses Modul ï¿½ber die Navigation
+//    ausfï¿½hren darf. Mï¿½gliche Werte:
 //    - ""      <- nix = jeder,
 //    - "admin" <- na wer wohl
 //
@@ -70,7 +70,7 @@ $modulstatus = "";
 
 //****************************************************************************
 //
-// -> Beschreibung des Moduls, wie es in der Menü-Übersicht angezeigt wird.
+// -> Beschreibung des Moduls, wie es in der Menï¿½-ï¿½bersicht angezeigt wird.
 //
 $moduldesc =
   "Anzeige einer Universumskarte mit allen Allianzstati";
@@ -89,7 +89,7 @@ function workInstallDatabase() {
 //  $result = $db->db_query($sql)
 //	  or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
-  echo "<div class='system_notification'>Installation: Datenbank&auml;nderungen = <b>OK</b></div>";
+  echo "<div class='system_notification'>Installation: DatenbankÃ¤nderungen = <b>OK</b></div>";
 }
 
 //****************************************************************************
@@ -104,7 +104,7 @@ function workInstallMenu() {
 		$actionparamters = "";
   	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparameters );
 	  //
-	  // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
+	  // Weitere Wiederholungen fï¿½r weitere Menï¿½-Eintrï¿½ge, z.B.
 	  //
 	  // 	insertMenuItem( $_POST['menu'], ($_POST['submenu']+1), "Titel2", "hc", "&weissichnichtwas=1" );
 	  //
@@ -146,19 +146,19 @@ function workInstallConfigString() {
 // removing this module.
 //
 function workUninstallDatabase() {
-    echo "<div class='system_notification'>Deinstallation: Datenbank&auml;nderungen = <b>OK</b></div>";
+    echo "<div class='system_notification'>Deinstallation: DatenbankÃ¤nderungen = <b>OK</b></div>";
 }
 
 //****************************************************************************
 //
 // Installationsroutine
 //
-// Dieser Abschnitt wird nur ausgeführt wenn das Modul mit dem Parameter
+// Dieser Abschnitt wird nur ausgefï¿½hrt wenn das Modul mit dem Parameter
 // "install" aufgerufen wurde. Beispiel des Aufrufs:
 //
 //      http://Mein.server/iwdb/index.php?action=default&was=install
 //
-// Anstatt "Mein.Server" natürlich deinen Server angeben und default
+// Anstatt "Mein.Server" natï¿½rlich deinen Server angeben und default
 // durch den Dateinamen des Moduls ersetzen.
 //
 if( !empty($_REQUEST['was'])) {
@@ -173,7 +173,7 @@ if( !empty($_REQUEST['was'])) {
 	  die( "Cannot load menu functions" );
 
   // Wenn ein Modul administriert wird, soll der Rest nicht mehr
-  // ausgeführt werden.
+  // ausgefï¿½hrt werden.
   return;
 }
 
@@ -446,7 +446,7 @@ echo "  <td style=\"width: 100;\">Schwarzes Loch</td>\n";
 echo "  <td style=\"width: 30; background-color: " . $config_polcolor['1allein'] ."\"></td>\n";
 echo "  <td style=\"width: 100;\">Eigene + Wing</td>\n";
 echo "  <td style=\"width: 30; background-color: " . $config_polcolor['2allein'] ."\"></td>\n";
-echo "  <td style=\"width: 100;\">Verb&uuml;ndete</td>\n";
+echo "  <td style=\"width: 100;\">VerbÃ¼ndete</td>\n";
 echo "  <td style=\"width: 30; background-color: " . $config_polcolor['3allein'] ."\"></td>\n";
 echo "  <td style=\"width: 100;\">Verfeindete</td>\n";
 echo " </tr>\n";
@@ -454,11 +454,11 @@ echo " <tr>\n";
 echo " </tr>\n";
 echo " <tr>\n";
 echo "  <td style=\"width: 30; background-color: " . $config_polcolor['1und2'] ."\"></td>\n";
-echo "  <td style=\"width: 100;\">Eigene + Verb&uuml;ndete</td>\n";
+echo "  <td style=\"width: 100;\">Eigene + VerbÃ¼ndete</td>\n";
 echo "  <td style=\"width: 30; background-color: " . $config_polcolor['1und3'] ."\"></td>\n";
 echo "  <td style=\"width: 100;\">Eigenen + Verfeindete</td>\n";
 echo "  <td style=\"width: 30; background-color: " . $config_polcolor['2und3'] ."\"></td>\n";
-echo "  <td style=\"width: 100;\">Verb&uuml;ndete + Verfeindete</td>\n";
+echo "  <td style=\"width: 100;\">VerbÃ¼ndete + Verfeindete</td>\n";
 echo "  <td style=\"width: 30; background-color: " . $config_polcolor['1und2und3'] ."\"></td>\n";
 echo "  <td style=\"width: 100;\">Von allem ein bissi was</td>\n";
 echo " </tr>\n";

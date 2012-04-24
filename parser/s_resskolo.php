@@ -57,9 +57,9 @@ function parse_resskolo($scanlines) {
 		debug_var('scanline', $scanline);
 		switch ($state) {
 		case 0: // Überschrift
-			if (preg_match('/Ressourcenkolo&uuml;bersicht Teil 2/', $scanline, $match) > 0)
+			if (preg_match('/Ressourcenkoloübersicht Teil 2/', $scanline, $match) > 0)
 				debug_var('state', $state = 32);
-			elseif (preg_match('/Ressourcenkolo&uuml;bersicht/', $scanline, $match) > 0)
+			elseif (preg_match('/Ressourcenkoloübersicht/', $scanline, $match) > 0)
 				debug_var('state', ++$state);
 			break;
 		case 1: // Tabellentitel
@@ -293,7 +293,7 @@ function parse_resskolo($scanlines) {
 				debug_var('state', $state = 0);
 			break;
 		case 32: // Kolonie FP Credits Steuersatz BevAlkerung Zufr
-			if (preg_match('/Kolonie\s+FP\s+Credits\s+Steuersatz\s+Bev&ouml;lkerung\s+Zufr/', $scanline, $match) > 0)
+			if (preg_match('/Kolonie\s+FP\s+Credits\s+Steuersatz\s+Bevölkerung\s+Zufr/', $scanline, $match) > 0)
 				debug_var('state', ++$state);
 			else
 				debug_var('state', $state = 0);
@@ -390,7 +390,7 @@ function parse_resskolo($scanlines) {
 #	debug_var('sql', $sql);
 #	$db->db_query($sql)
 #		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);	
-	echo "<div class='system_notification'>Lager&uuml;bersicht aktualisiert.</div>";
+	echo "<div class='system_notification'>Lagerübersicht aktualisiert.</div>";
 }
 
 function insert_data($scan_data) {

@@ -24,9 +24,9 @@
 /* The GNU GPL can be found in LICENSE in this directory                     */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul �ber die index.php aufgerufen wurde. 
+// -> Abfrage ob dieses Modul �ber die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") { 
+if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	echo "Hacking attempt...!!"; 
 	exit; 
 }
@@ -80,10 +80,10 @@ while($row = $db->db_fetch_array($result)) {
          strftime("%H:%M:%S am %d.%m.", $row_ip['date']) . "<br>\n";
 	}
   next_cell("windowbg1", "valign=\"top\"");
-  echo "<a href=\"index.php?action=admin&amp;uaction=wronglogin&amp;user=" . urlencode($row['user']) . 
+  echo "<a href=\"index.php?action=admin&amp;uaction=wronglogin&amp;user=" . urlencode($row['user']) .
        "&amp;sid=" . $sid . "\" onclick=\"return confirmlink(this, 'Loginsperre wirklich " . 
-       "l&ouml;schen?')\"><img src=\"bilder/file_delete_s.gif\" border=\"0\" " . 
-       "alt=\"l&ouml;schen\"></a>\n";
+       "löschen?')\"><img src=\"bilder/file_delete_s.gif\" border=\"0\" " .
+       "alt=\"löschen\"></a>\n";
   end_row();
 }
 

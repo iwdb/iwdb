@@ -25,9 +25,9 @@
 /*****************************************************************************/
 
 /*****************************************************************************/
-/* Diese Erweiterung der urspünglichen DB ist ein Gemeinschafftsprojekt von  */
+/* Diese Erweiterung der urspï¿½nglichen DB ist ein Gemeinschafftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
+/* Bei Problemen kannst du dich an das eigens dafï¿½r eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
 /*                   http://www.iw-smf.pericolini.de                         */
@@ -84,13 +84,13 @@ function parse_research2($lines) {
 
 		// Bugfixing bei der Kategorie 'Raumfahrt'
 		if( ($scan == "Raumfahrt") AND (! $raumfahrt) ) $raumfahrt = TRUE;
-		// Ist eine Forschung gefunden worden, dann stell die Suche auf die dazugehörigen Punkte
+		// Ist eine Forschung gefunden worden, dann stell die Suche auf die dazugehï¿½rigen Punkte
 		elseif( in_array($scan, $forschungen) AND ! $for_punkte ) {
 			$forschung = $scan;
 			$for_punkte = TRUE;
 		}
 
-		// Auf der Suche nach den zugehörigen Punkten, nach dem Fund einer Forschung
+		// Auf der Suche nach den zugehï¿½rigen Punkten, nach dem Fund einer Forschung
 		if ( $for_punkte === TRUE ) {
 			if( strstr($scan, "Forschungspunkte") ) {
 				$temp = trim( substr( $scan, 0, strpos( $scan, " " ) ) );

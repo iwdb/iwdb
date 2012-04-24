@@ -26,9 +26,9 @@
 // $Id: s_flotten.php 205 2007-04-24 18:54:05Z reuq tgarfeg $
 
 /*****************************************************************************/
-/* Diese Erweiterung der urspünglichen DB ist ein Gemeinschafftsprojekt von  */
+/* Diese Erweiterung der urspï¿½nglichen DB ist ein Gemeinschafftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
+/* Bei Problemen kannst du dich an das eigens dafï¿½r eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
 /*                   http://www.iw-smf.pericolini.de                         */
@@ -42,7 +42,7 @@ $scan_datas = array();
 function parse_flotten($scanlines, $eigene = true) {
 	global $scan_datas, $db_tb_schiffstyp, $db;
 	$state = 0;
-	$arts = 'Angriff|Transport|Ressourcen\sabholen|&Uuml;bergabe\s\(tr\sSchiffe\)|&Uuml;bergabe|R&uuml;ckkehr|Stationieren|Sondierung|Ressourcenhandel\s\(ok\)|Ressourcenhandel|Safeflug|Kolonisierung';
+	$arts = 'Angriff|Transport|Ressourcen\sabholen|Ãœbergabe\s\(tr\sSchiffe\)|Ãœbergabe|RÃ¼ckkehr|Stationieren|Sondierung|Ressourcenhandel\s\(ok\)|Ressourcenhandel|Safeflug|Kolonisierung';
 	$replaces = array(")" => "\)", "(" => "\(");
 	debug_var("sql", $sql = "SELECT * FROM $db_tb_schiffstyp");
 	$result = $db->db_query($sql)
@@ -60,13 +60,13 @@ function parse_flotten($scanlines, $eigene = true) {
 	foreach($scanlines as $scan) {
 		if (str_replace(' ', '', $scan) == '')
 			continue;
-		if ($scan == "Werft- / Schiffbau&uuml;bersicht" ||
+		if ($scan == "Werft- / SchiffbauÃ¼bersicht" ||
 		    $scan == "Ausbaustatus" ||
 		    $scan == "Allianz Shoutbox")
 			break;
 		debug_var('scan', $scan);
 		switch ($state) {
-		// Überschrift
+		// ï¿½berschrift
 		case 0:
 			// (FF/IE) Eigene Flotten
 			if (preg_match('/Eigene Flotten/', $scan, $match) > 0)
@@ -75,7 +75,7 @@ function parse_flotten($scanlines, $eigene = true) {
 				debug_var('state', ++$state);
 			$scan_datas = array();
 			break;
-		// Tabellenüberschrift
+		// Tabellenï¿½berschrift
 		case 1:
 			// (FF/IE) Ziel Start Ankunft Aktionen
 			if (preg_match('/Ziel\s+Start\s+Ankunft\s+Aktionen/', $scan, $match) > 0)
@@ -228,7 +228,7 @@ function parse_flotten($scanlines, $eigene = true) {
 				debug_var('state', $state = 2);
 			}
 			break;
-		// Noch ein state für fremde flotten
+		// Noch ein state fï¿½r fremde flotten
 		case 4:
 			debug_var('state', $state = 2);
 			break;
@@ -261,7 +261,7 @@ function process_scan_data($scan_data) {
 	     $scan_data['art'] == 'Ressourcen abholen' ||
 	     $scan_data['art'] == 'Ressourcenhandel' ||
 	     $scan_data['art'] == 'Ressourcenhandel (ok)' ||
-	     $scan_data['art'] == '&Uuml;bergabe' ||
+	     $scan_data['art'] == 'Ãœbergabe' ||
 	     $scan_data['art'] == 'Stationieren' ||
 	     $scan_data['art'] == 'Kolonisation' ||
 	     $scan_data['art'] == 'Sondierung')

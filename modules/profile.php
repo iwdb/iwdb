@@ -43,7 +43,7 @@ if ( $sitterlogin === FALSE ) $sitterlogin = $user_sitterlogin;
    <a href="index.php?action=profile&amp;sitterlogin=<?php echo urlencode($sitterlogin);?>&amp;uaction=editpresets&amp;sid=<?php echo $sid;?>">eigene Presets</a>
   </td>
   <td class="menutop" align="center">
-   <a href="index.php?action=profile&amp;sitterlogin=<?php echo urlencode($sitterlogin);?>&amp;uaction=gebaeude&amp;sid=<?php echo $sid;?>">Geb&auml;ude ausblenden</a>
+   <a href="index.php?action=profile&amp;sitterlogin=<?php echo urlencode($sitterlogin);?>&amp;uaction=gebaeude&amp;sid=<?php echo $sid;?>">Gebäude ausblenden</a>
   </td>
  </tr>
 </table>

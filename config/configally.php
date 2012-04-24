@@ -86,7 +86,7 @@ $sitter_wie_lange_vorher_zeigen = 30;
 $config_xsize = 950;
 $config_ysize = 500;
 
-// Seite, die Standardmaessig (z.B. nach Login) geladen wird
+// Seite, die Standardmässig (z.B. nach Login) geladen wird
 $config_default_action = "showhighscore";
 
 $config_banner = "bilder/logo.gif";

@@ -160,7 +160,7 @@ function parse_raid($scanlines) {
 			if(preg_match('/Es wurden folgende Werte beim Verteidiger /',$scan) > 0) $status = "verteidiger";
 
 			if($status == "plundern"){
-				if (preg_match('/(Eisen|Stahl|VV4A|chem\. Elemente|Eis|Wasser|Bev&ouml;lkerung|Energie)[\t| ]+(.+)/', $scan, $match) > 0){
+				if (preg_match('/(Eisen|Stahl|VV4A|chem\. Elemente|Eis|Wasser|Bevölkerung|Energie)[\t| ]+(.+)/', $scan, $match) > 0){
 					$match[2] = StripNumber($match[2]);
 					switch (getRessname($match[1])) {
 						case 'Eisen' :
@@ -193,7 +193,7 @@ function parse_raid($scanlines) {
 			
 			
 			if($status == "angreifer"){
-				if (preg_match('/(Eisen|Stahl|VV4A|chem\. Elemente|Eis|Wasser|Bev&ouml;lkerung|Energie)[\t| ]+(.+)/', $scan, $match) > 0){
+				if (preg_match('/(Eisen|Stahl|VV4A|chem\. Elemente|Eis|Wasser|Bevölkerung|Energie)[\t| ]+(.+)/', $scan, $match) > 0){
 					$match[2] = StripNumber($match[2]);
 					switch (getRessname($match[1])) {
 						case 'Eisen' :
@@ -237,7 +237,7 @@ function parse_raid($scanlines) {
 
 		if ( !isset($link) OR empty($link) ) {
 			?>
-<divclass'system_notification'>Bericht unvollst&auml;ndig (Link fehlt)</div>
+<divclass'system_notification'>Bericht unvollständig (Link fehlt)</div>
 			<?php
 }
 elseif (in_array($link, $links))

@@ -25,9 +25,9 @@
 /*****************************************************************************/
 
 /*****************************************************************************/
-/* Diese Erweiterung der urspünglichen DB ist ein Gemeinschafftsprojekt von  */
+/* Diese Erweiterung der urspï¿½nglichen DB ist ein Gemeinschafftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
+/* Bei Problemen kannst du dich an das eigens dafï¿½r eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
 /*                   http://www.iw-smf.pericolini.de                         */
@@ -42,7 +42,7 @@ if (!defined('IRA'))
 
 //*****************************************************************************
 //
-// Ressie-Übersicht parsen: Suche Klammerpaare und ordne diese der in der
+// Ressie-ï¿½bersicht parsen: Suche Klammerpaare und ordne diese der in der
 // Reihenfolge des $what-Arrays zu.
 function parse_production($scanlines) {
   global $config_date, $db_tb_ressuebersicht, $db, $selectedusername;
@@ -70,7 +70,7 @@ function parse_production($scanlines) {
   		             'Could not query config information.', '',
   		             __FILE__, __LINE__, $sql);
 
-			  echo "<div class='system_notification'>Produktion Teil 2 aktualisiert/hinzugef&uuml;gt mit den Werten:</div>";
+			  echo "<div class='system_notification'>Produktion Teil 2 aktualisiert/hinzugefÃ¼gt mit den Werten:</div>";
   		          echo "FP/h (".$fp."), Credits (".$credits."), 1&euro;-Leute (".$bev_a."), Volk (".$bev_g."), Quote (".$bev_q.")";
   		      }
 
@@ -112,13 +112,13 @@ function parse_production($scanlines) {
     }  
   }
 
-	// Das Gesamt-Paket war nicht enthalten? Kommentarlos zurückschicken.
+	// Das Gesamt-Paket war nicht enthalten? Kommentarlos zurï¿½ckschicken.
 	if($foundGesamt === FALSE)
 	  return;
 	
   // Wir haben keinen vollstaendigen Bericht, wenn nicht alle 7 Zeilen gesetzt sind.
   if($line != 7) {
-    echo "<div class='system_error'>Produktionsbericht unvollst&auml;ndig.</div>";
+    echo "<div class='system_error'>Produktionsbericht unvollstÃ¤ndig.</div>";
     return;    
   }
   
@@ -160,7 +160,7 @@ function parse_production($scanlines) {
              'Could not query config information.', '', 
              __FILE__, __LINE__, $sql);
              
-  echo "<div class='system_notification'>Produktion Teil 1 aktualisiert/hinzugef&uuml;gt.</div>";
+  echo "<div class='system_notification'>Produktion Teil 1 aktualisiert/hinzugefÃ¼gt.</div>";
   echo "<b>Produktion Teil 2 fehlt noch, wird -- falls vorhanden! -- nun geparsed.</b>";
 
 }

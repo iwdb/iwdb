@@ -25,9 +25,9 @@
 /*****************************************************************************/
 
 /*****************************************************************************/
-/* Diese Erweiterung der urspünglichen DB ist ein Gemeinschafftsprojekt von  */
+/* Diese Erweiterung der urspï¿½nglichen DB ist ein Gemeinschafftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
+/* Bei Problemen kannst du dich an das eigens dafï¿½r eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
 /*                   http://www.iw-smf.pericolini.de                         */
@@ -63,12 +63,12 @@ function parse_scan($scanlines) {
 
   foreach($scanlines as $scan) {
      
-    //Cat auf Building setzen, da bei Gebäude keine Überschrift existiert
-    if ( strpos($scan, "Sondierungsbericht (Geb&auml;ude) von") !== FALSE ) $cat = "bs";
+    //Cat auf Building setzen, da bei Gebï¿½ude keine ï¿½berschrift existiert
+    if ( strpos($scan, "Sondierungsbericht (GebÃ¤ude) von") !== FALSE ) $cat = "bs";
 
-    if(  (strpos($scan, "Sondierungsbericht (Schiffe) von") !== FALSE) OR (strpos($scan, "Sondierungsbericht (Geb&auml;ude) von") !== FALSE) ) {
+    if(  (strpos($scan, "Sondierungsbericht (Schiffe) von") !== FALSE) OR (strpos($scan, "Sondierungsbericht (GebÃ¤ude) von") !== FALSE) ) {
     	$scan = trim(str_replace("Sondierungsbericht (Schiffe) von", "", $scan));
-    	$scan = trim(str_replace("Sondierungsbericht (Geb&auml;ude) von", "", $scan));
+    	$scan = trim(str_replace("Sondierungsbericht (GebÃ¤ude) von", "", $scan));
 	if ($scan = preg_replace('/am \d+\.\d+\.\d+. \d+:\d+\. Besitzer ist /', '(', $scan)) {
 		$scan = substr($scan, 0, count($scan) - 2);
 		$scan .= ")";
@@ -97,12 +97,12 @@ function parse_scan($scanlines) {
 
        }
 
-      $temp = split(":",$scan_data['coords']);
+      $temp = explode(":",$scan_data['coords']);
       $scan_data['coords_gal'] = $temp[0];
       $scan_data['coords_sys'] = $temp[1];
       $scan_data['coords_planet'] = $temp[2];
 
-      //$scan löschen da ja Parser für diese Zeile gefunden wurde
+      //$scan lï¿½schen da ja Parser fï¿½r diese Zeile gefunden wurde
       $scan = "";
     }
 
@@ -163,7 +163,7 @@ for ( $i = 0 ; $i < count($scanzeug) ; $i++ )
 
 //zum herauslesen von Schiffen wird der String umgedreht, das letzte (nun erste) abgdrennt
 //dann beides umgedreht
-//und einggefügt wo wir gerade sind
+//und einggefï¿½gt wo wir gerade sind
 
 if ( strpos($scan, " " ) > 0 ) {
 
@@ -197,7 +197,7 @@ $objvar = trim(strrev($scantemp[0]));
 //Die Daten aus dem scan_alldata auslesen und in stringsspeichern
 if ( isset($scan_alldata['pf']) AND count($scan_alldata['pf']) > 0 ) {
 
-//war für externen Gebrauch: $str_pf = "<b class=\"scan_titel\"> planetare Flotte </b> \n";
+//war fï¿½r externen Gebrauch: $str_pf = "<b class=\"scan_titel\"> planetare Flotte </b> \n";
 $str_pf = "";
 $str_pf = $str_pf . "\n <table class=\"scan_table\"> \n";
 foreach ($scan_alldata['pf'] as $key => $value) {
@@ -220,7 +220,7 @@ $str_pf = -1;
 
 if ( isset($scan_alldata['bs']) AND count($scan_alldata['bs']) > 0 ) {
 
-//war für externen Gebrauch: $str_bs = "<b class=\"scan_titel\"> Geb&auml;ude </b> \n";
+//war fï¿½r externen Gebrauch: $str_bs = "<b class=\"scan_titel\"> GebÃ¤ude </b> \n";
 $str_bs = "";
 $str_bs = $str_bs . "\n <table class=\"scan_table\"> \n";
 foreach ($scan_alldata['bs'] as $key => $value) {
@@ -243,7 +243,7 @@ $str_bs = -1;
 
 if ( isset($scan_alldata['st']) AND count($scan_alldata['st']) > 0 ) {
 
-//war für externen Gebrauch: $str_bs = "<b class=\"scan_titel\"> stationeirte Flotten</b> \n";
+//war fï¿½r externen Gebrauch: $str_bs = "<b class=\"scan_titel\"> stationeirte Flotten</b> \n";
 $str_st = "";
 $str_st = $str_st . "\n <table class=\"scan_table\"> \n";
 foreach ($scan_alldata['st'] as $o_key => $o_array) {
@@ -274,7 +274,7 @@ $str_st = -1;
 
 if ( isset($scan_alldata['de']) AND  count($scan_alldata['de']) > 0 ) {
 
-//war für externen Gebrauch: $str_de = "<b class=\"scan_titel\"> Defence </b> \n";
+//war fï¿½r externen Gebrauch: $str_de = "<b class=\"scan_titel\"> Defence </b> \n";
 $str_de = "";
 $str_de = $str_de . "\n <table class=\"scan_table\"> \n";
 foreach ($scan_alldata['de'] as $key => $value) {
@@ -352,7 +352,7 @@ $scan_data['geb'] = $str_bs;
 	switch ( updateplanet() ) {
 	case 0: echo "<div class='system_error'>Der Scan ist nicht komplett!</div>"; break;
 	case 1: echo "<div class='system_notification'>Planet " . $scan_data['coords'] . " aktualisiert.</div>"; break;
-	case 2: echo "<div class='system_notification'>Neuen Planeten " . $scan_data['coords'] . " hinzugef&uuml;gt.</div>"; break;
+	case 2: echo "<div class='system_notification'>Neuen Planeten " . $scan_data['coords'] . " hinzugefÃ¼gt.</div>"; break;
 	case 3: echo "<div class='system_notification'>Neuer Planet " . $scan_data['coords'] . " . Planetendaten aktualisiert.</div>"; break;
 	}    
     

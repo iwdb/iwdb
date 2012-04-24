@@ -25,40 +25,40 @@
 /*****************************************************************************/
 
 /*****************************************************************************/
-/* Diese Erweiterung der urspünglichen DB ist ein Gemeinschafftsprojekt von  */
+/* Diese Erweiterung der urspï¿½nglichen DB ist ein Gemeinschafftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
+/* Bei Problemen kannst du dich an das eigens dafï¿½r eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
 /*                   http://www.iw-smf.pericolini.de                         */
 /*                                                                           */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde. Kann unberechtigte Systemzugriffe verindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") { 
+// -> Abfrage ob dieses Modul ï¿½ber die index.php aufgerufen wurde. Kann unberechtigte Systemzugriffe verindern.
+if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	echo "Hacking attempt...!!"; 
 	exit; 
 }
 
 //****************************************************************************
 //
-// -> Name des Moduls, ist notwendig für die Benennung der zugehörigen 
+// -> Name des Moduls, ist notwendig fï¿½r die Benennung der zugehï¿½rigen 
 //    Config.cfg.php
-// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung für 
-//    eine Installation über das Menü
+// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung fï¿½r 
+//    eine Installation ï¿½ber das Menï¿½
 //
 $modulname  = "m_universe";
 
 //****************************************************************************
 //
-// -> Menütitel des Moduls der in der Navigation dargestellt werden soll.
+// -> Menï¿½titel des Moduls der in der Navigation dargestellt werden soll.
 //
 $modultitle = "zeige Universum";
 
 //****************************************************************************
 //
-// -> Status des Moduls, bestimmt wer dieses Modul über die Navigation 
-//    ausführen darf. Mögliche Werte: 
+// -> Status des Moduls, bestimmt wer dieses Modul ï¿½ber die Navigation 
+//    ausfï¿½hren darf. Mï¿½gliche Werte: 
 //    - ""      <- nix = jeder, 
 //    - "admin" <- na wer wohl
 //
@@ -69,7 +69,7 @@ $modulstatus = "";
 // -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
 //
 $moduldesc = 
-  "Dieses Modul f&uuml;gt eine &Uuml;bersicht f&uuml;r das bekannte Universum " .
+  "Dieses Modul fÃ¼gt eine Ãœbersicht fÃ¼r das bekannte Universum " .
 	"hinzu.";
 
 //****************************************************************************
@@ -78,7 +78,7 @@ $moduldesc =
 // installing this module. 
 //
 function workInstallDatabase() {
-  echo "<div class='system_notification'>Installation: Datenbank&auml;nderungen = <b>OK</b></div>";
+  echo "<div class='system_notification'>Installation: DatenbankÃ¤nderungen = <b>OK</b></div>";
 }
 
 //****************************************************************************
@@ -119,19 +119,19 @@ function workInstallConfigString() {
 // removing this module. 
 //
 function workUninstallDatabase() {
-    echo "<div class='system_notification'>Deinstallation: Datenbank&auml;nderungen = <b>OK</b></div>";
+    echo "<div class='system_notification'>Deinstallation: DatenbankÃ¤nderungen = <b>OK</b></div>";
 }
 
 //****************************************************************************
 //
 // Installationsroutine
 //
-// Dieser Abschnitt wird nur ausgeführt wenn das Modul mit dem Parameter 
+// Dieser Abschnitt wird nur ausgefï¿½hrt wenn das Modul mit dem Parameter 
 // "install" aufgerufen wurde. Beispiel des Aufrufs: 
 //
 //      http://Mein.server/iwdb/index.php?action=default&was=install
 //
-// Anstatt "Mein.Server" natürlich deinen Server angeben und default 
+// Anstatt "Mein.Server" natï¿½rlich deinen Server angeben und default 
 // durch den Dateinamen des Moduls ersetzen.
 //
 if( !empty($_REQUEST['was'])) {
@@ -145,7 +145,7 @@ if( !empty($_REQUEST['was'])) {
 	  die( "Cannot load menu functions" );
     
   // Wenn ein Modul administriert wird, soll der Rest nicht mehr 
-  // ausgeführt werden. 
+  // ausgefï¿½hrt werden. 
   return;
 }
 
@@ -157,7 +157,7 @@ if (!@include("./config/".$modulname.".cfg.php")) {
 //
 // -> Und hier beginnt das eigentliche Modul
 
-echo "<div class='doc_title'>Universums&uuml;bersicht</doc>\n";
+echo "<div class='doc_title'>UniversumsÃ¼bersicht</doc>\n";
 echo "<br>\n";
 echo "<br>\n";
 
@@ -395,7 +395,7 @@ elseif (ImageTypes() & IMG_PNG) {
     echo "<img src=\"universe.png\" border=\"0\" alt=\"Das Hasiversum\" usemap=\"#universemap\">";
 }
 else {
-    echo "Keine Grafik-Unterstützung vorhanden";
+    echo "Keine Grafik-Unterstï¿½tzung vorhanden";
 }
 
 ImageDestroy($graph);
@@ -413,7 +413,7 @@ echo "  <td style=\"width: 100;\">neu</td>\n";
 echo "  <td style=\"width: 30; background-color: #FFFF00\"></td>\n";
 echo "  <td style=\"width: 100;\">" . round( $config_map_timeout / 24 / 60 / 60 / 2). " Tage alt</td>\n";
 echo "  <td style=\"width: 30; background-color: #FF0000\"></td>\n";
-echo "  <td style=\"width: 100;\">&auml;lter als " . round( $config_map_timeout / 24 / 60 / 60). " Tage</td>\n";
+echo "  <td style=\"width: 100;\">Ã¤lter als " . round( $config_map_timeout / 24 / 60 / 60). " Tage</td>\n";
 echo "  <td style=\"width: 30; background-color: #4B4B00\"></td>\n";
 echo "  <td style=\"width: 100;\">ungescannt</td>\n";
 echo " </tr>\n";

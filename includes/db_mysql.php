@@ -45,7 +45,9 @@ class db {
 		$this->query_count = 0;
 		$this->db_version = @mysql_get_server_info();
 		$this->db_queries = "";
-		return ( $this->db_link_id ) ? ( ( $this->db_select($database) ) ? $this->db_link_id: FALSE): FALSE;		
+        mysql_set_charset('utf8', $this->db_link_id);
+        return ( $this->db_link_id ) ? ( ( $this->db_select($database) ) ? $this->db_link_id: FALSE): FALSE;
+
 	}
 
 	function db_disconnect()

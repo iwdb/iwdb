@@ -266,13 +266,13 @@ echo "  <td style=\"width: 14%;\">Stargate</td>\n";
 echo "  <td style=\"width: 4%; background-color: " . $config_color['SchwarzesLoch'] ."\"></td>\n";
 echo "  <td style=\"width: 14%;\">Schwarzes Loch</td>\n";
 echo "  <td style=\"width: 4%; background-color: " . $config_color['last24'] ."\"></td>\n";
-echo "  <td style=\"width: 14%;\">j&uuml;nger 24 Stunden</td>\n";
+echo "  <td style=\"width: 14%;\">jünger 24 Stunden</td>\n";
 echo "  <td style=\"width: 4%; background-color: #00FF00\"></td>\n";
-echo "  <td style=\"width: 14%;\">&auml;lter 24 Stunden</td>\n";
+echo "  <td style=\"width: 14%;\">älter 24 Stunden</td>\n";
 echo "  <td style=\"width: 4%; background-color: #FFFF00\"></td>\n";
 echo "  <td style=\"width: 14%;\">" . (round( $config_map_timeout / $DAYS / 2)) . " Tage alt</td>\n";
 echo "  <td style=\"width: 4%; background-color: #FF0000\"></td>\n";
-echo "  <td style=\"width: 11%;\">&auml;lter als " . (round( $config_map_timeout / $DAYS)) . " Tage</td>\n";
+echo "  <td style=\"width: 11%;\">älter als " . (round( $config_map_timeout / $DAYS)) . " Tage</td>\n";
 echo " </tr>\n";
 
 if( defined('ALLY_MEMBERS_ON_MAP' ) && ALLY_MEMBERS_ON_MAP === TRUE ) {

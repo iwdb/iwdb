@@ -53,35 +53,35 @@ function error($err_code, $err_msg = '', $err_title = '', $err_file = '', $err_l
 		case GENERAL_ERROR:
 			if (defined( 'DEBUG' ) && DEBUG === TRUE)
 			{
-				$debug_msg = "<b>DEBUG INFORMATION:</b><br />\n";
-				$debug_msg .= "<b>Time:</b> " . $err_dt . "<br />\n";
+				$debug_msg = "<b>DEBUG INFORMATION:</b><br>\n";
+				$debug_msg .= "<b>Time:</b> " . $err_dt . "<br>\n";
 				$debug_msg .= "<b>Code:</b> " . $err_code . " \n";
-				$debug_msg .= "<b>Title:</b> " . $err_title . "<br />\n";
+				$debug_msg .= "<b>Title:</b> " . $err_title . "<br>\n";
 				if ( ( ! empty($err_file) ) || ( ! empty($err_line) ) )
 				{
 					$debug_msg .= "<b>File:</b> " . $err_file . " \n";
-					$debug_msg .= "<b>Line:</b> " . $err_line . "<br />\n";
+					$debug_msg .= "<b>Line:</b> " . $err_line . "<br>\n";
 				}
-				$debug_msg .= "<b>Message:</b> " . $err_msg . "<br />\n";
+				$debug_msg .= "<b>Message:</b> " . $err_msg . "<br>\n";
 
 				if ( $sql != "" )
 				{
-					$debug_msg .= "<b>SQL Version:</b> " . $db->db_version . "<br />\n";
-					$debug_msg .= "<b>SQL Query:</b> " . $sql . "<br />\n";
+					$debug_msg .= "<b>SQL Version:</b> " . $db->db_version . "<br>\n";
+					$debug_msg .= "<b>SQL Query:</b> " . $sql . "<br>\n";
 				}
 
 				$err_sql = $db->db_error();
 				if ( ( ! empty($err_sql['code']) ) && ( ! empty($err_sql['msg']) ) )
 				{
 					$debug_msg .= "<b>SQL Code:</b> " . $err_sql['code'] . " \n";
-					$debug_msg .= "<b>SQL Message:</b> " . $err_sql['msg'] . "<br />\n";
+					$debug_msg .= "<b>SQL Message:</b> " . $err_sql['msg'] . "<br>\n";
 				}
 
 				$error_return = $debug_msg . "\n";
 			}
 			else
 			{
-				$error_return = "<b>" . $err_title . "</b><br />\n" . $err_msg . "<br />\n";
+				$error_return = "<b>" . $err_title . "</b><br>\n" . $err_msg . "<br>\n";
 			}
 			break;
 	}
@@ -90,7 +90,7 @@ function error($err_code, $err_msg = '', $err_title = '', $err_file = '', $err_l
 	{
 		if ( ! empty($error) )
 		{
-			$error .= "<br /><br />\n";
+			$error .= "<br><br>\n";
 		}
 		$error .= $error_return;
 	}
@@ -116,7 +116,7 @@ function decode_ip($int_ip)
 
 //******************************************************************************
 //
-// Funktion fuer Zufallsstring mit Zeichen $values und Laenge $length
+// Funktion fuer Zufallsstring mit Zeichen $values und Länge $length
 function randomstring($values = '', $length = 0)
 {
 	$return = '';
@@ -130,7 +130,7 @@ function randomstring($values = '', $length = 0)
 
 //******************************************************************************
 //
-// berechnet Zeiten fuer die Sitterauftraege
+// berechnet Zeiten fuer die Sitteraufträge
 function dates($parentid, $user)
 {
 	global $db, $db_tb_sitterauftrag, $db_tb_gebaeude, $db_tb_scans, $db_tb_user;
@@ -211,7 +211,7 @@ function dates($parentid, $user)
 
 //******************************************************************************
 //
-// Ausgabeformatierung von Auftraegen
+// Ausgabeformatierung von Aufträgen
 function auftrag($typ, $bauschleife, $bauid, $text, $schiffanz, $planetenmod, $sitterlogin, $bauschleifenmod)
 {
 	global $db, $db_tb_gebaeude, $db_tb_user, $db_tb_schiffstyp;
@@ -318,13 +318,13 @@ function secure_password($password)
 	if ( strlen($password) < 7 ) $alert = "Passwort ist zu kurz (mindestens 7 Zeichen).";
 	if ( ! preg_match('%^.*([^a-zA-Z0-9]|[0-9])+.*([^a-zA-Z0-9]|[0-9])+.*$%', $password) )
 	{
-		$alert = "Passwort enthaelt nicht mindestens 2 Sonderzeichen oder Zahlen.";
+		$alert = "Passwort enthält nicht mindestens 2 Sonderzeichen oder Zahlen.";
 	}
 	else
 	{
 		if ( ! preg_match('%^.*[a-zA-Z]+.*[a-zA-Z]+.*$%', $password) )
 		{
-			$alert = "Passwort enthaelt nicht mindestens 2 Buchstaben.";
+			$alert = "Passwort enthält nicht mindestens 2 Buchstaben.";
 		}
 	}
 	return $alert;
@@ -342,7 +342,7 @@ function check_username($username)
     return $alert;
   
   if( !preg_match( '%^([a-zA-Z0-9_=\.\-\+\*\(\)\{\} ])*$%', $username)) {
-    $alert = "Benutzername enth&auml;lt ung&uuml;tige Zeichen.";
+    $alert = "Benutzername enthält ungütige Zeichen.";
   } 
   
   return $alert;
@@ -353,24 +353,11 @@ function check_username($username)
 // Function for fetching a server variable. 
 //
 function getServerVar($varname, $default) {	
-	if( isset($_SERVER[$varname]) && !empty($_SERVER[$varname])) 
-    return htmlentities($_SERVER[$varname]);
-    
-	if( isset($_ENV[$varname]) && !empty($_ENV[$varname])) 
-    return htmlentities($_ENV[$varname]);
+	if( isset($_SERVER[$varname]) && !empty($_SERVER[$varname])) {
+        return $_SERVER[$varname];
+    }
 
-  $php_version = explode(".", phpversion());
-  if(( $php_version[0] < 4 ) || (( $php_version[0] == 4 ) && ( $php_version[1] < 2 ))) {
-    global $HTTP_SERVER_VARS, $HTTP_ENV_VARS;
-  		
-  	if( isset($HTTP_SERVER_VARS[$varname]) && !empty($HTTP_SERVER_VARS[$varname])) 
-      return htmlentities($HTTP_SERVER_VARS[$varname]);
-      
-  	if( isset($HTTP_ENV_VARS[$varname]) && !empty($HTTP_ENV_VARS[$varname])) 
-      return htmlentities($HTTP_ENV_VARS[$varname]);
-  }
-	
-	return $default;
+    return $default;
 }
 
 //******************************************************************************
@@ -405,38 +392,7 @@ function getVar($varname, $noentities = false) {
 			return $_GET[$varname];
 		}
 	}
-	
-	$php_version = explode(".", phpversion());
-	if(( $php_version[0] < 4 ) || (( $php_version[0] == 4 ) && ( $php_version[1] < 2 ))) {
-		global $HTTP_POST_VARS, $HTTP_GET_VARS;
-		if( isset($HTTP_POST_VARS[$varname])) { 
-			if(!$noentities) {
-				if (is_array($HTTP_POST_VARS[$varname])) {
-					$returnary = array();
-					foreach($HTTP_POST_VARS[$varname] as $key => $value) $returnary[$key] = htmlentities($value, ENT_QUOTES);
-					return $returnary;
-				} else {
-					return htmlentities($HTTP_POST_VARS[$varname], ENT_QUOTES);
-				}
-			} else {
-				return $HTTP_POST_VARS[$varname];
-			}
-		}
-		if( isset($HTTP_GET_VARS[$varname])) {
-			if(!$noentities) {
-				if (is_array($HTTP_GET_VARS[$varname])) {
-					$returnary = array();
-					foreach($HTTP_GET_VARS[$varname] as $key => $value) $returnary[$key] = htmlentities($value, ENT_QUOTES);
-					return $returnary;
-				} else {
-					return htmlentities($HTTP_GET_VARS[$varname], ENT_QUOTES);
-				}
-			} else {
-				return $HTTP_GET_VARS[$varname];
-			}
-		}
-	}
-  
+
 	return FALSE;
 }
 
@@ -466,47 +422,48 @@ function scanAge($scandate) {
 //
 function stripNumber($numberstring, $thousand='.', $comma=',') {
 
-$numbers = array('0','1','2','3','4','5','6','7','8','9');
- 
-//alles entfernen was keine Zahl ist
- $return = preg_replace("/[^0-9]/","",$numberstring);
+    $numbers = array('0','1','2','3','4','5','6','7','8','9');
 
-if (isset($debug)) {
-echo "<div class='system_debug_blue'>" . $numberstring . " > " . $return . "</div>";
+    //alles entfernen was keine Zahl ist
+     $return = preg_replace("/[^0-9]/","",$numberstring);
+
+    if (isset($debug)) {
+    echo "<div class='system_debug_blue'>" . $numberstring . " > " . $return . "</div>";
+    }
+
+    //dvisior für den Teiler finden
+     $where = 0;
+     for ($i = strlen($numberstring)-1; $i>=0; $i--) {
+
+      //ist es eine Nummer und wir beginnen egrade von rechts nach Nummern zu suchen?
+      if ( in_array($numberstring[$i],$numbers)) {
+       $where++;
+      }
+      //keine Numemr und iwr haben shcon eine gefunden?
+      if ( !in_array($numberstring[$i],$numbers) AND $where > 0 ) {
+       break;
+      }
+
+    if (isset($debug)) {
+    echo "<div class='system_debug_orange'>" . $i . " = " . $numberstring[$i] . " () " . $where . "</div>";
+    }
+    }
+    //wenn where gröser dann handelt es sich um ein Tausendertrennzeichen
+    //als where gibt es nur null und eins
+    if ($where >= 3) $where = 0;
+
+    //Spezialfall zwei und einstellige Zahlen und Zahlen ohne irgendetwas
+    if (strlen($return) == $where) $where = 0;
+
+     $return = $return / pow( 10 , ($where));
+
+    //so jetzt könnte das ganze ja auch negativ sein. Hierbei wird davon ausgegangen,
+    // dass der User als Trennzeichen keinen Strich nimmt!
+    $position = StrPos($numberstring,"-");
+    if ( !($position === false) )  $return = $return * (-1);
+    return $return;
 }
 
-//dvisior f&uuml;r den Teiler finden
- $where = 0;
- for ($i = strlen($numberstring)-1; $i>=0; $i--) {
-
-  //ist es eine Nummer und wir beginnen egrade von rechts nach Nummern zu suchen?
-  if ( in_array($numberstring[$i],$numbers)) {
-   $where++;
-  }
-  //keine Numemr und iwr haben shcon eine gefunden?
-  if ( !in_array($numberstring[$i],$numbers) AND $where > 0 ) {
-   break;
-  }
-
-if (isset($debug)) {
-echo "<div class='system_debug_orange'>" . $i . " = " . $numberstring[$i] . " () " . $where . "</div>";
-} 
-}
-//wenn where gr&ouml;ser dann handelt es sich um ein Tausendertrennzeichen
-//als where gibt es nur null und eins
-if ($where >= 3) $where = 0;
-
-//Spezialfall zwei und einstellige Zahlen und Zahlen ohne irgendetwas
-if (strlen($return) == $where) $where = 0;
-
- $return = $return / pow( 10 , ($where));
-
-//so jetzt k&ouml;nnte das ganze ja auch negativ sein. Hierbei wird davon ausgegangen,
-// dass der User als Trennzeichen keinen Strich nimmt!
-$position = StrPos($numberstring,"-");
-if ( !($position === false) )  $return = $return * (-1);
-return $return;
-}
 function sqlRating ( $type )
 {
 	$normal = "(eisengehalt + chemievorkommen + eisdichte / 2)";
@@ -539,7 +496,7 @@ function sqlRating ( $type )
 
 	$rating .= "+ lebensbedingungen / 4)";
 	$rating .= " / (IFNULL(kgmod, 1) * IFNULL(dgmod, 1) * IFNULL(ksmod, 1))";
-	$rating .= "+ IF( besonderheiten LIKE '%Asteroideng&uuml;rtel%',40,0)";
+	$rating .= "+ IF( besonderheiten LIKE '%Asteroidengürtel%',40,0)";
 	$rating .= "+ IF( besonderheiten LIKE '%Ureinwohner%',5,0)";
 	$rating .= "+ IF( besonderheiten LIKE '%mystische Quelle%',5,0)";
 	$rating .= "+ IF( besonderheiten LIKE '%Mond%',25,0)";
@@ -548,15 +505,13 @@ function sqlRating ( $type )
 	$rating .= "+ IF( besonderheiten LIKE '%Gold%',30,0)";
 	$rating .= "+ IF( besonderheiten LIKE '%roter Nebel%',30,0)";
 	$rating .= "+ IF( besonderheiten LIKE '%gelber Nebel%',15,0)";
-	$rating .= "+ IF( besonderheiten LIKE '%gr&uuml;ner Nebel%',15,0)";
+	$rating .= "+ IF( besonderheiten LIKE '%grüner Nebel%',15,0)";
 	$rating .= "+ IF( besonderheiten LIKE '%violetter%',15,0)";
 	$rating .= "+ IF( besonderheiten LIKE '%blauer%',10,0)";
 
 	return $rating;
 }		
  
-		
-
 function rating ( $scan_data , $coords = '0:0:0' )
 {
   global $db, $db_tb_scans;
@@ -581,7 +536,7 @@ function rating ( $scan_data , $coords = '0:0:0' )
 
 	$rating = ( $minerals ) / ( $divisor );
 
-	if(!(strpos($scan_data['besonderheiten'],"Asteroideng&uuml;rtel") === false))
+	if(!(strpos($scan_data['besonderheiten'],"Asteroidengürtel") === false))
 	 $rating += 40;
 	if(!(strpos($scan_data['besonderheiten'],"Ureinwohner") === false))
 	 $rating += 5;
@@ -599,7 +554,7 @@ function rating ( $scan_data , $coords = '0:0:0' )
 	 $rating += 30;
 	if(!(strpos($scan_data['besonderheiten'],"gelber Nebel") === false))
 	 $rating += 15;
-	if(!(strpos($scan_data['besonderheiten'],"gr&uuml;ner Nebel") === false))
+	if(!(strpos($scan_data['besonderheiten'],"grüner Nebel") === false))
 	 $rating += 15;
 	if(!(strpos($scan_data['besonderheiten'],"violetter Nebel") === false))
 	 $rating += 15;
@@ -619,6 +574,4 @@ function rating ( $scan_data , $coords = '0:0:0' )
 	return "<span class=\"ranking_" . $color . "\">" . $rating . "</span>";
 }
 
-	
- 
 ?>

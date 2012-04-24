@@ -25,9 +25,9 @@
 /*****************************************************************************/
 
 /*****************************************************************************/
-/* Diese Erweiterung der ursp&uuml;nglichen DB ist ein Gemeinschafftsprojekt */
+/* Diese Erweiterung der urspÃ¼nglichen DB ist ein Gemeinschafftsprojekt */
 /* von IW-Spielern.                                                          */
-/* Bei Problemen kannst du dich an das eigens daf&uuml;r eingerichtete       */
+/* Bei Problemen kannst du dich an das eigens dafÃ¼r eingerichtete       */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
 /*                   http://www.iw-smf.pericolini.de                         */
@@ -38,7 +38,7 @@ error_reporting(E_ALL);
 
 /*****************************************************************************/
 /* bei speziellen Fragen:                     martinmartimeo / reuq tgarfeg  */
-/* Modifikation für Runde 9 von:              Thella                         */
+/* Modifikation fï¿½r Runde 9 von:              Thella                         */
 /*****************************************************************************/
 
 if (basename($_SERVER['PHP_SELF']) != "index.php")
@@ -184,7 +184,7 @@ function updateSysScan($sys, $coords_gal, $coords_sys) {
 		$existing_sys['date'] = $row['date'];
 		$existing_sys['nebula'] = $row['nebula'];
 	}
-	// Sysscan einfügen oder ersetzen
+	// Sysscan einfï¿½gen oder ersetzen
 	if (isset($existing_sys) == 0) {
 		$sql = "INSERT INTO " . $db_prefix . "sysscans (id,gal,sys,objekt,date,nebula) VALUES (";
 		$sql .= "'" . $coords_gal . ":" . $coords_sys . "'";
@@ -243,7 +243,7 @@ if (function_exists('parse_unixml') === false) {
 		$scantime = $arrayofxml['planeten_data']['informationen']['aktualisierungszeit'];
 		//Wenn wir hier kein array haben... hat die Fritte keine Sicht gehabt.
 		if (!isset($arrayofxml['planeten_data']['planet'])) {
-			echo "<pre style='color:red'>Keine Planeten hinzugefügt... baue mehr Beobachtungseinrichtungen!\n</pre>";
+			echo "<pre style='color:red'>Keine Planeten hinzugefï¿½gt... baue mehr Beobachtungseinrichtungen!\n</pre>";
 			return;
 		//Schwarzes Loch
 		} else if (isset($arrayofxml['planeten_data']['planet']['planet_typ']) && $arrayofxml['planeten_data']['planet']['planet_typ'] == "schwarzes Loch") {
@@ -364,7 +364,7 @@ if (function_exists('parse_unixml') === false) {
 						}
 						$result = $db->db_query($sql)
 							or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-						echo "<pre style='color:red'>Planet " . $coords_gal . ":" . $coords_sys . ":" . $coords_planet . " hinzugef&uuml;gt\n</pre>";
+						echo "<pre style='color:red'>Planet " . $coords_gal . ":" . $coords_sys . ":" . $coords_planet . " hinzugefÃ¼gt\n</pre>";
 					}
 				}
 			}

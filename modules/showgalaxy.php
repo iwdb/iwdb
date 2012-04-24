@@ -519,7 +519,7 @@ else
 				switch ($row1['nebula']) {
 					case "BLN": echo "<b>Blauer Nebel</b><br/><br/>"; break;
 					case "GEN": echo "<b>Gelber Nebel</b><br/><br/>"; break;
-					case "GRN": echo "<b>Gr&uuml;ner Nebel</b><br/><br/>"; break;
+					case "GRN": echo "<b>Grüner Nebel</b><br/><br/>"; break;
 					case "RON": echo "<b>Roter Nebel</b><br/><br/>"; break;
 					case "VIN": echo "<b>Violetter Nebel</b><br/><br/>"; break;
 				}
@@ -601,9 +601,9 @@ if ( ( ( $ansicht == "auto") && ( $objekt == "---" ) ) || ( $ansicht == "geologi
 		if ( (!empty($kgmod_von)) OR (!empty($dgmod_von)) OR (!empty($ksmod_von)) OR (!empty($dsmod_von)) OR (!empty($kgmod_bis)) OR (!empty($dgmod_bis)) OR (!empty($ksmod_bis)) OR (!empty($dsmod_bis)) OR (!empty($fmod_von)) OR (!empty($fmod_bis)) OR (!empty($kgmod)) OR (!empty($dgmod)) OR (!empty($ksmod)) OR (!empty($dsmod)) OR (!empty($fmod)) ) {
 			?>
 		<td class="titlebg" style="width: <?php echo (9 / $teiler);?>%;" valign="middle" align="center">
-		<b title="Geb&auml;udekostenmodifikation">kgmod</b></td>
+		<b title="Gebäudekostenmodifikation">kgmod</b></td>
 		<td class="titlebg" style="width: <?php echo (9 / $teiler);?>%;" valign="middle" align="center">
-		<b title="Geb&auml;udekostendauer">dgmod</b></td>
+		<b title="Gebäudekostendauer">dgmod</b></td>
 		<td class="titlebg" style="width: <?php echo (9 / $teiler);?>%;" valign="middle" align="center">
 		<b title="Schiffkostenmodifikation">ksmod</b></td>
 		<td class="titlebg" style="width: <?php echo (9 / $teiler);?>%;" valign="middle" align="center">
@@ -626,15 +626,15 @@ if ( (!empty($grav_von)) OR (!empty($grav_bis)) ) {
 if ( $reserv == "1" )
 {
 	if ( !isset($clean_reserv) || $clean_reserv != 1 ) {
-		echo '<b><font size="2">[<a href="index.php?action=showgalaxy&reserv=1&clean_reserv=1&ansicht=geologisch"><font color="red">Leichen l&ouml;schen</font></a>]</font></b>';
+		echo '<b><font size="2">[<a href="index.php?action=showgalaxy&reserv=1&clean_reserv=1&ansicht=geologisch"><font color="red">Leichen löschen</font></a>]</font></b>';
 	} else {
 		$sql99 = "UPDATE `" . $db_tb_scans . "` SET `reserviert`=NULL WHERE `user`!=''";
 		$result99 = $db->db_query($sql99)
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql99);
-		echo '<b><font color="red" size="2">Leichen wurden gel&ouml;scht...</font></b><br />';
-		echo 'Seite [<a href="index.php?action=showgalaxy&reserv=1&ansicht=geologisch">neu laden</a>], um &Auml;nderungen zu sehen!';
+		echo '<b><font color="red" size="2">Leichen wurden gelöscht...</font></b><br>';
+		echo 'Seite [<a href="index.php?action=showgalaxy&reserv=1&ansicht=geologisch">neu laden</a>], um Änderungen zu sehen!';
 	}
-	echo '<br /><br />';
+	echo '<br><br>';
 
 	?>
 		<td class="titlebg" style="width: <?php echo (10 / $teiler);?>%;" valign="middle" align="center">
@@ -795,13 +795,13 @@ if ( ( ( $ansicht == "auto") && ( $objekt != "---" ) ) || ( $ansicht == "taktisc
 		<a
 			href="index.php?action=showplanet&amp;coords=<?php echo $row['coords'];?>&amp;ansicht=<?php echo $ansicht;?>&amp;sid=<?php echo $sid;?>">
 			<?php
-			if ( ! empty($row['geb'])) echo "Geb&auml;ude<br>";
+			if ( ! empty($row['geb'])) echo "Gebäude<br>";
 			if (( ! empty($row['plan'])) OR ( ! empty($row['stat'])) OR ( ! empty($row['def']))) echo "Schiffe<br>";
 			if ( ($row['lager_chemie'] > 0) || ($row['lager_eis'] > 0) || ($row['lager_energie'] > 0) )  {
 				echo "Koloinfo<br>";
 			}
 			if ( ($row['eisengehalt'] > 0) || ($row['chemievorkommen'] > 0) || ($row['eisdichte'] > 0) )  {
-				echo "Geo<br />";
+				echo "Geo<br>";
 				echo "(" . rating( 0 , $row['coords']) . ")";
 			}
 			?> </a>&nbsp; <?php
@@ -831,7 +831,7 @@ if ( ( ( $ansicht == "auto") && ( $objekt == "---" ) ) || ( $ansicht == "geologi
 ?>
 		<td class="windowbg2" align="right" style="width: <?php echo (10 / $teiler);?>%; background-color: <?php echo $color;?>;" >
 		<a
-			href="index.php?action=showplanet&amp;coords=<?php echo $row['coords'];?>&amp;ansicht=<?php echo $ansicht;?>&amp;sid=<?php echo $sid;?>"><?php 
+			href="index.php?action=showplanet&amp;coords=<?php echo $row['coords'];?>&amp;ansicht=<?php echo $ansicht;?>&amp;sid=<?php echo $sid;?>"><?php
 			if ($row['eisengehalt'] > 100) {
 				echo "<b>" . $row['eisengehalt'] . "</b>";
 			} else {
@@ -850,7 +850,7 @@ if ( ( ( $ansicht == "auto") && ( $objekt == "---" ) ) || ( $ansicht == "geologi
 			?> </a></td>
 		<td class="windowbg2" align="right" style="width: <?php echo (10 / $teiler);?>%; background-color: <?php echo $color;?>;" >
 		<a
-			href="index.php?action=showplanet&amp;coords=<?php echo $row['coords'];?>&amp;ansicht=<?php echo $ansicht;?>&amp;sid=<?php echo $sid;?>"><?php 
+			href="index.php?action=showplanet&amp;coords=<?php echo $row['coords'];?>&amp;ansicht=<?php echo $ansicht;?>&amp;sid=<?php echo $sid;?>"><?php
 			if ($row['chemievorkommen'] > 100) {
 				echo "<b>" . $row['chemievorkommen'] . "</b>";
 			} else {
@@ -869,7 +869,7 @@ if ( ( ( $ansicht == "auto") && ( $objekt == "---" ) ) || ( $ansicht == "geologi
 			?> </a></td>
 		<td class="windowbg2" align="right" style="width: <?php echo (10 / $teiler);?>%; background-color: <?php echo $color;?>;" >
 		<a
-			href="index.php?action=showplanet&amp;coords=<?php echo $row['coords'];?>&amp;ansicht=<?php echo $ansicht;?>&amp;sid=<?php echo $sid;?>"><?php 
+			href="index.php?action=showplanet&amp;coords=<?php echo $row['coords'];?>&amp;ansicht=<?php echo $ansicht;?>&amp;sid=<?php echo $sid;?>"><?php
 			if ($row['eisdichte'] > 30 ) {
 				echo "<b>" . $row['eisdichte'] . "</b>";
 			} else {

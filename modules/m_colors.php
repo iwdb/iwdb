@@ -26,18 +26,18 @@
 
 /*****************************************************************************/
 /* Dieses Modul dient als Vorlage zum Erstellen von eigenen Zusatzmodulen    */
-/* für die Iw DB: Icewars geoscan and sitter database                        */
+/* fï¿½r die Iw DB: Icewars geoscan and sitter database                        */
 /*---------------------------------------------------------------------------*/
-/* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  */
+/* Diese Erweiterung der ursprï¿½nglichen DB ist ein Gemeinschaftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
+/* Bei Problemen kannst du dich an das eigens dafï¿½r eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
 /*                   http://www.iw-smf.pericolini.de                         */
 /*                                                                           */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
+// -> Abfrage ob dieses Modul ï¿½ber die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
 if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	echo "Hacking attempt...!!";
@@ -46,23 +46,23 @@ if (basename($_SERVER['PHP_SELF']) != "index.php") {
 
 //****************************************************************************
 //
-// -> Name des Moduls, ist notwendig für die Benennung der zugehörigen
+// -> Name des Moduls, ist notwendig fï¿½r die Benennung der zugehï¿½rigen
 //    Config.cfg.php
-// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung für
-//    eine Installation über das Menü
+// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung fï¿½r
+//    eine Installation ï¿½ber das Menï¿½
 //
 $modulname  = "m_colors";
 
 //****************************************************************************
 //
-// -> Menütitel des Moduls der in der Navigation dargestellt werden soll.
+// -> Menï¿½titel des Moduls der in der Navigation dargestellt werden soll.
 //
 $modultitle = "Farbtabelle";
 
 //****************************************************************************
 //
-// -> Status des Moduls, bestimmt wer dieses Modul über die Navigation
-//    ausführen darf. Mögliche Werte:
+// -> Status des Moduls, bestimmt wer dieses Modul ï¿½ber die Navigation
+//    ausfï¿½hren darf. Mï¿½gliche Werte:
 //    - ""      <- nix = jeder,
 //    - "admin" <- na wer wohl
 //
@@ -73,7 +73,7 @@ $modulstatus = "";
 // -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
 //
 $moduldesc =
-  "Das Colors-Modul bietet eine Anzeige s&auml;mtlicher in Icewars f&uuml;r " . 
+  "Das Colors-Modul bietet eine Anzeige sÃ¤mtlicher in Icewars fÃ¼r " .
   "die farbige Markierung von Links wie den Planetennamen relevanten " . 
   "Hexadezimal-Farbcodes aus der man diese einfach rauskopieren kann.";
 
@@ -91,7 +91,7 @@ function workInstallDatabase() {
 //  $result = $db->db_query($sql)
 //	  or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
-  echo "<div class='system_notification'>Installation: Datenbank&auml;nderungen = <b>OK</b></div>";
+  echo "<div class='system_notification'>Installation: DatenbankÃ¤nderungen = <b>OK</b></div>";
 }
 
 //****************************************************************************
@@ -106,7 +106,7 @@ function workInstallMenu() {
 		$actionparamters = "";
   	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparameters );
 	  //
-	  // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
+	  // Weitere Wiederholungen fï¿½r weitere Menï¿½-Eintrï¿½ge, z.B.
 	  //
 	  // 	insertMenuItem( $_POST['menu'], ($_POST['submenu']+1), "Titel2", "hc", "&weissichnichtwas=1" );
 	  //
@@ -135,19 +135,19 @@ function workUninstallDatabase() {
 //  $result = $db->db_query($sql)
 //    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
-    echo "<div class='system_notification'>Deinstallation: Datenbank&auml;nderungen = <b>OK</b></div>";
+    echo "<div class='system_notification'>Deinstallation: DatenbankÃ¤nderungen = <b>OK</b></div>";
 }
 
 //****************************************************************************
 //
 // Installationsroutine
 //
-// Dieser Abschnitt wird nur ausgeführt wenn das Modul mit dem Parameter
+// Dieser Abschnitt wird nur ausgefï¿½hrt wenn das Modul mit dem Parameter
 // "install" aufgerufen wurde. Beispiel des Aufrufs:
 //
 //      http://Mein.server/iwdb/index.php?action=default&was=install
 //
-// Anstatt "Mein.Server" natürlich deinen Server angeben und default
+// Anstatt "Mein.Server" natï¿½rlich deinen Server angeben und default
 // durch den Dateinamen des Moduls ersetzen.
 //
 if( !empty($_REQUEST['was'])) {
@@ -162,7 +162,7 @@ if( !empty($_REQUEST['was'])) {
 	  die( "Cannot load menu functions" );
 
   // Wenn ein Modul administriert wird, soll der Rest nicht mehr
-  // ausgeführt werden.
+  // ausgefï¿½hrt werden.
   return;
 }
 
@@ -181,11 +181,11 @@ if( empty($limit) ) {
 }
 
 echo "<div class='doc_big_black' style='text-align:center'>Nachfolgend alle Farbcodes, " .
-     "die Ihr f&uuml;r die Ordnung Eurer Links<br>und Planis ingame verwenden " .
-     "k&ouml;nnt.</div>\n";
+     "die Ihr fÃ¼r die Ordnung Eurer Links<br>und Planis ingame verwenden " .
+     "kÃ¶nnt.</div>\n";
 echo "<br>\n";
-echo "Einfach kopieren und an der gew&uuml;schten Stelle z.B. bei der ".
-     "Benennung von Planetennamen einfügen, das wars!<br><br>\n";
+echo "Einfach kopieren und an der gewÃ¼schten Stelle z.B. bei der ".
+     "Benennung von Planetennamen einfï¿½gen, das wars!<br><br>\n";
 echo "\n";
 echo "<SCRIPT LANGUAGE=\"JavaScript\">\n";
 echo "clr=new Array('00','20','40','60','80','a0','c0','ff');\n";

@@ -25,9 +25,9 @@
 /*****************************************************************************/
 
 /*****************************************************************************/
-/* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  */
+/* Diese Erweiterung der ursprï¿½nglichen DB ist ein Gemeinschaftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
+/* Bei Problemen kannst du dich an das eigens dafï¿½r eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
 /*                   http://www.iw-smf.pericolini.de                         */
@@ -44,7 +44,7 @@ function createConfig($configtext) {
 	global $moduldesc;	
 
 	if( empty( $modulname )) 
-		die("Der &uuml;bergebene Modulname ist leer. Pr&uuml;fe bitte den Quelltext des Moduls.");
+		die("Der Ã¼bergebene Modulname ist leer. PrÃ¼fe bitte den Quelltext des Moduls.");
 
 	// Check existance of the config directory and copy all the needed files
   if(!is_dir("config")) {
@@ -59,13 +59,13 @@ function createConfig($configtext) {
 	// Check existance of the configuration file
   if( file_exists("./config/" . $modulname . ".cfg.php"))	
     die( "Die Datei config/" . $modulname . ".cfg.php existiert bereits, " . 
-	 	     "bitte l&ouml;sche diese vor einer Neuinstallation." );
+	 	     "bitte lÃ¶sche diese vor einer Neuinstallation." );
 			 
   // Open new configuration file for writing.
   $fd = fopen( "./config/" . $modulname . ".cfg.php", "w"); 
 
   // Write file header
-  fwrite( $fd, "<?PHP\n" );                         // Auch Configdateien sind ausführbare PHP-Scripts
+  fwrite( $fd, "<?PHP\n" );                         // Auch Configdateien sind ausfï¿½hrbare PHP-Scripts
   fwrite( $fd, "/*****************************************************************************/\n" );
   fwrite( $fd, "/* Iw DB: Icewars geoscan and sitter database                                */\n" );
   fwrite( $fd, "/* Open-Source Project started by Robert Riess (robert@riess.net)            */\n" );
@@ -115,7 +115,7 @@ function removeConfig() {
 	global $modulname;
 
 	if( empty( $modulname )) 
-		die("Der &uuml;bergebene Modulname ist leer. Pr&uuml;fe bitte den Quelltext des Moduls.");
+		die("Der Ã¼bergebene Modulname ist leer. PrÃ¼fe bitte den Quelltext des Moduls.");
 
 	// Delete the configuration file ...
   unlink( "./config/" . $modulname . ".cfg.php"); 
@@ -134,17 +134,17 @@ function createMenu() {
 	global $db, $db_tb_menu, $sid, $modulname;
 
 	if( empty( $modulname )) 
-		die("Der &uuml;bergebene Modulname ist leer. Pr&uuml;fe bitte den Quelltext des Moduls.");
+		die("Der Ã¼bergebene Modulname ist leer. PrÃ¼fe bitte den Quelltext des Moduls.");
 
-  // Auslesen der vorhanden Menütabelle
+  // Auslesen der vorhanden Menï¿½tabelle
   $sql = "SELECT menu, submenu, title, status, action, extlink, sittertyp FROM " .
          $db_tb_menu . " ORDER BY menu ASC, submenu ASC";
   $result = $db->db_query($sql)
      or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
-  // -> Nun ein Formular das das vorhandene Menü anzeigt und zusätlich freie Slots bietet
-  // -> wo man wählen kann wo dieses Modul seinen Platz im Menü bekommen soll.
-  echo "<div class='normal'>W&auml;hle nun in welchen Abschnitt des Men&uuml;s du dieses Modul anw&auml;hlen willst!</div>\n";
+  // -> Nun ein Formular das das vorhandene Menï¿½ anzeigt und zusï¿½tlich freie Slots bietet
+  // -> wo man wï¿½hlen kann wo dieses Modul seinen Platz im Menï¿½ bekommen soll.
+  echo "<div class='normal'>WÃ¤hle nun in welchen Abschnitt des MenÃ¼s du dieses Modul anwÃ¤hlen willst!</div>\n";
 
   $lastmenu    = "";
   $tableopen   = 0;
@@ -159,7 +159,7 @@ function createMenu() {
 		    if($insidetable == 0) {
 		      echo "  <td class=\"menu\">";
         }
-		    echo "<form name=\"form\" action=\"index.php?action=".$modulname."&was=install2&sid=".$sid."\" method=\"post\">\n"; 
+		    echo "<form name=\"form\" action=\"index.php?action=".$modulname."&was=install2&sid=".$sid."\" method=\"post\">\n";
 		    echo " <input type='hidden' name='menu' value=".$lastmenu.">\n";
 		    $submenu = $lastsubmenu+1;
 		    echo " <input type='hidden' name='submenu' value=".$submenu.">\n";
@@ -202,7 +202,7 @@ function createMenu() {
       echo "<td class=\"menu\">";
     }
     // Fuer das letzte Menu benoetigen wir auch noch einen Button.
-    echo "<form name=\"form\" action=\"index.php?action=".$modulname."&was=install2&sid=".$sid."\" method=\"post\">\n"; 
+    echo "<form name=\"form\" action=\"index.php?action=".$modulname."&was=install2&sid=".$sid."\" method=\"post\">\n";
     echo " <input type='hidden' name='menu' value=".$lastmenu.">\n";
     $submenu = $lastsubmenu+1;
     echo " <input type='hidden' name='submenu' value=".$submenu.">\n";
@@ -223,7 +223,7 @@ function insertMenuItem( $m_menu, $m_submenu, $modultitle, $modulstatus, $action
 	global $db, $db_tb_menu;
 
 	if(empty($m_menu) || empty($m_submenu))
-		die( "Menu-Item oder Submenu-Item nicht g&uuml;ltig (sollte nicht so sein)." );
+		die( "Menu-Item oder Submenu-Item nicht gÃ¼ltig (sollte nicht so sein)." );
 
     $sql = "INSERT INTO " . $db_tb_menu . "(menu, submenu, title, status, action, extlink, sittertyp) " .
 		   " VALUES ('" . $m_menu . "', '" . $m_submenu . "', '" . $modultitle . "', '" . $modulstatus . 
@@ -231,7 +231,7 @@ function insertMenuItem( $m_menu, $m_submenu, $modultitle, $modulstatus, $action
     $result = $db->db_query($sql)
        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
-    echo "<div class='system_notification'>Men&uuml;-Eintrag " . $modultitle . " in die Datenbank eingef&uuml;gt</div>";
+    echo "<div class='system_notification'>MenÃ¼-Eintrag " . $modultitle . " in die Datenbank eingefÃ¼gt</div>";
 }
 
 
@@ -248,7 +248,7 @@ function removeMenuItems() {
     $result = $db->db_query($sql)
        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
-    echo "<div class='system_notification'>Men&uuml;-Eintr&auml;ge entfernt</div>";
+    echo "<div class='system_notification'>MenÃ¼-EintrÃ¤ge entfernt</div>";
 }
 
 
@@ -266,18 +266,18 @@ function removeMenuItems() {
 //
 switch($_REQUEST['was']) {
   case "install":
-    // Erstellung einer eigenen Configdatei für dieses Modul
+    // Erstellung einer eigenen Configdatei fï¿½r dieses Modul
     // fest eingestellte Werte sollten in einer eigenen Configdatei gespeichet werden,
-    // da nachträgliche Änderungen einfacher sind als im Quellcode des Scrips danach zu suchen.
+    // da nachtrï¿½gliche ï¿½nderungen einfacher sind als im Quellcode des Scrips danach zu suchen.
     // Alle Zeilen werden nach und nach in die Variable $merk gespeichert.
-    // Auch wenn das Modul keine Variablen benötigt ist diese Configdatei zu erstellen, sonst funktioniert die Installation nicht!
+    // Auch wenn das Modul keine Variablen benï¿½tigt ist diese Configdatei zu erstellen, sonst funktioniert die Installation nicht!
 	  $merk = workInstallConfigString();
 
 	  createConfig( $merk );
     unset($merk);
 
     // Nun wird gleich die soeben erstellte Configdatei gelesen
-    // sodaß gleich mit den definierten Variablen weiter gearbeitet werden kann
+    // sodaï¿½ gleich mit den definierten Variablen weiter gearbeitet werden kann
     if (!@include("./config/" . $modulname . ".cfg.php")) {
       echo "<div class='system_error'>Error:<br><b>Cannot load " . $modulname . " - configuration!</b></div>";
       return;
@@ -286,7 +286,7 @@ switch($_REQUEST['was']) {
     // Nun folgt die Erweiterung der IW-DB, falls notwendig.
 	  workInstallDatabase();
 
-	  // Anzeige des Menübaumes mit Auswahlmöglichkeit, in welches Hauptmenü 
+	  // Anzeige des Menï¿½baumes mit Auswahlmï¿½glichkeit, in welches Hauptmenï¿½ 
 	  // das Modul eingetragen werden soll.
 	  createMenu();
     return;
@@ -301,14 +301,14 @@ switch($_REQUEST['was']) {
 		return;
 
 	case "uninstall":
-	  // Anzeige des Deinstallationshinweises, mit der Möglichkeit, noch mal abzubrechen.
+	  // Anzeige des Deinstallationshinweises, mit der Mï¿½glichkeit, noch mal abzubrechen.
 		// Wer hier falsch klickt ist selbst schuld ... :) 
 	  echo "<br>\n" .
 				 "Das Modul \"<b>" . $modultitle . "\"</b> soll jetzt deinstalliert werden.<br>\n" . 
-		     "Die Deinstallation wird Daten aus der Datenbank l&ouml;schen und ist " . 
-				 "daher nicht mehr r&uuml;ckg&auml;ngig zu machen.<br>\n" .
+		     "Die Deinstallation wird Daten aus der Datenbank lÃ¶schen und ist " .
+				 "daher nicht mehr rÃ¼ckgÃ¤ngig zu machen.<br>\n" .
 				 "<br>\n" .
-				 "Soll die Deinstallation wirklich durchgef&uuml;hrt werden?\n";
+				 "Soll die Deinstallation wirklich durchgefÃ¼hrt werden?\n";
 		echo "<table width=\"100%\"><tr><td align=\"right\">";
 		echo "<form method='POST' action='index.php?action=" . $modulname . "&was=uninstall2&sid=".$sid."'>\n";
 		echo " <input type='submit' value='Ja, klar doch' name='fertig' class='submit' style='width: 200px'>\n";

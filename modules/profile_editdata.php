@@ -48,12 +48,12 @@ $spieltyp = array (
 
 $adminsittens = array (
    SITTEN_DISABLED => "Sitterbereich deaktiviert",
-   SITTEN_ONLY_NEWTASKS => "kann Sitterauftr&auml;ge erstellen, darf keine anderen sitten",
-   SITTEN_ONLY_LOGINS => "darf andere sitten, darf keine Sitterauftr&auml;ge erstellen",
-   SITTEN_BOTH => "darf andere sitten, darf Sitterauftr&auml;ge erstellen"
+   SITTEN_ONLY_NEWTASKS => "kann Sitteraufträge erstellen, darf keine anderen sitten",
+   SITTEN_ONLY_LOGINS => "darf andere sitten, darf keine Sitteraufträge erstellen",
+   SITTEN_BOTH => "darf andere sitten, darf Sitteraufträge erstellen"
 );
 
-// M&ouml;gliche Menue-Stilarten werden aus der Dateisystem-Struktur gelesen. 
+// Mögliche Menue-Stilarten werden aus der Dateisystem-Struktur gelesen.
 $menustyles = array();
 $fp6=opendir("./menustyles");
 
@@ -155,7 +155,7 @@ if ( ( $sitterlogin <> "" ) && ( $edit == "true" ) && ( ($sitterlogin == $user_s
 		{
 			if ( $userd['password'] != $userd['passwordwdhl'] )
 			{
-				echo "<br><div class='system_error'>Passw&ouml;rter stimmen nicht &uuml;berein! Passwort zur&uuml;ckgesetzt.</div>";
+				echo "<br><div class='system_error'>Passwörter stimmen nicht überein! Passwort zurückgesetzt.</div>";
 				unset($userd['password']); unset($userd['passwordwdhl']);
 			}
 			else
@@ -172,7 +172,7 @@ if ( ( $sitterlogin <> "" ) && ( $edit == "true" ) && ( ($sitterlogin == $user_s
 
 	if ( $userd['sitterpwd'] != $userd['sitterpwdwdhl'] )
 	{
-		echo "<br><div class='system_error'>Sitterpassw&ouml;rter stimmen nicht &uuml;berein! Passwort zur&uuml;ckgesetzt.</div>";
+		echo "<br><div class='system_error'>Sitterpasswörter stimmen nicht überein! Passwort zurückgesetzt.</div>";
 		unset($userd['sitterpwd']); 
 		unset($userd['sitterpwdwdhl']);
 	}
@@ -193,7 +193,7 @@ if ( ( $sitterlogin <> "" ) && ( $edit == "true" ) && ( ($sitterlogin == $user_s
   if ( getVar('deleteSitterpass') == '1' AND getVar('deleteSitterpasswdh') == '1' )
   {
     $userd['sitterpwd'] = '';
-    echo "<br><div class='system_notification'>Sitterpassw&ouml;rter gel&ouml;scht.</div>";	
+    echo "<br><div class='system_notification'>Sitterpasswörter gelöscht.</div>";
   }
 
 	foreach ($userd as $key => $data)
@@ -272,7 +272,7 @@ if (!empty($sitterpwd)) {
  	 $alluser[] = $rowM['id'];
  }	 
 
-//auslesen der maximal zur Vef&uuml;gung stehenden Sittersounds:
+//auslesen der maximal zur Vefügung stehenden Sittersounds:
 $sqlP = "SELECT value FROM ".$db_prefix."params WHERE name = 'sound_global' ";
   $resultP = $db->db_query($sqlP)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
@@ -427,7 +427,7 @@ if ( $user_status == "admin" )
  <tr>
   <td class="windowbg2">
    Standardpreset:<br>
-   <i>Diese Voreinstellung wird bei "Planet suchen" standardm&auml;&szlig;ig geladen.</i>
+   <i>Diese Voreinstellung wird bei "Planet suchen" standardmäßig geladen.</i>
   </td>
   <td class="windowbg1">
 <select name="preset" style="width: 100px;">
@@ -452,7 +452,7 @@ while ($row = $db->db_fetch_array($result))
  <tr>
   <td class="windowbg2">
    Sittererstatus?:<br>
-   <i>Zeigt an, ob du andere sitten darfst und Sitterauftr&auml;ge erstellen darfst. Kann nur von Admins ge&auml;ndert werden.</i>
+   <i>Zeigt an, ob du andere sitten darfst und Sitteraufträge erstellen darfst. Kann nur von Admins geändert werden.</i>
   </td>
   <td class="windowbg1">
 <?php
@@ -478,7 +478,7 @@ else
  <tr>
   <td class="windowbg2">
    Sitten erlauben?:<br>
-   <i>Sollen andere deinen Account sitten k&ouml;nnen? (Auftr&auml;ge kannst du auch wenn deaktiviert erstellen.)</i>
+   <i>Sollen andere deinen Account sitten können? (Aufträge kannst du auch wenn deaktiviert erstellen.)</i>
   </td>
   <td class="windowbg1">
    <input type="checkbox" name="sitten" value="1"<?php echo ($sitten) ? " checked": "";?>>
@@ -518,7 +518,7 @@ else
  <tr>
   <td class="windowbg2">
    Serverskin:<br>
-   <i>Welchen Skin m&ouml;chtest du beim Sitten verwenden?</i>
+   <i>Welchen Skin möchtest du beim Sitten verwenden?</i>
   </td>
   <td class="windowbg1">
 <select name="sitterskin">
@@ -532,7 +532,7 @@ else
  <tr>
  <td class="windowbg2" style="width:30%;">
    Sitterpunkte:<br>
-   <i>So viele Punkte hast du schon f&uuml;rs Sitten erhalten.</i>
+   <i>So viele Punkte hast du schon fürs Sitten erhalten.</i>
   </td>
   <td class="windowbg1">
 <?php
@@ -560,7 +560,7 @@ $row_avg = $db->db_fetch_array($result_avg);
  <tr>
  <td class="windowbg2" style="width:30%;">
    Sitterkommentar:<br>
-   <i>Der Admin kann hier einen Kommentar hinzuf&uuml;gen, der bei den Sitterlogins angezeigt wird (z.B. "im Urlaub").</i>
+   <i>Der Admin kann hier einen Kommentar hinzufügen, der bei den Sitterlogins angezeigt wird (z.B. "im Urlaub").</i>
   </td>
   <td class="windowbg1">
 <?php
@@ -582,7 +582,7 @@ else
  <tr>
   <td class="windowbg2">
    Fadein: <br>
-   <i>Wie m&ouml;chtest du bei Sitterauftr&auml;gen zusa&auml;tzlich benachrichtigt werden?</i>
+   <i>Wie möchtest du bei Sitteraufträgen zusaätzlich benachrichtigt werden?</i>
   </td>
   <td class="windowbg1">
     <select name="sound" size="1">
@@ -640,7 +640,7 @@ if ($ikea == 'M') $mchecked = 'checked="checked"';
  <tr>
   <td class="windowbg2">
    Bau auf Bau auf Bau auf Bau auf?:<br>
-   <i>Stelle hier deinen Geb&auml;udebaudauermodifikator ein (Standard 1).</i>
+   <i>Stelle hier deinen Gebäudebaudauermodifikator ein (Standard 1).</i>
   </td>
   <td class="windowbg1">
    <input type="text" name="gengebmod" value="<?php echo $gengebmod;?>" style="width: 100">
@@ -664,7 +664,7 @@ if ($ikea == 'M') $mchecked = 'checked="checked"';
  <tr>
   <td class="windowbg2">
    Spieltyp:<br>
-   <i>Hier deinen Spieltyp eintragen. Wenn du Buddler bist, bitte noch das 2. Feld ausf&uuml;llen (ansonsten leer lassen).</i>
+   <i>Hier deinen Spieltyp eintragen. Wenn du Buddler bist, bitte noch das 2. Feld ausfüllen (ansonsten leer lassen).</i>
   </td>
   <td class="windowbg1">
 <select name="budflesol">
@@ -687,7 +687,7 @@ von
  <tr>
   <td class="windowbg2">
    Deine Farbe:<br>
-   <i>Sollest du Fleeter sein, trage hier eine Farbe f&uuml;r deine Buddler ein (Format: #RRGGBB)</i>
+   <i>Sollest du Fleeter sein, trage hier eine Farbe für deine Buddler ein (Format: #RRGGBB)</i>
   </td>
   <td class="windowbg1">
    <input type="text" name="color" size="8" maxlength="7" value="<?php echo $color;?>">
@@ -718,8 +718,8 @@ von
  </tr>
  <tr>
   <td class="windowbg2">
-   Geb&auml;udebilder anzeigen?:<br>
-   <i>Sollen Geb&auml;udebilder beim Erstellen eines Auftrages und bei "Geb&auml;ude ausblenden" angezeigt werden?</i>
+   Gebäudebilder anzeigen?:<br>
+   <i>Sollen Gebäudebilder beim Erstellen eines Auftrages und bei "Gebäude ausblenden" angezeigt werden?</i>
   </td>
   <td class="windowbg1">
    <input type="checkbox" name="gebbilder" value="1"<?php echo ($gebbilder) ? " checked": "";?>>
@@ -785,7 +785,7 @@ if ($user_status == "admin" )
  <tr>
   <td class="windowbg2">
    User sperren?:<br>
-   <i>Soll der User sich nicht mehr einloggen k&ouml;nnen?</i>
+   <i>Soll der User sich nicht mehr einloggen können?</i>
   </td>
   <td class="windowbg1">
    <input type="checkbox" name="gesperrt" value="1"<?php echo ($gesperrt) ? " checked": "";?>>
@@ -796,7 +796,7 @@ if ($user_status == "admin" )
 ?>
  <tr>
   <td class="windowbg2">
-   Men&uuml;-Darstellung:
+   Menü-Darstellung:
   </td>
   <td class="windowbg1">
 	 <select name="menu_default"  style="width: 100">
@@ -842,7 +842,7 @@ if ($user_status == "admin" )
  <tr>
   <td class="windowbg2">
    Proportionale Universumsansicht?:<br>
-   <i>Sollen alle Zeilenh&ouml;hen der Planeten in der Universumsansicht gleich hoch sein?</i>
+   <i>Sollen alle Zeilenhöhen der Planeten in der Universumsansicht gleich hoch sein?</i>
   </td>
   <td class="windowbg1">
    <input type="checkbox" name="uniprop" value="1"<?php echo ($uniprop) ? " checked": "";?>>
@@ -860,7 +860,7 @@ if ( ( $user_status == "admin" ) && ( $sitterlogin != $user_sitterlogin ) )
 {
 ?>
 <br><br>
-<div class='doc_centered_blue'>Account l&ouml;schen</div>
+<div class='doc_centered_blue'>Account löschen</div>
 <br>
 <a href="index.php?action=deluser&amp;sitterlogin=<?php echo urlencode($sitterlogin);?>&amp;sid=<?php echo $sid;?>" onclick="return confirmlink(this, 'Account wirklich loeschen?')">[jetzt loeschen]</a>
 <?php

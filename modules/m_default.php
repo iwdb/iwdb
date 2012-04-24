@@ -26,7 +26,7 @@
 
 /*****************************************************************************/
 /* Dieses Modul dient als Vorlage zum Erstellen von eigenen Zusatzmodulen    */
-/* für die Iw DB: Icewars geoscan and sitter database                        */
+/* fï¿½r die Iw DB: Icewars geoscan and sitter database                        */
 /*---------------------------------------------------------------------------*/
 /* Diese Erweiterung der urspruenglichen DB ist ein Gemeinschaftsprojekt von */
 /* IW-Spielern.                                                              */
@@ -37,31 +37,31 @@
 /*                                                                           */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde. 
+// -> Abfrage ob dieses Modul ï¿½ber die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") { 
+if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	echo "Hacking attempt...!!"; 
 	exit; 
 }
 
 //****************************************************************************
 //
-// -> Name des Moduls, ist notwendig für die Benennung der zugehoerigen
+// -> Name des Moduls, ist notwendig fï¿½r die Benennung der zugehoerigen
 //    Config.cfg.php
-// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung für 
-//    eine Installation über das Menü
+// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung fï¿½r 
+//    eine Installation ï¿½ber das Menï¿½
 //
 $modulname  = "m_default";
 
 //****************************************************************************
 //
-// -> Menütitel des Moduls der in der Navigation dargestellt werden soll.
+// -> Menï¿½titel des Moduls der in der Navigation dargestellt werden soll.
 //
 $modultitle = "Defaultmodul";
 
 //****************************************************************************
 //
-// -> Status des Moduls, bestimmt wer dieses Modul über die Navigation 
+// -> Status des Moduls, bestimmt wer dieses Modul ï¿½ber die Navigation 
 //    ausfuehren darf. Moegliche Werte:
 //    - ""      <- nix = jeder, 
 //    - "admin" <- na wer wohl
@@ -73,7 +73,7 @@ $modulstatus = "admin";
 // -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
 //
 $moduldesc = 
-  "Das Default-Modul dient als Vorlage f&uuml;r die anderen Module ".
+  "Das Default-Modul dient als Vorlage fÃ¼r die anderen Module ".
 	"und hat keine Funktion";
 
 //****************************************************************************
@@ -98,7 +98,7 @@ function workInstallDatabase() {
                'Could not query config information.', '',
                __FILE__, __LINE__, $sql);
   }
-  echo "<div class='system_notification'>Installation: Datenbank&auml;nderungen = <b>OK</b></div>";
+  echo "<div class='system_notification'>Installation: DatenbankÃ¤nderungen = <b>OK</b></div>";
 */}
 
 //****************************************************************************
@@ -116,7 +116,7 @@ function workInstallMenu() {
 		$actionparamters = "";
   	insertMenuItem( $menu, $submenu, $modultitle, $modulstatus, $actionparameters );
 	  //
-	  // Weitere Wiederholungen für weitere Menue-Eintraege, z.B.
+	  // Weitere Wiederholungen fï¿½r weitere Menue-Eintraege, z.B.
 	  //
 	  // 	insertMenuItem( $menu+1, ($submenu+1), "Titel2", "hc", "&weissichnichtwas=1" );
 	  //
@@ -152,7 +152,7 @@ function workUninstallDatabase() {
                'Could not query config information.', '',
                __FILE__, __LINE__, $sql);
   }
-  echo "<div class='system_notification'>Deinstallation: Datenbank&auml;nderungen = <b>OK</b></div>";
+  echo "<div class='system_notification'>Deinstallation: DatenbankÃ¤nderungen = <b>OK</b></div>";
 */}
 
 //****************************************************************************
@@ -164,7 +164,7 @@ function workUninstallDatabase() {
 //
 //      http://Mein.server/iwdb/index.php?action=default&was=install
 //
-// Anstatt "Mein.Server" natürlich deinen Server angeben und default 
+// Anstatt "Mein.Server" natï¿½rlich deinen Server angeben und default 
 // durch den Dateinamen des Moduls ersetzen.
 //
 if( !empty($_REQUEST['was'])) {

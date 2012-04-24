@@ -99,7 +99,7 @@ function workInstallDatabase() {
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	}
 
-	echo "<div class='system_notification'>Installation: Datenbank&auml;nderungen = <b>OK</b></div>";
+	echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
 }
 
 //****************************************************************************
@@ -144,7 +144,7 @@ function workUninstallDatabase() {
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	}
 
-	echo "<div class='system_notification'>Deinstallation: Datenbank&auml;nderungen = <b>OK</b></div>";
+	echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
 }
 
 //****************************************************************************
@@ -298,7 +298,7 @@ $views = array(
 			'time' => 'Zeit',
 			'user_from' => 'Absender',
 			'coords_from' => 'Start',
-			'user_to' => 'Empf&auml;nger',
+			'user_to' => 'Empfänger',
 			'coords_to' => 'Ziel',
 			'eisen' => 'Eisen',
 			'stahl' => 'Stahl',
@@ -502,7 +502,7 @@ function format_value($row, $key, $value, $expand = false) {
 	{
 		foreach ($config['schiffstyp_abk'] as $schiff => $abk)
 			$value = str_replace($schiff, $abk, $value);
-		return $row['art'] == '&Uuml;bergabe' ? $value : '';
+		return $row['art'] == 'Übergabe' ? $value : '';
 	}
 	else
 		return $value;

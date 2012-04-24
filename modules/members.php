@@ -253,13 +253,13 @@ if ( $user_status == "admin" ) {
 		// Festlegung der Sitterrechte
 			case SITTEN_ONLY_LOGINS: $output .= ">--"; break;
 			case SITTEN_DISABLED: $output .= "abbr=\"login\">Sitten"; break;
-			case SITTEN_BOTH: $output .= "abbr=\"both\">Auftr&auml;ge &amp; Sitten"; break;
-			case SITTEN_ONLY_NEWTASKS: $output .= "abbr=\"newtask\">Auftr&auml;ge"; break;
+			case SITTEN_BOTH: $output .= "abbr=\"both\">Aufträge &amp; Sitten"; break;
+			case SITTEN_ONLY_NEWTASKS: $output .= "abbr=\"newtask\">Aufträge"; break;
 		}
 		
 	} else
 		$output .= "style=\"color:#00FF00;\" abbr=\"both\">neuer Member";
-	$output .= "<br /><span style=\"color:#FF0000; font-style:italic;\">" . $row['status'] . "</span>";
+	$output .= "<br><span style=\"color:#FF0000; font-style:italic;\">" . $row['status'] . "</span>";
 }
 else $output .= $row['titel'];
 echo $output;
@@ -279,7 +279,7 @@ echo $output;
 <table border="0" cellpadding="2" cellspacing="1" style="width: 90%;">
  <tr>
   <td align="right">
-   <a href="index.php?action=members&amp;order=<?php echo $order;?>&amp;ordered=<?php echo $ordered;?>&amp;select_all=true&amp;graph=<?php echo $graph;?>&amp;graph_typ=<?php echo $graph_typ;?>&amp;fitthis=<?php echo $fitthis;?>&amp;sid=<?php echo $sid;?>">Alle auswaehlen</a> / 
+   <a href="index.php?action=members&amp;order=<?php echo $order;?>&amp;ordered=<?php echo $ordered;?>&amp;select_all=true&amp;graph=<?php echo $graph;?>&amp;graph_typ=<?php echo $graph_typ;?>&amp;fitthis=<?php echo $fitthis;?>&amp;sid=<?php echo $sid;?>">Alle auswaehlen</a> /
    <a href="index.php?action=members&amp;order=<?php echo $order;?>&amp;ordered=<?php echo $ordered;?>&amp;select_none=true&amp;graph=<?php echo $graph;?>&amp;graph_typ=<?php echo $graph_typ;?>&amp;fitthis=<?php echo $fitthis;?>&amp;sid=<?php echo $sid;?>">Auswahl entfernen</a>
   </td>
  </tr>
@@ -296,7 +296,7 @@ if ( empty($graph) )
 		echo ($graph_typ == $key) ? " <option value=\"" . $key . "\" selected>" . $data . "</option>\n": " <option value=\"" . $key . "\">" . $data . "</option>\n";
 ?>
    </select>
-   <input type="submit" value="Graph zeichnen" name="B1" class="submit"><br />
+   <input type="submit" value="Graph zeichnen" name="B1" class="submit"><br>
   </td>
  </tr>
 <?php

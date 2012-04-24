@@ -24,9 +24,9 @@
 /* The GNU GPL can be found in LICENSE in this directory                     */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde. 
+// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") { 
+if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	echo "Hacking attempt...!!"; 
 	exit; 
 }
@@ -42,10 +42,10 @@ if(( isset($login_id) ) && ($login_ok === FALSE) && ($action != "memberlogout2" 
     
 	if( $wronglogins >= $config_wronglogins ) { 
     doc_message("Du hast dich " . $wronglogins . " mal falsch eingeloggt! " .
-                "Einloggen f&uuml;r die n&auml;chsten " . 
+                "Einloggen für die nächsten " .
                 round($config_wronglogin_timeout / $HOURS) . 
                 " Stunden gesperrt.<br>". 
-                "Daten wurden an den Admin &uuml;bermittelt.");
+                "Daten wurden an den Admin übermittelt.");
   }
 }
 

@@ -24,9 +24,9 @@
 /* The GNU GPL can be found in LICENSE in this directory                     */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul �ber die index.php aufgerufen wurde. 
+// -> Abfrage ob dieses Modul �ber die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") { 
+if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	echo "Hacking attempt...!!"; 
 	exit; 
 }
@@ -61,7 +61,7 @@ if( ! empty($username)) {
                " <title>Neues Passwort</title>\n" .
                "</head>\n" .
                "<body>\n" .
-               "<div class='doc_centered'><b>Neues Passwort f&uuml;r " . 
+               "<div class='doc_centered'><b>Neues Passwort für " .
                $config_server . "</b><br><br>\n" .
                "Username: " . $username . "<br>\n" .
                "Passwort: " . $newpass . "<br></div>\n" .
@@ -92,6 +92,6 @@ if( ! empty($username)) {
   end_form();
 	echo "<br>\n";
 	echo "<br>\n";
-	echo "<a href=\"index.php\">Zur&uuml;ck zur Startseite</a>";
+	echo "<a href=\"index.php\">Zurück zur Startseite</a>";
 }
 ?>

@@ -26,18 +26,18 @@
 /* $Id: m_raidview.php 183 2007-04-12 23:40:00Z  wildfairy $                 */
 /*****************************************************************************/
 /* Dieses Modul dient als Vorlage zum Erstellen von eigenen Zusatzmodulen    */
-/* für die Iw DB: Icewars geoscan and sitter database                        */
+/* fï¿½r die Iw DB: Icewars geoscan and sitter database                        */
 /*---------------------------------------------------------------------------*/
 /* Diese Erweiterung der urspruenglichen DB ist ein Gemeinschaftsprojekt von */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafür eingerichtete           */
+/* Bei Problemen kannst du dich an das eigens dafï¿½r eingerichtete           */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
 /*                   http://www.iwdb.de.vu                                   */
 /*                                                                           */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
+// -> Abfrage ob dieses Modul ï¿½ber die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
 if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	echo "Hacking attempt...!!";
@@ -46,22 +46,22 @@ if (basename($_SERVER['PHP_SELF']) != "index.php") {
 
 //****************************************************************************
 //
-// -> Name des Moduls, ist notwendig für die Benennung der zugehoerigen
+// -> Name des Moduls, ist notwendig fï¿½r die Benennung der zugehoerigen
 //    Config.cfg.php
-// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung für
-//    eine Installation über das Menü
+// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung fï¿½r
+//    eine Installation ï¿½ber das Menï¿½
 //
 $modulname  = "m_raidview";
 
 //****************************************************************************
 //
-// -> Menütitel des Moduls der in der Navigation dargestellt werden soll.
+// -> Menï¿½titel des Moduls der in der Navigation dargestellt werden soll.
 //
 $modultitle = "Raid-Statistik";
 
 //****************************************************************************
 //
-// -> Status des Moduls, bestimmt wer dieses Modul über die Navigation
+// -> Status des Moduls, bestimmt wer dieses Modul ï¿½ber die Navigation
 //    ausfuehren darf. Moegliche Werte:
 //    - ""      <- nix = jeder,
 //    - "admin" <- na wer wohl
@@ -70,7 +70,7 @@ $modulstatus = "";
 
 //****************************************************************************
 //
-// -> Beschreibung des Moduls, wie es in der Menü-Übersicht angezeigt wird.
+// -> Beschreibung des Moduls, wie es in der Menï¿½-ï¿½bersicht angezeigt wird.
 //
 $moduldesc =
   "In der Raid-Statistik werden die Raids der Member erfasst und statistisch aufbereitet.";
@@ -112,7 +112,7 @@ function workInstallDatabase() {
                'Could not query config information.', '',
                __FILE__, __LINE__, $sql);
   }
-  echo "<br>Installation: Datenbank&auml;nderungen = <b>OK</b><br>";
+  echo "<br>Installation: DatenbankÃ¤nderungen = <b>OK</b><br>";
 }
 
 //****************************************************************************
@@ -130,7 +130,7 @@ function workInstallMenu() {
 		$actionparamters = "";
   	insertMenuItem( $menu, $submenu, $modultitle, $modulstatus, $actionparameters );
 	  //
-	  // Weitere Wiederholungen für weitere Menue-Eintraege, z.B.
+	  // Weitere Wiederholungen fï¿½r weitere Menue-Eintraege, z.B.
 	  //
 	  // 	insertMenuItem( $menu+1, ($submenu+1), "Titel2", "hc", "&weissichnichtwas=1" );
 	  //
@@ -165,7 +165,7 @@ function workUninstallDatabase() {
                'Could not query config information.', '',
                __FILE__, __LINE__, $sql);
   }
-  echo "<br>Deinstallation: Datenbank&auml;nderungen = <b>OK</b><br>";
+  echo "<br>Deinstallation: DatenbankÃ¤nderungen = <b>OK</b><br>";
 }
 
 //****************************************************************************
@@ -177,7 +177,7 @@ function workUninstallDatabase() {
 //
 //      http://Mein.server/iwdb/index.php?action=default&was=install
 //
-// Anstatt "Mein.Server" natürlich deinen Server angeben und default
+// Anstatt "Mein.Server" natï¿½rlich deinen Server angeben und default
 // durch den Dateinamen des Moduls ersetzen.
 //
 if( !empty($_REQUEST['was'])) {
@@ -206,7 +206,7 @@ if (!@include("./config/".$modulname.".cfg.php")) {
 // -> Und hier beginnt das eigentliche Modul
 global $db, $db_tb_raidview;
 
-doc_title("Plünderungen");
+doc_title("Plï¿½nderungen");
 echo "<br>\n";
 
 $hauser="dsjktvafkwefj vofjeriofjegiodfsghsd";
@@ -226,7 +226,7 @@ or error(GENERAL_ERROR,
 'Could not query config information.', '',
 __FILE__, __LINE__, $sql);
 
-/*make_link() gelöscht, weil nicht funktionieren, eine lösung wäre, die gesammtsummen in
+/*make_link() gelï¿½scht, weil nicht funktionieren, eine lï¿½sung wï¿½re, die gesammtsummen in
 ein feld zu schreiben, prefix_raidview.summe (ist schon erstellt) und dann auszu lesen...
 */
 
@@ -297,7 +297,7 @@ while($row = $db->db_fetch_array($result2)) {
 	   $g_wasser = 0;
 	   $g_energie = 0;
 
-// addieren der Resswerte für Gesamtsumme und schreiben der Zeilen
+// addieren der Resswerte fï¿½r Gesamtsumme und schreiben der Zeilen
   while($row = $db->db_fetch_array($result)) {
     $count++;
     $ruser=$row['user'];
@@ -366,7 +366,7 @@ while($row = $db->db_fetch_array($result2)) {
 
   global $db, $db_tb_ressuebersicht, $config_sitter_timeformat;
 
-//Tabelle mit Inhalten aus der Datenbank füttern
+//Tabelle mit Inhalten aus der Datenbank fï¿½ttern
   next_row("windowbg1", "colspan=\"3\"" );
   if(isset($user) and isset($_GET['user']) and $_GET['user']==$user){
 	echo "
@@ -385,19 +385,19 @@ while($row = $db->db_fetch_array($result2)) {
    echo "#:" . number_format($count, 0, ',', '.');;
   next_cell("windowbg1", "align=\"right\"");
   
-   echo number_format($eisen, 0, ',', '.')," <br /> ", '<font color="red">',number_format($v_eisen, 0, ',', '.'),'</font>'," <br /> ",'<font color="green">',number_format(($eisen-$v_eisen), 0, ',', '.') ;
+   echo number_format($eisen, 0, ',', '.')," <br> ", '<font color="red">',number_format($v_eisen, 0, ',', '.'),'</font>'," <br> ",'<font color="green">',number_format(($eisen-$v_eisen), 0, ',', '.') ;
 		next_cell("windowbg1", "align=\"right\"");
-		echo number_format($stahl, 0, ',', '.')," <br /> ",'<font color="red">',number_format($v_stahl, 0, ',', '.')," <br /> ",'<font color="green">',number_format(($stahl-$v_stahl), 0, ',', '.') ;
+		echo number_format($stahl, 0, ',', '.')," <br> ",'<font color="red">',number_format($v_stahl, 0, ',', '.')," <br> ",'<font color="green">',number_format(($stahl-$v_stahl), 0, ',', '.') ;
 		next_cell("windowbg1", "style=\"width:10%\" align=\"right\"");
-		echo number_format($vv4a, 0, ',', '.')," <br /> ",'<font color="red">',number_format($v_vv4a, 0, ',', '.')," <br /> ",'<font color="green">',number_format(($vv4a-$v_vv4a), 0, ',', '.') ;
+		echo number_format($vv4a, 0, ',', '.')," <br> ",'<font color="red">',number_format($v_vv4a, 0, ',', '.')," <br> ",'<font color="green">',number_format(($vv4a-$v_vv4a), 0, ',', '.') ;
 		next_cell("windowbg1", "style=\"width:10%\" align=\"right\"");
-		echo number_format($chem, 0, ',', '.')," <br /> ",'<font color="red">',number_format($v_chem, 0, ',', '.')," <br /> ",'<font color="green">',number_format(($chem-$v_chem), 0, ',', '.');
+		echo number_format($chem, 0, ',', '.')," <br> ",'<font color="red">',number_format($v_chem, 0, ',', '.')," <br> ",'<font color="green">',number_format(($chem-$v_chem), 0, ',', '.');
 		next_cell("windowbg1", "style=\"width:10%\" align=\"right\"");
-		echo number_format($eis, 0, ',', '.')," <br /> ",'<font color="red">',number_format($v_eis, 0, ',', '.')," <br /> ",'<font color="green">',number_format(($eis-$v_eis), 0, ',', '.') ;
+		echo number_format($eis, 0, ',', '.')," <br> ",'<font color="red">',number_format($v_eis, 0, ',', '.')," <br> ",'<font color="green">',number_format(($eis-$v_eis), 0, ',', '.') ;
 		next_cell("windowbg1", "style=\"width:10%\" align=\"right\"");
-		echo number_format($wasser, 0, ',', '.')," <br /> ",'<font color="red">',number_format($v_wasser, 0, ',', '.')," <br /> ",'<font color="green">',number_format(($wasser-$v_wasser), 0, ',', '.') ;
+		echo number_format($wasser, 0, ',', '.')," <br> ",'<font color="red">',number_format($v_wasser, 0, ',', '.')," <br> ",'<font color="green">',number_format(($wasser-$v_wasser), 0, ',', '.') ;
 		next_cell("windowbg1", "style=\"width:10%\" align=\"right\"");
-		echo number_format($energie, 0, ',', '.')," <br /> ",'<font color="red">',number_format($v_energie, 0, ',', '.')," <br /> ",'<font color="green">',number_format(($energie-$v_energie), 0, ',', '.') ;
+		echo number_format($energie, 0, ',', '.')," <br> ",'<font color="red">',number_format($v_energie, 0, ',', '.')," <br> ",'<font color="green">',number_format(($energie-$v_energie), 0, ',', '.') ;
 		
 	end_row();
 
@@ -486,19 +486,19 @@ while($row = $db->db_fetch_array($result2)) {
 		 echo "<a href='index.php?action=showplanet&coords=".$row['coords']."&ansicht=auto&sid=".$sid."'>".$row['coords']."</a>";
     	
 		next_cell("windowbg1", "style=\"width:8%\" align=\"right\"");
-	   		echo number_format($row['eisen'], 0, ',', '.')," <br /> ", '<font color="red">',number_format($row['v_eisen'], 0, ',', '.'),'</font>'," <br /> ",'<font color="green">',number_format($row['g_eisen'], 0, ',', '.') ;
+	   		echo number_format($row['eisen'], 0, ',', '.')," <br> ", '<font color="red">',number_format($row['v_eisen'], 0, ',', '.'),'</font>'," <br> ",'<font color="green">',number_format($row['g_eisen'], 0, ',', '.') ;
 	   		next_cell("windowbg1", "style=\"width:8%\" align=\"right\"");
-	   		echo number_format($row['stahl'], 0, ',', '.')," <br /> ", '<font color="red">',number_format($row['v_stahl'], 0, ',', '.'),'</font>'," <br /> ",'<font color="green">',number_format($row['g_stahl'], 0, ',', '.');
+	   		echo number_format($row['stahl'], 0, ',', '.')," <br> ", '<font color="red">',number_format($row['v_stahl'], 0, ',', '.'),'</font>'," <br> ",'<font color="green">',number_format($row['g_stahl'], 0, ',', '.');
 	   		next_cell("windowbg1", "style=\"width:8%\" align=\"right\"");
-	   		echo number_format($row['vv4a'], 0, ',', '.')," <br /> ", '<font color="red">',number_format($row['v_vv4a'], 0, ',', '.'),'</font>'," <br /> ",'<font color="green">',number_format($row['g_vv4a'], 0, ',', '.');
+	   		echo number_format($row['vv4a'], 0, ',', '.')," <br> ", '<font color="red">',number_format($row['v_vv4a'], 0, ',', '.'),'</font>'," <br> ",'<font color="green">',number_format($row['g_vv4a'], 0, ',', '.');
 	   		next_cell("windowbg1", "style=\"width:8%\" align=\"right\"");
-	   		echo number_format($row['chemie'], 0, ',', '.')," <br /> ", '<font color="red">',number_format($row['v_chem'], 0, ',', '.'),'</font>'," <br /> ",'<font color="green">',number_format($row['g_chem'], 0, ',', '.');
+	   		echo number_format($row['chemie'], 0, ',', '.')," <br> ", '<font color="red">',number_format($row['v_chem'], 0, ',', '.'),'</font>'," <br> ",'<font color="green">',number_format($row['g_chem'], 0, ',', '.');
 	   		next_cell("windowbg1", "style=\"width:8%\" align=\"right\"");
-	   		echo number_format($row['eis'], 0, ',', '.')," <br /> ", '<font color="red">',number_format($row['v_eis'], 0, ',', '.'),'</font>'," <br /> ",'<font color="green">',number_format($row['g_eis'], 0, ',', '.');
+	   		echo number_format($row['eis'], 0, ',', '.')," <br> ", '<font color="red">',number_format($row['v_eis'], 0, ',', '.'),'</font>'," <br> ",'<font color="green">',number_format($row['g_eis'], 0, ',', '.');
 	   		next_cell("windowbg1", "style=\"width:8%\" align=\"right\"");
-	   		echo number_format($row['wasser'], 0, ',', '.')," <br /> ", '<font color="red">',number_format($row['v_wasser'], 0, ',', '.'),'</font>'," <br /> ",'<font color="green">',number_format($row['g_wasser'], 0, ',', '.');
+	   		echo number_format($row['wasser'], 0, ',', '.')," <br> ", '<font color="red">',number_format($row['v_wasser'], 0, ',', '.'),'</font>'," <br> ",'<font color="green">',number_format($row['g_wasser'], 0, ',', '.');
 	   		next_cell("windowbg1", "style=\"width:8%\" align=\"right\"");
-	   		echo number_format($row['energie'], 0, ',', '.')," <br /> ", '<font color="red">',number_format($row['v_energie'], 0, ',', '.'),'</font>'," <br /> ",'<font color="green">',number_format($row['g_energie'], 0, ',', '.');
+	   		echo number_format($row['energie'], 0, ',', '.')," <br> ", '<font color="red">',number_format($row['v_energie'], 0, ',', '.'),'</font>'," <br> ",'<font color="green">',number_format($row['g_energie'], 0, ',', '.');
 	   	
 	}
   	else{
@@ -513,19 +513,19 @@ while($row = $db->db_fetch_array($result2)) {
 		 echo "<a href='index.php?action=showplanet&coords=".$row['coords']."&ansicht=auto&sid=".$sid."'>".$row['coords']."</a>";
 		
 		next_cell("windowbg1", "style=color:#FF0000 align=\"right\"");
-	   		echo number_format($row['eisen'], 0, ',', '.')," <br /> ", '<font color="red">',number_format($row['v_eisen'], 0, ',', '.'),'</font>'," <br /> ",'<font color="green">',number_format($row['g_eisen'], 0, ',', '.') ;
+	   		echo number_format($row['eisen'], 0, ',', '.')," <br> ", '<font color="red">',number_format($row['v_eisen'], 0, ',', '.'),'</font>'," <br> ",'<font color="green">',number_format($row['g_eisen'], 0, ',', '.') ;
 	   		next_cell("windowbg1", "style=color:#FF0000 align=\"right\"");
-	   		echo number_format($row['stahl'], 0, ',', '.')," <br /> ", '<font color="red">',number_format($row['v_stahl'], 0, ',', '.'),'</font>'," <br /> ",'<font color="green">',number_format($row['g_stahl'], 0, ',', '.');
+	   		echo number_format($row['stahl'], 0, ',', '.')," <br> ", '<font color="red">',number_format($row['v_stahl'], 0, ',', '.'),'</font>'," <br> ",'<font color="green">',number_format($row['g_stahl'], 0, ',', '.');
 	   		next_cell("windowbg1", "style=color:#FF0000 align=\"right\"");
-	   		echo number_format($row['vv4a'], 0, ',', '.')," <br /> ", '<font color="red">',number_format($row['v_vv4a'], 0, ',', '.'),'</font>'," <br /> ",'<font color="green">',number_format($row['g_vv4a'], 0, ',', '.');
+	   		echo number_format($row['vv4a'], 0, ',', '.')," <br> ", '<font color="red">',number_format($row['v_vv4a'], 0, ',', '.'),'</font>'," <br> ",'<font color="green">',number_format($row['g_vv4a'], 0, ',', '.');
 	   		next_cell("windowbg1", "style=color:#FF0000 align=\"right\"");
-	   		echo number_format($row['chemie'], 0, ',', '.')," <br /> ", '<font color="red">',number_format($row['v_chem'], 0, ',', '.'),'</font>'," <br /> ",'<font color="green">',number_format($row['g_chem'], 0, ',', '.');
+	   		echo number_format($row['chemie'], 0, ',', '.')," <br> ", '<font color="red">',number_format($row['v_chem'], 0, ',', '.'),'</font>'," <br> ",'<font color="green">',number_format($row['g_chem'], 0, ',', '.');
 	   		next_cell("windowbg1", "style=color:#FF0000 align=\"right\"");
-	   		echo number_format($row['eis'], 0, ',', '.')," <br /> ", '<font color="red">',number_format($row['v_eis'], 0, ',', '.'),'</font>'," <br /> ",'<font color="green">',number_format($row['g_eis'], 0, ',', '.');
+	   		echo number_format($row['eis'], 0, ',', '.')," <br> ", '<font color="red">',number_format($row['v_eis'], 0, ',', '.'),'</font>'," <br> ",'<font color="green">',number_format($row['g_eis'], 0, ',', '.');
 	   		next_cell("windowbg1", "style=color:#FF0000 align=\"right\"");
-	   		echo number_format($row['wasser'], 0, ',', '.')," <br /> ", '<font color="red">',number_format($row['v_wasser'], 0, ',', '.'),'</font>'," <br /> ",'<font color="green">',number_format($row['g_wasser'], 0, ',', '.');
+	   		echo number_format($row['wasser'], 0, ',', '.')," <br> ", '<font color="red">',number_format($row['v_wasser'], 0, ',', '.'),'</font>'," <br> ",'<font color="green">',number_format($row['g_wasser'], 0, ',', '.');
 	   		next_cell("windowbg1", "style=color:#FF0000 align=\"right\"");
-	   		echo number_format($row['energie'], 0, ',', '.')," <br /> ", '<font color="red">',number_format($row['v_energie'], 0, ',', '.'),'</font>'," <br /> ",'<font color="green">',number_format($row['g_energie'], 0, ',', '.');
+	   		echo number_format($row['energie'], 0, ',', '.')," <br> ", '<font color="red">',number_format($row['v_energie'], 0, ',', '.'),'</font>'," <br> ",'<font color="green">',number_format($row['g_energie'], 0, ',', '.');
 	   		echo "</font>";
 		}
       }
@@ -541,9 +541,9 @@ while($row = $db->db_fetch_array($result2)) {
 // TABELLE - RAIDHIGHSCORE ENDE
 	end_table();
 	echo "<br><br>";
-	echo '<font color="black">schwarze Zahl = # geraideter Ressource</font>'," <br /> ";
-	echo '<font color="red">rote Zahl = Ressourcenverluste z.B. durch Schiffe/Deff</font>'," <br /> ";
-	echo '<font color="green">gr&uuml;ne Zahl = # effektiver Ressource</font>'," <br /> ";
+	echo '<font color="black">schwarze Zahl = # geraideter Ressource</font>'," <br> ";
+	echo '<font color="red">rote Zahl = Ressourcenverluste z.B. durch Schiffe/Deff</font>'," <br> ";
+	echo '<font color="green">grÃ¼ne Zahl = # effektiver Ressource</font>'," <br> ";
 	echo "<br><br>";
 	?>
 

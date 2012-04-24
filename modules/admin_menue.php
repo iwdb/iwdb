@@ -26,11 +26,11 @@
 
 /*****************************************************************************/
 /*Dieses Modul dient als Vorlage zum Erstellen von eigenen Zusatzmodulen     */
-/*f�r die Iw DB: Icewars geoscan and sitter database                         */
+/*für die Iw DB: Icewars geoscan and sitter database                         */
 /*---------------------------------------------------------------------------*/
-/*Diese Erweiterung der ursp�nglichen DB ist ein Gemeinschafftsprojekt von   */
+/*Diese Erweiterung der urspünglichen DB ist ein Gemeinschafftsprojekt von   */
 /*IW-Spielern.                                                               */
-/*Bei Problemen kannst du dich an das eigens daf�r eingerichtete             */
+/*Bei Problemen kannst du dich an das eigens dafür eingerichtete             */
 /*Entwiklerforum wenden:                                                     */
 /*                                                                           */
 /*                   http://www.iw-smf.pericolini.de                         */

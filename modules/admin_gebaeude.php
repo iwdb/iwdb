@@ -76,7 +76,7 @@ while($row_gebaeude = $db->db_fetch_array($result_gebaeude)) {
 	if ( ! empty($editgebaeude) )	{
     $geb_name  = getVar(($row_gebaeude['id'] . '_name'));
 	$geb_name = htmlspecialchars_decode($geb_name);
-    $geb_name = str_replace("ß","�",$geb_name);
+    //$geb_name = str_replace("ß","�",$geb_name);
 	$geb_cat   = html_entity_decode(getVar(($row_gebaeude['id'] . '_category')));
 	$geb_cat = htmlspecialchars_decode($geb_cat);
 	$geb_idcat = getVar(($row_gebaeude['id'] . '_idcat'));

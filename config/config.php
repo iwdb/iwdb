@@ -80,12 +80,12 @@ while($row = $db->db_fetch_array($result)) {
   ${$tbname} = $db_prefix . $row['name'];
 }
 
-// Basisdefinitionen fuer Zeitraueme. 
+// Basisdefinitionen fuer Zeitraueme.
 $MINUTES = 60;
 $HOURS   = 60 * $MINUTES;
 $DAYS    = 24 * $HOURS;
 
-// Das aktuelle Datum wird pro Skriptaufruf nur einmal geholt, +-x kann 
+// Das aktuelle Datum wird pro Skriptaufruf nur einmal geholt, +-x kann
 // entsprechend hier geändert werden
 $config_date = time();
 

@@ -40,7 +40,7 @@ if ( $user_rules == "1" )
 
     if(( $user_adminsitten == SITTEN_BOTH ) || ( $user_adminsitten == SITTEN_ONLY_LOGINS ))
     {
-      // Anstehende Auftr�ge z�hlen
+      // Anstehende Aufträge zählen
       $anzauftrag = "";
 
       $sql = "SELECT count(*) AS anzahl FROM " . $db_tb_sitterauftrag .
@@ -51,7 +51,7 @@ if ( $user_rules == "1" )
       $anzahl = $row['anzahl'];
       $db->db_free_result($result);
 
-      // Nachrichten z�hlen
+      // Nachrichten zählen
       $anzmsg = "";
 
       $sql = "SELECT count(*) AS msgzahl FROM " . $db_tb_mails .
@@ -104,7 +104,7 @@ include ('configmenu.php');
         $miscmenu = 0;
     // Alle Menu-Eintraege durchgehen
     while( $row = $db->db_fetch_array($result)) {
-      // Ist sitten f�r diesen Menu-Eintrag erlaubt?
+      // Ist sitten für diesen Menu-Eintrag erlaubt?
       $sitterentry = ($user_adminsitten == SITTEN_BOTH) ||
                                    ($row['sittertyp'] == 0 ) ||
                        ($user_adminsitten == SITTEN_ONLY_LOGINS &&
@@ -139,7 +139,7 @@ include ('configmenu.php');
               echo "      </li>\n";
             }
         }
-        // Standard Men�
+        // Standard Menü
     echo "      <li>\n";
         echo "        <a href=\"#\" rel=\"dropmenu" . $miscmenu . "\">Misc</a>\n";
     echo "      <li>\n";
@@ -148,7 +148,7 @@ include ('configmenu.php');
         echo "    </ul>\n";
         echo "  </div>\n";
 
-    // Menu nochmal auslesen, diesmal die Submen�s
+    // Menu nochmal auslesen, diesmal die Submenüs
     $sql = "SELECT menu, submenu, title, status, action, extlink, sittertyp FROM " .
                $db_tb_menu . " WHERE active=1 AND submenu > 0 ORDER BY menu ASC, submenu ASC";
     $result = $db->db_query($sql)
@@ -159,7 +159,7 @@ include ('configmenu.php');
 
     // Alle Menu-Eintraege durchgehen
     while( $row = $db->db_fetch_array($result)) {
-      // Ist sitten f�r diesen Menu-Eintrag erlaubt?
+      // Ist sitten für diesen Menu-Eintrag erlaubt?
       $sitterentry = ($user_adminsitten == SITTEN_BOTH) ||
                                    ($row['sittertyp'] == 0 ) ||
                        ($user_adminsitten == SITTEN_ONLY_LOGINS &&

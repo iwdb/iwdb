@@ -24,12 +24,10 @@
 /* The GNU GPL can be found in LICENSE in this directory                     */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde. 
+// -> Abfrage ob dieses Modul Ã¼ber die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") { 
-	die("Hacking attempt...!!"); 
-	exit; 
-}
+if (!defined('IRA'))
+    die('Hacking attempt...');
 
 if ( $user_status != "admin" && $user_status != "hc" )
 	die('Hacking attempt...');

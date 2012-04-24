@@ -2830,6 +2830,22 @@ CREATE TABLE IF NOT EXISTS `prefix_sysscans` (
 
 -- --------------------------------------------------------
 
+-- 
+-- Tabellenstruktur für Tabelle `prefix_target`
+-- 
+
+CREATE TABLE `prefix_target` (
+  `user` varchar(30) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `coords_gal` tinyint(4) NOT NULL,
+  `coords_sys` smallint(6) NOT NULL,
+  `coords_planet` tinyint(4) NOT NULL,
+  PRIMARY KEY  (`user`,`name`,`coords_gal`,`coords_sys`,`coords_planet`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+-- --------------------------------------------------------
+
 --
 -- Tabellenstruktur für Tabelle `prefix_transferliste`
 --

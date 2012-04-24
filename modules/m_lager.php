@@ -88,7 +88,7 @@ $moduldesc = "Lagerübersicht zur Koordination von Logistikauftr&auml;gen im Bud
 //
 function workInstallDatabase() {
 	global $db, $db_prefix, $db_tb_iwdbtabellen, $db_tb_parser;
-
+/*
 	$sqlscript = array(
 		"CREATE TABLE `" . $db_prefix . "lager` (" .
 		"`user` varchar(30) NOT NULL," .
@@ -144,7 +144,7 @@ function workInstallDatabase() {
 		"INSERT INTO " . $db_tb_iwdbtabellen . " (`name`) VALUES ('lager')",
 		"DELETE FROM " . $db_tb_parser . " WHERE recognizer='Ressourcenkolo&uuml;bersicht'",
 		"INSERT INTO " . $db_tb_parser . " (`modulename`,`recognizer`,`message`) VALUES ('resskolo','Ressourcenkolo&uuml;bersicht','Ressourcenkolo&uuml;bersicht')",
-	);
+	);*/
 
 	foreach ($sqlscript as $sql) {
 		echo "<br>" . $sql;
@@ -189,13 +189,13 @@ function workInstallConfigString() {
 //
 function workUninstallDatabase() {
 	global $db, $db_tb_lager, $db_tb_iwdbtabellen, $db_tb_parser;
-
+/*
 	$sqlscript = array(
 	  "DROP TABLE " . $db_tb_lager,
 	  "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE `name`='lager'",
 	  "DELETE FROM " . $db_tb_parser . " WHERE `modulename`='resskolo'",
 	);
-
+*/
 	foreach ($sqlscript as $sql) {
 		$result = $db->db_query($sql)
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -1081,13 +1081,11 @@ echo ' <input type="submit" name="submit" value="anzeigen"/>';
 echo "</form>\n";
 
 //Aktionsschaltflaechen
-/*
 echo '<div>';
 echo '<form method="POST" action="' . makeurl(array()) . '" enctype="multipart/form-data"><p>' . "\n";
 echo '<div style="width: 100%; text-align: right; margin-bottom: 6px">';
 echo '<input type="submit" name="flotteversenden" value="Flotte versenden"/>';
 echo '</div>';
-*/
 
 //Ueberschriften ausgeben
 echo '<table class="bordercolor" width="100%" cellspacing="1" cellpadding="4">';
@@ -1122,7 +1120,7 @@ if (isset($view['edit'])) {
 	next_cell("titlebg", 'nowrap valign=top');
 	echo '&nbsp;';
 }
-//next_cell("titlebg", "nowrap valign=top");
+next_cell("titlebg", "nowrap valign=top");
 
 //Initialisiere Summenzeilen
 $summe=array();
@@ -1141,7 +1139,7 @@ $targetindex = 0;
 foreach ($group_data as $groupkey => $group) {
 	foreach ($group as $groupvalue => $grouprows) {
 		//Gruppenueberschrift
-		next_row('windowbg2', 'nowrap valign=top colspan=' . (count($view['columns'])+1));
+		next_row('windowbg2', 'nowrap valign=top colspan=' . (count($view['columns'])+2));
 		echo "<b>" . format_value(null, $groupkey, $groupvalue) . "</b>";
 		//Zeilen
 		foreach ($grouprows as $row) {
@@ -1190,14 +1188,12 @@ foreach ($group_data as $groupkey => $group) {
 					);
 			}
 			//Markierung-Checkbox
-			/*
 			next_cell('windowbg1', 'nowrap valign=center style="background-color: white;"');
 			echo '<input type="hidden" name="target_' . $targetindex++ . '" value="' . $key . '">';
 			echo '<input type="checkbox" name="mark_' . $key . '" value="1" checked>';
-			*/
 			// Expandbereich ausgeben
 			if (isset($expand) && $params['expand'] == $key) {
-				next_row('titlebg', 'colspan=' . (count($view['columns']) + 1));
+				next_row('titlebg', 'colspan=' . (count($view['columns']) + 2));
 				echo "<b>" . $expand['title'] . "</b>";
 				next_row('windowbg2', '');
 				foreach ($expand['columns'] as $expandcolumnkey => $expandcolumnname)
@@ -1205,10 +1201,9 @@ foreach ($group_data as $groupkey => $group) {
 						next_cell("windowbg2", "nowrap valign=top");
 						echo $expandcolumnname;
 					}
-				
 				if (isset($view['edit'])) {
-					//next_cell("windowbg2", 'nowrap valign=top');
-					//echo '&nbsp;';
+					next_cell("windowbg2", 'nowrap valign=top');
+					echo '&nbsp;';
 				}
 				next_cell("windowbg2", 'nowrap valign=top');
 				echo '&nbsp;';				
@@ -1224,12 +1219,12 @@ foreach ($group_data as $groupkey => $group) {
 							echo format_value($expand_row, $expandcolumnkey, $expand_row[$expandcolumnkey], true);
 						}
 					if (isset($view['edit'])) {
-						//next_cell("windowbg1", 'nowrap valign=top');
-						//echo '&nbsp;';
+						next_cell("windowbg1", 'nowrap valign=top');
+						echo '&nbsp;';
 					}
 					next_cell('windowbg1', '');
 				}
-				next_row('windowbg2', 'colspan=' . (count($view['columns'])+1));
+				next_row('windowbg2', 'colspan=' . (count($view['columns'])+2));
 				echo "&nbsp;";
 			}
 		}
@@ -1237,7 +1232,7 @@ foreach ($group_data as $groupkey => $group) {
 }
 
 //Summenzeile anzeigen
-next_row('windowbg2', 'nowrap valign=top colspan=' . (count($view['columns'])+1));
+next_row('windowbg2', 'nowrap valign=top colspan=' . (count($view['columns'])+2));
 echo '<b>Summe</b>';
 next_row('windowbg1', 'nowrap valign=top style="background-color: white;"');
 echo '&nbsp;';

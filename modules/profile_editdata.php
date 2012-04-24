@@ -310,7 +310,7 @@ switch ($rowP['value']) {
 
 ?>
 <br>
-<form method="POST" action="index.php?action=profile&amp;sid=<?php echo $sid;?>" enctype="multipart/form-data">
+<form method="POST" action="index.php?action=profile&sid=<?php echo $sid;?>" enctype="multipart/form-data">
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 80%;">
  <tr>
   <td colspan="2" class="titlebg">
@@ -862,7 +862,7 @@ if ( ( $user_status == "admin" ) && ( $sitterlogin != $user_sitterlogin ) )
 <br><br>
 <div class='doc_centered_blue'>Account löschen</div>
 <br>
-<a href="index.php?action=deluser&amp;sitterlogin=<?php echo urlencode($sitterlogin);?>&amp;sid=<?php echo $sid;?>" onclick="return confirmlink(this, 'Account wirklich loeschen?')">[jetzt loeschen]</a>
+<a href="index.php?action=deluser&sitterlogin=<?php echo urlencode($sitterlogin);?>&sid=<?php echo $sid;?>" onclick="return confirmlink(this, 'Account wirklich loeschen?')">[jetzt loeschen]</a>
 <?php
 }
 ?>

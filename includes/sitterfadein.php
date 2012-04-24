@@ -148,8 +148,8 @@ if ( empty($soundon) OR $soundon == '1' OR $soundon == '3' ) {
 <?php
 if (!empty($sound)) {
 ?>
-<object type="application/x-shockwave-flash" data="fadein.swf?src=<?php echo $sound;?>&amp;autostart=yes&amp;streaming=yes" width="100" height="30"> 
- <param name="movie" value="fadein.swf?src=<?php echo $sound;?>&amp;autostart=yes&amp;streaming=yes" /> 
+<object type="application/x-shockwave-flash" data="fadein.swf?src=<?php echo $sound;?>&autostart=yes&streaming=yes" width="100" height="30">
+ <param name="movie" value="fadein.swf?src=<?php echo $sound;?>&autostart=yes&streaming=yes" />
  <param name="quality" value="high" /> 
  <param name="bgcolor" value="#C4D7DF" /> 
 <EMBED src="<?php echo $sound;?>" autostart=true loop=1 volume=100 hidden=true><NOEMBED><BGSOUND src="<?php echo $sound;?>"></NOEMBED> 

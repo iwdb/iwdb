@@ -27,8 +27,6 @@
 if (!defined('IRA'))
 	die('Hacking attempt...');
 
-// SQL type
-$db_type = "mysql";
 // SQL server
 $db_host = "localhost";
 // SQL username

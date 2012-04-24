@@ -119,10 +119,10 @@ while($row = $db->db_fetch_array($result)) {
   echo "\n";
   echo " <tr>\n";
   echo "  <td class=\"windowbg2\" valign=\"bottom\" style=\"width:15%\">\n";
-  echo "   <a href=\"index.php?action=schiffe&amp;ordered=asc&amp;sid=" . $sid . "\">" .
+  echo "   <a href=\"index.php?action=schiffe&ordered=asc&sid=" . $sid . "\">" .
        "<img src=\"bilder/asc.gif\" border=\"0\"></a>" . 
        "  Username  " . 
-       "<a href=\"index.php?action=schiffe&amp;ordered=desc&amp;sid=" . $sid . "\">" .
+       "<a href=\"index.php?action=schiffe&ordered=desc&sid=" . $sid . "\">" .
        "<img src=\"bilder/desc.gif\" border=\"0\"></a>\n";
   echo "  </td>\n";
 
@@ -131,11 +131,11 @@ while($row = $db->db_fetch_array($result)) {
 
     echo "  <td class=\"windowbg2\" align=\"center\" " . 
          "valign=\"bottom\" style=\"width:" . (85/$schiffsanz) . "%\">\n";
-    echo "    <a href=\"index.php?action=schiffe&amp;order=" . $row_schiffe['id'] .
-         "&amp;ordered=asc&amp;sid=" . $sid . "\"><img src=\"bilder/asc.gif\" border=\"0\"></a>\n"; 
+    echo "    <a href=\"index.php?action=schiffe&order=" . $row_schiffe['id'] .
+         "&ordered=asc&sid=" . $sid . "\"><img src=\"bilder/asc.gif\" border=\"0\"></a>\n";
 		echo $row_schiffe['abk'];
-    echo "    <a href=\"index.php?action=schiffe&amp;order=" . $row_schiffe['id'] .
-         "&amp;ordered=desc&amp;sid=" . $sid . "\"><img src=\"bilder/desc.gif\" border=\"0\"></a>\n";
+    echo "    <a href=\"index.php?action=schiffe&order=" . $row_schiffe['id'] .
+         "&ordered=desc&sid=" . $sid . "\"><img src=\"bilder/desc.gif\" border=\"0\"></a>\n";
     echo "  </td>\n";
 	}
   echo " </tr>\n";
@@ -180,8 +180,8 @@ while($row = $db->db_fetch_array($result)) {
       echo "    <td class=\"windowbg1\" style=\"background-color:" . $scancolor[$userx] . "\">\n";
 
   	  if ( $user_status == "admin" ) {
-        echo "<a href=\"index.php?action=profile&amp;sitterlogin=" . urlencode($userx) .
-             "&amp;sid=" . $sid . "\">" . $userx . "</a>";
+        echo "<a href=\"index.php?action=profile&sitterlogin=" . urlencode($userx) .
+             "&sid=" . $sid . "\">" . $userx . "</a>";
   		} else {
         echo $userx;
       }

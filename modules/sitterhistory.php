@@ -85,8 +85,8 @@ while($row = $db->db_fetch_array($result))
   <td class="windowbg1">
 <?php
 if ( $user_status == "admin" ) 
-  echo "<a href=\"index.php?action=profile&amp;sitterlogin=" . urlencode($row['fromuser']) .
-	     "&amp;sid=" . $sid . "\">" . $row['fromuser'] . "</a>";
+  echo "<a href=\"index.php?action=profile&sitterlogin=" . urlencode($row['fromuser']) .
+	     "&sid=" . $sid . "\">" . $row['fromuser'] . "</a>";
 else 
   echo $row['fromuser'];
 ?>
@@ -133,8 +133,8 @@ while($row = $db->db_fetch_array($result))
   <td class="windowbg1">
 <?php
 if ( $user_status == "admin" ) 
-  echo "<a href=\"index.php?action=profile&amp;sitterlogin=" . urlencode($row['sitterlogin']) .
-	     "&amp;sid=" . $sid . "\">" . $row['sitterlogin'] . "</a>";
+  echo "<a href=\"index.php?action=profile&sitterlogin=" . urlencode($row['sitterlogin']) .
+	     "&sid=" . $sid . "\">" . $row['sitterlogin'] . "</a>";
 else 
   echo $row['sitterlogin'];
 ?>

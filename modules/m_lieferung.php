@@ -598,10 +598,10 @@ function makeurl($newparams) {
 	global $modulname, $sid, $params;
 
 	$url = 'index.php?action=' . $modulname;
-	$url .= '&amp;sid=' . $sid;
+	$url .= '&sid=' . $sid;
 	$mergeparams = array_merge($params, $newparams);
 	foreach ($mergeparams as $paramkey => $paramvalue)
-		$url .= '&amp;' . $paramkey . '=' . $paramvalue;
+		$url .= '&' . $paramkey . '=' . $paramvalue;
 	return $url;
 }
 ?>

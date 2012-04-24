@@ -176,7 +176,7 @@ switch ($rowP['value']) {
 ?>
 
 <br>
-<form method="POST" action="index.php?action=admin&amp;uaction=einstellungen&amp;send=sound&amp;sid=<?php echo $sid;?>" enctype="multipart/form-data">
+<form method="POST" action="index.php?action=admin&uaction=einstellungen&send=sound&sid=<?php echo $sid;?>" enctype="multipart/form-data">
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 80%;">
  <tr>
   <td colspan="2" class="titlebg">
@@ -340,7 +340,7 @@ if ( !empty($rowP['value']) ) {
 
 ?>
 
-<form method="POST" action="index.php?action=admin&amp;uaction=einstellungen&amp;send=bericht&amp;sid=<?php echo $sid;?>" enctype="multipart/form-data">
+<form method="POST" action="index.php?action=admin&uaction=einstellungen&send=bericht&sid=<?php echo $sid;?>" enctype="multipart/form-data">
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 80%;">
  <tr>
   <td colspan="2" class="titlebg">

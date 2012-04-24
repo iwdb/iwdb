@@ -401,7 +401,7 @@ if ( ! empty($erledigt) )
 Den Auftrag, den du eben erledigt hast, hat Folgeaufträge eingetragen.<br>
 Bitte aktualisiere für diese die Zeit, indem du folgendes Formular ausfüllst.<br>
 Danach wird der Auftrag als erledigt markiert. Danke.<br><br>
-<form method="POST" action="index.php?action=sitterliste&amp;sid=<?php echo $sid;?>" enctype="multipart/form-data">
+<form method="POST" action="index.php?action=sitterliste&sid=<?php echo $sid;?>" enctype="multipart/form-data">
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 60%;">
 <?php
 				if ( $count > 1 )
@@ -647,7 +647,7 @@ $sql = "SELECT id, auftrag, bauid, bauschleife, typ, refid, user, date_b1, date_
  <tr>
   <td class="windowbg<?php echo $num;?>">
 <?php
-if ( $user_status == "admin" ) echo "<a href=\"index.php?action=profile&amp;sitterlogin=" . urlencode($row['user']) . "&amp;sid=" . $sid . "\">" . $row['user'] . "</a>";
+if ( $user_status == "admin" ) echo "<a href=\"index.php?action=profile&sitterlogin=" . urlencode($row['user']) . "&sid=" . $sid . "\">" . $row['user'] . "</a>";
 else echo $row['user'];
 ?>
    [<?php echo $users_sitterpunkte;?> + <?php echo $users_sitterpunkte_user;?>]
@@ -680,14 +680,14 @@ if (is_array($users_logged_in)) {
 }
 
 	if ( empty($users_logged_in) ) {
-		echo "<a href=\"index.php?action=sitterlogins&amp;sitterlogin=" . urlencode($row['user']) . "&amp;sid=" . $sid . "\" target=\"sitterbereich\">[einloggen]</a>";
+		echo "<a href=\"index.php?action=sitterlogins&sitterlogin=" . urlencode($row['user']) . "&sid=" . $sid . "\" target=\"sitterbereich\">[einloggen]</a>";
 
-		//echo "<a href=\"index.php?action=sitterlogins&amp;sitterlogin=" . urlencode($row['user']) . "&amp;sid=" . $sid . "\" target=\"_blank\">[einloggen]</a>";
+		//echo "<a href=\"index.php?action=sitterlogins&sitterlogin=" . urlencode($row['user']) . "&sid=" . $sid . "\" target=\"_blank\">[einloggen]</a>";
 		if ($row['schieben']=="1") {
 			echo "<a href=\"javascript:Collapse('".$row['id']."');\">[schieben]</a>";
 		}
 		else {
-			echo "<a href=\"index.php?action=sitterliste&amp;erledigt=" . $row['id'] . "&amp;sid=" . $sid . "\" onclick=\"return confirmlink(this, 'Auftrag wirklich erledigt?')\">[erledigt]</a>";
+			echo "<a href=\"index.php?action=sitterliste&erledigt=" . $row['id'] . "&sid=" . $sid . "\" onclick=\"return confirmlink(this, 'Auftrag wirklich erledigt?')\">[erledigt]</a>";
 		}
 	}
 	else echo $users_logged_in . " ist eingeloggt";
@@ -701,7 +701,7 @@ if (is_array($users_logged_in)) {
  </tr>
  <tr id="row_<?php echo $row['id'];?>" style="display: none;">
   <td colspan="6" class="windowbg1" valign="top" align="center" style="width: 100%;">
-<form method="POST" action="index.php?action=sitterliste&amp;sid=<?php echo $sid;?>" enctype="multipart/form-data">
+<form method="POST" action="index.php?action=sitterliste&sid=<?php echo $sid;?>" enctype="multipart/form-data">
 <table border="0" cellpadding="4" cellspacing="0" class="bordercolor">
  <tr>
   <td colspan="2" class="windowbg1" align="center">
@@ -892,7 +892,7 @@ while($row = $db->db_fetch_array($result))
  <tr>
   <td class="windowbg1">
 <?php
-if ( $user_status == "admin" ) echo "<a href=\"index.php?action=profile&amp;sitterlogin=" . urlencode($row['user']) . "&amp;sid=" . $sid . "\">" . $row['user'] . "</a>";
+if ( $user_status == "admin" ) echo "<a href=\"index.php?action=profile&sitterlogin=" . urlencode($row['user']) . "&sid=" . $sid . "\">" . $row['user'] . "</a>";
 else echo $row['user'];
 if(!empty($row['ByUser']) && ($row['user'] != $row['ByUser'])) {
   echo "<br>(eingestellt von " . $row['ByUser'] . ")";

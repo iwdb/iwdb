@@ -60,8 +60,8 @@ while($row = $db->db_fetch_array($result)) {
                                           " Tage her";                                   
                                                
   start_row("windowbg1");
-  echo "<a href=\"index.php?action=profile&amp;sitterlogin=" .
-       urlencode($row['sitterlogin']) . "&amp;sid=" . $sid . "\">" . $row['sitterlogin'] . "</a>";
+  echo "<a href=\"index.php?action=profile&sitterlogin=" .
+       urlencode($row['sitterlogin']) . "&sid=" . $sid . "\">" . $row['sitterlogin'] . "</a>";
   next_cell("windowbg1");
   echo $lastlogindate;
   next_cell("windowbg1");

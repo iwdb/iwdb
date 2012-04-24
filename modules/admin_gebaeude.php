@@ -163,7 +163,7 @@ if($editgebaeude) {
 }
 
 echo "<br>\n";
-echo "<form method=\"POST\" action=\"index.php?action=admin&uaction=gebaeude&amp;sid=" .
+echo "<form method=\"POST\" action=\"index.php?action=admin&uaction=gebaeude&sid=" .
      $sid . "\" enctype=\"multipart/form-data\">\n";
 echo "<table border=\"0\" cellpadding=\"4\" cellspacing=\"1\" class=\"bordercolor\" style=\"width: 90%;\">\n";
 echo " <tr>\n";

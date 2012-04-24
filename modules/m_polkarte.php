@@ -249,7 +249,7 @@ if( defined('ALLY_MEMBERS_ON_MAP' ) && ALLY_MEMBERS_ON_MAP === TRUE ) {
 
 echo "<div class='doc_title'>Karte</div>\n";
 echo "<br>\n";
-echo "<form method=\"POST\" action=\"index.php?action=m_polkarte&amp;sid=" . $sid .
+echo "<form method=\"POST\" action=\"index.php?action=m_polkarte&sid=" . $sid .
      "\" enctype=\"multipart/form-data\" name=\"form1\">\n";
 echo " <p align=\"center\">\n";
 
@@ -262,16 +262,16 @@ if( defined('ALLY_MEMBERS_ON_MAP' ) && ALLY_MEMBERS_ON_MAP === TRUE ) {
 
 if ($galaxy > 1 )
 {
-  echo "<a href=\"index.php?action=m_polkarte&amp;galaxy=" . ($galaxy - 1) .
-        "&amp;sid=" . $sid . "\"><b>&lt;&lt;</b></a>\n";
+  echo "<a href=\"index.php?action=m_polkarte&galaxy=" . ($galaxy - 1) .
+        "&sid=" . $sid . "\"><b>&lt;&lt;</b></a>\n";
 }
 echo "Galaxie: <input type=\"text\" name=\"galaxy\" value=\"" . $galaxy .
      "\" style=\"width: 30\">&nbsp;<input type=\"submit\" value=\"los\" name=\"B1\" class=\"submit\">\n";
 
 if ($galaxy < $config_map_galaxy_count )
 {
-  echo "<a href=\"index.php?action=m_polkarte&amp;galaxy=" . ($galaxy + 1) .
-       "&amp;sid=" . $sid . "\"><b>&gt;&gt;</b></a>\n";
+  echo "<a href=\"index.php?action=m_polkarte&galaxy=" . ($galaxy + 1) .
+       "&sid=" . $sid . "\"><b>&gt;&gt;</b></a>\n";
 }
 
 echo "</p></form>\n";
@@ -406,9 +406,9 @@ for ( $i = 1; $i <= $maxsys; $i++ ) {
 	if ( empty($sys[$i]) ) {
     echo $i;
   } else {
-    $showgalaxylink = "<a href=\"index.php?action=showgalaxy&amp;sys_end=" . $i .
-         "&amp;sys_start=" . $i . "&amp;gal_end=" . $galaxy .
-         "&amp;gal_start=" . $galaxy . "&amp;sid=" . $sid . "\" ";
+    $showgalaxylink = "<a href=\"index.php?action=showgalaxy&sys_end=" . $i .
+         "&sys_start=" . $i . "&gal_end=" . $galaxy .
+         "&gal_start=" . $galaxy . "&sid=" . $sid . "\" ";
 
     if( ALLY_MEMBERS_ON_MAP === TRUE ) {
 	 		echo $formatStart;

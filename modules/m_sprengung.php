@@ -218,7 +218,7 @@ echo "<div class='doc_title'>Sprengungen</div>\n";
 echo "<br>\n";
 echo "Hier könnt ihr sehen, wann die pösen Vorgonen die nächsten Planeten sprengen, um Platz für eine Hyperraum-Umgehungsstraße zu schaffen.";
 echo "<br>\n";
-echo "<form method=\"POST\" action=\"index.php?action=" . $modulname . "&amp;sid=" . $sid . "\" enctype=\"multipart/form-data\"><p align=\"center\">\n";
+echo "<form method=\"POST\" action=\"index.php?action=" . $modulname . "&sid=" . $sid . "\" enctype=\"multipart/form-data\"><p align=\"center\">\n";
 echo "  Galaxie von: <input type=\"text\" name=\"gal_start\" value=\"" . $gal_start . "\" style=\"width: 30\"> bis: <input type=\"text\" name=\"gal_end\" value=\"" . $gal_end . "\" style=\"width: 30\"><br><br>";
 echo "  System von: <input type=\"text\" name=\"sys_start\" value=\"" . $sys_start . "\" style=\"width: 30\"> bis: <input type=\"text\" name=\"sys_end\" value=\"" . $sys_end . "\" style=\"width: 30\"><br><br>";
 echo "  Alle Geoscans löschen, deren Sprengung mehr als <input type=\"test\" name=\"spreng_zeit\" value=\"" . $spreng_zeit . "\" style=\"width: 30\"> Stunden in der Vergangenheit liegt<br><br>";
@@ -292,7 +292,7 @@ while ($row = $db->db_fetch_array($result)) {
 	$color = 'white';
 	echo "  <tr>\n";
 	echo "    <td class=\"windowbg1\" align=\"center\" style=\"background-color: " . $color . "\" colspan=\"1\">\n";
-	echo "      <a href=\"index.php?action=showplanet&amp;coords=" . $row['coords'] . "&amp;ansicht=auto&amp;sid=" . $sid . "\">\n";
+	echo "      <a href=\"index.php?action=showplanet&coords=" . $row['coords'] . "&ansicht=auto&sid=" . $sid . "\">\n";
 	echo "      " . $row['coords'] . "\n";
 	echo "      </a>\n";
 	echo "    </td>\n";

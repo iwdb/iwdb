@@ -154,13 +154,13 @@ if ( $user_id <> "guest" )
               <a href="index.php?sid=<?php echo $sid;?>"><img
 							           src="bilder/icon_mini_home.gif" width="12" height="13"
 											   alt="Startseite" border="0" align="middle"> Startseite</a> |
-										  <a href="index.php?action=memberlogout2&amp;sid=<?php echo $sid;?>"><img
+										  <a href="index.php?action=memberlogout2&sid=<?php echo $sid;?>"><img
 											   src="bilder/icon_mini_login.gif" width="12" height="13"
 												 alt="login" border="0" align="middle"> logout</a> |
-										  <a href="index.php?action=profile&amp;sid=<?php echo $sid;?>"><img
+										  <a href="index.php?action=profile&sid=<?php echo $sid;?>"><img
 											   src="bilder/icon_mini_profile.gif" width="12" height="13"
 												 alt="profil" border="0" align="middle"> profil</a> |
-											<a href="index.php?action=help&amp;topic=<?php echo $action;?>&amp;sid=<?php echo $sid;?>"><img
+											<a href="index.php?action=help&topic=<?php echo $action;?>&sid=<?php echo $sid;?>"><img
 											   src="bilder/icon_mini_search.gif" width="12" height="13"
 												 alt="profile" border="0" align="middle"> hilfe</a>  	
 <?php
@@ -168,7 +168,7 @@ if ( $user_id <> "guest" )
 if ( $user_status == "admin" )
 {
 ?>
-               | <a href="index.php?action=admin&amp;sid=<?php echo $sid;?>"><img src="bilder/icon_mini_members.gif" width="12" height="13" alt="admin" border="0" align="middle"> admin</a>
+               | <a href="index.php?action=admin&sid=<?php echo $sid;?>"><img src="bilder/icon_mini_members.gif" width="12" height="13" alt="admin" border="0" align="middle"> admin</a>
 <?php
 }
 ?>
@@ -247,7 +247,7 @@ while( $row = $db->db_fetch_array($result)) {
 			echo "<a href=\"";
 			// Es handelt sich hier um einen "internen" Link.
 			if($row['extlink'] == "n") {
-			  echo "index.php?sid=" . $sid . "&amp;action=". $row['action'] . "\">" . $title . "</a>";
+			  echo "index.php?sid=" . $sid . "&action=". $row['action'] . "\">" . $title . "</a>";
 			}else{
 			// Linkziel und Titel ausgeben
 			echo $row['action'] . "\" target=_new>" . $title . "</a>";

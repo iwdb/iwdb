@@ -217,8 +217,8 @@ if(isset($_GET['user'])){$hauser=$_GET['user'];}
 // TABELLE - RAIDHIGHSCORE START
 function make_link($order, $ordered) {
  global $sid;
- echo "<a href=\"index.php?action=m_raidview&amp;order=" . $order . "&amp;ordered=" . $ordered .
-      "&amp;sid=$sid\"> <img src=\"bilder/" . $ordered . ".gif\" border=\"0\" alt=\"" . $ordered . "\"> </a>";
+ echo "<a href=\"index.php?action=m_raidview&order=" . $order . "&ordered=" . $ordered .
+      "&sid=$sid\"> <img src=\"bilder/" . $ordered . ".gif\" border=\"0\" alt=\"" . $ordered . "\"> </a>";
 }
 
 // user aus Tabelle holen und gruppieren
@@ -372,14 +372,14 @@ while($row = $db->db_fetch_array($result2)) {
   next_row("windowbg1", "colspan=\"3\"" );
   if(isset($user) and isset($_GET['user']) and $_GET['user']==$user){
 	echo "
-	     <a href=\"index.php?action=m_raidview&amp;sid=$sid\">
+	     <a href=\"index.php?action=m_raidview&sid=$sid\">
 	      <b>" . $user . "</b>
      </a>";
 
   }
   else {
     echo "
-     <a href=\"index.php?action=m_raidview&amp;user=" . $user . "&amp;sid=$sid\">
+     <a href=\"index.php?action=m_raidview&user=" . $user . "&sid=$sid\">
       <b>" . $user . "</b>
      </a>";
   }
@@ -472,7 +472,7 @@ while($row = $db->db_fetch_array($result2)) {
 #  	$eis     += $row['eis'];
 #  	$wasser  += $row['wasser'];
 #  	$energie += $row['energie'];
-      $row['link'] = str_replace('&amp;','&',$row['link']);
+      $row['link'] = str_replace('&','&',$row['link']);
   	$ruser=$row['user'];
   	$geraided=trim($row['geraided']);
       $guser=preg_replace('/\[.*\]/','',$geraided);

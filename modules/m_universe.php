@@ -259,7 +259,7 @@ for( $i=0; $i<=$config_map_galaxy_count; $i++ ) {
   				 ($config_bordertop + 1 + (($i-1) * $config_lineheight)) . "," .
   				 ($config_borderleft + ($maxsys * $config_linewidth) ) . "," .
   				 ($config_bordertop - 1 + ($i * $config_lineheight)) . "\"". 
-  				 " href=\"index.php?action=karte&amp;galaxy=" . $i . "&amp;sid=" . $sid . "\">\n";
+  				 " href=\"index.php?action=karte&galaxy=" . $i . "&sid=" . $sid . "\">\n";
     }
 
     // Draw the horizontal line 

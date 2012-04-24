@@ -26,22 +26,22 @@
 
 /*****************************************************************************/
 /* Gebaeudeuebersicht                                                        */
-/* für die Iw DB: Icewars geoscan and sitter database                        */
+/* fï¿½r die Iw DB: Icewars geoscan and sitter database                        */
 /*---------------------------------------------------------------------------*/
 /* Author: [RoC]Thella (mailto:icewars@thella.de)                            */
 /* Version: 0.x                                                              */
 /* Date: xx/xx/xxxx                                                          */
 /*---------------------------------------------------------------------------*/
-/* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  */
+/* Diese Erweiterung der ursprï¿½nglichen DB ist ein Gemeinschaftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
+/* Bei Problemen kannst du dich an das eigens dafï¿½r eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
 /*                   http://www.iw-smf.pericolini.de                         */
 /*                                                                           */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde. 
+// -> Abfrage ob dieses Modul ï¿½ber die index.php aufgerufen wurde. 
 //    Kann unberechtigte Systemzugriffe verhindern.
 if (basename($_SERVER['PHP_SELF']) != "index.php") { 
 	echo "Hacking attempt...!!"; 
@@ -50,23 +50,23 @@ if (basename($_SERVER['PHP_SELF']) != "index.php") {
 
 //****************************************************************************
 //
-// -> Name des Moduls, ist notwendig für die Benennung der zugehörigen 
+// -> Name des Moduls, ist notwendig fï¿½r die Benennung der zugehï¿½rigen 
 //    Config.cfg.php
-// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung für 
-//    eine Installation über das Menü
+// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung fï¿½r 
+//    eine Installation ï¿½ber das Menï¿½
 //
 $modulname  = "m_gebaeudeuebersicht";
 
 //****************************************************************************
 //
-// -> Menütitel des Moduls der in der Navigation dargestellt werden soll.
+// -> Menï¿½titel des Moduls der in der Navigation dargestellt werden soll.
 //
-$modultitle = "Geb&auml;ude&uuml;bersicht";
+$modultitle = "GebÃ¤ude&uuml;bersicht";
 
 //****************************************************************************
 //
-// -> Status des Moduls, bestimmt wer dieses Modul über die Navigation 
-//    ausführen darf. Mögliche Werte: 
+// -> Status des Moduls, bestimmt wer dieses Modul ï¿½ber die Navigation 
+//    ausfï¿½hren darf. Mï¿½gliche Werte: 
 //    - ""      <- nix = jeder, 
 //    - "admin" <- na wer wohl
 //
@@ -76,7 +76,7 @@ $modulstatus = "";
 //
 // -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
 //
-$moduldesc = "Zeigt die Geb&auml;de&uml;bersicht an";
+$moduldesc = "Zeigt die GebÃ¤de&uml;bersicht an";
 
 //****************************************************************************
 //
@@ -101,7 +101,7 @@ function workInstallDatabase() {
 		"PRIMARY KEY (`coords_gal`,`coords_sys`,`coords_planet`,`category`,`building`)" .
 		") COMMENT='Gebaeudeuebersicht'",
 		"INSERT INTO " . $db_tb_iwdbtabellen . " (`name`) VALUES ('gebaeude_spieler')",
-		"INSERT INTO " . $db_tb_parser . " (`modulename`,`recognizer`,`message`) VALUES ('gebaeudeuebersicht','Geb&auml;ude&uuml;bersicht','Geb&auml;ude&uuml;bersicht')",
+		"INSERT INTO " . $db_tb_parser . " (`modulename`,`recognizer`,`message`) VALUES ('gebaeudeuebersicht','GebÃ¤ude&uuml;bersicht','GebÃ¤ude&uuml;bersicht')",
 	);*/
 
 	foreach ($sqlscript as $sql) {
@@ -110,7 +110,7 @@ function workInstallDatabase() {
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	}
 
-	echo "<div class='system_notification'>Installation: Datenbank&auml;nderungen = <b>OK</b></div>";
+	echo "<div class='system_notification'>Installation: DatenbankÃ¤nderungen = <b>OK</b></div>";
 }
 
 //****************************************************************************
@@ -125,7 +125,7 @@ function workInstallMenu() {
 		$actionparamters = "";
   	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparameters );
 	  //
-	  // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
+	  // Weitere Wiederholungen fï¿½r weitere Menï¿½-Eintrï¿½ge, z.B.
 	  //
 	  // 	insertMenuItem( $_POST['menu'], ($_POST['submenu']+1), "Titel2", "hc", "&weissichnichtwas=1" ); 
 	  //
@@ -159,19 +159,19 @@ function workUninstallDatabase() {
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	}
 
-	echo "<div class='system_notification'>Deinstallation: Datenbank&auml;nderungen = <b>OK</b></div>";
+	echo "<div class='system_notification'>Deinstallation: DatenbankÃ¤nderungen = <b>OK</b></div>";
 }
 
 //****************************************************************************
 //
 // Installationsroutine
 //
-// Dieser Abschnitt wird nur ausgeführt wenn das Modul mit dem Parameter 
+// Dieser Abschnitt wird nur ausgefï¿½hrt wenn das Modul mit dem Parameter 
 // "install" aufgerufen wurde. Beispiel des Aufrufs: 
 //
 //      http://Mein.server/iwdb/index.php?action=default&was=install
 //
-// Anstatt "Mein.Server" natürlich deinen Server angeben und default 
+// Anstatt "Mein.Server" natï¿½rlich deinen Server angeben und default 
 // durch den Dateinamen des Moduls ersetzen.
 //
 if( !empty($_REQUEST['was'])) {
@@ -186,7 +186,7 @@ if( !empty($_REQUEST['was'])) {
 	  die( "Cannot load menu functions" );
 
   // Wenn ein Modul administriert wird, soll der Rest nicht mehr 
-  // ausgeführt werden. 
+  // ausgefï¿½hrt werden. 
   return;
 }
 
@@ -197,7 +197,7 @@ if (!@include("./config/".$modulname.".cfg.php")) {
 //****************************************************************************
 
 // Titelzeile
-echo "<div class='doc_title'>Geb&auml;ude&uuml;bersicht</div>\n";
+echo "<div class='doc_title'>GebÃ¤ude&uuml;bersicht</div>\n";
 
 // Stammdaten abfragen
 $config = array();
@@ -237,7 +237,7 @@ $config['teams'] = $teams;
 // Parameter ermitteln
 $params['team'] = getVar('team');
 
-// Abfrage ausführen
+// Abfrage ausfï¿½hren
 $sql = "SELECT $db_tb_gebaeude_spieler.coords_gal,
 		 $db_tb_gebaeude_spieler.coords_sys,
 		 $db_tb_gebaeude_spieler.coords_planet,

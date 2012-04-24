@@ -67,7 +67,7 @@ if( empty($selectedusername))
   $selectedusername = $user_sitterlogin;
 
 echo "<div class='doc_title'>Neuer Bericht</div>\n";
-echo "<form method=\"POST\" action=\"index.php?action=newscan&amp;sid=" . $sid. "\" enctype=\"multipart/form-data\">\n";
+echo "<form method=\"POST\" action=\"index.php?action=newscan&sid=" . $sid. "\" enctype=\"multipart/form-data\">\n";
 echo "<table border=\"0\" cellpadding=\"4\" cellspacing=\"1\" class=\"bordercolor\" style=\"width: 90%;\">\n";
 echo " <tr>\n";
 echo "  <td class=\"windowbg2\" align=\"center\">\n";
@@ -166,8 +166,8 @@ if ( ! empty($textinput) )
 	// Eigenkreation Start
 	// SB/KB-Links finden
 	$suche = array(
-		'sb' => 'www\.icewars\.de/portal/kb/de/sb\.php\?id=(?P<id>[\d]+)&amp;md_hash=(?P<hash>[\w]{32})',
-		'kb' => 'www\.icewars\.de/portal/kb/de/kb\.php\?id=(?P<id>[\d]+)&amp;md_hash=(?P<hash>[\w]{32})',
+		'sb' => 'www\.icewars\.de/portal/kb/de/sb\.php\?id=(?P<id>[\d]+)&md_hash=(?P<hash>[\w]{32})',
+		'kb' => 'www\.icewars\.de/portal/kb/de/kb\.php\?id=(?P<id>[\d]+)&md_hash=(?P<hash>[\w]{32})',
 		);
 	
 	require_once ('parser/xml_kb_sb.php');

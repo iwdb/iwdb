@@ -50,7 +50,7 @@ if (!defined('IRA'))
 	}
 ?>
 <br>
-<form method="POST" action="index.php?action=profile&amp;uaction=editplaneten&amp;sid=<?php echo $sid;?>" enctype="multipart/form-data">
+<form method="POST" action="index.php?action=profile&uaction=editplaneten&sid=<?php echo $sid;?>" enctype="multipart/form-data">
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 80%;">
  <tr>
   <td class="windowbg2" style="width:10%;">

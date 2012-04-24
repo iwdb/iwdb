@@ -109,11 +109,11 @@ if (isset($angriffe['frei'])) {
 			<td class="windowbg1" align="center">',$value['def_pla'],'<br>(',$value['def_coords'],')</td>
 			<td class="windowbg1" align="center">
 				<span class="doc_red">von keinem</span>
-				<br><br><a href="index.php?action=angriffe&amp;subaction=ueb&amp;id=', $value['id'] ,'&amp;sid=', $sid ,'">[übernehmen]</a>';
+				<br><br><a href="index.php?action=angriffe&subaction=ueb&id=', $value['id'] ,'&sid=', $sid ,'">[übernehmen]</a>';
 		// Admin, HC und momentan Verantwortlicher d�rfen sich einloggen
 		if ($user_status == "admin" || $user_status == "hc" || ($user_sitterlogin == $value['ueb_user'] && !empty($value['ueb'])) )
 			echo '
-				<br><br><a href="index.php?action=sitterlogins&amp;sitterlogin=', urlencode($value['def_user']) ,'&amp;sid=', $sid ,'" target="_blank">[einloggen]</a>';
+				<br><br><a href="index.php?action=sitterlogins&sitterlogin=', urlencode($value['def_user']) ,'&sid=', $sid ,'" target="_blank">[einloggen]</a>';
 		echo '
 			</td>
 		</tr>';
@@ -150,15 +150,15 @@ if (isset($angriffe['ueb'])) {
 		// �bernahme von Planetenbesitzer
 		if ($user_sitterlogin == $value['def_user'])
 			echo '
-				<br><br><a href="index.php?action=angriffe&amp;subaction=ueb&amp;id=', $value['id'] ,'&amp;sid=', $sid ,'">[übernehmen]</a>';
+				<br><br><a href="index.php?action=angriffe&subaction=ueb&id=', $value['id'] ,'&sid=', $sid ,'">[übernehmen]</a>';
 		// Admin, HC und momentan Verantwortlicher d�rfen sich einloggen
 		if ($user_status == "admin" || $user_status == "hc" || ($user_sitterlogin == $value['ueb_user'] && !empty($value['ueb'])) )
 			echo '
-				<br><br><a href="index.php?action=sitterlogins&amp;sitterlogin=', urlencode($value['def_user']) ,'&amp;sid=', $sid ,'" target="_blank">[einloggen]</a>';
+				<br><br><a href="index.php?action=sitterlogins&sitterlogin=', urlencode($value['def_user']) ,'&sid=', $sid ,'" target="_blank">[einloggen]</a>';
 		// Admin, HC und momentan Verantwortlicher d�rfen Angriff wieder freigeben
 		if ($user_status == "admin" || $user_status == "hc" || ($user_sitterlogin == $value['ueb_user'] && !empty($value['ueb'])) )
 			echo '
-				<br><br><a href="index.php?action=angriffe&amp;subaction=frei&amp;id=', $value['id'] ,'&amp;sid=', $sid ,'">[freigeben]</a>';
+				<br><br><a href="index.php?action=angriffe&subaction=frei&id=', $value['id'] ,'&sid=', $sid ,'">[freigeben]</a>';
 		echo '
 			</td>
 		</tr>';

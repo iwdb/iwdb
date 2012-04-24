@@ -85,7 +85,7 @@ while ($row = $db->db_fetch_array($result))
    <?php echo ( empty($row['fromuser']) ) ? "<b>global</b>": $row['fromuser'];?>
   </td>
   <td class="windowbg1">
-   <a href="index.php?action=profile&amp;uaction=editpresets&amp;delid=<?php echo $row['id'];?>&amp;sitterlogin=<?php echo urlencode($sitterlogin);?>&amp;sid=<?php echo $sid;?>"">loeschen</a>
+   <a href="index.php?action=profile&uaction=editpresets&delid=<?php echo $row['id'];?>&sitterlogin=<?php echo urlencode($sitterlogin);?>&sid=<?php echo $sid;?>"">loeschen</a>
   </td>
  </tr>
 <?php

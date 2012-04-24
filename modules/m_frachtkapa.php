@@ -187,7 +187,7 @@ $class2ships = array(
 
 echo "<div class='doc_title'>Frachtkapazitätenberechnung</div>\n";
 echo "<form method=\"POST\" action=\"index.php?action=" . $modulname .
-     "&amp;sid=" . $sid . "\" enctype=\"multipart/form-data\">\n";
+     "&sid=" . $sid . "\" enctype=\"multipart/form-data\">\n";
      
 echo " <table border=\"0\" cellpadding=\"4\" cellspacing=\"1\" class=\"bordercolor\" style=\"width: 80%;\">\n";
 echo "  <tr>\n";

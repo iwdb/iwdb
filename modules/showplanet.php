@@ -166,7 +166,7 @@ if ( ! empty($coords) )
 	<tr>
 		<td class="windowbg2">Allianz:</td>
 		<td class="windowbg1" style=" background-color: <?php echo $color;?>;"><a
-			href="index.php?action=showgalaxy&amp;allianz=<?php echo $row['allianz'];?>&amp;sid=<?php echo $sid;?>"><?php echo $row['allianz'];?><?php echo ( ( empty($row_status['status']) ) || ( $row_status['status'] == 'own' ) ) ? "": " (" . $row_status['status'] . ")";?></a>
+			href="index.php?action=showgalaxy&allianz=<?php echo $row['allianz'];?>&sid=<?php echo $sid;?>"><?php echo $row['allianz'];?><?php echo ( ( empty($row_status['status']) ) || ( $row_status['status'] == 'own' ) ) ? "": " (" . $row_status['status'] . ")";?></a>
 		</td>
 	</tr>
 	<tr>
@@ -224,7 +224,7 @@ if ( ! empty($coords) )
 		  $result = $db->db_fetch_array($result);
 		  $notice = $result["rnb"];
 
-		echo "<form method='POST' action='index.php?action=showplanet&amp;coords=".$coords."&amp;sid=".$sid."&amp;ansicht=auto' enctype='multipart/form-data'>";
+		echo "<form method='POST' action='index.php?action=showplanet&coords=".$coords."&sid=".$sid."&ansicht=auto' enctype='multipart/form-data'>";
 		echo "  <table border='0' cellpadding='5' cellspacing='0' class='bordercolor' style='width: 80%;' align='center'>";
 		echo "    <tr>";
 		echo "      <td class='windowbg2' align='center'>";
@@ -342,7 +342,7 @@ if ( $row['objekt'] == "---" )
 	<tr>
 		<td colspan="2" class="windowbg2" align="center">
 		<form method="POST"
-			action="index.php?action=showplanet&amp;coords=<?php echo $row['coords'];?>&amp;sid=<?php echo $sid;?>"
+			action="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&sid=<?php echo $sid;?>"
 			enctype="multipart/form-data"><?php
 			if ( empty($row['reserviert']) )
 			echo "Diesen Planeten für dich reservieren? <input type=\"checkbox\" name=\"reservieren\"><input type=\"hidden\" name=\"editplanet\" value=\"true\"> <input type=\"submit\" value=\"speichern\" name=\"B1\" class=\"submit\">";

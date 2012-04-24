@@ -104,14 +104,14 @@ echo "<br>\n";
 //Link zum Nebel eintragen. Nur für Admins! <-- edit: doof, daher auskommentiert!
 //if ( $user_status == "admin" ) {
     echo "<div class='system_notification'>
-        <b>&gt; <a href=\"index.php?action=nebel&amp;sid=" . $sid . "\" style='color:red'>
+        <b>&gt; <a href=\"index.php?action=nebel&sid=" . $sid . "\" style='color:red'>
             Nebel eintragen
         </a> &lt;</b>
     </div>\n";
 //}
 
 
-echo "<form method=\"POST\" action=\"index.php?action=karte&amp;sid=" . $sid .
+echo "<form method=\"POST\" action=\"index.php?action=karte&sid=" . $sid .
      "\" enctype=\"multipart/form-data\" name=\"form1\">\n";
 echo " <p align=\"center\">\n";
 
@@ -124,16 +124,16 @@ if( defined('ALLY_MEMBERS_ON_MAP' ) && ALLY_MEMBERS_ON_MAP === TRUE ) {
 
 if ($galaxy > 1 )
 {
-	echo "<a href=\"index.php?action=karte&amp;galaxy=" . ($galaxy - 1) .
-        "&amp;sid=" . $sid . "\"><b>&lt;&lt;</b></a>\n";
+	echo "<a href=\"index.php?action=karte&galaxy=" . ($galaxy - 1) .
+        "&sid=" . $sid . "\"><b>&lt;&lt;</b></a>\n";
 }
 echo "Galaxie: <input type=\"text\" name=\"galaxy\" value=\"" . $galaxy .
      "\" style=\"width: 30\">&nbsp;<input type=\"submit\" value=\"los\" name=\"B1\" class=\"submit\">\n";
 
 if ($galaxy < $config_map_galaxy_count )
 {
-	echo "<a href=\"index.php?action=karte&amp;galaxy=" . ($galaxy + 1) .
-       "&amp;sid=" . $sid . "\"><b>&gt;&gt;</b></a>\n";
+	echo "<a href=\"index.php?action=karte&galaxy=" . ($galaxy + 1) .
+       "&sid=" . $sid . "\"><b>&gt;&gt;</b></a>\n";
 }
 
 echo "</p></form>\n";
@@ -228,9 +228,9 @@ for ( $i = 1; $i <= $maxsys; $i++ ) {
 	if ( empty($sys[$i]) ) {
 		echo $i;
 	} else {
-		$showgalaxylink = "<a href=\"index.php?action=showgalaxy&amp;sys_end=" . $i .
-         "&amp;sys_start=" . $i . "&amp;gal_end=" . $galaxy .
-         "&amp;gal_start=" . $galaxy . "&amp;sid=" . $sid . "\" ";
+		$showgalaxylink = "<a href=\"index.php?action=showgalaxy&sys_end=" . $i .
+         "&sys_start=" . $i . "&gal_end=" . $galaxy .
+         "&gal_start=" . $galaxy . "&sid=" . $sid . "\" ";
 
 		if( ALLY_MEMBERS_ON_MAP === TRUE ) {
 			echo $formatStart;

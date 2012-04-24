@@ -305,7 +305,7 @@ function getColor($tuedel) {
 
 	if ($row['objekt'] == "Kolonie"){
 		$spezpla[$row['coords_gal']]['Eisplanet']['user'][] = $row['user'];
-		$spezpla[$row['coords_gal']]['Eisplanet']['coords'][] = " <a href=\"index.php?action=showplanet&amp;coords=" . $row['coords'] . "&amp;ansicht=auto&amp;sid=" . $sid . "\">" . $row['coords'] . "</a>";
+		$spezpla[$row['coords_gal']]['Eisplanet']['coords'][] = " <a href=\"index.php?action=showplanet&coords=" . $row['coords'] . "&ansicht=auto&sid=" . $sid . "\">" . $row['coords'] . "</a>";
 		$spezpla[$row['coords_gal']]['Eisplanet']['pkte'][] = $row['punkte'];
 	}
 		break;
@@ -314,7 +314,7 @@ function getColor($tuedel) {
 
 	if ($row['objekt'] == "Kolonie"){
 		$spezpla[$row['coords_gal']]['Asteroid']['user'][] = $row['user'];
-		$spezpla[$row['coords_gal']]['Asteroid']['coords'][] = " <a href=\"index.php?action=showplanet&amp;coords=" . $row['coords'] . "&amp;ansicht=auto&amp;sid=" . $sid . "\">" . $row['coords'] . "</a>";
+		$spezpla[$row['coords_gal']]['Asteroid']['coords'][] = " <a href=\"index.php?action=showplanet&coords=" . $row['coords'] . "&ansicht=auto&sid=" . $sid . "\">" . $row['coords'] . "</a>";
 		$spezpla[$row['coords_gal']]['Asteroid']['pkte'][] = $row['punkte'];
 	}
 		break;
@@ -323,7 +323,7 @@ function getColor($tuedel) {
 
 	if ($row['objekt'] == "Kolonie"){
 		$spezpla[$row['coords_gal']]['Gasgigant']['user'][] = $row['user'];
-		$spezpla[$row['coords_gal']]['Gasgigant']['coords'][] = " <a href=\"index.php?action=showplanet&amp;coords=" . $row['coords'] . "&amp;ansicht=auto&amp;sid=" . $sid . "\">" . $row['coords'] . "</a>";
+		$spezpla[$row['coords_gal']]['Gasgigant']['coords'][] = " <a href=\"index.php?action=showplanet&coords=" . $row['coords'] . "&ansicht=auto&sid=" . $sid . "\">" . $row['coords'] . "</a>";
 		$spezpla[$row['coords_gal']]['Gasgigant']['pkte'][] = $row['punkte'];
 	}
 		break;
@@ -331,7 +331,7 @@ function getColor($tuedel) {
 	        $plannistring.="<span class='doc_black'>N";
 	}
 
-	$plannistring.= " <a href=\"index.php?action=showplanet&amp;coords=" . $row['coords'] . "&amp;ansicht=auto&amp;sid=" . $sid . "\">" . $row['coords'] . "</a>";
+	$plannistring.= " <a href=\"index.php?action=showplanet&coords=" . $row['coords'] . "&ansicht=auto&sid=" . $sid . "\">" . $row['coords'] . "</a>";
 	if ($row['objekt'] == "Kolonie") {
 	       	$plannistring.= "</span>";
 		$points[$row['user']][] = number_format($row['punkte'], 0, ",", ".");
@@ -632,7 +632,7 @@ function getColor($tuedel) {
      {
        echo "Allianz dummerweise net gefunden<br>\n";
      }
-      echo "<a href=\"index.php?action=m_allystats&amp;sid=" . $sid . "\">zurück zur Allianzliste</a>";
+      echo "<a href=\"index.php?action=m_allystats&sid=" . $sid . "\">zurück zur Allianzliste</a>";
 
     } else {
       start_table();

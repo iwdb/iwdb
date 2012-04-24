@@ -94,7 +94,7 @@ if ( ! empty($newlog) )
 }
 ?>
 <br>
-<form method="POST" action="index.php?action=sitterlogins&amp;sid=<?php echo $sid;?>" enctype="multipart/form-data">
+<form method="POST" action="index.php?action=sitterlogins&sid=<?php echo $sid;?>" enctype="multipart/form-data">
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor">
  <tr>
   <td class="titlebg" colspan="2" align="center">
@@ -125,10 +125,10 @@ if ( ! empty($newlog) )
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 95%;">
  <tr>
   <td class="titlebg" style="width:25%;">
-   <a href="index.php?action=sitterlogins&amp;order=sitterlogin&amp;ordered=asc&amp;sid=<?php echo $sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>Username</b> <a href="index.php?action=sitterlogins&amp;order=sitterlogin&amp;ordered=desc&amp;sid=<?php echo $sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a>
+   <a href="index.php?action=sitterlogins&order=sitterlogin&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>Username</b> <a href="index.php?action=sitterlogins&order=sitterlogin&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a>
   </td>
   <td class="titlebg" style="width:15%;">
-   <a href="index.php?action=sitterlogins&amp;order=sitterpunkte&amp;ordered=asc&amp;sid=<?php echo $sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>Aktivität</b> <a href="index.php?action=sitterlogins&amp;order=sitterpunkte&amp;ordered=desc&amp;sid=<?php echo $sid;?>"><img src="bilder/desc.gif" border="0" alt="asc"></a>
+   <a href="index.php?action=sitterlogins&order=sitterpunkte&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>Aktivität</b> <a href="index.php?action=sitterlogins&order=sitterpunkte&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif" border="0" alt="asc"></a>
   </td>
   <td class="titlebg" style="width:30%;">
    <b>Sitterlogin</b>
@@ -137,7 +137,7 @@ if ( ! empty($newlog) )
    <b>Besonderheiten</b>
   </td>
   <td class="titlebg" style="width:30%;">
-   <a href="index.php?action=sitterlogins&amp;order=lastlogin&amp;ordered=asc&amp;sid=<?php echo $sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>letzter Login</b> <a href="index.php?action=sitterlogins&amp;order=lastlogin&amp;ordered=desc&amp;sid=<?php echo $sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a>
+   <a href="index.php?action=sitterlogins&order=lastlogin&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a> <b>letzter Login</b> <a href="index.php?action=sitterlogins&order=lastlogin&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a>
   </td>
  </tr>
 <?php
@@ -218,7 +218,7 @@ foreach ($users_sitterlogin as $key => $data)
  <tr>
   <td class="windowbg<?php echo $num;?>" valign="top">
 <?php
-	if ( $user_status == "admin" ) echo "<a href=\"index.php?action=profile&amp;sitterlogin=" . urlencode($data) . "&amp;sid=" . $sid . "\">" . $data . "</a>";
+	if ( $user_status == "admin" ) echo "<a href=\"index.php?action=profile&sitterlogin=" . urlencode($data) . "&sid=" . $sid . "\">" . $data . "</a>";
 	else echo $data;
 	if ( ! empty ($users_sittercomment[$key]) ) echo "<br><font size=\"1\"><i>[" . $users_sittercomment[$key] . "]</i></font>";
 ?>
@@ -231,7 +231,7 @@ foreach ($users_sitterlogin as $key => $data)
 <?php
 	if ( ! empty($users_logged_in[$key]) ) 
 	  echo "<b><font color='#ff0000'>" . $users_logged_in[$key] . " ist eingeloggt </font></b>".
-		     "<br/><a href=\"index.php?action=sitterlogins&amp;sitterlogin=" . urlencode($data) . "&amp;sid=" . $sid .
+		     "<br/><a href=\"index.php?action=sitterlogins&sitterlogin=" . urlencode($data) . "&sid=" . $sid .
 				 "\" target=\"_blank\" onclick=\"return confirmlink(this, " .
 				 "'Jemand ist gerade im Account eingeloggt. Trotzdem einloggen?'".
 				 ")\">[trotzdem einloggen]</a>" . 
@@ -243,15 +243,15 @@ foreach ($users_sitterlogin as $key => $data)
 				 (( $users_sitteriwsa[$key] == "1" ) ? " <i>IWSA/IWBP-Account<br/></i>": "").
 				 "</td>";
 	elseif ( ( ($user_status == "admin") OR ($user_status == "SV") ) && ( empty($users_sitten[$key]) ) ) 
-	  echo "<a href=\"index.php?action=sitterlogins&amp;sitterlogin=" . urlencode($data) .
-		     "&amp;sid=" . $sid . "\" target=\"_blank\" onclick=\"return confirmlink(this, ".
+	  echo "<a href=\"index.php?action=sitterlogins&sitterlogin=" . urlencode($data) .
+		     "&sid=" . $sid . "\" target=\"_blank\" onclick=\"return confirmlink(this, ".
 				 "'Dieser User hat das Sitten deaktiviert. Trotzdem einloggen?'".
 				 ")\">[sitten deaktiviert - einloggen]</a> " . 
-				 "<a href=\"index.php?action=sitterauftrag&amp;sitterid=" .
-				 urlencode($data) . "&amp;sid=" . $sid . "\"><img src=\"bilder/file_new_s.gif\" border=\"0\" " .
+				 "<a href=\"index.php?action=sitterauftrag&sitterid=" .
+				 urlencode($data) . "&sid=" . $sid . "\"><img src=\"bilder/file_new_s.gif\" border=\"0\" " .
 				 "alt=\"Sitterauftrag erstellen\" title=\"Sitterauftrag erstellen\"></a>" . 
-				 " <a href=\"index.php?action=sitterhistory&amp;selecteduser=" .
-				 urlencode($data) . "&amp;sid=" . $sid . "\"><img src=\"bilder/file_history.gif\" border=\"0\" " .
+				 " <a href=\"index.php?action=sitterhistory&selecteduser=" .
+				 urlencode($data) . "&sid=" . $sid . "\"><img src=\"bilder/file_history.gif\" border=\"0\" " .
 				 "alt=\"Sitterhistorie anschauen\" title=\"Sitterhistorie anschauen\"></a>" . 
          "<td class='windowbg".$num."' valign='top'>".
 				 (( $users_sitterpeitschen[$key] == "1" ) ? " <i>Meister d. Peitschen<br/></i>": "").
@@ -261,13 +261,13 @@ foreach ($users_sitterlogin as $key => $data)
 				 (( $users_sitteriwsa[$key] == "1" ) ? " <i>IWSA/IWBP-Account<br/></i>": "").
 				 "</td>";
 	else 
-	  echo "<a href=\"index.php?action=sitterlogins&amp;sitterlogin=" . urlencode($data) .
-		     "&amp;sid=" . $sid . "\" target=\"_blank\">[jetzt einloggen]</a>&nbsp;" .
-	       "<a href=\"index.php?action=sitterauftrag&amp;sitterid=" . urlencode($data) .
-				 "&amp;sid=" . $sid . "\"><img src=\"bilder/file_new_s.gif\" border=\"0\" " .
+	  echo "<a href=\"index.php?action=sitterlogins&sitterlogin=" . urlencode($data) .
+		     "&sid=" . $sid . "\" target=\"_blank\">[jetzt einloggen]</a>&nbsp;" .
+	       "<a href=\"index.php?action=sitterauftrag&sitterid=" . urlencode($data) .
+				 "&sid=" . $sid . "\"><img src=\"bilder/file_new_s.gif\" border=\"0\" " .
 				 "alt=\"Sitterauftrag erstellen\" title=\"Sitterauftrag erstellen\"></a>" .
-				 " <a href=\"index.php?action=sitterhistory&amp;selecteduser=" .
-				 urlencode($data) . "&amp;sid=" . $sid . "\"><img src=\"bilder/file_history.gif\" border=\"0\" " .
+				 " <a href=\"index.php?action=sitterhistory&selecteduser=" .
+				 urlencode($data) . "&sid=" . $sid . "\"><img src=\"bilder/file_history.gif\" border=\"0\" " .
 				 "alt=\"Sitterhistorie anschauen\" title=\"Sitterhistorie anschauen\"></a>" . 
 				 "<td class='windowbg".$num."' valign='top'>".
 				 (( $users_sitterpeitschen[$key] == "1" ) ? " <i>Meister d. Peitschen<br/></i>": "").

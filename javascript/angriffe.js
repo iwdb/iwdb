@@ -16,7 +16,7 @@ function countdown(time,id)
 		
 		sekunden = rest;
 		if (sekunden < 10) sekunden = '0' + sekunden;
-		verbleibende_zeit = 'Angriff läuft (noch ' + minuten + ':' + sekunden + ')';
+		verbleibende_zeit = 'Angriff lÃ¤uft (noch ' + minuten + ':' + sekunden + ')';
 	} else if (rest > 0) {
 		if (rest >= 86400) {
 			tage = Math.floor(rest/86400);

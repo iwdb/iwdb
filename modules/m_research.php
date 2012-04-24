@@ -418,7 +418,7 @@ $neededfpforresearch = 0;
 
 echo "<div class='doc_title'>Forschungsübersicht</div>\n";
 echo "<form name=\"Formular\" method=\"POST\" action=\"index.php?action=" . $modulname .
-     "&amp;sid=" . $sid . "\" enctype=\"multipart/form-data\" onsubmit=\"return false\">\n";
+     "&sid=" . $sid . "\" enctype=\"multipart/form-data\" onsubmit=\"return false\">\n";
 echo "<select onchange=\"document.Formular.submit();\" name=\"researchid\" style=\"width: 400px;\">\n";
 echo fill_selection($resid);
 echo "</optgroup>\n";
@@ -848,9 +848,9 @@ function create_depends_on($resid) {
 		}
 		$retVal .= "<img src=\"bilder/point.gif\" alt=\"a point o.O\"/>&nbsp;";
 	  $retVal .= "<a href=\"index.php?action=" . $modulname  .
-               "&amp;researchid=" . $research_data['rid'] .
-               "&amp;sid=". $sid .
-               "&amp;alphaorder=" . $alphaorder . "\">" .
+               "&researchid=" . $research_data['rid'] .
+               "&sid=". $sid .
+               "&alphaorder=" . $alphaorder . "\">" .
                $research_data['rname'] . "</a>";
 		if($research_data['gameversion'] != $config_gameversion) {
 		  $retVal .= $v04;
@@ -887,8 +887,8 @@ function create_allows($resid) {
 		}
 		$retVal .= "<img src=\"bilder/point.gif\" alt=\"a point o.O\"/>&nbsp;";
 		$retVal .= "<a href=\"index.php?action=" . $modulname .
-		"&amp;researchid=" . $research_data['rid'] .
-		"&amp;sid=". $sid . "&amp;alphaorder=" . $alphaorder . "\">";
+		"&researchid=" . $research_data['rid'] .
+		"&sid=". $sid . "&alphaorder=" . $alphaorder . "\">";
 		if($research_data['rgebiet'] == 0) {
 		  $retVal .= "<span class='doc_red'>";
 		}
@@ -1090,15 +1090,15 @@ function dependencies($resid) {
 	  if(($unknownonly && $isresearched == FALSE) || !$unknownonly) {
     	$retVal .= "<img src=\"bilder/point.gif\" alt=\"a point o.O\"/>&nbsp;";
       $retVal .= "<a href=\"index.php?action=" . $modulname .
-                 "&amp;researchid=" . $resid .
-    	     "&amp;sid=". $sid . "&amp;alphaorder=" . $alphaorder . "\">" . 
+                 "&researchid=" . $resid .
+    	     "&sid=". $sid . "&alphaorder=" . $alphaorder . "\">" .
   				 $colorme_on . $researches[$resid] . $colorme_off . "</a><br>";
 	  }
 	} else {
   	$retVal .= "<img src=\"bilder/point.gif\" alt=\"a point o.O\"/>&nbsp;";
     $retVal .= "<a href=\"index.php?action=" . $modulname .
-               "&amp;researchid=" . $resid .
-  	     "&amp;sid=". $sid . "&amp;alphaorder=" . $alphaorder . "\"><span class='doc_red'>" .
+               "&researchid=" . $resid .
+  	     "&sid=". $sid . "&alphaorder=" . $alphaorder . "\"><span class='doc_red'>" .
 				 $researches[$resid] . "</span></a><br>";
 				 
 	

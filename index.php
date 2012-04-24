@@ -46,13 +46,13 @@ include_once("config/configsql.php");
 include_once("includes/function.php");
 include_once("includes/db_mysql.php");
 
-$error="";
+$error = '';
 
 $db = new db();
-$link_id = $db->db_connect($db_host, $db_user, $db_pass, $db_name);
-if(!$link_id) {
-    exit('Could not connect to Database!');
-}
+$link_id = $db->db_connect($db_host, $db_user, $db_pass, $db_name)
+    or error(GENERAL_ERROR,
+    'Could not connect to database.', '',
+    __FILE__, __LINE__);
 
 include("config/config.php");
 
@@ -168,7 +168,7 @@ if (( ( $user_adminsitten == SITTEN_BOTH ) || ( $user_adminsitten == SITTEN_ONLY
     <title><?php echo $config_allytitle ?></title>
 
     <?php
-      $SERVERURI = "index.php?action=" . $action . "&amp;sid=" . $sid;
+      $SERVERURI = "index.php?action=" . $action . "&sid=" . $sid;
 
     if ( ( $action == "sitterlogins" ) || ( $action == "sitterliste" ) )
       if ( ( $user_adminsitten == SITTEN_BOTH ) || ( $user_adminsitten == SITTEN_ONLY_LOGINS ) )

@@ -26,9 +26,9 @@
 // $Id: s_fremde_flotten.php 205 2007-04-24 18:54:05Z reuq tgarfeg $
 
 /*****************************************************************************/
-/* Diese Erweiterung der urspünglichen DB ist ein Gemeinschafftsprojekt von  */
+/* Diese Erweiterung der urspÃ¼nglichen DB ist ein Gemeinschafftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
+/* Bei Problemen kannst du dich an das eigens dafÃ¼r eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
 /*                   http://www.iw-smf.pericolini.de                         */

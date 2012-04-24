@@ -213,13 +213,13 @@ include ('configmenu.php');
 }
   echo "    <div id=\"dropmenu" . $miscmenu .  "\" class=\"dropmenudiv\" style=\"width:150px; text-align:left; position:fixed;\">\n
       <a href=\"index.php?sid=$sid\"><img src=\"bilder/icon_mini_home.gif\" width=\"12\" height=\"13\" alt=\"Startseite\" border=\"0\" align=\"absmiddle\"> Startseite</a>
-      <a href=\"index.php?action=profile&amp;sid=$sid\"><img src=\"bilder/icon_mini_profile.gif\" width=\"12\" height=\"13\" alt=\"profil\" border=\"0\" align=\"absmiddle\"> profil</a>
+      <a href=\"index.php?action=profile&sid=$sid\"><img src=\"bilder/icon_mini_profile.gif\" width=\"12\" height=\"13\" alt=\"profil\" border=\"0\" align=\"absmiddle\"> profil</a>
       ";
       if ( $user_status == "admin" )  {      ?>
-        <a href="index.php?action=admin&amp;sid=<?php echo $sid;?>"><img src="bilder/icon_mini_members.gif" width="12" height="13" alt="admin" border="0" align="absmiddle"> <font color="#e50f9f">admin</font></a></strong>
+        <a href="index.php?action=admin&sid=<?php echo $sid;?>"><img src="bilder/icon_mini_members.gif" width="12" height="13" alt="admin" border="0" align="absmiddle"> <font color="#e50f9f">admin</font></a></strong>
       <?php  } ?>
-      <a href="index.php?action=help&amp;topic=<?php echo $action;?>&amp;sid=<?php echo $sid;?>"><img src="bilder/icon_mini_search.gif" width="12" height="13" alt="profile" border="0" align="absmiddle"><font color="#e50f9f"> hilfe</font></a>
-      <a href="index.php?action=memberlogout2&amp;sid=<?php echo $sid;?>"><img src="bilder/icon_mini_login.gif" width="12" height="13" alt="login" border="0" align="absmiddle"> logout</a>
+      <a href="index.php?action=help&topic=<?php echo $action;?>&sid=<?php echo $sid;?>"><img src="bilder/icon_mini_search.gif" width="12" height="13" alt="profile" border="0" align="absmiddle"><font color="#e50f9f"> hilfe</font></a>
+      <a href="index.php?action=memberlogout2&sid=<?php echo $sid;?>"><img src="bilder/icon_mini_login.gif" width="12" height="13" alt="login" border="0" align="absmiddle"> logout</a>
     </div>
   <!-- main menu ende -->
   <script type="text/javascript"> cssdropdown.startchrome("chromemenu") </script>

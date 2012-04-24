@@ -82,7 +82,7 @@ $modulstatus = "";
 //
 // -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
 //
-$moduldesc = "Bestellsystem zur Koordination von Logistikauftr&auml;gen im Buddler-Fleeter-System.";
+$moduldesc = "Bestellsystem zur Koordination von Logistikaufträgen im Buddler-Fleeter-System.";
 
 //****************************************************************************
 //
@@ -126,7 +126,7 @@ function workInstallDatabase() {
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	}
 
-	echo "<br>Installation: Datenbank&auml;nderungen = <b>OK</b><br>";
+	echo "<br>Installation: Datenbankänderungen = <b>OK</b><br>";
 }
 
 //****************************************************************************
@@ -176,7 +176,7 @@ function workUninstallDatabase() {
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	}
 
-	echo "<br>Deinstallation: Datenbank&auml;nderungen = <b>OK</b><br>";
+	echo "<br>Deinstallation: Datenbankänderungen = <b>OK</b><br>";
 
 }
 
@@ -274,7 +274,7 @@ debug_var("sql", $sql);
 $result = $db->db_query($sql)
 	or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 while ($row = $db->db_fetch_array($result)) {
-	$config['projects'][$row['name']] = $row['name'] . ($row['prio'] < 999 ? " (Priorit&auml;t " . $row['prio'] . ")" : "");
+	$config['projects'][$row['name']] = $row['name'] . ($row['prio'] < 999 ? " (Priorität " . $row['prio'] . ")" : "");
 	$config['projects_prio'][$row['name']] = $row['prio'];
 }
 
@@ -616,7 +616,7 @@ $views = array(
 			),
 			'coords' => array(
 				'title' => 'Koordinaten',
-				'desc' => 'Falls kein Planet ausgew&auml;hlt wird.',
+				'desc' => 'Falls kein Planet ausgewählt wird.',
 				'type' => array(
 					'coords_gal' => array(
 						'type' => 'text',
@@ -1030,10 +1030,10 @@ function makeurl($newparams) {
 	global $modulname, $sid, $params;
 
 	$url = 'index.php?action=' . $modulname;
-	$url .= '&amp;sid=' . $sid;
+	$url .= '&sid=' . $sid;
 	$mergeparams = array_merge($params, $newparams);
 	foreach ($mergeparams as $paramkey => $paramvalue)
-		$url .= '&amp;' . $paramkey . '=' . $paramvalue;
+		$url .= '&' . $paramkey . '=' . $paramvalue;
 	return $url;
 }
 ?>

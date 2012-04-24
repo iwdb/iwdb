@@ -60,8 +60,9 @@ class db {
 			}
 
 			return @mysql_close($this->db_link_id);
-		}
-		else return FALSE;
+		} else {
+            return FALSE;
+        }
 	}
 
 	function db_select($database = 'iwdb')

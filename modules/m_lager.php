@@ -79,7 +79,7 @@ $modulstatus = "";
 //
 // -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
 //
-$moduldesc = "Lagerübersicht zur Koordination von Logistikauftr&auml;gen im Buddler-Fleeter-System.";
+$moduldesc = "Lagerübersicht zur Koordination von Logistikaufträgen im Buddler-Fleeter-System.";
 
 //****************************************************************************
 //
@@ -152,7 +152,7 @@ function workInstallDatabase() {
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	}
 
-	echo "<br>Installation: Datenbank&auml;nderungen = <b>OK</b><br>";
+	echo "<br>Installation: Datenbankänderungen = <b>OK</b><br>";
 }
 
 //****************************************************************************
@@ -201,7 +201,7 @@ function workUninstallDatabase() {
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	}
 
-	echo "<br>Deinstallation: Datenbank&auml;nderungen = <b>OK</b><br>";
+	echo "<br>Deinstallation: Datenbankänderungen = <b>OK</b><br>";
 }
 
 //****************************************************************************
@@ -1237,7 +1237,7 @@ echo '<b>Summe</b>';
 next_row('windowbg1', 'nowrap valign=top style="background-color: white;"');
 echo '&nbsp;';
 next_cell("windowbg1", 'nowrap valign=top');
-echo '<b>Lagerbest&auml;nde</b>';
+echo '<b>Lagerbestände</b>';
 next_cell("windowbg1", 'nowrap valign=top');
 echo '&nbsp;';
 next_cell("windowbg1", 'nowrap valign=top');
@@ -1540,13 +1540,13 @@ function makeurl($newparams) {
 	global $modulname, $sid, $params;
 
 	$url = 'index.php?action=' . $modulname;
-	$url .= '&amp;sid=' . $sid;
+	$url .= '&sid=' . $sid;
 	if (is_array($newparams))	
 		$mergeparams = array_merge($params, $newparams);
 	else
 		$mergeparams = $params;
 	foreach ($mergeparams as $paramkey => $paramvalue)
-		$url .= '&amp;' . $paramkey . '=' . $paramvalue;
+		$url .= '&' . $paramkey . '=' . $paramvalue;
 	return $url;
 }
 

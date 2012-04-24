@@ -54,7 +54,7 @@ if ( ! empty($editgebaeude) )
 }
 ?>
 <br>
-<form method="POST" action="index.php?action=profile&amp;uaction=gebaeude&amp;sid=<?php echo $sid;?>" enctype="multipart/form-data">
+<form method="POST" action="index.php?action=profile&uaction=gebaeude&sid=<?php echo $sid;?>" enctype="multipart/form-data">
 <?php
 $inactive = ( empty($editgebaeude) ) ? $user_gebaeude: "";
 
@@ -126,7 +126,7 @@ if(defined('RESEARCH') && RESEARCH === TRUE) {
 			if($resid == 0) {
 			  $resRowName = $row_gebaeude['name'];
 			} else {
-				$resRowName = "<a href=\"index.php?action=research&amp;researchid=" . $resid . "&amp;sid=" . $sid . "\">" . $row_gebaeude['name'] . "</a>";
+				$resRowName = "<a href=\"index.php?action=research&researchid=" . $resid . "&sid=" . $sid . "\">" . $row_gebaeude['name'] . "</a>";
 			}
 			echo $resRowName;
 } else {

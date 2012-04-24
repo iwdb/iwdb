@@ -266,7 +266,7 @@ if (!@include("./config/".$modulname.".cfg.php")) {
       
       
   //url fuers sortieren wieder zusammensetzen
-  $url = "index.php?action=m_kasse&amp;sid=$sid&amp;type=$type&amp;today=$today&amp;tomonth=$tomonth&amp;toyear=$toyear&amp;fromday=$fromday&amp;frommonth=$frommonth&amp;fromyear=$fromyear&amp;allianz=$allianz";
+  $url = "index.php?action=m_kasse&sid=$sid&type=$type&today=$today&tomonth=$tomonth&toyear=$toyear&fromday=$fromday&frommonth=$frommonth&fromyear=$fromyear&allianz=$allianz";
 
      doc_title("Allianzkasse");
      
@@ -358,13 +358,13 @@ if (!@include("./config/".$modulname.".cfg.php")) {
      start_row("titlebg", "style=\"width:40%\" align=\"center\" colspan=\"2\"");
      echo "  <b>Wer hat Credits bekommen?</b>\n";
      next_row("windowbg2", "style=\"width:60%\" align=\"center\"");
-     echo "<a href=\"$url&amp;order=payedto&amp;ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
+     echo "<a href=\"$url&order=payedto&ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
      echo "Empfänger";
-     echo "<a href=\"$url&amp;order=payedto&amp;ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
+     echo "<a href=\"$url&order=payedto&ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
      next_cell("windowbg2", "align=\"center\"");
-     echo "<a href=\"$url&amp;order=sumof&amp;ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
+     echo "<a href=\"$url&order=sumof&ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
      echo "Summe der ausgezahlten Credits";
-     echo "<a href=\"$url&amp;order=sumof&amp;ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
+     echo "<a href=\"$url&order=sumof&ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
     
     $sql = "SELECT payedto, sum(amount) as sumof FROM " . $db_tb_kasse_outgoing . " WHERE allianz='" . $allianz . "' " . $whereclause . " GROUP BY payedto " . $order;
     $result = $db->db_query($sql)
@@ -397,13 +397,13 @@ if (!@include("./config/".$modulname.".cfg.php")) {
      start_row("titlebg", "style=\"width:40%\" align=\"center\" colspan=\"2\"");
      echo "  <b>Wer hat Credits ausgezahlt?</b>\n";
      next_row("windowbg2", "style=\"width:60%\" align=\"center\"");
-     echo "<a href=\"$url&amp;order=payedfrom&amp;ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
+     echo "<a href=\"$url&order=payedfrom&ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
      echo "Auszahlender";
-     echo "<a href=\"$url&amp;order=payedfrom&amp;ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
+     echo "<a href=\"$url&order=payedfrom&ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
      next_cell("windowbg2", "align=\"center\"");
-     echo "<a href=\"$url&amp;order=sumof&amp;ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
+     echo "<a href=\"$url&order=sumof&ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
      echo "Summe der ausgezahlten Credits";
-     echo "<a href=\"$url&amp;order=sumof&amp;ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
+     echo "<a href=\"$url&order=sumof&ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
     
       $sql = "SELECT payedfrom, sum(amount) as sumof FROM " . $db_tb_kasse_outgoing . " WHERE allianz='" . $allianz . "' " . $whereclause . " GROUP BY payedfrom " . $order;
     $result = $db->db_query($sql)
@@ -439,17 +439,17 @@ if (!@include("./config/".$modulname.".cfg.php")) {
      start_row("titlebg", "style=\"width:40%\" align=\"center\" colspan=\"3\"");
      echo "  <b>Wer hat Credits bekommen?</b>\n";
      next_row("windowbg2", "style=\"width:40%\" align=\"center\"");
-     echo "<a href=\"$url&amp;rder=payedfrom&amp;ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
+     echo "<a href=\"$url&rder=payedfrom&ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
      echo "Auszahlender";
-     echo "<a href=\"$url&amp;order=payedfrom&amp;ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
+     echo "<a href=\"$url&order=payedfrom&ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
      next_cell("windowbg2", "style=\"width:40%\" align=\"center\"");
-     echo "<a href=\"$url&amp;order=payedto&amp;ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
+     echo "<a href=\"$url&order=payedto&ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
      echo "Empfänger";
-     echo "<a href=\"$url&amp;order=payedto&amp;ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";;
+     echo "<a href=\"$url&order=payedto&ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";;
      next_cell("windowbg2", "align=\"center\"");
-     echo "<a href=\"$url&amp;order=sumof&amp;ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
+     echo "<a href=\"$url&order=sumof&ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
      echo "Summe der ausgezahlten Credits";
-     echo "<a href=\"$url&amp;order=sumof&amp;ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
+     echo "<a href=\"$url&order=sumof&ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
     
     
     $sql = "SELECT payedfrom, payedto, sum(amount) as sumof FROM " . $db_tb_kasse_outgoing . " WHERE allianz='$allianz' $whereclause GROUP BY payedfrom, payedto $order";
@@ -486,13 +486,13 @@ if (!@include("./config/".$modulname.".cfg.php")) {
     start_row("titlebg", "style=\"width:40%\" align=\"center\" colspan=\"3\"");
     echo "  <b>Kasseninhalt</b>\n";
     next_row("windowbg2", "style=\"width:40%\" align=\"center\"");
-    echo "<a href=\"$url&amp;order=time_of_insert&amp;ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
+    echo "<a href=\"$url&order=time_of_insert&ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
     echo "Datum";
-    echo "<a href=\"$url&amp;order=time_of_insert&amp;ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
+    echo "<a href=\"$url&order=time_of_insert&ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
     next_cell("windowbg2", "align=\"center\"");
-    echo "<a href=\"$url&amp;order=amount&amp;ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
+    echo "<a href=\"$url&order=amount&ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
     echo "Inhalt der Allianzkasse";
-    echo "<a href=\"$url&amp;order=amount&amp;ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
+    echo "<a href=\"$url&order=amount&ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
 
     $sql = "SELECT amount, time_of_insert FROM " . $db_tb_kasse_content . " WHERE allianz='$allianz' $whereclause ORDER BY time_of_insert ASC";
     $result = $db->db_query($sql)
@@ -526,13 +526,13 @@ if (!@include("./config/".$modulname.".cfg.php")) {
     start_row("titlebg", "style=\"width:40%\" align=\"center\" colspan=\"3\"");
     echo "  <b>Wer hat Credits bekommen?</b>\n";
     next_row("windowbg2", "style=\"width:40%\" align=\"center\"");
-    echo "<a href=\"$url&amp;order=user&amp;ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
+    echo "<a href=\"$url&order=user&ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
     echo "Einzahler";
-    echo "<a href=\"$url&amp;order=user&amp;ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
+    echo "<a href=\"$url&order=user&ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
     next_cell("windowbg2", "align=\"center\"");
-    echo "<a href=\"$url&amp;order=sumof&amp;ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
+    echo "<a href=\"$url&order=sumof&ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
     echo "Summe der eingezahlten Credits";
-    echo "<a href=\"$url&amp;order=sumof&amp;ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
+    echo "<a href=\"$url&order=sumof&ordered=desc\"> <img src=\"bilder/desc.gif\" border=\"0\" alt=\"desc\"> </a>";
   
     $sql = "SELECT user, sum(amount) as sumof FROM " . $db_tb_kasse_incoming . " WHERE allianz='$allianz' $whereclause GROUP BY user $order";
     $result = $db->db_query($sql)

@@ -463,7 +463,7 @@ function workUninstallDatabase() {
 
 						echo '<img src="bilder/point.gif" alt="a point o.O">';
 						echo '&nbsp;';
-						echo '<a href="index.php?action=m_research&amp;researchid='.$resid.'&amp;sid='.$sid.'">'.$colorme_on.$research.$colorme_off.'</a>';
+						echo '<a href="index.php?action=m_research&researchid='.$resid.'&sid='.$sid.'">'.$colorme_on.$research.$colorme_off.'</a>';
 						echo '<br>';
 
 					} else {
@@ -530,7 +530,7 @@ function workUninstallDatabase() {
 						if (!empty($research)) {
 							echo '<img src="bilder/point.gif" alt="a point o.O">';
 							echo '&nbsp;';
-							echo '<a href="index.php?action=m_research&amp;researchid='.$resid.'&amp;sid='.$sid.'">'.$colorme_on.$research.$colorme_off.'</a>';
+							echo '<a href="index.php?action=m_research&researchid='.$resid.'&sid='.$sid.'">'.$colorme_on.$research.$colorme_off.'</a>';
 							echo '<br>';
 						}
 
@@ -583,7 +583,7 @@ function workUninstallDatabase() {
 						echo '<img src="bilder/point.gif" alt="a point o.O">';
 						echo '&nbsp;';
 
-						echo '<a href="index.php?action=m_building&amp;show_building='.$resid.'&amp;sid='.$sid.'">'.$gebaeude.'</a>';
+						echo '<a href="index.php?action=m_building&show_building='.$resid.'&sid='.$sid.'">'.$gebaeude.'</a>';
 
 						echo '<br>';
 
@@ -624,7 +624,7 @@ if (!empty($gebaeude)) {
 echo '<img src="bilder/point.gif" alt="a point o.O">';
 echo '&nbsp;';
 
-echo '<a href="index.php?action=m_building&amp;show_building='.$resid.'&amp;sid='.$sid.'">'.$gebaeude.'</a>';
+echo '<a href="index.php?action=m_building&show_building='.$resid.'&sid='.$sid.'">'.$gebaeude.'</a>';
 
 echo '<br>';  
 

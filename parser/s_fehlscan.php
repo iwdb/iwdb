@@ -75,7 +75,7 @@ function parse_fehlscan($scanlines) {
 function finish_fehlscan() {
 	global $fehlscans, $db, $db_tb_scans, $db_tb_lieferung, $sid;
 
-	echo '<form id="fehlscan_form" method="POST" action="index.php?action=m_raid&amp;sid=' . $sid . '" enctype="multipart/form-data"><p>' . "\n";
+	echo '<form id="fehlscan_form" method="POST" action="index.php?action=m_raid&sid=' . $sid . '" enctype="multipart/form-data"><p>' . "\n";
 	echo '<input type="hidden" name="fehlscan" id="fehlscan_count" value="' . count($fehlscans) . '">';
 	echo '<tr class="windowbg1"\>';
 	echo '<td colspan=2>';

@@ -67,7 +67,7 @@ function confirmLink(theLink, theSqlQuery)
 
     var is_confirmed = confirm(confirmMsg);
     if (is_confirmed) {
-        theLink.href += '&amp;is_js_confirmed=1';
+        theLink.href += '&is_js_confirmed=1';
     }
 
     return is_confirmed;
@@ -426,22 +426,22 @@ echo "<br>\n";
     echo "<td width=\"50%\" class=\"".$cl."\" >&nbsp;".$row['title']."&nbsp;</td>";
     echo "<td width=\"50%\" class=\"".$cl."\" align='right'>";
     if ($row['submenu'] == 0){
-      echo "<a href=\"index.php?action=admin_menue&amp;sid=".$sid."&amp;delid=".$row['id']."\" target=\"_self\"><img src=\"./bilder/delete.gif\" align=\"absmiddle\" border=\"0\" title=\"Men�titel L�schen\" alt=\"Men�titel L�schen\" onclick=\"return confirmLink(this, '" . $row['id'] . "')\"></a>";
+      echo "<a href=\"index.php?action=admin_menue&sid=".$sid."&delid=".$row['id']."\" target=\"_self\"><img src=\"./bilder/delete.gif\" align=\"absmiddle\" border=\"0\" title=\"Men�titel L�schen\" alt=\"Men�titel L�schen\" onclick=\"return confirmLink(this, '" . $row['id'] . "')\"></a>";
     }
     if ($row['id'] == $hid){
       echo "<img src=\"./bilder/sort_up2.gif\" align=\"absmiddle\" border=\"0\" title=\"Sortieren: Up\" alt=\"Sortieren: Up\">";
     }else{
-      echo "<a href=\"index.php?action=admin_menue&amp;sid=".$sid."&amp;sort=up&amp;id=".$row['id']."\" target=\"_self\"><img src=\"./bilder/sort_up.gif\" align=\"absmiddle\" border=\"0\" title=\"Sortieren: Up\" alt=\"Sortieren: Up\"></a>";
+      echo "<a href=\"index.php?action=admin_menue&sid=".$sid."&sort=up&id=".$row['id']."\" target=\"_self\"><img src=\"./bilder/sort_up.gif\" align=\"absmiddle\" border=\"0\" title=\"Sortieren: Up\" alt=\"Sortieren: Up\"></a>";
     }
     if ($row['id'] == $lid){
       echo "<img src=\"./bilder/sort_down2.gif\" align=\"absmiddle\" border=\"0\" title=\"Sortieren: Down\" alt=\"Sortieren: Down\">";
     }else{
-      echo "<a href=\"index.php?action=admin_menue&amp;sid=".$sid."&amp;sort=down&amp;id=".$row['id']."\" target=\"_self\"><img src=\"./bilder/sort_down.gif\" align=\"absmiddle\" border=\"0\" title=\"Sortieren: Down\" alt=\"Sortieren: Down\"></a>";
+      echo "<a href=\"index.php?action=admin_menue&sid=".$sid."&sort=down&id=".$row['id']."\" target=\"_self\"><img src=\"./bilder/sort_down.gif\" align=\"absmiddle\" border=\"0\" title=\"Sortieren: Down\" alt=\"Sortieren: Down\"></a>";
     }
     if (!empty($grtext)){
-      echo "<a href=\"index.php?action=admin_menue&amp;sid=".$sid."&amp;eid=".$row['id']."\" target=\"_self\"><img src=\"./bilder/edit_" . $grart . ".gif\" align=\"absmiddle\" border=\"0\" title=\"" . $grtext . "\" alt=\"" . $grtext . "\"></a>";
+      echo "<a href=\"index.php?action=admin_menue&sid=".$sid."&eid=".$row['id']."\" target=\"_self\"><img src=\"./bilder/edit_" . $grart . ".gif\" align=\"absmiddle\" border=\"0\" title=\"" . $grtext . "\" alt=\"" . $grtext . "\"></a>";
     }else{
-      echo "<a href=\"index.php?action=admin_menue&amp;sid=".$sid."\" target=\"_self\"><img src=\"./bilder/edit_" . $grart . ".gif\" align=\"absmiddle\" border=\"0\" title=\"" . $grtext . "\" alt=\"" . $grtext . "\"></a>";
+      echo "<a href=\"index.php?action=admin_menue&sid=".$sid."\" target=\"_self\"><img src=\"./bilder/edit_" . $grart . ".gif\" align=\"absmiddle\" border=\"0\" title=\"" . $grtext . "\" alt=\"" . $grtext . "\"></a>";
     }
     echo "</td>";
     echo "</tr>";
@@ -451,7 +451,7 @@ echo "<br>\n";
 
     echo "<tr><td colspan=2 width=\"100%\" class=\"".$cl."\" align='center'><table width=\"90%\" class=\"bordercolor\" border=\"0\" cellpadding=\"2\" cellspacing=\"0\" >";
 
-    echo "<tr><form name=\"form\" action=\"index.php?action=admin_menue&amp;sid=".$sid."&amp;eid=".$row['id']."\" method=\"post\">";
+    echo "<tr><form name=\"form\" action=\"index.php?action=admin_menue&sid=".$sid."&eid=".$row['id']."\" method=\"post\">";
     echo "<td width=\"50%\" class=\"".$cl."\" align='left'>Menütext:</td>";
     echo "<td width=\"50%\" class=\"".$cl."\" align='left'><input name=\"edit_title\" type=\"text\" size=50 maxlength=\"100\" value=\"".$row['title']."\"></td>";
     echo "</tr><tr>";
@@ -524,7 +524,7 @@ echo "</table><br><br>";
 
 
 echo "<table width=\"90%\" class=\"bordercolor\" border=\"0\" cellpadding=\"2\" cellspacing=\"1\" >";
-    echo "<tr><form name=\"form2\" action=\"index.php?action=admin_menue&amp;sid=".$sid."\" method=\"post\">";
+    echo "<tr><form name=\"form2\" action=\"index.php?action=admin_menue&sid=".$sid."\" method=\"post\">";
     echo "<td colspan=2 width=\"100%\" class=\"windowbg2\" align='center'>Neuer Menütitel</td>";
     echo "</tr><tr>";
     echo "<td width=\"50%\" class=\"windowbg1\" align='left'>Menütext:</td>";
@@ -561,7 +561,7 @@ while ($datei1 = readdir($fp6)) {
 		  // Read configuration header
 		  @include("./config/".$modulname.".cfg.php");
 
-			echo "<form method='POST' action='index.php?action=".$modulname."&amp;was=uninstall&amp;sid=".$sid."'>\n";
+			echo "<form method='POST' action='index.php?action=".$modulname."&was=uninstall&sid=".$sid."'>\n";
 			echo " <table class=\"bordercolor\" width=\"90%\" cellpadding=\"4\" cellspacing=\"1\">\n";
 			echo "  <tr>\n";
       if (isset($modulary[$modulname]["name"])) {
@@ -582,7 +582,7 @@ while ($datei1 = readdir($fp6)) {
 
       if (isset($modulary[$modulname]["name"])) {
 
-        $uninstallecho = $uninstallecho . "<form method='POST' action='index.php?action=".$modulname."&amp;was=install&amp;sid=".$sid."'>";
+        $uninstallecho = $uninstallecho . "<form method='POST' action='index.php?action=".$modulname."&was=install&sid=".$sid."'>";
 		$uninstallecho = $uninstallecho . " <table class=\"bordercolor\" width=\"90%\" cellpadding=\"4\" cellspacing=\"1\">\n";
 		$uninstallecho = $uninstallecho . "  <tr>\n";
 		$uninstallecho = $uninstallecho . "   <td align=\"left\" valign=\"center\" class=\"titlebg\"><strong>\n" . $modulary[$modulname]["titel"] . "</strong>&nbsp;<i>(".$modulname.")</i></td>\n";
@@ -601,7 +601,7 @@ while ($datei1 = readdir($fp6)) {
      $uninstallecho = $uninstallecho . "<hr width='90%'>";
      $uninstallecho = $uninstallecho . "<big><b>".$modulname."</b></big><br><br>";
      $uninstallecho = $uninstallecho . "Willst du es jetzt installieren?<br><br>";
-     $uninstallecho = $uninstallecho . "<form method='POST' action='index.php?action=".$modulname."&amp;was=install&amp;sid=".$sid."'>";
+     $uninstallecho = $uninstallecho . "<form method='POST' action='index.php?action=".$modulname."&was=install&sid=".$sid."'>";
      $uninstallecho = $uninstallecho . "<input type='submit' value='Na klar!' name='install' class='submit'>";
      $uninstallecho = $uninstallecho . "</form><br>";
      $uninstallecho = $uninstallecho . "<hr width='90%'><br>";
@@ -657,7 +657,7 @@ $isornot = $rowIA['value'];
 
 if ($isornot != 1) {
 ?>
-<form name="form" action="index.php?action=admin_menue&amp;sid=<?php echo $sid;?>&amp;sperre=ab" method="post">
+<form name="form" action="index.php?action=admin_menue&sid=<?php echo $sid;?>&sperre=ab" method="post">
 <div class='doc_green'>Datenbank ist aktiv</div><br>
 <input name="grund" type="text" size="50" value=""><br>
 <input name="submit" type="submit" value="Sperre Datenbank">
@@ -665,7 +665,7 @@ if ($isornot != 1) {
 <?php
 } else {
 ?>
-<form name="form" action="index.php?action=admin_menue&amp;sid=<?php echo $sid;?>&amp;sperre=auf" method="post">
+<form name="form" action="index.php?action=admin_menue&sid=<?php echo $sid;?>&sperre=auf" method="post">
 <div class='doc_red'>Datenbank ist inaktiv</div><br>
 Grund: <?php echo $grund;?><br>
 <input name="submit" type="submit" value="Entriegele Datenbank">

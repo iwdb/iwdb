@@ -215,8 +215,8 @@ if (!@include("./config/".$modulname.".cfg.php")) {
 
 function make_link($order, $ordered) {
  global $sid;
- echo "<a href=\"index.php?action=m_ress&amp;order=" . $order . "&amp;ordered=" . $ordered .
-      "&amp;sid=$sid\"> <img src=\"bilder/" . $ordered . ".gif\" border=\"0\" alt=\"" . $ordered . "\"> </a>";
+ echo "<a href=\"index.php?action=m_ress&order=" . $order . "&ordered=" . $ordered .
+      "&sid=$sid\"> <img src=\"bilder/" . $ordered . ".gif\" border=\"0\" alt=\"" . $ordered . "\"> </a>";
 }
 
 //bestehende zeit holen

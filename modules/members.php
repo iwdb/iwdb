@@ -241,7 +241,11 @@ else echo $row['sitterlogin'];
    <?php echo $row['ptag'];?>
   </td>
   <td class="windowbg<?php echo $num;?>" align="right" valign="top">
-   <?php echo strftime($config_members_timeformat, $row['dabei']);?>
+   <?php
+      if (!empty($row['dabei'])) {
+          echo strftime($config_members_timeformat, $row['dabei']);
+      }
+   ?>
   </td>
 <!--  <td class="windowbg<?php echo $num;?>" valign="top"> -->
 <?php

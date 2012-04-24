@@ -24,7 +24,7 @@
 /* The GNU GPL can be found in LICENSE in this directory                     */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul ueber die index.php aufgerufen wurde.
+// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
 if (!defined('IRA'))
 die('Hacking attempt...');
@@ -47,7 +47,7 @@ while( $rowALI = $db->db_fetch_array($resultALI)) {
 
 if( defined('ALLY_MEMBERS_ON_MAP' ) && ALLY_MEMBERS_ON_MAP === TRUE ) {
 	$showmembers = getVar('shownames');
-    // Member-Tooltip = TRUE als Default, solange nichts anderes uebermittelt wurde
+    // Member-Tooltip = TRUE als Default, solange nichts anderes übermittelt wurde
     if (isset($_POST) && empty($_POST)) {
         $showmembers = TRUE;
     } else {
@@ -101,7 +101,7 @@ echo "<div class='doc_title'>Karte</div>\n";
 echo "<br>\n";
 
 
-//Link zum Nebel eintragen. Nur fuer Admins! <-- edit: doof, daher auskommentiert!
+//Link zum Nebel eintragen. Nur für Admins! <-- edit: doof, daher auskommentiert!
 //if ( $user_status == "admin" ) {
     echo "<div class='system_notification'>
         <b>&gt; <a href=\"index.php?action=nebel&amp;sid=" . $sid . "\" style='color:red'>

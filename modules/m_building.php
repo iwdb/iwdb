@@ -1,6 +1,6 @@
 <?php
 /*****************************************************************************/
-/* m_default.php                                                             */
+/* m_building.php                                                            */
 /*****************************************************************************/
 /* Iw DB: Icewars geoscan and sitter database                                */
 /* Open-Source Project started by Robert Riess (robert@riess.net)            */
@@ -26,41 +26,41 @@
 
 /*****************************************************************************/
 /* Dieses Modul dient als Vorlage zum Erstellen von eigenen Zusatzmodulen    */
-/* fuer die Iw DB: Icewars geoscan and sitter database                       */
+/* für die Iw DB: Icewars geoscan and sitter database                        */
 /*---------------------------------------------------------------------------*/
-/* Diese Erweiterung der urspruenglichen DB ist ein Gemeinschaftsprojekt von */
+/* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafuer eingerichtete           */
+/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
 /*                   http://www.iwdb.de.vu                                   */
 /*                                                                           */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul &uuml;ber die index.php aufgerufen wurde.
+// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
 if (!defined('IRA'))
 die('Hacking attempt...');
 
 //****************************************************************************
 //
-// -> Name des Moduls, ist notwendig f&uuml;r die Benennung der zugehoerigen
+// -> Name des Moduls, ist notwendig für die Benennung der zugehörigen
 //    Config.cfg.php
-// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung f&uuml;r
-//    eine Installation &uuml;ber das Men&uuml;
+// -> Das m_ als Beginn des Dateinamens des Moduls ist Bedingung für
+//    eine Installation über das Menü
 //
 $modulname  = "m_building";
 
 //****************************************************************************
 //
-// -> Men&uuml;titel des Moduls der in der Navigation dargestellt werden soll.
+// -> Menütitel des Moduls der in der Navigation dargestellt werden soll.
 //
 $modultitle = "Geb&auml;udeanzeige";
 
 //****************************************************************************
 //
-// -> Status des Moduls, bestimmt wer dieses Modul &uuml;ber die Navigation
-//    ausfuehren darf. Moegliche Werte:
+// -> Status des Moduls, bestimmt wer dieses Modul über die Navigation
+//    ausführen darf. Mögliche Werte:
 //    - ""      <- nix = jeder,
 //    - "admin" <- na wer wohl
 //
@@ -68,7 +68,7 @@ $modulstatus = "";
 
 //****************************************************************************
 //
-// -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
+// -> Beschreibung des Moduls, wie es in der Menü-Übersicht angezeigt wird.
 //
 $moduldesc =
   "Erm&ouml;glicht das Anzeigen der Geb&auml;ude. <br> Dieses Modul braucht eine Installation des dynamischen Techtrees!";
@@ -78,9 +78,10 @@ $moduldesc =
 // Function workInstallDatabase is creating all database entries needed for
 // installing this module.
 //
+
 function workInstallDatabase() {
 	global $db, $db_prefix, $db_tb_iwdbtabellen;
-
+/*
 	$sqlscript = array(
 		"ALTER TABLE `" . $db_prefix . "gebaeude` ADD `info` TEXT NOT NULL ," .
 		"ADD `n_building` TEXT NOT NULL ," .
@@ -105,8 +106,8 @@ function workInstallDatabase() {
 		/*"UPDATE `gebaeude` SET `name` = 'Kraftwerk (Solar) (orbital)' WHERE `id` =23 LIMIT 1 ",
 
     "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-    " VALUES('neuername')" */
-  );
+    " VALUES('neuername')" 
+  );*/
     
     foreach($sqlscript as $sql) {
     	$result = $db->db_query($sql)
@@ -132,7 +133,7 @@ function workInstallMenu() {
 	$actionparamters = "";
 	insertMenuItem( $menu, $submenu, $modultitle, $modulstatus, $actionparameters );
 	//
-	// Weitere Wiederholungen f&uuml;r weitere Menue-Eintraege, z.B.
+	// Weitere Wiederholungen für weitere Menü-Einträge, z.B.
 	//
 	// 	insertMenuItem( $menu+1, ($submenu+1), "Titel2", "hc", "&weissichnichtwas=1" );
 	//
@@ -154,9 +155,10 @@ function workInstallConfigString() {
 // Function workUninstallDatabase is creating all database entries needed for
 // removing this module.
 //
+
 function workUninstallDatabase() {
 	global $db, $db_prefix, $db_tb_iwdbtabellen;
-
+/*
 	$sqlscript = array(
 		"ALTER TABLE `" . $db_prefix . "gebaeude` " .
 		"CHANGE `category` `category` VARCHAR( 50 ) NOT NULL DEFAULT '' ",
@@ -167,9 +169,9 @@ function workUninstallDatabase() {
 		$sqlscript = array(
 		"DROP TABLE " . $db_tb_neuername . ";",
 		"DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='neuername';"
-		); */
+		); 
 		
-  );
+  );*/
     
   foreach($sqlscript as $sql) {
    	$result = $db->db_query($sql)
@@ -184,12 +186,12 @@ function workUninstallDatabase() {
 		//
 		// Installationsroutine
 		//
-		// Dieser Abschnitt wird nur ausgefuehrt wenn das Modul mit dem Parameter
+		// Dieser Abschnitt wird nur ausgeführt wenn das Modul mit dem Parameter
 		// "install" aufgerufen wurde. Beispiel des Aufrufs:
 		//
 		//      http://Mein.server/iwdb/index.php?action=default&was=install
 		//
-		// Anstatt "Mein.Server" nat&uuml;rlich deinen Server angeben und default
+		// Anstatt "Mein.Server" natürlich deinen Server angeben und default
 		// durch den Dateinamen des Moduls ersetzen.
 		//
 		if( !empty($_REQUEST['was'])) {
@@ -204,7 +206,7 @@ function workUninstallDatabase() {
 	  die( "Cannot load menu functions" );
 
 	  // Wenn ein Modul administriert wird, soll der Rest nicht mehr
-	  // ausgefuehrt werden.
+	  // ausgeführt werden.
 	  return;
 		}
 
@@ -423,7 +425,7 @@ function workUninstallDatabase() {
 				Forschungen:</div>
 				</td>
 				<td class="windowbg1" valign="top"><?php
-				$nresearch = split('<br>',$rowB['n_research']);
+				$nresearch = preg_split('<br>',$rowB['n_research']);
 
 				foreach ($nresearch as $research) {
 					$research = str_replace('(','',$research);
@@ -490,7 +492,7 @@ function workUninstallDatabase() {
 				Forschungen:</div>
 				</td>
 				<td class="windowbg1" valign="top"><?php
-				$nresearch = split('<br>',$rowB['e_research']);
+				$nresearch = preg_split('<br>',$rowB['e_research']);
 
 				foreach ($nresearch as $research) {
 					$research = str_replace('(','',$research);
@@ -560,7 +562,7 @@ function workUninstallDatabase() {
 				Geb&auml;ude:</div>
 				</td>
 				<td class="windowbg1" valign="top"><?php
-				$ngebaeude = split('<br>',$rowB['n_building']);
+				$ngebaeude = preg_split('<br>',$rowB['n_building']);
 
 				foreach ($ngebaeude as $gebaeude) {
 					$gebaeude = str_replace('[','(',$gebaeude);
@@ -601,7 +603,7 @@ function workUninstallDatabase() {
 				Geb&auml;ude:</div>
 				</td>
 				<td class="windowbg1" valign="top"><?php
-				$ngebaeude = split('<br>',$rowB['e_building']);
+				$ngebaeude = preg_split('<br>',$rowB['e_building']);
 
 				foreach ($ngebaeude as $gebaeude) {
 					$gebaeude = str_replace('[','(',$gebaeude);

@@ -1,6 +1,6 @@
 <?php
 /*****************************************************************************/
-/* m_polkarte.php                                                             */
+/* m_polkarte.php                                                            */
 /*****************************************************************************/
 /* Iw DB: Icewars geoscan and sitter database                                */
 /* Open-Source Project started by Robert Riess (robert@riess.net)            */
@@ -26,7 +26,7 @@
 
 /*****************************************************************************/
 /* Dieses Modul dient für eine politische Karte, in der Allianzstatuse       */
-/*angezeigt werden       */
+/*angezeigt werden                                                           */
 /*---------------------------------------------------------------------------*/
 /* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  */
 /* IW-Spielern.                                                              */
@@ -70,7 +70,7 @@ $modulstatus = "";
 
 //****************************************************************************
 //
-// -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
+// -> Beschreibung des Moduls, wie es in der Menü-Übersicht angezeigt wird.
 //
 $moduldesc =
   "Anzeige einer Universumskarte mit allen Allianzstati";
@@ -446,7 +446,7 @@ echo "  <td style=\"width: 100;\">Schwarzes Loch</td>\n";
 echo "  <td style=\"width: 30; background-color: " . $config_polcolor['1allein'] ."\"></td>\n";
 echo "  <td style=\"width: 100;\">Eigene + Wing</td>\n";
 echo "  <td style=\"width: 30; background-color: " . $config_polcolor['2allein'] ."\"></td>\n";
-echo "  <td style=\"width: 100;\">Verbündete</td>\n";
+echo "  <td style=\"width: 100;\">Verb&uuml;ndete</td>\n";
 echo "  <td style=\"width: 30; background-color: " . $config_polcolor['3allein'] ."\"></td>\n";
 echo "  <td style=\"width: 100;\">Verfeindete</td>\n";
 echo " </tr>\n";
@@ -454,11 +454,11 @@ echo " <tr>\n";
 echo " </tr>\n";
 echo " <tr>\n";
 echo "  <td style=\"width: 30; background-color: " . $config_polcolor['1und2'] ."\"></td>\n";
-echo "  <td style=\"width: 100;\">Eigene + Verbündete</td>\n";
+echo "  <td style=\"width: 100;\">Eigene + Verb&uuml;ndete</td>\n";
 echo "  <td style=\"width: 30; background-color: " . $config_polcolor['1und3'] ."\"></td>\n";
 echo "  <td style=\"width: 100;\">Eigenen + Verfeindete</td>\n";
 echo "  <td style=\"width: 30; background-color: " . $config_polcolor['2und3'] ."\"></td>\n";
-echo "  <td style=\"width: 100;\">Verbündete + Verfeindete</td>\n";
+echo "  <td style=\"width: 100;\">Verb&uuml;ndete + Verfeindete</td>\n";
 echo "  <td style=\"width: 30; background-color: " . $config_polcolor['1und2und3'] ."\"></td>\n";
 echo "  <td style=\"width: 100;\">Von allem ein bissi was</td>\n";
 echo " </tr>\n";

@@ -48,9 +48,9 @@ $spieltyp = array (
 
 $adminsittens = array (
    SITTEN_DISABLED => "Sitterbereich deaktiviert",
-   SITTEN_ONLY_NEWTASKS => "kann Sitterauftraege erstellen, darf keine anderen sitten",
-   SITTEN_ONLY_LOGINS => "darf andere sitten, darf keine Sitterauftraege erstellen",
-   SITTEN_BOTH => "darf andere sitten, darf Sitterauftraege erstellen"
+   SITTEN_ONLY_NEWTASKS => "kann Sitterauftr&auml;ge erstellen, darf keine anderen sitten",
+   SITTEN_ONLY_LOGINS => "darf andere sitten, darf keine Sitterauftr&auml;ge erstellen",
+   SITTEN_BOTH => "darf andere sitten, darf Sitterauftr&auml;ge erstellen"
 );
 
 // M&ouml;gliche Menue-Stilarten werden aus der Dateisystem-Struktur gelesen. 
@@ -387,7 +387,7 @@ if ( $user_status == "admin" )
   </td>
  </tr>
 <?php
-//Squadname INPUT eingef�gt!
+//Squadname INPUT eingefügt!
 ?>
  <tr>
   <td class="windowbg2">
@@ -427,7 +427,7 @@ if ( $user_status == "admin" )
  <tr>
   <td class="windowbg2">
    Standardpreset:<br>
-   <i>Diese Voreinstellung wird bei "Planet suchen" standardmaessig geladen.</i>
+   <i>Diese Voreinstellung wird bei "Planet suchen" standardm&auml;&szlig;ig geladen.</i>
   </td>
   <td class="windowbg1">
 <select name="preset" style="width: 100px;">
@@ -452,7 +452,7 @@ while ($row = $db->db_fetch_array($result))
  <tr>
   <td class="windowbg2">
    Sittererstatus?:<br>
-   <i>Zeigt an, ob du andere sitten darfst und Sitterauftraege erstellen darfst. Kann nur von Admins geaendert werden.</i>
+   <i>Zeigt an, ob du andere sitten darfst und Sitterauftr&auml;ge erstellen darfst. Kann nur von Admins ge&auml;ndert werden.</i>
   </td>
   <td class="windowbg1">
 <?php
@@ -478,7 +478,7 @@ else
  <tr>
   <td class="windowbg2">
    Sitten erlauben?:<br>
-   <i>Sollen andere deinen Account sitten koennen? (Auftraege kannst du auch wenn deaktiviert erstellen.)</i>
+   <i>Sollen andere deinen Account sitten k&ouml;nnen? (Auftr&auml;ge kannst du auch wenn deaktiviert erstellen.)</i>
   </td>
   <td class="windowbg1">
    <input type="checkbox" name="sitten" value="1"<?php echo ($sitten) ? " checked": "";?>>
@@ -518,7 +518,7 @@ else
  <tr>
   <td class="windowbg2">
    Serverskin:<br>
-   <i>Welchen Skin moechtest du beim Sitten verwenden?</i>
+   <i>Welchen Skin m&ouml;chtest du beim Sitten verwenden?</i>
   </td>
   <td class="windowbg1">
 <select name="sitterskin">
@@ -532,7 +532,7 @@ else
  <tr>
  <td class="windowbg2" style="width:30%;">
    Sitterpunkte:<br>
-   <i>So viele Punkte hast du schon fuers Sitten erhalten.</i>
+   <i>So viele Punkte hast du schon f&uuml;rs Sitten erhalten.</i>
   </td>
   <td class="windowbg1">
 <?php
@@ -560,7 +560,7 @@ $row_avg = $db->db_fetch_array($result_avg);
  <tr>
  <td class="windowbg2" style="width:30%;">
    Sitterkommentar:<br>
-   <i>Der Admin kann hier einen Kommentar hinzufuegen, der bei den Sitterlogins angezeigt wird (z.B. "im Urlaub").</i>
+   <i>Der Admin kann hier einen Kommentar hinzuf&uuml;gen, der bei den Sitterlogins angezeigt wird (z.B. "im Urlaub").</i>
   </td>
   <td class="windowbg1">
 <?php
@@ -582,7 +582,7 @@ else
  <tr>
   <td class="windowbg2">
    Fadein: <br>
-   <i>Wie m&ouml;chtest du bei Sitterauftr&auml;gen zusa&auml;tzlich benahcrichtet werden?</i>
+   <i>Wie m&ouml;chtest du bei Sitterauftr&auml;gen zusa&auml;tzlich benachrichtigt werden?</i>
   </td>
   <td class="windowbg1">
     <select name="sound" size="1">
@@ -640,7 +640,7 @@ if ($ikea == 'M') $mchecked = 'checked="checked"';
  <tr>
   <td class="windowbg2">
    Bau auf Bau auf Bau auf Bau auf?:<br>
-   <i>Stelle hier deinen Gebaeudebaudauermodifikator ein (Standard 1).</i>
+   <i>Stelle hier deinen Geb&auml;udebaudauermodifikator ein (Standard 1).</i>
   </td>
   <td class="windowbg1">
    <input type="text" name="gengebmod" value="<?php echo $gengebmod;?>" style="width: 100">
@@ -664,7 +664,7 @@ if ($ikea == 'M') $mchecked = 'checked="checked"';
  <tr>
   <td class="windowbg2">
    Spieltyp:<br>
-   <i>Hier deinen Spieltyp eintragen. Wenn du Buddler bist, bitte noch das 2. Feld ausfuellen (ansonsten leer lassen).</i>
+   <i>Hier deinen Spieltyp eintragen. Wenn du Buddler bist, bitte noch das 2. Feld ausf&uuml;llen (ansonsten leer lassen).</i>
   </td>
   <td class="windowbg1">
 <select name="budflesol">
@@ -687,7 +687,7 @@ von
  <tr>
   <td class="windowbg2">
    Deine Farbe:<br>
-   <i>Sollest du Fleeter sein trage hier eine Farbe f�r deine Buddler ein (Format: #RRGGBB)</i>
+   <i>Sollest du Fleeter sein, trage hier eine Farbe f&uuml;r deine Buddler ein (Format: #RRGGBB)</i>
   </td>
   <td class="windowbg1">
    <input type="text" name="color" size="8" maxlength="7" value="<?php echo $color;?>">
@@ -718,8 +718,8 @@ von
  </tr>
  <tr>
   <td class="windowbg2">
-   Gebaeudebilder anzeigen?:<br>
-   <i>Sollen Gebaeudebilder beim Erstellen eines Auftrages und bei "Gebaeude ausblenden" angezeigt werden?</i>
+   Geb&auml;udebilder anzeigen?:<br>
+   <i>Sollen Geb&auml;udebilder beim Erstellen eines Auftrages und bei "Geb&auml;ude ausblenden" angezeigt werden?</i>
   </td>
   <td class="windowbg1">
    <input type="checkbox" name="gebbilder" value="1"<?php echo ($gebbilder) ? " checked": "";?>>
@@ -842,7 +842,7 @@ if ($user_status == "admin" )
  <tr>
   <td class="windowbg2">
    Proportionale Universumsansicht?:<br>
-   <i>Sollen alle Zeilenh�hen der Planeten in der Universumsansicht gleich hoch sein?</i>
+   <i>Sollen alle Zeilenh&ouml;hen der Planeten in der Universumsansicht gleich hoch sein?</i>
   </td>
   <td class="windowbg1">
    <input type="checkbox" name="uniprop" value="1"<?php echo ($uniprop) ? " checked": "";?>>
@@ -860,7 +860,7 @@ if ( ( $user_status == "admin" ) && ( $sitterlogin != $user_sitterlogin ) )
 {
 ?>
 <br><br>
-<div class='doc_centered_blue'>Account loeschen</div>
+<div class='doc_centered_blue'>Account l&ouml;schen</div>
 <br>
 <a href="index.php?action=deluser&amp;sitterlogin=<?php echo urlencode($sitterlogin);?>&amp;sid=<?php echo $sid;?>" onclick="return confirmlink(this, 'Account wirklich loeschen?')">[jetzt loeschen]</a>
 <?php

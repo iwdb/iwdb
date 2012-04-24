@@ -24,7 +24,7 @@
 /* The GNU GPL can be found in LICENSE in this directory                     */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul &uuml;ber die index.php aufgerufen wurde. 
+// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde. 
 //    Kann unberechtigte Systemzugriffe verhindern.
 if (basename($_SERVER['PHP_SELF']) != "index.php") { 
 	die("Hacking attempt...!!"); 
@@ -34,18 +34,12 @@ if (basename($_SERVER['PHP_SELF']) != "index.php") {
 if ( $user_status != "admin" && $user_status != "hc" )
 	die('Hacking attempt...');
 
-/*
-INSERT INTO `menu` ( `menu` , `submenu` , `active` , `title` , `status` , `action` , `extlink` , `sittertyp` , `sound` )
-VALUES (
-'7', '6', '1', 'Einstellungen', 'admin', 'admin&uaction=einstellungen', 'n', '0', '0'
-);
-*/
-
 doc_title("Admin Einstellungen");
 echo "<br>\n";
 
 /*****************************************************************************/
-/* Fadeinteil */
+/* Fade-in Teil                                                              */
+/*****************************************************************************/
 
 $bs = GetVar('BS');
 if ( !empty($bs) ) {
@@ -80,22 +74,6 @@ foreach ($sound_menu as $menuid) {
 
 }
 
-# ALTER TABLE `prefix_menu` ADD `sound` INT( 1 ) DEFAULT '0' NOT NULL ;
-/*
-INSERT INTO `prefix_params` ( `name` , `value` , `text` )
-VALUES (
-'sound_standart', '0', ''
-), (
-'sound_global', '1', ''
-);
-*/
-/*
-INSERT INTO `params` ( `name` , `value` , `text` )
-VALUES (
-'sound_login', '0', ''
-);
-*/
-
 global $db_prefix, $sid;
 
 
@@ -103,7 +81,7 @@ $menu_sel = array();
 $menu_not = array();
 $count = 0;
 
-//auslesen aller Menupunkte, um eine Liste zu erstellen, wo der Sound abgespielt werden soll
+//auslesen aller Menüpunkte, um eine Liste zu erstellen, wo der Sound abgespielt werden soll
 $sqlM = "SELECT action,sound,id FROM ".$db_prefix."menu ";
   $resultM = $db->db_query($sqlM)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlM);
@@ -117,7 +95,7 @@ $sqlM = "SELECT action,sound,id FROM ".$db_prefix."menu ";
 
       $count++;
  
-      //ist action niciht leer, entschieden wo es hin soll:
+      //ist action nicht leer, entschieden wo es hin soll:
       if ( !empty($action) AND empty($rowM['sound']) ) $menu_not[$action]['name'] = $action;
       if ( !empty($action) AND empty($rowM['sound']) ) $menu_not[$action]['id'] = $rowM['id']; 
       if ( !empty($action) AND !empty($rowM['sound']) ) $menu_sel[$action]['name'] = $action;  
@@ -127,7 +105,7 @@ $sqlM = "SELECT action,sound,id FROM ".$db_prefix."menu ";
   }
 
 
-//auslesen des standarts
+//auslesen des standards
 $sqlP = "SELECT value FROM ".$db_prefix."params WHERE name = 'sound_standart' ";
   $resultP = $db->db_query($sqlP)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
@@ -170,27 +148,27 @@ $sel5 = '';
 
 switch ($rowP['value']) {
  case '0':
-   $sel_val = 'ausgeschaltet';
+   $sel_val = 'Ausgeschaltet';
    $sel0 = 'selected="selected"';
    break;
  case '1':
-   $sel_val = 'fenster';
+   $sel_val = 'Fenster';
    $sel1 = 'selected="selected"';
    break;   
  case '2':
-   $sel_val = 'fenster mit sound';
+   $sel_val = 'Fenster mit Sound';
    $sel2 = 'selected="selected"';
    break;   
  case '3':
-   $sel_val = 'fenster (blinkend)';
+   $sel_val = 'Fenster (blinkend)';
    $sel3 = 'selected="selected"';
    break;   
  case '4':
-   $sel_val = 'fenster (blinkend) mit sound';
+   $sel_val = 'Fenster (blinkend) mit Sound';
    $sel4 = 'selected="selected"';
    break;   
  default:
-   $sel_val = 'ausgeschaltet';
+   $sel_val = 'Ausgeschaltet';
    $sel0 = 'selected="selected"';
    break;   
 }
@@ -202,12 +180,12 @@ switch ($rowP['value']) {
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 80%;">
  <tr>
   <td colspan="2" class="titlebg">
-   <b>Sitternotification:</b>
+   <b>Sitterbenachrichtigung:</b>
   </td>
  </tr>
  <tr>
   <td class="windowbg2" style="width:40%;">
-   Notification m&ouml;glich:<br>
+   Benachrichtigung m&ouml;glich:<br>
    <i>Hier wird das Fenster eingeblendet</i>
   </td>
   <td class="windowbg1">
@@ -224,7 +202,7 @@ switch ($rowP['value']) {
  <tr>
   <td class="windowbg2" style="width:40%;">
    Sound beim Login:<br>
-   <i>Soll der Script auch beim Login geladnen werden?</i>
+   <i>Soll das Skript auch beim Login geladen werden?</i>
   </td>
   <td class="windowbg1">
    <input type="checkbox" name="sound_login" <?php echo $sel_login;?> value="1">Yes
@@ -232,22 +210,22 @@ switch ($rowP['value']) {
  </tr>
  <tr>
   <td class="windowbg2" style="width:40%;">
-   Notification maximal:<br>
-   <i>Welche Erninnerung k&ouml;nnen die User maximal anw&auml;hlen:</i>
+   Benachrichtigung maximal:<br>
+   <i>Welche Erinnerungsart k&ouml;nnen die User maximal anw&auml;hlen:</i>
   </td>
   <td class="windowbg1">
     <select value="<?php echo $sel_val;?>" name="sound_global" size="1">
-        <option <?php echo $sel0;?> value="0">ausgeschaltet</option> 
-        <option <?php echo $sel1;?> value="1">fenster</option> 
-        <option <?php echo $sel2;?> value="2">fenster mit sound</option> 
-        <option <?php echo $sel3;?> value="3">fenster (blinkend)</option> 
-        <option <?php echo $sel4;?> value="4">fenster (blinkend) mit Sound</option> 
+        <option <?php echo $sel0;?> value="0">Ausgeschaltet</option> 
+        <option <?php echo $sel1;?> value="1">Fenster</option> 
+        <option <?php echo $sel2;?> value="2">Fenster mit Sound</option> 
+        <option <?php echo $sel3;?> value="3">Fenster (blinkend)</option> 
+        <option <?php echo $sel4;?> value="4">Fenster (blinkend) mit Sound</option> 
     </select>
   </td>
  </tr>
  <tr>
   <td class="windowbg2" style="width:40%;">
-   Defaultselection:<br>
+   Standardeinstellung:<br>
    <i>Welche Einstellung sollen neu installierte Module haben?</i>
   </td>
   <td class="windowbg1">
@@ -265,15 +243,6 @@ switch ($rowP['value']) {
 <br>
 
 <?php
-
-/*
-INSERT INTO `params` ( `name` , `value` , `text` )
-VALUES (
-'bericht_fuer_sitter', '0', ''
-), (
-'bericht_fuer_rang', 'admin', ''
-);
-*/
 
 $be = GetVar('BE');
 if ( !empty($be) ) {
@@ -380,8 +349,8 @@ if ( !empty($rowP['value']) ) {
  </tr>
  <tr>
   <td class="windowbg2" style="width:40%;">
-   Bericht ein&uuml;gen f&uuml;r:<br>
-   <i>Wer darf das Fenster, Bericht einf&uuml;gen f&uuml;r nutzen?</i>
+   Bericht einf&uuml;gen f&uuml;r:<br>
+   <i>Wer darf das Fenster 'Bericht einf&uuml;gen f&uuml;r' nutzen?</i>
   </td>
   <td class="windowbg1">
     Rang:<br>
@@ -396,9 +365,9 @@ if ( !empty($rowP['value']) ) {
     <select value="<?php echo $sitter_val;?>" name="bericht_fuer_sitter" size="1">
     <?php
     echo "<option $sitval2 value=\"2\"".$st[2].">Sitterbereich deaktiviert</option>";
-    echo "<option $sitval0 value=\"0\"".$st[0].">kann Sitterauftraege erstellen, darf keine anderen sitten</option>";
-    echo "<option $sitval3 value=\"3\"".$st[3].">darf andere sitten, darf keine Sitterauftraege erstellen</option>";
-    echo "<option $sitval1 value=\"1\"".$st[1].">darf andere sitten, darf Sitterauftraege erstellen</option>";
+    echo "<option $sitval0 value=\"0\"".$st[0].">kann Sitterauftr&auml;ge erstellen, darf keine anderen sitten</option>";
+    echo "<option $sitval3 value=\"3\"".$st[3].">darf andere sitten, darf keine Sitterauftr&auml;ge erstellen</option>";
+    echo "<option $sitval1 value=\"1\"".$st[1].">darf andere sitten, darf Sitterauftr&auml;ge erstellen</option>";
     ?>
     </select>
   </td>

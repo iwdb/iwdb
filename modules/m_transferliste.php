@@ -87,7 +87,7 @@ $moduldesc =
 //
 function workInstallDatabase() {
     global $db, $db_prefix, $db_tb_iwdbtabellen, $db_tb_parser, $db_tb_user;
-
+/*
   $sqlscript = array(
     "CREATE TABLE " . $db_prefix . "transferliste(" .
     " zeitmarke INT(11) NOT NULL, " .
@@ -120,7 +120,7 @@ function workInstallDatabase() {
 
     "INSERT INTO " . $db_tb_parser . "(modulename,recognizer,message) VALUES " .
     "('transferliste', 'eigener Transport angekommen', 'Transportbericht')"
-  );
+  );*/
 
   foreach($sqlscript as $sql) {
     $result = $db->db_query($sql)
@@ -129,7 +129,7 @@ function workInstallDatabase() {
                __FILE__, __LINE__, $sql);
   }
   echo "<div class='system_notification'>Installation: Datenbank&auml;nderungen = <b>OK</b></div>";
-  
+  /*
   // Graph-Datei kopieren...
   if (!copy('graph.gif', 'graph_transport.gif')) {
       echo "<div class='system_notification'>Installation: Dateikopie f&uuml;r den Graphen = <b>Fehlgeschlagen</b></div>";
@@ -143,7 +143,7 @@ function workInstallDatabase() {
       echo "Bitte manuell die Datei /graph_transport.gif auf CHMOD 777 setzen.";
   } else {
       echo "<div class='system_notification'>Installation: Dateirechte auf den Graphen = <b>OK</b></div>";
-  }
+  }*/
 }
 
 
@@ -217,13 +217,13 @@ function workInstallConfigString() {
 //
 function workUninstallDatabase() {
   global $db, $db_tb_iwdbtabellen, $db_tb_parser, $db_tb_transferliste, $db_tb_user;
-
+/*
   $sqlscript = array(
     "DROP TABLE " . $db_tb_transferliste,
     "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='transferliste'",
     "DELETE FROM " . $db_tb_parser . " WHERE modulename='transferliste'",
     "ALTER TABLE " . $db_tb_user . " DROP `lasttransport`",
-  );
+  );*/
 
   foreach($sqlscript as $sql) {
     $result = $db->db_query($sql)
@@ -233,14 +233,14 @@ function workUninstallDatabase() {
   }
 
   echo "<div class='system_notification'>Deinstallation: Datenbank&auml;nderungen = <b>OK</b></div>";
-  
+  /*
   // Graph-Datei löschen...
   if (!unlink('graph_transport.gif')) {
       echo "<div class='system_notification'>Deinstallation: Datei f&uuml;r den Graphen l&ouml;schen = <b>Fehlgeschlagen</b></div>";
       echo "Bitte manuell die Datei /graph_transport.gif l&ouml;schen.";
   } else {
       echo "<div class='system_notification'>Deinstallation: Datei f&uuml;r den Graphen l&ouml;schen = <b>OK</b></div>";
-  }
+  }*/
 }
 
 //****************************************************************************

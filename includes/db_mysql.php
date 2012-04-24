@@ -31,7 +31,7 @@ class db {
 	var $db_version;
 	var $db_queries;
 
-	function db_connect($host = 'localhost', $user = '', $password = '', $database = 'iwdb', $persistency = TRUE)
+	function db_connect($host = 'localhost', $user = 'iwdb', $password = 'iwdb', $database = 'iwdb', $persistency = TRUE)
 	{
 		if ( $persistency )
 		{

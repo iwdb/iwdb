@@ -57,12 +57,12 @@ $modulname  = "m_kbparser";
 //
 // -> Menütitel des Moduls der in der Navigation dargestellt werden soll.
 //
-$modultitle = "KbParser";
+$modultitle = "KBParser";
 
 //****************************************************************************
 //
 // -> Status des Moduls, bestimmt wer dieses Modul über die Navigation 
-//    ausfuehren darf. Moegliche Werte:
+//    ausführen darf. Moegliche Werte:
 //    - "jeder"      <- nix = jeder, 
 //    - "admin" <- na wer wohl
 //
@@ -70,11 +70,9 @@ $modulstatus = "jeder";
 
 //****************************************************************************
 //
-// -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
+// -> Beschreibung des Moduls, wie es in der Menü-Übersicht angezeigt wird.
 //
-$moduldesc = 
-  "Zeigt das Forum in einem Frame an".
-	"und hat sonst keine Funktion";
+$moduldesc = "Ausgabe der Kampfberichte im BBCode";
 
 //****************************************************************************
 //
@@ -82,8 +80,8 @@ $moduldesc =
 // installing this module. 
 //
 function workInstallDatabase() {
-/*	global $db, $db_prefix, $db_tb_iwdbtabellen;
-
+	global $db, $db_prefix, $db_tb_iwdbtabellen;
+/*
   $sqlscript = array(
     "CREATE TABLE " . $db_prefix . "forum
     (
@@ -91,7 +89,7 @@ function workInstallDatabase() {
 
     "INSERT INTO " . $db_tb_iwdbtabellen . "(`kbparsertable`)" .
     " VALUES('kbparser')"
-  );
+  );*/
   foreach($sqlscript as $sql) {
     $result = $db->db_query($sql)
   	  or error(GENERAL_ERROR,
@@ -99,7 +97,7 @@ function workInstallDatabase() {
                __FILE__, __LINE__, $sql);
   }
   echo "<div class='system_notification'>Installation: Datenbank&auml;nderungen = <b>OK</b></div>";
-*/}
+}
 
 //****************************************************************************
 //
@@ -139,12 +137,12 @@ function workInstallConfigString() {
 // removing this module. 
 //
 function workUninstallDatabase() {
-/*  global $db, $db_tb_iwdbtabellen, $db_tb_neuername;
-
+  global $db, $db_tb_iwdbtabellen, $db_tb_neuername;
+/*
   $sqlscript = array(
     "DROP TABLE " . $db_tb_neuername . ";",
     "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='neuername';"
-  );
+  );*/
 
   foreach($sqlscript as $sql) {
     $result = $db->db_query($sql)
@@ -153,7 +151,7 @@ function workUninstallDatabase() {
                __FILE__, __LINE__, $sql);
   }
   echo "<div class='system_notification'>Deinstallation: Datenbank&auml;nderungen = <b>OK</b></div>";
-*/}
+}
 
 //****************************************************************************
 //

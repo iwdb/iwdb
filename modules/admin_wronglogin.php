@@ -82,8 +82,8 @@ while($row = $db->db_fetch_array($result)) {
   next_cell("windowbg1", "valign=\"top\"");
   echo "<a href=\"index.php?action=admin&amp;uaction=wronglogin&amp;user=" . urlencode($row['user']) . 
        "&amp;sid=" . $sid . "\" onclick=\"return confirmlink(this, 'Loginsperre wirklich " . 
-       "loeschen?')\"><img src=\"bilder/file_delete_s.gif\" border=\"0\" " . 
-       "alt=\"loeschen\"></a>\n";
+       "l&ouml;schen?')\"><img src=\"bilder/file_delete_s.gif\" border=\"0\" " . 
+       "alt=\"l&ouml;schen\"></a>\n";
   end_row();
 }
 

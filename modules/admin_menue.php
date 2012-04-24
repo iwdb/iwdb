@@ -37,28 +37,28 @@
 /*                                                                           */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul �ber die index.php aufgerufen wurde. Kann unberechtigte Systemzugriffe verhindern.
+// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde. Kann unberechtigte Systemzugriffe verhindern.
 if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	die("Hacking attempt...!!");
 	exit;
 }
 
-// -> ladet die Datei config.php und f�hrt diese aus. In der config.php sind wichtige Variablen definiert.
+// -> lädt die Datei config.php und führt diese aus. In der config.php sind wichtige Variablen definiert.
 if (!@include("./config/config.php")) {
   echo "<div class='system_error'>Error:<br><b>Cannot load Master-Config!</b></div>";
 	exit;
 }
 
-//  -> Nur der Admin darf dieses Module benutzen, denn meistens weis er was er tut)
+//  -> Nur der Admin darf dieses Module benutzen, denn meistens weiß er was er tut 
 if ( $user_status != "admin" )
   die('Hacking attempt...');
 
-// -> l�d die statischen Modulbeschreibungen
+// -> lädt die statischen Modulbeschreibungen
   @include ('moduldesc.php');
   
 ?>  
 <script type="text/javascript" language="javascript">
-var confirmMsg  = 'Men�titel wirklich L�schen?';
+var confirmMsg  = 'Men&uuml;titel wirklich l&ouml;schen?';
 function confirmLink(theLink, theSqlQuery)
 {
     if (confirmMsg == '') {
@@ -78,7 +78,7 @@ function confirmLink(theLink, theSqlQuery)
 
 /* #############################################################################
 
-   Men�titel l�schen
+   Menütitel löschen
 
    ###########################################################################*/
 
@@ -91,12 +91,12 @@ if (!empty($_GET['delid'])) {
 
 /* #############################################################################
 
-   Neuer Men�eintr�g
+   Neuer Menüeintrag
 
    ###########################################################################*/
 if (!empty($_POST['new'])) {
     unset($fehler);
-    // nach h�chsten Men�eintrag suchen
+    // nach höchstem Menüeintrag suchen
     $sql = "SELECT * FROM " . $db_tb_menu . " ORDER BY menu DESC, submenu DESC LIMIT 0, 1";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -108,7 +108,7 @@ if (!empty($_POST['new'])) {
 
 
     $title  = trim($_POST['new_title']);
-    if (empty($title)) $fehler = "Men�text vergessen!";
+    if (empty($title)) $fehler = "Men&uuml;text vergessen!";
     if (empty($fehler)) {
        $sql = "INSERT INTO " . $db_tb_menu . "
               Set menu      ='" . $hmenu . "',
@@ -128,7 +128,7 @@ if (!empty($_POST['new'])) {
 
 /* #############################################################################
 
-   Men�eintr�ge Bearbeiten
+   Menüeinträge bearbeiten
 
    ###########################################################################*/
 if (!empty($_POST['edit'])) {
@@ -137,7 +137,7 @@ if (!empty($_POST['edit'])) {
     if (empty($_POST['edit_extlink'])) $_POST['edit_extlink'] = "";
     $title  = trim($_POST['edit_title']);
     $action = trim($_POST['edit_action']);
-    if (empty($title)) $fehler = "Men�text vergessen!";
+    if (empty($title)) $fehler = "Men&uuml;text vergessen!";
     if (empty($fehler)) {
        $sql = "UPDATE " . $db_tb_menu . "
               Set active='" . $_POST['edit_active'] . "',
@@ -158,7 +158,7 @@ if (!empty($_POST['edit'])) {
 
 /* #############################################################################
 
-   Menueeintraege umsortieren
+   Menüeinträge umsortieren
 
    ###########################################################################*/
 if (!empty($_GET['sort']) AND !empty($_GET['id'])) {
@@ -185,7 +185,7 @@ if (!empty($_GET['sort']) AND !empty($_GET['id'])) {
         $merk=1;
       }
     }
-    //  -> Wenn beide Men�zeilen Module sind einfach die Variablen menu und submenu tauschen
+    //  -> Wenn beide Menüzeilen Module sind einfach die Variablen menu und submenu tauschen
     if (($row1['submenu'] != "0") AND ($row2['submenu'] != "0")){
       $sql = "UPDATE " . $db_tb_menu . "
               Set menu='" . $row1['menu'] . "',submenu='" . $row1['submenu'] . "'
@@ -198,7 +198,7 @@ if (!empty($_GET['sort']) AND !empty($_GET['id'])) {
       $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     }
-    //  -> Wenn beide Men�zeilen Titel sind einfach die Variablen menu und submenu tauschen
+    //  -> Wenn beide Menüzeilen Titel sind einfach die Variablen menu und submenu tauschen
     if (($row1['submenu']== 0) AND ($row2['submenu']== 0)){
       $sql = "UPDATE " . $db_tb_menu . "
               Set menu='" . $row1['menu'] . "',submenu='" . $row1['submenu'] . "'
@@ -211,10 +211,10 @@ if (!empty($_GET['sort']) AND !empty($_GET['id'])) {
       $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     }
-    //  -> Wenn ein Modul nach oben geschoben wird und sich dar�ber ein Titel befindet.
-    // die Nummeration des Titels bleibt unver�ndert, das Modul bekommt den Men�wert der weiter dar�berliegenden Zeile und den Submenuwert plus eins
+    //  -> Wenn ein Modul nach oben geschoben wird und sich darüber ein Titel befindet.
+    // die Nummeration des Titels bleibt unverändert, das Modul bekommt den Menüwert der weiter darüberliegenden Zeile und den Submenüwert plus eins
     if (($row1['submenu']!= 0) AND ($row2['submenu']== 0)){
-    // gibt es eine weiter dar�berliegende Zeile?
+    // gibt es eine weiter darüberliegende Zeile?
       if (!empty($row3)){
         $subm3 = $row3['submenu']+1;
         $sql = "UPDATE " . $db_tb_menu . "
@@ -232,8 +232,8 @@ if (!empty($_GET['sort']) AND !empty($_GET['id'])) {
            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
       }
     }
-    //  -> Wenn ein Titel nach oben geschoben wird und sich dar�ber ein Modul befindet.
-    // die Nummeration des Titels bleibt unver�ndert, das Modul und alle Module unter dem Titel m�ssen neu sortiert werden.
+    //  -> Wenn ein Titel nach oben geschoben wird und sich darüber ein Modul befindet.
+    // die Nummeration des Titels bleibt unverändert, das Modul und alle Module unter dem Titel müssen neu sortiert werden.
     if (($row1['submenu']== 0) AND ($row2['submenu']!= 0)){
     // Auslesen aller darunter liegenden Mudule und Zwischenspeichern in einem Array
       $sql = "SELECT * FROM " . $db_tb_menu . " where menu = '" . $row1['menu'] . "' ORDER BY submenu ASC";
@@ -247,7 +247,7 @@ if (!empty($_GET['sort']) AND !empty($_GET['id'])) {
           $zeile[$i]=$row['id'];
         }
       }
-      //das dar�berliegen Modul als erste Zeile eintragen
+      //das darüberliegen Modul als erste Zeile eintragen
       $sql = "UPDATE " . $db_tb_menu . "
              Set menu='" . $row1['menu'] . "',submenu='1'
              WHERE id = '".$id2."'";
@@ -290,7 +290,7 @@ if (!empty($_GET['sort']) AND !empty($_GET['id'])) {
         $merk=1;
       }
     }
-    //  -> Wenn beide Men�zeilen Module sind einfach die Variablen menu und submenu tauschen
+    //  -> Wenn beide Menüzeilen Module sind einfach die Variablen menu und submenu tauschen
     if (($row1['submenu'] != "0") AND ($row2['submenu'] != "0")){
       $sql = "UPDATE " . $db_tb_menu . "
               Set menu='" . $row1['menu'] . "',submenu='" . $row1['submenu'] . "'
@@ -303,7 +303,7 @@ if (!empty($_GET['sort']) AND !empty($_GET['id'])) {
       $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     }
-    //  -> Wenn beide Men�zeilen Titel sind einfach die Variablen menu und submenu tauschen
+    //  -> Wenn beide Menüzeilen Titel sind einfach die Variablen menu und submenu tauschen
     if (($row1['submenu']== 0) AND ($row2['submenu']== 0)){
       $sql = "UPDATE " . $db_tb_menu . "
               Set menu='" . $row1['menu'] . "',submenu='" . $row1['submenu'] . "'
@@ -318,7 +318,7 @@ if (!empty($_GET['sort']) AND !empty($_GET['id'])) {
     }
     //  -> Wenn ein Modul nach unten geschoben wird und sich darunter ein Titel befindet.
     if (($row1['submenu']!= 0) AND ($row2['submenu']== 0)){
-    // Auslesen aller darunter liegenden Mudule und Zwischenspeichern in einem Array
+    // Auslesen aller darunter liegenden Module und Zwischenspeichern in einem Array
       $sql = "SELECT * FROM " . $db_tb_menu . " where menu = '" . $row2['menu'] . "' ORDER BY submenu ASC";
       $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -330,7 +330,7 @@ if (!empty($_GET['sort']) AND !empty($_GET['id'])) {
           $zeile[$i]=$row['id'];
         }
       }
-      //das dar�berliegen Modul als erste Zeile eintragen
+      //das darüberliegen Modul als erste Zeile eintragen
       $sql = "UPDATE " . $db_tb_menu . "
              Set menu='" . $row2['menu'] . "',submenu='1'
              WHERE id = '".$id1."'";
@@ -351,7 +351,7 @@ if (!empty($_GET['sort']) AND !empty($_GET['id'])) {
     }
     //  -> Wenn ein Titel nach unten geschoben wird und sich darunter ein Modul befindet.
     if (($row1['submenu']== 0) AND ($row2['submenu']!= 0)){
-    // feststellen ob es �ber dem Titel noch ein weites Men� gibt
+    // feststellen ob es über dem Titel noch ein weites Menü gibt
       $sql = "SELECT * FROM " . $db_tb_menu . " ORDER BY menu DESC, submenu DESC";
       $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -366,7 +366,7 @@ if (!empty($_GET['sort']) AND !empty($_GET['id'])) {
         $merk=1;
       }
     }
-    // gibt es eine weiter dar�berliegende Zeile?
+    // gibt es eine weiter darüberliegende Zeile?
       if (!empty($row4)){
         $subm4 = $row4['submenu']+1;
         $sql = "UPDATE " . $db_tb_menu . "
@@ -386,13 +386,6 @@ if (!empty($_GET['sort']) AND !empty($_GET['id'])) {
     }
   }
 }
-//  $sql = "ALTER TABLE " . $db_tb_menu . " DROP PRIMARY KEY";
-//  $result = $db->db_query($sql)
-//        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-
-//  $sql = "ALTER TABLE '" . $db_tb_menu . "' ADD 'id' TINYINT( 4 ) NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST";
-//  $result = $db->db_query($sql)
-//        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
 echo "<br>\n";
 
@@ -410,7 +403,7 @@ echo "<br>\n";
   $lid =$row['id'];
   mysql_free_result($result);
 
-  // -> Hier auslesen der Menuebereiche.
+  // -> Hier auslesen der Menübereiche.
   $sql = "SELECT * FROM " . $db_tb_menu . " ORDER BY menu ASC, submenu ASC";
   $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -459,7 +452,7 @@ echo "<br>\n";
     echo "<tr><td colspan=2 width=\"100%\" class=\"".$cl."\" align='center'><table width=\"90%\" class=\"bordercolor\" border=\"0\" cellpadding=\"2\" cellspacing=\"0\" >";
 
     echo "<tr><form name=\"form\" action=\"index.php?action=admin_menue&amp;sid=".$sid."&amp;eid=".$row['id']."\" method=\"post\">";
-    echo "<td width=\"50%\" class=\"".$cl."\" align='left'>Men�text:</td>";
+    echo "<td width=\"50%\" class=\"".$cl."\" align='left'>Men&uuml;text:</td>";
     echo "<td width=\"50%\" class=\"".$cl."\" align='left'><input name=\"edit_title\" type=\"text\" size=50 maxlength=\"100\" value=\"".$row['title']."\"></td>";
     echo "</tr><tr>";
     if ($row['active'] == "0") {
@@ -469,7 +462,7 @@ echo "<br>\n";
       $checkyes =" checked";
       $checkno  ="";
     }
-    echo "<td width=\"50%\" class=\"".$cl."\" align='left'>Men�text anzeigen:</td>";
+    echo "<td width=\"50%\" class=\"".$cl."\" align='left'>Men&uuml;text anzeigen:</td>";
     echo "<td width=\"50%\" class=\"".$cl."\" align='left'><input type=\"radio\" name=\"edit_active\" value=\"0\"". $checkno."> - Nein&nbsp;<input type=\"radio\" name=\"edit_active\" value=\"1\"". $checkyes."> - Ja</td>";
     echo "</tr><tr>";
     if ($row['status'] == "") {
@@ -487,7 +480,7 @@ echo "<br>\n";
       $checkhc    ="";
       $checkadmin =" checked";
     }
-    echo "<td width=\"50%\" class=\"".$cl."\" align='left'>Wer dieses Men� sehen darf:</td>";
+    echo "<td width=\"50%\" class=\"".$cl."\" align='left'>Wer dieses Men&uuml; sehen darf:</td>";
     echo "<td width=\"50%\" class=\"".$cl."\" align='left'><input type=\"radio\" name=\"edit_status\" value=\"\"". $checkalle."> - Alle&nbsp;<input type=\"radio\" name=\"edit_status\" value=\"HC\"". $checkhc."> - HC&nbsp;<input type=\"radio\" name=\"edit_status\" value=\"admin\"". $checkadmin."> - Admin</td>";
     echo "</tr><tr>";
     $st[0] ="";
@@ -498,9 +491,9 @@ echo "<br>\n";
     echo "<td width=\"50%\" class=\"".$cl."\" align='left'>Anzeigen bei Sittertyp:</td>";
     echo "<td width=\"50%\" class=\"".$cl."\" align='left'><select name=\"edit_sittertyp\">";
     echo "<option value=\"2\"".$st[2].">Sitterbereich deaktiviert</option>";
-    echo "<option value=\"0\"".$st[0].">kann Sitterauftraege erstellen, darf keine anderen sitten</option>";
-    echo "<option value=\"3\"".$st[3].">darf andere sitten, darf keine Sitterauftraege erstellen</option>";
-    echo "<option value=\"1\"".$st[1].">darf andere sitten, darf Sitterauftraege erstellen</option>";
+    echo "<option value=\"0\"".$st[0].">kann Sitterauftr&auml;ge erstellen, darf keine anderen sitten</option>";
+    echo "<option value=\"3\"".$st[3].">darf andere sitten, darf keine Sitterauftr&auml;ge erstellen</option>";
+    echo "<option value=\"1\"".$st[1].">darf andere sitten, darf Sitterauftr&auml;ge erstellen</option>";
     echo "</select></td>";
     if ($row['submenu'] != 0){
       echo "</tr><tr>";
@@ -532,41 +525,31 @@ echo "</table><br><br>";
 
 echo "<table width=\"90%\" class=\"bordercolor\" border=\"0\" cellpadding=\"2\" cellspacing=\"1\" >";
     echo "<tr><form name=\"form2\" action=\"index.php?action=admin_menue&amp;sid=".$sid."\" method=\"post\">";
-    echo "<td colspan=2 width=\"100%\" class=\"windowbg2\" align='center'>Neuer Men�titel</td>";
+    echo "<td colspan=2 width=\"100%\" class=\"windowbg2\" align='center'>Neuer Men&uuml;titel</td>";
     echo "</tr><tr>";
-    echo "<td width=\"50%\" class=\"windowbg1\" align='left'>Men�text:</td>";
-    echo "<td width=\"50%\" class=\"windowbg1\" align='left'><input name=\"new_title\" type=\"text\" size=50 maxlength=\"100\" value=\"Men�text\"></td>";
+    echo "<td width=\"50%\" class=\"windowbg1\" align='left'>Men&uuml;text:</td>";
+    echo "<td width=\"50%\" class=\"windowbg1\" align='left'><input name=\"new_title\" type=\"text\" size=50 maxlength=\"100\" value=\"Men&uuml;text\"></td>";
     echo "</tr><tr>";
-    echo "<td width=\"50%\" class=\"windowbg1\" align='left'>Men�text anzeigen:</td>";
+    echo "<td width=\"50%\" class=\"windowbg1\" align='left'>Men&uuml;text anzeigen:</td>";
     echo "<td width=\"50%\" class=\"windowbg1\" align='left'><input type=\"radio\" name=\"new_active\" value=\"0\"> - Nein&nbsp;<input type=\"radio\" name=\"new_active\" value=\"1\" checked> - Ja</td>";
     echo "</tr><tr>";
-    echo "<td width=\"50%\" class=\"windowbg1\" align='left'>Wer dieses Men� sehen darf:</td>";
+    echo "<td width=\"50%\" class=\"windowbg1\" align='left'>Wer dieses Men&uuml; sehen darf:</td>";
     echo "<td width=\"50%\" class=\"windowbg1\" align='left'><input type=\"radio\" name=\"new_status\" value=\"\" checked> - Alle&nbsp;<input type=\"radio\" name=\"new_status\" value=\"hc\"> - HC&nbsp;<input type=\"radio\" name=\"new_status\" value=\"admin\"> - Admin</td>";
     echo "</tr><tr>";
     echo "<td width=\"50%\" class=\"windowbg1\" align='left'>Anzeigen bei Sittertyp:</td>";
     echo "<td width=\"50%\" class=\"windowbg1\" align='left'><select name=\"new_sittertyp\">";
-    echo "<option value=\"0\" checked>kann Sitterauftraege erstellen, darf keine anderen sitten</option>";
-    echo "<option value=\"1\">darf andere sitten, darf Sitterauftraege erstellen</option>";
+    echo "<option value=\"0\" checked>kann Sitterauftr&auml;ge erstellen, darf keine anderen sitten</option>";
+    echo "<option value=\"1\">darf andere sitten, darf Sitterauftr&auml;ge erstellen</option>";
     echo "<option value=\"2\">Sitterbereich deaktiviert</option>";
-    echo "<option value=\"3\">darf andere sitten, darf keine Sitterauftraege erstellen</option>";
+    echo "<option value=\"3\">darf andere sitten, darf keine Sitterauftr&auml;ge erstellen</option>";
     echo "</select></td>";
     echo "</tr><tr>";
     echo "<td colspan=2 width=\"100%\" class=\"windowbg2\" align='center'><input type=\"submit\" name=\"new\" value=\"Speichern\"></td>";
     echo "</form></tr>";
 echo "</table>";
 
-
-
-
-
-
-
-
-
-
-
-// Sucht nach Modulen uns sieht nach ob eine zugeh�rige Config.cfg.php existiert
-// Wenn ein Modul gefunden wird, versucht es dieses zu intallieren.
+// Sucht nach Modulen und sieht nach, ob eine zugehörige config.cfg.php existiert
+// Wenn ein Modul gefunden wird, versucht es dieses zu installieren.
 $uninstallecho = "";
 $fp6=opendir("./modules");
 echo "<br><br> \n";
@@ -599,7 +582,7 @@ while ($datei1 = readdir($fp6)) {
 
       if (isset($modulary[$modulname]["name"])) {
 
-            $uninstallecho = $uninstallecho . "<form method='POST' action='index.php?action=".$modulname."&amp;was=install&amp;sid=".$sid."'>";
+        $uninstallecho = $uninstallecho . "<form method='POST' action='index.php?action=".$modulname."&amp;was=install&amp;sid=".$sid."'>";
 		$uninstallecho = $uninstallecho . " <table class=\"bordercolor\" width=\"90%\" cellpadding=\"4\" cellspacing=\"1\">\n";
 		$uninstallecho = $uninstallecho . "  <tr>\n";
 		$uninstallecho = $uninstallecho . "   <td align=\"left\" valign=\"center\" class=\"titlebg\"><strong>\n" . $modulary[$modulname]["titel"] . "</strong>&nbsp;<i>(".$modulname.")</i></td>\n";
@@ -634,13 +617,13 @@ if ($uninstallecho <> "") {
 
 echo "<br><div width=\"90%\" class=\"windowbg2\" style=\"padding:2px; width:90%; border-width:1px; border-style: solid; boder-color:black\">Nicht installierte Module:</div><br>";
 
-      echo "Es wurde mindestens ein Modul gefunden, da� noch nicht installiert wurde:<br><br>";
+      echo "Es wurde mindestens ein Modul gefunden, das noch nicht installiert wurde:<br><br>";
 
       echo  $uninstallecho;
 
       echo "Solltest du eines dieser Module nicht installieren wollen,<br>";
       echo "oder gar nicht wissen wie es auf deinen Server kommt,<br>";
-      echo "rate ich dir es aus den Ordner \"modules\" zu l�schen.<br><br>";
+      echo "rate ich dir es aus den Ordner \"modules\" zu l&ouml;schen.<br><br>";
 
       echo "</center> \n";
 

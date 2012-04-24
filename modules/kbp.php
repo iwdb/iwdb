@@ -6,6 +6,11 @@ error_reporting(E_ALL);
 global $daten;
 
 if (isset($_POST['Eingabe'])) {
+	if (($_POST['Eingabe'])=="") {
+		echo "<div class='system_error'>Keinen KB-Link eingetragen!</div>";
+		}
+	else {
+	
 	// KBs raussuchen
 	preg_match_all('#www\.icewars\.de/portal/kb/de/kb\.php\?id=[\d]+&md_hash=[\w]{32}#', $_POST['Eingabe'], $kblinks);
 	
@@ -57,7 +62,7 @@ if (isset($_POST['Eingabe'])) {
 		echo htmlentities($kb['Bericht']);
 		echo '<br />_______________________________________________________<br /><br />';
 	}
-	
+	}
 }
 
 ?>

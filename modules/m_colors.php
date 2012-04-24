@@ -1,6 +1,6 @@
 <?php
 /*****************************************************************************/
-/* m_default.php                                                             */
+/* m_colors.php                                                              */
 /*****************************************************************************/
 /* Iw DB: Icewars geoscan and sitter database                                */
 /* Open-Source Project started by Robert Riess (robert@riess.net)            */

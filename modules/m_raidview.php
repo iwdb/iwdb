@@ -30,7 +30,7 @@
 /*---------------------------------------------------------------------------*/
 /* Diese Erweiterung der urspruenglichen DB ist ein Gemeinschaftsprojekt von */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafuer eingerichtete           */
+/* Bei Problemen kannst du dich an das eigens dafür eingerichtete           */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
 /*                   http://www.iwdb.de.vu                                   */
@@ -70,7 +70,7 @@ $modulstatus = "";
 
 //****************************************************************************
 //
-// -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
+// -> Beschreibung des Moduls, wie es in der Menü-Übersicht angezeigt wird.
 //
 $moduldesc =
   "In der Raid-Statistik werden die Raids der Member erfasst und statistisch aufbereitet.";
@@ -80,9 +80,10 @@ $moduldesc =
 // Function workInstallDatabase is creating all database entries needed for
 // installing this module.
 //
+
 function workInstallDatabase() {
 	global $db, $db_prefix, $db_tb_parser, $db_tb_iwdbtabellen;
-
+/*
   $sqlscript = array(
 		"CREATE TABLE IF NOT EXISTS " . $db_prefix . "raidview ( " .
 	  " id INT(11) NOT NULL auto_increment, " .
@@ -104,7 +105,7 @@ function workInstallDatabase() {
 
     "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
     " VALUES('raidview');",
-  );
+  );*/
 
   foreach($sqlscript as $sql) {
     $result = $db->db_query($sql)
@@ -152,12 +153,13 @@ function workInstallConfigString() {
 // Function workUninstallDatabase is creating all database entries needed for
 // removing this module.
 //
+
 function workUninstallDatabase() {
   global $db, $db_tb_iwdbtabellen, $db_tb_parser, $db_tb_raidview;
-
+/*
   $sqlscript = array(
     "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='raidview';"
-  );
+  );*/
 
   foreach($sqlscript as $sql) {
     $result = $db->db_query($sql)
@@ -297,7 +299,7 @@ while($row = $db->db_fetch_array($result2)) {
 	   $g_wasser = 0;
 	   $g_energie = 0;
 
-// addieren der Resswerte fuer Gesamtsumme und schreiben der Zeilen
+// addieren der Resswerte für Gesamtsumme und schreiben der Zeilen
   while($row = $db->db_fetch_array($result)) {
     $count++;
     $ruser=$row['user'];

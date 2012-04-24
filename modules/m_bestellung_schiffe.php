@@ -118,14 +118,14 @@ function workInstallDatabase() {
 		"PRIMARY KEY  (`id`)" .
 		") COMMENT='Bestellsystem' AUTO_INCREMENT=1",
 		"INSERT INTO " . $db_tb_iwdbtabellen . " (`name`) VALUES ('bestellung')",
-	);
+	);*/
 
 	foreach ($sqlscript as $sql) {
 		echo "<br>" . $sql;
 		$result = $db->db_query($sql)
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	}
-*/
+
 	echo "<br>Installation: Datenbank&auml;nderungen = <b>OK</b><br>";
 }
 
@@ -161,22 +161,23 @@ function workInstallConfigString() {
 // Function workUninstallDatabase is creating all database entries needed for
 // removing this module. 
 //
+
 function workUninstallDatabase() {
 	global $db, $db_tb_bestellung, $db_tb_iwdbtabellen;
-
+/*
 	$sqlscript = array(
 	  "DROP TABLE " . $db_tb_bestellung,
 	  "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE `name`='bestellung'",
 	);
+*/
 
-/*
 	foreach ($sqlscript as $sql) {
 		$result = $db->db_query($sql)
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	}
 
 	echo "<br>Deinstallation: Datenbank&auml;nderungen = <b>OK</b><br>";
-*/
+
 }
 
 //****************************************************************************

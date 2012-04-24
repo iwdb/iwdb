@@ -975,6 +975,13 @@ CREATE TABLE IF NOT EXISTS `prefix_lager` (
   `wasser_baukosten` float NOT NULL,
   `energie_baukosten` float NOT NULL,
   `time` int(11) NOT NULL DEFAULT '0',
+  `eisen_sichtbar` tinyint(1) NOT NULL default '1',
+  `stahl_sichtbar` tinyint(1) NOT NULL default '1',
+  `chem_sichtbar` tinyint(1) NOT NULL default '1',
+  `vv4a_sichtbar` tinyint(1) NOT NULL default '1',
+  `eis_sichtbar` tinyint(1) NOT NULL default '1',
+  `wasser_sichtbar` tinyint(1) NOT NULL default '1',
+  `energie_sichtbar` tinyint(1) NOT NULL default '1',
   PRIMARY KEY (`coords_gal`,`coords_sys`,`coords_planet`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Lagerübersicht';
 

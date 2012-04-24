@@ -121,6 +121,11 @@ $modulary["m_allystats"]["name"] = "m_allystats";
 $modulary["m_allystats"]["titel"] = "Allianzstatistiken";
 $modulary["m_allystats"]["desc"] =  "Das Allianzstatistiken-Modul berechnet diverse Daten zu einer Allianz";
 
+$modulary["m_lager"]["name"] = "m_lager";
+$modulary["m_lager"]["titel"] = "Lager";
+$modulary["m_lager"]["desc"] =  "Lager&uuml;bersicht zur Koordination von Logistikauftr&auml;gen im Buddler-Fleeter-System.";
+
+
 global $modulary;
 
 ?>

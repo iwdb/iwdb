@@ -83,9 +83,10 @@ $moduldesc = "Zeigt die Geb&auml;de&uml;bersicht an";
 // Function workInstallDatabase is creating all database entries needed for
 // installing this module. 
 //
+
 function workInstallDatabase() {
 	global $db, $db_prefix, $db_tb_iwdbtabellen;
-
+/*
 	$sqlscript = array(
 		"CREATE TABLE `" . $db_prefix . "gebaeude_spieler` (" .
 		"`coords_gal` tinyint(4) NOT NULL," .
@@ -101,7 +102,7 @@ function workInstallDatabase() {
 		") COMMENT='Gebaeudeuebersicht'",
 		"INSERT INTO " . $db_tb_iwdbtabellen . " (`name`) VALUES ('gebaeude_spieler')",
 		"INSERT INTO " . $db_tb_parser . " (`modulename`,`recognizer`,`message`) VALUES ('gebaeudeuebersicht','Geb&auml;ude&uuml;bersicht','Geb&auml;ude&uuml;bersicht')",
-	);
+	);*/
 
 	foreach ($sqlscript as $sql) {
 		echo "<br>" . $sql;
@@ -143,14 +144,15 @@ function workInstallConfigString() {
 // Function workUninstallDatabase is creating all database entries needed for
 // removing this module. 
 //
+
 function workUninstallDatabase() {
 	global $db, $db_tb_gebaeude_spieler, $db_tb_iwdbtabellen;
-
+/*
 	$sqlscript = array(
 		"DROP TABLE " . $db_tb_gebaeude_spieler,
 		"DELETE FROM " . $db_tb_iwdbtabellen . " WHERE `name`='gebaeude_spieler'",
 		"DELETE FROM " . $db_tb_parser . " WHERE `modulename`='gebaeudeuebersicht'",
-	);
+	);*/
 
 	foreach ($sqlscript as $sql) {
 		$result = $db->db_query($sql)

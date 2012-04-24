@@ -83,9 +83,10 @@ $moduldesc =
 // Function workInstallDatabase is creating all database entries needed for
 // installing this module.
 //
+
 function workInstallDatabase() {
   global $db, $db_prefix, $db_tb_iwdbtabellen, $db_tb_parser;
-
+/*
   $sqlscript = array(
     "CREATE TABLE " . $db_prefix . "ressuebersicht( " . 
     "`user` varchar(50) NOT NULL default '', ".
@@ -110,7 +111,7 @@ function workInstallDatabase() {
     "INSERT INTO " . $db_tb_parser . "(modulename,recognizer,message) VALUES " .
     "('production', 'Ressourcenkolo&uuml;bersicht', 'Produktions&uuml;bersicht')"
   );
-
+*/
   foreach($sqlscript as $sql) {
     $result = $db->db_query($sql)
   	  or error(GENERAL_ERROR,
@@ -153,9 +154,10 @@ function workInstallConfigString() {
 // Function workUninstallDatabase is creating all database entries needed for
 // removing this module.
 //
+
 function workUninstallDatabase() {
 	global $db, $db_tb_ressuebersicht, $db_tb_parser;
-
+/*
   $sqlscript = array(
     "DROP TABLE " . $db_tb_ressuebersicht,
 
@@ -163,7 +165,7 @@ function workUninstallDatabase() {
     " WHERE `name`='ressuebersicht'",
 
     "DELETE FROM " . $db_tb_parser . " WHERE modulename='production'"
-  );
+  );*/
 
   foreach($sqlscript as $sql) {
     $result = $db->db_query($sql)

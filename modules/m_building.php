@@ -78,9 +78,10 @@ $moduldesc =
 // Function workInstallDatabase is creating all database entries needed for
 // installing this module.
 //
+
 function workInstallDatabase() {
 	global $db, $db_prefix, $db_tb_iwdbtabellen;
-
+/*
 	$sqlscript = array(
 		"ALTER TABLE `" . $db_prefix . "gebaeude` ADD `info` TEXT NOT NULL ," .
 		"ADD `n_building` TEXT NOT NULL ," .
@@ -105,8 +106,8 @@ function workInstallDatabase() {
 		/*"UPDATE `gebaeude` SET `name` = 'Kraftwerk (Solar) (orbital)' WHERE `id` =23 LIMIT 1 ",
 
     "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-    " VALUES('neuername')" */
-  );
+    " VALUES('neuername')" 
+  );*/
     
     foreach($sqlscript as $sql) {
     	$result = $db->db_query($sql)
@@ -154,9 +155,10 @@ function workInstallConfigString() {
 // Function workUninstallDatabase is creating all database entries needed for
 // removing this module.
 //
+
 function workUninstallDatabase() {
 	global $db, $db_prefix, $db_tb_iwdbtabellen;
-
+/*
 	$sqlscript = array(
 		"ALTER TABLE `" . $db_prefix . "gebaeude` " .
 		"CHANGE `category` `category` VARCHAR( 50 ) NOT NULL DEFAULT '' ",
@@ -167,9 +169,9 @@ function workUninstallDatabase() {
 		$sqlscript = array(
 		"DROP TABLE " . $db_tb_neuername . ";",
 		"DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='neuername';"
-		); */
+		); 
 		
-  );
+  );*/
     
   foreach($sqlscript as $sql) {
    	$result = $db->db_query($sql)

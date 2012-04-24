@@ -80,9 +80,10 @@ $moduldesc =
 // Function workInstallDatabase is creating all database entries needed for
 // installing this module.
 //
+
 function workInstallDatabase() {
 	global $db, $db_prefix, $db_tb_parser, $db_tb_iwdbtabellen;
-
+/*
   $sqlscript = array(
 		"CREATE TABLE IF NOT EXISTS " . $db_prefix . "raidview ( " .
 	  " id INT(11) NOT NULL auto_increment, " .
@@ -104,7 +105,7 @@ function workInstallDatabase() {
 
     "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
     " VALUES('raidview');",
-  );
+  );*/
 
   foreach($sqlscript as $sql) {
     $result = $db->db_query($sql)
@@ -152,12 +153,13 @@ function workInstallConfigString() {
 // Function workUninstallDatabase is creating all database entries needed for
 // removing this module.
 //
+
 function workUninstallDatabase() {
   global $db, $db_tb_iwdbtabellen, $db_tb_parser, $db_tb_raidview;
-
+/*
   $sqlscript = array(
     "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='raidview';"
-  );
+  );*/
 
   foreach($sqlscript as $sql) {
     $result = $db->db_query($sql)

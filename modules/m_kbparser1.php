@@ -27,7 +27,7 @@
 
 /*****************************************************************************/
 /* Dieses Modul dient als Vorlage zum Erstellen von eigenen Zusatzmodulen    */
-/* fï¿½r die Iw DB: Icewars geoscan and sitter database                        */
+/* für die Iw DB: Icewars geoscan and sitter database                        */
 /*---------------------------------------------------------------------------*/
 /* Diese Erweiterung der urspruenglichen DB ist ein Gemeinschaftsprojekt von */
 /* IW-Spielern.                                                              */
@@ -38,31 +38,31 @@
 /*                                                                           */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul ï¿½ber die index.php aufgerufen wurde.
+// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde. 
 //    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") {
+if (basename($_SERVER['PHP_SELF']) != "index.php") { 
 	echo "Hacking attempt...!!"; 
 	exit; 
 }
 
 //****************************************************************************
 //
-// -> Name des Moduls, ist notwendig fï¿½r die Benennung der zugehoerigen
+// -> Name des Moduls, ist notwendig für die Benennung der zugehoerigen
 //    Config.cfg.php
-// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung fï¿½r 
-//    eine Installation ï¿½ber das Menï¿½
+// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung für 
+//    eine Installation über das Menü
 //
 $modulname  = "m_kbparser1";
 
 //****************************************************************************
 //
-// -> Menï¿½titel des Moduls der in der Navigation dargestellt werden soll.
+// -> Menütitel des Moduls der in der Navigation dargestellt werden soll.
 //
 $modultitle = "KBParser2";
 
 //****************************************************************************
 //
-// -> Status des Moduls, bestimmt wer dieses Modul ï¿½ber die Navigation 
+// -> Status des Moduls, bestimmt wer dieses Modul über die Navigation 
 //    ausfuehren darf. Moegliche Werte:
 //    - ""      <- nix = jeder, 
 //    - "admin" <- na wer wohl
@@ -74,7 +74,7 @@ $modulstatus = "";
 // -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
 //
 $moduldesc = 
-  "KBParser mit einer vielfÃ¤ltigen Ausgabe im BBCode";
+  "KBParser mit einer vielf&auml;ltigen Ausgabe im BBCode";
 	
 
 //****************************************************************************
@@ -83,8 +83,8 @@ $moduldesc =
 // installing this module. 
 //
 function workInstallDatabase() {
-/*	global $db, $db_prefix, $db_tb_iwdbtabellen;
-
+	global $db, $db_prefix, $db_tb_iwdbtabellen;
+/*
   $sqlscript = array(
     "CREATE TABLE " . $db_prefix . "neuername
     (
@@ -92,15 +92,15 @@ function workInstallDatabase() {
 
     "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
     " VALUES('neuername')"
-  );
+  );*/
   foreach($sqlscript as $sql) {
     $result = $db->db_query($sql)
   	  or error(GENERAL_ERROR,
                'Could not query config information.', '',
                __FILE__, __LINE__, $sql);
   }
-  echo "<div class='system_notification'>Installation: DatenbankÃ¤nderungen = <b>OK</b></div>";
-*/}
+  echo "<div class='system_notification'>Installation: Datenbank&auml;nderungen = <b>OK</b></div>";
+}
 
 //****************************************************************************
 //
@@ -117,7 +117,7 @@ function workInstallMenu() {
 		$actionparamters = "";
   	insertMenuItem( $menu, $submenu, $modultitle, $modulstatus, $actionparameters );
 	  //
-	  // Weitere Wiederholungen fï¿½r weitere Menue-Eintraege, z.B.
+	  // Weitere Wiederholungen für weitere Menue-Eintraege, z.B.
 	  //
 	  // 	insertMenuItem( $menu+1, ($submenu+1), "Titel2", "hc", "&weissichnichtwas=1" );
 	  //
@@ -140,21 +140,21 @@ function workInstallConfigString() {
 // removing this module. 
 //
 function workUninstallDatabase() {
-/*  global $db, $db_tb_iwdbtabellen, $db_tb_neuername;
-
+ global $db, $db_tb_iwdbtabellen, $db_tb_neuername;
+/*
   $sqlscript = array(
     "DROP TABLE " . $db_tb_neuername . ";",
     "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='neuername';"
   );
-
+*/
   foreach($sqlscript as $sql) {
     $result = $db->db_query($sql)
   	  or error(GENERAL_ERROR,
                'Could not query config information.', '',
                __FILE__, __LINE__, $sql);
   }
-  echo "<div class='system_notification'>Deinstallation: DatenbankÃ¤nderungen = <b>OK</b></div>";
-*/}
+  echo "<div class='system_notification'>Deinstallation: Datenbank&auml;nderungen = <b>OK</b></div>";
+}
 
 //****************************************************************************
 //
@@ -165,7 +165,7 @@ function workUninstallDatabase() {
 //
 //      http://Mein.server/iwdb/index.php?action=default&was=install
 //
-// Anstatt "Mein.Server" natï¿½rlich deinen Server angeben und default 
+// Anstatt "Mein.Server" natürlich deinen Server angeben und default 
 // durch den Dateinamen des Moduls ersetzen.
 //
 if( !empty($_REQUEST['was'])) {
@@ -192,7 +192,7 @@ if (!@include("./config/".$modulname.".cfg.php")) {
 //
 // -> Und hier beginnt das eigentliche Modul
 
-//Komische Funktion die rekrusiv ein Array mit den Werten fï¿½llt.
+//Komische Funktion die rekrusiv ein Array mit den Werten füllt.
 
 function makeArray($Bericht)
   {  global $line;
@@ -200,12 +200,12 @@ function makeArray($Bericht)
 
 	 while ( $line < count($Bericht))
   	   {  //Erkennen der Elemente
-  	      if(strpos($Bericht[$line],"<?")!== FALSE) //ï¿½berspringen der XML information
+  	      if(strpos($Bericht[$line],"<?")!== FALSE) //überspringen der XML information
   	         { $line ++;
   	         }
-  	      elseif(strpos($Bericht[$line],"</")!== FALSE) // Closer Tag, kein ï¿½berprï¿½fung auf korrektheit
+  	      elseif(strpos($Bericht[$line],"</")!== FALSE) // Closer Tag, kein Überprüfung auf korrektheit
   	         { $line ++;
-  	           break; //Abschlieï¿½en des momentanen Wertes
+  	           break; //Abschließen des momentanen Wertes
   	         }
   	      elseif(strpos($Bericht[$line],"value=")!== FALSE) // Endwert
   	         { $temp = str_replace("<","",$Bericht[$line]);
@@ -234,7 +234,7 @@ function makeArray($Bericht)
   	         { $line ++;
   	         }
   	   }
-  	 return $rt; // Array zurï¿½ckgeben
+  	 return $rt; // Array zurückgeben
 
   }
 
@@ -250,16 +250,16 @@ function makeString($string, $f, $k, $u, $color)
      return $rt;
   }
 
-//Und da fï¿½ngts an.
+//Und da fängts an.
 
 $parsstatus = getVar ('parsstatus');
 
-echo "<font style=\"font-size: 18px; color: #004466\">KB Parser fï¿½r BB-Code</font><br>\n";
+echo "<font style=\"font-size: 18px; color: #004466\">KB Parser für BB-Code</font><br>\n";
 echo "<br>\n";
 
 
 
-if (empty($parsstatus)==true) //Angabe fï¿½r die Datei
+if (empty($parsstatus)==true) //Angabe für die Datei
   {  echo "<form method=\"POST\" action=\"index.php?action=m_kbparser1&parsstatus=read&sid=" . $sid. "\" enctype=\"multipart/form-data\">\n";
      echo <<< EOT
 	 <table border="1" cellpadding="2" cellspacing="1" rules="none" width="90%">
@@ -280,7 +280,7 @@ EOT;
    if (empty($KBLink)==true)
 	echo "KB-Link nicht vergessen :) ";
    }
-if ($parsstatus == "read")     // KB einlesen und fï¿½r die Formatieung ausgeben
+if ($parsstatus == "read")     // KB einlesen und für die Formatieung ausgeben
   {   $KBLink = getVar ('KBLink') . "&typ=xml";
       
 	  if ($KBLink=="&typ=xml") {
@@ -331,14 +331,14 @@ if ($parsstatus == "read")     // KB einlesen und fï¿½r die Formatieung ausgeben
       echo "        Kampf auf dem Planeten <b>" . $KBdata['kampf']['plani_data']['plani_name'] . " " . $KBdata['kampf']['plani_data']['koordinaten']['string'] . "</b>, der Besitzer ist <b>" . $KBdata['kampf']['plani_data']['user']['name'] . " [" . $KBdata['kampf']['plani_data']['user']['allianz_tag'] . "]</b> ";
       echo "     </td> ";
       echo "  </tr>\n ";
-      // Am Datum endete der Kampf mit einem Sieg fï¿½r den ...
+      // Am Datum endete der Kampf mit einem Sieg für den ...
       setlocale (LC_ALL, 'de_DE@euro', 'de_DE', 'de', 'ge');
 	echo "  <tr>\n";
       echo "     <td class=\"windowbg1\" align=\"left\" colspan=\"8\">";
-      echo          strftime("Am <i>%d.%M.%Y %H:%M:%S</i>", $KBdata['kampf']['timestamp']) . " endete der Kampf mit einem Sieg fï¿½r den ";
+      echo          strftime("Am <i>%d.%M.%Y %H:%M:%S</i>", $KBdata['kampf']['timestamp']) . " endete der Kampf mit einem Sieg für den ";
       						if ( $KBdata['kampf']['resultat']['id'] == 1) echo "<font color=\"green\"><b>Angreifer</b></font>";
       						else echo "<font color=\"red\"><b>Verteidiger</b></font>";
-      echo "        <input TYPE=HIDDEN name=\"dateline\" type=\"text\" value=\"" . strftime("Am [i]%d. %B %Y %H:%M:%S[/i]", $KBdata['kampf']['timestamp']) . " endete der Kampf mit einem Sieg fï¿½r den ";
+      echo "        <input TYPE=HIDDEN name=\"dateline\" type=\"text\" value=\"" . strftime("Am [i]%d. %B %Y %H:%M:%S[/i]", $KBdata['kampf']['timestamp']) . " endete der Kampf mit einem Sieg für den ";
       						if ( $KBdata['kampf']['resultat']['id'] == 1) echo "[color=green][b]Angreifer[/b][/color]";
       						else echo "[color=red][b]Verteidiger[/b][/color]";
       echo                  "\" readonly>";
@@ -387,10 +387,10 @@ if ($parsstatus == "read")     // KB einlesen und fï¿½r die Formatieung ausgeben
       echo "     Anzahl";
       echo "    </td>";
       echo "    <td align=\"center\">";
-      echo "     Zerstï¿½rt";
+      echo "     Zerstört";
       echo "    </td>";
       echo "    <td align=\"center\">";
-      echo "     ï¿½berlebend";
+      echo "     Überlebend";
       echo "    </td>";
       echo "    <td align=\"center\">";
       echo "       <b>F</b>";
@@ -469,7 +469,7 @@ if ($parsstatus == "read")     // KB einlesen und fï¿½r die Formatieung ausgeben
       echo "     </td> ";
       echo "  </tr>\n ";
 
-      //stationï¿½re
+      //stationäre
       if(empty($user['defence'])==FALSE)
       {
       echo "  <tr>\n";
@@ -480,10 +480,10 @@ if ($parsstatus == "read")     // KB einlesen und fï¿½r die Formatieung ausgeben
       echo "     Anzahl";
       echo "    </td>";
       echo "    <td align=\"center\" >";
-      echo "     Zerstï¿½rt";
+      echo "     Zerstört";
       echo "    </td>";
       echo "    <td align=\"center\" >";
-      echo "     ï¿½berlebend";
+      echo "     Überlebend";
       echo "    </td>";
       echo "    <td align=\"center\" >";
       echo "       <b>F</b>";
@@ -560,10 +560,10 @@ if ($parsstatus == "read")     // KB einlesen und fï¿½r die Formatieung ausgeben
       echo "     Anzahl";
       echo "    </td>";
       echo "    <td align=\"center\" >";
-      echo "     Zerstï¿½rt";
+      echo "     Zerstört";
       echo "    </td>";
       echo "    <td align=\"center\" >";
-      echo "     ï¿½berlebend";
+      echo "     Überlebend";
       echo "    </td>";
       echo "    <td align=\"center\" >";
       echo "       <b>F</b>";
@@ -654,10 +654,10 @@ if ($parsstatus == "read")     // KB einlesen und fï¿½r die Formatieung ausgeben
       echo "     Anzahl";
       echo "    </td>";
       echo "    <td align=\"center\" >";
-      echo "     Zerstï¿½rt";
+      echo "     Zerstört";
       echo "    </td>";
       echo "    <td align=\"center\" >";
-      echo "     ï¿½berlebend";
+      echo "     Überlebend";
       echo "    </td>";
       echo "    <td align=\"center\" >";
       echo "       <b>F</b>";
@@ -863,14 +863,14 @@ if ($parsstatus == "read")     // KB einlesen und fï¿½r die Formatieung ausgeben
         }
       }
 
-      // Plï¿½nderungen
+      // Plünderungen
 
       if(empty($KBdata['kampf']['pluenderung'])==FALSE)
       {
 
       echo "  <tr>\n";
       echo "     <td align=\"left\" colspan=\"8\" style=\"color:#000000; background-color:#CAE1FF;\" >";
-      echo "       <b>Es wurden folgende Ressourcen geplï¿½ndert</b>";
+      echo "       <b>Es wurden folgende Ressourcen geplündert</b>";
       echo "     </td> ";
       echo "  </tr>\n ";
       echo "  <tr>\n";
@@ -945,10 +945,10 @@ if ($parsstatus == "read")     // KB einlesen und fï¿½r die Formatieung ausgeben
       echo "     </td> ";
       echo "  </tr>\n ";
 
-	  if(empty($KBdata['kampf']['bomben']['bombentrefferchance'])==false)  // Bevï¿½lkerung
+	  if(empty($KBdata['kampf']['bomben']['bombentrefferchance'])==false)  // Bevölkerung
       {     echo "  <tr>\n";
       		echo "     <td align=\"left\" colspan=\"8\">";
-      		echo "      <input name=\"bombtreff1\" type=\"text\" value=\"Staub, Rauch und Pfefferminzplï¿½tzchen hï¿½llten den Planeten ein, so dass die Bombentrefferchance bei \" size=\"70\">";
+      		echo "      <input name=\"bombtreff1\" type=\"text\" value=\"Staub, Rauch und Pfefferminzplätzchen hüllten den Planeten ein, so dass die Bombentrefferchance bei \" size=\"70\">";
       		echo " <b>" .  $KBdata['kampf']['bomben']['bombentrefferchance'] . "%</b> ";
       		echo "      <input TYPE=HIDDEN name=\"bombtreff2\" type=\"text\" value=\" [b]" . $KBdata['kampf']['bomben']['bombentrefferchance'] . "%[/b] \" readonly>";
       		echo "      <input name=\"bombtreff3\" type=\"text\" value=\"lag\" size=\"30\">";
@@ -962,26 +962,26 @@ if ($parsstatus == "read")     // KB einlesen und fï¿½r die Formatieung ausgeben
       {  if ($KBdata['kampf']['bomben']['basis_zerstoert'] == 1)
           {   	echo "  <tr>\n";
       			echo "     <td align=\"left\" colspan=\"8\">";
-      			echo "      <input name=\"bomb3\" type=\"text\" value=\"Irgendwer drï¿½ckte aus Versehen auf den Selbstzerstï¿½rungsknopf. Damit endet die ruhmvolle Existenz der Basis. Plop.\" size=\"100\" >";
+      			echo "      <input name=\"bomb3\" type=\"text\" value=\"Irgendwer drückte aus Versehen auf den Selbstzerstörungsknopf. Damit endet die ruhmvolle Existenz der Basis. Plop.\" size=\"100\" >";
       			echo "     </td> ";
       			echo "  </tr>\n ";
           }
          else
           {     echo "  <tr>\n";
       			echo "     <td align=\"left\" colspan=\"8\">";
-      			echo "      <input name=\"bomb3\" type=\"text\" value=\"Der Wachhabende Offizier konnte den Selbstzerstï¿½rungsknopf nicht finden, daher steht die Basis noch.\" size=\"100\" >";
+      			echo "      <input name=\"bomb3\" type=\"text\" value=\"Der Wachhabende Offizier konnte den Selbstzerstörungsknopf nicht finden, daher steht die Basis noch.\" size=\"100\" >";
       			echo "     </td> ";
       			echo "  </tr>\n ";
           }
       }
-      elseif(empty($KBdata['kampf']['bomben']['geb_zerstoert'])==true) //keine Gebï¿½ude
+      elseif(empty($KBdata['kampf']['bomben']['geb_zerstoert'])==true) //keine Gebäude
       {     echo "  <tr>\n";
       		echo "     <td align=\"left\" colspan=\"8\">";
-      		echo "      <input name=\"bomb3\" type=\"text\" value=\"Ist nur blï¿½derweise kein Gebï¿½ude getroffen worden.\">";
+      		echo "      <input name=\"bomb3\" type=\"text\" value=\"Ist nur blöderweise kein Gebäude getroffen worden.\">";
       		echo "     </td> ";
       		echo "  </tr>\n ";
       }
-      else     //mit Gebï¿½uden
+      else     //mit Gebäuden
       {
       $i=1;
       foreach( $KBdata['kampf']['bomben']['geb_zerstoert'] as $loos )
@@ -1025,13 +1025,13 @@ if ($parsstatus == "read")     // KB einlesen und fï¿½r die Formatieung ausgeben
             $i++;
         }
       }
-      if(empty($KBdata['kampf']['bomben']['bev_zerstoert'])==false)  // Bevï¿½lkerung
+      if(empty($KBdata['kampf']['bomben']['bev_zerstoert'])==false)  // Bevölkerung
       {     echo "  <tr>\n";
       		echo "     <td align=\"left\" colspan=\"8\">";
       		echo "      <input name=\"bombbev1\" type=\"text\" value=\"Bei der Bombadierung wurden\" size=\"50\">";
       		echo " <b>" .  number_format($KBdata['kampf']['bomben']['bev_zerstoert'], 0, ",", " ") . "</b> ";
       		echo "      <input TYPE=HIDDEN name=\"bombbev2\" type=\"text\" value=\" [b]" . number_format($KBdata['kampf']['bomben']['bev_zerstoert'], 0, ",", " ") . "[/b] \" readonly>";
-      		echo "      <input name=\"bombbev3\" type=\"text\" value=\"Menschen getï¿½tet\" size=\"50\">";
+      		echo "      <input name=\"bombbev3\" type=\"text\" value=\"Menschen getötet\" size=\"50\">";
       		echo "     </td> ";
       		echo "  </tr>\n ";
       }
@@ -1057,7 +1057,7 @@ if ($parsstatus == "read")     // KB einlesen und fï¿½r die Formatieung ausgeben
 if ($parsstatus == "write")     // BB-Code ausgeben
 {
 
-// Dicken fetten String basteln fï¿½r die Ausgabe
+// Dicken fetten String basteln für die Ausgabe
 
 $outBB = "[quote]<br>";
 $outBB = $outBB . $_POST['mainline'] . "<br>"; //Kampf auf dem ...
@@ -1071,7 +1071,7 @@ while(empty($_POST["atter".$i])==false)
   	  if(empty($_POST["atterlollies" . $i])==false) $outBB = $outBB .  "Diese wilden Barbarben haben unseren kleinen Kindern die Lollis geklaut!! Das schreit gradezu nach Rache.<br>";
       if(empty($_POST["attermsg" . $i])==false) $outBB = $outBB .  $_POST["attermsg" . $i] . "<br>";
   	  $outBB = $outBB .  "[table]<br>";
-      $outBB = $outBB .  "[tr] [td][/td][td][center]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Anzahl[/center][/td][td][center]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Zerstï¿½rt[/center][/td][td][center]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ï¿½berlebend[/center][/td][/tr]<br>";
+      $outBB = $outBB .  "[tr] [td][/td][td][center]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Anzahl[/center][/td][td][center]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Zerstört[/center][/td][td][center]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Überlebend[/center][/td][/tr]<br>";
       $j = 1;
       while(empty($_POST["atterschiffname".$i."_".$j])==false)
         {  if ($_POST["atterschiffstart".$i."_".$j] !== "")
@@ -1090,7 +1090,7 @@ $outBB = $outBB .  "[hr]<br>";
 $i = 1;
 while(empty($_POST["pladeffer".$i])==false)
   {   $outBB = $outBB .  $_POST["pladeffer".$i] . "<br>"; // Verteidiger ist ...
-      $outBB = $outBB .  "[table]<br>[tr][td][center]Deffanlagen[/center][/td][td][center]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Anzahl[/center][/td][td][center]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Zerstï¿½rt[/center][/td][td][center]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ï¿½berlebend[/center][/td][/tr]<br>";
+      $outBB = $outBB .  "[table]<br>[tr][td][center]Deffanlagen[/center][/td][td][center]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Anzahl[/center][/td][td][center]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Zerstört[/center][/td][td][center]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Überlebend[/center][/td][/tr]<br>";
   	  $j = 1;
   	  while(empty($_POST["pladefturm" . $i . "_" . $j])==false)
         {  $outBB = $outBB .  "[tr][td]" . makeString($_POST["pladefturm" . $i . "_" . $j], isset($_POST["Pladefturmformf" . $i . "_" . $j]), isset($_POST["Pladefturmformk" . $i . "_" . $j]), isset($_POST["Pladefturmformu" . $i . "_" . $j]), $_POST["Pladefturmformc" . $i . "_" . $j] )  . "[/td]";
@@ -1115,7 +1115,7 @@ while(empty($_POST["pladeffer".$i])==false)
 $i = 1;
 while(empty($_POST["deffer" . $i])==false)
   {   $outBB = $outBB .  $_POST["deffer" . $i] . "<br>[table]<br>"; //Verteidigende Flotte ...
-      $outBB = $outBB .  "[tr][td] [/td][td][center]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Anzahl[/center][/td][td][center]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Zerstï¿½rt[/center][/td][td][center]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ï¿½berlebend[/center][/td][/tr]<br>";
+      $outBB = $outBB .  "[tr][td] [/td][td][center]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Anzahl[/center][/td][td][center]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Zerstört[/center][/td][td][center]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Überlebend[/center][/td][/tr]<br>";
       $j = 1;
       while(empty($_POST["defferschiffname".$i."_".$j])==false)
         {  if ( $_POST["defferschiffstart".$i."_".$j] !== "")
@@ -1130,7 +1130,7 @@ while(empty($_POST["deffer" . $i])==false)
       $i++;
   }
 $outBB = $outBB .  "[hr]<br>";
-// Verluste & Plï¿½ndern
+// Verluste & Plündern
 
 // Suchen eines Eintrages
 $i = 1;
@@ -1152,9 +1152,9 @@ if ($do == true)
      $ressname[6]="Wasser";
      $ressname[7]="Energie";
      $ressname[10]="Credits";
-     $ressname[11]="Bevï¿½lkerung";
-     $outBB = $outBB . "Vernichtete und geplï¿½nderte Ressourcen<br>";
-     $outBB = $outBB . "[table]<br>[tr][td] [/td][td]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Verteidiger[/td][td]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Angreifer[/td][td]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Plï¿½nderung[/td][/tr]<br>";
+     $ressname[11]="Bevölkerung";
+     $outBB = $outBB . "Vernichtete und geplünderte Ressourcen<br>";
+     $outBB = $outBB . "[table]<br>[tr][td] [/td][td]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Verteidiger[/td][td]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Angreifer[/td][td]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Plünderung[/td][/tr]<br>";
      while($i <= 11)
        {  if( empty($_POST["attverlust" . $i])==false || empty($_POST["defverlust" . $i])==false || empty($_POST["weg" . $i])==false)
             {  $outBB = $outBB .  "[tr][td]" . $ressname[$i] . "[/td]";
@@ -1179,7 +1179,7 @@ if (empty($_POST['bomb1'])==false)
      if(empty($_POST['bomb3'])==false) $outBB = $outBB .  $_POST['bomb3'] . "<br>"; // KB oder keine Gebs
      else
        {  $i=1;
-          $outBB = $outBB .  "Folgende Gebï¿½ude wurden dem Erdboden gleich gemacht:<br>[table]<br>";
+          $outBB = $outBB .  "Folgende Gebäude wurden dem Erdboden gleich gemacht:<br>[table]<br>";
           while(empty($_POST["bombgeb" . $i])==false)
              {   $outBB = $outBB .  "[tr][td]" . makeString($_POST["bombgeb" . $i], isset($_POST["bombgebformf" . $i ]), isset($_POST["bombgebformk" . $i ]), isset($_POST["bombgebformu" . $i]), $_POST["bombgebformc" . $i ] ) . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[/td][td][right]" . makeString($_POST["bombgebanz" . $i], isset($_POST["bombgebformf" . $i ]), isset($_POST["bombgebformk" . $i ]), isset($_POST["bombgebformu" . $i]), $_POST["bombgebformc" . $i ] ) . "[/right][/td][/tr]<br>";
                  $i++;
@@ -1197,7 +1197,7 @@ $outBB = $outBB .  "[url=" . $_POST['KBLink'] . "]externer Link[/url]<br>[/quote
 
 // Lange Schiffnamen killen
 $outBB = str_replace("(Hyperraumtransporter Klasse 1)","",$outBB); // Gorgol, Kamel, Flughund
-$outBB = str_replace("(Hyperraumtransporter Klasse 2)","",$outBB); // Eisbï¿½r, Waschbï¿½r, Seepferd
+$outBB = str_replace("(Hyperraumtransporter Klasse 2)","",$outBB); // Eisbär, Waschbär, Seepferd
 $outBB = str_replace("(Systemtransporter Kolonisten)","",$outBB); // Crux
 $outBB = str_replace("(Hyperraumtransporter Kolonisten)","",$outBB); // Kolpor
 $outBB = str_replace("(Systemtransporter Klasse 1)","",$outBB); // Systrans
@@ -1209,7 +1209,7 @@ $outBB = str_replace("(Systemkolonieschiff)","",$outBB);  // KIS
 
 
 
-//Daraus einen Html Code basteln / auch nicht gerade schï¿½n
+//Daraus einen Html Code basteln / auch nicht gerade schön
 $outHTML = $outBB;
 if(empty($_POST['optionHtml'])==false)
    {  $outHTML = str_replace("[quote]<br>","",$outHTML);
@@ -1254,7 +1254,7 @@ if(empty($_POST['optionHtml'])==false)
       $outHTML = str_replace("]externer Link[/url]","\" target=\"_blank\">externer Link</a> ",$outHTML);
    }
 
-//BBCode beschneiden, Nicht gerade schï¿½n aber zu faul fï¿½r den Rest
+//BBCode beschneiden, Nicht gerade schön aber zu faul für den Rest
 if(empty($_POST['optionQuote'])==true) //checkbox quoten nicht aktiv
    {  $outBB = str_replace("[quote]<br>","",$outBB);
       $outBB = str_replace("<br>[/quote]","",$outBB);
@@ -1270,9 +1270,9 @@ if(empty($_POST['optionLink'])==false)
 if(empty($_POST['optionTab'])==true)
    {  $outBB = str_replace("[table]<br>","",$outBB);
       $outBB = str_replace("[/table]<br>","",$outBB);
-      $outBB = str_replace("[tr] [td][/td][td][center]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Anzahl[/center][/td][td][center]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Zerstï¿½rt[/center][/td][td][center]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ï¿½berlebend[/center][/td][/tr]","Schiffname/ Anzahl/ Zerstï¿½rt/ ï¿½berlebend",$outBB);
-      $outBB = str_replace("[tr][td][center]Deffanlagen[/center][/td][td][center]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Anzahl[/center][/td][td][center]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Zerstï¿½rt[/center][/td][td][center]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ï¿½berlebend[/center][/td][/tr]","Verteidigunganlage/ Anzahl/ Zerstï¿½rt/ ï¿½berlebend",$outBB);
-      $outBB = str_replace("[tr][td] [/td][td]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Verteidiger[/td][td]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Angreifer[/td][td]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Plï¿½nderung[/td][/tr]","Ressource/ Verteidiger/ Angreifer/ Plï¿½nderungen",$outBB);
+      $outBB = str_replace("[tr] [td][/td][td][center]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Anzahl[/center][/td][td][center]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Zerstört[/center][/td][td][center]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Überlebend[/center][/td][/tr]","Schiffname/ Anzahl/ Zerstört/ Überlebend",$outBB);
+      $outBB = str_replace("[tr][td][center]Deffanlagen[/center][/td][td][center]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Anzahl[/center][/td][td][center]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Zerstört[/center][/td][td][center]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Überlebend[/center][/td][/tr]","Verteidigunganlage/ Anzahl/ Zerstört/ Überlebend",$outBB);
+      $outBB = str_replace("[tr][td] [/td][td]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Verteidiger[/td][td]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Angreifer[/td][td]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Plünderung[/td][/tr]","Ressource/ Verteidiger/ Angreifer/ Plünderungen",$outBB);
       $outBB = str_replace("[/td][td]"," / ",$outBB);
       $outBB = str_replace("[tr][td]","",$outBB);
       $outBB = str_replace("[/td]","",$outBB);
@@ -1293,7 +1293,7 @@ if(empty($_POST['optionAlign'])==true || empty($_POST['optionTab'])==true)
    }
 
 if(empty($_POST['optionColor'])==true)
-   {  //Da ich fï¿½r pregreplace zu faul bin
+   {  //Da ich für pregreplace zu faul bin
       $outBB = str_replace("[color=red]","",$outBB);
       $outBB = str_replace("[color=yellow]","",$outBB);
       $outBB = str_replace("[color=pink]","",$outBB);

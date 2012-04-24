@@ -83,10 +83,11 @@ $moduldesc =
 // Function workInstallDatabase is creating all database entries needed for
 // installing this module.
 //
+
 function workInstallDatabase() {
 	global $db, $db_prefix, $db_tb_iwdbtabellen, $db_tb_parser,
          $db_tb_sitterauftrag, $config_gameversion;
-
+/*
   $sqlscript = array(
     "CREATE TABLE " . $db_prefix . "building2building (" .
     "  bOld int(10) unsigned NOT NULL default '0'," .
@@ -211,7 +212,7 @@ function workInstallDatabase() {
     "('researchoverview', 'Erforschte Forschungen', 'Forschungsliste')",
     
     "ALTER TABLE " . $db_tb_sitterauftrag . " ADD resid INT DEFAULT '0' NOT NULL"
-  );
+  );*/
 
   foreach($sqlscript as $sql) {
     $result = $db->db_query($sql)
@@ -262,13 +263,14 @@ function workInstallConfigString() {
 // Function workUninstallDatabase is creating all database entries needed for
 // removing this module.
 //
+
 function workUninstallDatabase() {
   global $db, $db_tb_iwdbtabellen, $db_tb_parser, $db_tb_sitterauftrag,
          $db_tb_building2building, $db_tb_building2research,
          $db_tb_research2research, $db_tb_research2building,
          $db_tb_research2prototype, $db_tb_research,
          $db_tb_research2user,     $db_tb_researchfield;
-
+/*
   $sqlscript = array(
     "DROP TABLE " . $db_tb_building2building,
     "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='building2building'",
@@ -298,7 +300,7 @@ function workUninstallDatabase() {
     " OR modulename='researchoverview'",
     
     "ALTER TABLE " . $db_tb_sitterauftrag . " DROP COLUMN resid"
-  );
+  );*/
 
   foreach($sqlscript as $sql) {
     $result = $db->db_query($sql)

@@ -80,9 +80,10 @@ $moduldesc =
 // Function workInstallDatabase is creating all database entries needed for
 // installing this module. 
 //
+
 function workInstallDatabase() {
   global $db, $db_prefix, $db_tb_iwdbtabellen, $db_tb_parser;
-
+/*
   $sqlscript = array(
     "CREATE TABLE " . $db_prefix . "kasse_content
     (`amount` DECIMAL( 22,2 ) NOT NULL ,
@@ -113,7 +114,7 @@ function workInstallDatabase() {
     " VALUES('kasse_outgoing')",
     "INSERT INTO " . $db_tb_parser . "(`modulename`, `recognizer`,`message`)" .
     " VALUES('kasse', 'Standardbeitrag', 'Allianzkasse')"
-  );
+  );*/
   foreach($sqlscript as $sql) {
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR,
@@ -160,6 +161,7 @@ function workInstallConfigString() {
 // Function workUninstallDatabase is creating all database entries needed for
 // removing this module. 
 //
+/*
 function workUninstallDatabase() {
   global $db, $db_tb_iwdbtabellen, $db_tb_kasse_content, $db_tb_kasse_incoming, $db_tb_kasse_outgoing, $db_tb_parser;
 
@@ -181,7 +183,7 @@ function workUninstallDatabase() {
   }
   echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
 }
-
+*/
 //****************************************************************************
 //
 // Installationsroutine

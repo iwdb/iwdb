@@ -37,9 +37,9 @@
 /*                                                                           */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
+// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde. 
 //    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") {
+if (basename($_SERVER['PHP_SELF']) != "index.php") { 
 	echo "Hacking attempt...!!"; 
 	exit; 
 }
@@ -80,8 +80,8 @@ $moduldesc = "Ausgabe der Kampfberichte im BBCode";
 // installing this module. 
 //
 function workInstallDatabase() {
-/*	global $db, $db_prefix, $db_tb_iwdbtabellen;
-
+	global $db, $db_prefix, $db_tb_iwdbtabellen;
+/*
   $sqlscript = array(
     "CREATE TABLE " . $db_prefix . "forum
     (
@@ -89,15 +89,15 @@ function workInstallDatabase() {
 
     "INSERT INTO " . $db_tb_iwdbtabellen . "(`kbparsertable`)" .
     " VALUES('kbparser')"
-  );
+  );*/
   foreach($sqlscript as $sql) {
     $result = $db->db_query($sql)
   	  or error(GENERAL_ERROR,
                'Could not query config information.', '',
                __FILE__, __LINE__, $sql);
   }
-  echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
-*/}
+  echo "<div class='system_notification'>Installation: Datenbank&auml;nderungen = <b>OK</b></div>";
+}
 
 //****************************************************************************
 //
@@ -137,12 +137,12 @@ function workInstallConfigString() {
 // removing this module. 
 //
 function workUninstallDatabase() {
-/*  global $db, $db_tb_iwdbtabellen, $db_tb_neuername;
-
+  global $db, $db_tb_iwdbtabellen, $db_tb_neuername;
+/*
   $sqlscript = array(
     "DROP TABLE " . $db_tb_neuername . ";",
     "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='neuername';"
-  );
+  );*/
 
   foreach($sqlscript as $sql) {
     $result = $db->db_query($sql)
@@ -150,8 +150,8 @@ function workUninstallDatabase() {
                'Could not query config information.', '',
                __FILE__, __LINE__, $sql);
   }
-  echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
-*/}
+  echo "<div class='system_notification'>Deinstallation: Datenbank&auml;nderungen = <b>OK</b></div>";
+}
 
 //****************************************************************************
 //
@@ -203,7 +203,7 @@ if (!@include("./config/".$modulname.".cfg.php")) {
 <body>
 
 <form action="index.php?action=kbp" method="post">
-	<textarea name="Eingabe" cols="80" rows="5" ></textarea><br>
+	<textarea name="Eingabe" cols="80" rows="5" ></textarea><br />
 	<input type="submit" value="KB haben will!">
 </form>
 

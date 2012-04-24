@@ -47,9 +47,9 @@ define('DEBUG_LEVEL', 0);
 
 include_once("includes/debug.php");
 
-// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
+// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde. 
 //    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") {
+if (basename($_SERVER['PHP_SELF']) != "index.php") { 
 	echo "Hacking attempt...!!"; 
 	exit; 
 }
@@ -82,13 +82,14 @@ $modulstatus = "";
 //
 // -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
 //
-$moduldesc = "Bestellsystem zur Koordination von Logistikaufträgen im Buddler-Fleeter-System.";
+$moduldesc = "Bestellsystem zur Koordination von Logistikauftr&auml;gen im Buddler-Fleeter-System.";
 
 //****************************************************************************
 //
 // Function workInstallDatabase is creating all database entries needed for
 // installing this module. 
 //
+
 function workInstallDatabase() {
 	global $db, $db_prefix, $db_tb_iwdbtabellen;
 /*
@@ -118,15 +119,15 @@ function workInstallDatabase() {
 		"PRIMARY KEY  (`id`)" .
 		") COMMENT='Bestellsystem' AUTO_INCREMENT=1",
 		"INSERT INTO " . $db_tb_iwdbtabellen . " (`name`) VALUES ('bestellung')",
-	);
+	);*/
 
 	foreach ($sqlscript as $sql) {
 		echo "<br>" . $sql;
 		$result = $db->db_query($sql)
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	}
-*/
-	echo "<br>Installation: Datenbankänderungen = <b>OK</b><br>";
+
+	echo "<br>Installation: Datenbank&auml;nderungen = <b>OK</b><br>";
 }
 
 //****************************************************************************
@@ -161,22 +162,23 @@ function workInstallConfigString() {
 // Function workUninstallDatabase is creating all database entries needed for
 // removing this module. 
 //
+
 function workUninstallDatabase() {
 	global $db, $db_tb_bestellung, $db_tb_iwdbtabellen;
-
+	/*
 	$sqlscript = array(
 	  "DROP TABLE " . $db_tb_bestellung,
 	  "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE `name`='bestellung'",
-	);
+	);*/
 
-/*
+
 	foreach ($sqlscript as $sql) {
 		$result = $db->db_query($sql)
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	}
 
-	echo "<br>Deinstallation: Datenbankänderungen = <b>OK</b><br>";
-*/
+	echo "<br>Deinstallation: Datenbank&auml;nderungen = <b>OK</b><br>";
+
 }
 
 //****************************************************************************
@@ -290,7 +292,7 @@ debug_var("sql", $sql);
 $result = $db->db_query($sql)
 	or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 while ($row = $db->db_fetch_array($result)) {
-	$config['projects'][$row['name']] = $row['name'] . ($row['prio'] < 999 ? " (Priorität " . $row['prio'] . ")" : "");
+	$config['projects'][$row['name']] = $row['name'] . ($row['prio'] < 999 ? " (Priorit&auml;t " . $row['prio'] . ")" : "");
 	$config['projects_prio'][$row['name']] = $row['prio'];
 }
 
@@ -390,7 +392,7 @@ if (!empty($button_add)) {
 	$result = $db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	if ($row = $db->db_fetch_array($result)) {
-		$results[] = "<div class='system_notification'>Pro Planet kann nur eine Bestellung hinzugefügt werden.</div><br>";
+		$results[] = "<div class='system_notification'>Pro Planet kann nur eine Bestellung hinzugef&uuml;gt werden.</div><br>";			
 	} else {
 		$fields['time_created'] = time();
 		$sql = "INSERT INTO " . $db_tb_bestellung . " (";
@@ -407,7 +409,7 @@ if (!empty($button_add)) {
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 		if ($row = $db->db_fetch_array($result))
 			$params['edit'] = $row['id'];
-		$results[] = "<div class='system_notification'>Datensatz hinzugefügt.</div><br>";
+		$results[] = "<div class='system_notification'>Datensatz hinzugef&uuml;gt.</div><br>";
 	}
 }
 
@@ -615,7 +617,7 @@ $views = array(
 			),
 			'coords' => array(
 				'title' => 'Koordinaten',
-				'desc' => 'Falls kein Planet ausgewählt wird.',
+				'desc' => 'Falls kein Planet ausgew&auml;hlt wird.',
 				'type' => array(
 					'coords_gal' => array(
 						'type' => 'text',
@@ -643,14 +645,14 @@ $views = array(
 			),
 			'project' => array(
 				'title' => 'Projekt',
-				'desc' => 'Für welches Projekt ist die Lieferung?',
+				'desc' => 'F&uuml;r welches Projekt ist die Lieferung?',
 				'type' => 'select',
 				'values' => $config['projects'],
 				'value' => $edit['project'],
 			),
 			'text' => array(
 				'title' => 'Text',
-				'desc' => 'Bemerkung für diese Bestellung.',
+				'desc' => 'Bemerkung f&uuml;r diese Bestellung.',
 				'type' => 'area',
 				'rows' => 5,
 				'cols' => 80,
@@ -809,7 +811,7 @@ foreach ($data as $row) {
 		if (!isset($row['allow_delete']) || $row['can_delete'])
 			echo makelink(
 				array('delete' => $key),
-				"<img src=\"bilder/file_delete_s.gif\" border=\"0\" onclick=\"return confirmlink(this, 'Datensatz wirklich löschen?')\" alt=\"löschen\">"
+				"<img src=\"bilder/file_delete_s.gif\" border=\"0\" onclick=\"return confirmlink(this, 'Datensatz wirklich l&ouml;schen?')\" alt=\"l&ouml;schen\">"
 			);
 	}
 	// Markierbuttons ausgeben
@@ -860,11 +862,11 @@ start_table();
 next_row("titlebg", 'nowrap valign=top colspan=2');
 echo "<b>" . $view['title'];
 if (isset($params['edit']) && is_numeric($params['edit'])) {
-	echo " bearbeiten/hinzufügen";
+	echo " bearbeiten/hinzuf&uuml;gen";
 	echo '<input type="hidden" name="edit" value="' . $params['edit'] . '">' . "\n";
 	// echo '<input type="hidden" name="list_team" value="'.$list_team.'" />' . "\n";
 } else
-	echo " hinzufügen";
+	echo " hinzuf&uuml;gen";
 echo "</b>";
 foreach ($view['edit'] as $key => $field) {
 	next_row('windowbg2', 'nowrap valign=top');
@@ -887,7 +889,7 @@ foreach ($view['edit'] as $key => $field) {
 next_row('titlebg', 'align=center colspan=2');
 if (isset($params['edit']) && is_numeric($params['edit']))
 	echo '<input type="submit" value="speichern" name="button_edit" class="submit"> ';
-echo '<input type="submit" value="hinzufügen" name="button_add" class="submit">';
+echo '<input type="submit" value="hinzuf&uuml;gen" name="button_add" class="submit">';
 end_table();
 echo '</form>';
 

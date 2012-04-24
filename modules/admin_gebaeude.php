@@ -24,11 +24,10 @@
 /* The GNU GPL can be found in LICENSE in this directory                     */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul �ber die index.php aufgerufen wurde.
+// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
 if (basename($_SERVER['PHP_SELF']) != "index.php") {
-	die("Hacking attempt...!!"); 
-	exit; 
+	exit("Hacking attempt...!!");
 }
 
 if ( $user_status != "admin" ) {
@@ -260,7 +259,7 @@ while($row = $db->db_fetch_array($result))
     echo "  <td class=\"windowbg1\" align=\"center\">\n";
     echo "  Ausblenden:  <input type=\"checkbox\" name=\"" . $row_gebaeude['id'] . 
          "_inactive\" value=\"1\"" . (($row_gebaeude['inactive']) ?  " checked": "") . ">\n";
-    echo "  L�schen:  <input type=\"checkbox\" name=\"" . $row_gebaeude['id'] . 
+    echo "  Löschen:  <input type=\"checkbox\" name=\"" . $row_gebaeude['id'] .
          "_delete\" onclick=\"return confirmlink(this, 'Möchten sie dieses Gebäude wirklich löeschen?')\" value=\"1\">\n";
     echo "  </td>\n";
     echo "  <td class=\"windowbg1\">\n";

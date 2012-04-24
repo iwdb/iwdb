@@ -3,11 +3,18 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 22. Apr 2012 um 12:07
+-- Erstellungszeit: 25. Apr 2012 um 01:18
 -- Server Version: 5.5.16
 -- PHP-Version: 5.3.8
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Datenbank: `iwdb`
@@ -18,50 +25,34 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 -- Tabellenstruktur für Tabelle `iwdb_transport_einstellungen`
 --
--- Erzeugt am: 21. Apr 2012 um 22:11
--- Aktualisiert am: 21. Apr 2012 um 22:11
---
 
-DROP TABLE IF EXISTS `iwdb_transport_einstellungen`;
 CREATE TABLE IF NOT EXISTS `iwdb_transport_einstellungen` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
   `value` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
 --
 -- Tabellenstruktur für Tabelle `prefix_allianzstatus`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 22. Apr 2012 um 08:14
---
 
-DROP TABLE IF EXISTS `prefix_allianzstatus`;
 CREATE TABLE IF NOT EXISTS `prefix_allianzstatus` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `allianz` varchar(50) NOT NULL DEFAULT '',
   `status` varchar(10) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Status der eigenen Allianz zu anderen' AUTO_INCREMENT=1 ;
-
---
--- Daten für Tabelle `prefix_allianzstatus`
---
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Status der eigenen Allianz zu anderen' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
 --
 -- Tabellenstruktur für Tabelle `prefix_bestellen`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_bestellen`;
 CREATE TABLE IF NOT EXISTS `prefix_bestellen` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user` varchar(30) NOT NULL DEFAULT '',
@@ -91,11 +82,7 @@ CREATE TABLE IF NOT EXISTS `prefix_bestellen` (
 --
 -- Tabellenstruktur für Tabelle `prefix_bestellung`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_bestellung`;
 CREATE TABLE IF NOT EXISTS `prefix_bestellung` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user` varchar(30) DEFAULT NULL,
@@ -137,11 +124,7 @@ CREATE TABLE IF NOT EXISTS `prefix_bestellung` (
 --
 -- Tabellenstruktur für Tabelle `prefix_bestellung_projekt`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_bestellung_projekt`;
 CREATE TABLE IF NOT EXISTS `prefix_bestellung_projekt` (
   `name` varchar(30) NOT NULL,
   `prio` int(11) NOT NULL,
@@ -162,11 +145,7 @@ INSERT INTO `prefix_bestellung_projekt` (`name`, `prio`, `schiff`) VALUES
 --
 -- Tabellenstruktur für Tabelle `prefix_bestellung_schiffe`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_bestellung_schiffe`;
 CREATE TABLE IF NOT EXISTS `prefix_bestellung_schiffe` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user` varchar(30) DEFAULT NULL,
@@ -187,11 +166,7 @@ CREATE TABLE IF NOT EXISTS `prefix_bestellung_schiffe` (
 --
 -- Tabellenstruktur für Tabelle `prefix_bestellung_schiffe_pos`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_bestellung_schiffe_pos`;
 CREATE TABLE IF NOT EXISTS `prefix_bestellung_schiffe_pos` (
   `bestellung_id` int(11) NOT NULL,
   `schiffstyp_id` int(11) NOT NULL,
@@ -205,11 +180,7 @@ CREATE TABLE IF NOT EXISTS `prefix_bestellung_schiffe_pos` (
 --
 -- Tabellenstruktur für Tabelle `prefix_building2building`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_building2building`;
 CREATE TABLE IF NOT EXISTS `prefix_building2building` (
   `bOld` int(10) unsigned NOT NULL DEFAULT '0',
   `bNew` int(10) unsigned NOT NULL DEFAULT '0',
@@ -221,11 +192,7 @@ CREATE TABLE IF NOT EXISTS `prefix_building2building` (
 --
 -- Tabellenstruktur für Tabelle `prefix_building2research`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_building2research`;
 CREATE TABLE IF NOT EXISTS `prefix_building2research` (
   `bId` int(10) unsigned NOT NULL DEFAULT '0',
   `rId` int(10) unsigned NOT NULL DEFAULT '0',
@@ -260,11 +227,7 @@ INSERT INTO `prefix_building2research` (`bId`, `rId`) VALUES
 --
 -- Tabellenstruktur für Tabelle `prefix_def`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 19:06
---
 
-DROP TABLE IF EXISTS `prefix_def`;
 CREATE TABLE IF NOT EXISTS `prefix_def` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `eingebaut` tinyint(3) unsigned NOT NULL DEFAULT '1',
@@ -323,11 +286,7 @@ INSERT INTO `prefix_def` (`id`, `eingebaut`, `id_iw`, `name`, `abk`, `typ`, `kos
 --
 -- Tabellenstruktur für Tabelle `prefix_gebaeude`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 22. Apr 2012 um 10:05
---
 
-DROP TABLE IF EXISTS `prefix_gebaeude`;
 CREATE TABLE IF NOT EXISTS `prefix_gebaeude` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL DEFAULT '',
@@ -544,11 +503,7 @@ INSERT INTO `prefix_gebaeude` (`id`, `name`, `category`, `idcat`, `inactive`, `d
 --
 -- Tabellenstruktur für Tabelle `prefix_gebaeude_spieler`
 --
--- Erzeugt am: 22. Apr 2012 um 10:06
--- Aktualisiert am: 22. Apr 2012 um 10:06
---
 
-DROP TABLE IF EXISTS `prefix_gebaeude_spieler`;
 CREATE TABLE IF NOT EXISTS `prefix_gebaeude_spieler` (
   `coords_gal` tinyint(4) NOT NULL,
   `coords_sys` smallint(6) NOT NULL,
@@ -567,11 +522,7 @@ CREATE TABLE IF NOT EXISTS `prefix_gebaeude_spieler` (
 --
 -- Tabellenstruktur für Tabelle `prefix_group`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_group`;
 CREATE TABLE IF NOT EXISTS `prefix_group` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `parent_id` int(11) NOT NULL,
@@ -591,11 +542,7 @@ INSERT INTO `prefix_group` (`id`, `parent_id`, `name`) VALUES
 --
 -- Tabellenstruktur für Tabelle `prefix_group_sort`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_group_sort`;
 CREATE TABLE IF NOT EXISTS `prefix_group_sort` (
   `group_id` int(11) NOT NULL,
   `module` varchar(30) NOT NULL,
@@ -611,11 +558,7 @@ CREATE TABLE IF NOT EXISTS `prefix_group_sort` (
 --
 -- Tabellenstruktur für Tabelle `prefix_group_user`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_group_user`;
 CREATE TABLE IF NOT EXISTS `prefix_group_user` (
   `group_id` int(11) NOT NULL,
   `user_id` varchar(30) NOT NULL
@@ -626,11 +569,7 @@ CREATE TABLE IF NOT EXISTS `prefix_group_user` (
 --
 -- Tabellenstruktur für Tabelle `prefix_highscore`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_highscore`;
 CREATE TABLE IF NOT EXISTS `prefix_highscore` (
   `name` varchar(30) NOT NULL DEFAULT '',
   `allianz` varchar(50) DEFAULT NULL,
@@ -652,11 +591,7 @@ CREATE TABLE IF NOT EXISTS `prefix_highscore` (
 --
 -- Tabellenstruktur für Tabelle `prefix_iwdbtabellen`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 19:06
---
 
-DROP TABLE IF EXISTS `prefix_iwdbtabellen`;
 CREATE TABLE IF NOT EXISTS `prefix_iwdbtabellen` (
   `name` varchar(40) NOT NULL DEFAULT '',
   UNIQUE KEY `name` (`name`)
@@ -729,11 +664,7 @@ INSERT INTO `prefix_iwdbtabellen` (`name`) VALUES
 --
 -- Tabellenstruktur für Tabelle `prefix_kasse_content`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_kasse_content`;
 CREATE TABLE IF NOT EXISTS `prefix_kasse_content` (
   `amount` decimal(22,2) NOT NULL DEFAULT '0.00',
   `allianz` varchar(50) NOT NULL DEFAULT '',
@@ -746,11 +677,7 @@ CREATE TABLE IF NOT EXISTS `prefix_kasse_content` (
 --
 -- Tabellenstruktur für Tabelle `prefix_kasse_incoming`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_kasse_incoming`;
 CREATE TABLE IF NOT EXISTS `prefix_kasse_incoming` (
   `user` varchar(30) NOT NULL DEFAULT '',
   `amount` decimal(22,2) NOT NULL DEFAULT '0.00',
@@ -764,11 +691,7 @@ CREATE TABLE IF NOT EXISTS `prefix_kasse_incoming` (
 --
 -- Tabellenstruktur für Tabelle `prefix_kasse_outgoing`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_kasse_outgoing`;
 CREATE TABLE IF NOT EXISTS `prefix_kasse_outgoing` (
   `payedfrom` varchar(30) NOT NULL DEFAULT '',
   `payedto` varchar(30) NOT NULL DEFAULT '',
@@ -783,11 +706,7 @@ CREATE TABLE IF NOT EXISTS `prefix_kasse_outgoing` (
 --
 -- Tabellenstruktur für Tabelle `prefix_kb`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_kb`;
 CREATE TABLE IF NOT EXISTS `prefix_kb` (
   `ID_KB` int(11) NOT NULL DEFAULT '0',
   `hash` varchar(100) NOT NULL DEFAULT '',
@@ -809,11 +728,7 @@ CREATE TABLE IF NOT EXISTS `prefix_kb` (
 --
 -- Tabellenstruktur für Tabelle `prefix_kb_bomb`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_kb_bomb`;
 CREATE TABLE IF NOT EXISTS `prefix_kb_bomb` (
   `ID_KB` int(11) NOT NULL DEFAULT '0',
   `time` int(11) NOT NULL,
@@ -825,11 +740,7 @@ CREATE TABLE IF NOT EXISTS `prefix_kb_bomb` (
 --
 -- Tabellenstruktur für Tabelle `prefix_kb_bomb_geb`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_kb_bomb_geb`;
 CREATE TABLE IF NOT EXISTS `prefix_kb_bomb_geb` (
   `ID_KB` int(11) NOT NULL DEFAULT '0',
   `ID_IW_GEB` int(11) NOT NULL DEFAULT '0',
@@ -841,11 +752,7 @@ CREATE TABLE IF NOT EXISTS `prefix_kb_bomb_geb` (
 --
 -- Tabellenstruktur für Tabelle `prefix_kb_def`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_kb_def`;
 CREATE TABLE IF NOT EXISTS `prefix_kb_def` (
   `ID_KB` int(11) NOT NULL DEFAULT '0',
   `ID_IW_DEF` int(11) NOT NULL DEFAULT '0',
@@ -858,11 +765,7 @@ CREATE TABLE IF NOT EXISTS `prefix_kb_def` (
 --
 -- Tabellenstruktur für Tabelle `prefix_kb_flotten`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_kb_flotten`;
 CREATE TABLE IF NOT EXISTS `prefix_kb_flotten` (
   `ID_FLOTTE` int(11) NOT NULL AUTO_INCREMENT,
   `ID_KB` int(11) NOT NULL DEFAULT '0',
@@ -880,11 +783,7 @@ CREATE TABLE IF NOT EXISTS `prefix_kb_flotten` (
 --
 -- Tabellenstruktur für Tabelle `prefix_kb_flotten_schiffe`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_kb_flotten_schiffe`;
 CREATE TABLE IF NOT EXISTS `prefix_kb_flotten_schiffe` (
   `ID_FLOTTE` int(11) NOT NULL,
   `ID_IW_SCHIFF` int(11) NOT NULL DEFAULT '0',
@@ -898,11 +797,7 @@ CREATE TABLE IF NOT EXISTS `prefix_kb_flotten_schiffe` (
 --
 -- Tabellenstruktur für Tabelle `prefix_kb_pluenderung`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_kb_pluenderung`;
 CREATE TABLE IF NOT EXISTS `prefix_kb_pluenderung` (
   `ID_KB` int(11) NOT NULL DEFAULT '0',
   `ID_IW_RESS` int(11) NOT NULL DEFAULT '0',
@@ -914,11 +809,7 @@ CREATE TABLE IF NOT EXISTS `prefix_kb_pluenderung` (
 --
 -- Tabellenstruktur für Tabelle `prefix_lager`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_lager`;
 CREATE TABLE IF NOT EXISTS `prefix_lager` (
   `user` varchar(30) NOT NULL DEFAULT '',
   `coords_gal` tinyint(4) NOT NULL DEFAULT '0',
@@ -975,13 +866,13 @@ CREATE TABLE IF NOT EXISTS `prefix_lager` (
   `wasser_baukosten` float NOT NULL,
   `energie_baukosten` float NOT NULL,
   `time` int(11) NOT NULL DEFAULT '0',
-  `eisen_sichtbar` tinyint(1) NOT NULL default '1',
-  `stahl_sichtbar` tinyint(1) NOT NULL default '1',
-  `chem_sichtbar` tinyint(1) NOT NULL default '1',
-  `vv4a_sichtbar` tinyint(1) NOT NULL default '1',
-  `eis_sichtbar` tinyint(1) NOT NULL default '1',
-  `wasser_sichtbar` tinyint(1) NOT NULL default '1',
-  `energie_sichtbar` tinyint(1) NOT NULL default '1',
+  `eisen_sichtbar` tinyint(1) NOT NULL DEFAULT '1',
+  `stahl_sichtbar` tinyint(1) NOT NULL DEFAULT '1',
+  `chem_sichtbar` tinyint(1) NOT NULL DEFAULT '1',
+  `vv4a_sichtbar` tinyint(1) NOT NULL DEFAULT '1',
+  `eis_sichtbar` tinyint(1) NOT NULL DEFAULT '1',
+  `wasser_sichtbar` tinyint(1) NOT NULL DEFAULT '1',
+  `energie_sichtbar` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`coords_gal`,`coords_sys`,`coords_planet`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Lagerübersicht';
 
@@ -990,11 +881,7 @@ CREATE TABLE IF NOT EXISTS `prefix_lager` (
 --
 -- Tabellenstruktur für Tabelle `prefix_lieferung`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_lieferung`;
 CREATE TABLE IF NOT EXISTS `prefix_lieferung` (
   `time` int(11) NOT NULL DEFAULT '0',
   `coords_from_gal` tinyint(4) NOT NULL DEFAULT '0',
@@ -1023,11 +910,7 @@ CREATE TABLE IF NOT EXISTS `prefix_lieferung` (
 --
 -- Tabellenstruktur für Tabelle `prefix_menu`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 22:16
---
 
-DROP TABLE IF EXISTS `prefix_menu`;
 CREATE TABLE IF NOT EXISTS `prefix_menu` (
   `id` tinyint(4) NOT NULL AUTO_INCREMENT,
   `menu` tinyint(4) NOT NULL DEFAULT '0',
@@ -1077,11 +960,7 @@ INSERT INTO `prefix_menu` (`id`, `menu`, `submenu`, `active`, `title`, `status`,
 --
 -- Tabellenstruktur für Tabelle `prefix_merkmale`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_merkmale`;
 CREATE TABLE IF NOT EXISTS `prefix_merkmale` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `merkmal` varchar(30) NOT NULL DEFAULT '',
@@ -1111,11 +990,7 @@ INSERT INTO `prefix_merkmale` (`id`, `merkmal`) VALUES
 --
 -- Tabellenstruktur für Tabelle `prefix_order_comment`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_order_comment`;
 CREATE TABLE IF NOT EXISTS `prefix_order_comment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `order_id` int(11) NOT NULL DEFAULT '0',
@@ -1130,11 +1005,7 @@ CREATE TABLE IF NOT EXISTS `prefix_order_comment` (
 --
 -- Tabellenstruktur für Tabelle `prefix_params`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_params`;
 CREATE TABLE IF NOT EXISTS `prefix_params` (
   `name` varchar(80) NOT NULL DEFAULT '',
   `value` varchar(80) NOT NULL DEFAULT '',
@@ -1160,11 +1031,7 @@ INSERT INTO `prefix_params` (`name`, `value`, `text`) VALUES
 --
 -- Tabellenstruktur für Tabelle `prefix_parsemenu`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_parsemenu`;
 CREATE TABLE IF NOT EXISTS `prefix_parsemenu` (
   `ersetze` varchar(100) NOT NULL DEFAULT '',
   `durch` text NOT NULL,
@@ -1188,11 +1055,7 @@ INSERT INTO `prefix_parsemenu` (`ersetze`, `durch`, `varorstr`) VALUES
 --
 -- Tabellenstruktur für Tabelle `prefix_parser`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 19:06
---
 
-DROP TABLE IF EXISTS `prefix_parser`;
 CREATE TABLE IF NOT EXISTS `prefix_parser` (
   `modulename` varchar(30) NOT NULL DEFAULT '',
   `recognizer` varchar(200) NOT NULL DEFAULT '',
@@ -1228,11 +1091,7 @@ INSERT INTO `prefix_parser` (`modulename`, `recognizer`, `message`) VALUES
 --
 -- Tabellenstruktur für Tabelle `prefix_preset`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_preset`;
 CREATE TABLE IF NOT EXISTS `prefix_preset` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(20) NOT NULL DEFAULT '',
@@ -1282,11 +1141,7 @@ INSERT INTO `prefix_preset` (`id`, `name`, `fromuser`, `typ`, `objekt`, `user`, 
 --
 -- Tabellenstruktur für Tabelle `prefix_punktelog`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 22. Apr 2012 um 07:54
---
 
-DROP TABLE IF EXISTS `prefix_punktelog`;
 CREATE TABLE IF NOT EXISTS `prefix_punktelog` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user` varchar(30) NOT NULL DEFAULT '',
@@ -1296,22 +1151,14 @@ CREATE TABLE IF NOT EXISTS `prefix_punktelog` (
   `gesamtp` int(12) NOT NULL DEFAULT '0',
   `ptag` float NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Punktenachverfolgung' AUTO_INCREMENT=1;
-
---
--- Daten für Tabelle `prefix_punktelog`
---
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Punktenachverfolgung' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
 --
 -- Tabellenstruktur für Tabelle `prefix_raidview`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_raidview`;
 CREATE TABLE IF NOT EXISTS `prefix_raidview` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `coords` varchar(11) NOT NULL DEFAULT '',
@@ -1350,11 +1197,7 @@ CREATE TABLE IF NOT EXISTS `prefix_raidview` (
 --
 -- Tabellenstruktur für Tabelle `prefix_research`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 19:06
---
 
-DROP TABLE IF EXISTS `prefix_research`;
 CREATE TABLE IF NOT EXISTS `prefix_research` (
   `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(250) NOT NULL DEFAULT '',
@@ -1646,11 +1489,7 @@ INSERT INTO `prefix_research` (`ID`, `name`, `description`, `FP`, `gebiet`, `hig
 --
 -- Tabellenstruktur für Tabelle `prefix_research2building`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 22:10
---
 
-DROP TABLE IF EXISTS `prefix_research2building`;
 CREATE TABLE IF NOT EXISTS `prefix_research2building` (
   `rId` int(10) unsigned NOT NULL DEFAULT '0',
   `bId` int(10) unsigned NOT NULL DEFAULT '0',
@@ -1914,11 +1753,7 @@ INSERT INTO `prefix_research2building` (`rId`, `bId`, `lvl`) VALUES
 --
 -- Tabellenstruktur für Tabelle `prefix_research2prototype`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_research2prototype`;
 CREATE TABLE IF NOT EXISTS `prefix_research2prototype` (
   `rid` int(10) unsigned NOT NULL DEFAULT '0',
   `pid` int(10) unsigned NOT NULL DEFAULT '0',
@@ -1994,11 +1829,7 @@ INSERT INTO `prefix_research2prototype` (`rid`, `pid`) VALUES
 --
 -- Tabellenstruktur für Tabelle `prefix_research2research`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 19:06
---
 
-DROP TABLE IF EXISTS `prefix_research2research`;
 CREATE TABLE IF NOT EXISTS `prefix_research2research` (
   `rOld` int(10) unsigned NOT NULL DEFAULT '0',
   `rNew` int(10) unsigned NOT NULL DEFAULT '0',
@@ -2430,11 +2261,7 @@ INSERT INTO `prefix_research2research` (`rOld`, `rNew`) VALUES
 --
 -- Tabellenstruktur für Tabelle `prefix_research2user`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_research2user`;
 CREATE TABLE IF NOT EXISTS `prefix_research2user` (
   `rid` int(10) unsigned NOT NULL DEFAULT '0',
   `userid` varchar(30) NOT NULL DEFAULT '0',
@@ -2446,11 +2273,7 @@ CREATE TABLE IF NOT EXISTS `prefix_research2user` (
 --
 -- Tabellenstruktur für Tabelle `prefix_researchfield`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 22:10
---
 
-DROP TABLE IF EXISTS `prefix_researchfield`;
 CREATE TABLE IF NOT EXISTS `prefix_researchfield` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL DEFAULT '',
@@ -2484,11 +2307,7 @@ INSERT INTO `prefix_researchfield` (`id`, `name`) VALUES
 --
 -- Tabellenstruktur für Tabelle `prefix_ressuebersicht`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_ressuebersicht`;
 CREATE TABLE IF NOT EXISTS `prefix_ressuebersicht` (
   `user` varchar(50) NOT NULL DEFAULT '',
   `datum` int(11) DEFAULT NULL,
@@ -2512,11 +2331,7 @@ CREATE TABLE IF NOT EXISTS `prefix_ressuebersicht` (
 --
 -- Tabellenstruktur für Tabelle `prefix_scans`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_scans`;
 CREATE TABLE IF NOT EXISTS `prefix_scans` (
   `coords` varchar(11) NOT NULL DEFAULT '',
   `coords_gal` tinyint(4) NOT NULL DEFAULT '0',
@@ -2590,11 +2405,7 @@ CREATE TABLE IF NOT EXISTS `prefix_scans` (
 --
 -- Tabellenstruktur für Tabelle `prefix_scans_historie`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_scans_historie`;
 CREATE TABLE IF NOT EXISTS `prefix_scans_historie` (
   `coords` varchar(11) NOT NULL DEFAULT '',
   `time` int(12) NOT NULL DEFAULT '0',
@@ -2612,11 +2423,7 @@ CREATE TABLE IF NOT EXISTS `prefix_scans_historie` (
 --
 -- Tabellenstruktur für Tabelle `prefix_schiffe`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_schiffe`;
 CREATE TABLE IF NOT EXISTS `prefix_schiffe` (
   `user` varchar(30) NOT NULL DEFAULT '',
   `schiff` int(11) unsigned NOT NULL DEFAULT '0',
@@ -2628,11 +2435,7 @@ CREATE TABLE IF NOT EXISTS `prefix_schiffe` (
 --
 -- Tabellenstruktur für Tabelle `prefix_schiffstyp`
 --
--- Erzeugt am: 21. Apr 2012 um 22:27
--- Aktualisiert am: 21. Apr 2012 um 22:27
---
 
-DROP TABLE IF EXISTS `prefix_schiffstyp`;
 CREATE TABLE IF NOT EXISTS `prefix_schiffstyp` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `schiff` varchar(80) NOT NULL,
@@ -2725,33 +2528,21 @@ INSERT INTO `prefix_schiffstyp` (`id`, `schiff`, `abk`, `typ`, `bild`, `id_iw`, 
 --
 -- Tabellenstruktur für Tabelle `prefix_sid`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 22. Apr 2012 um 09:17
---
 
-DROP TABLE IF EXISTS `prefix_sid`;
 CREATE TABLE IF NOT EXISTS `prefix_sid` (
   `sid` varchar(50) NOT NULL DEFAULT '',
-  `ip` varchar(20) NOT NULL DEFAULT '',
-  `date` varchar(11) NOT NULL DEFAULT '',
+  `ip` varchar(50) NOT NULL DEFAULT '',
+  `date` int(10) unsigned NOT NULL,
   `id` varchar(50) NOT NULL DEFAULT '',
   PRIMARY KEY (`sid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
---
--- Daten für Tabelle `prefix_sid`
---
+) ENGINE=MEMORY DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
 -- Tabellenstruktur für Tabelle `prefix_sitterauftrag`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_sitterauftrag`;
 CREATE TABLE IF NOT EXISTS `prefix_sitterauftrag` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `date` int(12) NOT NULL DEFAULT '0',
@@ -2778,11 +2569,7 @@ CREATE TABLE IF NOT EXISTS `prefix_sitterauftrag` (
 --
 -- Tabellenstruktur für Tabelle `prefix_sitterlog`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_sitterlog`;
 CREATE TABLE IF NOT EXISTS `prefix_sitterlog` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sitterlogin` varchar(30) NOT NULL DEFAULT '',
@@ -2797,11 +2584,7 @@ CREATE TABLE IF NOT EXISTS `prefix_sitterlog` (
 --
 -- Tabellenstruktur für Tabelle `prefix_spielerinfo`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_spielerinfo`;
 CREATE TABLE IF NOT EXISTS `prefix_spielerinfo` (
   `user` varchar(30) NOT NULL DEFAULT '',
   `dabei_seit` int(12) DEFAULT NULL,
@@ -2813,11 +2596,7 @@ CREATE TABLE IF NOT EXISTS `prefix_spielerinfo` (
 --
 -- Tabellenstruktur für Tabelle `prefix_sysscans`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_sysscans`;
 CREATE TABLE IF NOT EXISTS `prefix_sysscans` (
   `id` varchar(7) NOT NULL DEFAULT '',
   `gal` tinyint(4) NOT NULL DEFAULT '0',
@@ -2830,30 +2609,25 @@ CREATE TABLE IF NOT EXISTS `prefix_sysscans` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Tabellenstruktur für Tabelle `prefix_target`
--- 
+--
 
-CREATE TABLE `prefix_target` (
+CREATE TABLE IF NOT EXISTS `prefix_target` (
   `user` varchar(30) NOT NULL,
   `name` varchar(255) NOT NULL,
   `coords_gal` tinyint(4) NOT NULL,
   `coords_sys` smallint(6) NOT NULL,
   `coords_planet` tinyint(4) NOT NULL,
-  PRIMARY KEY  (`user`,`name`,`coords_gal`,`coords_sys`,`coords_planet`)
+  PRIMARY KEY (`user`,`name`,`coords_gal`,`coords_sys`,`coords_planet`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
 
 -- --------------------------------------------------------
 
 --
 -- Tabellenstruktur für Tabelle `prefix_transferliste`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_transferliste`;
 CREATE TABLE IF NOT EXISTS `prefix_transferliste` (
   `zeitmarke` int(11) NOT NULL,
   `buddler` varchar(50) NOT NULL,
@@ -2874,11 +2648,7 @@ CREATE TABLE IF NOT EXISTS `prefix_transferliste` (
 --
 -- Tabellenstruktur für Tabelle `prefix_univ_link`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_univ_link`;
 CREATE TABLE IF NOT EXISTS `prefix_univ_link` (
   `user` varchar(30) NOT NULL,
   `id` int(11) NOT NULL,
@@ -2891,11 +2661,7 @@ CREATE TABLE IF NOT EXISTS `prefix_univ_link` (
 --
 -- Tabellenstruktur für Tabelle `prefix_user`
 --
--- Erzeugt am: 21. Apr 2012 um 18:55
--- Aktualisiert am: 22. Apr 2012 um 09:17
---
 
-DROP TABLE IF EXISTS `prefix_user`;
 CREATE TABLE IF NOT EXISTS `prefix_user` (
   `id` varchar(30) NOT NULL DEFAULT '',
   `staatsform` int(1) NOT NULL DEFAULT '0',
@@ -2968,18 +2734,14 @@ CREATE TABLE IF NOT EXISTS `prefix_user` (
 --
 
 INSERT INTO `prefix_user` (`id`, `staatsform`, `password`, `email`, `status`, `rules`, `logindate`, `allianz`, `grav_von`, `grav_bis`, `gal_start`, `gal_end`, `sys_start`, `sys_end`, `preset`, `planibilder`, `gebbilder`, `geopunkte`, `syspunkte`, `sitterlogin`, `sitterpwd`, `sitterskin`, `sittercomment`, `sitten`, `adminsitten`, `newspermission`, `mailpermission`, `sitterpunkte`, `gebaeude`, `peitschen`, `gengebmod`, `genbauschleife`, `genmaurer`, `budflesol`, `buddlerfrom`, `rang`, `gebp`, `fp`, `gesamtp`, `ptag`, `dabei`, `titel`, `userlink`, `lastshipscan`, `menu_default`, `gesperrt`, `color`, `ikea`, `sound`, `squad`, `switch`, `lastsitterlogin`, `lastsitteruser`, `lastsitterloggedin`, `fremdesitten`, `vonfremdesitten`, `iwsa`, `lasttransport`, `uniprop`, `dauersitten`, `dauersittentext`, `dauersittenlast`) VALUES
-('admin', 0, '21232f297a57a5a743894a0e4a801fc3', '', 'admin', '1', 0, '', 0, 0, '0', '0', '0', '0', 0, '', '', 0, 0, '', NULL, 0, '', '', '', 1, 1, 0, '', '', 1, '', '', '', '', '', 0, 0, 0, 0, '', '', '', '', 'default', 0, '0', '', 0, '', 0, 0, '', 0, 0, 0, '', NULL, 1, 0, '', NULL);
+('admin', 0, '21232f297a57a5a743894a0e4a801fc3', '', 'admin', '1', 1335309332, '', 0, 0, '0', '0', '0', '0', 0, '', '', 0, 0, '', NULL, 0, '', '', '', 1, 1, 0, '', '', 1, '', '', '', '', '', 0, 0, 0, 0, 0, '', '', '', 'default', 0, '0', '', 0, '', 0, 0, '', 0, 0, 0, '', NULL, 1, 0, '', NULL);
 
 -- --------------------------------------------------------
 
 --
 -- Tabellenstruktur für Tabelle `prefix_user_research`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_user_research`;
 CREATE TABLE IF NOT EXISTS `prefix_user_research` (
   `user` varchar(30) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `rId` int(10) unsigned NOT NULL DEFAULT '0',
@@ -2992,11 +2754,7 @@ CREATE TABLE IF NOT EXISTS `prefix_user_research` (
 --
 -- Tabellenstruktur für Tabelle `prefix_versand_auftrag`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_versand_auftrag`;
 CREATE TABLE IF NOT EXISTS `prefix_versand_auftrag` (
   `user` varchar(30) NOT NULL,
   `time` int(11) NOT NULL,
@@ -3011,16 +2769,23 @@ CREATE TABLE IF NOT EXISTS `prefix_versand_auftrag` (
 --
 -- Tabellenstruktur für Tabelle `prefix_wronglogin`
 --
--- Erzeugt am: 21. Apr 2012 um 18:54
--- Aktualisiert am: 21. Apr 2012 um 18:54
---
 
-DROP TABLE IF EXISTS `prefix_wronglogin`;
 CREATE TABLE IF NOT EXISTS `prefix_wronglogin` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user` varchar(30) NOT NULL DEFAULT '',
   `date` int(11) NOT NULL DEFAULT '0',
   `ip` varchar(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
+--
+-- Daten für Tabelle `prefix_wronglogin`
+--
+
+INSERT INTO `prefix_wronglogin` (`id`, `user`, `date`, `ip`) VALUES
+(2, 'Landstreicher', 1335307913, ''),
+(3, 'Landstreicher', 1335308912, '127.0.0.1');
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

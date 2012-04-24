@@ -342,7 +342,7 @@ if(isset($debug)) {
 			if ($key != 0)
 				echo '
 					<br>_______________________________________________________<br><br>';
-			echo htmlentities($value['Bericht']);
+			echo htmlentities($value['Bericht'], ENT_QUOTES, 'UTF-8');
 		}
 		echo '
 				</tr>

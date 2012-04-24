@@ -59,7 +59,7 @@ if (isset($_POST['Eingabe'])) {
 	
 	echo 'Den unten stehenden Text per "copy\'n\'paste" in jedes beliebige Forum mit BB-Code-Support posten.<br><br>';
 	foreach($daten['KBs'] as $kb) {
-		echo htmlentities($kb['Bericht']);
+		echo htmlentities($kb['Bericht'], ENT_QUOTES, 'UTF-8');
 		echo '<br>_______________________________________________________<br><br>';
 	}
 	}

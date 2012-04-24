@@ -24,7 +24,7 @@
 /* The GNU GPL can be found in LICENSE in this directory                     */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul �ber die index.php aufgerufen wurde.
+// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
 if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	exit("Hacking attempt...!!");
@@ -33,18 +33,6 @@ if (basename($_SERVER['PHP_SELF']) != "index.php") {
 if ( $user_status != "admin" ) {
 	die('Hacking attempt...');
 }
-  
-function unhtmlentities($string)
-{
-   // Ersetzen numerischer Darstellungen
-   $string = preg_replace('~&#x([0-9a-f]+);~ei', 'chr(hexdec("\\1"))', $string);
-   $string = preg_replace('~&#([0-9]+);~e', 'chr("\\1")', $string);
-   // Ersetzen benannter Zeichen
-   $trans_tbl = get_html_translation_table(HTML_ENTITIES);
-   $trans_tbl = array_flip($trans_tbl);
-   return strtr($string, $trans_tbl);
-}
-
   
 doc_title("Admin Schiffstypen");
 
@@ -114,11 +102,11 @@ while($row = $db->db_fetch_array($result)) {
     echo $row_schiffe['schiff'];
     next_cell("windowbg1");
     echo "<input type=\"text\" name=\"" . 
-         $row_schiffe['id'] . "_abk\" value=\"" . unhtmlentities($row_schiffe['abk']) . 
+         $row_schiffe['id'] . "_abk\" value=\"" . html_entity_decode($row_schiffe['abk'], ENT_QUOTES, 'UTF-8') .
          "\" style=\"width: 100\">";
     next_cell("windowbg1");
     echo "<input type=\"text\" name=\"" .
-         $row_schiffe['id'] . "_typ\" value=\"" . unhtmlentities($row_schiffe['typ']) . 
+         $row_schiffe['id'] . "_typ\" value=\"" . html_entity_decode($row_schiffe['typ'], ENT_QUOTES, 'UTF-8') .
          "\" style=\"width: 150\">";
     next_cell("windowbg1");
     echo "<input type=\"checkbox\" name=\"" .

@@ -360,10 +360,10 @@ function getVar($varname, $noentities = false) {
 		if(!$noentities) {
 			if (is_array($_POST[$varname])) {
 				$returnary = array();
-				foreach($_POST[$varname] as $key => $value) $returnary[$key] = htmlentities($value, ENT_QUOTES);
+				foreach($_POST[$varname] as $key => $value) $returnary[$key] = htmlentities($value, ENT_QUOTES, 'UTF-8');
 				return $returnary;
 			} else {
-				return htmlentities($_POST[$varname], ENT_QUOTES);
+				return htmlentities($_POST[$varname], ENT_QUOTES, 'UTF-8');
 			}
 		} else {
 			return $_POST[$varname];
@@ -373,10 +373,10 @@ function getVar($varname, $noentities = false) {
 		if(!$noentities) {
 			if (is_array($_GET[$varname])) {
 				$returnary = array();
-				foreach($_GET[$varname] as $key => $value) $returnary[$key] = htmlentities($value, ENT_QUOTES);
+				foreach($_GET[$varname] as $key => $value) $returnary[$key] = htmlentities($value, ENT_QUOTES, 'UTF-8');
 				return $returnary;
 			} else {			
-				return htmlentities($_GET[$varname], ENT_QUOTES);
+				return htmlentities($_GET[$varname], ENT_QUOTES, 'UTF-8');
 			}
 		} else {
 			return $_GET[$varname];

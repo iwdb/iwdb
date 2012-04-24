@@ -165,7 +165,7 @@ if ($action == 'default') {
   while($line=fgets($fp,"1024")){
 
 //Datei auslesen, alle <> parse, da die eh nicht vorkommen dürfen
-  $line = htmlentities($line);
+  $line = htmlentities($line, ENT_QUOTES, 'UTF-8');
 
 //Neue Eigenschaft 
   $pos = strpos($line, '!N');

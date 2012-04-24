@@ -135,7 +135,7 @@ function parse_raid($scanlines) {
 		foreach($scanlines as $scan){
 
 			//der nette Link
-			if ( !(StrPos( $scan , htmlentities('http://www.icewars.de/portal/kb/de/kb.php') ) === FALSE) ) {
+			if ( !(StrPos( $scan , htmlentities('http://www.icewars.de/portal/kb/de/kb.php', ENT_QUOTES, 'UTF-8') ) === FALSE) ) {
 				$link = trim($scan);
 			}
 			//echo $scan."<br>";

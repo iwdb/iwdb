@@ -396,22 +396,6 @@ function find_research_id($researchname, $hidenew) {
   return $row['ID'];
 }
 
-//****************************************************************************
-// Replace htmlentities with normal character. Could have used
-// html_entities_decode instead, but this function exists only
-// after PHP 4.3.0.
-//
-function unhtmlentities($string)
-{
-   // Ersetzen numerischer Darstellungen
-   $string = preg_replace('~&#x([0-9a-f]+);~ei', 'chr(hexdec("\\1"))', $string);
-   $string = preg_replace('~&#([0-9]+);~e', 'chr("\\1")', $string);
-   // Ersetzen benannter Zeichen
-   $trans_tbl = get_html_translation_table(HTML_ENTITIES);
-   $trans_tbl = array_flip($trans_tbl);
-   return strtr($string, $trans_tbl);
-}
-
 // ****************************************************************************
 //
 //
@@ -432,7 +416,7 @@ function find_building_id($name) {
                       "Katze und Maus Stock Abwehrfabrik", $name);
 
 	// Try without entities first, before inserting a new one.
-  $name2 = unhtmlentities($name);
+  $name2 = html_entity_decode($name, ENT_QUOTES, 'UTF-8');
 
 	$sql3 = "SELECT ID FROM " . $db_tb_gebaeude . " WHERE name='" . $name2 . "'";
 	$result = $db->db_query($sql3)

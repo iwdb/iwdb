@@ -306,7 +306,7 @@ function save_sbxml($scan_data) {
 			    $key != 'plan' &&
 			    $key != 'stat' &&
 			    $key != 'def')
-				$value = htmlentities(utf8_decode($value));
+				$value = htmlentities($value, ENT_QUOTES, 'UTF-8');
 			if (isset($next) && $next)
 				$sql .= ",";
 			$sql .= "'$value'";
@@ -329,7 +329,7 @@ function save_sbxml($scan_data) {
 			    $key != 'plan' &&
 			    $key != 'stat' &&
 			    $key != 'def')
-				$value = htmlentities(utf8_decode($value));
+				$value = htmlentities($value, ENT_QUOTES, 'UTF-8');
 			if (isset($next) && $next)
 				$sql .= ",";
 			$sql .= "$key='$value'";

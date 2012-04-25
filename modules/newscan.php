@@ -372,9 +372,11 @@ if ( ! empty($textinput) )
                 if ($parserResult->bSuccessfullyParsed) {
                     if (!empty($parserResult->aErrors) && count($parserResult->aErrors) > 0)
                     {
-                        echo "... error:";
-                        print_r($parserResult->aErrors);
-                        echo "<br />";
+                        echo "info:<br />";
+                        foreach ($parserResult->aErrors as $t)
+                        {
+                            echo "...$t <br />";
+                        }
                     } else {
                         $lparser = $parserResult->strIdentifier;
                         if (file_exists('parser/'.$lparser.'.php')) {
@@ -399,7 +401,7 @@ if ( ! empty($textinput) )
                             $count++;
                         }
                         else {
-                            echo "Input erfolgreich geparsed. Die Daten wurden allerdings nicht in die Datenbank eingetragen!<br />";
+                            echo "Input erfolgreich erkannt. Weitere Verarbeitung in der IWDB ist aber bisher nicht vorgesehen<br />";
                         }
                     }
                 }
@@ -407,9 +409,11 @@ if ( ! empty($textinput) )
                     echo "Input wurde erkannt, konnte aber nicht fehlerfrei geparsed werden!<br />";
                     if (!empty($parserResult->aErrors) && count($parserResult->aErrors) > 0)
                     {
-                        echo "... error:";
-                        print_r($parserResult->aErrors);
-                        echo "<br />";
+                        echo "error:<br />";
+                        foreach ($parserResult->aErrors as $t)
+                        {
+                            echo "...$t <br />";
+                        }
                     }
                 }
             }

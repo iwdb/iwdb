@@ -163,10 +163,10 @@ if (!@include("./config/".$modulname.".cfg.php")) {
 
 function getColor($tuedel) {
 
-  if ( $tuedel['Kolonie']==0 && $tuedel['Sammelbasis']==0 && $tuedel['Kampfbasis']==0 )
+  if ( $tuedel['Kolonie']==0 && $tuedel['Sammelbasis']==0 && $tuedel['Kampfbasis']==0 && $tuedel['Artefaktbasis']==0)
   {
     return "#00FF00";
-  } else if ( $tuedel['Kolonie']==0 && ($tuedel['Sammelbasis']!=0 || $tuedel['Kampfbasis']!=0) )
+  } else if ( $tuedel['Kolonie']==0 && ($tuedel['Sammelbasis']!=0 || $tuedel['Kampfbasis']!=0 || $tuedel['Artefaktbasis']!=0) )
   {
     return "#00FFCC";
   }
@@ -472,51 +472,66 @@ function getColor($tuedel) {
       echo "Kampfbasen";
 	  next_cell("windowbg2", "style=\"width:21%\" align=\"center\"");
       echo "Artefaktbasen";
-      if (isset($fleeter))
-      {
-        foreach ($fleeter as $username => $plannis) {
-          next_row("windowbg3", "style=\"width:22%\" align=\"center\"");
-          echo "<b>$username</b><br>" . $fleeters[$username] . " pkte";
-          next_cell("windowbg1", "style=\"width:36%\" align=\"left\"");
-          if (isset($fleeter[$username]['Kolonie'])) {
-            start_table(100);
-	    foreach ($fleeter[$username]['Kolonie'] as $key => $planni)  {
-	      start_row("windowbg1", "style=\"width:55%\" align=\"left\"");
-              echo "$planni";
-	      next_cell("windowbg1", "style=\"width:45%\" align=\"right\"");
-	      echo $points[$username][$key] . " pkte";
-	      end_row();
-            }
-	    end_table();
-	  } else {echo "-";}/*
-	  next_cell("windowbg1", "style=\"width:15%\" align=\"right\"");
-          if (isset($points[$username])) {
-            foreach ($points[$username] as $point)  {
-              echo "$point pkte<br>";
-            }
-	  } else {echo "-";}*/
-          next_cell("windowbg1", "style=\"width:21%\" align=\"left\"");
-          if (isset($fleeter[$username]['Sammelbasis'])) {
-            start_table(100);
-            foreach ($fleeter[$username]['Sammelbasis'] as $planni)  {
-	      start_row("windowbg1", "style=\"width:100%\" align=\"left\"");
-              echo "$planni<br>";
-	      end_row();
-	    }
-	    end_table();
-	  } else {echo "-";}
-          next_cell("windowbg1", "style=\"width:21%\" align=\"left\"");
-	  if (isset($fleeter[$username]['Kampfbasis'])) {
-            start_table(100);
-            foreach ($fleeter[$username]['Kampfbasis'] as $planni)  {
-	      start_row("windowbg1", "style=\"width:100%\" align=\"left\"");
-              echo "$planni<br>";
-	      end_row();
-	    }
-	    end_table();
-          } else {echo "-";}
-        }
-	end_row();
+      if (isset($fleeter)) {
+		foreach ($fleeter as $username => $plannis) {
+			next_row("windowbg3", "style=\"width:22%\" align=\"center\"");
+			echo "<b>$username</b><br>" . $fleeters[$username] . " pkte";
+				next_cell("windowbg1", "style=\"width:36%\" align=\"left\"");
+					if (isset($fleeter[$username]['Kolonie'])) {
+						start_table(100);
+							foreach ($fleeter[$username]['Kolonie'] as $key => $planni) {
+								start_row("windowbg1", "style=\"width:55%\" align=\"left\"");
+									echo "$planni";
+									next_cell("windowbg1", "style=\"width:45%\" align=\"right\"");
+										echo $points[$username][$key] . " pkte";
+								end_row();
+								}
+						end_table();
+					}
+					else {
+						echo "-";
+					}
+				next_cell("windowbg1", "style=\"width:21%\" align=\"left\"");
+					if (isset($fleeter[$username]['Sammelbasis'])) {
+						start_table(100);
+							foreach ($fleeter[$username]['Sammelbasis'] as $planni)  {
+								start_row("windowbg1", "style=\"width:100%\" align=\"left\"");
+									echo "$planni<br>";
+								end_row();
+							}
+						end_table();
+					}
+					else {
+						echo "-";
+					}
+				next_cell("windowbg1", "style=\"width:21%\" align=\"left\"");
+					if (isset($fleeter[$username]['Kampfbasis'])) {
+						start_table(100);
+							foreach ($fleeter[$username]['Kampfbasis'] as $planni)  {
+								start_row("windowbg1", "style=\"width:100%\" align=\"left\"");
+									echo "$planni<br>";
+								end_row();
+							}
+						end_table();
+					}
+					else {
+						echo "-";
+					}
+				next_cell("windowbg1", "style=\"width:21%\" align=\"left\"");
+					if (isset($fleeter[$username]['Artefaktbasis'])) {
+						start_table(100);
+							foreach ($fleeter[$username]['Artefaktbasis'] as $planni)  {
+								start_row("windowbg1", "style=\"width:100%\" align=\"left\"");
+									echo "$planni<br>";
+								end_row();
+							}
+						end_table();
+					}
+					else {
+						echo "-";
+					}
+		}
+		end_row();
       }
       start_row("titlebg", "style=\"width:95%\" align=\"center\" colspan=\"5\"");
       echo "<b>weitere Spieler</b>";

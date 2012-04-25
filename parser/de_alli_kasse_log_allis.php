@@ -72,7 +72,7 @@ function parse_de_alli_kasse_log_allis ( $return )
 
         echo "{" . date("d.m.Y H:i", $log->iDateTime)
                 . "} Allizahlung [$allianz] von " . $log->strFromUser . " an " . $log->strAlliTag
-                . " mit " . $log->iCredits . " Keksen erkannt." . "<br />\n";            
+                . " mit " . $log->iCredits . " Credits erkannt." . "<br />\n";            
     }       
 }
 

@@ -45,10 +45,10 @@ function parse_de_mil_schiff_uebersicht ( $return )
     // Variableninitialisierung
     $deleted = false;
     
-    foreach ($return->objResultData->aKolos as $kolo)
-	{
+//    foreach ($return->objResultData->aKolos as $kolo)
+//	{
         //! Mac: @todo: Kolonien pruefen ?
-	}
+//	}
     
     foreach ($return->objResultData->aSchiffe as $aschiff)
 	{

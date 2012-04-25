@@ -76,7 +76,7 @@ function parse_de_alli_kasse_log_member($return)
 
         echo "{" . date("d.m.Y H:i", $log->iDateTime)
                 . "} Allizahlung [$allianz] von " . $log->strFromUser . " an " . $log->strToUser
-                . " mit " . $log->iCredits . " Keksen erkannt." . ( (!empty($log->strReason)) ? (" (" . $log->strReason . ")") : "") ."<br />\n";            
+                . " mit " . $log->iCredits . " Credits erkannt." . ( (!empty($log->strReason)) ? (" (" . $log->strReason . ")") : "") ."<br />\n";            
     }
 }
 

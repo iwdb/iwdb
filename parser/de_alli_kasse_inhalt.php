@@ -62,8 +62,7 @@ function parse_de_alli_kasse_inhalt ( $return )
   }
   
   $content=$return->objResultData->fCredits;
-  $content=$content/100;
-  
+    
   $sql = "REPLACE INTO $db_tb_kasse_content (amount, time_of_insert, allianz) 
           VALUES ($content, CURRENT_DATE(), '$allianz')";
   $db->db_query($sql)

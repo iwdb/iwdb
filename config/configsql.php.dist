@@ -1,6 +1,6 @@
 <?php
 /*****************************************************************************/
-/* s_fremde_flotten.php                                                      */
+/* configsql.php                                                             */
 /*****************************************************************************/
 /* Iw DB: Icewars geoscan and sitter database                                */
 /* Open-Source Project started by Robert Riess (robert@riess.net)            */
@@ -23,24 +23,21 @@
 /*                                                                           */
 /* The GNU GPL can be found in LICENSE in this directory                     */
 /*****************************************************************************/
-// $Id: s_fremde_flotten.php 205 2007-04-24 18:54:05Z reuq tgarfeg $
 
-/*****************************************************************************/
-/* Diese Erweiterung der urspünglichen DB ist ein Gemeinschafftsprojekt von  */
-/* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
-/* Entwicklerforum wenden:                                                   */
-/*                                                                           */
-/*                   http://www.iw-smf.pericolini.de                         */
-/*                                                                           */
-/*****************************************************************************/
+if (!defined('IRA'))
+	die('Hacking attempt...');
 
-if (!defined('S_FLOTTEN_INCLUDED')) {
-	define('S_FLOTTEN_INCLUDED', TRUE);
-	include('s_flotten.php');
-}
-
-function parse_fremde_flotten($scanlines) {
-	parse_flotten($scanlines, false);
-}
+// SQL type
+$db_type = "mysql";
+// SQL server
+$db_host = "localhost";
+// SQL username
+$db_user = "iwdb";
+// SQL password
+$db_pass = "iwdb";
+// SQL database name
+$db_name = "iwdb";
+// SQL database prefix
+//Normal _prefix es sei den sie ahben beim installeiren der SQL Datei ein anderes Prefix benutzt
+$db_prefix = "prefix_";
 ?>

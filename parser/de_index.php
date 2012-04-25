@@ -43,7 +43,8 @@ error_reporting(E_ALL);
 
 function parse_de_index ( $return )
 {
-    echo "Startseiten Parser funktioniert, speichert im Moment aber noch keine Daten in der DB!<br>";
+    global $db, $db_tb_scans, $selectedusername, $scan_datas;
+
 	foreach ($return->objResultData->aContainer as $aContainer)
 	{
 		if ($aContainer->bSuccessfullyParsed)
@@ -53,47 +54,102 @@ function parse_de_index ( $return )
 				$fleetType = $aContainer->objResultData->strType;	//! own OR opposite
                 if (!$aContainer->objResultData->bObjectsVisible)
                      echo "<font color='orange'>Info: </font> keine Transportinformation (" . $fleetType . ") sichtbar. Bitte Fluginformationen vor dem Parsen ausklappen";
-
+               
 				foreach ($aContainer->objResultData->aFleets as $msg)
 				{	
 					$tf_type = $msg->eTransfairType;
+         
+                    //! Mac: fehlt noch
+//	     $scan_data['art'] == 'Ressourcen abholen' ||
+//	     $scan_data['art'] == 'Ressourcenhandel' ||
+//	     $scan_data['art'] == 'Ressourcenhandel (ok)' ||
+//	     $scan_data['art'] == 'Stationieren' ||
+//	     $scan_data['art'] == 'Kolonisation' ||
+     
 					if ( $tf_type == "Rückkehr") {	//! keine weiteren Infos vorhanden
 						continue;		
 					}
-					else if ($tf_type == "Übergabe" || $tf_type == "Transport" || $tf_type == "Übergabe (tr Schiffe)" || $tf_type == "Massdriverpaket") {
-						$transfair_of_user_name = $msg->strUserNameFrom;
-						$transfair_to_coords = $msg->strCoordsTo;		
+					else if ($tf_type == "Übergabe" || $tf_type == "Transport" || $tf_type == "Übergabe (tr Schiffe)" || $tf_type == "Massdriverpaket"
+                          || $tf_type == "Sondierung (Schiffe/Def/Ress)" || $tf_type == "Angriff"
+                          || $tf_type == "Sondierung (Gebäude/Ress)" || $tf_type == "Sondierung (Schiff) (Scout)"
+                          || $tf_type == "Sondierung (Gebäude) (Scout)" || $tf_type == "Sondierung (Geologie) (Scout)"
+                          || $tf_type == "Sondierung (Geologie)"
+                            ) {
+                        
+                        $scan_data = array();
+                        if ($fleetType == "own")
+                            $scan_data['user_from'] = $selectedusername;
+                        else 
+                            $scan_data['user_from'] = $msg->strUserNameFrom;
 
-						if ($tf_type == "Transport" && !empty($msg->iAnkunft)) 	//! Ausladezeit: +5min
-							$transfair_date = $msg->iAnkunft + 5*60;
+                        $scan_data['planet_to'] = $msg->strPlanetNameTo;
+                        $scan_data['coords_to_gal'] = $msg->aCoordsTo["coords_gal"];
+                        $scan_data['coords_to_sys'] = $msg->aCoordsTo["coords_sol"];
+                        $scan_data['coords_to_planet'] = $msg->aCoordsTo["coords_pla"];
+                        
+                        $scan_data['planet_from'] = $msg->strPlanetNameFrom;
+                        $scan_data['coords_from_gal'] = $msg->aCoordsFrom["coords_gal"];
+                        $scan_data['coords_from_sys'] = $msg->aCoordsFrom["coords_sol"];
+                        $scan_data['coords_from_planet'] = $msg->aCoordsFrom["coords_pla"];
+                        
+                        $scan_data['art'] = $tf_type;
+                        
+                        // Zeitstempel
+                        if ($tf_type == "Transport" && !empty($msg->iAnkunft)) 	//! Ausladezeit: +5min
+							$scan_data['time'] = $msg->iAnkunft + 5*60;
 						else
-							$transfair_date = $msg->iAnkunft;
+							$scan_data['time'] = $msg->iAnkunft;
 
-						$transfair_type = "NULL";
-						if ($tf_type == "Transport" || $tf_type == "Massdriverpaket")
-							$transfair_type = "'transport'";
-						else if ($tf_type == "Übergabe" || $tf_type == "Übergabe (tr Schiffe)")
-							$transfair_type = "'ownershiptransfair'";
-						else {
-                            echo "<font color='red'>unknown transfer_type detected: " .$msg->eTransfairType."</font>";
-                            continue;
-                        }	
-						
-                        //! Mac: @todo: Transport in die DB eintragen
-
+                        if (!isset($scan_data['user_to']) || empty($scan_data['user_to'])) {
+                            $scan_data['user_to'] = "";
+                            $sql = "SELECT user FROM " . $db_tb_scans;
+                            $sql .= " WHERE coords_gal=" . $scan_data['coords_to_gal'];
+                            $sql .= " AND coords_sys=" . $scan_data['coords_to_sys'];
+                            $sql .= " AND coords_planet=" . $scan_data['coords_to_planet'];
+                            debug_var('sql', $sql);
+                            $result = $db->db_query($sql)
+                                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                            if ($row = $db->db_fetch_array($result))
+                                debug_var('user_to', $scan_data['user_to'] = $row['user']);
+                        }
+                        if (!isset($scan_data['user_from']) || empty($scan_data['user_from'])) {
+                            // Von
+                            $sql = "SELECT user FROM " . $db_tb_scans;
+                            $sql .= " WHERE coords_gal=" . $scan_data['coords_from_gal'];
+                            $sql .= " AND coords_sys=" . $scan_data['coords_from_sys'];
+                            $sql .= " AND coords_planet=" . $scan_data['coords_from_planet'];
+                            debug_var('sql', $sql);
+                            $result = $db->db_query($sql)
+                                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                            if ($row = $db->db_fetch_array($result))
+                                debug_var('user_from', $scan_data['user_from'] = $row['user']);
+                        }
+        
+                        if (!isset($scan_data['schiffe']))
+                            $scan_data['schiffe'] = array();
+                        
+                        //! Mac: gelieferte Ress/Schiffe eintragen
 						foreach ($msg->aObjects as $object)
 						{												
-							//! Mac: @todo: gelieferte Ress/Schiffe eintragen   
+                            $typ = $object["object"];
+                            $menge = $object["count"];
+                            
+                            if ($typ != 'Eisen' && $typ != 'Stahl' && $typ != 'VV4A' && $typ != 'chem. Elemente' && $typ != 'Eis' && $typ != 'Wasser' && $typ != 'Energie')
+                            {
+                                $scan_data['schiffe'][$typ] = $menge;
+                            }
+                            else 
+                                $scan_data['pos'][$typ] = $menge;
 						}
-					}
-					// || $tf_type == "Sondierung (Geologie) (Scout)" //! Mac: nicht wichtig, oder ?
-					else if ($tf_type == "Sondierung (Schiffe/Def/Ress)" || $tf_type == "Angriff"
-                            || $tf_type == "Sondierung (Gebäude/Ress)" || $tf_type == "Sondierung (Schiff) (Scout)"
-                            || $tf_type == "Sondierung (Gebäude) (Scout)" || $tf_type == "Sondierung (Geologie) (Scout)"
-                            || $tf_type == "Sondierung (Geologie)") {
                         
-                        //! Mac: @todo: Sondierungen auswerten/melden/warnen
+                        // Daten speichern
+                        save_data($scan_data);
+                        $scan_datas[] = $scan_data;
 					}
+                    else {
+                        echo "<font color='red'>unknown transfer_type detected: " .$tf_type."</font>";
+                        continue;
+                    }	
 				}
 			}	//! index_fleet
 			else if (($aContainer->bSuccessfullyParsed) &&  ($aContainer->strIdentifier == "de_index_ressourcen"))
@@ -133,3 +189,124 @@ function parse_de_index ( $return )
    		} 
 	}		//! for each container
 }
+
+function save_data($scan_data) {
+	global $db, $db_tb_lieferung, $db_tb_scans;
+    
+	$fields = array(
+		'time' => $scan_data['time'],
+		'coords_from_gal' => $scan_data['coords_from_gal'],
+		'coords_from_sys' => $scan_data['coords_from_sys'],
+		'coords_from_planet' => $scan_data['coords_from_planet'],
+		'coords_to_gal' => $scan_data['coords_to_gal'],
+		'coords_to_sys' => $scan_data['coords_to_sys'],
+		'coords_to_planet' => $scan_data['coords_to_planet'],
+		'user_from' => $scan_data['user_from'],
+		'user_to' => $scan_data['user_to'],
+		'eisen' => isset($scan_data['pos']['Eisen']) ? $scan_data['pos']['Eisen'] : 0,
+		'stahl' => isset($scan_data['pos']['Stahl']) ? $scan_data['pos']['Stahl'] : 0,
+		'vv4a' => isset($scan_data['pos']['VV4A']) ? $scan_data['pos']['VV4A'] : 0,
+		'chem' => isset($scan_data['pos']['chem. Elemente']) ? $scan_data['pos']['chem. Elemente'] : 0,
+		'eis' => isset($scan_data['pos']['Eis']) ? $scan_data['pos']['Eis'] : 0,
+		'wasser' => isset($scan_data['pos']['Wasser']) ? $scan_data['pos']['Wasser'] : 0,
+		'energie' => isset($scan_data['pos']['Energie']) ? $scan_data['pos']['Energie'] : 0,
+		'art' => $scan_data['art'],
+	);
+	if (isset($scan_data['schiffe']))
+		foreach ($scan_data['schiffe'] as $name => $anzahl)
+			if (isset($fields['schiffe']))
+				$fields['schiffe'] .= "<br>" . $anzahl . " " . $name;
+			else
+				$fields['schiffe'] = $anzahl . " " . $name;		 
+	$sql = "INSERT INTO " . $db_tb_lieferung . " (";
+	$sql .= implode(array_keys($fields), ",");
+	$sql .= ") VALUES (";
+	foreach ($fields as $key => $value)
+		if (is_numeric($value))
+			$inserts[] = $value;
+		else
+			$inserts[] .= "'" . $value . "'";
+	$sql .= implode($inserts, ",");
+	$sql .= ") ON DUPLICATE KEY UPDATE ";
+	foreach ($fields as $key => $value)
+		if (!empty($value))
+			if (is_numeric($value))
+				$updates[] = $key . "=" . $value;
+			else
+				$updates[] = $key . "='" . $value . "'";
+	$sql .= implode($updates, ",");
+	debug_var('sql', $sql);
+	$result = $db->db_query($sql)
+		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+	if ($scan_data['art'] == "Angriff") {
+		$sql = "UPDATE $db_tb_scans
+			 SET angriff=" . $scan_data['time'] . "
+			    ,angriffuser='" . $scan_data['user_from'] . "'
+			 WHERE coords_gal=" . $scan_data['coords_to_gal'] . "
+			   AND coords_sys=" . $scan_data['coords_to_sys'] . "
+			   AND coords_planet=" . $scan_data['coords_to_planet'];
+		debug_var('sql', $sql);
+		$result = $db->db_query($sql)
+			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+	} elseif ($scan_data['art'] == "Sondierung") {
+		$sql = "UPDATE $db_tb_scans
+			 SET sondierung=" . $scan_data['time'] . "
+			    ,sondierunguser='" . $scan_data['user_from'] . "'
+			 WHERE coords_gal=" . $scan_data['coords_to_gal'] . "
+			   AND coords_sys=" . $scan_data['coords_to_sys'] . "
+			   AND coords_planet=" . $scan_data['coords_to_planet'];
+		debug_var('sql', $sql);
+		$result = $db->db_query($sql)
+			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+	}
+}
+
+function display_de_index() {
+	global $scan_datas;
+
+	echo "<br>";
+	start_table();
+	start_row("titlebg", "colspan=\"6\"");
+	echo "<b>Anfliegende Lieferungen</b>";
+	next_row("windowbg2", "");
+	echo "Ziel";
+	next_cell("windowbg2", "");
+	echo "Start";
+	next_cell("windowbg2", "");
+	echo "Ankunft";
+	next_cell("windowbg2", "");
+	echo "Aktionen";
+	foreach ($scan_datas as $scan_data) {
+		next_row("windowbg1", "valign=top nowrap");
+		echo $scan_data['coords_to_gal'] . ":" . $scan_data['coords_to_sys'] . ":" . $scan_data['coords_to_planet'];
+		next_cell("windowbg1", "valign=top nowrap");
+		echo $scan_data['coords_from_gal'] . ":" . $scan_data['coords_from_sys'] . ":" . $scan_data['coords_from_planet'];
+		next_cell("windowbg1", "valign=top nowrap");
+		echo strftime("%d.%m.%Y %H:%M:%S", $scan_data['time']);
+		next_cell("windowbg1", "valign=top width=100%;");
+		echo $scan_data['art'] . "<br>";
+		if (isset($scan_data['pos']))
+			foreach ($scan_data['pos'] as $typ => $menge)
+				echo $menge . " " . $typ . "<br>";
+		if (isset($scan_data['schiffe']))
+			foreach ($scan_data['schiffe'] as $typ => $menge)
+				echo $menge . " " . $typ . "<br>";
+	}
+	end_table();
+	echo "<br>";
+}
+
+// ****************************************************************************
+// Gibt den Wert einer Variablen aus.
+function debug_var($name, $wert, $level = 2) {
+	if (DEBUG_LEVEL >= $level) {
+		echo "<div class='system_debug_blue'>$" . $name . ":";
+		if (is_array($wert))
+			print_r($wert);
+		else
+			echo "'" . $wert . "'";
+		echo "</div>";
+	}
+}
+
+?>

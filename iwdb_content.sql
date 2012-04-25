@@ -425,23 +425,13 @@ INSERT INTO `prefix_parsemenu` (`ersetze`, `durch`, `varorstr`) VALUES
 --
 
 INSERT INTO `prefix_parser` (`modulename`, `recognizer`, `message`) VALUES
-('schiffsuebersicht', 'Schiffsübersicht', 'Schiffsübersicht'),
-('members', 'Name Rang GebP FP', 'Mitgliederliste'),
 ('raid', 'Kampf auf dem Planeten', 'Raid-Bericht'),
 ('transferliste', 'Transport angekommen', 'Transportbericht'),
 ('unixml', '?xml ', 'UniXML'),
-('research', 'Forschungsinfo:', 'Forschungsbericht'),
 ('researchoverview', 'Erforschte Forschungen', 'Forschungsliste'),
-('kasse', 'Standardbeitrag', 'Allianzkasse'),
-('resskolo', 'Ressourcenkoloübersicht', 'Ressourcenkoloübersicht'),
-('eigene_flotten', 'Eigene Flotten', 'Eigene Flotten'),
-('fremde_flotten', 'Fremde Flotten', 'Fremde Flotten'),
 ('fehlscan', 'Sondierung fehlgeschlagen', 'Fehlgeschlagene Sondierung'),
 ('highscore', 'Letzte Aktualisierung', 'Highscore'),
-('sbxml', 'http://www.icewars.de/portal/kb/de/sb.php', 'SB-XML'),
-('gebaeudeuebersicht', '__deaktiviert__Gebäudeübersicht', 'Gebäudeübersicht'),
-('research2', 'Die Forscher haben schon', 'Forschungen'),
-('production', 'Ressourcenkoloübersicht', 'Produktionsübersicht');
+('sbxml', 'http://www.icewars.de/portal/kb/de/sb.php', 'SB-XML');
 
 -- --------------------------------------------------------
 

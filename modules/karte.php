@@ -40,6 +40,7 @@ or error(GENERAL_ERROR,
                  'Could not query config information.', '',
 __FILE__, __LINE__, $sqlALI);
 $i = 0;
+$arrrayofAlis = array();
 while( $rowALI = $db->db_fetch_array($resultALI)) {
 	$i++;
 	$arrrayofAlis[$i] = $rowALI['allianz'];

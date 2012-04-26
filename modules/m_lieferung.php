@@ -419,7 +419,7 @@ foreach ($data as $row) {
 		if (!isset($row['allow_delete']) || $row['can_delete'])
 			echo makelink(
 				array('delete' => $key),
-				"<img src=\"bilder/file_delete_s.gif\" border=\"0\" onclick=\"return confirmlink(this, 'Datensatz wirklich loeschen?')\" alt=\"loeschen\">"
+				"<img src=\"bilder/file_delete_s.gif\" border=\"0\" onclick=\"return confirmlink(this, 'Datensatz wirklich löschen?')\" alt=\"löschen\">"
 			);
 	}
 	// Markierbuttons ausgeben
@@ -510,7 +510,7 @@ function format_value($row, $key, $value, $expand = false) {
 
 //****************************************************************************
 //
-// Vergleichsfunktion fuer das Sortieren
+// Vergleichsfunktion für das Sortieren
 function sort_data_cmp($a, $b) {
 	global $params;
 

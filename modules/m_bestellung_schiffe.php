@@ -376,7 +376,7 @@ if (!empty($button_add)) {
 	$result = $db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	if ($row = $db->db_fetch_array($result)) {
-		$results[] = "<div class='system_notification'>Pro Planet kann nur eine Bestellung hinzugef&uuml;gt werden.</div><br>";	
+		$results[] = "<div class='system_notification'>Pro Planet kann nur eine Bestellung hinzugefügt werden.</div><br>";	
 		$doppelbelegung="true";		
 	} else {
 		$fields['time_created'] = time();
@@ -394,7 +394,7 @@ if (!empty($button_add)) {
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 		if ($row = $db->db_fetch_array($result))
 			$params['edit'] = $row['id'];
-		$results[] = "<div class='system_notification'>Datensatz hinzugef&uuml;gt.</div><br>";
+		$results[] = "<div class='system_notification'>Datensatz hinzugefügt.</div><br>";
 	}
 }
 
@@ -482,7 +482,7 @@ while ($row = $db->db_fetch_array($result)) {
 			WHERE $db_tb_lieferung.`coords_to_gal`=" . $row['coords_gal'] . "
 			AND $db_tb_lieferung.`coords_to_sys`=" . $row['coords_sys'] . "
 			AND $db_tb_lieferung.`coords_to_planet`=" . $row['coords_planet'] . "
-			AND $db_tb_lieferung.`art`='&Uuml;bergabe'
+			AND $db_tb_lieferung.`art`='Übergabe'
 			AND $db_tb_lieferung.`time`>" . $row['time_created'] . "
 			AND $db_tb_lieferung.`user_from`<>$db_tb_lieferung.`user_to`
 			ORDER BY $db_tb_lieferung.`time`");
@@ -651,7 +651,7 @@ $views = array(
 			),
 			'text' => array(
 				'title' => 'Text',
-				'desc' => 'Bemerkung f&uuml;r diese Bestellung.',
+				'desc' => 'Bemerkung für diese Bestellung.',
 				'type' => 'area',
 				'rows' => 5,
 				'cols' => 80,
@@ -774,7 +774,7 @@ foreach ($data as $row) {
 		if (!isset($row['allow_delete']) || $row['can_delete'])
 			echo makelink(
 				array('delete' => $key),
-				"<img src=\"bilder/file_delete_s.gif\" border=\"0\" onclick=\"return confirmlink(this, 'Datensatz wirklich loeschen?')\" alt=\"loeschen\">"
+				"<img src=\"bilder/file_delete_s.gif\" border=\"0\" onclick=\"return confirmlink(this, 'Datensatz wirklich löschen?')\" alt=\"löschen\">"
 			);
 	}
 	// Markierbuttons ausgeben
@@ -825,7 +825,7 @@ start_table();
 next_row("titlebg", 'nowrap valign=top colspan=2');
 echo "<b>" . $view['title'];
 if (isset($params['edit']) && is_numeric($params['edit'])) {
-	echo " bearbeiten/hinzufuegen";
+	echo " bearbeiten/hinzufügen";
 	echo '<input type="hidden" name="edit" value="' . $params['edit'] . '">' . "\n";
 	// echo '<input type="hidden" name="list_team" value="'.$list_team.'" />' . "\n";
 } else

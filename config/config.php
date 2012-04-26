@@ -63,7 +63,7 @@ $config_color = array();
 $config_color['Stargate']      = "#A0BFCD";
 $config_color['SchwarzesLoch'] = "#3F6778";
 $config_color['reserviert']    = "#CCDCE3";
-$config_color['last24'] = "00AACC";
+$config_color['last24'] = "#00AACC";
 
 // Tabellennamen - Definition des Einstiegsnamens
 $db_tb_iwdbtabellen = $db_prefix . "iwdbtabellen";

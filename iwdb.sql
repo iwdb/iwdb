@@ -1,9 +1,9 @@
 -- phpMyAdmin SQL Dump
--- version 3.4.5
+-- version 3.4.8
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 25. Apr 2012 um 01:18
+-- Erstellungszeit: 26. Apr 2012 um 17:32
 -- Server Version: 5.5.16
 -- PHP-Version: 5.3.8
 
@@ -132,14 +132,6 @@ CREATE TABLE IF NOT EXISTS `prefix_bestellung_projekt` (
   PRIMARY KEY (`name`,`schiff`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
---
--- Daten für Tabelle `prefix_bestellung_projekt`
---
-
-INSERT INTO `prefix_bestellung_projekt` (`name`, `prio`, `schiff`) VALUES
-('(Keins)', 999, 0),
-('(Keins)', 999, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -236,7 +228,7 @@ CREATE TABLE IF NOT EXISTS `prefix_def` (
   `eff_dn` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `eff_spezielle` tinyint(3) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -268,7 +260,7 @@ CREATE TABLE IF NOT EXISTS `prefix_gebaeude` (
   `kostet` varchar(200) NOT NULL,
   `id_iw` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Gebäudekurzform' AUTO_INCREMENT=251 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Gebäudekurzform' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -300,14 +292,7 @@ CREATE TABLE IF NOT EXISTS `prefix_group` (
   `parent_id` int(11) NOT NULL,
   `name` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
-
---
--- Daten für Tabelle `prefix_group`
---
-
-INSERT INTO `prefix_group` (`id`, `parent_id`, `name`) VALUES
-(1, 0, '(Alle)');
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -633,7 +618,7 @@ CREATE TABLE IF NOT EXISTS `prefix_menu` (
   `sittertyp` tinyint(4) NOT NULL DEFAULT '0',
   `sound` int(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Menüstruktur' AUTO_INCREMENT=25 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Menüstruktur' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -646,7 +631,7 @@ CREATE TABLE IF NOT EXISTS `prefix_merkmale` (
   `merkmal` varchar(30) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   UNIQUE KEY `merkmal` (`merkmal`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Planetenmerkmale zur Suche' AUTO_INCREMENT=12 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Planetenmerkmale zur Suche' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -741,7 +726,7 @@ CREATE TABLE IF NOT EXISTS `prefix_preset` (
   `dsmod` varchar(5) DEFAULT NULL,
   `fmod` varchar(5) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Einstellungen für die Suche' AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Einstellungen für die Suche' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -825,7 +810,7 @@ CREATE TABLE IF NOT EXISTS `prefix_research` (
   `time` int(12) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Forschungsinformation fuer Forschung Id' AUTO_INCREMENT=382 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Forschungsinformation fuer Forschung Id' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -886,7 +871,7 @@ CREATE TABLE IF NOT EXISTS `prefix_researchfield` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Forschungsfelder' AUTO_INCREMENT=17 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Forschungsfelder' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -1047,7 +1032,7 @@ CREATE TABLE IF NOT EXISTS `prefix_schiffstyp` (
   `klasse1` int(11) NOT NULL,
   `klasse2` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=306 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -1295,7 +1280,7 @@ CREATE TABLE IF NOT EXISTS `prefix_wronglogin` (
   `date` int(11) NOT NULL DEFAULT '0',
   `ip` varchar(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

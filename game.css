@@ -1,0 +1,57 @@
+body {
+  font-family: verdana;
+  font-size: 10px;
+  color: #ffffff;
+  background-color: #111111;
+  background-image: url(../images/bg_space2.png);
+  padding-left: 8px;
+  padding-top: 5px;
+  margin: 0px;
+}
+.ueberschrift {
+  font-weight: 700;
+}
+.nowrap {
+  white-space: nowrap;
+}
+td.ueberschrift {
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+table {
+  background-color: #111111;
+}
+th {
+  color: #ffffff;
+  background-color: #000000;
+  font-size: 10px;
+  font-weight: 700;
+  text-align: center;
+  vertical-align: top;
+  background-image: url(../images/bg_space3.png);
+  padding-left: 5px;
+  padding-right: 5px;
+}
+td {
+  color: #ffffff;
+  background-color: #000000;
+  font-size: 10px;
+  vertical-align: top;
+  background-image: url(../images/bg_space3.png);
+  padding-left: 5px;
+  padding-right: 5px;
+}
+a:link {
+  color: #bbbbbb;
+}
+a:visited {
+  color: #bbbbbb;
+}
+input,select,textarea {
+  background-color: #555555;
+  color: #ffffff;
+  font-size: 12px;
+}

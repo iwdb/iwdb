@@ -280,6 +280,10 @@ EOT;
    if (empty($KBLink)==true)
 	echo "KB-Link nicht vergessen :) ";
    }
+
+
+
+
 if ($parsstatus == "read")     // KB einlesen und f�r die Formatieung ausgeben
   {   $KBLink = getVar ('KBLink') . "&typ=xml";
       
@@ -324,7 +328,12 @@ if ($parsstatus == "read")     // KB einlesen und f�r die Formatieung ausgeben
       echo "     </td> ";
       echo "  </tr>\n ";
 
-      // Kampf auf dem Planeten
+      
+
+
+
+
+// Kampf auf dem Planeten
       echo "  <tr>\n";
       echo "     <td align=\"left\" colspan=\"8\" style=\"color:#000000; background-color:#CAE1FF;\" >";
       echo "        <input TYPE=HIDDEN name=\"mainline\" type=\"text\" value=\"Kampf auf dem Planeten [b]" . $KBdata['kampf']['plani_data']['plani_name'] . " " . $KBdata['kampf']['plani_data']['koordinaten']['string'] . "[/b], der Besitzer ist [b]" . $KBdata['kampf']['plani_data']['user']['name'] . " [" . $KBdata['kampf']['plani_data']['user']['allianz_tag'] . "][/b].\" readonly>";

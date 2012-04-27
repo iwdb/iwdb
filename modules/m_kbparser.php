@@ -194,7 +194,7 @@ if (!@include("./config/".$modulname.".cfg.php")) {
 <html>
 
 <head>
-	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
 	<meta name="author" content="Johannes">
 
 	<title>KB-Parser</title>

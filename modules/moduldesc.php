@@ -125,6 +125,18 @@ $modulary["m_lager"]["name"] = "m_lager";
 $modulary["m_lager"]["titel"] = "Lager";
 $modulary["m_lager"]["desc"] =  "Lager&uuml;bersicht zur Koordination von Logistikaufträgen im Buddler-Fleeter-System.";
 
+$modulary["m_raid"]["name"] = "m_raid";
+$modulary["m_raid"]["titel"] = "Ziele suchen";
+$modulary["m_raid"]["desc"] =  "Dieses Modul hilft beim pösen Klauen von Lollis.";
+
+$modulary["m_sitterschleife"]["name"] = "m_sitterschleife";
+$modulary["m_sitterschleife"]["titel"] = "Sitterschleife";
+$modulary["m_sitterschleife"]["desc"] =  "Dieses Modul dient dem Sitten in Schleife";
+
+$modulary["m_projects"]["name"] = "m_projects";
+$modulary["m_projects"]["titel"] = "Projekteverwaltung";
+$modulary["m_projects"]["desc"] =  "Verwaltung von Projekten im Bestellsystem";
+
 
 global $modulary;
 

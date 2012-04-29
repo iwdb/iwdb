@@ -263,7 +263,8 @@ function save_data($scan_data) {
 
 function display_de_index() {
 	global $scan_datas;
-
+	
+	if (is_array($scan_datas)) {
 	echo "<br>";
 	start_table();
 	start_row("titlebg", "colspan=\"6\"");
@@ -276,6 +277,7 @@ function display_de_index() {
 	echo "Ankunft";
 	next_cell("windowbg2", "");
 	echo "Aktionen";
+	
 	foreach ($scan_datas as $scan_data) {
 		next_row("windowbg1", "valign=top nowrap");
 		echo $scan_data['coords_to_gal'] . ":" . $scan_data['coords_to_sys'] . ":" . $scan_data['coords_to_planet'];
@@ -291,6 +293,7 @@ function display_de_index() {
 		if (isset($scan_data['schiffe']))
 			foreach ($scan_data['schiffe'] as $typ => $menge)
 				echo $menge . " " . $typ . "<br>";
+	}
 	}
 	end_table();
 	echo "<br>";

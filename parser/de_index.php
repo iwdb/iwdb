@@ -294,9 +294,10 @@ function display_de_index() {
 			foreach ($scan_data['schiffe'] as $typ => $menge)
 				echo $menge . " " . $typ . "<br>";
 	}
-	}
+	
 	end_table();
 	echo "<br>";
+	}
 }
 
 // ****************************************************************************

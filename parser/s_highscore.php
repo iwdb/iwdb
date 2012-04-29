@@ -79,7 +79,7 @@ function parse_highscore($scanlines) {
 			}
 		}
 	}
-	echo "<div class='system_notification'>" . $count . " Highscore(s) hinzugef�gt.</div>";
+	echo "<div class='system_notification'>" . $count . " Highscore(s) hinzugefügt.</div>";
 }
 
 function save_data($scan_data) {

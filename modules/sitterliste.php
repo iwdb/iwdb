@@ -693,7 +693,8 @@ if (is_array($users_logged_in)) {
 	else echo $users_logged_in . " ist eingeloggt";
 	
 ?>
-<br><a href=\"javascript:Collapse('<?php echo $row['id'];?>');\"><img src="bilder/plus.gif" alt="" border="0" id="collapse_<?php echo $row['id'];?>"></a>
+<br><a href="javascript:Collapse('<?php echo $row['id'];?>');"><img src="bilder/plus.gif" alt="" border="0" id="collapse_<?php echo $row['id'];?>"></a>
+  
   </td>
   <td class="windowbg<?php echo $num;?>">
    <?php echo ( empty($users_lastlogin_user) ) ? "": strftime($config_sitter_timeformat, $users_lastlogin) . " - " . $users_lastlogin_user;?>

@@ -320,7 +320,7 @@ if ( ! empty($coords) )
 	</tr>
 	<tr>
 		<td colspan="2" class="windowbg2">
-Dieser Planet wird vorraussichtlich in <?php echo  makeduration($row['geoscantime'] + $row['reset_timestamp']) ?> (plusminus 24h) f�r den Bau einer Hyperraumumgehungsstrasse gesprengt.
+Dieser Planet wird vorraussichtlich in <?php echo  makeduration($row['geoscantime'] + $row['reset_timestamp']) ?> (plusminus 24h) für den Bau einer Hyperraumumgehungsstraße gesprengt.
 		</td>
 	</tr>
 	<?php
@@ -353,7 +353,7 @@ if ( $row['objekt'] == "---" )
 				echo "Dieser Planet ist für " . $row['reserviert'] . " reserviert. Bitte besiedel ihn nicht.";
 				if ( ( isset($user_status) ) && ( $user_status == "admin" ) )
 				{
-					echo "<br>Aendern? <input type=\"checkbox\" name=\"reservieren\" class=\"checkbox\" checked><input type=\"hidden\" name=\"editplanet\" value=\"true\"> <input type=\"submit\" value=\"speichern\" name=\"B1\" class=\"submit\">";
+					echo "<br>Ändern? <input type=\"checkbox\" name=\"reservieren\" class=\"checkbox\" checked><input type=\"hidden\" name=\"editplanet\" value=\"true\"> <input type=\"submit\" value=\"speichern\" name=\"B1\" class=\"submit\">";
 				}
 			}
 			?></form>
@@ -399,7 +399,7 @@ if ( ( ( $ansicht == "auto") && ( $row['objekt'] != "---" ) ) || ( $ansicht == "
 	
 	
 	<tr>
-		<td colspan="2" class="titlebg"><b>benoetigte Frachtkapazitaet:</b></td>
+		<td colspan="2" class="titlebg"><b>benötigte Frachtkapazität:</b></td>
 	</tr>
 	<tr>
 		<td class="windowbg2">Klasse 1:</td>
@@ -417,7 +417,7 @@ if ( ( ( $ansicht == "auto") && ( $row['objekt'] != "---" ) ) || ( $ansicht == "
 
 
 	<tr>
-		<td colspan="2" class="titlebg"><b>Lagerkapazit�t:</b></td>
+		<td colspan="2" class="titlebg"><b>Lagerkapazität:</b></td>
 	</tr>
 	<tr>
 		<td class="windowbg2">Lager Chemie:</td>
@@ -442,7 +442,7 @@ if ( ! empty($row['geb']) )
 {
 	?>
 	<tr>
-		<td colspan="2" class="titlebg"><b>Gebaeude:</b></td>
+		<td colspan="2" class="titlebg"><b>Gebäude:</b></td>
 	</tr>
 	<tr>
 		<td class="windowbg1" colspan="2"><?php echo $row['geb'];?></td>

@@ -88,7 +88,9 @@ function parse_transferliste($scanlines) {
 				$state = 0;
 			break;
 		case 2: 
-			if (preg_match('/Eine Flotte ist auf dem Planeten (.*) (\d+):(\d+):(\d+) angekommen\. Der Absender ist (.*)\. Der Empfänger ist (.*)\./', $scan, $match) > 0)
+			//if (preg_match('/Eine Flotte ist auf dem Planeten (.*) (\d+):(\d+):(\d+) angekommen\. Der Absender ist (.*)\. Der Empfänger ist (.*)\./', $scan, $match) > 0)
+			if (preg_match('&Eine Flotte ist auf dem Planeten (.*) (\d+):(\d+):(\d+) angekommen\. Der Absender ist (.*)\. Der Empf\&auml;nger ist (.*)\.&is', $scan, $match) > 0)
+			
 			{
 				$planet = $match[1];
 				debug_var('planet', $planet);
@@ -227,7 +229,7 @@ function parse_transferliste($scanlines) {
              'Could not query config information.', '', 
              __FILE__, __LINE__, $sql);
     
-    // Aktualisierungszeit f�r Transportberichte setzen
+    // Aktualisierungszeit für Transportberichte setzen
     $sql = "UPDATE " . $db_tb_user . " SET lasttransport='" . $config_date . 
          "' WHERE sitterlogin='" . $buddler . "'";
     $result = $db->db_query($sql)

@@ -200,7 +200,8 @@ if (empty($params['order']))
 if ($params['orderd'] != 'asc' && $params['orderd'] != 'desc')
 	$params['orderd'] = 'asc';
 if (empty($params['filter_team']))
-	$params['filter_team'] = $user_buddlerfrom;
+	//$params['filter_team'] = $user_buddlerfrom;
+	$params['filter_team'] = '(Alle)';
 
 debug_var("params", $params);
 

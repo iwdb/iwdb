@@ -43,8 +43,18 @@ error_reporting(E_ALL);
 
 function parse_de_index ( $return )
 {
-    global $db, $db_tb_scans, $selectedusername, $scan_datas;
+    global $db, $db_tb_scans, $db_tb_user_research, $selectedusername, $scan_datas;
 
+    if (!$return->objResultData->bOngoingResearch)     //! keine laufende Forschung
+    {
+        $sql = "DELETE FROM " . $db_tb_user_research . 
+            			" WHERE user='" . $selectedusername . "'";
+        $result = $db->db_query($sql)
+                            or error(GENERAL_ERROR, 
+                            'Could not query config information.', '', 
+                            __FILE__, __LINE__, $sql);
+    }
+    
 	foreach ($return->objResultData->aContainer as $aContainer)
 	{
 		if ($aContainer->bSuccessfullyParsed)
@@ -158,10 +168,25 @@ function parse_de_index ( $return )
 			}
 			else if ($aContainer->strIdentifier == "de_index_research") 
 			{
-				foreach ($aContainer->objResultData->aResearch as $msg)
-				{	
-                    //! Mac: @todo: laufende Forschungen auswerten, ggf. aus Sitting entfernen
-				}
+                $sql = "DELETE FROM " . $db_tb_user_research . 
+            			" WHERE user='" . $selectedusername . "'";
+                $result = $db->db_query($sql)
+                            or error(GENERAL_ERROR, 
+                            'Could not query config information.', '', 
+                            __FILE__, __LINE__, $sql);
+
+                foreach ($aContainer->objResultData->aResearch as $msg)
+                {	
+                    $rid = find_research_id($msg->strResearchName);
+                    if ($rid != 0) {
+                        $sql = "INSERT INTO " . $db_tb_user_research . 
+                                " SET user='" . $selectedusername . "', rid='" . $rid . "', date=" . $msg->iResearchEnd;
+                        $result = $db->db_query($sql)
+                                    or error(GENERAL_ERROR, 
+                                    'Could not query config information.', '', 
+                                    __FILE__, __LINE__, $sql);
+                    }
+                }
 			}	
 			else if ($aContainer->strIdentifier == "de_index_geb") 
 			{
@@ -188,6 +213,24 @@ function parse_de_index ( $return )
                 echo $msg."<br>";
    		} 
 	}		//! for each container
+}
+
+function find_research_id($researchname) {
+	global $db, $db_tb_research;
+
+	// Find first research identifier
+	$sql = "SELECT ID FROM " . $db_tb_research . " WHERE name='" . $researchname . "'";
+	$result = $db->db_query($sql)
+		or error(GENERAL_ERROR,
+             'Could not query config information.', '',
+             __FILE__, __LINE__, $sql);
+	$row = $db->db_fetch_array($result);
+
+	// Not found, so insert new
+	if(empty($row)) 
+		return 0;
+    else
+        return $row['ID'];
 }
 
 function save_data($scan_data) {

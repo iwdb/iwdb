@@ -60,6 +60,7 @@ function parse_de_forschung ( $return )
 	$akt_forschung = 0;
 	$akt_date = 0;
 
+    //! Mac: @todo: hier koenten mit Genetik auch zwei Forschungen laufen ...
     foreach ($return->objResultData->aResearchsProgress as $research)
 	{
         $sql = "SELECT id FROM " . $db_tb_research . 

@@ -31,6 +31,8 @@ if (file_exists('install.php')) {
     die ('<div style="text-align:center;color:red">Eine install.php ist noch vorhanden!</div><div style="text-align:center">Du darfst den Admin slammen, da er vergessen hat, diese aus dem Rootordner zu löschen!</div>');
 }
 
+date_default_timezone_set('Europe/Berlin');
+
 // define's vor allen anderen Includes durchführen 
 define('DEBUG', TRUE);
 define('IRA', TRUE);

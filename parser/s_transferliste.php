@@ -138,7 +138,7 @@ function parse_transferliste($scanlines) {
 				$state = 0;
 			break;
 		case 5:
-			if (preg_match('/(Eisen|Erdbeeren|Stahl|Erdbeermarmelade|VV4A|Erdbeerkonfit&uumlre|chem\. Elemente|Brause|Eis|Vanilleeis|Wasser|Schneematch|Eismatsch|Bevölkerung|Energie|Traubenzucker)[\t| ]+(\d+)/', $scan, $match) > 0)
+			if (preg_match('/(Eisen|Erdbeeren|Stahl|Erdbeermarmelade|VV4A|Erdbeerkonfit&uumlre|chem\. Elemente|Brause|Eis|Vanilleeis|Wasser|Schneematch|Eismatsch|Bev&ouml;lkerung|Energie|Traubenzucker)[\t| ]+(\d+)/', $scan, $match) > 0)
 			{
 				switch (getRessname($match[1])) {
 				case 'Eisen' : 

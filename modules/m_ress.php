@@ -283,10 +283,12 @@ make_link("user", "asc");
 echo "<b>User</b>";
 make_link("user", "desc");
 echo "<br>";
-make_link("datum", "asc");
-echo "<b>Zeit</b>";
-make_link("datum", "desc");
            
+next_cell("titlebg", "style=\"width:9%\" align=\"center\" nowrap=\"nowrap\"");
+make_link("datum", "asc");
+echo "<b>Einlesezeit</b>";
+make_link("datum", "desc");
+
 next_cell("titlebg", "style=\"width:9%\" align=\"center\"");
 make_link("eisen", "asc");
 echo "<b>Eisen</b>";
@@ -375,10 +377,12 @@ $result = $db->db_query($sql)
 while($row = $db->db_fetch_array($result)) {
 	$color = scanAge($row['datum']);
 
-  next_row("windowbg1", "style=\"background-color:" . $color . "\" nowrap=\"nowrap\"");
+  next_row("windowbg1", " nowrap=\"nowrap\"");
   echo $row['user'] . "<br>";
-  echo strftime("(%d.%m.%y %H:%M:%S)", $row['datum']);
-
+    
+  next_cell("windowbg1", "style=\"background-color:" . $color . "\" nowrap=\"nowrap\"");
+  echo strftime("%d.%m.%y %H:%M:%S", $row['datum']);
+  
   next_cell("windowbg1", "align=\"right\"");
   echo number_format($row['eisen']*$switch, 0, ',', '.');
 
@@ -429,7 +433,7 @@ $result = $db->db_query($sql)
            'Could not query config information.', '', 
            __FILE__, __LINE__, $sql);
 while($row = $db->db_fetch_array($result)) {
-  next_row("titlebg", "align=\"center\" style=\"background-color:\$FFFFFF\"");
+  next_row("titlebg", "align=\"center\" style=\"background-color:\$FFFFFF\" colspan=\"2\" nowrap=\"nowrap\"");
   echo "Gesamt:";
   
   next_cell("windowbg1", "align=\"right\"");
@@ -515,7 +519,7 @@ foreach ($fleeterlist as $key => $value) {
     
     start_table();
 
-    start_row("titlebg", "align=\"center\" colspan=\"12\"");
+    start_row("titlebg", "align=\"center\" colspan=\"13\"");
     if ($fleetername == $value['sitterlogin']) {
         echo "<b>Fleeter: ".$fleetername."</b>";
     } else {
@@ -528,9 +532,10 @@ foreach ($fleeterlist as $key => $value) {
     echo "<b>User</b>";
     make_link("user", "desc");
     echo "<br>";
-
+	
+	next_cell("titlebg", "style=\"width:9%\" align=\"center\" nowrap=\"nowrap\"");
     make_link("datum", "asc");
-    echo "<b>Zeit</b>";
+    echo "<b>Einlesezeit</b>";
     make_link("datum", "desc");
 
     next_cell("titlebg", "style=\"width:9%\" align=\"center\"");
@@ -604,9 +609,11 @@ foreach ($fleeterlist as $key => $value) {
     while($row = $db->db_fetch_array($result3)) {
         $color = scanAge($row['datum']);
 
-      next_row("windowbg1", "style=\"background-color:" . $color . "\" nowrap=\"nowrap\"");
+      next_row("windowbg1", " nowrap=\"nowrap\"");
       echo $row['user'] . "<br>";
-      echo strftime("(%d.%m.%y<br>%H:%M:%S)", $row['datum']);
+      
+	  next_cell("windowbg1", "style=\"background-color:" . $color . "\" nowrap=\"nowrap\"");
+	  echo strftime("%d.%m.%y<br>%H:%M:%S", $row['datum']);
   
       next_cell("windowbg1", "align=\"right\"");
       echo number_format($row['eisen']*$switch, 0, '.', ',');
@@ -663,9 +670,11 @@ foreach ($fleeterlist as $key => $value) {
                __FILE__, __LINE__, $sql);
     
     while($row = $db->db_fetch_array($result)) {
-      next_row("titlebg", "align=\"center\" style=\"background-color:\$FFFFFF\" nowrap=\"nowrap\"");
+      next_row("titlebg", "align=\"center\" style=\"background-color:\$FFFFFF\" colspan=\"2\ nowrap=\"nowrap\"");
       echo "Gesamt";
       
+	  
+	  
       next_cell("windowbg1", "align=\"right\"");
       echo number_format($row['eisen']*$switch, 0, '.', ',');
     

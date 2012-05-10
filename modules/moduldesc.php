@@ -137,6 +137,9 @@ $modulary["m_projects"]["name"] = "m_projects";
 $modulary["m_projects"]["titel"] = "Projekteverwaltung";
 $modulary["m_projects"]["desc"] =  "Verwaltung von Projekten im Bestellsystem";
 
+$modulary["m_forsch"]["name"] = "m_forsch";
+$modulary["m_forsch"]["titel"] = "Forschungsübersicht";
+$modulary["m_forsch"]["desc"] =  "Die Forschungsübersicht zeigt die aktuell laufenden Forschungen";
 
 global $modulary;
 

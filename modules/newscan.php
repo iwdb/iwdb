@@ -247,7 +247,7 @@ if ( ! empty($textinput) )
         }
         if (isset($anzahl_sb) && $anzahl_sb >= 1) {
             echo '
-        <div class="system_notification">',$anzahl_kb,' SB-',($anzahl_kb == 1) ? 'Link': 'Links',' gefunden</div><br />';
+        <div class="system_notification">',$anzahl_sb,' SB-',($anzahl_sb == 1) ? 'Link': 'Links',' gefunden</div><br />';
         }	
         // Eigenkreation Ende
 

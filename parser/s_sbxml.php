@@ -100,10 +100,22 @@ function parse_sbxml($scanlines) {
 				debug_var("scan_data['lebensbedingungen']", $scan_data['lebensbedingungen'] = ((string)$xml->plani_data->lebensbedingungen*100));
 				debug_var("scan_data['bevoelkerungsanzahl']", $scan_data['bevoelkerungsanzahl'] = (string)$xml->plani_data->bev_max);
 				debug_var("scan_data['fmod']", $scan_data['fmod'] = ((string)$xml->plani_data->modifikatoren->forschung*100));
-				debug_var("scan_data['kgmod']", $scan_data['kgmod'] = (string)$xml->plani_data->modifikatoren->gebaeude_bau->kosten);
-				debug_var("scan_data['dgmod']", $scan_data['dgmod'] = (string)$xml->plani_data->modifikatoren->gebaeude_bau->dauer);
-				debug_var("scan_data['ksmod']", $scan_data['ksmod'] = (string)$xml->plani_data->modifikatoren->schiff_bau->kosten);
-				debug_var("scan_data['dsmod']", $scan_data['dsmod'] = (string)$xml->plani_data->modifikatoren->schiff_bau->dauer);
+                if (isset($xml->plani_data->modifikatoren->gebaeude_bau)) {
+                    debug_var("scan_data['kgmod']", $scan_data['kgmod'] = (string)$xml->plani_data->modifikatoren->gebaeude_bau->kosten);
+                    debug_var("scan_data['dgmod']", $scan_data['dgmod'] = (string)$xml->plani_data->modifikatoren->gebaeude_bau->dauer);
+                }
+                else {
+                    debug_var("scan_data['kgmod']", $scan_data['kgmod'] = "0");
+                    debug_var("scan_data['dgmod']", $scan_data['dgmod'] = "0");
+                }
+                if (isset($xml->plani_data->modifikatoren->schiff_bau)) {
+                    debug_var("scan_data['ksmod']", $scan_data['ksmod'] = (string)$xml->plani_data->modifikatoren->schiff_bau->kosten);
+                    debug_var("scan_data['dsmod']", $scan_data['dsmod'] = (string)$xml->plani_data->modifikatoren->schiff_bau->dauer);
+                }
+                else {
+                    debug_var("scan_data['ksmod']", $scan_data['ksmod'] = "0");
+                    debug_var("scan_data['dsmod']", $scan_data['dsmod'] = "0");
+                }
 				$scan_data['besonderheiten'] = "";								
 				foreach ($xml->plani_data->besonderheiten->besonderheit as $besonderheit) {
 					if (!empty($scan_data['besonderheiten']))

@@ -238,8 +238,8 @@ function redirect(id)
 	<frameset rows="0,*" cols="*" frameborder="YES" border="0" framespacing="0">
 		<frame src="?mode=top" name="topFrame" scrolling="NO" noresize >
 		<frameset rows="*" cols="300,*" framespacing="0" frameborder="YES" border="0">
-			<frame src="?mode=left&redirect=<?= $redirect ?><?= !empty($login) ? "&login=$login" : "" ?><?= !empty($action) ? "&action=$action" : "" ?><?= !empty($allianz) ? "&allianz=$allianz" : "" ?>" name="left" id="left" scrolling="YES">
-			<frame src="<?= $mainurl ?>" name="main" id="main" onload="redirect(this.id)">
+			<frame src="?mode=left&redirect=<?php echo $redirect; ?><?php echo !empty($login) ? "&login=$login" : ""; ?><?php echo !empty($action) ? "&action=$action" : ""; ?><?php echo !empty($allianz) ? "&allianz=$allianz" : ""; ?>" name="left" id="left" scrolling="YES">
+			<frame src="<?php echo $mainurl; ?>" name="main" id="main" onload="redirect(this.id)">
 		</frameset>
 	</frameset>
 	<noframes>
@@ -351,15 +351,15 @@ setTimeout("update()", 60000);
 		<table>
 			<tr>
 				<td>
-					<select id="redirectPage" onchange="parent.document.getElementById('left').src = '?mode=index&redirect=' + options[selectedIndex].value + '&login=<?= $user['id'] ?><?= !empty($allianz) ? "&allianz=$allianz" : "" ?>';">
+					<select id="redirectPage" onchange="parent.document.getElementById('left').src = '?mode=index&redirect=' + options[selectedIndex].value + '&login=<?php echo $user['id'] ?><?php echo !empty($allianz) ? "&allianz=$allianz" : "" ?>';">
 				 		<option value="">(Startseite)</option>
-				 		<option value="planiress"<?= $redirect == 'planiress' ? ' selected' : '' ?>>Kolo-/Ress&uuml;bersicht</option>
-				 		<option value="schiff_uebersicht"<?= $redirect == 'schiff_uebersicht' ? ' selected' : '' ?>>Schiff&uuml;bersicht</option>
+				 		<option value="planiress"<?php echo $redirect == 'planiress' ? ' selected' : ''; ?>>Kolo-/Ress&uuml;bersicht</option>
+				 		<option value="schiff_uebersicht"<?php echo $redirect == 'schiff_uebersicht' ? ' selected' : ''; ?>>Schiff&uuml;bersicht</option>
 					</select>
 				</td>
 			<tr>
 				<td nowrap width="100%">
-					<!--<a href="?action=own<?= !empty($allianz) ? "&allianz=$allianz" : "" ?>" target="_top">Eigener Spieler</a><br>
+					<!--<a href="?action=own<?php echo !empty($allianz) ? "&allianz=$allianz" : "" ?>" target="_top">Eigener Spieler</a><br>
 					<a href="http://176.9.109.187/" target="main">Icewars-Notlogin</a><br>
 					<a id="icewarsClipboardSwitch" href="#" onclick="icewarsClipboardInstall()">Automatische Zwischenablage (aus)</a>-->
 				</td>
@@ -377,10 +377,10 @@ setTimeout("update()", 60000);
 <?php	
 		if (isset($login_user)) { ?>
 			<form target="_top">
-			<?= isset($login_user['alliance']) ? '[' . $login_user['alliance'] . ']' : '' ?><?= $login_user['id'] ?><br>
-			<?= $login_user['typ'] ?> 
+			<?php echo isset($login_user['alliance']) ? '[' . $login_user['alliance'] . ']' : ''; ?><?php echo $login_user['id']; ?><br>
+			<?php echo $login_user['typ']; ?> 
 <?php			if (!empty($login_user['group']) && $login_user['group'] != $login_user['id']) { ?>
-			von <?= $login_user['group'] ?><br>
+			von <?php echo $login_user['group']; ?><br>
 <?php			if (!empty($login_user['ikea']))
 				echo "<font color=\"yellow\">IKEA</font><br>";
 			else if (!empty($login_user['peitschen']))
@@ -400,9 +400,9 @@ setTimeout("update()", 60000);
 		<input type="submit" value="Ausloggen" name="logout" class="submit">
 		</form>
 		<br><form name="scan" method="POST" action="index.php" target="iwdb" enctype="multipart/form-data">
-			<input type="hidden" name="sid" value="<?= $sid ?>">
+			<input type="hidden" name="sid" value="<?php echo $sid; ?>">
 			<input type="hidden" name="action" value="newscan">
-			<input type="hidden" name="seluser" value="<?= $login_user['id'] ?>">
+			<input type="hidden" name="seluser" value="<?php echo $login_user['id']; ?>">
 			Neuer Bericht:<br>
 			<textarea id="reportText" name="text" rows="2" cols="40"></textarea><br>
 			<input id="reportSave" type="submit" value="Speichern" name="B1" class="submit">
@@ -415,7 +415,7 @@ setTimeout("update()", 60000);
 					<span class="time">Uhrzeit</span>
 				</td>
 				<td nowrap>
-					<span class="time"><?= strftime($config_sitter_timeformat, time()); ?></span>
+					<span class="time"><?php echo strftime($config_sitter_timeformat, time()); ?></span>
 				</td>
 			</tr>
 		</table>
@@ -423,7 +423,7 @@ setTimeout("update()", 60000);
 		<table>
 			<tr>
 				<td width="100%">
-					<a href="?mode=index&redirect=<?= $redirect ?>&login=<?= $user['id'] ?><?= !empty($allianz) ? "&allianz=$allianz" : "" ?>" target="_top"><?= $user['id']; ?></a>
+					<a href="?mode=index&redirect=<?php echo $redirect; ?>&login=<?php echo $user['id']; ?><?php echo !empty($allianz) ? "&allianz=$allianz" : ""; ?>" target="_top"><?php echo $user['id']; ?></a>
 				</td>
 <?php		if (isset($user['next_date_text'])) { ?>
 				<td nowrap>
@@ -434,7 +434,7 @@ setTimeout("update()", 60000);
 <?php			} else { ?>
 					<span class="time_normal">
 <?php			} ?>
-					<?= $user['next_date_text'] ?></span>
+					<?php echo $user['next_date_text']; ?></span>
 				</td>
 <?php		} ?>
 			</tr>
@@ -444,16 +444,16 @@ setTimeout("update()", 60000);
 			<tr>
 				<td width="100%">
 <?php			if (count($user['attack']) > 0) { ?>
-				<span class="attack">Angriff von <?= $user['attack'][0]['from'] ?> auf <?= $user['attack'][0]['coords'] ?></span><br>
+				<span class="attack">Angriff von <?php echo $user['attack'][0]['from']; ?> auf <?php echo $user['attack'][0]['coords']; ?></span><br>
 <?php			} ?>
 <?php			if (count($user['probe']) > 0) { ?>
-					<span class="probe">Sondierung von <?= $user['probe'][0]['from'] ?> auf <?= $user['probe'][0]['coords'] ?></span><br>
+					<span class="probe">Sondierung von <?php echo $user['probe'][0]['from']; ?> auf <?php echo $user['probe'][0]['coords']; ?></span><br>
 <?php			} ?>
 <?php			if ($user['lastsitterloggedin']) { ?>
-					<span class="loggedin"><?= $user['lastsitteruser'] ?> ist eingeloggt</span><br>
+					<span class="loggedin"><?php echo $user['lastsitteruser']; ?> ist eingeloggt</span><br>
 <?php			} ?>
 <?php			if ($user['dauersittendue']) { ?>
-					<span class="dursitting_due"><?= $user['dauersittentext'] ?></span><br>
+					<span class="dursitting_due"><?php echo $user['dauersittentext']; ?></span><br>
 <?php			} ?>
 				</td>
 				<td>
@@ -478,7 +478,7 @@ case 'register':
 	break;
 default:
 ?>
-Fehler: Unbekannter Modus '"<?= $mode ?>"'.
+Fehler: Unbekannter Modus '"<?php echo $mode; ?>"'.
 <?php
 }
 ?>

@@ -471,7 +471,7 @@ if($id == $user_sitterlogin ) {
   	if (!isset($row['planet_farbe'])) { $row['planet_farbe']="white"; }
   ?>
   <td class="windowbg<?php echo $num;?>" style="background-color:<?php echo $row['planet_farbe']?>;">
-<? 
+<?php 
 if(!empty($row['planet']) && isset($planets[$row['planet']]))
   echo $planets[$row['planet']] . " [" . $row['planet']. "]\n";
 else 

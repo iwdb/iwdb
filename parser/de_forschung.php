@@ -39,44 +39,85 @@ error_reporting(E_ALL);
 
 function parse_de_forschung ( $return )
 {
-    global $db, $db_tb_research, $db_tb_user_research, $selectedusername;
-	
-    //! Mac: wurde nur gebraucht, um beim Parsen zu pruefen, ob das gefunden wirklich eine Forschung ist
-    //  durch libiwparser und dynamische Datengenerierung unnoetig
-    //  
-//	$forschungen = array();
-//
-//    $sql = "SELECT name FROM " . $db_tb_research . 
-//			" ORDER BY ID ASC";
-//	$result = $db->db_query($sql)
-//		or error(GENERAL_ERROR, 
-//             'Could not query config information.', '', 
-//             __FILE__, __LINE__, $sql);
-//	while($row = $db->db_fetch_array($result)) {
-//		$forschungen[] = $row['name'];
-//	}
-	
+    global $db, $db_tb_research, $db_tb_user_research, $db_tb_research2user, $selectedusername;
+ 
+	$research2id = array();
+
+    $sql = "SELECT ID, name FROM " . $db_tb_research . 
+			" ORDER BY ID ASC";
+	$result = $db->db_query($sql)
+		or error(GENERAL_ERROR, 
+             'Could not query config information.', '', 
+             __FILE__, __LINE__, $sql);
+	while($row = $db->db_fetch_array($result)) {
+		$research2id[$row["name"]] = $row['ID'];
+	}
+
 	$akt_fp = array();
 	$akt_forschung = 0;
 	$akt_date = 0;
 
-    //! Mac: @todo: hier koenten mit Genetik auch zwei Forschungen laufen ...
-    foreach ($return->objResultData->aResearchsProgress as $research)
-	{
-        $sql = "SELECT id FROM " . $db_tb_research . 
-                " WHERE name='" . $research->strResearchName . "'";
-        $result = $db->db_query($sql)
+    if (count($return->objResultData->aResearchsResearched) > 2) {		//! ausgeklappte/vollstaendige Forschungsseite -> vollst. Reset der Daten
+        $sql = "DELETE FROM
+                    $db_tb_research2user
+                WHERE
+                    `userid` = '$selectedusername'
+                ";
+        $db->db_query($sql)
             or error(GENERAL_ERROR, 
-                    'Could not query config information.', '', 
-                    __FILE__, __LINE__, $sql);
-        $row = $db->db_fetch_array($result);
-        $akt_forschung = $row['id'];
-        $akt_date = $research->iUserResearchTime;  
+                'Could not query config information.', '', 
+                __FILE__, __LINE__, $sql);
+    }
+    else {
+        echo "es wurden nur die sichtbaren Forschungen eingetragen! Verwende \"Alle Forschungen anzeigen\" für eine vollständige Eintragung<br />";
     }
     
-	foreach ($return->objResultData->aResearchsResearched as $research)
+    //! aktuell laufende Forschungen resetten
+    $sql = "DELETE FROM " . $db_tb_user_research . 
+			" WHERE user='" . $selectedusername . "'";
+	$result = $db->db_query($sql)
+		or error(GENERAL_ERROR, 
+			 'Could not query config information.', '', 
+			 __FILE__, __LINE__, $sql);
+    
+    //! Mac: hier koenten mit Genetik auch zwei Forschungen laufen, deswegen in der Schleife
+    foreach ($return->objResultData->aResearchsProgress as $research)
+	{
+        $akt_forschung = isset($research2id[$research->strResearchName]) ? $research2id[$research->strResearchName] : "";
+        $akt_date = $research->iUserResearchTime;  
+        if (!empty($akt_forschung)) {
+            $sql = "INSERT INTO " . $db_tb_user_research . 
+                " SET user='" . $selectedusername . "', rid='" . $akt_forschung . "', date=" . $akt_date;
+            $result = $db->db_query($sql)
+                or error(GENERAL_ERROR, 
+                    'Could not query config information.', '', 
+                    __FILE__, __LINE__, $sql);
+        }
+    }
+    
+	foreach ($return->objResultData->aResearchsResearched as $research) {
+        $rid = isset($research2id[$research->strResearchName]) ? $research2id[$research->strResearchName] : "";
+        if (!empty($rid)) {
+            $sql = "INSERT
+                        INTO
+                            $db_tb_research2user
+                            (userid,rid)
+                        VALUES
+                            ('$selectedusername',$rid)
+                        ON DUPLICATE KEY UPDATE
+                            rid = $rid
+                        ";
+            $db->db_query($sql)
+                    or error(GENERAL_ERROR, 
+                        'Could not query config information.', '', 
+                        __FILE__, __LINE__, $sql);
+        }
+        else {
+            echo "Forschungs ID für '$research->strResearchName' konnte nicht bestimmt werden<br />";
+        }
         $akt_fp[$research->strResearchName] = $research->iFP * ($research->iResearchCosts/100.);
-
+    }
+    
 	foreach ($return->objResultData->aResearchsOpen as $research)
         $akt_fp[$research->strResearchName] = $research->iFP * ($research->iResearchCosts/100.);
 
@@ -92,21 +133,6 @@ function parse_de_forschung ( $return )
              'Could not query config information.', '', 
              __FILE__, __LINE__, $sql);
 	}
-
-	$sql = "DELETE FROM " . $db_tb_user_research . 
-			" WHERE user='" . $selectedusername . "'";
-	$result = $db->db_query($sql)
-		or error(GENERAL_ERROR, 
-			 'Could not query config information.', '', 
-			 __FILE__, __LINE__, $sql);
-
-	$sql = "INSERT INTO " . $db_tb_user_research . 
-			" SET user='" . $selectedusername . "', rid='" . $akt_forschung . "', date=" . $akt_date;
-	$result = $db->db_query($sql)
-		or error(GENERAL_ERROR, 
-			 'Could not query config information.', '', 
-			 __FILE__, __LINE__, $sql);
 }
-
 
 ?>

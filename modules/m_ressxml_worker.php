@@ -90,7 +90,20 @@ $moduldesc =
 // installing this module. 
 //
 function workInstallDatabase() {
-  echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
+  global $db_tb_ressuebersicht;
+  $sql = "ALTER TABLE `$db_tb_ressuebersicht` ".
+		" ADD `xml_link` VARCHAR(255) NULL,".
+		" ADD `last_xml_try` INT(11) NOT NULL DEFAULT '0',".
+		" ADD `xml_valid` INT(11) NOT NULL DEFAULT '0'";
+
+
+
+  mysql_query($sql) OR error(GENERAL_ERROR,mysql_error(), '',__FILE__, __LINE__, $sql);
+	echo '\"'.$sql.'\"';
+
+  if (mysql_errno() == 0)
+	  echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
+  else echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>FAIL</b></div>";
 }
 
 //****************************************************************************
@@ -122,8 +135,12 @@ function workInstallConfigString() {
 // removing this module. 
 //
 function workUninstallDatabase() {
+    $sql = "ALTER TABLE `ressuebersicht` DROP `xml_link`, DROP `last_xml_try`, DROP `xml_valid`;";
 
-    echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
+    mysql_query($sql) OR error(GENERAL_ERROR,mysql_error(), '',__FILE__, __LINE__, $sql);
+    if (mysql_errno() == 0)
+	  echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
+    else  echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>FAIL</b></div>";
 }
 
 //****************************************************************************

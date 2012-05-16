@@ -1,6 +1,6 @@
 <?php
 /*****************************************************************************/
-/* m_default.php                                                             */
+/* m_ressxml_worker.php                                                      */
 /*****************************************************************************/
 /* Iw DB: Icewars geoscan and sitter database                                */
 /* Open-Source Project started by Robert Riess (robert@riess.net)            */
@@ -26,18 +26,18 @@
 
 /*****************************************************************************/
 /* Dieses Modul dient als Vorlage zum Erstellen von eigenen Zusatzmodulen    */
-/* f�r die Iw DB: Icewars geoscan and sitter database                        */
+/* für die Iw DB: Icewars geoscan and sitter database                        */
 /*---------------------------------------------------------------------------*/
-/* Diese Erweiterung der urspruenglichen DB ist ein Gemeinschaftsprojekt von */
+/* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafuer eingerichtete           */
+/* Bei Problemen kannst du dich an das eigens dafür eingerichtete           */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
 /*                   http://www.iwdb.de.vu                                   */
 /*                                                                           */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul �ber die index.php aufgerufen wurde.
+// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
 if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	echo "Hacking attempt...!!"; 
@@ -46,10 +46,10 @@ if (basename($_SERVER['PHP_SELF']) != "index.php") {
 
 //****************************************************************************
 //
-// -> Name des Moduls, ist notwendig f�r die Benennung der zugehoerigen
+// -> Name des Moduls, ist notwendig für die Benennung der zugehörigen
 //    Config.cfg.php
-// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung f�r 
-//    eine Installation �ber das Men�
+// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung für 
+//    eine Installation über das Menü
 //
 $modulname  = "m_ressxml_worker";
 
@@ -70,8 +70,8 @@ $modulstatus = "";
 
 //****************************************************************************
 //
-// -> Status des Moduls, bestimmt wer dieses Modul �ber die Navigation 
-//    ausf�hren darf. M�gliche Werte: 
+// -> Status des Moduls, bestimmt wer dieses Modul über die Navigation 
+//    ausführen darf. Mögliche Werte: 
 //    - ""      <- nix = jeder, 
 //    - "admin" <- na wer wohl
 //
@@ -79,10 +79,10 @@ $modulstatus = "";
 
 //****************************************************************************
 //
-// -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
+// -> Beschreibung des Moduls, wie es in der Menü-Übersicht angezeigt wird.
 //
 $moduldesc = 
-  "Ding zum holen von Ressübersichts Daten über XML-übersichts-Links";
+  "Ding zum Holen von Ressübersichtsdaten über XML-Übersichts-Links";
 
 //****************************************************************************
 //
@@ -333,7 +333,7 @@ function updateXML($user)
 		else
 		{//ist nicht neuer
 			
-			echo "<div class='system_notification'>Autoupdates von $user's datensatz üder XML-Link fehlgeschlagen.<br>XML ist veraltet/Datenbasis ist neuer</div>";
+			echo "<div class='system_notification'>Autoupdates von $user's Datensatz über XML-Link fehlgeschlagen.<br>XML ist veraltet/Datenbasis ist neuer</div>";
 			$sql = 	" UPDATE " . $db_tb_ressuebersicht .
 				" SET last_xml_try = ".time().
 				" WHERE `user` = '$user'";
@@ -349,12 +349,12 @@ function updateXML($user)
 <div align='left'>
 Einschr&auml;nkungen :
 <ul>
-<li>Die XML wird nur geupdatet, wenn die Seite Kolo-/Ressübersicht in IW aufgerufen wird</li>
-<li>Die XML wird nicht geupdatet, wenn ein Sitter diese Seite aufruft</li>
-<li>Die XML wird nur mindestens alle 12 Stunden geupdatet</li>
-<li>Die Einwilligung das die XML generiert wird, muss alle 14 Tage erneut gegeben werden</li>
+<li>Die XML wird nur aktualisiert, wenn die Seite Kolo-/Ressübersicht in IW aufgerufen wird</li>
+<li>Die XML wird nicht aktualisiert, wenn ein Sitter diese Seite aufruft</li>
+<li>Die XML wird nur mindestens alle 12 Stunden aktualisiert</li>
+<li>Die Einwilligung, dass die XML generiert wird, muss alle 14 Tage erneut gegeben werden</li>
 </ul>
-... wenn also es nicht funzt, weil die XML veraltet ist, liegt es daran, dass der Spieler einige Zeit nicht auf der Kolo-/Ressübersicht in IW war, oder eben das letzte Update der XML vor weniger als 12 Stunden immer noch älter als die Datenbasis ist.
+... wenn es also nicht funzt, weil die XML veraltet ist, liegt es daran, dass der Spieler einige Zeit nicht auf der Kolo-/Ressübersicht in IW war, oder eben das letzte Update der XML vor weniger als 12 Stunden immer noch älter als die Datenbasis ist.
 </div><br>
 <?
 

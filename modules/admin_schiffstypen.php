@@ -112,7 +112,8 @@ while($row = $db->db_fetch_array($result)) {
     echo "<input type=\"checkbox\" name=\"" .
          $row_schiffe['id'] . "_bestellbar\" value=\"1\"";
     if ($row_schiffe['bestellbar'] == "1")
-	echo " checked"; 
+	//echo " checked"; 
+	echo 'checked="checked"';
     echo "\">";
     end_row();;
 	}

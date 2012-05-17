@@ -29,16 +29,16 @@
 /* Dieses Modul dient als Vorlage zum Erstellen von eigenen Zusatzmodulen    */
 /* f�r die Iw DB: Icewars geoscan and sitter database                        */
 /*---------------------------------------------------------------------------*/
-/* Diese Erweiterung der urspr�nglichen DB ist ein Gemeinschaftsprojekt von  */
+/* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens daf�r eingerichtete            */
+/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
 /*                   http://www.iw-smf.pericolini.de                         */
 /*                                                                           */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul �ber die index.php aufgerufen wurde.
+// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
 if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	echo "Hacking attempt...!!"; 
@@ -47,10 +47,10 @@ if (basename($_SERVER['PHP_SELF']) != "index.php") {
 
 //****************************************************************************
 //
-// -> Name des Moduls, ist notwendig f�r die Benennung der zugeh�rigen 
+// -> Name des Moduls, ist notwendig für die Benennung der zugehörigen 
 //    Config.cfg.php
-// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung f�r 
-//    eine Installation �ber das Men�
+// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung für 
+//    eine Installation über das Menü
 //
 $modulname  = "m_frachtkapa";
 
@@ -62,8 +62,8 @@ $modultitle = "Frachtkapazitäten";
 
 //****************************************************************************
 //
-// -> Status des Moduls, bestimmt wer dieses Modul �ber die Navigation 
-//    ausf�hren darf. M�gliche Werte: 
+// -> Status des Moduls, bestimmt wer dieses Modul über die Navigation 
+//    ausführen darf. Mögliche Werte: 
 //    - ""      <- nix = jeder, 
 //    - "admin" <- na wer wohl
 //
@@ -71,7 +71,7 @@ $modulstatus = "";
 
 //****************************************************************************
 //
-// -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
+// -> Beschreibung des Moduls, wie es in der Menü-Übersicht angezeigt wird.
 //
 $moduldesc = 
   "Das Frachtkapazitäten-Modul dient zur Berechnung der notwendigen" .
@@ -141,7 +141,7 @@ if( !empty($_REQUEST['was'])) {
 	  die( "Cannot load menu functions" );
     
   // Wenn ein Modul administriert wird, soll der Rest nicht mehr 
-  // ausgef�hrt werden. 
+  // ausgeführt werden. 
   return;
 }
 
@@ -163,6 +163,28 @@ $ressies = array(
   "energie" => "Energie"
 );
 
+$class1 = array(
+	"sys" 	=>	"Systrans",
+	"gor"	=>	"Gorgol",
+	"kam"	=>	"Kamel",
+	"flu"	=>	"Flughund"
+);
+foreach( $class1 as $key => $value) {
+  $temp   = getVar($key);
+  ${$key} = empty($temp) ? 0 : $temp;
+}
+
+$class2 = array(
+	"lur" 	=>	"Lurch",
+	"eis"	=>	"Eisbär",
+	"was"	=>	"Waschbär",
+	"see"	=>	"Seepferd"
+);
+foreach( $class2 as $key => $value) {
+  $temp   = getVar($key);
+  ${$key} = empty($temp) ? 0 : $temp;
+}
+
 foreach( $ressies as $key => $value) {
   $temp   = getVar($key);
   ${$key} = empty($temp) ? 0 : $temp;
@@ -170,6 +192,8 @@ foreach( $ressies as $key => $value) {
 
 $klasse1 = $eisen + (2 * $stahl) + (3 * $chemie) + (4 * $vv4a);
 $klasse2 = $energie + (2 * $eis) + (2 * $wasser);
+$sum1 = $klasse1-(($sys*5000)+($gor*20000)+($kam*75000)+($flu*400000));
+$sum2 = $klasse2-(($lur*2000)+($eis*10000)+($was*50000)+($see*250000));
 
 $class1ships = array(
   "Systrans(en)" =>  5000,
@@ -201,6 +225,27 @@ foreach( $ressies as $key => $title) {
        "\" value=\"" . ${$key} . "\"></td>\n";
   echo "  </tr>\n";
 }
+echo "  <tr>\n";
+echo "   <td colspan=\"2\" class=\"titlebg\"><b>Vorhandene Transen für Klasse 1</b></td>\n";
+echo "  </tr>\n"; 
+foreach( $class1 as $key => $title) {
+  echo "  <tr>\n";
+  echo "   <td class=\"windowbg2\" style=\"width: 200px;\">" . $title . ":</td>\n";
+  echo "   <td class=\"windowbg1\"><input type=\"text\" size=\"17\" name=\"" . $key . 
+       "\" value=\"" . ${$key} . "\"></td>\n";
+  echo "  </tr>\n";
+}
+
+echo "  <tr>\n";
+echo "   <td colspan=\"2\" class=\"titlebg\"><b>Vorhandene Transen für Klasse 2</b></td>\n";
+echo "  </tr>\n"; 
+foreach( $class2 as $key => $title) {
+  echo "  <tr>\n";
+  echo "   <td class=\"windowbg2\" style=\"width: 200px;\">" . $title . ":</td>\n";
+  echo "   <td class=\"windowbg1\"><input type=\"text\" size=\"17\" name=\"" . $key . 
+       "\" value=\"" . ${$key} . "\"></td>\n";
+  echo "  </tr>\n";
+}
 
 echo "  <tr>\n";
 echo "   <td colspan=\"2\" class=\"windowbg2\" align=\"center\"><input type=\"submit\" style=\"width: 120px;\" value=\"Berechnen\"></td>\n";
@@ -211,7 +256,7 @@ echo "<br>\n";
 
 echo "<table border=\"0\" cellpadding=\"4\" cellspacing=\"1\" class=\"bordercolor\" style=\"width: 80%;\">\n";
 echo " <tr>\n";
-echo "  <td colspan=\"3\" class=\"titlebg\"><b>Zu transportierende Ressourcen</b></td>\n";
+echo "  <td colspan=\"6\" class=\"titlebg\"><b>Zu transportierende Ressourcen</b></td>\n";
 echo " </tr>\n"; 
 
 foreach( $ressies as $key => $title) {
@@ -222,7 +267,7 @@ foreach( $ressies as $key => $title) {
 }
 
 echo " <tr>\n";
-echo "  <td colspan=\"3\" class=\"titlebg\"><b>Benötigte Frachtkapazität</b></td>\n";
+echo "  <td colspan=\"4\" class=\"titlebg\"><b>Benötigte Frachtkapazität</b></td>\n";
 echo " </tr>\n"; 
 echo " <tr>\n";
 echo "  <td class=\"windowbg2\">Klasse 1:</td>\n";
@@ -232,6 +277,7 @@ echo " <tr>\n";
 echo "  <td class=\"windowbg2\">Klasse 2:</td>\n";
 echo "  <td class=\"windowbg1\" colspan=\"2\">" . $klasse2 . "</td>\n";
 echo " </tr>\n"; 
+
 echo " <tr>\n";
 echo "  <td colspan=\"3\" class=\"titlebg\"><b>Benötigte Transen für Klasse 1</b></td>\n";
 echo " </tr>\n"; 
@@ -240,7 +286,7 @@ $t1 = "Entweder";
 foreach($class1ships as $name => $divisor) {
   echo " <tr>\n";
   echo "  <td class=\"windowbg2\">" . $t1 . "</td>\n";
-  echo "  <td class=\"windowbg1\">" . ceil($klasse1 / $divisor) . "</td>\n";
+  echo "  <td class=\"windowbg1\">" . ceil($sum1 / $divisor) . "</td>\n";
   echo "  <td class=\"windowbg2\">" . $name . "</td>\n";  
   echo " </tr>\n";
   $t1 = "Oder";
@@ -254,7 +300,7 @@ $t1 = "Entweder";
 foreach($class2ships as $name => $divisor) {
   echo " <tr>\n";
   echo "  <td class=\"windowbg2\">" . $t1 . "</td>\n";
-  echo "  <td class=\"windowbg1\">" . ceil($klasse2 / $divisor) . "</td>\n";
+  echo "  <td class=\"windowbg1\">" . ceil($sum2 / $divisor) . "</td>\n";
   echo "  <td class=\"windowbg2\">" . $name . "</td>\n";  
   echo " </tr>\n";
   $t1 = "Oder";

@@ -109,10 +109,9 @@ $sql = "SELECT time FROM " . $db_tb_lager . " WHERE user='" . $user_id . "' LIMI
 	$result = $db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	$row = $db->db_fetch_array($result);
-
 if ($row['time']<(time()-24*60*60)) {
 	?>
-	<br>&nbsp;
+	<br>
 	<table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
 	<tr>
 	<td align='center' style='color:red; font-weight:bold; font-size:1.5em;'>
@@ -135,6 +134,83 @@ if ($row['time'] < (time() - 24 * 60 * 60)) {
 	<tr>
 	<td align='center' style='color:red; font-weight:bold; font-size:1.5em;'>
 	Die Highscore wurde seit über 24h nicht mehr aktualisiert!
+	</td>
+	</tr>
+	</table>
+	<?php
+}
+
+//Warnung für nicht eingelesene Schiffsübersicht seit 48 Stunden
+$sql = "SELECT lastshipscan FROM " . $db_tb_user . " WHERE id='" . $user_id . "' LIMIT 0,1";
+	$result = $db->db_query($sql)
+		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+	$row = $db->db_fetch_array($result);
+if ($row['lastshipscan']<(time()-48*60*60)) {
+	?>
+	<br>
+	<table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
+	<tr>
+	<td align='center' style='color:red; font-weight:bold; font-size:1.5em;'>
+	Die Schiffsübersicht wurde seit 48h nicht mehr aktualisiert!
+	</td>
+	</tr>
+	</table>
+	<?php
+}
+
+//Warnung für nicht eingelesene Gebäudeübersicht seit 48 Stunden
+$sql = "SELECT time FROM " . $db_tb_gebaeude_spieler . " WHERE user='" . $user_id . "' LIMIT 0,1";
+	$result = $db->db_query($sql)
+		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+	$row = $db->db_fetch_array($result);
+if ($row['time']<(time()-48*60*60)) {
+	?>
+	<br>
+	<table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
+	<tr>
+	<td align='center' style='color:red; font-weight:bold; font-size:1.5em;'>
+	Die Gebäudeübersicht wurde seit 48h nicht mehr aktualisiert!
+	</td>
+	</tr>
+	</table>
+	<?php
+}
+
+// Warnung nicht eingelesene Allikasse seit 24 Stunden
+$sql = "SELECT MAX(time_of_insert) AS time FROM " . $db_tb_kasse_content . " LIMIT 0,1";
+$result = $db->db_query($sql)
+	or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$row = $db->db_fetch_array($result);
+//echo $row['time'];
+$time1 = new DateTime($row['time']);
+$time1 = date_format($time1,'U');
+//echo $time1;
+$time2 = time();
+if (($time2-24*60*60)> $time1) {
+	?>
+	<br>
+	<table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
+	<tr>
+	<td align='center' style='color:red; font-weight:bold; font-size:1.5em;'>
+	Die Allianzkasse wurde seit über 24h nicht mehr aktualisiert!
+	</td>
+	</tr>
+	</table>
+	<?php
+}
+
+// Warnung nicht eingelesene Mitgliederliste seit 96 Stunden
+$sql = "SELECT MAX(date) AS time FROM " . $db_tb_punktelog . " LIMIT 0,1";
+$result = $db->db_query($sql)
+	or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$row = $db->db_fetch_array($result);
+if ($row['time'] < (time() - 96 * 60 * 60)) {
+	?>
+	<br>
+	<table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
+	<tr>
+	<td align='center' style='color:red; font-weight:bold; font-size:1.5em;'>
+	Die Mitgliederliste wurde seit über 96h nicht mehr aktualisiert!
 	</td>
 	</tr>
 	</table>

@@ -137,9 +137,21 @@ $modulary["m_projects"]["name"] = "m_projects";
 $modulary["m_projects"]["titel"] = "Projekteverwaltung";
 $modulary["m_projects"]["desc"] =  "Verwaltung von Projekten im Bestellsystem";
 
+$modulary["m_research2"]["name"] = "m_research2";
+$modulary["m_research2"]["titel"] = "Forschungsprognosen";
+$modulary["m_research2"]["desc"] =  "Zeigt alle Forschungen und deren aktuelle Forschungspunkte an und ermittelt daraus die Zeiten, die der User mit seinen FP/h zur Erforschung benötigt.";
+
 $modulary["m_forsch"]["name"] = "m_forsch";
 $modulary["m_forsch"]["titel"] = "Forschungsübersicht";
 $modulary["m_forsch"]["desc"] =  "Die Forschungsübersicht zeigt die aktuell laufenden Forschungen";
+
+$modulary["m_ressxml_worker"]["name"] = "m_ressxml_worker";
+$modulary["m_ressxml_worker"]["titel"] = "Ressourcen-XML Updater";
+$modulary["m_ressxml_worker"]["desc"] =  "Ding zum Holen von Ressübersichtsdaten über XML-Übersichts-Links";
+
+$modulary["m_sc"]["name"] = "m_sc";
+$modulary["m_sc"]["titel"] = "Sondenkalkulator";
+$modulary["m_sc"]["desc"] =  "Berechnet die benötigten Sonden anhand gegebener Sondendeff";
 
 global $modulary;
 

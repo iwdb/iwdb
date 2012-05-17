@@ -1,0 +1,42 @@
+#hide .htaccess files (mostly standard)
+<files .htaccess>
+order allow,deny
+deny from all
+</files>
+
+#some caching
+# Turn on Expires
+ExpiresActive On
+
+# Standardcache 1 Stunde
+ExpiresDefault "access plus 1 hour"
+ 
+# Median sie sich wohl nie aendern 1 Jahr cachen
+<FilesMatch "\.(flv|ico|pdf|avi|mov|ppt|doc|mp3|wmv|wav)$">
+ExpiresDefault "access plus 1 year"
+</FilesMatch>
+ 
+# Bilder und Flashzeug 1 Monat cachen
+<FilesMatch "\.(gif|jpg|jpeg|png|swf)$">
+ExpiresDefault "access plus 1 month"
+</FilesMatch>
+
+#die universe.gif quasi nicht cachen
+<Files universe.gif>
+ExpiresDefault "access plus 30 seconds"
+</Files>
+
+# Javascript und CSS-Styles 1 Monat cachen
+<FilesMatch "\.(js|css)$">
+ExpiresDefault "access plus 1 month"
+</FilesMatch>
+ 
+# selten aktualisierte Seiten 2 Stunden cachen
+<FilesMatch "\.(xml|txt|html|htm)$">
+ExpiresDefault "access plus 2 hours"
+</FilesMatch>
+ 
+# kein cachen dynamischer Seiten
+<FilesMatch "\.(php|cgi|pl)$">
+ExpiresActive Off
+</FilesMatch>

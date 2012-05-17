@@ -182,7 +182,7 @@ function parse_de_index ( $return )
                     $rid = find_research_id($msg->strResearchName);
                     if ($rid != 0) {
                         $sql = "INSERT INTO " . $db_tb_user_research . 
-                                " SET user='" . $selectedusername . "', rid='" . $rid . "', date=" . $msg->iResearchEnd . "', time=" . $time ;
+                                " SET user='" . $selectedusername . "', rId='" . $rid . "', date=" . $msg->iResearchEnd . ", time=" . $time ;
                         $result = $db->db_query($sql)
                                     or error(GENERAL_ERROR, 
                                     'Could not query config information.', '', 

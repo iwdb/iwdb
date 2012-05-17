@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 3.4.8
+-- version 3.3.7deb7
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 26. Apr 2012 um 17:32
--- Server Version: 5.5.16
--- PHP-Version: 5.3.8
+-- Erstellungszeit: 17. Mai 2012 um 22:36
+-- Server Version: 5.5.24
+-- PHP-Version: 5.3.13-1~dotdeb.0
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -23,19 +22,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `iwdb_transport_einstellungen`
---
-
-CREATE TABLE IF NOT EXISTS `iwdb_transport_einstellungen` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
-  `value` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
 -- Tabellenstruktur für Tabelle `prefix_allianzstatus`
 --
 
@@ -46,6 +32,11 @@ CREATE TABLE IF NOT EXISTS `prefix_allianzstatus` (
   `status` varchar(10) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Status der eigenen Allianz zu anderen' AUTO_INCREMENT=1 ;
+
+--
+-- Daten für Tabelle `prefix_allianzstatus`
+--
+
 
 -- --------------------------------------------------------
 
@@ -76,6 +67,11 @@ CREATE TABLE IF NOT EXISTS `prefix_bestellen` (
   `order_time` int(12) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Daten für Tabelle `prefix_bestellen`
+--
+
 
 -- --------------------------------------------------------
 
@@ -119,6 +115,11 @@ CREATE TABLE IF NOT EXISTS `prefix_bestellung` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Bestellsystem' AUTO_INCREMENT=1 ;
 
+--
+-- Daten für Tabelle `prefix_bestellung`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -131,6 +132,11 @@ CREATE TABLE IF NOT EXISTS `prefix_bestellung_projekt` (
   `schiff` int(1) NOT NULL,
   PRIMARY KEY (`name`,`schiff`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Daten für Tabelle `prefix_bestellung_projekt`
+--
+
 
 -- --------------------------------------------------------
 
@@ -153,6 +159,11 @@ CREATE TABLE IF NOT EXISTS `prefix_bestellung_schiffe` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Bestellsystem' AUTO_INCREMENT=1 ;
 
+--
+-- Daten für Tabelle `prefix_bestellung_schiffe`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -167,6 +178,11 @@ CREATE TABLE IF NOT EXISTS `prefix_bestellung_schiffe_pos` (
   PRIMARY KEY (`bestellung_id`,`schiffstyp_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+--
+-- Daten für Tabelle `prefix_bestellung_schiffe_pos`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -179,6 +195,11 @@ CREATE TABLE IF NOT EXISTS `prefix_building2building` (
   PRIMARY KEY (`bOld`,`bNew`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Gebaeude bOld ermoeglicht Gebaeude bNew';
 
+--
+-- Daten für Tabelle `prefix_building2building`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -190,6 +211,11 @@ CREATE TABLE IF NOT EXISTS `prefix_building2research` (
   `rId` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`bId`,`rId`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Gebaeude bId ermoeglicht Forschung rId';
+
+--
+-- Daten für Tabelle `prefix_building2research`
+--
+
 
 -- --------------------------------------------------------
 
@@ -230,6 +256,11 @@ CREATE TABLE IF NOT EXISTS `prefix_def` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+--
+-- Daten für Tabelle `prefix_def`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -262,6 +293,11 @@ CREATE TABLE IF NOT EXISTS `prefix_gebaeude` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Gebäudekurzform' AUTO_INCREMENT=1 ;
 
+--
+-- Daten für Tabelle `prefix_gebaeude`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -272,14 +308,19 @@ CREATE TABLE IF NOT EXISTS `prefix_gebaeude_spieler` (
   `coords_gal` tinyint(4) NOT NULL,
   `coords_sys` smallint(6) NOT NULL,
   `coords_planet` tinyint(4) NOT NULL,
-  `kolo_typ` varchar(20) CHARACTER SET latin1 NOT NULL,
-  `user` varchar(30) CHARACTER SET latin1 NOT NULL,
-  `category` varchar(100) CHARACTER SET latin1 NOT NULL,
-  `building` varchar(200) CHARACTER SET latin1 NOT NULL,
+  `kolo_typ` varchar(20) NOT NULL,
+  `user` varchar(30) NOT NULL,
+  `category` varchar(100) NOT NULL,
+  `building` varchar(200) NOT NULL,
   `count` smallint(6) NOT NULL,
   `time` int(11) NOT NULL,
   PRIMARY KEY (`coords_gal`,`coords_sys`,`coords_planet`,`category`,`building`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Gebaeudeuebersicht';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Gebaeudeuebersicht';
+
+--
+-- Daten für Tabelle `prefix_gebaeude_spieler`
+--
+
 
 -- --------------------------------------------------------
 
@@ -293,6 +334,11 @@ CREATE TABLE IF NOT EXISTS `prefix_group` (
   `name` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Daten für Tabelle `prefix_group`
+--
+
 
 -- --------------------------------------------------------
 
@@ -310,6 +356,11 @@ CREATE TABLE IF NOT EXISTS `prefix_group_sort` (
   PRIMARY KEY (`group_id`,`module`,`user_id`,`sort`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+--
+-- Daten für Tabelle `prefix_group_sort`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -320,6 +371,11 @@ CREATE TABLE IF NOT EXISTS `prefix_group_user` (
   `group_id` int(11) NOT NULL,
   `user_id` varchar(30) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Daten für Tabelle `prefix_group_user`
+--
+
 
 -- --------------------------------------------------------
 
@@ -343,6 +399,11 @@ CREATE TABLE IF NOT EXISTS `prefix_highscore` (
   PRIMARY KEY (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+--
+-- Daten für Tabelle `prefix_highscore`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -353,6 +414,11 @@ CREATE TABLE IF NOT EXISTS `prefix_iwdbtabellen` (
   `name` varchar(40) NOT NULL DEFAULT '',
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Tabellennamen, die in der DB verwendet werden.';
+
+--
+-- Daten für Tabelle `prefix_iwdbtabellen`
+--
+
 
 -- --------------------------------------------------------
 
@@ -366,6 +432,11 @@ CREATE TABLE IF NOT EXISTS `prefix_kasse_content` (
   `time_of_insert` date NOT NULL DEFAULT '0000-00-00',
   UNIQUE KEY `allianz` (`allianz`,`time_of_insert`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Daten für Tabelle `prefix_kasse_content`
+--
+
 
 -- --------------------------------------------------------
 
@@ -381,6 +452,11 @@ CREATE TABLE IF NOT EXISTS `prefix_kasse_incoming` (
   UNIQUE KEY `user` (`user`,`time_of_insert`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+--
+-- Daten für Tabelle `prefix_kasse_incoming`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -395,6 +471,11 @@ CREATE TABLE IF NOT EXISTS `prefix_kasse_outgoing` (
   `allianz` varchar(50) NOT NULL DEFAULT '',
   UNIQUE KEY `payedfrom` (`payedfrom`,`payedto`,`amount`,`time_of_pay`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Daten für Tabelle `prefix_kasse_outgoing`
+--
+
 
 -- --------------------------------------------------------
 
@@ -418,6 +499,11 @@ CREATE TABLE IF NOT EXISTS `prefix_kb` (
   KEY `verteidiger_ally` (`verteidiger_ally`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+--
+-- Daten für Tabelle `prefix_kb`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -429,6 +515,11 @@ CREATE TABLE IF NOT EXISTS `prefix_kb_bomb` (
   `time` int(11) NOT NULL,
   `user` varchar(30) NOT NULL DEFAULT ''
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Daten für Tabelle `prefix_kb_bomb`
+--
+
 
 -- --------------------------------------------------------
 
@@ -442,6 +533,11 @@ CREATE TABLE IF NOT EXISTS `prefix_kb_bomb_geb` (
   `anzahl` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+--
+-- Daten für Tabelle `prefix_kb_bomb_geb`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -454,6 +550,11 @@ CREATE TABLE IF NOT EXISTS `prefix_kb_def` (
   `anz_start` int(11) NOT NULL DEFAULT '0',
   `anz_verlust` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Daten für Tabelle `prefix_kb_def`
+--
+
 
 -- --------------------------------------------------------
 
@@ -473,6 +574,11 @@ CREATE TABLE IF NOT EXISTS `prefix_kb_flotten` (
   PRIMARY KEY (`ID_FLOTTE`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+--
+-- Daten für Tabelle `prefix_kb_flotten`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -487,6 +593,11 @@ CREATE TABLE IF NOT EXISTS `prefix_kb_flotten_schiffe` (
   PRIMARY KEY (`ID_FLOTTE`,`ID_IW_SCHIFF`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+--
+-- Daten für Tabelle `prefix_kb_flotten_schiffe`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -498,6 +609,11 @@ CREATE TABLE IF NOT EXISTS `prefix_kb_pluenderung` (
   `ID_IW_RESS` int(11) NOT NULL DEFAULT '0',
   `anzahl` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Daten für Tabelle `prefix_kb_pluenderung`
+--
+
 
 -- --------------------------------------------------------
 
@@ -571,6 +687,11 @@ CREATE TABLE IF NOT EXISTS `prefix_lager` (
   PRIMARY KEY (`coords_gal`,`coords_sys`,`coords_planet`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Lagerübersicht';
 
+--
+-- Daten für Tabelle `prefix_lager`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -600,6 +721,11 @@ CREATE TABLE IF NOT EXISTS `prefix_lieferung` (
   KEY `coords_to_gal` (`coords_to_gal`,`coords_to_sys`,`coords_to_planet`,`art`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Lieferung';
 
+--
+-- Daten für Tabelle `prefix_lieferung`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -620,6 +746,11 @@ CREATE TABLE IF NOT EXISTS `prefix_menu` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Menüstruktur' AUTO_INCREMENT=1 ;
 
+--
+-- Daten für Tabelle `prefix_menu`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -632,6 +763,11 @@ CREATE TABLE IF NOT EXISTS `prefix_merkmale` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `merkmal` (`merkmal`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Planetenmerkmale zur Suche' AUTO_INCREMENT=1 ;
+
+--
+-- Daten für Tabelle `prefix_merkmale`
+--
+
 
 -- --------------------------------------------------------
 
@@ -648,6 +784,11 @@ CREATE TABLE IF NOT EXISTS `prefix_order_comment` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+--
+-- Daten für Tabelle `prefix_order_comment`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -659,6 +800,11 @@ CREATE TABLE IF NOT EXISTS `prefix_params` (
   `value` varchar(80) NOT NULL DEFAULT '',
   `text` text NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Daten für Tabelle `prefix_params`
+--
+
 
 -- --------------------------------------------------------
 
@@ -672,6 +818,11 @@ CREATE TABLE IF NOT EXISTS `prefix_parsemenu` (
   `varorstr` char(3) NOT NULL DEFAULT 'str'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+--
+-- Daten für Tabelle `prefix_parsemenu`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -684,6 +835,11 @@ CREATE TABLE IF NOT EXISTS `prefix_parser` (
   `message` varchar(200) NOT NULL DEFAULT '',
   PRIMARY KEY (`modulename`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Parser-Phrasen und Zuordnungen zu Parsermodulen';
+
+--
+-- Daten für Tabelle `prefix_parser`
+--
+
 
 -- --------------------------------------------------------
 
@@ -728,6 +884,11 @@ CREATE TABLE IF NOT EXISTS `prefix_preset` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Einstellungen für die Suche' AUTO_INCREMENT=1 ;
 
+--
+-- Daten für Tabelle `prefix_preset`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -744,6 +905,11 @@ CREATE TABLE IF NOT EXISTS `prefix_punktelog` (
   `ptag` float NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Punktenachverfolgung' AUTO_INCREMENT=1 ;
+
+--
+-- Daten für Tabelle `prefix_punktelog`
+--
+
 
 -- --------------------------------------------------------
 
@@ -784,6 +950,11 @@ CREATE TABLE IF NOT EXISTS `prefix_raidview` (
   UNIQUE KEY `coords` (`coords`,`date`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Raidberichte' AUTO_INCREMENT=1 ;
 
+--
+-- Daten für Tabelle `prefix_raidview`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -812,6 +983,11 @@ CREATE TABLE IF NOT EXISTS `prefix_research` (
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Forschungsinformation fuer Forschung Id' AUTO_INCREMENT=1 ;
 
+--
+-- Daten für Tabelle `prefix_research`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -825,6 +1001,11 @@ CREATE TABLE IF NOT EXISTS `prefix_research2building` (
   PRIMARY KEY (`rId`,`bId`,`lvl`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Forschung rId ermoeglicht Gebaeude(stufe) bId';
 
+--
+-- Daten für Tabelle `prefix_research2building`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -836,6 +1017,11 @@ CREATE TABLE IF NOT EXISTS `prefix_research2prototype` (
   `pid` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`rid`,`pid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Forschung rId ermoeglicht Prototyp pId';
+
+--
+-- Daten für Tabelle `prefix_research2prototype`
+--
+
 
 -- --------------------------------------------------------
 
@@ -849,6 +1035,11 @@ CREATE TABLE IF NOT EXISTS `prefix_research2research` (
   PRIMARY KEY (`rOld`,`rNew`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Forschung rOld ermoeglicht Forschung rNew';
 
+--
+-- Daten für Tabelle `prefix_research2research`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -861,6 +1052,11 @@ CREATE TABLE IF NOT EXISTS `prefix_research2user` (
   PRIMARY KEY (`rid`,`userid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='bereits erforschte Forschungen des Benutzers';
 
+--
+-- Daten für Tabelle `prefix_research2user`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -872,6 +1068,11 @@ CREATE TABLE IF NOT EXISTS `prefix_researchfield` (
   `name` varchar(50) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Forschungsfelder' AUTO_INCREMENT=1 ;
+
+--
+-- Daten für Tabelle `prefix_researchfield`
+--
+
 
 -- --------------------------------------------------------
 
@@ -896,6 +1097,11 @@ CREATE TABLE IF NOT EXISTS `prefix_ressuebersicht` (
   `bev_q` float DEFAULT NULL,
   PRIMARY KEY (`user`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Daten für Tabelle `prefix_ressuebersicht`
+--
+
 
 -- --------------------------------------------------------
 
@@ -971,6 +1177,11 @@ CREATE TABLE IF NOT EXISTS `prefix_scans` (
   KEY `coords_gal_2` (`coords_gal`,`coords_sys`,`coords_planet`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+--
+-- Daten für Tabelle `prefix_scans`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -989,6 +1200,11 @@ CREATE TABLE IF NOT EXISTS `prefix_scans_historie` (
   PRIMARY KEY (`coords`,`time`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Punktehistorie der Scans';
 
+--
+-- Daten für Tabelle `prefix_scans_historie`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -1000,6 +1216,11 @@ CREATE TABLE IF NOT EXISTS `prefix_schiffe` (
   `schiff` int(11) unsigned NOT NULL DEFAULT '0',
   `anzahl` int(7) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Daten für Tabelle `prefix_schiffe`
+--
+
 
 -- --------------------------------------------------------
 
@@ -1034,6 +1255,11 @@ CREATE TABLE IF NOT EXISTS `prefix_schiffstyp` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+--
+-- Daten für Tabelle `prefix_schiffstyp`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -1047,6 +1273,11 @@ CREATE TABLE IF NOT EXISTS `prefix_sid` (
   `id` varchar(50) NOT NULL DEFAULT '',
   PRIMARY KEY (`sid`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8;
+
+--
+-- Daten für Tabelle `prefix_sid`
+--
+
 
 -- --------------------------------------------------------
 
@@ -1075,6 +1306,11 @@ CREATE TABLE IF NOT EXISTS `prefix_sitterauftrag` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+--
+-- Daten für Tabelle `prefix_sitterauftrag`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -1090,6 +1326,11 @@ CREATE TABLE IF NOT EXISTS `prefix_sitterlog` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+--
+-- Daten für Tabelle `prefix_sitterlog`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -1101,6 +1342,11 @@ CREATE TABLE IF NOT EXISTS `prefix_spielerinfo` (
   `dabei_seit` int(12) DEFAULT NULL,
   PRIMARY KEY (`user`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Daten für Tabelle `prefix_spielerinfo`
+--
+
 
 -- --------------------------------------------------------
 
@@ -1118,6 +1364,11 @@ CREATE TABLE IF NOT EXISTS `prefix_sysscans` (
   KEY `idx_sg_search` (`gal`,`objekt`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+--
+-- Daten für Tabelle `prefix_sysscans`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -1132,6 +1383,11 @@ CREATE TABLE IF NOT EXISTS `prefix_target` (
   `coords_planet` tinyint(4) NOT NULL,
   PRIMARY KEY (`user`,`name`,`coords_gal`,`coords_sys`,`coords_planet`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Daten für Tabelle `prefix_target`
+--
+
 
 -- --------------------------------------------------------
 
@@ -1154,6 +1410,11 @@ CREATE TABLE IF NOT EXISTS `prefix_transferliste` (
   PRIMARY KEY (`zeitmarke`,`buddler`,`fleeter`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+--
+-- Daten für Tabelle `prefix_transferliste`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -1166,6 +1427,11 @@ CREATE TABLE IF NOT EXISTS `prefix_univ_link` (
   `name` varchar(30) NOT NULL,
   PRIMARY KEY (`user`,`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Daten für Tabelle `prefix_univ_link`
+--
+
 
 -- --------------------------------------------------------
 
@@ -1240,6 +1506,11 @@ CREATE TABLE IF NOT EXISTS `prefix_user` (
   KEY `ikea` (`ikea`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+--
+-- Daten für Tabelle `prefix_user`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -1247,11 +1518,16 @@ CREATE TABLE IF NOT EXISTS `prefix_user` (
 --
 
 CREATE TABLE IF NOT EXISTS `prefix_user_research` (
-  `user` varchar(30) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `user` varchar(30) DEFAULT NULL,
   `rId` int(10) unsigned NOT NULL DEFAULT '0',
   `date` int(12) unsigned NOT NULL DEFAULT '0',
   UNIQUE KEY `user` (`user`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktuelle Forschungen der User';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Aktuelle Forschungen der User';
+
+--
+-- Daten für Tabelle `prefix_user_research`
+--
+
 
 -- --------------------------------------------------------
 
@@ -1268,6 +1544,11 @@ CREATE TABLE IF NOT EXISTS `prefix_versand_auftrag` (
   PRIMARY KEY (`user`,`time`,`pos`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+--
+-- Daten für Tabelle `prefix_versand_auftrag`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -1282,6 +1563,7 @@ CREATE TABLE IF NOT EXISTS `prefix_wronglogin` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+--
+-- Daten für Tabelle `prefix_wronglogin`
+--
+

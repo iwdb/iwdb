@@ -343,7 +343,7 @@ foreach ($categories as $category => $value) {
 		echo $planet_buildings['planet'];
 		foreach ($categories_buildings[$category] as $building => $value) {
 			next_cell("windowbg1", "align=\"center\"");
-			if (isset($planet_buildings[$building]) AND (($planet_buildings[$building])!="0")) {
+			if (isset($planet_buildings[$building]) ) {
 				
 					echo $planet_buildings[$building];
 			}else

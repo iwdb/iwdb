@@ -1387,7 +1387,7 @@ INSERT INTO `prefix_schiffstyp` (`id`, `schiff`, `abk`, `typ`, `bild`, `id_iw`, 
 --
 
 INSERT INTO `prefix_user` (`id`, `staatsform`, `password`, `email`, `status`, `rules`, `logindate`, `allianz`, `grav_von`, `grav_bis`, `gal_start`, `gal_end`, `sys_start`, `sys_end`, `preset`, `planibilder`, `gebbilder`, `geopunkte`, `syspunkte`, `sitterlogin`, `sitterpwd`, `sitterskin`, `sittercomment`, `sitten`, `adminsitten`, `newspermission`, `mailpermission`, `sitterpunkte`, `gebaeude`, `peitschen`, `gengebmod`, `genbauschleife`, `genmaurer`, `budflesol`, `buddlerfrom`, `rang`, `gebp`, `fp`, `gesamtp`, `ptag`, `dabei`, `titel`, `userlink`, `lastshipscan`, `menu_default`, `gesperrt`, `color`, `ikea`, `sound`, `squad`, `switch`, `lastsitterlogin`, `lastsitteruser`, `lastsitterloggedin`, `fremdesitten`, `vonfremdesitten`, `iwsa`, `lasttransport`, `uniprop`, `dauersitten`, `dauersittentext`, `dauersittenlast`) VALUES
-('admin', 0, 'ea2b2676c28c0db26d39331a336c6b92', '', 'admin', '1', 1335309332, '', 0, 0, '0', '0', '0', '0', 0, '', '', 0, 0, '', NULL, 0, '', '', '', 1, 1, 0, '', '', 1, '', '', '', '', '', 0, 0, 0, 0, 0, '', '', '', 'default', 0, '0', '', 0, '', 0, 0, '', 0, 0, 0, '', NULL, 1, 0, '', NULL);
+('admin', 0, '21232f297a57a5a743894a0e4a801fc3', '', 'admin', '1', 1335309332, '', 0, 0, '0', '0', '0', '0', 0, '', '', 0, 0, '', NULL, 0, '', '', '', 1, 1, 0, '', '', 1, '', '', '', '', '', 0, 0, 0, 0, 0, '', '', '', 'default', 0, '0', '', 0, '', 0, 0, '', 0, 0, 0, '', NULL, 1, 0, '', NULL);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

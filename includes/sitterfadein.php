@@ -3,8 +3,8 @@
 //definition der Sounddateien (leer = global ausgeschaltet)
 //nur mp3 Dateien möglich da anderes nciht unerstuetzt werden kann
 //achten sie darauf, dass die Dtaie nicht zu gro? ist.
-$soundnormal = 'sittersound.mp3';
-$soundwichtig = 'sittersound.mp3';
+$soundnormal = 'auftrag.mp3';
+$soundwichtig = 'auftrag.mp3';
 
 $amodul = GetVar('action');
 

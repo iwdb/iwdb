@@ -287,7 +287,7 @@ CREATE TABLE IF NOT EXISTS `prefix_group` (
 -- Tabellenstruktur für Tabelle `prefix_group_sort`
 --
 
-DCREATE TABLE IF NOT EXISTS `prefix_group_sort` (
+CREATE TABLE IF NOT EXISTS `prefix_group_sort` (
   `group_id` int(11) NOT NULL,
   `module` varchar(30) NOT NULL,
   `user_id` varchar(30) NOT NULL,

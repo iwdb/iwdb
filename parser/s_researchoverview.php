@@ -63,7 +63,7 @@ function parse_researchoverview($lines) {
     // Forschung "Raumfahrt", diese darf dann nicht eingefuegt werden.
 		if( strpos( $scan, "Raumfahrt") !== FALSE ) {
 			if( empty( $raumfahrtTitle )) {
-				$raumfahrtTitle = htmlspecialchars($scan,$encoding = 'UTF-8');
+				$raumfahrtTitle = htmlspecialchars($scan, ENT_QUOTES, 'UTF-8');
 			} else {
 				insert_research_for_user(trim($scan), $selectedusername);
 			}

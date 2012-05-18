@@ -376,8 +376,7 @@ INSERT INTO `prefix_parser` (`modulename`, `recognizer`, `message`) VALUES
 ('fremde_flotten', 'Fremde Flotten', 'Fremde Flotten'),
 ('fehlscan', 'Sondierung fehlgeschlagen', 'Fehlgeschlagene Sondierung'),
 ('highscore', 'Letzte Aktualisierung', 'Highscore'),
-('sbxml', 'http://www.icewars.de/portal/kb/de/sb.php', 'SB-XML'),
-('research2', 'Die Forscher haben schon', 'Forschungen');
+('sbxml', 'http://www.icewars.de/portal/kb/de/sb.php', 'SB-XML');
 
 --
 -- Daten für Tabelle `prefix_preset`

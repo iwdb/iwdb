@@ -1,36 +1,8 @@
--- phpMyAdmin SQL Dump
--- version 3.4.10.2
--- http://www.phpmyadmin.net
---
--- Host: localhost
--- Erstellungszeit: 18. Mai 2012 um 05:26
--- Server Version: 5.1.63
--- PHP-Version: 5.2.17
-
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-
---
--- Datenbank: `iwdb`
---
-
---
--- Daten für Tabelle `prefix_bestellung_projekt`
---
-
-INSERT INTO `prefix_bestellung_projekt` (`name`, `prio`, `schiff`) VALUES
-('(Keins)', 999, 0),
-('(Keins)', 999, 1);
-
 --
 -- Daten für Tabelle `prefix_building2research`
 --
+
+DELETE FROM `prefix_building2research`;
 
 INSERT INTO `prefix_building2research` (`bId`, `rId`) VALUES
 (24, 43),
@@ -45,29 +17,12 @@ INSERT INTO `prefix_building2research` (`bId`, `rId`) VALUES
 (65, 119),
 (65, 164);
 
---
--- Daten für Tabelle `prefix_def`
---
-
-INSERT INTO `prefix_def` (`id`, `eingebaut`, `id_iw`, `name`, `abk`, `typ`, `kosten_eisen`, `kosten_stahl`, `kosten_vv4a`, `kosten_chemie`, `kosten_energie`, `dauer`, `verbrauch_chem`, `verbrauch_energie`, `angriff`, `waffenklasse`, `verteidigung`, `schilde`, `genauigkeit`, `eff_sonden`, `eff_zivile`, `eff_jaeger`, `eff_bomber`, `eff_korvetten`, `eff_zerstoerer`, `eff_kreuzer`, `eff_ss`, `eff_dn`, `eff_spezielle`) VALUES
-(1, 1, 1, 'SDI Raketensystem', 'Rak', 'planetare Def', 200, 200, 0, 100, 200, 3600, 0, 0, 10, 'kinetisch', 40, 0, 65, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100),
-(2, 1, 2, 'SDI Atomraketen', 'ARak', 'planetare Def', 300, 300, 0, 150, 300, 3600, 0, 0, 15, 'kinetisch', 45, 0, 80, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100),
-(3, 1, 3, 'Raketensatellit', 'RakSat', 'orbitale Def', 300, 200, 0, 100, 300, 3600, 0, 0, 25, 'kinetisch', 30, 0, 60, 100, 100, 130, 130, 100, 100, 80, 50, 50, 100),
-(4, 1, 4, 'Gausskanonensatellit', 'Gauss', 'orbitale Def', 700, 400, 0, 200, 400, 3600, 0, 0, 25, 'kinetisch', 135, 0, 85, 100, 100, 150, 150, 120, 100, 100, 60, 60, 100),
-(5, 1, 5, 'SD01 Gatling', 'SD01', 'aktive Sondenverteidigung', 1000, 1250, 0, 1500, 1000, 7200, 5, 0, 0, 'keine', 0, 0, 0, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100),
-(6, 1, 6, 'SDI Plasmalaser', 'Plasma', 'planetare Def', 3500, 1000, 400, 1000, 2000, 7200, 10, 10, 300, 'elektrisch', 750, 0, 80, 100, 100, 25, 25, 70, 100, 100, 120, 130, 100),
-(7, 1, 7, 'SDI Gravitonbeam', 'Grav', 'planetare Def', 4000, 2400, 1000, 0, 10000, 10800, 25, 125, 480, 'gravimetrisch', 1200, 500, 50, 100, 100, 40, 40, 70, 90, 100, 130, 150, 100),
-(8, 0, 8, 'SDI Stellarkonverter', 'Stellar', 'planetare Def', 15000, 7000, 4000, 5000, 25000, 14400, 60, 125, 2500, 'gravimetrisch', 1250, 750, 40, 100, 100, 20, 20, 50, 70, 100, 140, 150, 100),
-(9, 1, 9, 'LaserSat', 'Laser', 'orbitale Def', 900, 500, 0, 500, 1000, 7200, 0, 0, 35, 'elektrisch', 80, 0, 85, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100),
-(10, 1, 10, 'PulslaserSat', 'Puls', 'orbitale Def', 1300, 750, 0, 500, 1100, 7200, 10, 10, 55, 'elektrisch', 125, 0, 140, 100, 100, 150, 150, 120, 100, 80, 50, 50, 100),
-(11, 0, 11, 'Fusiontorpedowerfer (Sat)', 'Fusion', 'orbitale Def', 2500, 1500, 500, 2500, 2000, 7200, 20, 20, 1050, 'kinetisch', 400, 100, 80, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100),
-(12, 1, 12, 'MassdriverSat', 'Mass', 'orbitale Def', 5000, 2000, 1000, 3000, 10000, 10800, 30, 30, 450, 'kinetisch', 550, 150, 90, 100, 100, 150, 150, 130, 110, 100, 70, 50, 100),
-(13, 1, 13, 'SD02 Pulslaser', 'SD02', 'aktive Sondenverteidigung', 2000, 2000, 100, 2000, 2000, 10800, 10, 5, 0, 'keine', 0, 0, 0, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100),
-(15, 1, 15, 'Stopfentenwerfer', 'Stopfi', 'planetare Def', 200, 200, 0, 0, 100, 3600, 0, 0, 1, 'keine', 100, 0, 50, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100);
 
 --
 -- Daten für Tabelle `prefix_gebaeude`
 --
+
+DELETE FROM `prefix_gebaeude`;
 
 INSERT INTO `prefix_gebaeude` (`id`, `name`, `category`, `idcat`, `inactive`, `dauer`, `bild`, `info`, `n_building`, `n_research`, `n_kolotyp`, `n_planityp`, `e_research`, `e_building`, `zerstoert`, `bringt`, `Kosten`, `Punkte`, `MaximaleAnzahl`, `typ`, `kostet`, `id_iw`) VALUES
 (1, 'kleine Chemiefabrik', ' 5. Förderungsanlagen', 4, '', 10800, 'kl_chemiefabrik', 'Die kleine Chemiefabrik produziert chemische Elemente. Einen Teil davon kann man rauchen, einen Teil davon kann man benutzen um irgendwelche Wege zu teeren und gewisse andere Teile kommen bei der Herstellung von Tiefkühlpizza zum Einsatz. Das alles wird hier aber zusammengefasst zu chemischen Elementen, welche verbrannt (natürlich in Kraftwerken, wo denn sonst) oder als Treibstoff für Raumschiffe benutzt werden.', '', 'chemische Reaktionen', 'Kolonie', '', '', '', 'fremde Spielerinteraktion (Bomben, etc)\r\nSonstiges (Katastrophen, Massdriver, Streiks, usw.)', '+20 Chemie', 'Eisen: 150 Stahl: 50 Energie: 50 Bevölkerung: 10', 6, 0, '', '-5 Energie', 29),
@@ -233,181 +188,18 @@ INSERT INTO `prefix_gebaeude` (`id`, `name`, `category`, `idcat`, `inactive`, `d
 
 
 --
--- Daten für Tabelle `prefix_group`
---
-
-INSERT INTO `prefix_group` (`id`, `parent_id`, `name`) VALUES
-(1, 0, '(Alle)');
-
-
---
--- Daten für Tabelle `prefix_iwdbtabellen`
---
-
-INSERT INTO `prefix_iwdbtabellen` (`name`) VALUES
-('allianzstatus'),
-('bestellen'),
-('bestellung'),
-('bestellung_projekt'),
-('bestellung_schiffe'),
-('bestellung_schiffe_pos'),
-('building2building'),
-('building2research'),
-('def'),
-('gebaeude'),
-('gebaeude_spieler'),
-('group'),
-('group_sort'),
-('group_user'),
-('highscore'),
-('kasse_content'),
-('kasse_incoming'),
-('kasse_outgoing'),
-('kb'),
-('kb_bomb'),
-('kb_bomb_geb'),
-('kb_flotten'),
-('kb_flotten_schiffe'),
-('lager'),
-('lieferung'),
-('mails'),
-('menu'),
-('merkmale'),
-('parser'),
-('preset'),
-('punktelog'),
-('raid'),
-('raidview'),
-('research'),
-('research2building'),
-('research2prototype'),
-('research2research'),
-('research2user'),
-('researchfield'),
-('ressuebersicht'),
-('scans'),
-('scans_historie'),
-('schiffe'),
-('schiffstyp'),
-('sid'),
-('sitterauftrag'),
-('sitterlog'),
-('spielerinfo'),
-('sysscans'),
-('target'),
-('transferliste'),
-('univ_link'),
-('user'),
-('user_research'),
-('versand_auftrag'),
-('wronglogin');
-
-
---
 -- Daten für Tabelle `prefix_menu`
 --
 
-INSERT INTO `prefix_menu` (`id`, `menu`, `submenu`, `active`, `title`, `status`, `action`, `extlink`, `sittertyp`, `sound`) VALUES
-(1, 1, 0, 1, 'Daten', '', '', 'n', 0, 0),
-(2, 1, 1, 1, 'neuer Bericht', '', 'newscan', 'n', 0, 1),
-(3, 12, 0, 1, 'Allianz', '', '', '', 0, 0),
-(4, 12, 1, 1, 'Spieler', '', 'members', 'n', 0, 1),
-(5, 12, 2, 1, 'Planeten', '', 'planeten', 'n', 0, 1),
-(6, 12, 3, 1, 'Schiffe', '', 'schiffe', 'n', 0, 1),
-(7, 6, 0, 1, 'Universum', '', '', '', 0, 0),
-(8, 6, 1, 1, 'Planet suchen', '', 'searchdb', 'n', 0, 1),
-(9, 6, 2, 1, 'Karte', '', 'karte', 'n', 0, 1),
-(10, 2, 0, 1, 'Sitting', '', '', '', 0, 0),
-(11, 2, 4, 1, 'meine Aufträge', '', 'sitterauftrag', 'n', 0, 1),
-(12, 2, 3, 1, 'Sitterhistorie', '', 'sitterhistory', 'n', 0, 1),
-(13, 2, 2, 1, 'Sitterlogins', '', 'sitterlogins', 'n', 0, 1),
-(14, 2, 1, 1, 'Sitteraufträge #sitter', '', 'sitterliste', 'n', 0, 1),
-(15, 7, 0, 1, 'Angriffe', '', '', '', 0, 0),
-(16, 15, 1, 1, 'Menüverwaltung', 'admin', 'admin_menue', 'n', 0, 1),
-(17, 7, 1, 1, 'laufende Angriffe #angriffe', '', 'm_raid&view=overview&allistatus=own&angriff=1', 'n', 0, 1),
-(18, 14, 0, 1, 'Tools', '', '', '', 0, 0),
-(19, 13, 1, 1, 'Highscore', '', 'showhighscore', 'n', 0, 1),
-(20, 15, 0, 1, 'Administration', 'admin', '', 'n', 0, 0),
-(21, 13, 0, 1, 'Statistik', '', '', '', 0, 0),
-(22, 3, 0, 1, 'Bestellung', '', '', '', 0, 0),
-(23, 6, 3, 1, 'Planeten ohne Scans', '', 'showgalaxy&withoutscan=1', 'n', 0, 1),
-(24, 6, 4, 1, 'Reservierte Planeten', '', 'showgalaxy&reserv=1&ansicht=geologisch  	', 'n', 0, 1),
-(25, 11, 0, 1, 'Krieg', '', '', 'n', 0, 0),
-(26, 2, 5, 1, 'Browser', '', 'browser.php', 'y', 0, 1);
-
---
--- Daten für Tabelle `prefix_merkmale`
---
-
-INSERT INTO `prefix_merkmale` (`id`, `merkmal`) VALUES
-(1, 'Mond'),
-(2, 'alte Ruinen'),
-(3, 'Ureinwohner'),
-(4, 'Asterioidengürtel'),
-(5, 'Gold'),
-(6, 'planetarer Ring'),
-(7, 'instabliler Kern'),
-(8, 'Natürliche Quelle'),
-(9, 'wenig Rohstoffe'),
-(10, 'toxisch'),
-(11, 'radioaktiv');
-
---
--- Daten für Tabelle `prefix_params`
---
-
-INSERT INTO `prefix_params` (`name`, `value`, `text`) VALUES
-('gesperrt', '0', ''),
-('aktuellnews', '0', ''),
-('sound_login', '1', ''),
-('sound_standart', '1', ''),
-('sound_global', '4', ''),
-('bericht_fuer_sitter', '1', ''),
-('bericht_fuer_rang', 'all', ''),
-('aktuellnews', '0', '');
-
---
--- Daten für Tabelle `prefix_parsemenu`
---
-
-INSERT INTO `prefix_parsemenu` (`ersetze`, `durch`, `varorstr`) VALUES
-('M~B', 'anznachrichten', 'var'),
-('N~S', 'anznews', 'var'),
-('#', 'anzauftrag', 'var'),
-('M~B', 'anznachrichten', 'var'),
-('N~S', 'anznews', 'var');
-
---
--- Daten für Tabelle `prefix_parser`
---
-
-INSERT INTO `prefix_parser` (`modulename`, `recognizer`, `message`) VALUES
-('schiffsuebersicht', 'Schiffs&uuml;bersicht', 'Schiffsübersicht'),
-('members', 'Name Rang GebP FP', 'Mitgliederliste'),
-('raid', 'Kampf auf dem Planeten', 'Raid-Bericht'),
-('transferliste', 'Transport angekommen', 'Transportbericht'),
-('unixml', '?xml ', 'UniXML'),
-('research', 'Forschungsinfo:', 'Forschungsbericht'),
-('researchoverview', 'Erforschte Forschungen', 'Forschungsliste'),
-('kasse', 'Standardbeitrag', 'Allianzkasse'),
-('resskolo', 'Ressourcenkoloübersicht', 'Ressourcenkoloübersicht'),
-('eigene_flotten', 'Eigene Flotten', 'Eigene Flotten'),
-('fremde_flotten', 'Fremde Flotten', 'Fremde Flotten'),
-('fehlscan', 'Sondierung fehlgeschlagen', 'Fehlgeschlagene Sondierung'),
-('highscore', 'Letzte Aktualisierung', 'Highscore'),
-('sbxml', 'http://www.icewars.de/portal/kb/de/sb.php', 'SB-XML');
-
---
--- Daten für Tabelle `prefix_preset`
---
-
-INSERT INTO `prefix_preset` (`id`, `name`, `fromuser`, `typ`, `objekt`, `user`, `exact`, `allianz`, `planetenname`, `merkmal`, `eisengehalt`, `chemievorkommen`, `eisdichte`, `lebensbedingungen`, `order1`, `order1_d`, `order2`, `order2_d`, `order3`, `order3_d`, `grav_von`, `grav_bis`, `gal_start`, `gal_end`, `sys_start`, `sys_end`, `max`, `ansicht`, `kgmod`, `dgmod`, `ksmod`, `dsmod`, `fmod`) VALUES
-(1, 'leer', '', '%', '%', '', '', '', '', '%', 0, 0, 0, 0, '', 'ASC', '', 'ASC', '', 'ASC', '', '', '', '', '', '', '', 'auto', '', '', '', '', '');
+INSERT INTO `prefix_menu` (`menu`, `submenu`, `active`, `title`, `status`, `action`, `extlink`, `sittertyp`, `sound`) VALUES
+(2, 5, 1, 'Browser', '', 'browser.php', 'y', 0, 1);
 
 
 --
 -- Daten für Tabelle `prefix_research`
 --
+
+DELETE FROM `prefix_research`;
 
 INSERT INTO `prefix_research` (`ID`, `name`, `description`, `FP`, `gebiet`, `highscore`, `addcost`, `geblevels`, `declarations`, `defense`, `objects`, `genetics`, `rlevel`, `gameversion`, `reingestellt`, `FPakt`, `time`) VALUES
 (1, 'Bautechnik', 'Gestern hat jemand angefangen einen 2-stöckigen Stall zu bauen, angeblich weil der alte zu klein ist. Dabei hat der Steine verwendet, statt wie anständige Leute Lehm und Stroh zu benutzen. Irre, was manchen so einfällt, nur um die Freundin zu beeindrucken. Hoffentlich macht das keine Schule, sonst wächst uns das am Ende noch über den Kopf.', 250, 3, 0, '', '', '', '', '', '', 1, 'XII', 'Fiedler', 0, 0),
@@ -683,9 +475,12 @@ INSERT INTO `prefix_research` (`ID`, `name`, `description`, `FP`, `gebiet`, `hig
 (270, 'Abwehr von verrückten Tabletopspielern', 'Zuerst erforscht von 	The Temperance (20.11.2011 21:23)', 6750000, 5, 0, '', '', '', '', '', '', 45, '11.74', 'Fiedler', 0, 0),
 (271, 'Gargoil', 'Zuerst erforscht von 	The Temperance (23.01.2012 06:53)', 11250000, 13, 0, '', '', '', '', '', '', 45, '11.74', 'Fiedler', 0, 0);
 
+
 --
 -- Daten für Tabelle `prefix_research2building`
 --
+
+DELETE FROM `prefix_building2building`;
 
 INSERT INTO `prefix_research2building` (`rId`, `bId`, `lvl`) VALUES
 (2, 17, 0),
@@ -866,6 +661,8 @@ INSERT INTO `prefix_research2building` (`rId`, `bId`, `lvl`) VALUES
 -- Daten für Tabelle `prefix_research2prototype`
 --
 
+DELETE FROM `prefix_research2prototype`;
+
 INSERT INTO `prefix_research2prototype` (`rid`, `pid`) VALUES
 (28, 7),
 (55, 4),
@@ -922,6 +719,8 @@ INSERT INTO `prefix_research2prototype` (`rid`, `pid`) VALUES
 --
 -- Daten für Tabelle `prefix_research2research`
 --
+
+DELETE FROM `prefix_research2research`;
 
 INSERT INTO `prefix_research2research` (`rOld`, `rNew`) VALUES
 (1, 2),
@@ -1316,97 +1115,3 @@ INSERT INTO `prefix_research2research` (`rOld`, `rNew`) VALUES
 (265, 267),
 (266, 268),
 (270, 232);
-
-
---
--- Daten für Tabelle `prefix_researchfield`
---
-
-INSERT INTO `prefix_researchfield` (`id`, `name`) VALUES
-(1, 'noch unbekannt'),
-(2, 'Chemie'),
-(3, 'Industrie'),
-(4, 'Physik'),
-(5, 'Militär'),
-(6, 'Evolution'),
-(7, 'Ethik'),
-(8, 'Informatik'),
-(9, 'Wirtschaft'),
-(10, 'Raumfahrt'),
-(11, 'Kolonisation'),
-(12, 'Unifragen'),
-(13, 'Prototypen'),
-(14, '---'),
-(15, ''),
-(16, 'noch unbekannt');
-
-
---
--- Daten für Tabelle `prefix_schiffstyp`
---
-
-INSERT INTO `prefix_schiffstyp` (`id`, `schiff`, `abk`, `typ`, `bild`, `id_iw`, `kosten_eisen`, `kosten_stahl`, `kosten_vv4a`, `kosten_chemie`, `kosten_eis`, `kosten_wasser`, `kosten_energie`, `angriff`, `waffenklasse`, `verteidigung`, `panzerung_kinetisch`, `panzerung_elektrisch`, `panzerung_gravimetrisch`, `dauer`, `bestellbar`, `klasse1`, `klasse2`) VALUES
-(1, 'Gargoil (Carrier)', 'Gargoil', ' 9. Carrier', '', 57, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(2, 'Gatling', 'Gatling', ' 4. Korvetten', '', 38, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(3, 'Kampfbasis Gamma', 'KB Gamma', '10. Basen', '', 67, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(4, 'Nova', 'Nova', ' 3. Bomber', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(5, 'Scout', 'Scout', '11. Sonstiges', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(6, 'Crawler', 'Crawler', ' 5. Zerstörer', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(7, 'Nepomuk', 'Nepomuk', ' 3. Bomber', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(8, 'Systrans (Systemtransporter Klasse 1)', 'Systrans', ' 1. Transporter', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 1, 0, 0),
-(9, 'Crux (Systemtransporter Kolonisten)', 'Crux', ' 1. Transporter', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(10, 'Lurch (Systemtransporter Klasse 2)', 'Lurch', ' 1. Transporter', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 1, 0, 0),
-(11, 'KISS-01 (Systemkolonieschiff)', 'KISS', '11. Sonstiges', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(12, 'Flughund (Hyperraumtransporter Klasse 1)', 'Flughund', ' 1. Transporter', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(13, 'Sonde X11', 'X11', '11. Sonstiges', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(14, 'Artefaktsammelbasis Alpha', 'AB Alpha', '10. Basen', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(15, 'Artefaktsammelbasis Beta', 'AB Beta', '10. Basen', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(16, 'Hunter', 'Hunter', ' 4. Korvetten', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(17, 'Gorgol 9 (Hyperraumtransporter Klasse 1)', 'Gorgol', ' 1. Transporter', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(18, 'Kolpor (Hyperraumtransporter Kolonisten)', 'Kolpor', ' 1. Transporter', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(19, 'Eisbär (Hyperraumtransporter Klasse 2)', 'Eisbär', ' 1. Transporter', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(20, 'INS-03A (interstellares Kolonieschiff)', 'INS', '11. Sonstiges', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(21, 'Pflaumenmus (Carrier)', 'Pflaumenmus', ' 9. Carrier', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(22, 'Atombomber', 'A-Bomber', ' 3. Bomber', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(23, 'Shark', 'Shark', ' 2. Jäger', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(24, 'Sheep', 'Sheep', ' 2. Jäger', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(25, 'Terraformer Alpha', 'Terraformer', '11. Sonstiges', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(26, 'Terminus Sonde', 'TSonde', '11. Sonstiges', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(27, 'Lionheart', 'Lionheart', ' 4. Korvetten', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(28, 'Robominer V1', 'Robominer', '10. Basen', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(29, 'Manta', 'Manta', ' 2. Jäger', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(30, 'Slayer', 'Slayer', ' 5. Zerstörer', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(31, 'Kampfbasis Alpha', 'KB Alpha', '10. Basen', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(32, 'Vendeta', 'Vendeta', ' 5. Zerstörer', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(33, 'Hitman', 'Hitman', ' 6. Kreuzer', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(34, 'X12 (Carrier)', 'X12', ' 9. Carrier', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(35, 'Big Daddy', 'BD', ' 7. Schlachtschiffe', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(36, 'Stormbringer', 'Stormi', ' 3. Bomber', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(37, 'Victim', 'Victim', ' 4. Korvetten', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(38, 'Waschbär (Hyperraumtransporter Klasse 2)', 'Waschbär', ' 1. Transporter', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(39, 'Kamel Z-98 (Hyperraumtransporter Klasse 1)', 'Kamel', ' 1. Transporter', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(40, 'Kampfbasis Beta', 'KB Beta', '10. Basen', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(41, 'Nightcrawler', 'Nightcrawler', ' 2. Jäger', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(42, 'Eraser', 'Eraser', ' 4. Korvetten', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(43, 'Mule (Carrier)', 'Mule', ' 9. Carrier', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(44, 'Widowmaker', 'Widowmaker', ' 5. Zerstörer', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(45, 'Silent Sorrow', 'SSorrow', ' 6. Kreuzer', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(46, 'Kronk', 'Kronk', ' 7. Schlachtschiffe', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(47, 'Zeus', 'Zeus', ' 8. Dreadnoughts', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(48, 'Sonde X13', 'X13', '11. Sonstiges', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(49, 'Succubus', 'Succubus', ' 6. Kreuzer', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(50, 'Sirius X300', 'X300', ' 2. Jäger', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(51, 'Seepferdchen (Hyperraumtransporter Klasse 2)', 'Seepferdchen', ' 1. Transporter', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(52, 'Settlers Delight', 'Settler', ' 1. Transporter', '', 76, 0, 0, 0, 0, 0, 0, 0, 0, '', 1000, 100, 100, 100, 0, 0, 5000, 2000);
-
-
---
--- Daten für Tabelle `prefix_user`
---
-
-INSERT INTO `prefix_user` (`id`, `staatsform`, `password`, `email`, `status`, `rules`, `logindate`, `allianz`, `grav_von`, `grav_bis`, `gal_start`, `gal_end`, `sys_start`, `sys_end`, `preset`, `planibilder`, `gebbilder`, `geopunkte`, `syspunkte`, `sitterlogin`, `sitterpwd`, `sitterskin`, `sittercomment`, `sitten`, `adminsitten`, `newspermission`, `mailpermission`, `sitterpunkte`, `gebaeude`, `peitschen`, `gengebmod`, `genbauschleife`, `genmaurer`, `budflesol`, `buddlerfrom`, `rang`, `gebp`, `fp`, `gesamtp`, `ptag`, `dabei`, `titel`, `userlink`, `lastshipscan`, `menu_default`, `gesperrt`, `color`, `ikea`, `sound`, `squad`, `switch`, `lastsitterlogin`, `lastsitteruser`, `lastsitterloggedin`, `fremdesitten`, `vonfremdesitten`, `iwsa`, `lasttransport`, `uniprop`, `dauersitten`, `dauersittentext`, `dauersittenlast`) VALUES
-('admin', 0, '21232f297a57a5a743894a0e4a801fc3', '', 'admin', '1', 1335309332, '', 0, 0, '0', '0', '0', '0', 0, '', '', 0, 0, '', NULL, 0, '', '', '', 1, 1, 0, '', '', 1, '', '', '', '', '', 0, 0, 0, 0, 0, '', '', '', 'default', 0, '0', '', 0, '', 0, 0, '', 0, 0, 0, '', NULL, 1, 0, '', NULL);
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

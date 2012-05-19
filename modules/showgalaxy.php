@@ -112,6 +112,30 @@ if ( defined('SHOWWITHOUTSCAN') && SHOWWITHOUTSCAN === TRUE ) {
 	$unscanned_only = ( empty($unscanned_only) ) ? "" : $unscanned_only;
 }
 
+$sql = "UPDATE
+		$db_tb_scans
+	SET
+		eisengehalt = '0',
+		chemievorkommen = '0',
+		eisdichte = '0',
+		lebensbedingungen = '0',
+		gravitation = '0',
+		besonderheiten = '',
+		fmod = '0',
+		kgmod = '0',
+		dgmod = '0',
+		ksmod = '0',
+		dsmod = '0',
+		bevoelkerungsanzahl = '0',
+		tteisen = '0',
+		ttchemie = '0',
+		tteis = '0',
+		geoscantime = '0'
+	WHERE
+		objekt = 'Kolonie'";
+
+mysql_query($sql) OR die(mysql_error());
+
 //ungescannte Planeten anzeigen
 if ( ! empty($withoutscan) AND  empty($button))
 {
@@ -155,7 +179,7 @@ if ( ! empty($withoutscan) AND  empty($button))
 if ( $newpreset == 1 )
 {
 	?>
-<div class='doc_title'>Preset hinzufuegen</div>
+<div class='doc_title'>Preset hinzufügen</div>
 <br>
 	<?php
 	if ( ( $user_status == "admin" ) && ( ! empty($global) ) ) $fromuser = "";
@@ -962,4 +986,3 @@ if ( ( ( $ansicht == "auto") && ( $objekt == "---" ) ) || ( $ansicht == "geologi
 	<?php 	} } ?>
 </table>
 	<?php } ?>
-

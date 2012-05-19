@@ -604,7 +604,7 @@ CREATE TABLE IF NOT EXISTS `prefix_menu` (
   `sittertyp` tinyint(4) NOT NULL DEFAULT '0',
   `sound` int(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Menüstruktur' AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Menüstruktur' AUTO_INCREMENT=26 ;
 
 -- --------------------------------------------------------
 

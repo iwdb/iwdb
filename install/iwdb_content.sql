@@ -695,8 +695,8 @@ INSERT INTO `prefix_research` (`ID`, `name`, `description`, `FP`, `gebiet`, `hig
 (268, 'Total geheime Forschung', '', 3000000, 8, 0, '', '', '', '', '', '', 48, '11.74', 'Fiedler', 0, 0),
 (269, 'Sirius X300', 'Zuerst erforscht von 	chaoszwerg (07.01.2012 15:38)', 9000000, 13, 0, '', '', '', '', '', '', 43, '11.74', 'Fiedler', 0, 0),
 (270, 'Abwehr von verrückten Tabletopspielern', 'Zuerst erforscht von 	The Temperance (20.11.2011 21:23)', 6750000, 5, 0, '', '', '', '', '', '', 45, '11.74', 'Fiedler', 0, 0),
-(271, 'Gargoil', 'Zuerst erforscht von 	The Temperance (23.01.2012 06:53)', 11250000, 13, 0, '', '', '', '', '', '', 45, '11.74', 'Fiedler', 0, 0);
-
+(271, 'Gargoil', 'Zuerst erforscht von 	The Temperance (23.01.2012 06:53)', 11250000, 13, 0, '', '', '', '', '', '', 45, '11.74', 'Fiedler', 0, 0),
+(0, 'Keine Forschung', 'es läuft keine Forschung', 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 'XII', NULL, 0, 0);
 -- --------------------------------------------------------
 
 --

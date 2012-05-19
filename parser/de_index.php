@@ -47,12 +47,25 @@ function parse_de_index ( $return )
 
     if (!$return->objResultData->bOngoingResearch)     //! keine laufende Forschung
     {
+	/*
         $sql = "DELETE FROM " . $db_tb_user_research . 
             			" WHERE user='" . $selectedusername . "'";
         $result = $db->db_query($sql)
                             or error(GENERAL_ERROR, 
                             'Could not query config information.', '', 
-                            __FILE__, __LINE__, $sql);
+                            __FILE__, __LINE__, $sql);*/
+							
+		$time=time();
+		$sql = "UPDATE
+			$db_tb_user_research
+		SET
+			rId = '0',
+			date = '',
+			time = '$time'
+		WHERE
+			user = '$selectedusername'";
+mysql_query($sql) OR die(mysql_error());
+							
     }
     
 	foreach ($return->objResultData->aContainer as $aContainer)

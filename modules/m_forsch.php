@@ -217,13 +217,19 @@ start_table();
             __FILE__, __LINE__, $sql);
 		$row1 = $db->db_fetch_array($result_forsch);
 		
+		if ($row['date'] !='0') {
+			$row['date'] = strftime("%d.%m.%y %H:%M:%S", $row['date']);
+		}
+		else {
+			$row['date'] = '';
+			}
 		
 		next_row("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
 		echo $row['user'];
 		next_cell("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
 		echo $row1['name'];
 		next_cell("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
-		echo strftime("%d.%m.%y %H:%M:%S", $row['date']);
+		echo $row['date'];
 		next_cell("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
 		echo strftime("%d.%m.%y %H:%M:%S", $row['time']);
 		}

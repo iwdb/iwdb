@@ -480,7 +480,7 @@ INSERT INTO `prefix_research` (`ID`, `name`, `description`, `FP`, `gebiet`, `hig
 -- Daten für Tabelle `prefix_research2building`
 --
 
-DELETE FROM `prefix_building2building`;
+DELETE FROM `prefix_research2building`;
 
 INSERT INTO `prefix_research2building` (`rId`, `bId`, `lvl`) VALUES
 (2, 17, 0),

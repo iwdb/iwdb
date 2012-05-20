@@ -219,12 +219,20 @@ start_table();
 		
 		if ($row['date'] !='0') {
 			$row['date'] = strftime("%d.%m.%y %H:%M:%S", $row['date']);
+			if ($row['date']>$row['time'])
+				$color = "#00FF00";
+			else
+				$color = "#FFA500";
 		}
 		else {
 			$row['date'] = '';
+			$color = "#FF0000";
 			}
 		
-		next_row("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
+		
+				
+		//next_row("windowbg1", "nowrap style=\"width:0%\" align=\"left\" background-color:" . $color . "\"");
+		next_row("windowbg1", "style=\"background-color:" . $color . "\" nowrap=\"nowrap\" \"width:0%\" align=\"left\"");
 		echo $row['user'];
 		next_cell("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
 		echo $row1['name'];
@@ -235,4 +243,15 @@ start_table();
 		}
 	end_row();
 end_table();
+// Legende ausgeben
+echo '<br><table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="">';
+echo '<tr nowrap>';
+echo '<td style="width: 30; background-color: #00FF00;"></td>';
+echo '<td class="windowbg1">Status aktuell</td>';
+echo '<td style="width: 30; background-color: #FF0000;"></td>';
+echo '<td class="windowbg1">es wird nicht geforscht</td>';
+echo '<td style="width: 30; background-color: #FFA500;"></td>';
+echo '<td class="windowbg1">Startseite muss neu eingelesen werden</td>';
+echo '</tr>';
+echo '</table>';
 ?>

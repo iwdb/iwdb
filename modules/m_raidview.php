@@ -26,18 +26,18 @@
 /* $Id: m_raidview.php 183 2007-04-12 23:40:00Z  wildfairy $                 */
 /*****************************************************************************/
 /* Dieses Modul dient als Vorlage zum Erstellen von eigenen Zusatzmodulen    */
-/* f�r die Iw DB: Icewars geoscan and sitter database                        */
+/* für die Iw DB: Icewars geoscan and sitter database                        */
 /*---------------------------------------------------------------------------*/
-/* Diese Erweiterung der urspruenglichen DB ist ein Gemeinschaftsprojekt von */
+/* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens daf�r eingerichtete           */
+/* Bei Problemen kannst du dich an das eigens dafür eingerichtete           */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
 /*                   http://www.iwdb.de.vu                                   */
 /*                                                                           */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul �ber die index.php aufgerufen wurde.
+// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
 if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	echo "Hacking attempt...!!";
@@ -46,10 +46,10 @@ if (basename($_SERVER['PHP_SELF']) != "index.php") {
 
 //****************************************************************************
 //
-// -> Name des Moduls, ist notwendig f�r die Benennung der zugehoerigen
+// -> Name des Moduls, ist notwendig für die Benennung der zugehoerigen
 //    Config.cfg.php
-// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung f�r
-//    eine Installation �ber das Men�
+// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung für
+//    eine Installation über das Menü
 //
 $modulname  = "m_raidview";
 
@@ -61,8 +61,8 @@ $modultitle = "Raid-Statistik";
 
 //****************************************************************************
 //
-// -> Status des Moduls, bestimmt wer dieses Modul �ber die Navigation
-//    ausfuehren darf. Moegliche Werte:
+// -> Status des Moduls, bestimmt wer dieses Modul über die Navigation
+//    ausfuehren darf. Mögliche Werte:
 //    - ""      <- nix = jeder,
 //    - "admin" <- na wer wohl
 //
@@ -70,7 +70,7 @@ $modulstatus = "";
 
 //****************************************************************************
 //
-// -> Beschreibung des Moduls, wie es in der Men�-�bersicht angezeigt wird.
+// -> Beschreibung des Moduls, wie es in der Menü-Übersicht angezeigt wird.
 //
 $moduldesc =
   "In der Raid-Statistik werden die Raids der Member erfasst und statistisch aufbereitet.";
@@ -131,7 +131,7 @@ function workInstallMenu() {
 		$actionparamters = "";
   	insertMenuItem( $menu, $submenu, $modultitle, $modulstatus, $actionparameters );
 	  //
-	  // Weitere Wiederholungen f�r weitere Menue-Eintraege, z.B.
+	  // Weitere Wiederholungen f�r weitere Menü-Einträge, z.B.
 	  //
 	  // 	insertMenuItem( $menu+1, ($submenu+1), "Titel2", "hc", "&weissichnichtwas=1" );
 	  //
@@ -208,7 +208,7 @@ if (!@include("./config/".$modulname.".cfg.php")) {
 // -> Und hier beginnt das eigentliche Modul
 global $db, $db_tb_raidview;
 
-doc_title("Pl�nderungen");
+doc_title("Plünderungen");
 echo "<br>\n";
 
 $hauser="dsjktvafkwefj vofjeriofjegiodfsghsd";
@@ -228,8 +228,8 @@ or error(GENERAL_ERROR,
 'Could not query config information.', '',
 __FILE__, __LINE__, $sql);
 
-/*make_link() gel�scht, weil nicht funktionieren, eine l�sung w�re, die gesammtsummen in
-ein feld zu schreiben, prefix_raidview.summe (ist schon erstellt) und dann auszu lesen...
+/*make_link() gelöscht, weil nicht funktionieren, eine Lösung wäre, die Gesammtsummen in
+ein Feld zu schreiben, prefix_raidview.summe (ist schon erstellt) und dann auszulesen...
 */
 
 start_table();
@@ -299,7 +299,7 @@ while($row = $db->db_fetch_array($result2)) {
 	   $g_wasser = 0;
 	   $g_energie = 0;
 
-// addieren der Resswerte f�r Gesamtsumme und schreiben der Zeilen
+// Addieren der Resswerte für Gesamtsumme und Schreiben der Zeilen
   while($row = $db->db_fetch_array($result)) {
     $count++;
     $ruser=$row['user'];
@@ -368,7 +368,7 @@ while($row = $db->db_fetch_array($result2)) {
 
   global $db, $db_tb_ressuebersicht, $config_sitter_timeformat;
 
-//Tabelle mit Inhalten aus der Datenbank f�ttern
+//Tabelle mit Inhalten aus der Datenbank füttern
   next_row("windowbg1", "colspan=\"3\"" );
   if(isset($user) and isset($_GET['user']) and $_GET['user']==$user){
 	echo "
@@ -462,7 +462,7 @@ while($row = $db->db_fetch_array($result2)) {
 	   $g_wasser = 0;
 	   $g_energie = 0;
 
-	// addieren der Resswerte fuer Gesamtsumme und schreiben der Zeilen
+	// addieren der Resswerte für Gesamtsumme und schreiben der Zeilen
       while($row = $db->db_fetch_array($result3)) {
         $count++;
 #	$eisen   += $row['eisen'];
@@ -541,12 +541,10 @@ while($row = $db->db_fetch_array($result2)) {
   }
 }
 // TABELLE - RAIDHIGHSCORE ENDE
-	end_table();
-	echo "<br><br>";
-	echo '<font color="black">schwarze Zahl = # geraideter Ressource</font>'," <br> ";
-	echo '<font color="red">rote Zahl = Ressourcenverluste z.B. durch Schiffe/Deff</font>'," <br> ";
-	echo '<font color="green">grüne Zahl = # effektiver Ressource</font>'," <br> ";
-	echo "<br><br>";
-	?>
-
-
+end_table();
+echo "<br><br>";
+echo '<font color="black">schwarze Zahl = # geraideter Ressource</font>'," <br> ";
+echo '<font color="red">rote Zahl = Ressourcenverluste z.B. durch Schiffe/Deff</font>'," <br> ";
+echo '<font color="green">grüne Zahl = # effektiver Ressource</font>'," <br> ";
+echo "<br><br>";
+?>

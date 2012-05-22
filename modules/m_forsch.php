@@ -28,9 +28,9 @@
 /* Dieses Modul dient als Vorlage zum Erstellen von eigenen Zusatzmodulen    */
 /* f�r die Iw DB: Icewars geoscan and sitter database                        */
 /*---------------------------------------------------------------------------*/
-/* Diese Erweiterung der urspruenglichen DB ist ein Gemeinschaftsprojekt von */
+/* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafuer eingerichtete           */
+/* Bei Problemen kannst du dich an das eigens dafür eingerichtete           */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
 /*                   http://www.iwdb.de.vu                                   */
@@ -46,7 +46,7 @@ if (basename($_SERVER['PHP_SELF']) != "index.php") {
 
 //****************************************************************************
 //
-// -> Name des Moduls, ist notwendig für die Benennung der zugehoerigen
+// -> Name des Moduls, ist notwendig für die Benennung der zugehörigen
 //    Config.cfg.php
 // -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung für 
 //    eine Installation über das Menü
@@ -62,7 +62,7 @@ $modultitle = "Forschungsübersicht";
 //****************************************************************************
 //
 // -> Status des Moduls, bestimmt wer dieses Modul über die Navigation 
-//    ausfuehren darf. Moegliche Werte:
+//    ausfuehren darf. Mögliche Werte:
 //    - ""      <- nix = jeder, 
 //    - "admin" <- na wer wohl
 //
@@ -70,7 +70,7 @@ $modulstatus = "admin";
 
 //****************************************************************************
 //
-// -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
+// -> Beschreibung des Moduls, wie es in der Menü-Übersicht angezeigt wird.
 //
 $moduldesc = 
   "Die Forschungsübersicht zeigt die aktuell laufenden Forschungen";
@@ -197,6 +197,7 @@ $result = $db->db_query($sql)
 	__FILE__, __LINE__, $sql);
 
 $data = array();
+$akt=strftime("%d.%m.%y %H:%M:%S", time());
 
 start_table();
 	start_row("titlebg", "nowrap style=\"width:0%\" align=\"center\" ");
@@ -219,7 +220,7 @@ start_table();
 		
 		if ($row['date'] !='0') {
 			$row['date'] = strftime("%d.%m.%y %H:%M:%S", $row['date']);
-			if ($row['date']>$row['time'])
+			if (($row['date']>$row['time']) && ($row['date']>$akt))
 				$color = "#00FF00";
 			else
 				$color = "#FFA500";

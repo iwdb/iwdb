@@ -1236,6 +1236,7 @@ CREATE TABLE IF NOT EXISTS `prefix_user_research` (
   `user` varchar(30) NOT NULL DEFAULT '',
   `rId` int(10) unsigned NOT NULL DEFAULT '0',
   `date` int(12) unsigned NOT NULL DEFAULT '0',
+  `time` int(12) unsigned NOT NULL DEFAULT '0',
   UNIQUE KEY `user` (`user`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Aktuelle Forschungen der User';
 

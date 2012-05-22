@@ -342,7 +342,7 @@ INSERT INTO `prefix_menu` (`id`, `menu`, `submenu`, `active`, `title`, `status`,
 (21, 12, 0, 1, 'Statistik', '', '', '', 0, 0),
 (22, 3, 0, 1, 'Bestellung', '', '', '', 1, 0),
 (23, 6, 3, 1, 'Planeten ohne Scans', '', 'showgalaxy&withoutscan=1', 'n', 0, 0),
-(24, 6, 4, 1, 'Reservierte Planeten', '', 'showgalaxy&reserv=1&ansicht=geologisch  	', 'n', 0, 0);
+(24, 6, 4, 1, 'Reservierte Planeten', '', 'showgalaxy&reserv=1&ansicht=geologisch  	', 'n', 0, 0),
 (25, 2, 5, 1, 'Browser', '', 'browser.php', 'y', 0, 1);
 -- --------------------------------------------------------
 
@@ -1433,14 +1433,6 @@ INSERT INTO `prefix_user` (`id`, `staatsform`, `password`, `email`, `status`, `r
 ('admin', 0, '21232f297a57a5a743894a0e4a801fc3', '', 'admin', '1', 1335309332, '', 0, 0, '0', '0', '0', '0', 0, '', '', 0, 0, '', NULL, 0, '', '', '', 1, 1, 0, '', '', 1, '', '', '', '', '', 0, 0, 0, 0, 0, '', '', '', 'default', 0, '0', '', 0, '', 0, 0, '', 0, 0, 0, '', NULL, 1, 0, '', NULL);
 
 -- --------------------------------------------------------
-
---
--- Daten für Tabelle `prefix_wronglogin`
---
-
-INSERT INTO `prefix_wronglogin` (`id`, `user`, `date`, `ip`) VALUES
-(2, 'Landstreicher', 1335307913, ''),
-(3, 'Landstreicher', 1335308912, '127.0.0.1');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

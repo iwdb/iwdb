@@ -1,6 +1,8 @@
 <?php
 define('IRA', TRUE);
 
+date_default_timezone_set('Europe/Berlin');
+
 include_once('config/configsql.php');
 include_once('includes/db_mysql.php');
 

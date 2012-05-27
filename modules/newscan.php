@@ -64,22 +64,20 @@ function __autoload($class)
 			global $plibfiles;
 			$base = realpath($base) . DIRECTORY_SEPARATOR;
 			$dir = opendir($base);
-			while($file = readdir($dir)){
-				if	(is_file($base.$file) && substr($file,-4) == ".php")
-				{
-					$plibfiles[md5($file)] = $base.$file;
-				}
-				else if (is_dir ($base.$file.DIRECTORY_SEPARATOR) && $file != "." && $file != ".." && substr($file,0,1) != ".") //! keine versteckten Verzeichnisse
-				{
+			while($file = readdir($dir)) {
+		        	if (is_file($base.$file)) {
+		          		if (substr($file,-4) == ".php")	{
+		            			$plibfiles[md5($file)] = $base.$file; //add php-file to hashtable
+		          		}
+		        	} else if (is_dir($base.$file) && $file != "." && $file != ".." && substr($file,0,1) != ".") {//! keine versteckten Verzeichnisse
 					ReadTheDir($base.$file.DIRECTORY_SEPARATOR);
-				}
-			}
+		        	}
+      			}
 			closedir($dir);
 		}
 		ReadTheDir ('plib'.DIRECTORY_SEPARATOR);
 	}
-    if (isset($plibfiles[md5($class.".php")]) && file_exists($plibfiles[md5($class.".php")]))
-	{
+	if (isset($plibfiles[md5($class.".php")]) && file_exists($plibfiles[md5($class.".php")])) {
 		require_once ($plibfiles[md5($class.".php")]);
 	}
 }

@@ -33,6 +33,11 @@ if (file_exists('install.php')) {
 
 date_default_timezone_set('Europe/Berlin');
 
+mb_internal_encoding("UTF-8");                   //just to make sure we are talking the same language
+mb_http_output("UTF-8");
+mb_http_input("UTF-8");
+header('Content-Type: text/html; charset=UTF-8');
+
 // define's vor allen anderen Includes durchführen 
 define('DEBUG', TRUE);
 define('IRA', TRUE);

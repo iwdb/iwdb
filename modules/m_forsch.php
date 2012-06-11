@@ -197,7 +197,8 @@ $result = $db->db_query($sql)
 	__FILE__, __LINE__, $sql);
 
 $data = array();
-$akt=strftime("%d.%m.%y %H:%M:%S", time());
+//$akt=strftime("%d.%m.%y %H:%M:%S", time());
+$akt=time();
 
 start_table();
 	start_row("titlebg", "nowrap style=\"width:0%\" align=\"center\" ");
@@ -219,20 +220,19 @@ start_table();
 		$row1 = $db->db_fetch_array($result_forsch);
 		
 		if ($row['date'] !='0') {
-			$row['date'] = strftime("%d.%m.%y %H:%M:%S", $row['date']);
-			if (($row['date']>$row['time']) && ($row['date']>$akt))
+			if (($row['date']>$row['time']) && ($row['date']>$akt)) {
 				$color = "#00FF00";
-			else
+			}
+			else {
 				$color = "#FFA500";
+			}
+		$row['date'] = strftime("%d.%m.%y %H:%M:%S", $row['date']);	
 		}
 		else {
 			$row['date'] = '';
 			$color = "#FF0000";
 			}
 		
-		
-				
-		//next_row("windowbg1", "nowrap style=\"width:0%\" align=\"left\" background-color:" . $color . "\"");
 		next_row("windowbg1", "style=\"background-color:" . $color . "\" nowrap=\"nowrap\" \"width:0%\" align=\"left\"");
 		echo $row['user'];
 		next_cell("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");

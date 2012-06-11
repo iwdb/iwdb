@@ -1115,3 +1115,7 @@ INSERT INTO `prefix_research2research` (`rOld`, `rNew`) VALUES
 (265, 267),
 (266, 268),
 (270, 232);
+
+DELETE FROM `prefix_iwdbtabellen` WHERE `name`=`spielerinfo`;
+DELETE FROM `prefix_iwdbtabellen` WHERE `name`=`bestellen`;
+DELETE FROM `prefix_iwdbtabellen` WHERE `name`=`versand_auftrag`;

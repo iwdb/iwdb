@@ -256,7 +256,6 @@ INSERT INTO `prefix_group` (`id`, `parent_id`, `name`) VALUES
 
 INSERT INTO `prefix_iwdbtabellen` (`name`) VALUES
 ('allianzstatus'),
-('bestellen'),
 ('bestellung'),
 ('bestellung_projekt'),
 ('bestellung_schiffe'),
@@ -302,14 +301,12 @@ INSERT INTO `prefix_iwdbtabellen` (`name`) VALUES
 ('sid'),
 ('sitterauftrag'),
 ('sitterlog'),
-('spielerinfo'),
 ('sysscans'),
 ('target'),
 ('transferliste'),
 ('univ_link'),
 ('user'),
 ('user_research'),
-('versand_auftrag'),
 ('wronglogin');
 
 -- --------------------------------------------------------

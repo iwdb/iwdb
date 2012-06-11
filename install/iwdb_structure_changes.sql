@@ -18,3 +18,7 @@ ALTER TABLE  `prefix_gebaeude_spieler` CHANGE  `building`  `building` VARCHAR( 2
 
 ALTER TABLE  `prefix_user_research` DEFAULT CHARACTER SET utf8;
 ALTER TABLE  `prefix_user_research` CHANGE  `user`  `user` VARCHAR( 30 ) CHARACTER SET utf8 NOT NULL DEFAULT  '';
+
+DROP TABLE IF EXISTS `prefix_bestellen`;
+DROP TABLE IF EXISTS `prefix_versand_auftrag`;
+DROP TABLE IF EXISTS `prefix_spielerinfo`;

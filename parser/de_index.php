@@ -47,14 +47,6 @@ function parse_de_index ( $return )
 
     if (!$return->objResultData->bOngoingResearch)     //! keine laufende Forschung
     {
-	/*
-        $sql = "DELETE FROM " . $db_tb_user_research . 
-            			" WHERE user='" . $selectedusername . "'";
-        $result = $db->db_query($sql)
-                            or error(GENERAL_ERROR, 
-                            'Could not query config information.', '', 
-                            __FILE__, __LINE__, $sql);*/
-							
 		$time=time();
 		$sql = "UPDATE
 			$db_tb_user_research
@@ -64,8 +56,7 @@ function parse_de_index ( $return )
 			time = '$time'
 		WHERE
 			user = '$selectedusername'";
-mysql_query($sql) OR die(mysql_error());
-							
+		mysql_query($sql) OR die(mysql_error());						
     }
     
 	foreach ($return->objResultData->aContainer as $aContainer)
@@ -306,7 +297,7 @@ function save_data($scan_data) {
 		debug_var('sql', $sql);
 		$result = $db->db_query($sql)
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-	} elseif ($scan_data['art'] == "Sondierung") {
+	} elseif (($scan_data['art'] == "Sondierung (Schiffe/Def/Ress)") || ($scan_data['art'] == "Sondierung (Gebäude/Ress)")){
 		$sql = "UPDATE $db_tb_scans
 			 SET sondierung=" . $scan_data['time'] . "
 			    ,sondierunguser='" . $scan_data['user_from'] . "'

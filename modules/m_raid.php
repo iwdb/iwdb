@@ -90,39 +90,8 @@ $moduldesc = "Dieses Modul hilft beim pösen Klauen von Lollis.";
 //
 function workInstallDatabase() {
 	global $db, $db_tb_scans, $db_tb_iwdbtabellen, $db_prefix, $db_tb_parser;
-
-	$sqlscript = array(
-		"ALTER TABLE `" . $db_tb_scans . "` ADD `x11` INT(12),ADD `terminus` INT(12),ADD `x13` INT(12),ADD `fehlscantime` INT(12),ADD `reserveraid` INT(12),ADD `reserveraiduser` VARCHAR(30),ADD `angriff` INT(12)",
-		"INSERT INTO `" . $db_tb_iwdbtabellen . "` (name) VALUES ('spielerinfo')",
-		"CREATE TABLE `" . $db_prefix . "spielerinfo` (".
-		"`user` varchar(30) NOT NULL,".
-		"`dabei_seit` int(12) default NULL,".
-		"PRIMARY KEY (`user`))",
-		"INSERT INTO `" . $db_tb_parser . "` (`modulename`, `recognizer`, `message`) VALUES ('spielerinfo', 'Spielerinfo', 'Spielerinfo'),"
-	);
-	// Highscore-Tabelle
-	$sqlscript[] = "CREATE TABLE `" . $db_prefix . "highscore` (
-		`name` varchar(30) NOT NULL default '',
-		`allianz` varchar(50) default NULL,
-		`pos` int(12) default NULL,
-		`gebp` int(12) NOT NULL default '0',
-		`fp` int(12) NOT NULL default '0',
-		`gesamtp` int(12) NOT NULL default '0',
-		`ptag` float NOT NULL default '0',
-		`diff` int(12) default NULL,
-		`dabei_seit` int(12) NOT NULL default '0',
-		`gebp_nodiff` int(12) NOT NULL default '0',
-		`fp_nodiff` int(12) NOT NULL default '0',
-		`time` int(12) NOT NULL default '0',
-		PRIMARY KEY (`name`))";
-
-	foreach ($sqlscript as $sql) {
-		echo "<br>" . $sql;
-		$result = $db->db_query($sql)
-			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-	}
-
-	echo "<div class='system_notification'>Installation: Datenbank&auml;nderungen = <b>OK</b></div>";
+	
+	echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
 }
 
 //****************************************************************************
@@ -153,23 +122,8 @@ function workInstallConfigString() {
 // removing this module. 
 //
 function workUninstallDatabase() {
-	global $db, $db_tb_scans, $db_tb_iwdbtabellen, $db_tb_spielerinfo, $db_tb_parser;
-
-	$sqlscript = array(
-		"ALTER TABLE " . $db_tb_scans . " DROP `x11`,DROP `terminus`,DROP `x13`,DROP `fehlscantime`,DROP `reserveraid`,DROP `reserveraiduser`,DROP `angriff`",
-		"DELETE FROM " . $db_tb_iwdbtabellen . " WHERE `name`='spielerinfo'",
-		"DROP TABLE " . $db_tb_spielerinfo,
-		"DELETE FROM `" . $db_tb_parser . "` WHERE `modulename`='spielerinfo'",
-		"DROP TABLE " . $db_tb_highscore,
-	);
-
-	foreach ($sqlscript as $sql) {
-		echo "<br>" . $sql;
-		$result = $db->db_query($sql)
-			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-	}
-
-	echo "<div class='system_notification'>Deinstallation: Datenbank&auml;nderungen = <b>OK</b></div>";
+	
+	echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
 }
 
 //****************************************************************************
@@ -866,12 +820,6 @@ if (empty($params['view'])) {
 	}
 
 	// Noobstatus
-	/*
-	if (!empty($db_tb_spieler) && $params['no_noob'] == "1") {
-		array_push($where, "(" . $db_tb_highscore . ".dabei_seit<" . (time() - 60 * 60 * 24 * 21) . " OR " . $db_tb_highscore . ".dabei_seit IS NULL)");
-
-	}
-	*/
 	// copper will 22 Tage :)
 	if (!empty($params['no_noob'])) {
 		$time = time() - 60 * 60 * 24 * 22;
@@ -978,7 +926,7 @@ if (empty($params['view'])) {
 			$sql_angriff .= $db_tb_lieferung . ".coords_to_gal=" . $row['coords_gal'];
 			$sql_angriff .= " AND " . $db_tb_lieferung . ".coords_to_sys=" . $row['coords_sys'];
 			$sql_angriff .= " AND " . $db_tb_lieferung . ".coords_to_planet=" . $row['coords_planet'];
-			$sql_angriff .= " AND (" . $db_tb_lieferung . ".art='Angriff' OR " . $db_tb_lieferung . ".art='Sondierung')";
+			$sql_angriff .= " AND (" . $db_tb_lieferung . ".art='Angriff' OR " . $db_tb_lieferung . ".art='Sondierung' OR " . $db_tb_lieferung . ".art='Sondierung (Schiffe/Def/Ress)' OR " . $db_tb_lieferung . ".art='Sondierung (Gebäude/Ress)')";
 			$sql_angriff .= " AND " . $db_tb_lieferung . ".time>" . (time() - 60 * 15);
 			$sql_angriff .= " ORDER BY time DESC";
 			$result_angriff = $db->db_query($sql_angriff)
@@ -1036,12 +984,12 @@ if (empty($params['view'])) {
 			if (!empty($row['terminus']))
 			{
 				$tsonden = ">" . $row['terminus'];
-				$x13sonden = ""; // Hier koennte man umrechnen
+				$x13sonden = ""; // Hier könnte man umrechnen
 			}
 			if (!empty($row['x13']))
 			{
 				$x13sonden = ">" . $row['x13'];
-				$tsonden = ""; // Hier koennte man umrechnen
+				$tsonden = ""; // Hier könnte man umrechnen
 			}
 		}
 		// Verteidigungsanlagen
@@ -1134,7 +1082,7 @@ if (empty($params['view'])) {
 			if (isset($config_allianzstatus[$config['allistatus'][$row['allianz']]]))
 				$allianz_background_color = "background-color: " . $config_allianzstatus[$config['allistatus'][$row['allianz']]] . ";";
 		if ($count++ == 1000) {
-			echo "<br><div class='system_notification'>Es wurden mehr als 1000 Planeten gefunden. Bitte die Suche weiter einschr&auml;nken.</div><br>";
+			echo "<br><div class='system_notification'>Es wurden mehr als 1000 Planeten gefunden. Bitte die Suche weiter einschränken.</div><br>";
 			echo makelink(array('view' => ''), 'Zur&uuml;ck');
 			exit;
 		}
@@ -1277,7 +1225,7 @@ function Collapse(what) {
 			next_row("windowbg1", 'nowrap valign=center style="' . $row['row_style'] . '"');
 		else
 			next_row("windowbg1", 'nowrap valign=center');		
-		// Schaltflaeche zum auf-/zuklappen
+		// Schaltfläche zum auf-/zuklappen
 		echo "<a href=\"javascript:Collapse('" . $key . "');\"><img src=\"bilder/plus.gif\" alt=\"\" border=\"0\" id=\"collapse_" . $key . "\"></a>";
 		foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
 			if (isset($row[$viewcolumnkey . '_style']))
@@ -1303,7 +1251,7 @@ function Collapse(what) {
 				out_echo(makelink(
 					array('delete' => $key),
 					"<img src=\"bilder/file_delete_s.gif\" border=\"0\" onclick=\"return confirmlink(this, '" . 
-					(isset($view['deletetitle']) ? $view['deletetitle'] : 'Datensatz') . " wirklich loeschen?')\" alt=\"loeschen\">"
+					(isset($view['deletetitle']) ? $view['deletetitle'] : 'Datensatz') . " wirklich löschen?')\" alt=\"loeschen\">"
 				));
 		}
 		// Markierbuttons ausgeben
@@ -1359,7 +1307,7 @@ function Collapse(what) {
 		next_cell("windowbg1");
 		out_echo($row['energie']);
 		start_row("titlebg", "nowrap valign=top", 2);
-		out_echo('<b>benötigte Frachtkapazitaet:</b>');
+		out_echo('<b>benötigte Frachtkapazität:</b>');
 		next_row("windowbg2", "style=\"width: 20%\"");
 		out_echo('Klasse 1:');
 		next_cell("windowbg1");
@@ -1375,12 +1323,12 @@ function Collapse(what) {
 		$kapazitaet = $row['eis'] * 2 + $row['wasser'] * 2 + $row['energie'];
 		out_echo($kapazitaet);
 		out_echo(" (" . ceil($kapazitaet / 2000) . " Lurch");
-		out_echo(", " . ceil($kapazitaet / 10000) . " Eisb&auml;r");
-		out_echo(", " . ceil($kapazitaet / 50000) . " Waschb&auml;r");
+		out_echo(", " . ceil($kapazitaet / 10000) . " Eisbär");
+		out_echo(", " . ceil($kapazitaet / 50000) . " Waschbär");
 		out_echo(", " . ceil($kapazitaet / 250000) . " Seepferdchen)");
 		if (!empty($row['geb'])) {
 			start_row("titlebg", "nowrap valign=top", 2);
-			out_echo('<b>Gebaeude:</b>');
+			out_echo('<b>Gebäude:</b>');
 			next_row("windowbg1", "", 2);
 			out_echo($row['geb']);
 		}
@@ -1409,7 +1357,7 @@ function Collapse(what) {
 	end_table();
 	out_echo('<table border="0" cellpadding="2" cellspacing="1" style="width: 100%;">');
 	out_echo('<tr><td align="right">');
-	out_echo(makelink(array('mark_all' => true), "Alle ausw&auml;hlen"));
+	out_echo(makelink(array('mark_all' => true), "Alle auswählen"));
 	out_echo(' / ');
 	out_echo(makelink(array('mark_all' => false), "Auswahl entfernen"));
 	out_echo('</td>');
@@ -1621,7 +1569,7 @@ function format_value($row, $name, $value) {
 		if (!empty($row['schiffscantime']))
 			$result .= "<alt title=\"Schiffscan vor " . makeduration($row['schiffscantime']) . "\"><img src=\"bilder/scann_schiff.png\" border=\"0\"></a> ";
 		if (!empty($row['gebscantime']))
-			$result .= "<alt title=\"Geb&auml;udescan vor " . makeduration($row['gebscantime']) . "\"><img src=\"bilder/scann_geb.png\" border=\"0\"></a> ";
+			$result .= "<alt title=\"Gebäudescan vor " . makeduration($row['gebscantime']) . "\"><img src=\"bilder/scann_geb.png\" border=\"0\"></a> ";
 		if ($row['last_scan'] == $row['fehlscantime'])
 			$result .= '</td><td nowrap><span class="ranking_red">' . makeduration($row['last_scan']) . '</span>';
 		else

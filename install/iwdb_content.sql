@@ -401,7 +401,6 @@ INSERT INTO `prefix_parsemenu` (`ersetze`, `durch`, `varorstr`) VALUES
 
 INSERT INTO `prefix_parser` (`modulename`, `recognizer`, `message`) VALUES
 ('raid', 'Kampf auf dem Planeten', 'Raid-Bericht'),
-('transferliste', 'Transport angekommen', 'Transportbericht'),
 ('unixml', '?xml ', 'UniXML'),
 ('researchoverview', 'Erforschte Forschungen', 'Forschungsliste'),
 ('fehlscan', 'Sondierung fehlgeschlagen', 'Fehlgeschlagene Sondierung'),

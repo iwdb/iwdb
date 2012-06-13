@@ -33,7 +33,7 @@
 /*                                                                           */
 /* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
-/*                   http://www.iw-smf.pericolini.de                         */
+/*                   http://www.handels-gilde.org                            */
 /*                   https://github.com/iwdb/iwdb                            */
 /*                                                                           */
 /*****************************************************************************/
@@ -356,7 +356,7 @@ if ( ! empty($textinput) )
             {
                 $key = $parserObj->getIdentifier();
                 if (!isset($parser[$key])) {
-                    $parser[$key] = array("/deprecated/", 0, $parserObj->getName());
+                    $parser[$key] = array("/deprecated/", 1, $parserObj->getName());
                 }
                 if($parser[$key][1] == 1) {
                     echo "<div class='system_notification'>" . $parser[$key][2] . 

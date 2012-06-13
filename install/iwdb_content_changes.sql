@@ -1115,3 +1115,18 @@ INSERT INTO `prefix_research2research` (`rOld`, `rNew`) VALUES
 (265, 267),
 (266, 268),
 (270, 232);
+
+
+--
+-- Daten für Tabelle `prefix_parser`
+--
+
+DELETE FROM `prefix_parser`;
+
+INSERT INTO `prefix_parser` (`modulename`, `recognizer`, `message`) VALUES
+('raid', 'Kampf auf dem Planeten', 'Raid-Bericht'),
+('unixml', '?xml ', 'UniXML'),
+('researchoverview', 'Erforschte Forschungen', 'Forschungsliste'),
+('fehlscan', 'Sondierung fehlgeschlagen', 'Fehlgeschlagene Sondierung'),
+('highscore', 'Letzte Aktualisierung', 'Highscore'),
+('sbxml', 'http://www.icewars.de/portal/kb/de/sb.php', 'SB-XML');

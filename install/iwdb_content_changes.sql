@@ -480,7 +480,7 @@ INSERT INTO `prefix_research` (`ID`, `name`, `description`, `FP`, `gebiet`, `hig
 -- Daten für Tabelle `prefix_research2building`
 --
 
-DELETE FROM `prefix_building2building`;
+DELETE FROM `prefix_research2building`;
 
 INSERT INTO `prefix_research2building` (`rId`, `bId`, `lvl`) VALUES
 (2, 17, 0),
@@ -1116,7 +1116,6 @@ INSERT INTO `prefix_research2research` (`rOld`, `rNew`) VALUES
 (266, 268),
 (270, 232);
 
-
 --
 -- Daten für Tabelle `prefix_parser`
 --
@@ -1130,3 +1129,7 @@ INSERT INTO `prefix_parser` (`modulename`, `recognizer`, `message`) VALUES
 ('fehlscan', 'Sondierung fehlgeschlagen', 'Fehlgeschlagene Sondierung'),
 ('highscore', 'Letzte Aktualisierung', 'Highscore'),
 ('sbxml', 'http://www.icewars.de/portal/kb/de/sb.php', 'SB-XML');
+
+DELETE FROM `prefix_iwdbtabellen` WHERE `name`=`spielerinfo`;
+DELETE FROM `prefix_iwdbtabellen` WHERE `name`=`bestellen`;
+DELETE FROM `prefix_iwdbtabellen` WHERE `name`=`versand_auftrag`;

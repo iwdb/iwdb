@@ -1,6 +1,13 @@
 <?php
 define('IRA', TRUE);
 
+date_default_timezone_set('Europe/Berlin');
+
+mb_internal_encoding("UTF-8");                   //just to make sure we are talking the same language
+mb_http_output("UTF-8");
+mb_http_input("UTF-8");
+header('Content-Type: text/html; charset=UTF-8');
+
 include_once('config/configsql.php');
 include_once('includes/db_mysql.php');
 
@@ -106,7 +113,7 @@ while ($row = $db->db_fetch_array($result)) {
 			$user['sitterorder']['text'] = 'Sitten';
 	}
 */
-	$sql = "SELECT * FROM " . $db_tb_lieferung . " WHERE user_to='" . $row['id'] . "' AND art IN ('Angriff','Sondierung') AND time>" . (time() - (15 * 60)) . " ORDER BY time DESC";
+	$sql = "SELECT * FROM " . $db_tb_lieferung . " WHERE user_to='" . $row['id'] . "' AND art IN ('Angriff','Sondierung','Sondierung (Schiffe/Def/Ress)','Sondierung (Gebäude/Ress)') AND time>" . (time() - (15 * 60)) . " ORDER BY time DESC";
 	$result_angriff = $db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	while ($row_angriff = $db->db_fetch_array($result_angriff)) {
@@ -204,11 +211,11 @@ elseif (isset($users[$login])) {
 switch ($mode) {
 case 'index':
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
-<html>
-	<head>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="utf-8">
 		<title>Icewars</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<script>
 var redirectURL = "<?php
 

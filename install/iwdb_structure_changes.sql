@@ -4,7 +4,7 @@ ALTER TABLE  `prefix_sid` CHANGE  `date`  `date` INT( 10 ) UNSIGNED NOT NULL;
 ALTER TABLE  `prefix_sid` CHANGE  `ip`  `ip` VARCHAR( 50 ) CHARACTER SET utf8;
 
 -- Tabellenstruktur `prefix_research_user` geändert by patsch 08.05. 21:00
-ALTER TABLE  `prefix_research_user` ADD `time` INT( 13 ) UNSIGNED NOT NULL;
+ALTER TABLE  `prefix_user_research` ADD `time` INT( 13 ) UNSIGNED NOT NULL;
 
 -- Tabelle `iwdb_transport_einstellungen` entfernen, wird nicht benötigt ... by patsch 17.05. 15:00
 DROP TABLE IF EXISTS `iwdb_transport_einstellungen`;
@@ -18,3 +18,7 @@ ALTER TABLE  `prefix_gebaeude_spieler` CHANGE  `building`  `building` VARCHAR( 2
 
 ALTER TABLE  `prefix_user_research` DEFAULT CHARACTER SET utf8;
 ALTER TABLE  `prefix_user_research` CHANGE  `user`  `user` VARCHAR( 30 ) CHARACTER SET utf8 NOT NULL DEFAULT  '';
+
+DROP TABLE IF EXISTS `prefix_bestellen`;
+DROP TABLE IF EXISTS `prefix_versand_auftrag`;
+DROP TABLE IF EXISTS `prefix_spielerinfo`;

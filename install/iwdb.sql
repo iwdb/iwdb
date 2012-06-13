@@ -16,7 +16,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Datenbank: `test`
+-- Datenbank: `iwdb`
 --
 
 -- --------------------------------------------------------
@@ -32,36 +32,6 @@ CREATE TABLE IF NOT EXISTS `prefix_allianzstatus` (
   `status` varchar(10) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Status der eigenen Allianz zu anderen' AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `prefix_bestellen`
---
-
-CREATE TABLE IF NOT EXISTS `prefix_bestellen` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user` varchar(30) NOT NULL DEFAULT '',
-  `coords` varchar(30) NOT NULL DEFAULT '',
-  `coords2` varchar(30) NOT NULL DEFAULT '',
-  `squad` varchar(10) NOT NULL DEFAULT '',
-  `typ` int(1) NOT NULL DEFAULT '0',
-  `schiff` varchar(20) NOT NULL DEFAULT '',
-  `menge` int(3) NOT NULL DEFAULT '0',
-  `bs` int(1) NOT NULL DEFAULT '0',
-  `transport` int(1) NOT NULL DEFAULT '0',
-  `angenommen` varchar(50) NOT NULL DEFAULT '',
-  `eisen` int(11) NOT NULL DEFAULT '0',
-  `stahl` int(11) NOT NULL DEFAULT '0',
-  `vv4a` int(11) NOT NULL DEFAULT '0',
-  `chemie` int(11) NOT NULL DEFAULT '0',
-  `eis` int(11) NOT NULL DEFAULT '0',
-  `wasser` int(11) NOT NULL DEFAULT '0',
-  `energie` int(11) NOT NULL DEFAULT '0',
-  `bevoelkerung` int(11) NOT NULL DEFAULT '0',
-  `order_time` int(12) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -163,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `prefix_building2building` (
   `bOld` int(10) unsigned NOT NULL DEFAULT '0',
   `bNew` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`bOld`,`bNew`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Gebaeude bOld ermoeglicht Gebaeude bNew';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Gebäude bOld ermöglicht Gebäude bNew';
 
 -- --------------------------------------------------------
 
@@ -175,7 +145,7 @@ CREATE TABLE IF NOT EXISTS `prefix_building2research` (
   `bId` int(10) unsigned NOT NULL DEFAULT '0',
   `rId` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`bId`,`rId`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Gebaeude bId ermoeglicht Forschung rId';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Gebäude bId ermöglicht Forschung rId';
 
 -- --------------------------------------------------------
 
@@ -265,7 +235,7 @@ CREATE TABLE IF NOT EXISTS `prefix_gebaeude_spieler` (
   `count` smallint(6) NOT NULL,
   `time` int(11) NOT NULL,
   PRIMARY KEY (`coords_gal`,`coords_sys`,`coords_planet`,`category`,`building`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Gebaeudeuebersicht';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Gebäudeuebersicht';
 
 -- --------------------------------------------------------
 
@@ -751,7 +721,7 @@ CREATE TABLE IF NOT EXISTS `prefix_raidview` (
   `energie` int(11) NOT NULL DEFAULT '0',
   `geraided` varchar(30) NOT NULL DEFAULT '',
   `user` varchar(20) NOT NULL DEFAULT '',
-  `summe` int(11) NOT NULL DEFAULT '0' COMMENT 'um sortieren zu kÃƒÂ¶nnen',
+  `summe` int(11) NOT NULL DEFAULT '0' COMMENT 'um sortieren zu können',
   `v_eisen` int(11) NOT NULL,
   `v_stahl` int(11) NOT NULL,
   `v_vv4a` int(11) NOT NULL,
@@ -809,7 +779,7 @@ CREATE TABLE IF NOT EXISTS `prefix_research2building` (
   `bId` int(10) unsigned NOT NULL DEFAULT '0',
   `lvl` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`rId`,`bId`,`lvl`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Forschung rId ermoeglicht Gebaeude(stufe) bId';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Forschung rId ermöglicht Gebäude(stufe) bId';
 
 -- --------------------------------------------------------
 
@@ -821,7 +791,7 @@ CREATE TABLE IF NOT EXISTS `prefix_research2prototype` (
   `rid` int(10) unsigned NOT NULL DEFAULT '0',
   `pid` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`rid`,`pid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Forschung rId ermoeglicht Prototyp pId';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Forschung rId ermöglicht Prototyp pId';
 
 -- --------------------------------------------------------
 
@@ -833,7 +803,7 @@ CREATE TABLE IF NOT EXISTS `prefix_research2research` (
   `rOld` int(10) unsigned NOT NULL DEFAULT '0',
   `rNew` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`rOld`,`rNew`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Forschung rOld ermoeglicht Forschung rNew';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Forschung rOld ermöglicht Forschung rNew';
 
 -- --------------------------------------------------------
 
@@ -1079,18 +1049,6 @@ CREATE TABLE IF NOT EXISTS `prefix_sitterlog` (
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `prefix_spielerinfo`
---
-
-CREATE TABLE IF NOT EXISTS `prefix_spielerinfo` (
-  `user` varchar(30) NOT NULL DEFAULT '',
-  `dabei_seit` int(12) DEFAULT NULL,
-  PRIMARY KEY (`user`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Tabellenstruktur für Tabelle `prefix_sysscans`
 --
 
@@ -1210,7 +1168,7 @@ CREATE TABLE IF NOT EXISTS `prefix_user` (
   `ikea` char(1) NOT NULL DEFAULT '',
   `sound` tinyint(1) NOT NULL DEFAULT '0',
   `squad` varchar(30) NOT NULL DEFAULT '',
-  `switch` int(11) NOT NULL DEFAULT '0' COMMENT 'zum speichern der einstellungen bei m_produktion',
+  `switch` int(11) NOT NULL DEFAULT '0' COMMENT 'zum Speichern der Einstellungen bei m_produktion',
   `lastsitterlogin` int(11) NOT NULL DEFAULT '0',
   `lastsitteruser` varchar(30) NOT NULL DEFAULT '',
   `lastsitterloggedin` int(11) NOT NULL DEFAULT '0',
@@ -1219,7 +1177,7 @@ CREATE TABLE IF NOT EXISTS `prefix_user` (
   `iwsa` char(1) NOT NULL,
   `lasttransport` varchar(11) DEFAULT NULL,
   `uniprop` int(11) NOT NULL DEFAULT '1',
-  `dauersitten` int(11) NOT NULL DEFAULT '0' COMMENT 'Anzahl Sekunden bis Login faellig',
+  `dauersitten` int(11) NOT NULL DEFAULT '0' COMMENT 'Anzahl Sekunden bis Login fällig',
   `dauersittentext` varchar(255) NOT NULL COMMENT 'Kommentar zum Dauersitten',
   `dauersittenlast` int(11) DEFAULT NULL COMMENT 'Timestamp der letzten Dauersitten-Erledigung',
   PRIMARY KEY (`id`),
@@ -1236,23 +1194,9 @@ CREATE TABLE IF NOT EXISTS `prefix_user_research` (
   `user` varchar(30) NOT NULL DEFAULT '',
   `rId` int(10) unsigned NOT NULL DEFAULT '0',
   `date` int(12) unsigned NOT NULL DEFAULT '0',
+  `time` int(12) unsigned NOT NULL DEFAULT '0',
   UNIQUE KEY `user` (`user`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Aktuelle Forschungen der User';
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `prefix_versand_auftrag`
---
-
-CREATE TABLE IF NOT EXISTS `prefix_versand_auftrag` (
-  `user` varchar(30) NOT NULL,
-  `time` int(11) NOT NULL,
-  `pos` int(11) NOT NULL,
-  `reference` varchar(30) NOT NULL,
-  `art` varchar(20) NOT NULL,
-  PRIMARY KEY (`user`,`time`,`pos`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 

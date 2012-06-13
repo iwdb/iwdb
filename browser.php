@@ -113,7 +113,7 @@ while ($row = $db->db_fetch_array($result)) {
 			$user['sitterorder']['text'] = 'Sitten';
 	}
 */
-	$sql = "SELECT * FROM " . $db_tb_lieferung . " WHERE user_to='" . $row['id'] . "' AND art IN ('Angriff','Sondierung') AND time>" . (time() - (15 * 60)) . " ORDER BY time DESC";
+	$sql = "SELECT * FROM " . $db_tb_lieferung . " WHERE user_to='" . $row['id'] . "' AND art IN ('Angriff','Sondierung','Sondierung (Schiffe/Def/Ress)','Sondierung (Gebäude/Ress)') AND time>" . (time() - (15 * 60)) . " ORDER BY time DESC";
 	$result_angriff = $db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	while ($row_angriff = $db->db_fetch_array($result_angriff)) {

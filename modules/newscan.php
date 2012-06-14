@@ -183,9 +183,7 @@ $textinput = getVar('text',true);        //! ungefilterten Bericht holen
 if ( ! empty($textinput) )
 {
      $count = 0;
-     //! Mac @todo: SB/KB Links verarbeiten
-     //! Mac @todo: UniXML verarbeiten
-    
+ 
      require_once ('plib/ParserFactoryConfigC.php');
      $availParsers = new ParserFactoryConfigC();   
      $aParserIds = $availParsers->getParserIdsFor( $textinput );
@@ -222,32 +220,6 @@ if ( ! empty($textinput) )
         $text = str_replace("Keksvernichter", "Bev&ouml;lkerung", $text);
         $text = str_replace("Keks", "Eisen", $text);
     */
-
-        // Eigenkreation Start
-        // SB/KB-Links finden
-        $suche = array(
-            'sb' => 'www\.icewars\.de/portal/kb/de/sb\.php\?id=(?P<id>[\d]+)&amp;md_hash=(?P<hash>[\w]{32})',
-            'kb' => 'www\.icewars\.de/portal/kb/de/kb\.php\?id=(?P<id>[\d]+)&amp;md_hash=(?P<hash>[\w]{32})',
-            );
-
-        require_once ('parser/xml_kb_sb.php');
-
-        foreach($suche as $typ => $link){
-            preg_match_all('#'.$link.'#', $text, $treffer, PREG_SET_ORDER);
-            foreach($treffer as $value){
-                $typ($value['id'], $value['hash']); //Funktion aufrufen
-            }
-        }
-
-        if (isset($anzahl_kb) && $anzahl_kb >= 1) {
-            echo '
-        <div class="system_notification">',$anzahl_kb,' KB-',($anzahl_kb == 1) ? 'Link': 'Links',' gefunden (',$anzahl_kb_neu,' ',($anzahl_kb_neu == 1) ? 'neuer': 'neue',')</div><br />';
-        }
-        if (isset($anzahl_sb) && $anzahl_sb >= 1) {
-            echo '
-        <div class="system_notification">',$anzahl_sb,' SB-',($anzahl_sb == 1) ? 'Link': 'Links',' gefunden</div><br />';
-        }	
-        // Eigenkreation Ende
 
         $text = explode("\n", $text);
 
@@ -404,7 +376,7 @@ if ( ! empty($textinput) )
                     }
                 }
                 else {
-                    echo "Input wurde erkannt, konnte aber nicht fehlerfrei geparsed werden!<br />";
+                    echo "Input wurde erkannt, konnte aber nicht fehlerfrei geparsed werden!<br />";               
                     if (!empty($parserResult->aErrors) && count($parserResult->aErrors) > 0)
                     {
                         echo "error:<br />";

@@ -39,14 +39,15 @@ error_reporting(E_ALL);
 
 function parse_de_alli_kasse_log_allis ( $return )
 {
-    global $db, $db_tb_scans, $db_tb_kasse_outgoing, $config_date, $user_sitterlogin;
+    global $db, $db_tb_scans, $db_tb_kasse_outgoing, $config_date, $user_sitterlogin, $db_tb_user , $user_id;
 
     $seluser = getVar('seluser') ?  getVar('seluser') : $user_sitterlogin;
 
     $allianz = "";
     // ally vom user herausfinden
-    $sql = "SELECT DISTINCT allianz FROM $db_tb_scans WHERE user like '" . $seluser . "'";
-    $result = $db->db_query($sql)
+    //$sql = "SELECT DISTINCT allianz FROM $db_tb_scans WHERE user like '" . $seluser . "'";
+    $sql = "SELECT allianz FROM " . $db_tb_user . " WHERE id = '" . $user_id . "'";
+	$result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     while($row = $db->db_fetch_array($result)) 
     {
@@ -56,7 +57,7 @@ function parse_de_alli_kasse_log_allis ( $return )
         $allianz = $return->objResultData->strAlliance;
     }
     if (empty($allianz)) {
-        echo "zugeh&ouml;rige Allianz konnte nicht ermittelt werden<br />";
+        echo "zugehörige Allianz konnte nicht ermittelt werden<br />";
         return;
     }
   

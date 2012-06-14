@@ -101,6 +101,18 @@ if($anzahl > 0) {
 } else
 	$anz_angriffe = "";
 
+
+$sql = "SELECT COUNT(*) AS 'anzahl' FROM $db_tb_lieferung, $db_tb_user WHERE art='Sondierung (Schiffe/Deff/Ress)' OR art='Sondierung (Gebäude/Ress)' AND $db_tb_lieferung.user_to=$db_tb_user.id AND $db_tb_lieferung.time>" . (time() - 5 * 60);
+$result = $db->db_query($sql)
+	or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$row = $db->db_fetch_array($result);
+$anzahl = $row['anzahl'];
+$db->db_free_result($result);
+if($anzahl > 0) {
+	$anz_sondierungen = " (" . $anzahl . ")";
+} else
+	$anz_sondierungen = "";
+
 include ('configmenu.php');
 
 
@@ -305,6 +317,7 @@ while( $row = $db->db_fetch_array($result)) {
 	  $title = str_replace("#schiffe", $anzauftrag_schiffe, $title);
 	  $title = str_replace("#ress", $anzauftrag_ress, $title);
 	  $title = str_replace("#angriffe", $anz_angriffe, $title);
+	  $title = str_replace("#sondierungen", $anz_sondierungen, $title);
 //  	$title = str_replace("#", $anzauftrag, $title);
 
 		// Habe ich hier den neuen Hauptmenu-Titel?

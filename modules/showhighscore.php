@@ -37,16 +37,16 @@ if (basename($_SERVER['PHP_SELF']) != "index.php")
   die('Hacking attempt...!!');
 
 // Nachfolgendes define auf FALSE setzen, wenn in der Liste der Hall of Shame
-// nur negative Werte vorkommen d�rfen.
+// nur negative Werte vorkommen dürfen.
 define('SHOWNEGATIVE', TRUE);	
 	
 $ressu = (isset($db_tb_ressuebersicht) && !empty($db_tb_ressuebersicht)) ? TRUE : FALSE; 
 	
 $c_to   = stripNumber(getVar('to'));
 
-empty($c_to) ? $c_to = "5" : '';
+empty($c_to) ? $c_to = '5' : '';
 
-doc_title("<b>Wer hat den Längsten?</b>");
+doc_title('Wer hat den Längsten?');
 
 echo '<br>
 <form action="index.php" method="post"><p>
@@ -58,8 +58,8 @@ Top/Flop <input type="text" name="to" value="'.$c_to.'" size="2">
 ';
 
 start_table(100, 0, 10, 0, "");
-start_row("windowbg2", "align=\"center\"", 3);
-echo "<font style=\"font-size: 15px; color: #ffffff\">HALL OF FAME - TOP $c_to DER BESTEN</font>";
+start_row('windowbg2', 'align="center"', 3);
+echo "<font style='font-size: 15px; color: white'>HALL OF FAME - TOP {$c_to} DER BESTEN</font>";
 next_row();
 
 if($ressu) {
@@ -84,50 +84,45 @@ if($ressu) {
 	createRessieTable("Credits", "DESC");
 
   next_row();
-	if ($user_fremdesitten != 1)
-	{
-		createRessieTable("Sitterpunkte", "DESC", "sys", 0,
-                  "SELECT sitterlogin AS user, sitterpunkte AS ressie FROM " . $db_tb_user . " WHERE allianz='" . $user_allianz . "' ORDER BY sitterpunkte DESC");
+	if ($user_fremdesitten != 1) {
+		createRessieTable("Sitter&shy;punkte", "DESC", "sys", 0,
+                  "SELECT sitterlogin AS user, sitterpunkte AS ressie FROM " . $db_tb_user
+                  . " WHERE allianz='" . $user_allianz 
+                  . "' ORDER BY sitterpunkte DESC");
+	}	else 	{
+		createRessieTable("Sitter&shy;punkte", "DESC", "sys", 0,
+                  "SELECT sitterlogin AS user, sitterpunkte AS ressie FROM " . $db_tb_user
+                  . " ORDER BY sitterpunkte DESC");
 	}
-	else
-	{
-		createRessieTable("Sitterpunkte", "DESC", "sys", 0,
-                  "SELECT sitterlogin AS user, sitterpunkte AS ressie FROM " . 
-  								$db_tb_user . " ORDER BY sitterpunkte DESC");
-	}
-
 }
 
 next_cell();
-if ($user_fremdesitten != 1)
-{
-	createRessieTable("Geo-Scan", "DESC", "geo", 0,
-                  "SELECT sitterlogin AS user, geopunkte AS ressie FROM " . 
-	  							$db_tb_user . " WHERE allianz='" . $user_allianz . "' ORDER BY geopunkte DESC");
+if ($user_fremdesitten != 1) {
+	createRessieTable("Geo&shy;scan", "DESC", "geo", 0,
+                  "SELECT sitterlogin AS user, geopunkte AS ressie FROM " . $db_tb_user
+                  . " WHERE allianz='" . $user_allianz
+                  . "' ORDER BY geopunkte DESC");
+} else {
+	createRessieTable("Geo&shy;scan", "DESC", "geo", 0,
+                  "SELECT sitterlogin AS user, geopunkte AS ressie FROM " . $db_tb_user
+                  . " ORDER BY geopunkte DESC");
 }
-else
-{
-	createRessieTable("Geo-Scan", "DESC", "geo", 0,
-                  "SELECT sitterlogin AS user, geopunkte AS ressie FROM " . 
-	  							$db_tb_user . " ORDER BY geopunkte DESC");
-}
+
 next_cell();
-if ($user_fremdesitten != 1)
-{
-	createRessieTable("Systemscan", "DESC", "sys", 0,
-                  "SELECT sitterlogin AS user, syspunkte AS ressie FROM " . 
-  								$db_tb_user . " WHERE allianz='" . $user_allianz . "' ORDER BY syspunkte DESC");
-}
-else
-{
-	createRessieTable("Systemscan", "DESC", "sys", 0,
-                  "SELECT sitterlogin AS user, syspunkte AS ressie FROM " . 
-  								$db_tb_user . " ORDER BY syspunkte DESC");
+if ($user_fremdesitten != 1) {
+	createRessieTable("System&shy;scan", "DESC", "sys", 0,
+                  "SELECT sitterlogin AS user, syspunkte AS ressie FROM " . $db_tb_user
+                  . " WHERE allianz='" . $user_allianz
+                  . "' ORDER BY syspunkte DESC");
+} else {
+	createRessieTable("System&shy;scan", "DESC", "sys", 0,
+                  "SELECT sitterlogin AS user, syspunkte AS ressie FROM " . $db_tb_user
+                  . " ORDER BY syspunkte DESC");
 }
 
 if($ressu) {
-  next_row("windowbg2", "align=\"center\"", 3);
-echo "<font style=\"font-size: 15px; color: #ffffff\">HALL OF SHAME - TOP $c_to DER ERSTEN VON HINTEN</font>";
+  next_row('windowbg2', 'align="center"', 3);
+echo "<font style='font-size: 15px; color: white'>HALL OF SHAME - TOP {$c_to} DER ERSTEN VON HINTEN</font>";
   next_row();
   	
 	createRessieTable("Eisen", "ASC");
@@ -148,17 +143,15 @@ echo "<font style=\"font-size: 15px; color: #ffffff\">HALL OF SHAME - TOP $c_to 
   next_cell();
 	createRessieTable("FP", "ASC", "fp_ph");
   next_cell();
-	if ($user_fremdesitten != 1)
-	{
-		createRessieTable("Sitterpunkte", "ASC", "sys", 0,
-	       	           "SELECT sitterlogin AS user, sitterpunkte AS ressie FROM " . 
-	  									$db_tb_user . " WHERE allianz='" . $user_allianz . "' ORDER BY sitterpunkte ASC");
-	}
-	else
-	{
-		createRessieTable("Sitterpunkte", "ASC", "sys", 0,
-	       	           "SELECT sitterlogin AS user, sitterpunkte AS ressie FROM " . 
-	  									$db_tb_user . " ORDER BY sitterpunkte ASC");
+	if ($user_fremdesitten != 1) 	{
+		createRessieTable("Sitter&shy;punkte", "ASC", "sys", 0,
+	       	           "SELECT sitterlogin AS user, sitterpunkte AS ressie FROM " . $db_tb_user
+	       	           . " WHERE allianz='" . $user_allianz
+	       	           . "' ORDER BY sitterpunkte ASC");
+	} else 	{
+		createRessieTable("Sitter&shy;punkte", "ASC", "sys", 0,
+	       	           "SELECT sitterlogin AS user, sitterpunkte AS ressie FROM " . $db_tb_user
+	       	           . " ORDER BY sitterpunkte ASC");
 	}
 }
 
@@ -168,31 +161,30 @@ return;
 
 //******************************************************************************
 //
-// F�llt eine kleine Tabelle mit den Werten fuer eine Hall of fame/shame.
+// Füllt eine kleine Tabelle mit den Werten für eine Hall of fame/shame.
 // 
 function createRessieTable($ressie, $direction, $altress = "", $decimals=2, $altsql = "") {
   global $db, $db_tb_ressuebersicht, $db_tb_user, $c_to, $user_fremdesitten, $user_allianz;
 	
-	if(empty($altress))
+	if(empty($altress)) {
   	$lowress = strtolower( $ressie );
-	else
-	  $lowress = $altress;
-	
-	if($direction == "ASC") {
-	  $pic = "<img src=\"./bilder/krone_flop_" . $lowress . ".gif\" alt=\"" . 
-		       $ressie . "-Letzter\">";
 	} else {
-	  $pic = "<img src=\"./bilder/krone_top_" . $lowress . ".gif\" alt=\"" . 
-		       $ressie . "-Erster\">";
+	  $lowress = $altress;
 	}
 	
-  echo "<table border=\"0\" cellpadding=\"4\" cellspacing=\"1\" ".
-	     "class=\"bordercolor\" style=\"width: 250;\">\n";
-	start_row("windowbg2");
-	next_cell("windowbg2", "style=\"width:60%;\"");
-	echo "<b>Username</b>";
-	next_cell("windowbg2", "style=\"width:40%;\"");
-	echo "<b>" . $ressie . "</b>";
+	if($direction == "ASC") {
+	  $pic = '<img src="./bilder/krone_flop_' . $lowress . '.gif" alt="' . $ressie . '-Letzter">';
+	} else {
+	  $pic = '<img src="./bilder/krone_top_' . $lowress . '.gif" alt="' . $ressie . '-Erster">';
+	}
+	
+  echo "<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 350;'>\n";
+
+	start_row('windowbg2');
+	next_cell('windowbg2', 'style="width:20ex;"');
+	echo '<b>Username</b>';
+	next_cell('windowbg2', 'style="width:15ex;"');
+	echo '<b>' . $ressie . '</b>';
 	
 	// Setze SQL String aus ressource und Sortierrichtung zusammen, wenn 
 	// keine andere Quelle angegeben wurde.

@@ -316,6 +316,9 @@ if ( ! empty($textinput) )
 
             echo "<br>\n";
         }
+        else {
+            echo "<div class='system_notification'>es wurde kein passender Parser erkannt.</div>\n";
+        }
      }
      else 
      {

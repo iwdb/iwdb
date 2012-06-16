@@ -229,8 +229,8 @@ Achja bei dem ganzen Chaos kamen 142 Leute ums Leben.
 
 }
 
-function display_de_msg() {
-  include "./modules/m_transferliste.php";
-}
+//function display_de_msg() {
+//  include "./modules/m_transferliste.php";
+//}
 
 ?>

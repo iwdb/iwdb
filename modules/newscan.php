@@ -374,12 +374,12 @@ if ( ! empty($textinput) )
                             $count++;
                         }
                         else {
-                            echo "Input erfolgreich erkannt. Weitere Verarbeitung in der IWDB ist aber bisher nicht vorgesehen<br />";
+                            echo "Input erfolgreich erkannt (" . $parserObj->getName() . "). Weitere Verarbeitung in der IWDB ist aber bisher nicht vorgesehen<br />";
                         }
                     }
                 }
                 else {
-                    echo "Input wurde erkannt, konnte aber nicht fehlerfrei geparsed werden!<br />";               
+                    echo "Input (" . $parserObj->getName() . ") wurde erkannt, konnte aber nicht fehlerfrei geparsed werden!<br />";               
                     if (!empty($parserResult->aErrors) && count($parserResult->aErrors) > 0)
                     {
                         echo "error:<br />";
@@ -394,47 +394,37 @@ if ( ! empty($textinput) )
     }
     
     //! Anzeige fuer den Spieler ...
-    if($count > 1) {
-      echo "<table border=\"0\" cellpadding=\"4\" cellspacing=\"1\" class=\"bordercolor\" style=\"width: 90%;\">\n";
-      echo "  <tr><td colspan=\"2\" class=\"windowbg2\" style=\"font-size: 18px;\">Zusammenfassung</td></tr>\n";
-      foreach( $parser as $key => $value ) {
-        if( $parser[$key][1] > 0 ) {
-          echo "  <tr>\n";
-          echo "    <td class=\"windowbg1\" align=\"right\" width=\"30px\">" . $parser[$key][1] . "</td>\n";
-          echo "    <td class=\"windowbg1\" align=\"left\">" . (($parser[$key][1] > 1) ? (plural($parser[$key][2])) : $parser[$key][2]) . "</td>\n";
-          echo "  </tr>\n";
-          
-          // Closure hook for module after all needed things were inserted.
-          // E.g. recalculating research levels after new researches were added. 
-          if(function_exists("finish_".$key)) {
-            $func = "finish_" . $key;
-            $func();
-          }
-          
-          // Display hook for displaying the result of the insertation. 
-          if(function_exists("display_".$key)) {
-            $func = "display_" . $key;
-            $func();
-          }
+    if($count > 0) {
+        if($count > 1) {
+            echo "<table border=\"0\" cellpadding=\"4\" cellspacing=\"1\" class=\"bordercolor\" style=\"width: 90%;\">\n";
+            echo "  <tr><td colspan=\"2\" class=\"windowbg2\" style=\"font-size: 18px;\">Zusammenfassung</td></tr>\n";
         }
-      }
-      echo "</table><br>\n";
-    } elseif($count == 1) {
-      // Closure hook for module after all needed things were inserted.
-      // E.g. recalculating research levels after new researches were added. 
-      foreach( $parser as $key => $value ) {
-        if(function_exists("finish_".$key)) {
-            $func = "finish_" . $key;
-            $func();
+        foreach( $parser as $key => $value ) {
+            if( $parser[$key][1] > 0 ) {
+                if($count > 1) {
+                    echo "  <tr>\n";
+                    echo "    <td class=\"windowbg1\" align=\"right\" width=\"30px\">" . $parser[$key][1] . "</td>\n";
+                    echo "    <td class=\"windowbg1\" align=\"left\">" . (($parser[$key][1] > 1) ? (plural($parser[$key][2])) : $parser[$key][2]) . "</td>\n";
+                    echo "  </tr>\n";
+                }
+                // Closure hook for module after all needed things were inserted.
+                // E.g. recalculating research levels after new researches were added. 
+                if(function_exists("finish_".$key)) {
+                    $func = "finish_" . $key;
+                    $func();
+                }
+
+                // Display hook for displaying the result of the insertation. 
+                if(function_exists("display_".$key)) {
+                    $func = "display_" . $key;
+                    $func();
+                }
+            }
         }
-      
-        // Display hook for displaying the result of the insertation. 
-        if(function_exists("display_".$key)) {
-            $func = "display_" . $key;
-            $func();
+        if($count > 1) {
+            echo "</table><br>\n";
         }
-      }
-    }
+    } 
     
  	// Eigenkreation Start
     //! Mac: erstmal rausgenommen, da es $ausgabe im Moment eh nicht gibt
@@ -463,7 +453,7 @@ if ( ! empty($textinput) )
 	$stop = microtime(true);
 	$dauer = $stop - $start;
 	echo '
-			Dauer: '.round($dauer,4).' sec<br>';
+			Dauer: '.round($dauer,4).' sec<br />';
 
 	// Eigenkreation Ende
   

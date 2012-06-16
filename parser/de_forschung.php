@@ -85,7 +85,7 @@ function parse_de_forschung ( $return )
 	{
         $akt_forschung = isset($research2id[$research->strResearchName]) ? $research2id[$research->strResearchName] : "";
         $akt_date = $research->iUserResearchTime;  
-        if (!empty($akt_forschung)) {
+        if (!empty($akt_forschung) && !empty($akt_data)) {
             $sql = "INSERT INTO " . $db_tb_user_research . 
                 " SET user='" . $selectedusername . "', rid='" . $akt_forschung . "', date=" . $akt_date;
             $result = $db->db_query($sql)

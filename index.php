@@ -1,7 +1,6 @@
 <?php
 /*****************************************************************************/
 /* index.php                                                                 */
-/* $Id $                                                                     */
 /*****************************************************************************/
 /* Iw DB: Icewars geoscan and sitter database                                */
 /* Open-Source Project started by Robert Riess (robert@riess.net)            */

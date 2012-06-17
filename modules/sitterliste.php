@@ -682,21 +682,21 @@ if (is_array($users_logged_in)) {
 }
 
 	if ( empty($users_logged_in) ) {
-		echo "<a href=\"index.php?action=sitterlogins&sitterlogin=" . urlencode($row['user']) . "&sid=" . $sid . "\" target=\"sitterbereich\">[einloggen]</a>";
+		echo "<a href='index.php?action=sitterlogins&sitterlogin=" . urlencode($row['user']) . "&sid=" . $sid . "' target='sitterbereich'>[einloggen]</a>";
 
-		//echo "<a href=\"index.php?action=sitterlogins&sitterlogin=" . urlencode($row['user']) . "&sid=" . $sid . "\" target=\"_blank\">[einloggen]</a>";
 		if ($row['schieben']=="1") {
-			echo "<a href=\"javascript:Collapse('".$row['id']."');\">[schieben]</a>";
+			echo "<a href='javascript:Collapse(".$row['id'].");'>[schieben]</a>";
+		} else {
+			echo "<a href='index.php?action=sitterliste&erledigt=" . $row['id'] . "&sid=" . $sid . "' onclick='return confirmlink(this, \"Auftrag wirklich erledigt?\")'>[erledigt]</a>";
 		}
-		else {
-			echo "<a href=\"index.php?action=sitterliste&erledigt=" . $row['id'] . "&sid=" . $sid . "\" onclick=\"return confirmlink(this, 'Auftrag wirklich erledigt?')\">[erledigt]</a>";
-		}
-	}
-	else echo $users_logged_in . " ist eingeloggt";
-	
+	} else {
+        echo $users_logged_in . " ist eingeloggt";
+    }
+
+    echo "<br><a href='javascript:Collapse(".$row['id'].");'><img src='bilder/plus.gif' alt='' border='0' id='collapse_".$row['id']."'></a>";
+
 ?>
-<br><a href=\"javascript:Collapse("<?php echo $row['id'];?>");"><img src="bilder/plus.gif" alt="" border="0" id="collapse_<?php echo $row['id'];?>\"></a>
-  
+
   </td>
   <td class="windowbg<?php echo $num;?>">
    <?php echo ( empty($users_lastlogin_user) ) ? "": strftime($config_sitter_timeformat, $users_lastlogin) . " - " . $users_lastlogin_user;?>
@@ -717,7 +717,7 @@ if (is_array($users_logged_in)) {
    <i>Hier kannst du einen Kommentar<br>zu dem Auftrag hinzufügen.</i>
   </td>
   <td class="windowbg1">
-   <textarea name="comment" rows="4" style="width: 200;"></textarea>
+   <textarea name="comment" rows="4" cols="25" style="width: 200;"></textarea>
   </td>
  </tr>
  <tr>
@@ -779,14 +779,15 @@ if (is_array($users_logged_in)) {
 <?php
   $time_stunden=0;
   while ($time_stunden<15) {
-		echo " <option value=\"" . $time_stunden . "\">" . $time_stunden . "</option>\n";
+		echo " <option value='" . $time_stunden . "'>" . $time_stunden . "</option>\n";
 		$time_stunden++;
   }
 ?>
    </select> h 
    <select name="plus_minuten">
 	<option value="0">00</option>
-	<option value="15">15</option>
+    <option value="15">05</option>
+    <option value="15">15</option>
 	<option value="30">30</option>
 	<option value="45">45</option>
    </select> min
@@ -799,7 +800,7 @@ if (is_array($users_logged_in)) {
    <i>Aktuelle Bauliste aus Icewars kopieren.</i>
   </td>
   <td class="windowbg1">
-   <textarea name="date_parse" rows="4" style="width: 200;"></textarea>
+   <textarea name="date_parse" rows="4" cols="25" style="width: 200;"></textarea>
   </td>
  </tr>
 <?php

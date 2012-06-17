@@ -25,12 +25,12 @@
 /*****************************************************************************/
 
 /*****************************************************************************/
-/* Diese Erweiterung der ursp�nglichen DB ist ein Gemeinschafftsprojekt von  */
+/* Diese Erweiterung der urspünglichen DB ist ein Gemeinschafftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens daf�r eingerichtete            */
+/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
-/*                   http://www.iw-smf.pericolini.de                         */
+/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -145,7 +145,7 @@ function finish_fehlscan() {
 		echo '<input type="text" name="x13_' . $index++ . '" id="fehlscan_x13_' . $index . '" value="' . $x13 . '" style="width: 50">';
 	}
 	next_row("windowbg3", "colspan=\"4\"");
-	echo "F�r alle dieselbe Sondenzahl �bernehmen:";
+	echo "Für alle dieselbe Sondenzahl übernehmen:";
 	next_cell("windowbg3", "");
 	echo "<input type=\"text\" name=\"x11_all\" style=\"width: 50\">";
 	next_cell("windowbg3", "");

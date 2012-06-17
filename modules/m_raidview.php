@@ -55,7 +55,7 @@ $modulname  = "m_raidview";
 
 //****************************************************************************
 //
-// -> Men�titel des Moduls der in der Navigation dargestellt werden soll.
+// -> Menütitel des Moduls der in der Navigation dargestellt werden soll.
 //
 $modultitle = "Raid-Statistik";
 
@@ -128,10 +128,10 @@ function workInstallMenu() {
     $menu    = getVar('menu');
     $submenu = getVar('submenu');
 
-		$actionparamters = "";
-  	insertMenuItem( $menu, $submenu, $modultitle, $modulstatus, $actionparameters );
+    $actionparamters = "";
+  	insertMenuItem( $menu, $submenu, $modultitle, $modulstatus, $actionparamters );
 	  //
-	  // Weitere Wiederholungen f�r weitere Menü-Einträge, z.B.
+	  // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
 	  //
 	  // 	insertMenuItem( $menu+1, ($submenu+1), "Titel2", "hc", "&weissichnichtwas=1" );
 	  //
@@ -179,7 +179,7 @@ function workUninstallDatabase() {
 //
 //      http://Mein.server/iwdb/index.php?action=default&was=install
 //
-// Anstatt "Mein.Server" nat�rlich deinen Server angeben und default
+// Anstatt "Mein.Server" natürlich deinen Server angeben und default
 // durch den Dateinamen des Moduls ersetzen.
 //
 if( !empty($_REQUEST['was'])) {

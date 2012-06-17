@@ -37,7 +37,7 @@
 /* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
-/*                   http://www.iw-smf.pericolini.de                         */
+/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -111,8 +111,8 @@ function workInstallDatabase() {
 function workInstallMenu() {
     global $modultitle, $modulstatus, $_POST;
 
-		$actionparamters = "";
-  	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparameters );
+    $actionparamters = "";
+  	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparamters );
 	  //
 	  // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
 	  //

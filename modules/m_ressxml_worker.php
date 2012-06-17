@@ -55,13 +55,13 @@ $modulname  = "m_ressxml_worker";
 
 //****************************************************************************
 //
-// -> Men�titel des Moduls der in der Navigation dargestellt werden soll.
+// -> Menütitel des Moduls der in der Navigation dargestellt werden soll.
 //
 $modultitle = "Ressourcen-XML Updater";
 
 //****************************************************************************
 //
-// -> Status des Moduls, bestimmt wer dieses Modul �ber die Navigation 
+// -> Status des Moduls, bestimmt wer dieses Modul über die Navigation
 //    ausfuehren darf. Moegliche Werte:
 //    - ""      <- nix = jeder, 
 //    - "admin" <- na wer wohl
@@ -114,9 +114,9 @@ function workInstallDatabase() {
 //
 function workInstallMenu() {
     global $modultitle, $modulstatus, $_POST;
-		
-		$actionparamters = "";
-  	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparameters );
+
+    $actionparamters = "";
+  	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparamters );
 
 }
 
@@ -147,12 +147,12 @@ function workUninstallDatabase() {
 //
 // Installationsroutine
 //
-// Dieser Abschnitt wird nur ausgef�hrt wenn das Modul mit dem Parameter 
+// Dieser Abschnitt wird nur ausgeführt wenn das Modul mit dem Parameter
 // "install" aufgerufen wurde. Beispiel des Aufrufs: 
 //
 //      http://Mein.server/iwdb/index.php?action=default&was=install
 //
-// Anstatt "Mein.Server" nat�rlich deinen Server angeben und default 
+// Anstatt "Mein.Server" natürlich deinen Server angeben und default
 // durch den Dateinamen des Moduls ersetzen.
 //
 if( !empty($_REQUEST['was'])) {
@@ -167,7 +167,7 @@ if( !empty($_REQUEST['was'])) {
 	  die( "Cannot load menu functions" );
 
   // Wenn ein Modul administriert wird, soll der Rest nicht mehr 
-  // ausgef�hrt werden. 
+  // ausgeführt werden.
   return;
 }
 

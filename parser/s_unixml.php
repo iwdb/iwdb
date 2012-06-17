@@ -30,7 +30,7 @@
 /* Bei Problemen kannst du dich an das eigens dafür eingerichtete       */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
-/*                   http://www.iw-smf.pericolini.de                         */
+/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -38,7 +38,7 @@ error_reporting(E_ALL);
 
 /*****************************************************************************/
 /* bei speziellen Fragen:                     martinmartimeo / reuq tgarfeg  */
-/* Modifikation f�r Runde 9 von:              Thella                         */
+/* Modifikation für Runde 9 von:              Thella                         */
 /*****************************************************************************/
 
 if (basename($_SERVER['PHP_SELF']) != "index.php")
@@ -184,7 +184,7 @@ function updateSysScan($sys, $coords_gal, $coords_sys) {
 		$existing_sys['date'] = $row['date'];
 		$existing_sys['nebula'] = $row['nebula'];
 	}
-	// Sysscan einf�gen oder ersetzen
+	// Sysscan einfügen oder ersetzen
 	if (isset($existing_sys) == 0) {
 		$sql = "INSERT INTO " . $db_prefix . "sysscans (id,gal,sys,objekt,date,nebula) VALUES (";
 		$sql .= "'" . $coords_gal . ":" . $coords_sys . "'";
@@ -243,7 +243,7 @@ if (function_exists('parse_unixml') === false) {
 		$scantime = $arrayofxml['planeten_data']['informationen']['aktualisierungszeit'];
 		//Wenn wir hier kein array haben... hat die Fritte keine Sicht gehabt.
 		if (!isset($arrayofxml['planeten_data']['planet'])) {
-			echo "<pre style='color:red'>Keine Planeten hinzugef�gt... baue mehr Beobachtungseinrichtungen!\n</pre>";
+			echo "<pre style='color:red'>Keine Planeten hinzugefügt... baue mehr Beobachtungseinrichtungen!\n</pre>";
 			return;
 		//Schwarzes Loch
 		} else if (isset($arrayofxml['planeten_data']['planet']['planet_typ']) && $arrayofxml['planeten_data']['planet']['planet_typ'] == "schwarzes Loch") {

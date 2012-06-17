@@ -30,7 +30,7 @@
 /* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
-/*                   http://www.iw-smf.pericolini.de                         */
+/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -65,7 +65,7 @@ function createConfig($configtext) {
   $fd = fopen( "./config/" . $modulname . ".cfg.php", "w"); 
 
   // Write file header
-  fwrite( $fd, "<?PHP\n" );                         // Auch Configdateien sind ausf�hrbare PHP-Scripts
+  fwrite( $fd, "<?PHP\n" );                         // Auch Configdateien sind ausführbare PHP-Scripts
   fwrite( $fd, "/*****************************************************************************/\n" );
   fwrite( $fd, "/* Iw DB: Icewars geoscan and sitter database                                */\n" );
   fwrite( $fd, "/* Open-Source Project started by Robert Riess (robert@riess.net)            */\n" );
@@ -136,14 +136,14 @@ function createMenu() {
 	if( empty( $modulname )) 
 		die("Der übergebene Modulname ist leer. Prüfe bitte den Quelltext des Moduls.");
 
-  // Auslesen der vorhanden Men�tabelle
+  // Auslesen der vorhanden Menütabelle
   $sql = "SELECT menu, submenu, title, status, action, extlink, sittertyp FROM " .
          $db_tb_menu . " ORDER BY menu ASC, submenu ASC";
   $result = $db->db_query($sql)
      or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
-  // -> Nun ein Formular das das vorhandene Men� anzeigt und zus�tlich freie Slots bietet
-  // -> wo man w�hlen kann wo dieses Modul seinen Platz im Men� bekommen soll.
+  // -> Nun ein Formular das das vorhandene Menü anzeigt und zusätzlich freie Slots bietet
+  // -> wo man wählen kann wo dieses Modul seinen Platz im Menü bekommen soll.
   echo "<div class='normal'>Wähle nun in welchen Abschnitt des Menüs du dieses Modul anwählen willst!</div>\n";
 
   $lastmenu    = "";
@@ -266,18 +266,18 @@ function removeMenuItems() {
 //
 switch($_REQUEST['was']) {
   case "install":
-    // Erstellung einer eigenen Configdatei f�r dieses Modul
+    // Erstellung einer eigenen Configdatei für dieses Modul
     // fest eingestellte Werte sollten in einer eigenen Configdatei gespeichet werden,
-    // da nachtr�gliche �nderungen einfacher sind als im Quellcode des Scrips danach zu suchen.
+    // da nachträgliche Änderungen einfacher sind als im Quellcode des Scrips danach zu suchen.
     // Alle Zeilen werden nach und nach in die Variable $merk gespeichert.
-    // Auch wenn das Modul keine Variablen ben�tigt ist diese Configdatei zu erstellen, sonst funktioniert die Installation nicht!
+    // Auch wenn das Modul keine Variablen benötigt ist diese Configdatei zu erstellen, sonst funktioniert die Installation nicht!
 	  $merk = workInstallConfigString();
 
 	  createConfig( $merk );
     unset($merk);
 
     // Nun wird gleich die soeben erstellte Configdatei gelesen
-    // soda� gleich mit den definierten Variablen weiter gearbeitet werden kann
+    // sodaß gleich mit den definierten Variablen weiter gearbeitet werden kann
     if (!@include("./config/" . $modulname . ".cfg.php")) {
       echo "<div class='system_error'>Error:<br><b>Cannot load " . $modulname . " - configuration!</b></div>";
       return;
@@ -286,7 +286,7 @@ switch($_REQUEST['was']) {
     // Nun folgt die Erweiterung der IW-DB, falls notwendig.
 	  workInstallDatabase();
 
-	  // Anzeige des Men�baumes mit Auswahlm�glichkeit, in welches Hauptmen� 
+	  // Anzeige des Menübaumes mit Auswahlmöglichkeit, in welches HauptMenü
 	  // das Modul eingetragen werden soll.
 	  createMenu();
     return;
@@ -301,7 +301,7 @@ switch($_REQUEST['was']) {
 		return;
 
 	case "uninstall":
-	  // Anzeige des Deinstallationshinweises, mit der M�glichkeit, noch mal abzubrechen.
+	  // Anzeige des Deinstallationshinweises, mit der Möglichkeit, noch mal abzubrechen.
 		// Wer hier falsch klickt ist selbst schuld ... :) 
 	  echo "<br>\n" .
 				 "Das Modul \"<b>" . $modultitle . "\"</b> soll jetzt deinstalliert werden.<br>\n" . 

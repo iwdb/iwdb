@@ -33,7 +33,7 @@
 /* Bei Problemen kannst du dich an das eigens dafuer eingerichtete  
  /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
-/*                   http://www.iw-smf.pericolini.de                         */
+/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -99,8 +99,8 @@ function workInstallDatabase() {
 function workInstallMenu() {
 	global $modultitle, $modulstatus, $_POST;
 
-	$actionparamters = "";
-	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparameters );
+    $actionparamters = "";
+	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparamters );
 	//
 	// Weitere Wiederholungen für weitere Menü-Einträge, z.B.
 	//
@@ -174,7 +174,7 @@ $lastevo="blobtree-evo0.png"; // -> Für EVO1
 // -> Nachsehen ob der dynamische Techtree installiert ist.
 if(file_exists("./config/m_research.cfg.php")){
 
-	// -> Schlüsselforschungen zum Erreichen einer neuen Evostufe, kann sein das es im Laufe der Runde angepasst werden mu�.
+	// -> Schlüsselforschungen zum Erreichen einer neuen Evostufe, kann sein das es im Laufe der Runde angepasst werden muss.
 	$evo =array("blobtree-evo1.png"=>"Race into Space",
               "blobtree-evo2.png"=>"Interstellares Vordringen",
               "blobtree-evo3.png"=>"Aufnahme in die zivilisierten Welten",
@@ -219,15 +219,14 @@ echo "<br>";
 function imgchange()
 {
         var si =  document.frm.selbox.selectedIndex;
-        var fname = document.frm.selbox.options[si].value;
-        document.img.src = fname
+        document.img.src = document.frm.selbox.options[si].value;
 }
 //-->
 </SCRIPT>
 <?php
 echo "<div class='doc_centered'>";
-echo "<form name=\"frm\">";
-echo "<SELECT NAME=\"selbox\" size=1>";
+echo "<form name='frm'>";
+echo "<SELECT NAME='selbox' size=1>";
 
 if ($lastevo == "blobtree-evo0.png"){$sel=" selected";}else{$sel="";}
 echo "<OPTION VALUE=\"bilder/techtree/blobtree-evo0.png\"".$sel.">";

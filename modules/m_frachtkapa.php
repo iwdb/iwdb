@@ -27,14 +27,14 @@
 
 /*****************************************************************************/
 /* Dieses Modul dient als Vorlage zum Erstellen von eigenen Zusatzmodulen    */
-/* f�r die Iw DB: Icewars geoscan and sitter database                        */
+/* für die Iw DB: Icewars geoscan and sitter database                        */
 /*---------------------------------------------------------------------------*/
 /* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  */
 /* IW-Spielern.                                                              */
 /* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
-/*                   http://www.iw-smf.pericolini.de                         */
+/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -56,7 +56,7 @@ $modulname  = "m_frachtkapa";
 
 //****************************************************************************
 //
-// -> Men�titel des Moduls der in der Navigation dargestellt werden soll.
+// -> Menütitel des Moduls der in der Navigation dargestellt werden soll.
 //
 $modultitle = "Frachtkapazitäten";
 
@@ -95,8 +95,8 @@ function workInstallDatabase() {
 function workInstallMenu() {
     global $modultitle, $modulstatus, $_POST;
 		
-		$actionparamters = "";
-  	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparameters );
+	$actionparamters = "";
+  	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparamters );
 }
 
 //****************************************************************************
@@ -121,12 +121,12 @@ function workUninstallDatabase() {
 //
 // Installationsroutine
 //
-// Dieser Abschnitt wird nur ausgef�hrt wenn das Modul mit dem Parameter 
+// Dieser Abschnitt wird nur ausgeführt wenn das Modul mit dem Parameter
 // "install" aufgerufen wurde. Beispiel des Aufrufs: 
 //
 //      http://Mein.server/iwdb/index.php?action=default&was=install
 //
-// Anstatt "Mein.Server" nat�rlich deinen Server angeben und default 
+// Anstatt "Mein.Server" natürlich deinen Server angeben und default
 // durch den Dateinamen des Moduls ersetzen.
 //
 if( !empty($_REQUEST['was'])) {

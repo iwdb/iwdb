@@ -30,7 +30,7 @@
 /* Bei Problemen kannst du dich an das eigens dafuer eingerichtete           */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
-/*                   http://www.iw-smf.pericolini.de                         */
+/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -99,7 +99,7 @@ $config_sid_string = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz123456
 $config_sid_length = 20;
 
 // zugelassene Zeichen fuer Passwoerter
-$config_password_string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890-_&%\$�!/()=?';
+$config_password_string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890-_&%\$!/()=?';
 
 // Cookiename
 $config_cookie_name = "iwdb";

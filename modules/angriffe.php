@@ -58,7 +58,7 @@ $result = $db->db_query($sql)
 	or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 while($row = $db->db_fetch_array($result))
 {
-	// sortieren nach �bernommen/noch frei
+	// sortieren nach übernommen/noch frei
 	if (isset($row['ueb']))
 		$sort = 'ueb';
 	else

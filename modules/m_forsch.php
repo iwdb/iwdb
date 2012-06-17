@@ -26,7 +26,7 @@
 
 /*****************************************************************************/
 /* Dieses Modul dient als Vorlage zum Erstellen von eigenen Zusatzmodulen    */
-/* f�r die Iw DB: Icewars geoscan and sitter database                        */
+/* für die Iw DB: Icewars geoscan and sitter database                        */
 /*---------------------------------------------------------------------------*/
 /* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von */
 /* IW-Spielern.                                                              */
@@ -112,8 +112,8 @@ function workInstallMenu() {
     $menu    = getVar('menu');
     $submenu = getVar('submenu');
 
-		$actionparamters = "";
-  	insertMenuItem( $menu, $submenu, $modultitle, $modulstatus, $actionparameters );
+	$actionparamters = "";
+  	insertMenuItem( $menu, $submenu, $modultitle, $modulstatus, $actionparamters );
 	  //
 	  // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
 	  //

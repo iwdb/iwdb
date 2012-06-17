@@ -33,7 +33,7 @@
 /*Bei Problemen kannst du dich an das eigens dafür eingerichtete             */
 /*Entwiklerforum wenden:                                                     */
 /*                                                                           */
-/*                   http://www.iw-smf.pericolini.de                         */
+/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -425,7 +425,7 @@ echo "<br>\n";
     echo "<td width=\"50%\" class=\"".$cl."\" >&nbsp;".$row['title']."&nbsp;</td>";
     echo "<td width=\"50%\" class=\"".$cl."\" align='right'>";
     if ($row['submenu'] == 0){
-      echo "<a href=\"index.php?action=admin_menue&sid=".$sid."&delid=".$row['id']."\" target=\"_self\"><img src=\"./bilder/delete.gif\" align=\"absmiddle\" border=\"0\" title=\"Men�titel L�schen\" alt=\"Men�titel L�schen\" onclick=\"return confirmLink(this, '" . $row['id'] . "')\"></a>";
+      echo "<a href=\"index.php?action=admin_menue&sid=".$sid."&delid=".$row['id']."\" target=\"_self\"><img src=\"./bilder/delete.gif\" align=\"absmiddle\" border=\"0\" title=\"Menütitel Löschen\" alt=\"Menütitel Löschen\" onclick=\"return confirmLink(this, '" . $row['id'] . "')\"></a>";
     }
     if ($row['id'] == $hid){
       echo "<img src=\"./bilder/sort_up2.gif\" align=\"absmiddle\" border=\"0\" title=\"Sortieren: Up\" alt=\"Sortieren: Up\">";

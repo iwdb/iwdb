@@ -34,7 +34,7 @@
 /* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
-/*                   http://www.iw-smf.pericolini.de                         */
+/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -56,7 +56,7 @@ $modulname  = "m_sc";
 
 //****************************************************************************
 //
-// -> Men�titel des Moduls der in der Navigation dargestellt werden soll.
+// -> Menütitel des Moduls der in der Navigation dargestellt werden soll.
 //
 $modultitle = "Sondenkalkulator";
 
@@ -92,9 +92,9 @@ function workInstallDatabase() {
 //
 function workInstallMenu() {
     global $modultitle, $modulstatus, $_POST;
-		
-		$actionparamters = "";
-  	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparameters );
+
+    $actionparamters = "";
+  	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparamters );
 }
 
 //****************************************************************************

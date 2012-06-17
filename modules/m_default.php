@@ -26,7 +26,7 @@
 
 /*****************************************************************************/
 /* Dieses Modul dient als Vorlage zum Erstellen von eigenen Zusatzmodulen    */
-/* f�r die Iw DB: Icewars geoscan and sitter database                        */
+/* für die Iw DB: Icewars geoscan and sitter database                        */
 /*---------------------------------------------------------------------------*/
 /* Diese Erweiterung der urspruenglichen DB ist ein Gemeinschaftsprojekt von */
 /* IW-Spielern.                                                              */
@@ -37,7 +37,7 @@
 /*                                                                           */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul �ber die index.php aufgerufen wurde.
+// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
 if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	echo "Hacking attempt...!!"; 
@@ -46,22 +46,22 @@ if (basename($_SERVER['PHP_SELF']) != "index.php") {
 
 //****************************************************************************
 //
-// -> Name des Moduls, ist notwendig f�r die Benennung der zugehoerigen
+// -> Name des Moduls, ist notwendig für die Benennung der zugehoerigen
 //    Config.cfg.php
-// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung f�r 
-//    eine Installation �ber das Men�
+// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung für
+//    eine Installation über das Menü
 //
 $modulname  = "m_default";
 
 //****************************************************************************
 //
-// -> Men�titel des Moduls der in der Navigation dargestellt werden soll.
+// -> Menütitel des Moduls der in der Navigation dargestellt werden soll.
 //
 $modultitle = "Defaultmodul";
 
 //****************************************************************************
 //
-// -> Status des Moduls, bestimmt wer dieses Modul �ber die Navigation 
+// -> Status des Moduls, bestimmt wer dieses Modul über die Navigation
 //    ausfuehren darf. Moegliche Werte:
 //    - ""      <- nix = jeder, 
 //    - "admin" <- na wer wohl
@@ -114,9 +114,9 @@ function workInstallMenu() {
     $submenu = getVar('submenu');
 
 		$actionparamters = "";
-  	insertMenuItem( $menu, $submenu, $modultitle, $modulstatus, $actionparameters );
+  	insertMenuItem( $menu, $submenu, $modultitle, $modulstatus, $actionparamters );
 	  //
-	  // Weitere Wiederholungen f�r weitere Menue-Eintraege, z.B.
+	  // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
 	  //
 	  // 	insertMenuItem( $menu+1, ($submenu+1), "Titel2", "hc", "&weissichnichtwas=1" );
 	  //
@@ -164,7 +164,7 @@ function workUninstallDatabase() {
 //
 //      http://Mein.server/iwdb/index.php?action=default&was=install
 //
-// Anstatt "Mein.Server" nat�rlich deinen Server angeben und default 
+// Anstatt "Mein.Server" natürlich deinen Server angeben und default
 // durch den Dateinamen des Moduls ersetzen.
 //
 if( !empty($_REQUEST['was'])) {

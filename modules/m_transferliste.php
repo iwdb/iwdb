@@ -29,18 +29,18 @@
 
 /*****************************************************************************/
 /* Dieses Modul dient als Vorlage zum Erstellen von eigenen Zusatzmodulen    */
-/* f�r die Iw DB: Icewars geoscan and sitter database                        */
+/* für die Iw DB: Icewars geoscan and sitter database                        */
 /*---------------------------------------------------------------------------*/
-/* Diese Erweiterung der urspr�nglichen DB ist ein Gemeinschaftsprojekt von  */
+/* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens daf�r eingerichtete            */
+/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
-/*                   http://www.iw-smf.pericolini.de                         */
+/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
 /*                                                                           */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul �ber die index.php aufgerufen wurde.
+// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
 if (basename($_SERVER['PHP_SELF']) != "index.php") {
     echo "Hacking attempt...!!";
@@ -49,24 +49,24 @@ if (basename($_SERVER['PHP_SELF']) != "index.php") {
 
 //****************************************************************************
 //
-// -> Name des Moduls, ist notwendig f�r die Benennung der zugeh�rigen
+// -> Name des Moduls, ist notwendig für die Benennung der zugehörigen
 //    Config.cfg.php
-// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung f�r
-//    eine Installation �ber das Men�
+// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung für
+//    eine Installation über das Menü
 //
 global $modulname;
 $modulname = "m_transferliste";
 
 //****************************************************************************
 //
-// -> Men�titel des Moduls der in der Navigation dargestellt werden soll.
+// -> Menütitel des Moduls der in der Navigation dargestellt werden soll.
 //
 $modultitle = "Transfer-Statistik";
 
 //****************************************************************************
 //
-// -> Status des Moduls, bestimmt wer dieses Modul �ber die Navigation
-//    ausf�hren darf. M�gliche Werte:
+// -> Status des Moduls, bestimmt wer dieses Modul über die Navigation
+//    ausführen darf. Mögliche Werte:
 //    - ""      <- nix = jeder,
 //    - "admin" <- na wer wohl
 //
@@ -163,7 +163,7 @@ function workInstallMenu() {
         $actionparamters = "";
     insertMenuItem( $menu, $submenu, $modultitle, $modulstatus, $actionparameters );
       //
-      // Weitere Wiederholungen f�r weitere Men�-Eintr�ge, z.B.
+      // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
       //
       //    insertMenuItem( $_POST['menu'], ($_POST['submenu']+1), "Titel2", "hc", "&weissichnichtwas=1" );
       //
@@ -186,7 +186,7 @@ function workInstallConfigString() {
     "\$fakt_wasser                =   6;   // Default:  6\n" .
     "\$fakt_energie               =   1;   // Default:  1\n" .
     "\$fakt_volk                  =   0;   // Default:  0\n" .
-    "// In der Buddler�bersicht Grafik anzeigen (True / False ) ?\n" .
+    "// In der Buddlerübersicht Grafik anzeigen (True / False ) ?\n" .
     "\$show_buddler_graph         =  True;\n" .
     "// Groesse des Diagramms\n" .
     "\$graph_xsize                = 750;\n" . 
@@ -234,7 +234,7 @@ function workUninstallDatabase() {
 
   echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
   /*
-  // Graph-Datei l�schen...
+  // Graph-Datei löschen...
   if (!unlink('graph_transport.gif')) {
       echo "<div class='system_notification'>Deinstallation: Datei f&uuml;r den Graphen l&ouml;schen = <b>Fehlgeschlagen</b></div>";
       echo "Bitte manuell die Datei /graph_transport.gif l&ouml;schen.";
@@ -247,12 +247,12 @@ function workUninstallDatabase() {
 //
 // Installationsroutine
 //
-// Dieser Abschnitt wird nur ausgef�hrt wenn das Modul mit dem Parameter
+// Dieser Abschnitt wird nur ausgeführt wenn das Modul mit dem Parameter
 // "install" aufgerufen wurde. Beispiel des Aufrufs:
 //
 //      http://Mein.server/iwdb/index.php?action=default&was=install
 //
-// Anstatt "Mein.Server" nat�rlich deinen Server angeben und default
+// Anstatt "Mein.Server" natürlich deinen Server angeben und default
 // durch den Dateinamen des Moduls ersetzen.
 //
 if( !empty($_REQUEST['was'])) {
@@ -267,7 +267,7 @@ if( !empty($_REQUEST['was'])) {
       die( "Cannot load menu functions" );
 
   // Wenn ein Modul administriert wird, soll der Rest nicht mehr
-  // ausgef�hrt werden.
+  // ausgeführt werden.
   return;
 }
 
@@ -361,7 +361,7 @@ function make_order_link($order, $ordered, $parameters = array()) {
 //
 function make_link($name,$parameters)
 {
- global $sid,$order,$ordered;
+ global $sid;
  $link = "<a href=\"index.php?action=m_transferliste";
  $link.= "&sid=".$sid;
  foreach ($parameters as $parameter)
@@ -419,7 +419,7 @@ function build_graph_transfer($users,$fitthis,$date_min,$date_max,$typ)
   {
     $value_min = 0;
 
-    // Maximum f�r Y - Achse ermitteln
+    // Maximum für Y - Achse ermitteln
     // um ohne Unterabfragen auszukommen von max zu min sortieren und dann das 1. nehmen   
     foreach($users as $buddler)
     {
@@ -735,7 +735,7 @@ function build_graph_transfer($users,$fitthis,$date_min,$date_max,$typ)
             echo "<img src=\"graph_transport.png\" border=\"0\" alt=\"Graph\">";
         }
         else {
-        echo "Keine Grafik-Unterst�tzung vorhanden";
+        echo "Keine Grafik-Unterstützung vorhanden";
         }
     }
     else echo "<br><font color=\"#FF0000\"><b>Du musst mindestens einen User auswaehlen.</b></font><br>";
@@ -1114,7 +1114,7 @@ function showallfleeters() {
   if (empty($ordered))
     $ordered = $default_ordered;
 
-  // Falls immer noch leer dann falsch configuriert oder �ber parser reingekommen
+  // Falls immer noch leer dann falsch configuriert oder über parser reingekommen
   if (empty($order))
     $order = 'punkte';
   if (empty($ordered))
@@ -1231,7 +1231,7 @@ function showallfleeters() {
         $volk    += $row2['volk'];
         $punkte  += $row2['punkte'];
         
-        // Farbmarkierung f�r LastTransport-Update
+        // Farbmarkierung für LastTransport-Update
         $scancolor = array();
         $query = "SELECT lasttransport".
              " FROM " .$db_tb_user.
@@ -1253,7 +1253,7 @@ function showallfleeters() {
           make_link($row2['buddler'],
                     array("selbuddler=" .$row2['buddler'])
                    );
-            // Ausgabe f�r LastTransport-Datum
+            // Ausgabe für LastTransport-Datum
             echo '<br>'.$tmp;
 
           next_cell("windowbg1", "style=\"width:9%\" align=\"right\"");

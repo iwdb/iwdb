@@ -34,12 +34,12 @@
 /*                                                                           */
 /* Originally written by [GILDE]xerex.                                       */
 /*---------------------------------------------------------------------------*/
-/* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von */
+/* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafür eingerichtete           */
+/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
-/*                   http://www.iw-smf.pericolini.de                         */
+/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -90,8 +90,9 @@ $moduldesc = "Bestellsystem zur Koordination von Logistikaufträgen im Buddler-F
 // installing this module. 
 //
 function workInstallDatabase() {
-	global $db, $db_prefix, $db_tb_iwdbtabellen;
 /*
+	global $db, $db_prefix, $db_tb_iwdbtabellen;
+
 	$sqlscript = array(
 		"CREATE TABLE `" . $db_prefix . "bestellung` (" .
 		"`id` int(11) NOT NULL auto_increment," .
@@ -118,7 +119,7 @@ function workInstallDatabase() {
 		"PRIMARY KEY  (`id`)" .
 		") COMMENT='Bestellsystem' AUTO_INCREMENT=1",
 		"INSERT INTO " . $db_tb_iwdbtabellen . " (`name`) VALUES ('bestellung')",
-	);*/
+	);
 
 	foreach ($sqlscript as $sql) {
 		echo "<br>" . $sql;
@@ -127,6 +128,7 @@ function workInstallDatabase() {
 	}
 
 	echo "<br>Installation: Datenbankänderungen = <b>OK</b><br>";
+*/
 }
 
 //****************************************************************************
@@ -139,7 +141,7 @@ function workInstallMenu() {
     global $modultitle, $modulstatus, $_POST;
 		
 		$actionparamters = "";
-  	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparameters );
+  	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparamters );
 	  //
 	  // Weitere Wiederholungen fuer weitere Menue-Einträge, z.B.
 	  //
@@ -163,13 +165,13 @@ function workInstallConfigString() {
 //
 
 function workUninstallDatabase() {
-	global $db, $db_tb_bestellung, $db_tb_iwdbtabellen;
 /*
+ 	global $db, $db_tb_bestellung, $db_tb_iwdbtabellen;
+
 	$sqlscript = array(
 	  "DROP TABLE " . $db_tb_bestellung,
 	  "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE `name`='bestellung'",
 	);
-*/
 
 	foreach ($sqlscript as $sql) {
 		$result = $db->db_query($sql)
@@ -177,7 +179,7 @@ function workUninstallDatabase() {
 	}
 
 	echo "<br>Deinstallation: Datenbankänderungen = <b>OK</b><br>";
-
+*/
 }
 
 //****************************************************************************

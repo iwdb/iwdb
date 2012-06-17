@@ -37,7 +37,7 @@
 /* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
-/*                   http://www.iw-smf.pericolini.de                         */
+/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -87,8 +87,9 @@ $moduldesc = "Lagerübersicht zur Koordination von Logistikaufträgen im Buddler
 // installing this module. 
 //
 function workInstallDatabase() {
-	global $db, $db_prefix, $db_tb_iwdbtabellen, $db_tb_parser;
 /*
+	global $db, $db_prefix, $db_tb_iwdbtabellen, $db_tb_parser;
+
 	$sqlscript = array(
 		"CREATE TABLE `" . $db_prefix . "lager` (" .
 		"`user` varchar(30) NOT NULL," .
@@ -144,7 +145,7 @@ function workInstallDatabase() {
 		"INSERT INTO " . $db_tb_iwdbtabellen . " (`name`) VALUES ('lager')",
 		"DELETE FROM " . $db_tb_parser . " WHERE recognizer='Ressourcenkolo&uuml;bersicht'",
 		"INSERT INTO " . $db_tb_parser . " (`modulename`,`recognizer`,`message`) VALUES ('resskolo','Ressourcenkolo&uuml;bersicht','Ressourcenkolo&uuml;bersicht')",
-	);*/
+	);
 
 	foreach ($sqlscript as $sql) {
 		echo "<br>" . $sql;
@@ -153,6 +154,7 @@ function workInstallDatabase() {
 	}
 
 	echo "<br>Installation: Datenbankänderungen = <b>OK</b><br>";
+*/
 }
 
 //****************************************************************************
@@ -164,8 +166,8 @@ function workInstallDatabase() {
 function workInstallMenu() {
     global $modultitle, $modulstatus, $_POST;
 		
-		$actionparamters = "";
-  	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparameters );
+	$actionparamters = "";
+  	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparamters );
 	  //
 	  // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
 	  //
@@ -188,20 +190,22 @@ function workInstallConfigString() {
 // removing this module. 
 //
 function workUninstallDatabase() {
-	global $db, $db_tb_lager, $db_tb_iwdbtabellen, $db_tb_parser;
 /*
+	global $db, $db_tb_lager, $db_tb_iwdbtabellen;
+
 	$sqlscript = array(
 	  "DROP TABLE " . $db_tb_lager,
 	  "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE `name`='lager'",
 	  "DELETE FROM " . $db_tb_parser . " WHERE `modulename`='resskolo'",
 	);
-*/
+
 	foreach ($sqlscript as $sql) {
 		$result = $db->db_query($sql)
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	}
 
 	echo "<br>Deinstallation: Datenbankänderungen = <b>OK</b><br>";
+*/
 }
 
 //****************************************************************************
@@ -1363,13 +1367,13 @@ if (isset($params['edit']) && !empty($params['edit'])) {
 
 function make_value($row, $key) {
 	$ist = $row[$key];
-	$gesamt = $row[$key . '_total'];
-	$soll = $row[$key . '_soll'];
+	//$gesamt = $row[$key . '_total'];
+	//$soll = $row[$key . '_soll'];
 	return $ist;
 }
 
 function make_color($row, $key) {
-	global $params, $user_sitterlogin;
+	global $user_sitterlogin;
 	if (isset($row[$key . '_sichtbar']) && !$row[$key . '_sichtbar'])
 		if (isset($row['user']) && $user_sitterlogin != $row['user'])
 			return 'white';

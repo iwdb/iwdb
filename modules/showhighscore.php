@@ -25,12 +25,12 @@
 /*****************************************************************************/
 
 /*****************************************************************************/
-/* Diese Erweiterung der ursp�nglichen DB ist ein Gemeinschafftsprojekt von  */
+/* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschafftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens daf�r eingerichtete            */
+/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
-/*                   http://www.iw-smf.pericolini.de                         */
+/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
 /*                                                                           */
 /*****************************************************************************/
 if (basename($_SERVER['PHP_SELF']) != "index.php")

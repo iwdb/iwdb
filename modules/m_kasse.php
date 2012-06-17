@@ -82,8 +82,9 @@ $moduldesc =
 //
 
 function workInstallDatabase() {
-  global $db, $db_prefix, $db_tb_iwdbtabellen, $db_tb_parser;
 /*
+  global $db, $db_prefix, $db_tb_iwdbtabellen, $db_tb_parser;
+
   $sqlscript = array(
     "CREATE TABLE " . $db_prefix . "kasse_content
     (`amount` DECIMAL( 22,2 ) NOT NULL ,
@@ -114,7 +115,8 @@ function workInstallDatabase() {
     " VALUES('kasse_outgoing')",
     "INSERT INTO " . $db_tb_parser . "(`modulename`, `recognizer`,`message`)" .
     " VALUES('kasse', 'Standardbeitrag', 'Allianzkasse')"
-  );*/
+  );
+
   foreach($sqlscript as $sql) {
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR,
@@ -122,6 +124,7 @@ function workInstallDatabase() {
                __FILE__, __LINE__, $sql);
   }
   echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
+*/
 }
 
 //****************************************************************************

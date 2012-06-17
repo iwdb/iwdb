@@ -37,7 +37,7 @@
 /* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
-/*                   http://www.iw-smf.pericolini.de                         */
+/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -85,8 +85,9 @@ $moduldesc = "Zeigt die Gebäudeübersicht an";
 //
 
 function workInstallDatabase() {
-	global $db, $db_prefix, $db_tb_iwdbtabellen;
 /*
+	global $db, $db_prefix, $db_tb_iwdbtabellen;
+
 	$sqlscript = array(
 		"CREATE TABLE `" . $db_prefix . "gebaeude_spieler` (" .
 		"`coords_gal` tinyint(4) NOT NULL," .
@@ -102,7 +103,7 @@ function workInstallDatabase() {
 		") COMMENT='Gebaeudeuebersicht'",
 		"INSERT INTO " . $db_tb_iwdbtabellen . " (`name`) VALUES ('gebaeude_spieler')",
 		"INSERT INTO " . $db_tb_parser . " (`modulename`,`recognizer`,`message`) VALUES ('gebaeudeuebersicht','Gebäude&uuml;bersicht','Gebäude&uuml;bersicht')",
-	);*/
+	);
 
 	foreach ($sqlscript as $sql) {
 		echo "<br>" . $sql;
@@ -111,6 +112,7 @@ function workInstallDatabase() {
 	}
 
 	echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
+*/
 }
 
 //****************************************************************************

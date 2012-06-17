@@ -143,7 +143,7 @@ var cssdropdown={
             var menuitems=document.getElementById(arguments[ids]).getElementsByTagName("a");
             for (var i=0; i<menuitems.length; i++){
                 if (menuitems[i].getAttribute("rel")){
-                    var relvalue=menuitems[i].getAttribute("rel");
+                    //var relvalue=menuitems[i].getAttribute("rel");
                     menuitems[i].onmouseover=function(e){
                         var event=typeof e!="undefined"? e : window.event;
                         cssdropdown.dropit(this,event,this.getAttribute("rel"))

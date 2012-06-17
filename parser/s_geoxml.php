@@ -30,7 +30,7 @@
 /* Bei Problemen kannst du dich an das eigens daf?r eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
-/*                   http://www.iw-smf.pericolini.de                         */
+/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -95,10 +95,6 @@ function parse_geoxml($scanlines) {
 			$scan_data['ksmod'] = (string)$xml->plani_data->modifikatoren->schiff_bau->kosten;
 			$scan_data['dsmod'] = (string)$xml->plani_data->modifikatoren->schiff_bau->dauer;
 			foreach ($xml->plani_data->besonderheiten->besonderheit as $besonderheit) {
-				if (isset($scan_data['besonderheiten']))
-					$scan_data['besonderheiten'] .= ", " . str_replace( "ü", "�", (string)$besonderheit->name);
-				else
-					$scan_data['besonderheiten'] = str_replace( "ü", "�", (string)$besonderheit->name);
 				if (stripos($besonderheit->name, "Nebel")) {
 					$nebula = (string)$besonderheit->name;
 				}

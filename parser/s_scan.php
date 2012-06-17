@@ -25,12 +25,12 @@
 /*****************************************************************************/
 
 /*****************************************************************************/
-/* Diese Erweiterung der ursp�nglichen DB ist ein Gemeinschafftsprojekt von  */
+/* Diese Erweiterung der urspünglichen DB ist ein Gemeinschafftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens daf�r eingerichtete            */
+/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
-/*                   http://www.iw-smf.pericolini.de                         */
+/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -63,7 +63,7 @@ function parse_scan($scanlines) {
 
   foreach($scanlines as $scan) {
      
-    //Cat auf Building setzen, da bei Geb�ude keine �berschrift existiert
+    //Cat auf Building setzen, da bei Gebäude keine Überschrift existiert
     if ( strpos($scan, "Sondierungsbericht (Gebäude) von") !== FALSE ) $cat = "bs";
 
     if(  (strpos($scan, "Sondierungsbericht (Schiffe) von") !== FALSE) OR (strpos($scan, "Sondierungsbericht (Gebäude) von") !== FALSE) ) {
@@ -102,7 +102,7 @@ function parse_scan($scanlines) {
       $scan_data['coords_sys'] = $temp[1];
       $scan_data['coords_planet'] = $temp[2];
 
-      //$scan l�schen da ja Parser f�r diese Zeile gefunden wurde
+      //$scan löschen da ja Parser für diese Zeile gefunden wurde
       $scan = "";
     }
 
@@ -163,7 +163,7 @@ for ( $i = 0 ; $i < count($scanzeug) ; $i++ )
 
 //zum herauslesen von Schiffen wird der String umgedreht, das letzte (nun erste) abgdrennt
 //dann beides umgedreht
-//und einggef�gt wo wir gerade sind
+//und eingefügt wo wir gerade sind
 
 if ( strpos($scan, " " ) > 0 ) {
 
@@ -197,7 +197,7 @@ $objvar = trim(strrev($scantemp[0]));
 //Die Daten aus dem scan_alldata auslesen und in stringsspeichern
 if ( isset($scan_alldata['pf']) AND count($scan_alldata['pf']) > 0 ) {
 
-//war f�r externen Gebrauch: $str_pf = "<b class=\"scan_titel\"> planetare Flotte </b> \n";
+//war für externen Gebrauch: $str_pf = "<b class=\"scan_titel\"> planetare Flotte </b> \n";
 $str_pf = "";
 $str_pf = $str_pf . "\n <table class=\"scan_table\"> \n";
 foreach ($scan_alldata['pf'] as $key => $value) {
@@ -220,7 +220,7 @@ $str_pf = -1;
 
 if ( isset($scan_alldata['bs']) AND count($scan_alldata['bs']) > 0 ) {
 
-//war f�r externen Gebrauch: $str_bs = "<b class=\"scan_titel\"> Gebäude </b> \n";
+//war für externen Gebrauch: $str_bs = "<b class=\"scan_titel\"> Gebäude </b> \n";
 $str_bs = "";
 $str_bs = $str_bs . "\n <table class=\"scan_table\"> \n";
 foreach ($scan_alldata['bs'] as $key => $value) {
@@ -243,7 +243,7 @@ $str_bs = -1;
 
 if ( isset($scan_alldata['st']) AND count($scan_alldata['st']) > 0 ) {
 
-//war f�r externen Gebrauch: $str_bs = "<b class=\"scan_titel\"> stationeirte Flotten</b> \n";
+//war für externen Gebrauch: $str_bs = "<b class=\"scan_titel\"> stationeirte Flotten</b> \n";
 $str_st = "";
 $str_st = $str_st . "\n <table class=\"scan_table\"> \n";
 foreach ($scan_alldata['st'] as $o_key => $o_array) {
@@ -274,7 +274,7 @@ $str_st = -1;
 
 if ( isset($scan_alldata['de']) AND  count($scan_alldata['de']) > 0 ) {
 
-//war f�r externen Gebrauch: $str_de = "<b class=\"scan_titel\"> Defence </b> \n";
+//war für externen Gebrauch: $str_de = "<b class=\"scan_titel\"> Defence </b> \n";
 $str_de = "";
 $str_de = $str_de . "\n <table class=\"scan_table\"> \n";
 foreach ($scan_alldata['de'] as $key => $value) {

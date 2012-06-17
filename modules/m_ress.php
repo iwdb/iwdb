@@ -33,7 +33,7 @@
 /* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
-/*                   http://www.iw-smf.pericolini.de                         */
+/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -131,8 +131,8 @@ function workInstallDatabase() {
 function workInstallMenu() {
     global $modultitle, $modulstatus, $_POST;
 
-		$actionparamters = "";
-  	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparameters );
+    $actionparamters = "";
+  	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparamters );
 	  //
 	  // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
 	  //
@@ -186,7 +186,7 @@ function workUninstallDatabase() {
 //
 //      http://Mein.server/iwdb/index.php?action=ress&was=install
 //
-// Anstatt "Mein.Server" nat�rlich deinen Server angeben und default
+// Anstatt "Mein.Server" natürlich deinen Server angeben und default
 // durch den Dateinamen des Moduls ersetzen.
 //
 if( !empty($_REQUEST['was'])) {

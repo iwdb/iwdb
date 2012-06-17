@@ -97,8 +97,8 @@ function workInstallMenu() {
     $menu    = getVar('menu');
     $submenu = getVar('submenu');
 
-		$actionparamters = "";
-  	insertMenuItem( $menu, $submenu, $modultitle, $modulstatus, $actionparameters );
+	$actionparamters = "";
+  	insertMenuItem( $menu, $submenu, $modultitle, $modulstatus, $actionparamters );
 	  //
 	  // Weitere Wiederholungen für weitere Menue-Eintraege, z.B.
 	  //

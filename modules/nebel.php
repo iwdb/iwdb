@@ -26,17 +26,17 @@
 
 /*****************************************************************************/
 /*                                                                           */
-/* Dieses Modul dient f�r die manuelle eintragung der Nebel in die  
- /* Datenbank, da diese aus  der Universums�bersicht nicht  geparsed  
- /* werden k�nnen.  
+/* Dieses Modul dient für die manuelle eintragung der Nebel in die
+ /* Datenbank, da diese aus  der Universumsübersicht nicht  geparsed
+ /* werden können.
  /*                                                                           */
 /*---------------------------------------------------------------------------*/
-/* Diese Erweiterung der urspr�nglichen DB ist ein Gemeinschaftsprojekt von  
+/* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von
  /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens daf�r eingerichtete  
+/* Bei Problemen kannst du dich an das eigens dafür eingerichtete
  /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
-/*                   http://www.iw-smf.pericolini.de                         */
+/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -74,13 +74,13 @@ if ((trim($gala)!='') && (trim($sys)!='')){
 
 else {
 
-	echo "<br><div class='system_notification'>Alle Felder müssen ausgef�llt sein! </div>";
+	echo "<br><div class='system_notification'>Alle Felder müssen ausgefüllt sein! </div>";
 }
 
 
 
 
-// Nebelarten in Arry speichern f�r das Formular sp�ter
+// Nebelarten in Arry speichern für das Formular später
 $nebelart = array (
    "" => "keiner",
    "BLN" => "blau",
@@ -92,7 +92,7 @@ $nebelart = array (
 
 
 
-// �berschrift
+// überschrift
 
 echo "<font style=\"font-size: 22px; color: #004466\">\n";
 echo "Nebel manuel eintragen\n";
@@ -104,7 +104,7 @@ echo "</font><br><br>\n";
 echo "<table border=\"0\" cellpadding=\"2\" cellspacing=\"1\" class=\"bordercolor\" style=\"width: 100%;\">\n";
 
 
-//Spalten�berschriften 
+//Spaltenüberschriften
 echo "<tr>\n";
 echo "  <td class=\"titlebg\" style=\"width:10%;\">\n";
 echo "    Galaxie\n";

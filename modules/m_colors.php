@@ -26,18 +26,18 @@
 
 /*****************************************************************************/
 /* Dieses Modul dient als Vorlage zum Erstellen von eigenen Zusatzmodulen    */
-/* f�r die Iw DB: Icewars geoscan and sitter database                        */
+/* für die Iw DB: Icewars geoscan and sitter database                        */
 /*---------------------------------------------------------------------------*/
-/* Diese Erweiterung der urspr�nglichen DB ist ein Gemeinschaftsprojekt von  */
+/* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens daf�r eingerichtete            */
+/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
-/*                   http://www.iw-smf.pericolini.de                         */
+/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
 /*                                                                           */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul �ber die index.php aufgerufen wurde.
+// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
 if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	echo "Hacking attempt...!!";
@@ -46,23 +46,23 @@ if (basename($_SERVER['PHP_SELF']) != "index.php") {
 
 //****************************************************************************
 //
-// -> Name des Moduls, ist notwendig f�r die Benennung der zugeh�rigen
+// -> Name des Moduls, ist notwendig für die Benennung der zugehörigen
 //    Config.cfg.php
-// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung f�r
-//    eine Installation �ber das Men�
+// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung für
+//    eine Installation über das Menü
 //
 $modulname  = "m_colors";
 
 //****************************************************************************
 //
-// -> Men�titel des Moduls der in der Navigation dargestellt werden soll.
+// -> Menütitel des Moduls der in der Navigation dargestellt werden soll.
 //
 $modultitle = "Farbtabelle";
 
 //****************************************************************************
 //
-// -> Status des Moduls, bestimmt wer dieses Modul �ber die Navigation
-//    ausf�hren darf. M�gliche Werte:
+// -> Status des Moduls, bestimmt wer dieses Modul über die Navigation
+//    ausführen darf. Mögliche Werte:
 //    - ""      <- nix = jeder,
 //    - "admin" <- na wer wohl
 //
@@ -104,9 +104,9 @@ function workInstallMenu() {
     global $modultitle, $modulstatus, $_POST;
 
 		$actionparamters = "";
-  	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparameters );
+  	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparamters );
 	  //
-	  // Weitere Wiederholungen f�r weitere Men�-Eintr�ge, z.B.
+	  // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
 	  //
 	  // 	insertMenuItem( $_POST['menu'], ($_POST['submenu']+1), "Titel2", "hc", "&weissichnichtwas=1" );
 	  //
@@ -142,12 +142,12 @@ function workUninstallDatabase() {
 //
 // Installationsroutine
 //
-// Dieser Abschnitt wird nur ausgef�hrt wenn das Modul mit dem Parameter
+// Dieser Abschnitt wird nur ausgeführt wenn das Modul mit dem Parameter
 // "install" aufgerufen wurde. Beispiel des Aufrufs:
 //
 //      http://Mein.server/iwdb/index.php?action=default&was=install
 //
-// Anstatt "Mein.Server" nat�rlich deinen Server angeben und default
+// Anstatt "Mein.Server" natürlich deinen Server angeben und default
 // durch den Dateinamen des Moduls ersetzen.
 //
 if( !empty($_REQUEST['was'])) {
@@ -162,7 +162,7 @@ if( !empty($_REQUEST['was'])) {
 	  die( "Cannot load menu functions" );
 
   // Wenn ein Modul administriert wird, soll der Rest nicht mehr
-  // ausgef�hrt werden.
+  // ausgeführt werden.
   return;
 }
 
@@ -185,7 +185,7 @@ echo "<div class='doc_big_black' style='text-align:center'>Nachfolgend alle Farb
      "könnt.</div>\n";
 echo "<br>\n";
 echo "Einfach kopieren und an der gewüschten Stelle z.B. bei der ".
-     "Benennung von Planetennamen einf�gen, das wars!<br><br>\n";
+     "Benennung von Planetennamen einfügen, das wars!<br><br>\n";
 echo "\n";
 echo "<SCRIPT LANGUAGE=\"JavaScript\">\n";
 echo "clr=new Array('00','20','40','60','80','a0','c0','ff');\n";

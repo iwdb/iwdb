@@ -80,8 +80,9 @@ $moduldesc =
 //
 
 function workInstallDatabase() {
-	global $db, $db_prefix, $db_tb_iwdbtabellen;
 /*
+    global $db, $db_prefix, $db_tb_iwdbtabellen;
+
 	$sqlscript = array(
 		"ALTER TABLE `" . $db_prefix . "gebaeude` ADD `info` TEXT NOT NULL ," .
 		"ADD `n_building` TEXT NOT NULL ," .
@@ -107,7 +108,7 @@ function workInstallDatabase() {
 
     "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
     " VALUES('neuername')" 
-  );*/
+  );
     
     foreach($sqlscript as $sql) {
     	$result = $db->db_query($sql)
@@ -116,6 +117,7 @@ function workInstallDatabase() {
   	  __FILE__, __LINE__, $sql);
     }
     echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
+*/
 }
 
 //****************************************************************************
@@ -131,7 +133,7 @@ function workInstallMenu() {
 	$submenu = getVar('submenu');
 
 	$actionparamters = "";
-	insertMenuItem( $menu, $submenu, $modultitle, $modulstatus, $actionparameters );
+	insertMenuItem( $menu, $submenu, $modultitle, $modulstatus, $actionparamters );
 	//
 	// Weitere Wiederholungen für weitere Menü-Einträge, z.B.
 	//

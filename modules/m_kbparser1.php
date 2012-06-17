@@ -83,8 +83,9 @@ $moduldesc =
 // installing this module. 
 //
 function workInstallDatabase() {
-	global $db, $db_prefix, $db_tb_iwdbtabellen;
 /*
+    global $db, $db_prefix, $db_tb_iwdbtabellen;
+
   $sqlscript = array(
     "CREATE TABLE " . $db_prefix . "neuername
     (
@@ -92,7 +93,8 @@ function workInstallDatabase() {
 
     "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
     " VALUES('neuername')"
-  );*/
+  );
+
   foreach($sqlscript as $sql) {
     $result = $db->db_query($sql)
   	  or error(GENERAL_ERROR,
@@ -100,6 +102,7 @@ function workInstallDatabase() {
                __FILE__, __LINE__, $sql);
   }
   echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
+*/
 }
 
 //****************************************************************************
@@ -114,8 +117,8 @@ function workInstallMenu() {
     $menu    = getVar('menu');
     $submenu = getVar('submenu');
 
-		$actionparamters = "";
-  	insertMenuItem( $menu, $submenu, $modultitle, $modulstatus, $actionparameters );
+	$actionparamters = "";
+  	insertMenuItem( $menu, $submenu, $modultitle, $modulstatus, $actionparamters );
 	  //
 	  // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
 	  //
@@ -140,13 +143,14 @@ function workInstallConfigString() {
 // removing this module. 
 //
 function workUninstallDatabase() {
- global $db, $db_tb_iwdbtabellen, $db_tb_neuername;
 /*
+    global $db, $db_tb_iwdbtabellen, $db_tb_neuername;
+
   $sqlscript = array(
     "DROP TABLE " . $db_tb_neuername . ";",
     "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='neuername';"
   );
-*/
+
   foreach($sqlscript as $sql) {
     $result = $db->db_query($sql)
   	  or error(GENERAL_ERROR,
@@ -154,6 +158,7 @@ function workUninstallDatabase() {
                __FILE__, __LINE__, $sql);
   }
   echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
+*/
 }
 
 //****************************************************************************

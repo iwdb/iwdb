@@ -187,8 +187,7 @@ if (( ( $user_adminsitten == SITTEN_BOTH ) || ( $user_adminsitten == SITTEN_ONLY
     <script language="javascript" type="text/javascript">
     function confirmlink(link, text)
     {
-        var is_confirmed = confirm(text);
-        return is_confirmed;
+        return is_confirmed = confirm(text);
     }
     </script>
 </head>

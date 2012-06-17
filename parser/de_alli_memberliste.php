@@ -24,7 +24,7 @@
 /*                                                                           */
 /* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
-/*                   http://www.iw-smf.pericolini.de                         */
+/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
 /*                   https://github.com/iwdb/iwdb                            */
 /*                                                                           */
 /*****************************************************************************/
@@ -102,7 +102,7 @@ function updateuser( $scan_data )
 {
     global $db, $db_tb_user, $db_tb_punktelog, $config_date;
 
-    // Daten ins Punktelog �bernehmen.
+    // Daten ins Punktelog übernehmen.
     $sql = "INSERT INTO " . $db_tb_punktelog . "(" .
          " user, date, gebp, fp, gesamtp, ptag" .
          ") VALUES (" .
@@ -138,7 +138,7 @@ function updateuser( $scan_data )
     }
     else
     {
-        // Das Mitglied existiert noch nicht, Daten in Tabelle user einf�gen.
+        // Das Mitglied existiert noch nicht, Daten in Tabelle user einfügen.
         echo "neues Mitglied: " . $scan_data["sitterlogin"]."<br />";
         $scan_data['id'] = $scan_data['sitterlogin'];
         foreach ($scan_data as $key => $data)

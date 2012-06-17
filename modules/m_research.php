@@ -26,18 +26,18 @@
 
 /*****************************************************************************/
 /* Dieses Modul dient als Vorlage zum Erstellen von eigenen Zusatzmodulen    */
-/* f�r die Iw DB: Icewars geoscan and sitter database                        */
+/* für die Iw DB: Icewars geoscan and sitter database                        */
 /*---------------------------------------------------------------------------*/
-/* Diese Erweiterung der urspr�nglichen DB ist ein Gemeinschaftsprojekt von  */
+/* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  */
 /* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens daf�r eingerichtete            */
+/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
-/*                   http://www.iw-smf.pericolini.de                         */
+/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
 /*                                                                           */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul �ber die index.php aufgerufen wurde.
+// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
 if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	echo "Hacking attempt...!!";
@@ -46,24 +46,24 @@ if (basename($_SERVER['PHP_SELF']) != "index.php") {
 
 //****************************************************************************
 //
-// -> Name des Moduls, ist notwendig f�r die Benennung der zugeh�rigen
+// -> Name des Moduls, ist notwendig für die Benennung der zugehörigen
 //    Config.cfg.php
-// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung f�r
-//    eine Installation �ber das Men�
+// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung für
+//    eine Installation über das Menü
 //
 global $modulname;
 $modulname = "m_research";
 
 //****************************************************************************
 //
-// -> Men�titel des Moduls der in der Navigation dargestellt werden soll.
+// -> Menütitel des Moduls der in der Navigation dargestellt werden soll.
 //
 $modultitle = "dyn. Techtree";
 
 //****************************************************************************
 //
-// -> Status des Moduls, bestimmt wer dieses Modul �ber die Navigation
-//    ausf�hren darf. M�gliche Werte:
+// -> Status des Moduls, bestimmt wer dieses Modul über die Navigation
+//    ausführen darf. Mögliche Werte:
 //    - ""      <- nix = jeder,
 //    - "admin" <- na wer wohl
 //
@@ -71,7 +71,7 @@ $modulstatus = "";
 
 //****************************************************************************
 //
-// -> Beschreibung des Moduls, wie es in der Men�-�bersicht angezeigt wird.
+// -> Beschreibung des Moduls, wie es in der Menü-übersicht angezeigt wird.
 //
 $moduldesc =
   "Das Forschungsmodul erlaubt die Darstellung und das Navigieren innerhalb " .
@@ -193,7 +193,7 @@ function workInstallDatabase() {
 
     "INSERT INTO " . $db_prefix . "research(id, name, description, gebiet) VALUES " .
     "(1, 'Basiswissen', 'Ist halt Basiswissen, ohne das lassen sich einige " .
-    "Geb�ude einfach nicht bauen.', 1)",
+    "Gebäude einfach nicht bauen.', 1)",
 
     "INSERT INTO " . $db_prefix . "research2building(rId,bId,lvl) VALUES " .
     "(1, " . find_the_building_id("Hilfskiste Eis auspacken") . ", 0)," .
@@ -237,10 +237,10 @@ function workInstallMenu() {
     $menu    = getVar('menu');
     $submenu = getVar('submenu');
 
-		$actionparamters = "";
-  	insertMenuItem( $menu, $submenu, $modultitle, $modulstatus, $actionparameters );
+    $actionparamters = "";
+  	insertMenuItem( $menu, $submenu, $modultitle, $modulstatus, $actionparamters );
 	  //
-	  // Weitere Wiederholungen f�r weitere Men�-Eintr�ge, z.B.
+	  // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
 	  //
 	  // 	insertMenuItem( $_POST['menu'], ($_POST['submenu']+1), "Titel2", "hc", "&weissichnichtwas=1" );
 	  //
@@ -318,7 +318,7 @@ function workUninstallDatabase() {
 function find_the_building_id($name) {
 	global $db, $db_tb_gebaeude;
 
-  // Aenderungen f�r Gebaeude, die bereits unter anderem Namen in der DB sind.
+  // Aenderungen für Gebaeude, die bereits unter anderem Namen in der DB sind.
 	if(strpos($name, "Glace") > 0) {
 	  $name = "Eiscrusher der Sirius Corp, Typ Glace la mine";
 	}
@@ -360,12 +360,12 @@ function find_the_building_id($name) {
 //
 // Installationsroutine
 //
-// Dieser Abschnitt wird nur ausgef�hrt wenn das Modul mit dem Parameter
+// Dieser Abschnitt wird nur ausgeführt wenn das Modul mit dem Parameter
 // "install" aufgerufen wurde. Beispiel des Aufrufs:
 //
 //      http://Mein.server/iwdb/index.php?action=default&was=install
 //
-// Anstatt "Mein.Server" nat�rlich deinen Server angeben und default
+// Anstatt "Mein.Server" natürlich deinen Server angeben und default
 // durch den Dateinamen des Moduls ersetzen.
 //
 if( !empty($_REQUEST['was'])) {
@@ -380,7 +380,7 @@ if( !empty($_REQUEST['was'])) {
 	  die( "Cannot load menu functions" );
 
   // Wenn ein Modul administriert wird, soll der Rest nicht mehr
-  // ausgef�hrt werden.
+  // ausgeführt werden.
   return;
 }
 
@@ -910,7 +910,7 @@ function create_allows($resid) {
 //****************************************************************************
 //
 function create_depends_on_building($resid) {
-  global $sid, $db, $db_tb_building2research, $db_tb_gebaeude;
+  global $db, $db_tb_building2research, $db_tb_gebaeude;
 
 	$retVal = "---";
 	$sql = "SELECT t2.name AS bname, t2.bild AS bbild FROM " . $db_tb_building2research .
@@ -945,7 +945,7 @@ function create_depends_on_building($resid) {
 //****************************************************************************
 //
 function create_allows_building($resid, $isLevel) {
-  global $sid, $db, $db_tb_research2building, $db_tb_gebaeude;
+  global $db, $db_tb_research2building, $db_tb_gebaeude;
 
 	$sql = "SELECT t2.name AS bname, t2.bild AS bbild, t1.lvl AS blevel FROM " .
          $db_tb_research2building .
@@ -989,7 +989,7 @@ function create_allows_building($resid, $isLevel) {
 //****************************************************************************
 //
 function create_allows_prototype($resid) {
-  global $sid, $db, $db_tb_research2prototype, $db_tb_schiffstyp;
+  global $db, $db_tb_research2prototype, $db_tb_schiffstyp;
 
 	$sql = "SELECT t2.schiff AS pname, t2.bild AS pbild  FROM " . $db_tb_research2prototype .
 	       " AS t1 INNER JOIN " . $db_tb_schiffstyp .
@@ -1025,8 +1025,8 @@ function create_allows_prototype($resid) {
 //
 function dependencies($resid) {
   global $sid, $db, $db_tb_building2research, $db_tb_research2research, $alphaorder,
-	     $db_tb_research, $buildings, $researches, $v04, $unknownonly, $neededfpforresearch, 
-		   $db_tb_research2user, $user_sitterlogin, $modulname, $config_gameversion;
+	    $db_tb_research, $buildings, $researches, $v04, $unknownonly,
+        $db_tb_research2user, $user_sitterlogin, $modulname, $config_gameversion;
 
 	$sql = "SELECT * FROM " . $db_tb_research . " WHERE ID=" . $resid;
   $result = $db->db_query($sql)

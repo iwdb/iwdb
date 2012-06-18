@@ -43,133 +43,85 @@ echo "<br>\n";
 $bs = GetVar('BS');
 if ( !empty($bs) ) {
 
-$sound_standart = GetVar('sound_standart');
-$sound_global = GetVar('sound_global');
-$sound_login = GetVar('sound_login');
-if (empty($sound_login)) $sound_login = 0;
+    $sound_standart = (int)GetVar('sound_standart');
+    $sound_login = (int)GetVar('sound_login');
 
-$sqlP = "UPDATE ".$db_prefix."params SET value = '".$sound_standart."' WHERE name = 'sound_standart'";
-  $resultP = $db->db_query($sqlP)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
-$sqlP = "UPDATE ".$db_prefix."params SET value = '".$sound_login."' WHERE name = 'sound_login'";
-  $resultP = $db->db_query($sqlP)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
-$sqlP = "UPDATE ".$db_prefix."params SET value = '".$sound_global."' WHERE name = 'sound_global'";
-  $resultP = $db->db_query($sqlP)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
-$sqlM = "ALTER TABLE ".$db_prefix."menu CHANGE `sound` `sound` INT( 1 ) DEFAULT '".$sound_standart."'";
-  $resultM = $db->db_query($sqlM)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlM);
-$sqlM = "UPDATE ".$db_prefix."menu SET sound = '0'";
-  $resultM = $db->db_query($sqlM)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlM);
+    $sqlP = "UPDATE ".$db_prefix."params SET value = '".$sound_standart."' WHERE name = 'sound_standart'";
+    $resultP = $db->db_query($sqlP)
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
 
-$sound_menu = GetVar('sound_menu');
-foreach ($sound_menu as $menuid) {
-  $sqlM = "UPDATE ".$db_prefix."menu SET sound = 1 WHERE id = ".$menuid.";";
-  $resultM = $db->db_query($sqlM)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlM);
-}
+    $sqlP = "UPDATE ".$db_prefix."params SET value = '".$sound_login."' WHERE name = 'sound_login'";
+    $resultP = $db->db_query($sqlP)
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
+
+    $sqlM = "ALTER TABLE ".$db_prefix."menu CHANGE `sound` `sound` INT( 1 ) DEFAULT '".$sound_standart."'";
+    $resultM = $db->db_query($sqlM)
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlM);
+
+    $sqlM = "UPDATE ".$db_prefix."menu SET sound = '0'";
+    $resultM = $db->db_query($sqlM)
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlM);
+
+    $sound_menu = GetVar('sound_menu');
+    foreach ($sound_menu as $menuid) {
+        $sqlM = "UPDATE ".$db_prefix."menu SET sound = 1 WHERE id = ".$menuid.";";
+        $resultM = $db->db_query($sqlM)
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlM);
+    }
 
 }
 
 global $db_prefix, $sid;
 
-
 $menu_sel = array();
 $menu_not = array();
-$count = 0;
 
 //auslesen aller Menüpunkte, um eine Liste zu erstellen, wo der Sound abgespielt werden soll
 $sqlM = "SELECT action,sound,id FROM ".$db_prefix."menu ";
-  $resultM = $db->db_query($sqlM)
+$resultM = $db->db_query($sqlM)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlM);
-  while ($rowM = $db->db_fetch_array($resultM)) {
-    $count++;
-    
+
+while ($rowM = $db->db_fetch_array($resultM)) {
+
     if ( !empty($rowM['action']) ) {
 
-      //action auslesen
+        //action auslesen
         $action = $rowM['action'];
 
-      $count++;
- 
-      //ist action nicht leer, entschieden wo es hin soll:
-      if ( !empty($action) AND empty($rowM['sound']) ) $menu_not[$action]['name'] = $action;
-      if ( !empty($action) AND empty($rowM['sound']) ) $menu_not[$action]['id'] = $rowM['id']; 
-      if ( !empty($action) AND !empty($rowM['sound']) ) $menu_sel[$action]['name'] = $action;  
-      if ( !empty($action) AND !empty($rowM['sound']) ) $menu_sel[$action]['id'] = $rowM['id']; 
-
+        //ist action nicht leer, entschieden wo es hin soll:
+        if ( !empty($action) AND empty($rowM['sound']) ) {
+            $menu_not[$action]['name'] = $action;
+            $menu_not[$action]['id'] = $rowM['id'];
+        }
+        if ( !empty($action) AND !empty($rowM['sound']) ) {
+            $menu_sel[$action]['name'] = $action;
+            $menu_sel[$action]['id'] = $rowM['id'];
+        }
     }
-  }
-
+}
 
 //auslesen des standards
 $sqlP = "SELECT value FROM ".$db_prefix."params WHERE name = 'sound_standart' ";
-  $resultP = $db->db_query($sqlP)
+$resultP = $db->db_query($sqlP)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
- $rowP = $db->db_fetch_array($resultP);
+$rowP = $db->db_fetch_array($resultP);
 
 if ( !empty($rowP['value']) ) {
-
- $sel_sel = 'checked="checked"';
- $sel_not = '';
-
+    $sel_sel = 'checked="checked"';
+    $sel_not = '';
 } else {
-
- $sel_not = 'checked="checked"';
- $sel_sel = '';
-
+    $sel_not = 'checked="checked"';
+    $sel_sel = '';
 }
 
 $sqlP = "SELECT value FROM ".$db_prefix."params WHERE name = 'sound_login' ";
-  $resultP = $db->db_query($sqlP)
+$resultP = $db->db_query($sqlP)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
- $rowP = $db->db_fetch_array($resultP);  
+$rowP = $db->db_fetch_array($resultP);
 
 $sel_login = '';
-if ( !empty($rowP['value']) ) $sel_login = 'checked="checked"';
-
-
-//auslesen was das globale maximum ist
-$sqlP = "SELECT value FROM ".$db_prefix."params WHERE name = 'sound_global' ";
-  $resultP = $db->db_query($sqlP)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
- $rowP = $db->db_fetch_array($resultP);  
-
-$sel0 = '';
-$sel1 = '';
-$sel2 = '';
-$sel3 = '';
-$sel4 = '';
-$sel5 = '';
-
-
-switch ($rowP['value']) {
- case '0':
-   $sel_val = 'Ausgeschaltet';
-   $sel0 = 'selected="selected"';
-   break;
- case '1':
-   $sel_val = 'Fenster';
-   $sel1 = 'selected="selected"';
-   break;   
- case '2':
-   $sel_val = 'Fenster mit Sound';
-   $sel2 = 'selected="selected"';
-   break;   
- case '3':
-   $sel_val = 'Fenster (blinkend)';
-   $sel3 = 'selected="selected"';
-   break;   
- case '4':
-   $sel_val = 'Fenster (blinkend) mit Sound';
-   $sel4 = 'selected="selected"';
-   break;   
- default:
-   $sel_val = 'Ausgeschaltet';
-   $sel0 = 'selected="selected"';
-   break;   
+if ( !empty($rowP['value']) ) {
+    $sel_login = 'checked="checked"';
 }
 
 ?>
@@ -177,66 +129,50 @@ switch ($rowP['value']) {
 <br>
 <form method="POST" action="index.php?action=admin&uaction=einstellungen&send=sound&sid=<?php echo $sid;?>" enctype="multipart/form-data">
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 80%;">
- <tr>
-  <td colspan="2" class="titlebg">
-   <b>Sitterbenachrichtigung:</b>
-  </td>
- </tr>
- <tr>
-  <td class="windowbg2" style="width:40%;">
-   Benachrichtigung möglich:<br>
-   <i>Hier wird das Fenster eingeblendet</i>
-  </td>
-  <td class="windowbg1">
-    <select name="sound_menu[]" size="10" multiple="multiple">
-      <?php foreach ($menu_sel as $menu): ?>
-        <option selected="selected" value="<?php echo $menu['id']?>"><?php echo $menu['name']?></option> 
-      <?php endforeach; ?>
-      <?php foreach ($menu_not as $menu): ?>
-        <option value="<?php echo $menu['id']?>"><?php echo $menu['name']?></option> 
-      <?php endforeach; ?>
-    </select>
-  </td>
- </tr>
- <tr>
-  <td class="windowbg2" style="width:40%;">
-   Sound beim Login:<br>
-   <i>Soll das Skript auch beim Login geladen werden?</i>
-  </td>
-  <td class="windowbg1">
-   <input type="checkbox" name="sound_login" <?php echo $sel_login;?> value="1">Yes
-  </td>
- </tr>
- <tr>
-  <td class="windowbg2" style="width:40%;">
-   Benachrichtigung maximal:<br>
-   <i>Welche Erinnerungsart können die User maximal anwählen:</i>
-  </td>
-  <td class="windowbg1">
-    <select value="<?php echo $sel_val;?>" name="sound_global" size="1">
-        <option <?php echo $sel0;?> value="0">Ausgeschaltet</option> 
-        <option <?php echo $sel1;?> value="1">Fenster</option> 
-        <option <?php echo $sel2;?> value="2">Fenster mit Sound</option> 
-        <option <?php echo $sel3;?> value="3">Fenster (blinkend)</option> 
-        <option <?php echo $sel4;?> value="4">Fenster (blinkend) mit Sound</option> 
-    </select>
-  </td>
- </tr>
- <tr>
-  <td class="windowbg2" style="width:40%;">
-   Standardeinstellung:<br>
-   <i>Welche Einstellung sollen neu installierte Module haben?</i>
-  </td>
-  <td class="windowbg1">
-   <input type="radio" name="sound_standart" <?php echo $sel_sel;?> value="1">Sound eingeschaltet
-   <input type="radio" name="sound_standart" <?php echo $sel_not;?> value="0">Sound ausgeschaltet
-  </td>
- </tr>
- <tr>
-  <td colspan="2" class="titlebg" align="center">
-   <input type="submit" value="Fadeineinstellungen ändern" name="BS">
-  </td>
- </tr>
+    <tr>
+        <td colspan="2" class="titlebg">
+        <b>Sitterbenachrichtigung:</b>
+        </td>
+    </tr>
+    <tr>
+        <td class="windowbg2" style="width:40%;">
+        Benachrichtigung möglich:<br>
+        <i>Hier wird das Fenster eingeblendet</i>
+        </td>
+        <td class="windowbg1">
+        <select name="sound_menu[]" size="10" multiple="multiple">
+            <?php foreach ($menu_sel as $menu): ?>
+            <option value="<?php echo $menu['id']?>" selected><?php echo $menu['name']?></option>
+            <?php endforeach; ?>
+            <?php foreach ($menu_not as $menu): ?>
+            <option value="<?php echo $menu['id']?>"><?php echo $menu['name']?></option>
+            <?php endforeach; ?>
+        </select>
+        </td>
+    </tr>
+    <tr>
+        <td class="windowbg2" style="width:40%;">
+        Benachrichtigung auch beim Login:<br>
+        </td>
+        <td class="windowbg1"><?php
+        echo "<input type='checkbox' name='sound_login' value='1' $sel_login>";
+        ?></td>
+    </tr>
+    <tr>
+        <td class="windowbg2" style="width:40%;">
+        Standardeinstellung:<br>
+        <i>Welche Einstellung sollen neu installierte Module haben?</i>
+        </td>
+        <td class="windowbg1"><?php
+        echo "<input type='radio' name='sound_standart' id='sound_on' value='1' $sel_sel><label for='sound_on'>Sound eingeschaltet</label>";
+        echo "<input type='radio' name='sound_standart' id='sound_off' value='0' $sel_not><label for='sound_off'>Sound ausgeschaltet</label>";
+        ?></td>
+    </tr>
+    <tr>
+        <td colspan="2" class="titlebg" align="center">
+        <input type="submit" value="Fadeineinstellungen ändern" name="BS">
+        </td>
+    </tr>
 </table>
 </form>
 <br>
@@ -246,81 +182,57 @@ switch ($rowP['value']) {
 $be = GetVar('BE');
 if ( !empty($be) ) {
 
+    $bericht_fuer_rang = GetVar('bericht_fuer_rang');
+    $bericht_fuer_sitter = (int)
+    GetVar('bericht_fuer_sitter');
 
-$bericht_fuer_rang = GetVar('bericht_fuer_rang');
-$bericht_fuer_sitter = GetVar('bericht_fuer_sitter');
+    $sqlP = "UPDATE ".$db_prefix."params SET value = '".$bericht_fuer_rang."' WHERE name = 'bericht_fuer_rang'";
+    $resultP = $db->db_query($sqlP)
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
 
-$sqlP = "UPDATE ".$db_prefix."params SET value = '".$bericht_fuer_rang."' WHERE name = 'bericht_fuer_rang'";
-  $resultP = $db->db_query($sqlP)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
-$sqlP = "UPDATE ".$db_prefix."params SET value = '".$bericht_fuer_sitter."' WHERE name = 'bericht_fuer_sitter'";
-  $resultP = $db->db_query($sqlP)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
+    $sqlP = "UPDATE ".$db_prefix."params SET value = '".$bericht_fuer_sitter."' WHERE name = 'bericht_fuer_sitter'";
+    $resultP = $db->db_query($sqlP)
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
 
 }
 
 //auslesen rang
 $sqlP = "SELECT value FROM ".$db_prefix."params WHERE name = 'bericht_fuer_rang' ";
-  $resultP = $db->db_query($sqlP)
+$resultP = $db->db_query($sqlP)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
- $rowP = $db->db_fetch_array($resultP);
+$rowP = $db->db_fetch_array($resultP);
 
+$sel_all='';
+$sel_mv='';
+$sel_hc='';
+$sel_admin='';
 if ( !empty($rowP['value']) ) {
-
-switch ($rowP['value']) {
- case 'all':
-   $sel_val = 'alle';
-   $sel0 = 'selected="selected"';
-   $sel1a = '';
-   $sel1b = '';
-   $sel2 = '';
-   break;
- case 'mv':
-    $sel_val = 'hc';  
-   $sel1a = 'selected="selected"';
-   $sel1b = '';
-   $sel0 = '';
-   $sel2 = '';
-   break;   
- case 'hc':
-    $sel_val = 'hc';  
-   $sel1a = '';
-   $sel1b = 'selected="selected"';
-   $sel0 = '';
-   $sel2 = '';
-   break;   
- case 'admin':
-   $sel_val = 'admin';
-   $sel2 = 'selected="selected"';
-   $sel1a = '';
-   $sel1b = '';
-   $sel0 = '';
-   break;    
- default:
-   $sel_val = 'admin';
-   $sel2 = '"';
-   $sel1a = '';
-   $sel1b = '';
-   $sel0 = 'selected="selected"';
-   break; 
-}
-
-
+    switch ($rowP['value']) {
+        case 'alle':
+            $sel_all = 'selected';
+            break;
+        case 'mv':
+            $sel_mv = 'selected';
+            break;
+        case 'hc':
+            $sel_hc = 'selected';
+            break;
+        case 'admin':
+            $sel_admin = 'selected';
+            break;
+        default:
+            $sel_admin = 'selected';
+            break;
+    }
 } else {
-
-   $sel_val = 'admin';
-   $sel2 = '"';
-   $sel1a = '';
-   $sel1b = '';
-   $sel0 = 'selected="selected"';
-
+    $sel_admin = 'selected';
 }
 
 //auslesen sitter
 $sqlP = "SELECT value FROM ".$db_prefix."params WHERE name = 'bericht_fuer_sitter' ";
-  $resultP = $db->db_query($sqlP)
+$resultP = $db->db_query($sqlP)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
- $rowP = $db->db_fetch_array($resultP);
+$rowP = $db->db_fetch_array($resultP);
 
 $sitval0 = '';
 $sitval1 = '';
@@ -328,55 +240,51 @@ $sitval2 = '';
 $sitval3 = '';
 
 if ( !empty($rowP['value']) ) {
-
-   ${'sitval'.$rowP['value']} = 'selected="selected"';
-
+   ${'sitval'.$rowP['value']} = 'selected';
 } else {
-
-   $sitval0 = 'selected="selected"';
-
+   $sitval0 = 'selected';
 }
 
 ?>
 
 <form method="POST" action="index.php?action=admin&uaction=einstellungen&send=bericht&sid=<?php echo $sid;?>" enctype="multipart/form-data">
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 80%;">
- <tr>
-  <td colspan="2" class="titlebg">
-   <b>'Bericht einfügen für':</b>
-  </td>
- </tr>
- <tr>
-  <td class="windowbg2" style="width:40%;">
-   Bericht einfügen für:<br>
-   <i>Wer darf das Fenster 'Bericht einfügen für' nutzen?</i>
-  </td>
-  <td class="windowbg1">
-    Rang:<br>
-    <select value="<?php echo $sel_val;?>" name="bericht_fuer_rang" size="1">
-        <option <?php echo $sel0;?> value="all">Alle</option> 
-        <option <?php echo $sel1a;?> value="mv">MV / HC und Admin</option> 
-        <option <?php echo $sel1b;?> value="hc">HC und Admin</option> 
-        <option <?php echo $sel2;?> value="admin">Admin</option> 
-    </select>
-     <br><br>
-    Sittertyp:<br>
-    <select value="<?php echo $sitter_val;?>" name="bericht_fuer_sitter" size="1">
-    <?php
-    echo "<option $sitval2 value=\"2\"".$st[2].">Sitterbereich deaktiviert</option>";
-    echo "<option $sitval0 value=\"0\"".$st[0].">kann Sitteraufträge erstellen, darf keine anderen sitten</option>";
-    echo "<option $sitval3 value=\"3\"".$st[3].">darf andere sitten, darf keine Sitteraufträge erstellen</option>";
-    echo "<option $sitval1 value=\"1\"".$st[1].">darf andere sitten, darf Sitteraufträge erstellen</option>";
-    ?>
-    </select>
-  </td>
- </tr>
- <tr>
-  <td colspan="2" class="titlebg" align="center">
-   <input type="submit" value="'Bericht einfügen für' ändern" name="BE">
-  </td>
- </tr>
+    <tr>
+        <td colspan="2" class="titlebg">
+        <b>'Bericht einfügen für':</b>
+        </td>
+    </tr>
+    <tr>
+        <td class="windowbg2" style="width:40%;">
+        Bericht einfügen für:<br>
+        <i>Wer darf das Fenster 'Bericht einfügen für' nutzen?</i>
+        </td>
+        <td class="windowbg1">
+        Rang:<br>
+        <select name="bericht_fuer_rang" size="1"><?php
+            echo "\n";
+            echo "            <option value='alle' $sel_all>Alle</option>\n";
+            echo "            <option value='mv' $sel_mv>MV / HC und Admin</option>\n";
+            echo "            <option value='hc' $sel_hc>HC und Admin</option>\n";
+            echo "            <option value='admin' $sel_admin>Admin</option>\n";
+        ?>
+        </select>
+        <br><br>
+        Sittertyp:<br>
+        <select name="bericht_fuer_sitter" size="1"><?php
+            echo "\n";
+            echo "            <option value='2' $sitval2>Sitterbereich deaktiviert</option>\n";
+            echo "            <option value='0' $sitval0>kann Sitteraufträge erstellen, darf keine anderen sitten</option>\n";
+            echo "            <option value='3' $sitval3>darf andere sitten, darf keine Sitteraufträge erstellen</option>\n";
+            echo "            <option value='1' $sitval1>darf andere sitten, darf Sitteraufträge erstellen</option>\n";
+        ?>
+        </select>
+    </td>
+    </tr>
+    <tr>
+        <td colspan="2" class="titlebg" align="center">
+        <input type="submit" value="'Bericht einfügen für' ändern" name="BE">
+        </td>
+    </tr>
 </table>
 </form>
-
-

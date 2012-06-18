@@ -34,53 +34,53 @@ if ( $user_status != "admin" && $user_status != "hc" )
 	die('Hacking attempt...');
 	
 if ( $user_status == "admin" ) { 
-  echo "<br>\n";
-  start_table(0, 0, 0, 1);
-  start_row("menutop", "align=\"center\"");
-  action("admin&uaction=schiffstypen", "Schiffstypen");
-  next_cell("menutop", "align=\"center\"");
-  action("admin&uaction=gebaeude", "Gebäude");
-  next_cell("menutop", "align=\"center\"");
-  action("admin&uaction=allianzstatus", "Allianzstatus");
-  next_cell("menutop", "align=\"center\"");
-  action("admin&uaction=lastlogin", "letzte Logins");
-  next_cell("menutop", "align=\"center\"");
-  action("admin&uaction=wronglogin", "falsche Logins");
-  next_cell("menutop", "align=\"center\"");
-  action("admin&uaction=style", "Style");
-  next_cell("menutop", "align=\"center\"");
-  action("admin&uaction=einstellungen", "Einstellungen");
-  end_row();
-  end_table();
-  echo "<br>\n";
+    echo "<br>\n";
+    start_table(0, 0, 0, 1);
+    start_row("menutop", "style='text-align: center;'");
+    action("admin&uaction=schiffstypen", "Schiffstypen");
+    next_cell("menutop", "style='text-align: center;'");
+    action("admin&uaction=gebaeude", "Gebäude");
+    next_cell("menutop", "style='text-align: center;'");
+    action("admin&uaction=allianzstatus", "Allianzstatus");
+    next_cell("menutop", "style='text-align: center;'");
+    action("admin&uaction=lastlogin", "letzte Logins");
+    next_cell("menutop", "style='text-align: center;'");
+    action("admin&uaction=wronglogin", "falsche Logins");
+    next_cell("menutop", "style='text-align: center;'");
+    action("admin&uaction=style", "Style");
+    next_cell("menutop", "style='text-align: center;'");
+    action("admin&uaction=einstellungen", "Einstellungen");
+    end_row();
+    end_table();
+    echo "<br>\n";
 }
 
 $uaction = getVar('uaction');
 switch ( $uaction )
 {
 	case "schiffstypen":
-    include("./modules/admin_schiffstypen.php"); 
-    break;
+        include("./modules/admin_schiffstypen.php");
+        break;
 	case "gebaeude":      
-    include("./modules/admin_gebaeude.php"); 
-    break;
+        include("./modules/admin_gebaeude.php");
+        break;
 	case "allianzstatus": 
-    include("./modules/admin_allianzstatus.php"); 
-    break;
+        include("./modules/admin_allianzstatus.php");
+        break;
 	case "lastlogin": 
-    include("./modules/admin_lastlogin.php"); 
-    break;
+        include("./modules/admin_lastlogin.php");
+        break;
 	case "wronglogin": 
-    include("./modules/admin_wronglogin.php"); 
-    break;
+        include("./modules/admin_wronglogin.php");
+        break;
 	case "style": 
-    include("./modules/admin_style.php"); 
-    break;
+        include("./modules/admin_style.php");
+        break;
 	case "einstellungen": 
-    include("./modules/admin_einstellungen.php"); 
-    break;
+        include("./modules/admin_einstellungen.php");
+        break;
 	default: 
-    include("./modules/admin_schiffstypen.php"); 
-    break;
+        include("./modules/admin_schiffstypen.php");
+        break;
 }
 ?>

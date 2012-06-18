@@ -197,7 +197,7 @@ if (( ( $user_adminsitten == SITTEN_BOTH ) || ( $user_adminsitten == SITTEN_ONLY
 <div align="center">
   <table class="seite">
     <tr>
-      <td align="center" valign="top" class="background">
+      <td style="text-align: center;" valign="top" class="background">
         <p>
 <?php
 //hier hin verschoben da der IE iwie imemr sonst Mist baut ^^
@@ -208,7 +208,7 @@ include ('includes/sitterfadein.php');
           <tr> 
 			
 			
-			<td class="titlebg" style="background-color: #000000" align="center">
+			<td class="titlebg" style="background-color: #000000" style="text-align: center;">
 <?php
 if (isset($config_banner))
 {
@@ -248,7 +248,7 @@ else
 ?>
           <table width="95%" border="0" cellspacing="0" cellpadding="0">
             <tr>
-              <td class="windowbg1" style="padding-left: 0;" align="center">
+              <td class="windowbg1" style="padding-left: 0;" style="text-align: center;">
 <?php 
 }
 

@@ -85,15 +85,16 @@ $moduldesc =
 //
 
 function workInstallDatabase() {
-	global $db, $db_prefix, $db_tb_iwdbtabellen, $db_tb_parser,
-         $db_tb_sitterauftrag, $config_gameversion;
 /*
+    global $db, $db_prefix, $db_tb_iwdbtabellen, $db_tb_parser,
+         $db_tb_sitterauftrag, $config_gameversion;
+
   $sqlscript = array(
     "CREATE TABLE " . $db_prefix . "building2building (" .
     "  bOld int(10) unsigned NOT NULL default '0'," .
     "  bNew int(10) unsigned NOT NULL default '0'," .
     "  PRIMARY KEY (bOld,bNew)" .
-    ") COMMENT='Gebaeude bOld ermoeglicht Gebaeude bNew'",
+    ") COMMENT='Gebaeude bOld ermöglicht Gebaeude bNew'",
 
     "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
     " VALUES('building2building')",
@@ -102,7 +103,7 @@ function workInstallDatabase() {
     "  bId int(10) unsigned NOT NULL default '0'," .
     "  rId int(10) unsigned NOT NULL default '0'," .
     "  PRIMARY KEY  (bId,rId)" .
-    ") COMMENT='Gebaeude bId ermoeglicht Forschung rId'",
+    ") COMMENT='Gebaeude bId ermöglicht Forschung rId'",
 
     "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
     " VALUES('building2research')",
@@ -134,7 +135,7 @@ function workInstallDatabase() {
     "  bId int(10) unsigned NOT NULL default '0'," .
     "  lvl int(10) unsigned NOT NULL default '0'," .
     "  PRIMARY KEY  (rId,bId,lvl)" .
-    ") COMMENT='Forschung rId ermoeglicht Gebaeude(stufe) bId'",
+    ") COMMENT='Forschung rId ermöglicht Gebaeude(stufe) bId'",
 
     "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
     " VALUES('research2building')",
@@ -143,7 +144,7 @@ function workInstallDatabase() {
     "  rid int(10) unsigned NOT NULL default '0'," .
     "  pid int(10) unsigned NOT NULL default '0'," .
     "  PRIMARY KEY  (rid,pid)" .
-    ") COMMENT='Forschung rId ermoeglicht Prototyp pId'",
+    ") COMMENT='Forschung rId ermöglicht Prototyp pId'",
 
     "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
     " VALUES('research2prototype')",
@@ -152,7 +153,7 @@ function workInstallDatabase() {
     "  rOld int(10) unsigned NOT NULL default '0'," .
     "  rNew int(10) unsigned NOT NULL default '0'," .
     "  PRIMARY KEY  (rOld,rNew)" .
-    ") COMMENT='Forschung rOld ermoeglicht Forschung rNew'",
+    ") COMMENT='Forschung rOld ermöglicht Forschung rNew'",
 
     "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
     " VALUES('research2research')",
@@ -210,9 +211,9 @@ function workInstallDatabase() {
     "INSERT INTO " . $db_tb_parser . "(modulename,recognizer,message) VALUES " .
     "('research', 'Forschungsinfo: ', 'Forschungsbericht')," .
     "('researchoverview', 'Erforschte Forschungen', 'Forschungsliste')",
-    
+
     "ALTER TABLE " . $db_tb_sitterauftrag . " ADD resid INT DEFAULT '0' NOT NULL"
-  );*/
+  );
 
   foreach($sqlscript as $sql) {
     $result = $db->db_query($sql)
@@ -221,6 +222,7 @@ function workInstallDatabase() {
                __FILE__, __LINE__, $sql);
   }
   echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
+*/
 }
 
 
@@ -265,12 +267,13 @@ function workInstallConfigString() {
 //
 
 function workUninstallDatabase() {
+/*
   global $db, $db_tb_iwdbtabellen, $db_tb_parser, $db_tb_sitterauftrag,
          $db_tb_building2building, $db_tb_building2research,
          $db_tb_research2research, $db_tb_research2building,
          $db_tb_research2prototype, $db_tb_research,
          $db_tb_research2user,     $db_tb_researchfield;
-/*
+
   $sqlscript = array(
     "DROP TABLE " . $db_tb_building2building,
     "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='building2building'",
@@ -300,7 +303,7 @@ function workUninstallDatabase() {
     " OR modulename='researchoverview'",
     
     "ALTER TABLE " . $db_tb_sitterauftrag . " DROP COLUMN resid"
-  );*/
+  );
 
   foreach($sqlscript as $sql) {
     $result = $db->db_query($sql)
@@ -310,6 +313,7 @@ function workUninstallDatabase() {
   }
 
   echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
+*/
 }
 
 // ****************************************************************************

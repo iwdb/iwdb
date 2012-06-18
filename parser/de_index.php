@@ -233,10 +233,11 @@ function find_research_id($researchname) {
 	$row = $db->db_fetch_array($result);
 
 	// Not found, so insert new
-	if(empty($row)) 
-		return 0;
-    else
+	if(empty($row)) {
+        return 0;
+    } else {
         return $row['ID'];
+    }
 }
 
 function save_data($scan_data) {
@@ -314,38 +315,38 @@ function display_de_index() {
 	global $scan_datas;
 	
 	if (is_array($scan_datas)) {
-	echo "<br>";
-	start_table();
-	start_row("titlebg", "colspan=\"6\"");
-	echo "<b>Anfliegende Lieferungen</b>";
-	next_row("windowbg2", "");
-	echo "Ziel";
-	next_cell("windowbg2", "");
-	echo "Start";
-	next_cell("windowbg2", "");
-	echo "Ankunft";
-	next_cell("windowbg2", "");
-	echo "Aktionen";
-	
-	foreach ($scan_datas as $scan_data) {
-		next_row("windowbg1", "valign=top nowrap");
-		echo $scan_data['coords_to_gal'] . ":" . $scan_data['coords_to_sys'] . ":" . $scan_data['coords_to_planet'];
-		next_cell("windowbg1", "valign=top nowrap");
-		echo $scan_data['coords_from_gal'] . ":" . $scan_data['coords_from_sys'] . ":" . $scan_data['coords_from_planet'];
-		next_cell("windowbg1", "valign=top nowrap");
-		echo strftime("%d.%m.%Y %H:%M:%S", $scan_data['time']);
-		next_cell("windowbg1", "valign=top width=100%;");
-		echo $scan_data['art'] . "<br>";
-		if (isset($scan_data['pos']))
-			foreach ($scan_data['pos'] as $typ => $menge)
-				echo $menge . " " . $typ . "<br>";
-		if (isset($scan_data['schiffe']))
-			foreach ($scan_data['schiffe'] as $typ => $menge)
-				echo $menge . " " . $typ . "<br>";
-	}
-	
-	end_table();
-	echo "<br>";
+        echo "<br>";
+        start_table();
+        start_row("titlebg", "colspan=\"6\"");
+        echo "<b>Anfliegende Lieferungen</b>";
+        next_row("windowbg2", "");
+        echo "Ziel";
+        next_cell("windowbg2", "");
+        echo "Start";
+        next_cell("windowbg2", "");
+        echo "Ankunft";
+        next_cell("windowbg2", "");
+        echo "Aktionen";
+
+        foreach ($scan_datas as $scan_data) {
+            next_row("windowbg1", "valign=top nowrap");
+            echo $scan_data['coords_to_gal'] . ":" . $scan_data['coords_to_sys'] . ":" . $scan_data['coords_to_planet'];
+            next_cell("windowbg1", "valign=top nowrap");
+            echo $scan_data['coords_from_gal'] . ":" . $scan_data['coords_from_sys'] . ":" . $scan_data['coords_from_planet'];
+            next_cell("windowbg1", "valign=top nowrap");
+            echo strftime("%d.%m.%Y %H:%M:%S", $scan_data['time']);
+            next_cell("windowbg1", "valign=top width=100%;");
+            echo $scan_data['art'] . "<br>";
+            if (isset($scan_data['pos']))
+                foreach ($scan_data['pos'] as $typ => $menge)
+                    echo $menge . " " . $typ . "<br>";
+            if (isset($scan_data['schiffe']))
+                foreach ($scan_data['schiffe'] as $typ => $menge)
+                    echo $menge . " " . $typ . "<br>";
+        }
+
+        end_table();
+        echo "<br>";
 	}
 }
 

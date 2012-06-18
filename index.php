@@ -174,13 +174,13 @@ if (( ( $user_adminsitten == SITTEN_BOTH ) || ( $user_adminsitten == SITTEN_ONLY
     <title><?php echo $config_allytitle ?></title>
 
     <?php
-      $SERVERURI = "index.php?action=" . $action . "&sid=" . $sid;
+    $SERVERURI = "index.php?action=" . $action . "&sid=" . $sid;
 
-    if ( ( $action == "sitterlogins" ) || ( $action == "sitterliste" ) )
-      if ( ( $user_adminsitten == SITTEN_BOTH ) || ( $user_adminsitten == SITTEN_ONLY_LOGINS ) )
-        echo "<meta http-equiv=\"refresh\" content=\"" . $config_refresh_timeout . "; URL=" . $SERVERURI . "\">";
-      else
-        echo "<div class='system_error'>Wenn ich sag: \"Du darfst nicht sitten\",<b>DARFST DU NICHT SITTEN !!!</b></div>";
+    if ( ( $action == "sitterlogins" ) || ( $action == "sitterliste" ) ) {
+        if ( ( $user_adminsitten == SITTEN_BOTH ) || ( $user_adminsitten == SITTEN_ONLY_LOGINS ) ) {
+            echo "<meta http-equiv='refresh' content='" . $config_refresh_timeout . "; URL=" . $SERVERURI . "'>";
+        }
+    }
     ?>
     <link href="style.css" rel="stylesheet" type="text/css">
     <script language="javascript" type="text/javascript">
@@ -248,7 +248,7 @@ else
 ?>
           <table width="95%" border="0" cellspacing="0" cellpadding="0">
             <tr>
-              <td class="windowbg1" style="padding-left: 0px;" align="center">
+              <td class="windowbg1" style="padding-left: 0;" align="center">
 <?php 
 }
 

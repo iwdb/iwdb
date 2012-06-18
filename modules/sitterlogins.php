@@ -23,26 +23,30 @@
 /*                                                                           */
 /* The GNU GPL can be found in LICENSE in this directory                     */
 /*****************************************************************************/
-/*
-// $Id
-*/
+
+if (!defined('IRA')) {
+    exit('Hacking attempt...');
+}
+if (basename($_SERVER['PHP_SELF']) != "index.php") {
+    exit("Hacking attempt...!!");
+}
+
+if  ( ( $user_adminsitten != SITTEN_BOTH ) && ( $user_adminsitten != SITTEN_ONLY_LOGINS ) )
+    die('Hacking attempt...');
 
 function NumToStaatsform($num) {
-	if ($num == 1) return 'Diktator';
-	if ($num == 2) return 'Monarch';
-	if ($num == 3) return 'Demokrat';
-	if ($num == 4) return 'Kommunist';
+	if ($num == 1) {
+        return 'Diktator';
+    } elseif ($num == 2) {
+        return 'Monarch';
+    } elseif ($num == 3) {
+        return 'Demokrat';
+    } elseif ($num == 4) {
+        return 'Kommunist';
+    } else {
+        return 'Barbar';
+    }
 }
-
-if (basename($_SERVER['PHP_SELF']) != "index.php") {
-	echo "Hacking attempt...!!"; 
-	exit; 
-}
-if  ( ( $user_adminsitten != SITTEN_BOTH ) && ( $user_adminsitten != SITTEN_ONLY_LOGINS ) )
-		die('Hacking attempt...');
-	
-if (!defined('IRA'))
-	die('Hacking attempt...');
 
 $newlog = getVar('newlog');
 
@@ -150,8 +154,7 @@ $ordered = getVar('ordered');
 $ordered = ( empty($ordered) ) ? SORT_DESC: ( ( $ordered == "desc" ) ? SORT_DESC: SORT_ASC);
 
 $sql = "SELECT sitterlogin, sitterpwd, sitten, sitterpunkte, peitschen, staatsform, ikea, sittercomment, iwsa FROM " . $db_tb_user;
-if (!$user_fremdesitten)
-{
+if (!$user_fremdesitten) {
 	$sql .= " WHERE allianz='" . $user_allianz . "' ";
 }
 $sql .= " ORDER BY sitterlogin ASC";

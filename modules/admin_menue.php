@@ -44,7 +44,7 @@ if (basename($_SERVER['PHP_SELF']) != "index.php") {
 
 // -> lädt die Datei config.php und führt diese aus. In der config.php sind wichtige Variablen definiert.
 if (!@include("./config/config.php")) {
-  echo "<div class='system_error'>Error:<br><b>Cannot load Master-Config!</b></div>";
+    echo "<div class='system_error'>Cannot load Master-Config!</div>";
 	exit;
 }
 
@@ -407,7 +407,7 @@ echo "<br>\n";
   $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
-  echo "<table width=\"90%\" class=\"bordercolor\" border=\"0\" cellpadding=\"2\" cellspacing=\"1\" >";
+  echo "<table width='90%' class='bordercolor' border='0' cellpadding='2' cellspacing='1' >";
 
   while( $row = $db->db_fetch_array($result)) {
     if ($row['submenu'] == 0){
@@ -422,25 +422,25 @@ echo "<br>\n";
       $grtext = "";
     }
     echo "<tr>";
-    echo "<td width=\"50%\" class=\"".$cl."\" >&nbsp;".$row['title']."&nbsp;</td>";
-    echo "<td width=\"50%\" class=\"".$cl."\" align='right'>";
+    echo "<td width='50%' class='".$cl."' >&nbsp;".$row['title']."&nbsp;</td>";
+    echo "<td width='50%' class='".$cl."' align='right'>";
     if ($row['submenu'] == 0){
-      echo "<a href=\"index.php?action=admin_menue&sid=".$sid."&delid=".$row['id']."\" target=\"_self\"><img src=\"./bilder/delete.gif\" align=\"absmiddle\" border=\"0\" title=\"Menütitel Löschen\" alt=\"Menütitel Löschen\" onclick=\"return confirmLink(this, '" . $row['id'] . "')\"></a>";
+      echo "<a href='index.php?action=admin_menue&sid=".$sid."&delid=".$row['id']."' target='_self'><img src='./bilder/delete.gif' align='absmiddle' border='0' title='Menütitel Löschen' alt='Menütitel Löschen' onclick='return confirmLink(this, \"" . $row['id'] . "\")'></a>";
     }
     if ($row['id'] == $hid){
-      echo "<img src=\"./bilder/sort_up2.gif\" align=\"absmiddle\" border=\"0\" title=\"Sortieren: Up\" alt=\"Sortieren: Up\">";
+      echo "<img src='./bilder/sort_up2.gif' align='absmiddle' border='0' title='Sortieren: Up' alt='Sortieren: Up'>";
     }else{
-      echo "<a href=\"index.php?action=admin_menue&sid=".$sid."&sort=up&id=".$row['id']."\" target=\"_self\"><img src=\"./bilder/sort_up.gif\" align=\"absmiddle\" border=\"0\" title=\"Sortieren: Up\" alt=\"Sortieren: Up\"></a>";
+      echo "<a href='index.php?action=admin_menue&sid=".$sid."&sort=up&id=".$row['id']."' target='_self'><img src='./bilder/sort_up.gif' align='absmiddle' border='0' title='Sortieren: Up' alt='Sortieren: Up'></a>";
     }
     if ($row['id'] == $lid){
-      echo "<img src=\"./bilder/sort_down2.gif\" align=\"absmiddle\" border=\"0\" title=\"Sortieren: Down\" alt=\"Sortieren: Down\">";
+      echo "<img src='./bilder/sort_down2.gif' align='absmiddle' border='0' title='Sortieren: Down' alt='Sortieren: Down'>";
     }else{
-      echo "<a href=\"index.php?action=admin_menue&sid=".$sid."&sort=down&id=".$row['id']."\" target=\"_self\"><img src=\"./bilder/sort_down.gif\" align=\"absmiddle\" border=\"0\" title=\"Sortieren: Down\" alt=\"Sortieren: Down\"></a>";
+      echo "<a href='index.php?action=admin_menue&sid=".$sid."&sort=down&id=".$row['id']."' target='_self'><img src='./bilder/sort_down.gif' align='absmiddle' border='0' title='Sortieren: Down' alt='Sortieren: Down'></a>";
     }
     if (!empty($grtext)){
-      echo "<a href=\"index.php?action=admin_menue&sid=".$sid."&eid=".$row['id']."\" target=\"_self\"><img src=\"./bilder/edit_" . $grart . ".gif\" align=\"absmiddle\" border=\"0\" title=\"" . $grtext . "\" alt=\"" . $grtext . "\"></a>";
+      echo "<a href='index.php?action=admin_menue&sid=".$sid."&eid=".$row['id']."' target='_self'><img src='./bilder/edit_" . $grart . ".gif' align='absmiddle' border='0' title='" . $grtext . "' alt='" . $grtext . "'></a>";
     }else{
-      echo "<a href=\"index.php?action=admin_menue&sid=".$sid."\" target=\"_self\"><img src=\"./bilder/edit_" . $grart . ".gif\" align=\"absmiddle\" border=\"0\" title=\"" . $grtext . "\" alt=\"" . $grtext . "\"></a>";
+      echo "<a href='index.php?action=admin_menue&sid=".$sid."' target='_self'><img src='./bilder/edit_" . $grart . ".gif' align='absmiddle' border='0' title='" . $grtext . "' alt='" . $grtext . "'></a>";
     }
     echo "</td>";
     echo "</tr>";
@@ -448,11 +448,11 @@ echo "<br>\n";
 
     if ($grart == "minus") {
 
-    echo "<tr><td colspan=2 width=\"100%\" class=\"".$cl."\" align='center'><table width=\"90%\" class=\"bordercolor\" border=\"0\" cellpadding=\"2\" cellspacing=\"0\" >";
+    echo "<tr><td colspan=2 width='100%' class='".$cl."' align='center'><table width='90%' class='bordercolor' border='0' cellpadding='2' cellspacing='0' >";
 
-    echo "<tr><form name=\"form\" action=\"index.php?action=admin_menue&sid=".$sid."&eid=".$row['id']."\" method=\"post\">";
-    echo "<td width=\"50%\" class=\"".$cl."\" align='left'>Menütext:</td>";
-    echo "<td width=\"50%\" class=\"".$cl."\" align='left'><input name=\"edit_title\" type=\"text\" size=50 maxlength=\"100\" value=\"".$row['title']."\"></td>";
+    echo "<tr><form name='form' action='index.php?action=admin_menue&sid=".$sid."&eid=".$row['id']."' method='post'>";
+    echo "<td width='50%' class='".$cl."' align='left'>Menütext:</td>";
+    echo "<td width='50%' class='".$cl."' align='left'><input name='edit_title' type='text' size=50 maxlength='100' value='".$row['title']."'></td>";
     echo "</tr><tr>";
     if ($row['active'] == "0") {
       $checkno  =" checked";
@@ -461,8 +461,8 @@ echo "<br>\n";
       $checkyes =" checked";
       $checkno  ="";
     }
-    echo "<td width=\"50%\" class=\"".$cl."\" align='left'>Menütext anzeigen:</td>";
-    echo "<td width=\"50%\" class=\"".$cl."\" align='left'><input type=\"radio\" name=\"edit_active\" value=\"0\"". $checkno."> - Nein&nbsp;<input type=\"radio\" name=\"edit_active\" value=\"1\"". $checkyes."> - Ja</td>";
+    echo "<td width='50%' class='".$cl."' align='left'>Menütext anzeigen:</td>";
+    echo "<td width='50%' class='".$cl."' align='left'><input type='radio' name='edit_active' value='0'". $checkno."> - Nein&nbsp;<input type='radio' name='edit_active' value='1'". $checkyes."> - Ja</td>";
     echo "</tr><tr>";
     if ($row['status'] == "") {
       $checkalle  =" checked";
@@ -479,20 +479,20 @@ echo "<br>\n";
       $checkhc    ="";
       $checkadmin =" checked";
     }
-    echo "<td width=\"50%\" class=\"".$cl."\" align='left'>Wer dieses Menü sehen darf:</td>";
-    echo "<td width=\"50%\" class=\"".$cl."\" align='left'><input type=\"radio\" name=\"edit_status\" value=\"\"". $checkalle."> - Alle&nbsp;<input type=\"radio\" name=\"edit_status\" value=\"HC\"". $checkhc."> - HC&nbsp;<input type=\"radio\" name=\"edit_status\" value=\"admin\"". $checkadmin."> - Admin</td>";
+    echo "<td width='50%' class='".$cl."' align='left'>Wer dieses Menü sehen darf:</td>";
+    echo "<td width='50%' class='".$cl."' align='left'><input type='radio' name='edit_status' value=''". $checkalle."> - Alle&nbsp;<input type='radio' name='edit_status' value='HC'". $checkhc."> - HC&nbsp;<input type='radio' name='edit_status' value='admin'". $checkadmin."> - Admin</td>";
     echo "</tr><tr>";
     $st[0] ="";
     $st[1] ="";
     $st[2] ="";
     $st[3] ="";
     $st[$row['sittertyp']] =" selected";
-    echo "<td width=\"50%\" class=\"".$cl."\" align='left'>Anzeigen bei Sittertyp:</td>";
-    echo "<td width=\"50%\" class=\"".$cl."\" align='left'><select name=\"edit_sittertyp\">";
-    echo "<option value=\"2\"".$st[2].">Sitterbereich deaktiviert</option>";
-    echo "<option value=\"0\"".$st[0].">kann Sitteraufträge erstellen, darf keine anderen sitten</option>";
-    echo "<option value=\"3\"".$st[3].">darf andere sitten, darf keine Sitteraufträge erstellen</option>";
-    echo "<option value=\"1\"".$st[1].">darf andere sitten, darf Sitteraufträge erstellen</option>";
+    echo "<td width='50%' class='".$cl."' align='left'>Anzeigen bei Sittertyp:</td>";
+    echo "<td width='50%' class='".$cl."' align='left'><select name='edit_sittertyp'>";
+    echo "<option value='2'".$st[2].">Sitterbereich deaktiviert</option>";
+    echo "<option value='0'".$st[0].">kann Sitteraufträge erstellen, darf keine anderen sitten</option>";
+    echo "<option value='3'".$st[3].">darf andere sitten, darf keine Sitteraufträge erstellen</option>";
+    echo "<option value='1'".$st[1].">darf andere sitten, darf Sitteraufträge erstellen</option>";
     echo "</select></td>";
     if ($row['submenu'] != 0){
       echo "</tr><tr>";
@@ -503,14 +503,14 @@ echo "<br>\n";
         $checkyes =" checked";
         $checkno  ="";
       }
-      echo "<td width=\"50%\" class=\"".$cl."\" align='left'>Externer Link:</td>";
-      echo "<td width=\"50%\" class=\"".$cl."\" align='left'><input type=\"radio\" name=\"edit_extlink\" value=\"n\"". $checkno."> - Nein&nbsp;<input type=\"radio\" name=\"edit_extlink\" value=\"y\"". $checkyes."> - Ja</td>";
+      echo "<td width='50%' class='".$cl."' align='left'>Externer Link:</td>";
+      echo "<td width='50%' class='".$cl."' align='left'><input type='radio' name='edit_extlink' value='n'". $checkno."> - Nein&nbsp;<input type='radio' name='edit_extlink' value='y'". $checkyes."> - Ja</td>";
       echo "</tr><tr>";
-      echo "<td width=\"50%\" class=\"".$cl."\" align='left'>Link:</td>";
-      echo "<td width=\"50%\" class=\"".$cl."\" align='left'><input name=\"edit_action\" type=\"text\" size=50 maxlength=\"200\" value=\"".$row['action']."\"></td>";
+      echo "<td width='50%' class='".$cl."' align='left'>Link:</td>";
+      echo "<td width='50%' class='".$cl."' align='left'><input name='edit_action' type='text' size=50 maxlength='200' value='".$row['action']."'></td>";
     }
     echo "</tr><tr>";
-    echo "<td colspan=2 width=\"100%\" class=\"".$cl."\" align='center'><input type=\"submit\" name=\"edit\" value=\"Speichern\"></td>";
+    echo "<td colspan=2 width='100%' class='".$cl."' align='center'><input type='submit' name='edit' value='Speichern'></td>";
 
     echo "</tr></table></td>";
 
@@ -522,28 +522,28 @@ echo "</table><br><br>";
 
 
 
-echo "<table width=\"90%\" class=\"bordercolor\" border=\"0\" cellpadding=\"2\" cellspacing=\"1\" >";
-    echo "<tr><form name=\"form2\" action=\"index.php?action=admin_menue&sid=".$sid."\" method=\"post\">";
-    echo "<td colspan=2 width=\"100%\" class=\"windowbg2\" align='center'>Neuer Menütitel</td>";
+echo "<table width='90%' class='bordercolor' border='0' cellpadding='2' cellspacing='1' >";
+    echo "<tr><form name='form2' action='index.php?action=admin_menue&sid=".$sid."' method='post'>";
+    echo "<td colspan=2 width='100%' class='windowbg2' align='center'>Neuer Menütitel</td>";
     echo "</tr><tr>";
-    echo "<td width=\"50%\" class=\"windowbg1\" align='left'>Menütext:</td>";
-    echo "<td width=\"50%\" class=\"windowbg1\" align='left'><input name=\"new_title\" type=\"text\" size=50 maxlength=\"100\" value=\"Menütext\"></td>";
+    echo "<td width='50%' class='windowbg1' align='left'>Menütext:</td>";
+    echo "<td width='50%' class='windowbg1' align='left'><input name='new_title' type='text' size=50 maxlength='100' value='Menütext'></td>";
     echo "</tr><tr>";
-    echo "<td width=\"50%\" class=\"windowbg1\" align='left'>Menütext anzeigen:</td>";
-    echo "<td width=\"50%\" class=\"windowbg1\" align='left'><input type=\"radio\" name=\"new_active\" value=\"0\"> - Nein&nbsp;<input type=\"radio\" name=\"new_active\" value=\"1\" checked> - Ja</td>";
+    echo "<td width='50%' class='windowbg1' align='left'>Menütext anzeigen:</td>";
+    echo "<td width='50%' class='windowbg1' align='left'><input type='radio' name='new_active' value='0'> - Nein&nbsp;<input type='radio' name='new_active' value='1' checked> - Ja</td>";
     echo "</tr><tr>";
-    echo "<td width=\"50%\" class=\"windowbg1\" align='left'>Wer dieses Menü sehen darf:</td>";
-    echo "<td width=\"50%\" class=\"windowbg1\" align='left'><input type=\"radio\" name=\"new_status\" value=\"\" checked> - Alle&nbsp;<input type=\"radio\" name=\"new_status\" value=\"hc\"> - HC&nbsp;<input type=\"radio\" name=\"new_status\" value=\"admin\"> - Admin</td>";
+    echo "<td width='50%' class='windowbg1' align='left'>Wer dieses Menü sehen darf:</td>";
+    echo "<td width='50%' class='windowbg1' align='left'><input type='radio' name='new_status' value='' checked> - Alle&nbsp;<input type='radio' name='new_status' value='hc'> - HC&nbsp;<input type='radio' name='new_status' value='admin'> - Admin</td>";
     echo "</tr><tr>";
-    echo "<td width=\"50%\" class=\"windowbg1\" align='left'>Anzeigen bei Sittertyp:</td>";
-    echo "<td width=\"50%\" class=\"windowbg1\" align='left'><select name=\"new_sittertyp\">";
-    echo "<option value=\"0\" checked>kann Sitteraufträge erstellen, darf keine anderen sitten</option>";
-    echo "<option value=\"1\">darf andere sitten, darf Sitteraufträge erstellen</option>";
-    echo "<option value=\"2\">Sitterbereich deaktiviert</option>";
-    echo "<option value=\"3\">darf andere sitten, darf keine Sitteraufträge erstellen</option>";
+    echo "<td width='50%' class='windowbg1' align='left'>Anzeigen bei Sittertyp:</td>";
+    echo "<td width='50%' class='windowbg1' align='left'><select name='new_sittertyp'>";
+    echo "<option value='0' selected>kann Sitteraufträge erstellen, darf keine anderen sitten</option>";
+    echo "<option value='1'>darf andere sitten, darf Sitteraufträge erstellen</option>";
+    echo "<option value='2'>Sitterbereich deaktiviert</option>";
+    echo "<option value='3'>darf andere sitten, darf keine Sitteraufträge erstellen</option>";
     echo "</select></td>";
     echo "</tr><tr>";
-    echo "<td colspan=2 width=\"100%\" class=\"windowbg2\" align='center'><input type=\"submit\" name=\"new\" value=\"Speichern\"></td>";
+    echo "<td colspan=2 width='100%' class='windowbg2' align='center'><input type='submit' name='new' value='Speichern'></td>";
     echo "</form></tr>";
 echo "</table>";
 
@@ -552,7 +552,7 @@ echo "</table>";
 $uninstallecho = "";
 $fp6=opendir("./modules");
 echo "<br><br> \n";
-echo "<br><div width=\"90%\" class=\"windowbg2\" style=\"padding:2px; width:90%; border-width:1px; border-style: solid; boder-color:black\">Installierte Module:</div><br>";
+echo "<br><div width='90%' class='windowbg2' style='padding:2px; width:90%; border-width:1px; border-style: solid; boder-color:black'>Installierte Module:</div><br>";
 while ($datei1 = readdir($fp6)) {
   if (strstr($datei1, "m_")) {
     $modulname = str_replace(".php", "", $datei1);
@@ -561,19 +561,19 @@ while ($datei1 = readdir($fp6)) {
 		  @include("./config/".$modulname.".cfg.php");
 
 			echo "<form method='POST' action='index.php?action=".$modulname."&was=uninstall&sid=".$sid."'>\n";
-			echo " <table class=\"bordercolor\" width=\"90%\" cellpadding=\"4\" cellspacing=\"1\">\n";
+			echo " <table class='bordercolor' width='90%' cellpadding='4' cellspacing='1'>\n";
 			echo "  <tr>\n";
       if (isset($modulary[$modulname]["name"])) {
- 		      echo "   <td align=\"left\" valign=\"center\" class=\"titlebg\"><strong>\n" . $modulary[$modulname]["titel"] . "</strong>&nbsp;<i>(".$modulname.")</i></td>\n"; 
+ 		      echo "   <td align='left' valign='center' class='titlebg'><strong>\n" . $modulary[$modulname]["titel"] . "</strong>&nbsp;<i>(".$modulname.")</i></td>\n";
       } else {
-			echo "   <td align=\"left\" valign=\"center\" class=\"titlebg\"><strong>\n" . $modulname . "</strong></td>\n";
+			echo "   <td align='left' valign='center' class='titlebg'><strong>\n" . $modulname . "</strong></td>\n";
       }
-			echo "   <td width=\"140\" rowspan=\"2\" class=\"windowbg1\" align=\"center\">";
+			echo "   <td width='140' rowspan='2' class='windowbg1' align='center'>";
 			echo "<input type='submit' value='deinstallieren' name='uninstall' class='submit'>";
 			echo "</td>\n";
 			echo "  </tr>\n";
 			echo "  <tr>\n";
-			echo "   <td valign=\"top\" class=\"windowbg1\">" . ${"desc_".$modulname} . "</td>\n";
+			echo "   <td valign='top' class='windowbg1'>" . ${"desc_".$modulname} . "</td>\n";
 			echo "  </tr>\n";
 			echo " </table>";
                   echo "</form><br>\n";
@@ -582,15 +582,15 @@ while ($datei1 = readdir($fp6)) {
       if (isset($modulary[$modulname]["name"])) {
 
         $uninstallecho = $uninstallecho . "<form method='POST' action='index.php?action=".$modulname."&was=install&sid=".$sid."'>";
-		$uninstallecho = $uninstallecho . " <table class=\"bordercolor\" width=\"90%\" cellpadding=\"4\" cellspacing=\"1\">\n";
+		$uninstallecho = $uninstallecho . " <table class='bordercolor' width='90%' cellpadding='4' cellspacing='1'>\n";
 		$uninstallecho = $uninstallecho . "  <tr>\n";
-		$uninstallecho = $uninstallecho . "   <td align=\"left\" valign=\"center\" class=\"titlebg\"><strong>\n" . $modulary[$modulname]["titel"] . "</strong>&nbsp;<i>(".$modulname.")</i></td>\n";
-		$uninstallecho = $uninstallecho . "   <td width=\"140\" rowspan=\"2\" class=\"windowbg1\" align=\"center\">";
+		$uninstallecho = $uninstallecho . "   <td align='left' valign='center' class='titlebg'><strong>\n" . $modulary[$modulname]["titel"] . "</strong>&nbsp;<i>(".$modulname.")</i></td>\n";
+		$uninstallecho = $uninstallecho . "   <td width='140' rowspan='2' class='windowbg1' align='center'>";
             $uninstallecho = $uninstallecho . "<input type='submit' value='Installieren' name='install' class='submit'>";
 		$uninstallecho = $uninstallecho . "</td>\n";
 		$uninstallecho = $uninstallecho . "  </tr>\n";
 		$uninstallecho = $uninstallecho . "  <tr>\n";
-		$uninstallecho = $uninstallecho . "   <td valign=\"top\" class=\"windowbg1\">" . $modulary[$modulname]["desc"] . "</td>\n";
+		$uninstallecho = $uninstallecho . "   <td valign='top' class='windowbg1'>" . $modulary[$modulname]["desc"] . "</td>\n";
 		$uninstallecho = $uninstallecho . "  </tr>\n";
 		$uninstallecho = $uninstallecho . " </table>";
             $uninstallecho = $uninstallecho . "</form><br>\n";
@@ -614,7 +614,7 @@ if ($uninstallecho <> "") {
 
       echo "<center>";
 
-echo "<br><div width=\"90%\" class=\"windowbg2\" style=\"padding:2px; width:90%; border-width:1px; border-style: solid; boder-color:black\">Nicht installierte Module:</div><br>";
+echo "<br><div width='90%' class='windowbg2' style='padding:2px; width:90%; border-width:1px; border-style: solid; boder-color:black'>Nicht installierte Module:</div><br>";
 
       echo "Es wurde mindestens ein Modul gefunden, das noch nicht installiert wurde:<br><br>";
 
@@ -622,7 +622,7 @@ echo "<br><div width=\"90%\" class=\"windowbg2\" style=\"padding:2px; width:90%;
 
       echo "Solltest du eines dieser Module nicht installieren wollen,<br>";
       echo "oder gar nicht wissen wie es auf deinen Server kommt,<br>";
-      echo "rate ich dir es aus den Ordner \"modules\" zu löschen.<br><br>";
+      echo "rate ich dir es aus den Ordner 'modules' zu löschen.<br><br>";
 
       echo "</center> \n";
 

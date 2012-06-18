@@ -362,9 +362,9 @@ setTimeout("update()", 60000);
 				<td>
 					<select id="redirectPage" onchange="parent.document.getElementById('left').src = '?mode=index&redirect=' + options[selectedIndex].value + '&login=<?php echo $user['id'] ?><?php echo !empty($allianz) ? "&allianz=$allianz" : "" ?>';">
 				 		<option value="">(Startseite)</option>
-				 		<option value="planiress"<?php echo $redirect == 'planiress' ? ' selected' : '' ?>>Kolo-/Ress&uuml;bersicht</option>
-				 		<option value="schiff_uebersicht"<?php echo $redirect == 'schiff_uebersicht' ? ' selected' : '' ?>>Schiff&uuml;bersicht</option>
-						<option value="gebaeude_uebersicht"<?php echo $redirect == 'gebaeude_uebersicht' ? ' selected' : '' ?>>Geb&auml;ude&uuml;bersicht</option>
+				 		<option value="planiress"<?php echo $redirect == 'planiress' ? ' selected' : '' ?>>Kolo-/Ressübersicht</option>
+				 		<option value="schiff_uebersicht"<?php echo $redirect == 'schiff_uebersicht' ? ' selected' : '' ?>>Schiffübersicht</option>
+						<option value="gebaeude_uebersicht"<?php echo $redirect == 'gebaeude_uebersicht' ? ' selected' : '' ?>>Geb&auml;udeübersicht</option>
 					</select>
 				</td>
 			<tr>

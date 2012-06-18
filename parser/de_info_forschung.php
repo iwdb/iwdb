@@ -79,9 +79,8 @@ function display_de_info_forschung() {
 //
 //
 function update_research($scan_data) {
-	global $db, $db_tb_research, $db_tb_research2prototype, $researchid,
-				 $db_tb_gebaeude, $db_tb_schiffstyp, $db_tb_researchfield,
-         $db_tb_research2research, $db_tb_research2building, $config_gameversion;
+	global $db, $db_tb_research, $db_tb_research2prototype, $researchid, $db_tb_researchfield,
+				 $db_tb_research2research, $db_tb_research2building, $config_gameversion;
 
   // Anpassung des Forschungstitels
 	$scan_data['research'] = str_replace("(en) (mittels eines P&uuml;mpels)",
@@ -105,7 +104,6 @@ function update_research($scan_data) {
 	$row = $db->db_fetch_array($result);
 	$gebiet = $row['ID'];
 	if(empty($gebiet)) {
-        $gebiet = 1;
         $sql = "INSERT INTO " . $db_tb_researchfield .
             " (name) VALUES ( '".$scan_data['gebiet']."' ) ";
         $result = $db->db_query($sql)
@@ -608,7 +606,6 @@ function finish_de_info_forschung() {
              __FILE__, __LINE__, $sql);
 
   while(($research_data = $db->db_fetch_array($result)) !== FALSE) {
-	  $rid_to_change = $research_data['rid'];
 		$sql = "SELECT bID FROM " . $db_tb_building2research .
            " WHERE rId=" . $research_data['rid'];
     $result2 = $db->db_query($sql)

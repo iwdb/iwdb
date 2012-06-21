@@ -315,11 +315,7 @@ if ( ( $user_id <> "guest" ) && ( $user_rules == "1" ) )
 		$result = $db->db_query($sql)
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
-		$sql = "DELETE FROM " . $db_tb_bestellen . " WHERE user='" . $sitterlogin . "'";
-		$result = $db->db_query($sql)
-			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-
-
+		
 		// remove alliance info on member	in the maps		
   	$sql = "UPDATE " . $db_tb_scans . " SET allianz='' WHERE user='" . $sitterlogin . "'";
 		$result = $db->db_query($sql)

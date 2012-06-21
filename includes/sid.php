@@ -147,7 +147,7 @@ if ( ( $action == "memberlogin2" ) || ( $action == "memberlogout2" ) )
         // login with cookie if set //
         if ($login_cookie == 1)
         {
-            #			setcookie($config_cookie_name, $login_id . ';' . $login_password, ( $config_date + $config_cookie_timeout ), '', '', 0);
+            #    		setcookie($config_cookie_name, $login_id . ';' . $login_password, ( $config_date + $config_cookie_timeout ), '', '', 0);
             setcookie($config_cookie_name,  $login_id . ';' . md5($login_password), ( $config_date + $config_cookie_timeout ), '', '', 0);
             ${$config_cookie_name} = $login_id . ';' . md5($login_password);
         }
@@ -289,8 +289,6 @@ if ( $user_id <> 'guest' )
     $user_sys_end = $row['sys_end'];
     $user_buddlerfrom = $row['buddlerfrom'];
     $user_fremdesitten = $row['fremdesitten'];
-    if ($_SERVER["HTTP_HOST"] == "roc.iw-allianz.de" && $user_id == "Babelfish")
-        $user_fremdesitten = "1";
     $user_vonfremdesitten = $row['vonfremdesitten'];
     $user_uniprop = $row['uniprop'];
 

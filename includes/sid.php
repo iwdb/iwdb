@@ -103,14 +103,14 @@ if ( ( $action == "memberlogin2" ) || ( $action == "memberlogout2" ) )
 
     // Erst mal den Benutzernamen so holen, wie er ?bergeben wird. Dann
     // auf Gueltigkeit pruefen (und eventuell abkratzen).
-    $login_id = getVar('login_id', true);
+    $login_id = mysql_real_escape_string(getVar('login_id', true));
     $alert = check_username($login_id);
     if(!empty($alert)) {
         die ($alert);
     }
 
     // Benutzerdaten noch mal holen, aber diesmal mit htmlentities encodiert.
-    $login_id       = getVar('login_id');
+    $login_id       = mysql_real_escape_string(getVar('login_id'));
     $login_password = getVar('login_password');
     $login_cookie   = getVar('login_cookie');
 

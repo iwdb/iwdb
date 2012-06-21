@@ -633,13 +633,13 @@ global $db_prefix;
 //das Sperren der DB
 $sperre = GetVar('sperre');
 if ($sperre == 'auf') {
-$sqlIA = "UPDATE " . $db_prefix . "params SET value = '0' ";
+$sqlIA = "UPDATE " . $db_prefix . "params SET value = '0' WHERE `name` =  'gesperrt' LIMIT 1;";
     $resultIA = $db->db_query($sqlIA)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlIA);
 }
 if ($sperre == 'ab') {
 $grund = GetVar('grund');
-$sqlIA = "UPDATE " . $db_prefix . "params SET value = '1', text = '".$grund."' ";
+$sqlIA = "UPDATE " . $db_prefix . "params SET `value` =  '1', text = '".$grund."' WHERE  `prefix_params`.`name` =  'gesperrt' LIMIT 1;";
     $resultIA = $db->db_query($sqlIA)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlIA);
 }

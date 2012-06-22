@@ -1248,6 +1248,8 @@ next_cell("windowbg1", 'nowrap valign=top');
 echo '&nbsp;';
 next_cell("windowbg1", 'nowrap valign=top');
 echo '&nbsp;';
+next_cell("windowbg1", 'nowrap valign=top');
+echo '&nbsp;';
 foreach ($resses as $ress_einzeln) {
 	next_cell("windowbg1", 'nowrap valign=top style="text-align: right;"');
 	echo format_value($summe, $ress_einzeln, $summe[$ress_einzeln]);
@@ -1260,6 +1262,8 @@ next_row('windowbg1', 'nowrap valign=top style="background-color: white;"');
 echo '&nbsp;';
 next_cell("windowbg1", 'nowrap valign=top');
 echo '<b>&Uuml;berschuss</b>';
+next_cell("windowbg1", 'nowrap valign=top');
+echo '&nbsp;';
 next_cell("windowbg1", 'nowrap valign=top');
 echo '&nbsp;';
 next_cell("windowbg1", 'nowrap valign=top');
@@ -1284,6 +1288,8 @@ next_cell("windowbg1", 'nowrap valign=top');
 echo '&nbsp;';
 next_cell("windowbg1", 'nowrap valign=top');
 echo '&nbsp;';
+next_cell("windowbg1", 'nowrap valign=top');
+echo '&nbsp;';
 foreach ($resses as $ress_einzeln) {
 	next_cell("windowbg1", 'nowrap valign=top style="text-align: right;"');
 	echo format_value($summe_bedarf, $ress_einzeln, $summe_bedarf[$ress_einzeln]);
@@ -1296,6 +1302,8 @@ next_row('windowbg1', 'nowrap valign=top style="background-color: white;"');
 echo '&nbsp;';
 next_cell("windowbg1", 'nowrap valign=top');
 echo '<b>Gesamt</b>';
+next_cell("windowbg1", 'nowrap valign=top');
+echo '&nbsp;';
 next_cell("windowbg1", 'nowrap valign=top');
 echo '&nbsp;';
 next_cell("windowbg1", 'nowrap valign=top');
@@ -1315,23 +1323,25 @@ echo '</form>';
 echo '</div>';
 
 // Legende ausgeben
-echo '<br><table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">';
-echo '<tr nowrap>';
-echo '<td style="width: 30; background-color: #00FF00;"></td>';
-echo '<td class="windowbg1" style="width: 70;">optimal</td>';
-echo '<td style="width: 30; background-color: yellow;"></td>';
-echo '<td class="windowbg1" style="width: 70;">zu viel</td>';
-echo '<td style="width: 30; background-color: red;"></td>';
-echo '<td class="windowbg1" style="width: 70;">zu wenig</td>';
-echo '<td style="width: 30; background-color: #CC6600;"></td>';
-echo '<td class="windowbg1" style="width: 70;">Lager&uuml;berlauf</td>';
-echo '<td style="width: 30; background-color: #FF00FF;"></td>';
-echo '<td class="windowbg1" style="width: 70;">unbefriedigt</td>';
-echo '<td nowrap style="width: 30; background-color: white;"></td>';
-echo '<td nowrap class="windowbg1" style="width: 70;">egal</td>';
-echo '</tr>';
-echo '</table>';
+?>
+<br><table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">
+<tr nowrap>
+<td style="width: 30; background-color: #00FF00;"></td>
+<td class="windowbg1" style="width: 70;">optimal</td>
+<td style="width: 30; background-color: yellow;"></td>
+<td class="windowbg1" style="width: 70;">zu viel</td>
+<td style="width: 30; background-color: red;"></td>
+<td class="windowbg1" style="width: 70;">zu wenig</td>
+<td style="width: 30; background-color: #CC6600;"></td>
+<td class="windowbg1" style="width: 70;">Lagerüberlauf</td>
+<td style="width: 30; background-color: #FF00FF;"></td>
+<td class="windowbg1" style="width: 70;">unbefriedigt</td>
+<td nowrap style="width: 30; background-color: white;"></td>
+<td nowrap class="windowbg1" style="width: 70;">egal</td>
+</tr>
+</table>
 
+<?php
 // Maske ausgeben
 if (isset($params['edit']) && !empty($params['edit'])) {
 	echo '<br>';
@@ -1409,24 +1419,27 @@ function format_value($row, $key, $value, $expand = false) {
 		return $value == 1 ? "Fleeter" : ($value == 2 ? "Cash Cow" : ($value == 3 ? "Buddler" : "Solo"));
 	if ($key == 'user' && !$expand)
 		return $value . "<br>(" . make_duration($row['time']) . ")";
-	if ($key == 'eisen')
-		return "<b>" . number_format($value, 0, ",", ".") . "</b>" . (!empty($row['eisen_soll']) ? "<br>(" . number_format($row['eisen_soll_diff'], 0, ",", ".") .  ")" : "");
-	if ($key == 'stahl')
-		return "<b>" . number_format($value, 0, ",", ".") . "</b>" . (!empty($row['stahl_soll']) ? "<br>(" . number_format($row['stahl_soll_diff'], 0, ",", ".") .  ")" : "");
-	if ($key == 'vv4a')
-		return "<b>" . number_format($value, 0, ",", ".") . "</b>" . (!empty($row['vv4a_soll']) ? "<br>(" . number_format($row['vv4a_soll_diff'], 0, ",", ".") .  ")" : "");
-	if ($key == 'chem')
-		return "<b>" . number_format($value, 0, ",", ".") . "</b>" . (!empty($row['chem_soll']) ? "<br>(" . number_format($row['chem_soll_diff'], 0, ",", ".") .  ")" : "");
-	if ($key == 'eis')
-		return "<b>" . number_format($value, 0, ",", ".") . "</b>" . (!empty($row['eis_soll']) ? "<br>(" . number_format($row['eis_soll_diff'], 0, ",", ".") .  ")" : "");
-	if ($key == 'wasser')
-		return "<b>" . number_format($value, 0, ",", ".") . "</b>" . (!empty($row['wasser_soll']) ? "<br>(" . number_format($row['wasser_soll_diff'], 0, ",", ".") .  ")" : "");
-	if ($key == 'energie')
-		return "<b>" . number_format($value, 0, ",", ".") . "</b>" . (!empty($row['energie_soll']) ? "<br>(" . number_format($row['energie_soll_diff'], 0, ",", ".") .  ")" : "");
-	if (is_numeric($value))
-		return number_format($value, 0, ",", ".");
-	else
+	if (is_numeric($value)) {
+    if ($key == 'eisen') {
+      return "<b>" . number_format($value, 0, ",", ".") . "</b>" . (!empty($row['eisen_soll']) ? "<br>(" . number_format($row['eisen_soll_diff'], 0, ",", ".") .  ")" : "");
+    } elseif ($key == 'stahl') {
+      return "<b>" . number_format($value, 0, ",", ".") . "</b>" . (!empty($row['stahl_soll']) ? "<br>(" . number_format($row['stahl_soll_diff'], 0, ",", ".") .  ")" : "");
+    } elseif ($key == 'vv4a') {
+      return "<b>" . number_format($value, 0, ",", ".") . "</b>" . (!empty($row['vv4a_soll']) ? "<br>(" . number_format($row['vv4a_soll_diff'], 0, ",", ".") .  ")" : "");
+    } elseif ($key == 'chem') {
+      return "<b>" . number_format($value, 0, ",", ".") . "</b>" . (!empty($row['chem_soll']) ? "<br>(" . number_format($row['chem_soll_diff'], 0, ",", ".") .  ")" : "");
+    } elseif ($key == 'eis') {
+      return "<b>" . number_format($value, 0, ",", ".") . "</b>" . (!empty($row['eis_soll']) ? "<br>(" . number_format($row['eis_soll_diff'], 0, ",", ".") .  ")" : "");
+    } elseif ($key == 'wasser') {
+      return "<b>" . number_format($value, 0, ",", ".") . "</b>" . (!empty($row['wasser_soll']) ? "<br>(" . number_format($row['wasser_soll_diff'], 0, ",", ".") .  ")" : "");
+    } elseif ($key == 'energie') {
+      return "<b>" . number_format($value, 0, ",", ".") . "</b>" . (!empty($row['energie_soll']) ? "<br>(" . number_format($row['energie_soll_diff'], 0, ",", ".") .  ")" : "");
+    } else {
+      return number_format($value, 0, ",", ".");
+    }
+	} else {
 		return $value;
+	}
 }
 
 function make_duration($time) {

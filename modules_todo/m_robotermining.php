@@ -37,7 +37,7 @@
 /* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
-/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
+/*                   http://www.iw-smf.pericolini.de                         */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -70,7 +70,7 @@ $modultitle = "Robotermining";
 //    - ""      <- nix = jeder, 
 //    - "admin" <- na wer wohl
 //
-$modulstatus = "";
+$modulstatus = "admin";
 
 //****************************************************************************
 //
@@ -221,13 +221,13 @@ $sql = "SELECT  $db_tb_user.id AS 'user',
 		 (SELECT $db_tb_research2user.userid
 		  FROM $db_tb_research2user
 		  WHERE $db_tb_research2user.userid=$db_tb_user.id
-		    AND $db_tb_research2user.rid=107) AS 'research',
+		    AND $db_tb_research2user.rid=38) AS 'research',
 		
-		 (SELECT $db_tb_gebaeude_spieler.count
+		 (SELECT DISTINCT MAX($db_tb_gebaeude_spieler.count)
 		  FROM $db_tb_gebaeude_spieler
 		  WHERE $db_tb_gebaeude_spieler.user=$db_tb_user.id
-		    AND $db_tb_gebaeude_spieler.building='Robominerzentrale') AS 'count',
-		 
+		    AND $db_tb_gebaeude_spieler.building='Robominerzentrale' HAVING MAX($db_tb_gebaeude_spieler.count)) AS 'count',
+			
 		 (SELECT COUNT($db_tb_scans.coords)
 		  FROM $db_tb_scans
 		  WHERE $db_tb_scans.user=$db_tb_user.id

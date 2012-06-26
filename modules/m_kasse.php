@@ -273,6 +273,20 @@ if (!@include("./config/".$modulname.".cfg.php")) {
 
      doc_title("Allianzkasse");
      
+	 $sql = "SELECT MAX(time_of_insert) AS TOI FROM " . $db_tb_kasse_content;
+		$result = $db->db_query($sql)	
+			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
+		$lastreport = "";
+
+	if($row = $db->db_fetch_array($result)) {
+		
+		
+		$time1=strtotime($row['TOI']);
+		$lastreport = strftime("%d.%m.%y %H:%M", $time1);
+		echo "zuletzt aktualisiert am : " . $lastreport;
+	}
+	 
   //inputform basteln
      echo "<div class='doc_centered'>\n";
      echo "<form name=\"frm\">\n";
@@ -478,10 +492,10 @@ if (!@include("./config/".$modulname.".cfg.php")) {
   
     $whereclause = "AND ";
     if (isset($fromdate)) {
-      $whereclause.="time_of_insert >= '" . $fromdate . "' AND ";
+      $whereclause.="time_of_insert >= '" . $fromdate . " 00:00:00' AND ";
     }
     if (isset($todate)) {
-      $whereclause.="time_of_insert <= '" . $todate . "' AND ";
+      $whereclause.="time_of_insert <= '" . $todate . " 23:59:59' AND ";
     }
     $whereclause.="1";
     
@@ -504,10 +518,12 @@ if (!@include("./config/".$modulname.".cfg.php")) {
                  __FILE__, __LINE__, $sql);
 
      while( $row = $db->db_fetch_array($result)) {
-     $thisdate = explode('-', $row['time_of_insert']);
-         next_row("windowbg1", "style=\"width:50%\" align=\"left\"");
-         echo $thisdate[2] . "." . $thisdate[1] . "." . $thisdate[0];
-         next_cell("windowbg1", "align=\"right\"");
+		$time=strtotime($row['time_of_insert']);
+		$time1 = strftime("%d.%m.%y %H:%M", $time);
+        next_row("windowbg1", "style=\"width:50%\" align=\"left\"");
+        
+		 echo $time1;
+		 next_cell("windowbg1", "align=\"right\"");
          echo number_format($row['amount'], 2, ',', '.');
      }
      end_row();

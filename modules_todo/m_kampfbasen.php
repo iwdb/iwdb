@@ -37,7 +37,7 @@
 /* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
-/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
+/*                   http://www.iw-smf.pericolini.de                         */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -70,7 +70,7 @@ $modultitle = "Kampfbasen";
 //    - ""      <- nix = jeder, 
 //    - "admin" <- na wer wohl
 //
-$modulstatus = "";
+$modulstatus = "admin";
 
 //****************************************************************************
 //
@@ -220,7 +220,7 @@ $sql = "SELECT  $db_tb_user.id AS 'user',
 	 	 (SELECT $db_tb_research2user.userid
 		  FROM $db_tb_research2user
 		  WHERE $db_tb_research2user.userid=$db_tb_user.id
-		    AND $db_tb_research2user.rid=88) AS 'research',
+		    AND $db_tb_research2user.rid=36) AS 'research',
 		 
 		 (SELECT DISTINCT MAX($db_tb_gebaeude_spieler.count)
 		  FROM $db_tb_gebaeude_spieler

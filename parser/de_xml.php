@@ -238,7 +238,7 @@ function parse_sbxml($xmldata) {
                     foreach ($schiffe->schifftyp as $schifftyp) {
                         $scan_data['stat'] .= "<tr class=\"scan_row\">\n";
                         $scan_data['stat'] .= "\t<td class=\"scan_object\">\n";
-                        $scan_data['stat'] .= utf8_decode((string)$schifftyp->name);
+                        $scan_data['stat'] .= (string)$schifftyp->name;
                         $scan_data['stat'] .= "\n\t</td>\n";
                         $scan_data['stat'] .= "\t<td class=\"scan_value\">\n";
                         $scan_data['stat'] .= (string)$schifftyp->anzahl;

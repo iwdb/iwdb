@@ -169,18 +169,20 @@ function parse_sbxml($xmldata) {
     } else if ($scan_typ == 2) {
         debug_var("scan_data['gebscantime']", $scan_data['gebscantime'] = $scan_data['time']);
         $scan_data['gebscantime'] = (int)$xml->timestamp;
-        foreach ($xml->gebaeude->gebaeude as $gebaeude) {
-            if (!isset($scan_data['geb']))
-                $scan_data['geb'] = "<table class=\"scan_table\">\n";
-            $scan_data['geb'] .= "<tr class=\"scan_row\">\n";
-            $scan_data['geb'] .= "\t<td class=\"scan_object\">\n";
-            $scan_data['geb'] .= (string)$gebaeude->name;
-            $scan_data['geb'] .= "\n\t</td>\n";
-            $scan_data['geb'] .= "\t<td class=\"scan_value\">\n";
-            $scan_data['geb'] .= (string)$gebaeude->anzahl;
-            $scan_data['geb'] .= "\n\t</td>\n</tr>\n";
+        if (isset($xml->gebaeude)) {
+			foreach ($xml->gebaeude->gebaeude as $gebaeude) {
+				if (!isset($scan_data['geb']))
+					$scan_data['geb'] = "<table class=\"scan_table\">\n";
+				$scan_data['geb'] .= "<tr class=\"scan_row\">\n";
+				$scan_data['geb'] .= "\t<td class=\"scan_object\">\n";
+				$scan_data['geb'] .= (string)$gebaeude->name;
+				$scan_data['geb'] .= "\n\t</td>\n";
+				$scan_data['geb'] .= "\t<td class=\"scan_value\">\n";
+				$scan_data['geb'] .= (string)$gebaeude->anzahl;
+				$scan_data['geb'] .= "\n\t</td>\n</tr>\n";
+			}
         }
-        if (isset($scan_data['geb']))
+		if (isset($scan_data['geb']))
             debug_var("scan_data['geb']", $scan_data['geb'] .= "</table>\n");
     // Schiffe/Ress
     } else if ($scan_typ == 3) {

@@ -196,7 +196,7 @@ function parse_sbxml($xmldata) {
                             $scan_data['plan'] = "<table class=\"scan_table\">\n";
                         $scan_data['plan'] .= "<tr class=\"scan_row\">\n";
                         $scan_data['plan'] .= "\t<td class=\"scan_object\">\n";
-                        $scan_data['plan'] .= utf8_decode((string)$schifftyp->name);
+                        $scan_data['plan'] .= (string)$schifftyp->name;
                         $scan_data['plan'] .= "\n\t</td>\n";
                         $scan_data['plan'] .= "\t<td class=\"scan_value\">\n";
                         $scan_data['plan'] .= (string)$schifftyp->anzahl;

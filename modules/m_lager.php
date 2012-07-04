@@ -1458,27 +1458,33 @@ function make_duration($time) {
 }
 
 //****************************************************************************
+function sort_coords_cmp($a, $b) {
+    $coordsA = explode(':', $a['coords']);
+    $coordsB = explode(':', $b['coords']);
+    $result = 0;
+    if ($coordsA[0] < $coordsB[0])
+        $result = -1;
+    elseif ($coordsA[0] > $coordsB[0])
+        $result = 1;
+    if ($result == 0 && ($coordsA[1] < $coordsB[1]))
+        $result = -1;
+    elseif ($result == 0 && ($coordsA[1] > $coordsB[1]))
+        $result = 1;
+    if ($result == 0 && ($coordsA[2] < $coordsB[2]))
+        $result = -1;
+    elseif ($result == 0 && ($coordsA[2] > $coordsB[2]))
+        $result = 1;
+
+    return $result;
+}
+
 //
 // Vergleichsfunktion für das sortieren
 function sort_data_cmp($a, $b) {
 	global $params;
 
 	if ($params['order'] == 'coords') {
-		$coordsA = explode(':', $a['coords']);
-		$coordsB = explode(':', $b['coords']);
-		$result = 0;
-		if ($coordsA[0] < $coordsB[0])
-			$result = -1;
-		elseif ($coordsA[0] > $coordsB[0])
-			$result = 1;
-		if ($result == 0 && ($coordsA[1] < $coordsB[1]))
-			$result = -1;
-		elseif ($result == 0 && ($coordsA[1] > $coordsB[1]))
-			$result = 1;
-		if ($result == 0 && ($coordsA[2] < $coordsB[2]))
-			$result = -1;
-		elseif ($result == 0 && ($coordsA[2] > $coordsB[2]))
-			$result = 1;
+       $result = sort_coords_cmp($a, $b);
 	} else {
 		$valA = strtoupper($a[$params['order']]);
 		$valB = strtoupper($b[$params['order']]);
@@ -1496,12 +1502,12 @@ function sort_data_cmp($a, $b) {
   	}
 
 	if (($result == 0) AND ($params['order'] == 'user')) {		//bei Sortierung nach Username Untersortierung nach Planetensortierung (nicht beeinflusst von der Hauptsortierrichtung
-    		if ($a['sortierung'] < $b['sortierung']) {
+        if ($a['sortierung'] < $b['sortierung']) {
 			$result = -1;        
 		} elseif ($a['sortierung'] > $b['sortierung']) {
 			$result = 1;        
 		} else {
-			$result = 0;        
+            $result = sort_coords_cmp($a, $b);                  //ist die Sortierreihenfolge gleich dann nach Koordinaten sortieren
 		}
 	}
   

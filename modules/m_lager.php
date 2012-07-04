@@ -513,6 +513,7 @@ foreach ($resses as $ress) {
 $sql .= "," . $db_tb_lager . ".eis_lager AS wasser_lager";
 $sql .= "," . $db_tb_lager . ".time";
 $sql .= "," . $db_tb_scans . ".planetenname";
+$sql .= "," . $db_tb_scans . ".sortierung";
 $sql .= "," . $db_tb_user . ".buddlerfrom";
 $sql .= "," . $db_tb_user . ".budflesol";
 //Advanced Forecast
@@ -617,8 +618,6 @@ $sql .= "," . $db_tb_user . ".budflesol";
 //$sql .= "," . $db_tb_lager . ".coords_planet";
 //debug_var('sql', $sql);
 
-#echo $sql;
-
 $result = $db->db_query($sql)
 	or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 while ($row = $db->db_fetch_array($result)) {
@@ -630,6 +629,7 @@ while ($row = $db->db_fetch_array($result)) {
 		'typ' => $row['budflesol'] == "Fleeter" ? 1 : ($row['budflesol'] == "Cash Cow" ? 2 : ($row['budflesol'] == "Buddler" ? 3 : 4)),
 		'coords' => $row['coords_gal'] . ":" . $row['coords_sys'] . ":" . $row['coords_planet'],
 		'name' => $row['planetenname'],
+		'sortierung' => $row['sortierung'],
 		'objekttyp' => $row['kolo_typ'],
 		'eisen' => $row['eisen'],
 		'stahl' => $row['stahl'],
@@ -1482,16 +1482,29 @@ function sort_data_cmp($a, $b) {
 	} else {
 		$valA = strtoupper($a[$params['order']]);
 		$valB = strtoupper($b[$params['order']]);
-		if ($valA < $valB)
+		if ($valA < $valB) {
 			$result = -1;
-		elseif ($valA > $valB)
+		} elseif ($valA > $valB) {
 			$result = 1;
-		else
-			$result = 0;
+		} else {
+			$result = 0;			
+		}	
 	}
-	if ($params['orderd'] == 'desc')
-		$result *= -1;
 
+	if ($params['orderd'] == 'desc') {				//Sortierrichtung umdrehen
+		$result *= -1;
+  	}
+
+	if (($result == 0) AND ($params['order'] == 'user')) {		//bei Sortierung nach Username Untersortierung nach Planetensortierung (nicht beeinflusst von der Hauptsortierrichtung
+    		if ($a['sortierung'] < $b['sortierung']) {
+			$result = -1;        
+		} elseif ($a['sortierung'] > $b['sortierung']) {
+			$result = 1;        
+		} else {
+			$result = 0;        
+		}
+	}
+  
 	return $result;
 }
 

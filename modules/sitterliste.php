@@ -786,7 +786,7 @@ if (is_array($users_logged_in)) {
    </select> h 
    <select name="plus_minuten">
 	<option value="0">00</option>
-    <option value="15">05</option>
+    <option value="5">05</option>
     <option value="15">15</option>
 	<option value="30">30</option>
 	<option value="45">45</option>

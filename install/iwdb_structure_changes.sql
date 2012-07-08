@@ -22,3 +22,11 @@ ALTER TABLE  `prefix_user_research` CHANGE  `user`  `user` VARCHAR( 30 ) CHARACT
 DROP TABLE IF EXISTS `prefix_bestellen`;
 DROP TABLE IF EXISTS `prefix_versand_auftrag`;
 DROP TABLE IF EXISTS `prefix_spielerinfo`;
+
+CREATE TABLE IF NOT EXISTS `prefix_kb_verluste` (
+  `ID_KB` int(11) NOT NULL DEFAULT '0',
+  `ID_IW_RESS` int(11) NOT NULL DEFAULT '0',
+  `seite` int(11) NOT NULL DEFAULT '0',
+  `anzahl` int(11) NOT NULL DEFAULT '0'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+

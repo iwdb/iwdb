@@ -458,6 +458,19 @@ CREATE TABLE IF NOT EXISTS `prefix_kb_pluenderung` (
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `prefix_kb_verluste`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_kb_verluste` (
+  `ID_KB` int(11) NOT NULL DEFAULT '0',
+  `ID_IW_RESS` int(11) NOT NULL DEFAULT '0',
+  `seite` int(11) NOT NULL DEFAULT '0',
+  `anzahl` int(11) NOT NULL DEFAULT '0'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Tabellenstruktur für Tabelle `prefix_lager`
 --
 

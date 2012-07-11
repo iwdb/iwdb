@@ -1123,7 +1123,6 @@ INSERT INTO `prefix_research2research` (`rOld`, `rNew`) VALUES
 DELETE FROM `prefix_parser`;
 
 INSERT INTO `prefix_parser` (`modulename`, `recognizer`, `message`) VALUES
-('raid', 'Kampf auf dem Planeten', 'Raid-Bericht'),
 ('unixml', '?xml ', 'UniXML'),
 ('researchoverview', 'Erforschte Forschungen', 'Forschungsliste'),
 ('highscore', 'Letzte Aktualisierung', 'Highscore');

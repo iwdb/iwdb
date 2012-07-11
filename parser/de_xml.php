@@ -736,10 +736,98 @@ function kb($xmldata)
 			}
 		}
 
+        //! ########### HACK fuer raidmodul/raidview  #############################
+        //! Mac: Eintrag Daten fuer raidview Tabelle (voellig ueberholt. Raidmodul sollte einfach auf die KB tabellen umgeschrieben werden)
+        global $db_tb_raidview, $selectedusername;
+
+		// links sammeln die bereits in der db drinnen sind
+		$sqlL = "SELECT link FROM " . $db_tb_raidview;
+		$resultL = $db->db_query($sqlL)
+		or error(GENERAL_ERROR,
+             'Could not query config information.', '',
+		__FILE__, __LINE__, $sqlL);
+		$links=array();
+		while($rowL=$db->db_fetch_array($resultL)) {
+			$links[] = $rowL['link'];
+		}
+		
+		if (in_array($link, $links))    //! Ueberpruefung zu Beginn sollte eigentlich schon ausreichen ?
+            echo "KB <a href=\"".$link."\" target=\"_new\"><i>" . $link=substr($link, 42, 60) . "</i></a> bereits vorhanden.\n";
+        else {
+            
+            $vars = array(
+                        'eisen',
+                        'stahl',
+                        'vv4a',
+                        'chem',
+                        'eis',
+                        'wasser',
+                        'energie',
+                        'v_eisen',
+                        'v_stahl',
+                        'v_vv4a',
+                        'v_chem',
+                        'v_eis',
+                        'v_wasser',
+                        'v_energie',
+                        'g_eisen',
+                        'g_stahl',
+                        'g_vv4a',
+                        'g_chem',
+                        'g_eis',
+                        'g_wasser',
+                        'g_energie',
+                        );
+
+            foreach($vars as $var) {
+                ${$var} = 0;
+            }
+        
+            $plani = $kb["koords_string"];
+            $zeit = $kb_time;
+            $geraidet = $kb["verteidiger"];
+            foreach ($kb['pluenderung'] as $key => $value) {
+                $name = strtolower($value["name"]);
+                if (strpos($name,"chem") !== FALSE)
+                        $chem = $value["anzahl"];
+                else
+                    ${$name} = $value["anzahl"];                    
+			}
+            foreach ($kb['verluste'] as $key => $value) {
+                if ($value["seite"] == 2) continue; //! Verteidigerverluste ueberspringen
+                $name = "v_" . strtolower($value["name"]);
+                if (strpos($name,"chem") !== FALSE)
+                        $v_chem = $value["anzahl"];
+                else
+                    ${$name} = $value["anzahl"];                    
+			}
+            
+            $g_eisen=$eisen-$v_eisen;
+            $g_stahl=$stahl-$v_stahl;
+            $g_vv4a=$vv4a-$v_vv4a;
+            $g_chem=$chem-$v_chem;
+            $g_eis=$eis-$v_eis;
+            $g_wasser=$wasser-$v_wasser;
+            $g_energie=$energie-$v_energie;
+            
+            $sql = "INSERT INTO 
+                        $db_tb_raidview 
+                        (id,coords,date,eisen,stahl,vv4a,chemie,eis,wasser,energie,user,geraided,link,v_eisen,v_stahl,v_vv4a,v_chem,v_eis,v_wasser,v_energie,g_eisen,g_stahl,g_vv4a,g_chem,g_eis,g_wasser,g_energie)
+                    VALUES 
+                        ('NULL','$plani','$zeit',$eisen,$stahl,$vv4a,$chem,$eis,$wasser,$energie,'$selectedusername','$geraidet','$link','$v_eisen','$v_stahl','$v_vv4a','$v_chem','$v_eis','$v_wasser','$v_energie','$g_eisen','$g_stahl','$g_vv4a','$g_chem','$g_eis','$g_wasser','$g_energie')";
+
+            $result = $db->db_query($sql)
+            or error(GENERAL_ERROR,
+                    'Could not query config information.', '',
+            __FILE__, __LINE__, $sql);
+            echo "neuer KB: <a href=\"".$link."\" target=\"_new\">" . $link=substr($link, 42, 60) . "</a>\n";
+        }
+        //! ########### HACK fuer raidmodul/raidview  Ende #############################
+
 		// noch BBCode holen
+        $bbcode	= '';
 		if ( !empty($link) ) {
 			if ($handle = @fopen($link.'&typ=bbcode', "r")) {
-				$bbcode	= '';
 				while (!@feof($handle))
 					$bbcode .= @fread($handle, 512);
 				@fclose($handle);

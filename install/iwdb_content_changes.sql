@@ -1126,9 +1126,7 @@ INSERT INTO `prefix_parser` (`modulename`, `recognizer`, `message`) VALUES
 ('raid', 'Kampf auf dem Planeten', 'Raid-Bericht'),
 ('unixml', '?xml ', 'UniXML'),
 ('researchoverview', 'Erforschte Forschungen', 'Forschungsliste'),
-('fehlscan', 'Sondierung fehlgeschlagen', 'Fehlgeschlagene Sondierung'),
-('highscore', 'Letzte Aktualisierung', 'Highscore'),
-('sbxml', 'http://www.icewars.de/portal/kb/de/sb.php', 'SB-XML');
+('highscore', 'Letzte Aktualisierung', 'Highscore');
 
 DELETE FROM `prefix_iwdbtabellen` WHERE `name`=`spielerinfo`;
 DELETE FROM `prefix_iwdbtabellen` WHERE `name`=`bestellen`;

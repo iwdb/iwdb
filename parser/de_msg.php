@@ -272,17 +272,16 @@ function finish_fehlscan($fehlscans) {
 		$x11 = "";
 		$terminus = "";
 		$x13 = "";
-		$sql = "SELECT * FROM " . $db_tb_lieferung . " WHERE coords_to_gal=" . $fehlscan->aCoords["gal"] . " AND coords_to_sys=" . $fehlscan->aCoords["sys"] . " AND coords_to_planet=" . $fehlscan->aCoords["planet"] . " AND art='Sondierung' ORDER BY time DESC";
+		$sql = "SELECT * FROM " . $db_tb_lieferung . " WHERE coords_to_gal=" . $fehlscan->aCoords["gal"] . " AND coords_to_sys=" . $fehlscan->aCoords["sys"] . " AND coords_to_planet=" . $fehlscan->aCoords["planet"] . " AND art LIKE '%Sondierung%' ORDER BY time DESC";
 		$result = $db->db_query($sql)
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 		if ($row = $db->db_fetch_array($result)) {
-			debug_var("row['schiffe']", $row['schiffe']);
 			if (preg_match('/(\d+)\s+Sonde\s+X11/', $row['schiffe'], $match) > 0)
-				debug_var("x11", $x11 = $match[1]);
+				$x11 = $match[1];
 			elseif (preg_match('/(\d+)\s+Terminus\s+Sonde/', $row['schiffe'], $match) > 0)
-				debug_var("terminus", $terminus = $match[1]);
+				$terminus = $match[1];
 			elseif (preg_match('/(\d+)\s+Sonde\s+X13/', $row['schiffe'], $match) > 0)
-				debug_var("x13", $x13 = $match[1]);
+				$x13 = $match[1];
 		}
 		echo '<input type="hidden" name="time_' . $index . '"  id="fehlscan_time_' . $index . '" value="' . $fehlscan->iMsgDateTime . '">';
 		echo '<input type="hidden" name="coords_gal_' . $index . '" id="fehlscan_coords_gal_' . $index . '" value="' . $fehlscan->aCoords["gal"] . '">';

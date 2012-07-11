@@ -786,21 +786,25 @@ function kb($xmldata)
             $plani = $kb["koords_string"];
             $zeit = $kb_time;
             $geraidet = $kb["verteidiger"];
-            foreach ($kb['pluenderung'] as $key => $value) {
-                $name = strtolower($value["name"]);
-                if (strpos($name,"chem") !== FALSE)
-                        $chem = $value["anzahl"];
-                else
-                    ${$name} = $value["anzahl"];                    
-			}
-            foreach ($kb['verluste'] as $key => $value) {
-                if ($value["seite"] == 2) continue; //! Verteidigerverluste ueberspringen
-                $name = "v_" . strtolower($value["name"]);
-                if (strpos($name,"chem") !== FALSE)
-                        $v_chem = $value["anzahl"];
-                else
-                    ${$name} = $value["anzahl"];                    
-			}
+            if (isset($kb['pluenderung'])) {
+                foreach ($kb['pluenderung'] as $key => $value) {
+                    $name = strtolower($value["name"]);
+                    if (strpos($name,"chem") !== FALSE)
+                            $chem = $value["anzahl"];
+                    else
+                        ${$name} = $value["anzahl"];                    
+                }
+            }
+            if (isset($kb["verluste"])) {
+                foreach ($kb['verluste'] as $key => $value) {
+                    if ($value["seite"] == 2) continue; //! Verteidigerverluste ueberspringen
+                    $name = "v_" . strtolower($value["name"]);
+                    if (strpos($name,"chem") !== FALSE)
+                            $v_chem = $value["anzahl"];
+                    else
+                        ${$name} = $value["anzahl"];                    
+                }
+            }
             
             $g_eisen=$eisen-$v_eisen;
             $g_stahl=$stahl-$v_stahl;

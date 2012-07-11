@@ -177,15 +177,6 @@ Achja bei dem ganzen Chaos kamen 142 Leute ums Leben.
         echo "<div class='system_notification'>Fehlgeschlagene Sondierung erkannt.</div><br>";
         finish_fehlscan($return->objResultData->aScanFailMsgs);
     }
-    
-	if ($transp_succ > 0) 
-        echo $transp_succ ." Transport/Übergabe/Massdriver Msg <font color='green'> erfolgreich geparsed</font><br />";
-	if ($transp_skipped > 0) 
-        echo $transp_skipped ." Transport/Übergabe/Massdriver Msg <font color='black'> ignoriert</font><br />";
-	if ($transp_failed > 0) 
-        echo $transp_failed ." Transport/Übergabe/Massdriver Msg <font color='red'> fehlgeschlagen</font><br />";
-    if ($gave_orbit_ignored > 0) 
-        echo $gave_orbit_ignored ." Übergaben aus dem Orbit <font color='black'> ignoriert</font><br />";
 
 	foreach ($return->objResultData->aScanGeoMsgs as $msg)
 	{	
@@ -200,18 +191,80 @@ Achja bei dem ganzen Chaos kamen 142 Leute ums Leben.
 
 		//dummy
 	}
-
+    
+    $transfair_failed=0;
+    $transfair_skipped=0;
 	foreach ($return->objResultData->aTransfairMsgs as $msg)
 	{	
 		if (!$msg->bSuccessfullyParsed) {
 			echo "..... failed TransfairMsg!<br />";
-			echo implode("<br />",$msg->aErrors);
+			if (!empty($msg->aErrors))
+				echo implode("<br />",$msg->aErrors) . "<br />";
+			++$transfair_failed;
 			continue;
 		}
-		echo "..... Transfair not yet implemented<br />";
+//		echo "..... Transfair wegen unzureichender Informationen ignoriert<br />";
+        ++$transfair_skipped;
+        continue;
+        
+        $buddler = $msg->strFromUserName;
+		$fleeter = $msg->strToUserName;     //! immer leer ?
+		$transfair_to_coords = $msg->strCoords;		
+		$transfair_date = $msg->iMsgDateTime;
+        
+        if(empty($transfair_date) || empty($buddler) || empty($fleeter)) {
+            doc_message("Fehler im Bericht - (" . $transfair_date . ", " . $buddler .", " . $fleeter . ")");
+            ++$transfair_failed;
+            continue;
+        }
+    
+        //! Mac: Workaround, da libIwParser nicht die gleichen Ressnamen verwendet wie IWDB1. Eigentlich besser mit IDs handhaben
+        foreach ($msg->aCarriedResources as $k => $resource)
+        {
+            $name = strtolower($resource['resource_name']);     //! reicht fuer Eisen, Stahl, VV4A, Eis, Wasser, Energie
+
+            if (strpos($name,"chem") !== FALSE) $name = "chem";
+            else if (strpos($name,"bev") !== FALSE) $name = "volk";
+            else if ($name == "Eisen") $resource['resource_name'] = "stahl";
+            $resource['resource_name'] = $name;
+            
+            $msg->aCarriedResources[$k] = $resource;
+        }		
+        foreach ($msg->aFetchedResources as $k => $resource)
+        {
+            $name = strtolower($resource['resource_name']);     //! reicht fuer Eisen, Stahl, VV4A, Eis, Wasser, Energie
+
+            if (strpos($name,"chem") !== FALSE) $name = "chem";
+            else if (strpos($name,"bev") !== FALSE) $name = "volk";
+            else if ($name == "Eisen") $resource['resource_name'] = "stahl";
+            $resource['resource_name'] = $name;
+            
+            $msg->aFetchedResources[$k] = $resource;
+        }		
+        
+        // Lieferungen an sich selbst ignorieren
+        // Manuell: DELETE FROM `prefix_transferliste` WHERE `buddler`=`fleeter`
+        if(!empty($transfair_date) && $buddler == $fleeter) {
+            doc_message("Bericht ".$transfair_date." vom ".strftime("%d.%m.%Y %H:%M:%S", $transfair_date)." ignoriert! - Absender und Empfänger sind identisch...");
+            ++$transfair_skipped;
+            continue;
+        }
+
+        
 		//dummy
 	}
 
+	if ($transp_succ > 0) 
+        echo $transp_succ ." Transport/Übergabe/Massdriver Msg <font color='green'> erfolgreich geparsed</font><br />";
+	if ($transp_skipped > 0) 
+        echo $transp_skipped ." Transport/Übergabe/Massdriver Msg <font color='black'> ignoriert</font><br />";
+	if ($transp_failed > 0) 
+        echo $transp_failed ." Transport/Übergabe/Massdriver Msg <font color='red'> fehlgeschlagen</font><br />";
+    if ($gave_orbit_ignored > 0) 
+        echo $gave_orbit_ignored ." Übergaben aus dem Orbit <font color='black'> ignoriert</font><br />";
+    if ($transfair_skipped > 0) 
+        echo $transfair_skipped ." Transfair Msg <font color='black'> ignoriert</font><br />";
+    
 //! ..... Stationieren not yet implemented
 
 	foreach ($return->objResultData->aMsgs as $msg)

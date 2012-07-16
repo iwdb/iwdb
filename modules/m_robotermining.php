@@ -1,6 +1,6 @@
 <?php
 /*****************************************************************************/
-/* m_kampfbasen.php                                                       */
+/* m_robotermining.php                                                       */
 /*****************************************************************************/
 /* Iw DB: Icewars geoscan and sitter database                                */
 /* Open-Source Project started by Robert Riess (robert@riess.net)            */
@@ -25,10 +25,10 @@
 /*****************************************************************************/
 
 /*****************************************************************************/
-/* Kampfbasen                                                             */
+/* Robotermining                                                             */
 /* für die Iw DB: Icewars geoscan and sitter database                        */
 /*---------------------------------------------------------------------------*/
-/* Author: Patsch                            */
+/* Author: [RoC]Thella (mailto:icewars@thella.de)                            */
 /* Version: 0.x                                                              */
 /* Date: xx/xx/xxxx                                                          */
 /*---------------------------------------------------------------------------*/
@@ -55,13 +55,13 @@ if (basename($_SERVER['PHP_SELF']) != "index.php") {
 // -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung für 
 //    eine Installation über das Menü
 //
-$modulname  = "m_kampfbasen";
+$modulname  = "m_robotermining";
 
 //****************************************************************************
 //
 // -> Menütitel des Moduls der in der Navigation dargestellt werden soll.
 //
-$modultitle = "Kampfbasen";
+$modultitle = "Robotermining";
 
 //****************************************************************************
 //
@@ -70,13 +70,13 @@ $modultitle = "Kampfbasen";
 //    - ""      <- nix = jeder, 
 //    - "admin" <- na wer wohl
 //
-$modulstatus = "admin";
+$modulstatus = "";
 
 //****************************************************************************
 //
 // -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
 //
-$moduldesc = "Zeigt Informationen zu Kampfbasen und Kampfbasenverwaltung an";
+$moduldesc = "Zeigt Informationen zu Ressourcensammelbasen und Roboterminenkomplexen an";
 
 //****************************************************************************
 //
@@ -217,34 +217,39 @@ $params['team'] = getVar('team');
 // Abfrage ausführen
 $sql = "SELECT  $db_tb_user.id AS 'user',
 		  $db_tb_user.budflesol AS 'typ',
-	 	 (SELECT $db_tb_research2user.userid
+	 	 
+		 (SELECT $db_tb_research2user.userid
 		  FROM $db_tb_research2user
 		  WHERE $db_tb_research2user.userid=$db_tb_user.id
-		    AND $db_tb_research2user.rid=36) AS 'research',
-		 
+		    AND $db_tb_research2user.rid=38) AS 'research',
+		
 		 (SELECT DISTINCT MAX($db_tb_gebaeude_spieler.count)
 		  FROM $db_tb_gebaeude_spieler
 		  WHERE $db_tb_gebaeude_spieler.user=$db_tb_user.id
-		    AND $db_tb_gebaeude_spieler.building='Kampfbasenverwaltung' HAVING MAX($db_tb_gebaeude_spieler.count)) AS 'count',
-		 
-		 (SELECT $db_tb_schiffe.anzahl
-		  FROM $db_tb_schiffe
-		  WHERE $db_tb_schiffe.user=$db_tb_user.id
-		    AND $db_tb_schiffe.schiff=7) AS 'alpha',
-		 (SELECT $db_tb_schiffe.anzahl
-		  FROM $db_tb_schiffe
-		  WHERE $db_tb_schiffe.user=$db_tb_user.id
-		    AND $db_tb_schiffe.schiff=72) AS 'beta',
-		 (SELECT $db_tb_schiffe.anzahl
-		  FROM $db_tb_schiffe
-		  WHERE $db_tb_schiffe.user=$db_tb_user.id
-		    AND $db_tb_schiffe.schiff=100) AS 'gamma',
-		 
+		    AND $db_tb_gebaeude_spieler.building='Robominerzentrale' HAVING MAX($db_tb_gebaeude_spieler.count)) AS 'count',
+			
 		 (SELECT COUNT($db_tb_scans.coords)
 		  FROM $db_tb_scans
 		  WHERE $db_tb_scans.user=$db_tb_user.id
-		    AND $db_tb_scans.objekt='Kampfbasis') AS 'base'";
+		    AND $db_tb_scans.objekt='Sammelbasis') AS 'base',
+		 
+		 (SELECT SUM($db_tb_lager.eisen_prod)
+		  FROM $db_tb_lager
+		  WHERE $db_tb_lager.user=$db_tb_user.id
+		    AND $db_tb_lager.kolo_typ='Sammelbasis') AS 'eisen',
+		 
+		 (SELECT SUM($db_tb_lager.chem_prod)
+		  FROM $db_tb_lager
+		  WHERE $db_tb_lager.user=$db_tb_user.id
+		    AND $db_tb_lager.kolo_typ='Sammelbasis') AS 'chemie',
+		 
+		 (SELECT SUM($db_tb_lager.eis_prod)
+		  FROM $db_tb_lager
+		  WHERE $db_tb_lager.user=$db_tb_user.id
+		    AND $db_tb_lager.kolo_typ='Sammelbasis') AS 'eis'";
+
 $sql .= " FROM $db_tb_user";
+
 if (isset($params['team'])) {
 	if ($params['team'] == '(Nur Fleeter)')
 		$sql .= " WHERE " . $db_tb_user . ".budflesol='Fleeter'";
@@ -276,23 +281,23 @@ echo "</form>";
 
 start_table();
 start_row("titlebg", "nowrap style=\"width:0%\" align=\"center\" colspan=\"8\"");
-echo "<b>Kampfbasen</b>";
+echo "<b>Ressourcensammelbasen</b>";
 start_row("windowbg2", "nowrap style=\"width:0%\" align=\"center\"");
 echo "Spieler";
 next_cell("windowbg2", "nowrap style=\"width:0%\" align=\"center\"");
 echo "Typ";
 next_cell("windowbg2", "nowrap style=\"width:0%\" align=\"center\"");
-echo "orbitale Dockingsysteme";
+echo "Robotermining";
 next_cell("windowbg2", "nowrap style=\"width:0%\" align=\"center\"");
-echo "Kampfbasenverwaltung";
+echo "Robominerzentrale";
 next_cell("windowbg2", "nowrap style=\"width:0%\" align=\"center\"");
-echo "Kampfbasen";
+echo "Sammelbasen";
 next_cell("windowbg2", "nowrap style=\"width:0%\" align=\"center\"");
-echo "# Basen";
+echo "Eisen/h";
 next_cell("windowbg2", "nowrap style=\"width:0%\" align=\"center\"");
-echo "Diff Soll";
-
-
+echo "Chemie/h";
+next_cell("windowbg2", "nowrap style=\"width:0%\" align=\"center\"");
+echo "Eis/h";
 
 // Abfrage auswerten
 while ($row = $db->db_fetch_array($result)) {
@@ -313,35 +318,26 @@ while ($row = $db->db_fetch_array($result)) {
 	else
 		echo "-";
 	next_cell("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
-	echo $row['base'] . "/" . ($row['count']+2);
-	/*
-	if (!empty($row['base']))  {
-		echo $row['base'] . "/" . ($row['count']+2);
+	if (!empty($row['count'])) {
+		echo $row['base'] . "/" . $row['count'];
 	} else
-		echo "0/2";*/
+		echo "-";
 	next_cell("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
-	if (!empty($row['alpha']))
-		$one=$row['alpha'];
-	else
-		$one=0;
-	if (!empty($row['beta']))
-		$two=$row['beta'];
-	else
-		$two=0;
-	if (!empty($row['gamma']))
-		$three=$row['gamma'];
-	else
-		$three=0;
-	
-	echo $one . "/" . $two . "/" . $three;
-	
-	
+	if (!empty($row['eisen'])) {
+		echo number_format($row['eisen'], 0, "", ".");
+	} else
+		echo "-";
 	next_cell("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
-	echo (($one+$two+$three) + $row['base'] - ($row['count']+2));
-	
+	if (!empty($row['chemie'])) {
+		echo number_format($row['chemie'], 0, "", ".");
+	} else
+		echo "-";
+	next_cell("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
+	if (!empty($row['eis'])) {
+		echo number_format($row['eis'], 0, "", ".");
+	} else
+		echo "-";
 	end_row();
 }
 end_table();
-
-
 ?>

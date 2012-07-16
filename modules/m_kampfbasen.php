@@ -1,6 +1,6 @@
 <?php
 /*****************************************************************************/
-/* m_artefaktbasen.php                                                       */
+/* m_kampfbasen.php                                                       */
 /*****************************************************************************/
 /* Iw DB: Icewars geoscan and sitter database                                */
 /* Open-Source Project started by Robert Riess (robert@riess.net)            */
@@ -55,13 +55,13 @@ if (basename($_SERVER['PHP_SELF']) != "index.php") {
 // -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung für 
 //    eine Installation über das Menü
 //
-$modulname  = "m_artefaktbasen";
+$modulname  = "m_kampfbasen";
 
 //****************************************************************************
 //
 // -> Menütitel des Moduls der in der Navigation dargestellt werden soll.
 //
-$modultitle = "Artefaktbasen";
+$modultitle = "Kampfbasen";
 
 //****************************************************************************
 //
@@ -70,13 +70,13 @@ $modultitle = "Artefaktbasen";
 //    - ""      <- nix = jeder, 
 //    - "admin" <- na wer wohl
 //
-$modulstatus = "admin";
+$modulstatus = "";
 
 //****************************************************************************
 //
 // -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
 //
-$moduldesc = "Zeigt Informationen zu Artefaktbasen und Artefaktbasenverwaltungen an";
+$moduldesc = "Zeigt Informationen zu Kampfbasen und Kampfbasenverwaltung an";
 
 //****************************************************************************
 //
@@ -217,21 +217,33 @@ $params['team'] = getVar('team');
 // Abfrage ausführen
 $sql = "SELECT  $db_tb_user.id AS 'user',
 		  $db_tb_user.budflesol AS 'typ',
-	 	 
-		 (SELECT $db_tb_research2user.userid
+	 	 (SELECT $db_tb_research2user.userid
 		  FROM $db_tb_research2user
 		  WHERE $db_tb_research2user.userid=$db_tb_user.id
-		    AND $db_tb_research2user.rid=219) AS 'research',
+		    AND $db_tb_research2user.rid=36) AS 'research',
 		 
 		 (SELECT DISTINCT MAX($db_tb_gebaeude_spieler.count)
 		  FROM $db_tb_gebaeude_spieler
 		  WHERE $db_tb_gebaeude_spieler.user=$db_tb_user.id
-		    AND $db_tb_gebaeude_spieler.building='Artefaktsammelbasencenter' HAVING MAX($db_tb_gebaeude_spieler.count)) AS 'count',
+		    AND $db_tb_gebaeude_spieler.building='Kampfbasenverwaltung' HAVING MAX($db_tb_gebaeude_spieler.count)) AS 'count',
+		 
+		 (SELECT $db_tb_schiffe.anzahl
+		  FROM $db_tb_schiffe
+		  WHERE $db_tb_schiffe.user=$db_tb_user.id
+		    AND $db_tb_schiffe.schiff=7) AS 'alpha',
+		 (SELECT $db_tb_schiffe.anzahl
+		  FROM $db_tb_schiffe
+		  WHERE $db_tb_schiffe.user=$db_tb_user.id
+		    AND $db_tb_schiffe.schiff=72) AS 'beta',
+		 (SELECT $db_tb_schiffe.anzahl
+		  FROM $db_tb_schiffe
+		  WHERE $db_tb_schiffe.user=$db_tb_user.id
+		    AND $db_tb_schiffe.schiff=100) AS 'gamma',
 		 
 		 (SELECT COUNT($db_tb_scans.coords)
 		  FROM $db_tb_scans
 		  WHERE $db_tb_scans.user=$db_tb_user.id
-		    AND $db_tb_scans.objekt='Artefaktbasis') AS 'base'";
+		    AND $db_tb_scans.objekt='Kampfbasis') AS 'base'";
 $sql .= " FROM $db_tb_user";
 if (isset($params['team'])) {
 	if ($params['team'] == '(Nur Fleeter)')
@@ -264,17 +276,22 @@ echo "</form>";
 
 start_table();
 start_row("titlebg", "nowrap style=\"width:0%\" align=\"center\" colspan=\"8\"");
-echo "<b>Artefaktsammelbasen</b>";
+echo "<b>Kampfbasen</b>";
 start_row("windowbg2", "nowrap style=\"width:0%\" align=\"center\"");
 echo "Spieler";
 next_cell("windowbg2", "nowrap style=\"width:0%\" align=\"center\"");
 echo "Typ";
 next_cell("windowbg2", "nowrap style=\"width:0%\" align=\"center\"");
-echo "Suche nach neuen alten Sachen";
+echo "orbitale Dockingsysteme";
 next_cell("windowbg2", "nowrap style=\"width:0%\" align=\"center\"");
-echo "Artefaktsammelbasencenter";
+echo "Kampfbasenverwaltung";
 next_cell("windowbg2", "nowrap style=\"width:0%\" align=\"center\"");
-echo "Artefaktsammelbasis";
+echo "Kampfbasen";
+next_cell("windowbg2", "nowrap style=\"width:0%\" align=\"center\"");
+echo "# Basen";
+next_cell("windowbg2", "nowrap style=\"width:0%\" align=\"center\"");
+echo "Diff Soll";
+
 
 
 // Abfrage auswerten
@@ -296,12 +313,31 @@ while ($row = $db->db_fetch_array($result)) {
 	else
 		echo "-";
 	next_cell("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
-	//echo $row['base'] . "/" . $row['count'];
-	
-	if (!empty($row['count']))  {
-		echo $row['base'] . "/" . $row['count'];
+	echo $row['base'] . "/" . ($row['count']+2);
+	/*
+	if (!empty($row['base']))  {
+		echo $row['base'] . "/" . ($row['count']+2);
 	} else
-		echo "--";
+		echo "0/2";*/
+	next_cell("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
+	if (!empty($row['alpha']))
+		$one=$row['alpha'];
+	else
+		$one=0;
+	if (!empty($row['beta']))
+		$two=$row['beta'];
+	else
+		$two=0;
+	if (!empty($row['gamma']))
+		$three=$row['gamma'];
+	else
+		$three=0;
+	
+	echo $one . "/" . $two . "/" . $three;
+	
+	
+	next_cell("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
+	echo (($one+$two+$three) + $row['base'] - ($row['count']+2));
 	
 	end_row();
 }

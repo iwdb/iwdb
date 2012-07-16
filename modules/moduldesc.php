@@ -153,6 +153,22 @@ $modulary["m_sc"]["name"] = "m_sc";
 $modulary["m_sc"]["titel"] = "Sondenkalkulator";
 $modulary["m_sc"]["desc"] =  "Berechnet die benötigten Sonden anhand gegebener Sondendeff.";
 
+$modulary["m_newscan_unixml"]["name"] = "m_newscan_unixml";
+$modulary["m_newscan_unixml"]["titel"] = "Uni-XML-Datei einlesen";
+$modulary["m_newscan_unixml"]["desc"] =  "Modul zum einfachen Einlesen der gesamten Uni-XML-Datei, die man mittels Universumskontrolleinrichtung erhält.";
+
+$modulary["m_robotermining"]["name"] = "m_robotermining";
+$modulary["m_robotermining"]["titel"] = "Robotermining";
+$modulary["m_robotermining"]["desc"] =  "Zeigt Informationen zu Ressourcensammelbasen an.";
+
+$modulary["m_kampfbasen"]["name"] = "m_kampfbasen";
+$modulary["m_kampfbasen"]["titel"] = "Defaultmodul";
+$modulary["m_kampfbasen"]["desc"] =  "Zeigt Informationen zu Kampfbasen an.";
+
+$modulary["m_artefaktbasen"]["name"] = "m_artefaktbasen";
+$modulary["m_artefaktbasen"]["titel"] = "Artefaktbasen";
+$modulary["m_artefaktbasen"]["desc"] =  "Zeigt Informationen zu Artefaktbasen an.";
+
 global $modulary;
 
 ?>

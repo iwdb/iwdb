@@ -1,6 +1,6 @@
 <?php
 /*****************************************************************************/
-/* m_robotermining.php                                                       */
+/* m_artefaktbasen.php                                                       */
 /*****************************************************************************/
 /* Iw DB: Icewars geoscan and sitter database                                */
 /* Open-Source Project started by Robert Riess (robert@riess.net)            */
@@ -25,10 +25,10 @@
 /*****************************************************************************/
 
 /*****************************************************************************/
-/* Robotermining                                                             */
+/* Kampfbasen                                                             */
 /* für die Iw DB: Icewars geoscan and sitter database                        */
 /*---------------------------------------------------------------------------*/
-/* Author: [RoC]Thella (mailto:icewars@thella.de)                            */
+/* Author: Patsch                            */
 /* Version: 0.x                                                              */
 /* Date: xx/xx/xxxx                                                          */
 /*---------------------------------------------------------------------------*/
@@ -55,13 +55,13 @@ if (basename($_SERVER['PHP_SELF']) != "index.php") {
 // -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung für 
 //    eine Installation über das Menü
 //
-$modulname  = "m_robotermining";
+$modulname  = "m_artefaktbasen";
 
 //****************************************************************************
 //
 // -> Menütitel des Moduls der in der Navigation dargestellt werden soll.
 //
-$modultitle = "Robotermining";
+$modultitle = "Artefaktbasen";
 
 //****************************************************************************
 //
@@ -70,13 +70,13 @@ $modultitle = "Robotermining";
 //    - ""      <- nix = jeder, 
 //    - "admin" <- na wer wohl
 //
-$modulstatus = "admin";
+$modulstatus = "";
 
 //****************************************************************************
 //
 // -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
 //
-$moduldesc = "Zeigt Informationen zu Ressourcensammelbasen und Roboterminenkomplexen an";
+$moduldesc = "Zeigt Informationen zu Artefaktbasen und Artefaktbasenverwaltungen an";
 
 //****************************************************************************
 //
@@ -221,35 +221,18 @@ $sql = "SELECT  $db_tb_user.id AS 'user',
 		 (SELECT $db_tb_research2user.userid
 		  FROM $db_tb_research2user
 		  WHERE $db_tb_research2user.userid=$db_tb_user.id
-		    AND $db_tb_research2user.rid=38) AS 'research',
-		
+		    AND $db_tb_research2user.rid=219) AS 'research',
+		 
 		 (SELECT DISTINCT MAX($db_tb_gebaeude_spieler.count)
 		  FROM $db_tb_gebaeude_spieler
 		  WHERE $db_tb_gebaeude_spieler.user=$db_tb_user.id
-		    AND $db_tb_gebaeude_spieler.building='Robominerzentrale' HAVING MAX($db_tb_gebaeude_spieler.count)) AS 'count',
-			
+		    AND $db_tb_gebaeude_spieler.building='Artefaktsammelbasencenter' HAVING MAX($db_tb_gebaeude_spieler.count)) AS 'count',
+		 
 		 (SELECT COUNT($db_tb_scans.coords)
 		  FROM $db_tb_scans
 		  WHERE $db_tb_scans.user=$db_tb_user.id
-		    AND $db_tb_scans.objekt='Sammelbasis') AS 'base',
-		 
-		 (SELECT SUM($db_tb_lager.eisen_prod)
-		  FROM $db_tb_lager
-		  WHERE $db_tb_lager.user=$db_tb_user.id
-		    AND $db_tb_lager.kolo_typ='Sammelbasis') AS 'eisen',
-		 
-		 (SELECT SUM($db_tb_lager.chem_prod)
-		  FROM $db_tb_lager
-		  WHERE $db_tb_lager.user=$db_tb_user.id
-		    AND $db_tb_lager.kolo_typ='Sammelbasis') AS 'chemie',
-		 
-		 (SELECT SUM($db_tb_lager.eis_prod)
-		  FROM $db_tb_lager
-		  WHERE $db_tb_lager.user=$db_tb_user.id
-		    AND $db_tb_lager.kolo_typ='Sammelbasis') AS 'eis'";
-
+		    AND $db_tb_scans.objekt='Artefaktbasis') AS 'base'";
 $sql .= " FROM $db_tb_user";
-
 if (isset($params['team'])) {
 	if ($params['team'] == '(Nur Fleeter)')
 		$sql .= " WHERE " . $db_tb_user . ".budflesol='Fleeter'";
@@ -281,23 +264,18 @@ echo "</form>";
 
 start_table();
 start_row("titlebg", "nowrap style=\"width:0%\" align=\"center\" colspan=\"8\"");
-echo "<b>Ressourcensammelbasen</b>";
+echo "<b>Artefaktsammelbasen</b>";
 start_row("windowbg2", "nowrap style=\"width:0%\" align=\"center\"");
 echo "Spieler";
 next_cell("windowbg2", "nowrap style=\"width:0%\" align=\"center\"");
 echo "Typ";
 next_cell("windowbg2", "nowrap style=\"width:0%\" align=\"center\"");
-echo "Robotermining";
+echo "Suche nach neuen alten Sachen";
 next_cell("windowbg2", "nowrap style=\"width:0%\" align=\"center\"");
-echo "Robominerzentrale";
+echo "Artefaktsammelbasencenter";
 next_cell("windowbg2", "nowrap style=\"width:0%\" align=\"center\"");
-echo "Sammelbasen";
-next_cell("windowbg2", "nowrap style=\"width:0%\" align=\"center\"");
-echo "Eisen/h";
-next_cell("windowbg2", "nowrap style=\"width:0%\" align=\"center\"");
-echo "Chemie/h";
-next_cell("windowbg2", "nowrap style=\"width:0%\" align=\"center\"");
-echo "Eis/h";
+echo "Artefaktsammelbasis";
+
 
 // Abfrage auswerten
 while ($row = $db->db_fetch_array($result)) {
@@ -318,26 +296,16 @@ while ($row = $db->db_fetch_array($result)) {
 	else
 		echo "-";
 	next_cell("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
-	if (!empty($row['count'])) {
+	//echo $row['base'] . "/" . $row['count'];
+	
+	if (!empty($row['count']))  {
 		echo $row['base'] . "/" . $row['count'];
 	} else
-		echo "-";
-	next_cell("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
-	if (!empty($row['eisen'])) {
-		echo number_format($row['eisen'], 0, "", ".");
-	} else
-		echo "-";
-	next_cell("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
-	if (!empty($row['chemie'])) {
-		echo number_format($row['chemie'], 0, "", ".");
-	} else
-		echo "-";
-	next_cell("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
-	if (!empty($row['eis'])) {
-		echo number_format($row['eis'], 0, "", ".");
-	} else
-		echo "-";
+		echo "--";
+	
 	end_row();
 }
 end_table();
+
+
 ?>

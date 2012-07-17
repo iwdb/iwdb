@@ -298,26 +298,7 @@ function save_sbxml($scan_data) {
 		$results[] = "Der Scan " . $scan_data['coords'] . " ist nicht vollständig.";
 		return $results;
 	}*/
-	// Typänderung
-	if (!empty($row) && ($row['typ'] != $scan_data['typ']) && isset($scan_data['geoscantime'])) {
-		debug_var("scan_data['eisengehalt']", $scan_data['eisengehalt'] = "");
-		$scan_data['eisdichte'] = "";
-		$scan_data['chemievorkommen'] = "";
-		$scan_data['tteisen'] = "";
-		$scan_data['tteis'] = "";
-		$scan_data['ttchemie'] = "";
-		$scan_data['gravitation'] = "";
-		$scan_data['lebensbedingungen'] = "";
-		$scan_data['bevoelkerungsanzahl'] ="";		
-		$scan_data['fmod'] = "";
-		$scan_data['kgmod'] = "";
-		$scan_data['dgmod'] = "";
-		$scan_data['ksmod'] = "";
-		$scan_data['dsmod'] = "";
-		$scan_data['besonderheiten'] = "";
-		$scan_data['reset_timestamp'] = "";
-		$results[] = "Vorhandenen Geoscan wegen Typänderung gelöscht.";
-	}
+
 	// Neuerer Scan vorhanden
 	if (!empty($row) && $row['time'] > $scan_data['time']) {
 		unset($scan_data['user']);

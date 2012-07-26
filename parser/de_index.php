@@ -352,14 +352,16 @@ function display_de_index() {
 
 // ****************************************************************************
 // Gibt den Wert einer Variablen aus.
-function debug_var($name, $wert, $level = 2) {
-	if (DEBUG_LEVEL >= $level) {
-		echo "<div class='system_debug_blue'>$" . $name . ":";
-		if (is_array($wert))
-			print_r($wert);
-		else
-			echo "'" . $wert . "'";
-		echo "</div>";
+if (!function_exists ('debug_var')) {
+	function debug_var($name, $wert, $level = 2) {
+		if (DEBUG_LEVEL >= $level) {
+			echo "<div class='system_debug_blue'>$" . $name . ":";
+			if (is_array($wert))
+				print_r($wert);
+			else
+				echo "'" . $wert . "'";
+			echo "</div>";
+		}
 	}
 }
 

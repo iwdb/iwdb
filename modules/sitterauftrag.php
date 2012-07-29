@@ -847,7 +847,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 	$result = $db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     
-  if(empty($user_genbebmod))
+  if(empty($user_gengebmod))
     $user_gengebmod = 1;
       
 	while($row = $db->db_fetch_array($result))

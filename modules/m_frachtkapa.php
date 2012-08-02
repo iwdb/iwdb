@@ -177,7 +177,7 @@ foreach( $class1 as $key => $value) {
 $class2 = array(
 	"lur" 	=>	"Lurch",
 	"eis"	=>	"Eisbär",
-	"was"	=>	"Waschbär",
+	"wb"	=>	"Waschbär",
 	"see"	=>	"Seepferd"
 );
 foreach( $class2 as $key => $value) {
@@ -193,7 +193,7 @@ foreach( $ressies as $key => $value) {
 $klasse1 = $eisen + (2 * $stahl) + (3 * $chemie) + (4 * $vv4a);
 $klasse2 = $energie + (2 * $eis) + (2 * $wasser);
 $sum1 = $klasse1-(($sys*5000)+($gor*20000)+($kam*75000)+($flu*400000));
-$sum2 = $klasse2-(($lur*2000)+($eis*10000)+($was*50000)+($see*250000));
+$sum2 = $klasse2-(($lur*2000)+($eis*10000)+($wb*50000)+($see*250000));
 
 $class1ships = array(
   "Systrans(en)" =>  5000,

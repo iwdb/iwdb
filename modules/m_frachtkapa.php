@@ -153,158 +153,193 @@ if (!@include("./config/".$modulname.".cfg.php")) {
 //
 // -> Und hier beginnt das eigentliche Modul
 
-$ressies = array( 
-  "eisen" => "Eisen", 
-  "stahl" => "Stahl", 
-  "vv4a" => "VV4A", 
-  "chemie" => "Chemische Elemente",
-  "eis" => "Eis",
-  "wasser" => "Wasser",
-  "energie" => "Energie"
-);
-
-$class1 = array(
-	"sys" 	=>	"Systrans",
-	"gor"	=>	"Gorgol",
-	"kam"	=>	"Kamel",
-	"flu"	=>	"Flughund"
-);
-foreach( $class1 as $key => $value) {
-  $temp   = getVar($key);
-  ${$key} = empty($temp) ? 0 : $temp;
-}
-
-$class2 = array(
-	"lur" 	=>	"Lurch",
-	"eis"	=>	"Eisbär",
-	"wb"	=>	"Waschbär",
-	"see"	=>	"Seepferd"
-);
-foreach( $class2 as $key => $value) {
-  $temp   = getVar($key);
-  ${$key} = empty($temp) ? 0 : $temp;
-}
-
-foreach( $ressies as $key => $value) {
-  $temp   = getVar($key);
-  ${$key} = empty($temp) ? 0 : $temp;
-}
-
-$klasse1 = $eisen + (2 * $stahl) + (3 * $chemie) + (4 * $vv4a);
-$klasse2 = $energie + (2 * $eis) + (2 * $wasser);
-$sum1 = $klasse1-(($sys*5000)+($gor*20000)+($kam*75000)+($flu*400000));
-$sum2 = $klasse2-(($lur*2000)+($eis*10000)+($wb*50000)+($see*250000));
-
-$class1ships = array(
-  "Systrans(en)" =>  5000,
-  "Gorgol(s)" =>    20000,
-  "Kamel(e)" =>     75000,
-  "Flughund(e)" => 400000
-);
-
-$class2ships = array(
-  "Lurch(e)" =>            2000,
-  "Eisbär(en)" =>    10000,
-  "Waschbär(en)" =>  50000,
-  "Seepferdchen" =>      250000
-);
-
-echo "<div class='doc_title'>Frachtkapazitätenberechnung</div>\n";
-echo "<form method=\"POST\" action=\"index.php?action=" . $modulname .
-     "&sid=" . $sid . "\" enctype=\"multipart/form-data\">\n";
-     
-echo " <table border=\"0\" cellpadding=\"4\" cellspacing=\"1\" class=\"bordercolor\" style=\"width: 80%;\">\n";
-echo "  <tr>\n";
-echo "   <td colspan=\"2\" class=\"titlebg\"><b>Eingabe:</b></td>\n";
-echo "  </tr>\n"; 
-
-foreach( $ressies as $key => $title) {
-  echo "  <tr>\n";
-  echo "   <td class=\"windowbg2\" style=\"width: 200px;\">" . $title . ":</td>\n";
-  echo "   <td class=\"windowbg1\"><input type=\"text\" size=\"17\" name=\"" . $key . 
-       "\" value=\"" . ${$key} . "\"></td>\n";
-  echo "  </tr>\n";
-}
-echo "  <tr>\n";
-echo "   <td colspan=\"2\" class=\"titlebg\"><b>Vorhandene Transen für Klasse 1</b></td>\n";
-echo "  </tr>\n"; 
-foreach( $class1 as $key => $title) {
-  echo "  <tr>\n";
-  echo "   <td class=\"windowbg2\" style=\"width: 200px;\">" . $title . ":</td>\n";
-  echo "   <td class=\"windowbg1\"><input type=\"text\" size=\"17\" name=\"" . $key . 
-       "\" value=\"" . ${$key} . "\"></td>\n";
-  echo "  </tr>\n";
-}
-
-echo "  <tr>\n";
-echo "   <td colspan=\"2\" class=\"titlebg\"><b>Vorhandene Transen für Klasse 2</b></td>\n";
-echo "  </tr>\n"; 
-foreach( $class2 as $key => $title) {
-  echo "  <tr>\n";
-  echo "   <td class=\"windowbg2\" style=\"width: 200px;\">" . $title . ":</td>\n";
-  echo "   <td class=\"windowbg1\"><input type=\"text\" size=\"17\" name=\"" . $key . 
-       "\" value=\"" . ${$key} . "\"></td>\n";
-  echo "  </tr>\n";
-}
-
-echo "  <tr>\n";
-echo "   <td colspan=\"2\" class=\"windowbg2\" align=\"center\"><input type=\"submit\" style=\"width: 120px;\" value=\"Berechnen\"></td>\n";
-echo "  </tr>\n";
-echo " </table>\n";
-echo "</form>\n";
-echo "<br>\n";
-
-echo "<table border=\"0\" cellpadding=\"4\" cellspacing=\"1\" class=\"bordercolor\" style=\"width: 80%;\">\n";
-echo " <tr>\n";
-echo "  <td colspan=\"6\" class=\"titlebg\"><b>Zu transportierende Ressourcen</b></td>\n";
-echo " </tr>\n"; 
-
-foreach( $ressies as $key => $title) {
-  echo " <tr>\n";
-  echo "  <td class=\"windowbg2\" style=\"width: 200px;\">" . $title . ":</td>\n";
-  echo "  <td class=\"windowbg1\" colspan=\"2\">" . ${$key} . "</td>\n";
-  echo " </tr>\n";
-}
-
-echo " <tr>\n";
-echo "  <td colspan=\"4\" class=\"titlebg\"><b>Benötigte Frachtkapazität</b></td>\n";
-echo " </tr>\n"; 
-echo " <tr>\n";
-echo "  <td class=\"windowbg2\">Klasse 1:</td>\n";
-echo "  <td class=\"windowbg1\" colspan=\"2\">" . $klasse1 . "</td>\n";
-echo " </tr>\n"; 
-echo " <tr>\n";
-echo "  <td class=\"windowbg2\">Klasse 2:</td>\n";
-echo "  <td class=\"windowbg1\" colspan=\"2\">" . $klasse2 . "</td>\n";
-echo " </tr>\n"; 
-
-echo " <tr>\n";
-echo "  <td colspan=\"3\" class=\"titlebg\"><b>Benötigte Transen für Klasse 1</b></td>\n";
-echo " </tr>\n"; 
-
-$t1 = "Entweder";
-foreach($class1ships as $name => $divisor) {
-  echo " <tr>\n";
-  echo "  <td class=\"windowbg2\">" . $t1 . "</td>\n";
-  echo "  <td class=\"windowbg1\">" . ceil($sum1 / $divisor) . "</td>\n";
-  echo "  <td class=\"windowbg2\">" . $name . "</td>\n";  
-  echo " </tr>\n";
-  $t1 = "Oder";
-} 
-
-echo " <tr>\n";
-echo "  <td colspan=\"3\" class=\"titlebg\"><b>Benötigte Transen für Klasse 2</b></td>\n";
-echo " </tr>\n"; 
-
-$t1 = "Entweder";
-foreach($class2ships as $name => $divisor) {
-  echo " <tr>\n";
-  echo "  <td class=\"windowbg2\">" . $t1 . "</td>\n";
-  echo "  <td class=\"windowbg1\">" . ceil($sum2 / $divisor) . "</td>\n";
-  echo "  <td class=\"windowbg2\">" . $name . "</td>\n";  
-  echo " </tr>\n";
-  $t1 = "Oder";
-} 
-
-echo "</table>\n";
 ?>
+<div class='doc_title'>Frachtkapazitätenberechnung</div>
+<form name='transcalc' action=''>
+     
+<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 100%;'>
+<tr>
+    <td colspan='2' class='titlebg'><b>Eingabe:</b></td>
+</tr>
+<tr>
+    <td class='windowbg2' style='width: 200px;'>Eisen:</td>
+    <td class='windowbg1'><input type='text' size='17' id='eisen' value='0' pattern="\d*" style='width: 100px; text-align:right'></td>
+</tr><tr>
+    <td class='windowbg2' style='width: 200px;'>Stahl:</td>
+    <td class='windowbg1'><input type='text' size='17' id='stahl' value='0' pattern="\d*" style='width: 100px; text-align:right'></td>
+</tr><tr>
+    <td class='windowbg2' style='width: 200px;'>chem. Elemente:</td>
+    <td class='windowbg1'><input type='text' size='17' id='chemie' value='0' pattern="\d*" style='width: 100px; text-align:right'></td>
+</tr><tr>
+    <td class='windowbg2' style='width: 200px;'>VV4A:</td>
+    <td class='windowbg1'><input type='text' size='17' id='vv4a' value='0' pattern="\d*" style='width: 100px; text-align:right'></td>
+</tr><tr>
+    <td class='windowbg2' style='width: 200px;'>Eis:</td>
+    <td class='windowbg1'><input type='text' size='17' id='eis' value='0' pattern="\d*" style='width: 100px; text-align:right'></td>
+</tr><tr>
+    <td class='windowbg2' style='width: 200px;'>Wasser:</td>
+    <td class='windowbg1'><input type='text' size='17' id='wasser' value='0' pattern="\d*" style='width: 100px; text-align:right'></td>
+</tr><tr>
+    <td class='windowbg2' style='width: 200px;'>Energie:</td>
+    <td class='windowbg1'><input type='text' size='17' id='energie' value='0' pattern="\d*" style='width: 100px; text-align:right'></td>
+</tr>
+<tr>
+    <td colspan='2' class='titlebg'><b>Vorhandene Transen für Klasse 1</b></td>
+</tr>
+<tr>
+    <td class='windowbg2' style='width: 200px;'>Systransen:</td>
+    <td class='windowbg1'><input type='text' size='17' id='systransen_vorhanden' value='0' pattern="\d*" style='width: 100px; text-align:right'></td>
+</tr><tr>
+    <td class='windowbg2' style='width: 200px;'>Gorgols:</td>
+    <td class='windowbg1'><input type='text' size='17' id='gorgols_vorhanden' value='0' pattern="\d*" style='width: 100px; text-align:right'></td>
+</tr><tr>
+    <td class='windowbg2' style='width: 200px;'>Kamele:</td>
+    <td class='windowbg1'><input type='text' size='17' id='kamele_vorhanden' value='0' pattern="\d*" style='width: 100px; text-align:right'></td>
+</tr><tr>
+    <td class='windowbg2' style='width: 200px;'>Flughunde:</td>
+    <td class='windowbg1'><input type='text' size='17' id='flughunde_vorhanden' value='0' pattern="\d*" style='width: 100px; text-align:right'></td>
+</tr>
+<tr>
+    <td colspan='2' class='titlebg'><b>Vorhandene Transen für Klasse 2</b></td>
+</tr>
+<tr>
+    <td class='windowbg2' style='width: 200px;'>Lurche:</td>
+    <td class='windowbg1'><input type='text' size='17' id='luche_vorhanden' value='0' pattern="\d*" style='width: 100px; text-align:right'></td>
+</tr><tr>
+    <td class='windowbg2' style='width: 200px;'>Eisbären:</td>
+    <td class='windowbg1'><input type='text' size='17' id='eisbaeren_vorhanden' value='0' pattern="\d*" style='width: 100px; text-align:right'></td>
+</tr><tr>
+    <td class='windowbg2' style='width: 200px;'>Waschbären:</td>
+    <td class='windowbg1'><input type='text' size='17' id='waschbaeren_vorhanden' value='0' pattern="\d*" style='width: 100px; text-align:right'></td>
+</tr><tr>
+    <td class='windowbg2' style='width: 200px;'>Seepferdchen:</td>
+    <td class='windowbg1'><input type='text' size='17' id='seepferdchen_vorhanden' value='0' pattern="\d*" style='width: 100px; text-align:right'></td>
+</tr>
+</table>
+</form>
+<br>
+<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 100%;'>
+<tr>
+    <td colspan='3' class='titlebg'><b>Benötigte Frachtkapazität</b></td>
+</tr><tr>
+    <td class='windowbg2'>Klasse 1:</td>
+    <td class='windowbg1' id='class1kappatext' style='width: 100px; text-align:right'>&nbsp;</td>
+    <td class='windowbg1'></td>
+</tr><tr>
+    <td class='windowbg2'>Klasse 2:</td>
+    <td class='windowbg1' id='class2kappatext' style='width: 100px; text-align:right'>&nbsp;</td>
+    <td class='windowbg1'></td>
+</tr>
+
+<tr>
+    <td colspan='3' class='titlebg'><b>Benötigte Transen für Klasse 1</b></td>
+</tr><tr>
+    <td class='windowbg2'>entweder</td>
+    <td class='windowbg1' id='systranstext' style='width: 100px; text-align:right'>&nbsp;</td>
+    <td class='windowbg2'>Systrans(en)</td>
+</tr><tr>
+    <td class='windowbg2'>oder</td>
+    <td class='windowbg1' id='gorgoltext' style=' width: 100px; text-align:right'>&nbsp;</td>
+    <td class='windowbg2'>Gorgol(s)</td>
+</tr><tr>
+    <td class='windowbg2'>oder</td>
+    <td class='windowbg1' id='kameltext' style='width: 100px; text-align:right'>&nbsp;</td>
+    <td class='windowbg2'>Kamel(e)</td>
+</tr><tr>
+    <td class='windowbg2'>oder</td>
+    <td class='windowbg1' id='flughundtext' style='width: 100px; text-align:right'>&nbsp;</td>
+    <td class='windowbg2'>Flughund(e)</td>
+</tr>
+
+<tr>
+    <td colspan='3' class='titlebg'><b>Benötigte Transen für Klasse 2</b></td>
+</tr><tr>
+    <td class='windowbg2'>entweder</td>
+    <td class='windowbg1' id='lurchtext' style='width: 100px; text-align:right'>&nbsp;</td>
+    <td class='windowbg2'>Lurch(e)</td>
+</tr><tr>
+    <td class='windowbg2'>oder</td>
+    <td class='windowbg1' id='eisbaertext' style='width: 100px; text-align:right'>&nbsp;</td>
+    <td class='windowbg2'>Eisbär(en)</td>
+</tr><tr>
+    <td class='windowbg2'>oder</td>
+    <td class='windowbg1' id='waschbaertext' style='width: 100px; text-align:right'>&nbsp;</td>
+    <td class='windowbg2'>Waschbär(en)</td>
+</tr><tr>
+    <td class='windowbg2'>oder</td>
+    <td class='windowbg1' id='seepferdchentext' style='width: 100px; text-align:right'>&nbsp;</td>
+    <td class='windowbg2'>Seepferdchen</td>
+</tr>
+</table>
+
+<script type="text/javascript">
+
+    var aktiv = window.setInterval("Rechnen()", 500);
+
+    function number_format(number, decimals, dec_point, thousands_sep) {
+        "use strict";
+        //javascript equivalent to php number_format
+        //from http://phpjs.org/functions/number_format:481
+        //License GPLv2 and MIT
+        number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
+        var n = !isFinite(+number) ? 0 : +number,
+            prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+            sep = (thousands_sep === undefined) ? ',' : thousands_sep,
+            dec = (dec_point === undefined) ? '.' : dec_point,
+            s = '',
+            toFixedFix = function (n, prec) {
+                var k = Math.pow(10, prec);
+                return '' + Math.round(n * k) / k;
+            };
+        // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+        s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+        if (s[0].length > 3) {
+            s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+        }
+        if ((s[1] || '').length < prec) {
+            s[1] = s[1] || '';
+            s[1] += [prec - s[1].length + 1].join('0');
+        }
+        return s.join(dec);
+    }
+
+    function Rechnen() {
+        "use strict";
+        var class1kappa_benoetigt, class1kappa_vorhanden, class1kappa_nochbenoetigt, class2kappa_benoetigt, class2kappa_vorhanden, class2kappa_nochbenoetigt;
+      
+        class1kappa_benoetigt = (document.getElementById('eisen').value * 1)
+            + (document.getElementById('stahl').value * 2)
+            + (document.getElementById('chemie').value * 3)
+            + (document.getElementById('vv4a').value * 4);
+
+        class1kappa_vorhanden = (document.getElementById('systransen_vorhanden').value * 5000)
+            + (document.getElementById('gorgols_vorhanden').value * 20000)
+            + (document.getElementById('kamele_vorhanden').value * 75000)
+            + (document.getElementById('flughunde_vorhanden').value * 400000);
+
+        class2kappa_benoetigt = (document.getElementById('eis').value * 2)
+            + (document.getElementById('wasser').value * 2)
+            + (document.getElementById('energie').value * 1);
+
+        class2kappa_vorhanden = (document.getElementById('luche_vorhanden').value * 2000)
+            + (document.getElementById('eisbaeren_vorhanden').value * 10000)
+            + (document.getElementById('waschbaeren_vorhanden').value * 50000)
+            + (document.getElementById('seepferdchen_vorhanden').value * 250000);
+
+        class1kappa_nochbenoetigt = class1kappa_benoetigt - class1kappa_vorhanden;
+        class2kappa_nochbenoetigt = class2kappa_benoetigt - class2kappa_vorhanden;
+        
+        document.getElementById('class1kappatext').firstChild.data = number_format(class1kappa_benoetigt, 0, ',', '.');
+        document.getElementById('class2kappatext').firstChild.data = number_format(class2kappa_benoetigt, 0, ',', '.');
+
+        document.getElementById('systranstext').firstChild.data = number_format(Math.ceil(class1kappa_nochbenoetigt / 5000), 0, ',', '.');
+        document.getElementById('gorgoltext').firstChild.data = number_format(Math.ceil(class1kappa_nochbenoetigt / 20000), 0, ',', '.');
+        document.getElementById('kameltext').firstChild.data = number_format(Math.ceil(class1kappa_nochbenoetigt / 75000), 0, ',', '.');
+        document.getElementById('flughundtext').firstChild.data = number_format(Math.ceil(class1kappa_nochbenoetigt / 400000), 0, ',', '.');
+
+        document.getElementById('lurchtext').firstChild.data = number_format(Math.ceil(class2kappa_nochbenoetigt / 2000), 0, ',', '.');
+        document.getElementById('eisbaertext').firstChild.data = number_format(Math.ceil(class2kappa_nochbenoetigt / 10000), 0, ',', '.');
+        document.getElementById('waschbaertext').firstChild.data = number_format(Math.ceil(class2kappa_nochbenoetigt / 50000), 0, ',', '.');
+        document.getElementById('seepferdchentext').firstChild.data = number_format(Math.ceil(class2kappa_nochbenoetigt / 250000), 0, ',', '.');
+    }
+</script>

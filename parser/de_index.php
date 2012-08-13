@@ -68,7 +68,7 @@ function parse_de_index ( $return )
 				$fleetType = $aContainer->objResultData->strType;	//! own OR opposite
                 if (!$aContainer->objResultData->bObjectsVisible)
                      echo "<font color='orange'>Info: </font> keine Transportinformation (" . $fleetType . ") sichtbar. Bitte Fluginformationen vor dem Parsen ausklappen";
-               
+
 				foreach ($aContainer->objResultData->aFleets as $msg)
 				{	
 					$tf_type = $msg->eTransfairType;
@@ -78,9 +78,11 @@ function parse_de_index ( $return )
 //	     $scan_data['art'] == 'Ressourcenhandel' ||
 //	     $scan_data['art'] == 'Ressourcenhandel (ok)' ||
 //	     $scan_data['art'] == 'Stationieren' ||
-//	     $scan_data['art'] == 'Kolonisation' ||
      
 					if ( $tf_type == "Rückkehr") {	//! keine weiteren Infos vorhanden
+						continue;		
+					}
+                    else if ( $tf_type == "Kolonisation") {	//! keine weiteren Infos vorhanden
 						continue;		
 					}
 					else if ($tf_type == "Übergabe" || $tf_type == "Transport" || $tf_type == "Übergabe (tr Schiffe)" || $tf_type == "Massdriverpaket"
@@ -108,8 +110,12 @@ function parse_de_index ( $return )
                         
                         $scan_data['art'] = $tf_type;
                         
+                        if (empty($msg->iAnkunft)) {        //! keine Zeit erkannt, evtl. angekommener Anflug
+                            continue;
+                        }
+                            
                         // Zeitstempel
-                        if ($tf_type == "Transport" && !empty($msg->iAnkunft)) 	//! Ausladezeit: +5min
+                        if ($tf_type == "Transport") 	//! Ausladezeit: +5min
 							$scan_data['time'] = $msg->iAnkunft + 5*60;
 						else
 							$scan_data['time'] = $msg->iAnkunft;

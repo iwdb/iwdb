@@ -46,7 +46,7 @@ if (!defined('IRA'))
 
 $start = microtime(true);
 
-// $debug = TRUE;
+//$debug = TRUE;
 
 /*
 	Autoload system for plib parser
@@ -116,10 +116,10 @@ if( empty($selectedusername))
   $selectedusername = $user_sitterlogin;
 
 echo "<div class='doc_title'>Neuer Bericht</div>\n";
-echo "<form method=\"POST\" action=\"index.php?action=newscan&sid=" . $sid. "\" enctype=\"multipart/form-data\">\n";
-echo "<table border=\"0\" cellpadding=\"4\" cellspacing=\"1\" class=\"bordercolor\" style=\"width: 90%;\">\n";
+echo "<form method='POST' action='index.php?action=newscan&sid=" . $sid. "' enctype='multipart/form-data'>\n";
+echo "<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 90%;'>\n";
 echo " <tr>\n";
-echo "  <td class=\"windowbg2\" align=\"center\">\n";
+echo "  <td class='windowbg2' align='center'>\n";
 
 global $user_status, $user_sitten;
 
@@ -153,7 +153,7 @@ if( $user_status == "admin" ) {
 
 if( $allow1 AND $allow2 ) { 
   echo "   Bericht einfügen für\n";
-  echo "	 <select name=\"seluser\" style=\"width: 200px;\">\n";
+  echo "	 <select name='seluser' style='width: 200px;'>\n";
 
   $sql = "SELECT sitterlogin FROM " . $db_tb_user . " ORDER BY id ASC";
 	$result = $db->db_query($sql)
@@ -162,18 +162,18 @@ if( $allow1 AND $allow2 ) {
              __FILE__, __LINE__, $sql);
              
 	while( $row = $row = $db->db_fetch_array($result)) {
-	  echo "      <option value=\"" . $row['sitterlogin'] . "\"" . ($selectedusername == $row['sitterlogin'] ? " selected" : "") . ">" . $row['sitterlogin'] . "</option>";
+	  echo "      <option value='" . $row['sitterlogin'] . "'" . ($selectedusername == $row['sitterlogin'] ? " selected" : "") . ">" . $row['sitterlogin'] . "</option>";
 	}
-  echo " 	 </select><br>\n";
+  echo " 	 </select><br />\n";
 }
 
-echo "   <textarea name=\"text\" rows=\"14\" cols=\"70\"></textarea><br>\n";
-echo "   Für Hilfe bitte oben auf den \"Hilfe\" Button drücken.\n";
+echo "   <textarea name='text' rows='14' cols='70'></textarea><br />\n";
+echo "   Für Hilfe bitte oben auf den 'Hilfe' Button drücken.\n";
 echo "  </td>\n";
 echo " </tr>\n";
 echo " <tr>\n";
-echo "  <td class=\"titlebg\" align=\"center\">\n";
-echo "   <input type=\"submit\" value=\"abspeichern\" name=\"B1\" class=\"submit\">\n";
+echo "  <td class='titlebg' align='center'>\n";
+echo "   <input type='submit' value='abspeichern' name='B1' class='submit'>\n";
 echo "  </td>\n";
 echo " </tr>\n";
 echo "</table>\n";
@@ -182,14 +182,99 @@ echo "</form>\n";
 $textinput = getVar('text',true);        //! ungefilterten Bericht holen
 if ( ! empty($textinput) )
 {
-     $count = 0;
+    $count = 0;
  
-     require_once ('plib/ParserFactoryConfigC.php');
-     $availParsers = new ParserFactoryConfigC();   
-     $aParserIds = $availParsers->getParserIdsFor( $textinput );
+    require_once ('plib/ParserFactoryConfigC.php');
+    $availParsers = new ParserFactoryConfigC();   
+    $aParserIds = $availParsers->getParserIdsFor( $textinput );
+    $newparserfound = false;
 
-     if( count($aParserIds) === 0 )
-     {
+    if (count($aParserIds)) {
+         foreach ($aParserIds as $selectedParserId)
+         {
+            $parserObj = $availParsers->getParser( $textinput, $selectedParserId );
+            if( $parserObj instanceof ParserI )
+            {
+                $key = $parserObj->getIdentifier();
+                if (!isset($parser[$key])) {
+                    $parser[$key] = array("/deprecated/", 1, $parserObj->getName());
+                }
+                if($parser[$key][1] == 1) {
+                    echo "<div class='system_notification'>" . $parser[$key][2] . 
+                        " erkannt. Parse ...</div>\n";
+                } else {
+                    echo "<div class='system_notification'>Weiteren " . $parser[$key][2] . 
+                        " erkannt. Parse ...</div>\n";
+                }
+
+                $parserResult = new DTOParserResultC ($parserObj);
+                $parserObj->parseText ($parserResult);
+
+                if ($parserResult->bSuccessfullyParsed) {
+                    if (!empty($parserResult->aErrors) && count($parserResult->aErrors) > 0)
+                    {
+                        echo "info:<br />";
+                        foreach ($parserResult->aErrors as $t)
+                        {
+                            echo "...$t <br />";
+                        }
+                    } else {
+                        $lparser = $parserResult->strIdentifier;
+                        if (file_exists('parser/'.$lparser.'.php')) {
+                            require_once ('parser/'.$lparser.'.php');
+
+                            if (function_exists('parse_'.$lparser)) {
+                            
+                                $newparserfound = true;
+                                
+                                if(isset($debug)) {
+                                    echo "<div class='system_debug_blue'>";
+                                    echo "Rufe Parserfunktion parse_" . $lparser . " mit folgendem Parameter:<br />\n";
+                                    echo "<br /><pre>";
+                                    print_r($parserResult);
+                                    echo "</pre><br />";
+                                    echo "</div>";  
+                                }
+
+                                call_user_func ('parse_'.$lparser, $parserResult);
+
+                                if (function_exists('done_'.$lparser)) {
+                                    call_user_func ('done_'.$lparser, $parserResult);
+                                }	
+                                $parser[$key][1]++;
+                                $count++;
+                                
+                            } else {
+                                echo "Input erfolgreich erkannt (" . $parserObj->getName() . "). Passende Verarbeitung ist aber bisher nicht vorhanden.<br />Suche alten Parser...<br />";
+                                if(isset($debug)) {
+                                   echo "<div class='system_debug_blue'>parse_{$lparser}() in parser/{$lparser}.php nicht gefunden!</div>";   
+                                }
+                            }
+
+                        } else {
+                            echo "Input erfolgreich erkannt (" . $parserObj->getName() . "). Passende Verarbeitung ist aber bisher nicht vorhanden.<br />Suche alten Parser...<br />";
+                            if(isset($debug)) {
+                                echo "<div class='system_debug_blue'>parser/{$lparser}.php nicht gefunden!</div>";   
+                            }                        
+                        }
+                    }
+                } else {
+                    echo "Input (" . $parserObj->getName() . ") wurde erkannt, konnte aber nicht fehlerfrei geparsed werden!<br />";               
+                    if (!empty($parserResult->aErrors) && count($parserResult->aErrors) > 0)
+                    {
+                        echo "error:<br />";
+                        foreach ($parserResult->aErrors as $t)
+                        {
+                            echo "...$t <br />";
+                        }
+                    }
+                }
+            }
+        }    
+    }
+
+    if (!$newparserfound) {
+    
         // Es konnte kein passender Parser gefunden werden - suche alten Parser
         $textinput = getVar('text');        //! gefilterten Bericht holen       
         $textinput = str_replace(" \t", " ", $textinput);
@@ -270,10 +355,10 @@ if ( ! empty($textinput) )
 
                         if(isset($debug)) {
                             echo "<div class='system_debug_blue'>";
-                            echo "Rufe Parserfunktion " . $func . " mit folgendem Parameter:<br>\n";
-                            echo "<br><pre>";
+                            echo "Rufe Parserfunktion " . $func . " mit folgendem Parameter:<br />\n";
+                            echo "<br /><pre>";
                             print_r($scanlines);
-                            echo "</pre><br>";
+                            echo "</pre><br />";
                             echo "</div>";  
                         }
 
@@ -305,106 +390,33 @@ if ( ! empty($textinput) )
             $func = "parse_" . $scan_type;
             if(isset($debug)) {
                 echo "<div class='system_debug_blue'>";
-                echo "Rufe Parserfunktion " . $func . " mit folgendem Parameter:<br>\n";
-                echo "<br><pre>";
+                echo "Rufe Parserfunktion " . $func . " mit folgendem Parameter:<br />\n";
+                echo "<br /><pre>";
                 print_r($scanlines);
-                echo "</pre><br>";
+                echo "</pre><br />";
                 echo "</div>";  
             }
             $func($scanlines);
             $count++;
 
-            echo "<br>\n";
-        }
-        else {
+            echo "<br />\n";
+        } else {
             echo "<div class='system_notification'>es wurde kein passender Parser erkannt.</div>\n";
-        }
-     }
-     else 
-     {
-         foreach ($aParserIds as $selectedParserId)
-         {
-            $parserObj = $availParsers->getParser( $textinput, $selectedParserId );
-            if( $parserObj instanceof ParserI )
-            {
-                $key = $parserObj->getIdentifier();
-                if (!isset($parser[$key])) {
-                    $parser[$key] = array("/deprecated/", 1, $parserObj->getName());
-                }
-                if($parser[$key][1] == 1) {
-                    echo "<div class='system_notification'>" . $parser[$key][2] . 
-                        " erkannt. Parse ...</div>\n";
-                } else {
-                    echo "<div class='system_notification'>Weiteren " . $parser[$key][2] . 
-                        " erkannt. Parse ...</div>\n";
-                }
-
-                $parserResult = new DTOParserResultC ($parserObj);
-                $parserObj->parseText ($parserResult);
-
-                if ($parserResult->bSuccessfullyParsed) {
-                    if (!empty($parserResult->aErrors) && count($parserResult->aErrors) > 0)
-                    {
-                        echo "info:<br />";
-                        foreach ($parserResult->aErrors as $t)
-                        {
-                            echo "...$t <br />";
-                        }
-                    } else {
-                        $lparser = $parserResult->strIdentifier;
-                        if (file_exists('parser/'.$lparser.'.php')) {
-                            require_once ('parser/'.$lparser.'.php');
-
-                            if(isset($debug)) {
-                                echo "<div class='system_debug_blue'>";
-                                echo "Rufe Parserfunktion parse_" . $lparser . " mit folgendem Parameter:<br>\n";
-                                echo "<br><pre>";
-                                print_r($parserResult);
-                                echo "</pre><br>";
-                                echo "</div>";  
-                            }
-
-                            call_user_func ('parse_'.$lparser, $parserResult);
-
-                            if (function_exists('done_'.$lparser))
-                            {
-                                call_user_func ('done_'.$lparser, $parserResult);
-                            }	
-                            $parser[$key][1]++;
-                            $count++;
-                        }
-                        else {
-                            echo "Input erfolgreich erkannt (" . $parserObj->getName() . "). Weitere Verarbeitung in der IWDB ist aber bisher nicht vorgesehen<br />";
-                        }
-                    }
-                }
-                else {
-                    echo "Input (" . $parserObj->getName() . ") wurde erkannt, konnte aber nicht fehlerfrei geparsed werden!<br />";               
-                    if (!empty($parserResult->aErrors) && count($parserResult->aErrors) > 0)
-                    {
-                        echo "error:<br />";
-                        foreach ($parserResult->aErrors as $t)
-                        {
-                            echo "...$t <br />";
-                        }
-                    }
-                }
-            }
         }
     }
     
     //! Anzeige fuer den Spieler ...
     if($count > 0) {
         if($count > 1) {
-            echo "<table border=\"0\" cellpadding=\"4\" cellspacing=\"1\" class=\"bordercolor\" style=\"width: 90%;\">\n";
-            echo "  <tr><td colspan=\"2\" class=\"windowbg2\" style=\"font-size: 18px;\">Zusammenfassung</td></tr>\n";
+            echo "<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 90%;'>\n";
+            echo "  <tr><td colspan='2' class='windowbg2' style='font-size: 18px;'>Zusammenfassung</td></tr>\n";
         }
         foreach( $parser as $key => $value ) {
             if( $parser[$key][1] > 0 ) {
                 if($count > 1) {
                     echo "  <tr>\n";
-                    echo "    <td class=\"windowbg1\" align=\"right\" width=\"30px\">" . $parser[$key][1] . "</td>\n";
-                    echo "    <td class=\"windowbg1\" align=\"left\">" . (($parser[$key][1] > 1) ? (plural($parser[$key][2])) : $parser[$key][2]) . "</td>\n";
+                    echo "    <td class='windowbg1' align='right' width='30px'>" . $parser[$key][1] . "</td>\n";
+                    echo "    <td class='windowbg1' align='left'>" . (($parser[$key][1] > 1) ? (plural($parser[$key][2])) : $parser[$key][2]) . "</td>\n";
                     echo "  </tr>\n";
                 }
                 // Closure hook for module after all needed things were inserted.
@@ -422,7 +434,7 @@ if ( ! empty($textinput) )
             }
         }
         if($count > 1) {
-            echo "</table><br>\n";
+            echo "</table><br />\n";
         }
     } 
     

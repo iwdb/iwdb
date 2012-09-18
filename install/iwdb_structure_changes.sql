@@ -23,7 +23,6 @@ DROP TABLE IF EXISTS `prefix_bestellen`;
 DROP TABLE IF EXISTS `prefix_versand_auftrag`;
 DROP TABLE IF EXISTS `prefix_spielerinfo`;
 
-ALTER TABLE `prefix_scans` DROP `punkte`;
 ALTER TABLE `prefix_scans` CHANGE  `user`  `user` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  '';
 ALTER TABLE `prefix_scans` CHANGE  `planetenname`  `planetenname` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  '';
 ALTER TABLE `prefix_scans` CHANGE  `typ`  `typ` ENUM('', 'Nichts', 'Steinklumpen', 'Asteroid', 'Gasgigant', 'Eisplanet' ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  '';

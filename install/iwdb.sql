@@ -881,6 +881,7 @@ CREATE TABLE IF NOT EXISTS `prefix_scans` (
   `userchange_time` int(10) unsigned DEFAULT NULL,
   `allianz` varchar(50) NOT NULL DEFAULT '',
   `planetenname` varchar(50) NOT NULL DEFAULT '',
+  `punkte` int(10) unsigned NOT NULL DEFAULT '0',
   `typ` enum('','Nichts','Steinklumpen','Asteroid','Gasgigant','Eisplanet') NOT NULL DEFAULT '',
   `typchange_time` int(10) unsigned DEFAULT NULL,
   `objekt` enum('---','Artefaktbasis','Kampfbasis','Kolonie','Raumstation','Sammelbasis') NOT NULL DEFAULT '---',

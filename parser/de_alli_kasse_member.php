@@ -72,9 +72,7 @@ function parse_de_alli_kasse_member ( $return )
     echo "<p><u>Bisherige Einzahlungen:</u></p>";
 	foreach ($members as $member)
 	{
-        //Array ( [0] => EINZAHLER 14.04.2007 15:07 117.256,53 1.712 pro Tag [1] => EINZAHLER [2] => 117.256,53 )
-        $money=preg_replace("/\D/", "", $member->fCreditsPaid);
-        $money=$money/100;
+        //Array ( [0] => EINZAHLER 14.04.2007 15:07 117.256,53 1.712 pro Tag [1] => EINZAHLER [2] => 117256.53 )
         updateIncoming($member->strUser, $money, $allianz);
                 
         echo $member->strUser . "&nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;&nbsp;" . $member->fCreditsPaid . "<br>\n";

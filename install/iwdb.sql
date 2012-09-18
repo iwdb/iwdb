@@ -1224,3 +1224,41 @@ CREATE TABLE IF NOT EXISTS `prefix_wronglogin` (
   `ip` varchar(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `prefix_spieler`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_spieler` (
+  `name` varchar(50) NOT NULL,
+  `allianz` varchar(50) NOT NULL,
+  `allianzrang` varchar(50) DEFAULT NULL,
+  `exallianz` varchar(50) DEFAULT NULL,
+  `allychange_time` int(10) unsigned DEFAULT NULL,
+  `staatsform` varchar(50) DEFAULT NULL,
+  `status` varchar(50) NOT NULL,
+  `dabeiseit` int(10) unsigned NOT NULL,
+  `playerupdate_time` int(10) unsigned NOT NULL,
+  `geb_pkt` int(10) unsigned DEFAULT NULL,
+  `forsch_pkt` int(10) unsigned DEFAULT NULL,
+  `ges_pkt` int(10) unsigned DEFAULT NULL,
+  `pktupdate_time` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`name`),
+  KEY `allychange_time` (`allychange_time`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Tabelle aller Spieler';
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `prefix_spielerallychange`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_spielerallychange` (
+  `name` varchar(50) NOT NULL,
+  `fromally` varchar(50) NOT NULL,
+  `toally` varchar(50) NOT NULL,
+  `time` int(10) unsigned NOT NULL,
+  KEY `time` (`time`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;

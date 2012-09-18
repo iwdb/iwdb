@@ -565,4 +565,69 @@ function rating ( $scan_data , $coords = '0:0:0' )
 	return "<span class=\"ranking_" . $color . "\">" . $rating . "</span>";
 }
 
+function makeduration2($time1, $time2=NULL) {
+    //errechnet Zeitraum von Zeitpunkt 1 zu jetzt oder Zeitpunkt 2 ($time2)
+    // masel
+
+    Global $config_date;
+
+    if (!isset($time1)) {
+        return '---';
+    }
+    if (!isset($time2)) {
+        $time2 = $config_date;
+    }
+
+    if ($time1>$time2) {
+        $duration = $time1 - $time2;
+        $text = '-';
+    } else {
+        $duration = $time2 - $time1;
+        $text = '';
+    }
+    $Tage = (int)($duration / 86400);
+    $duration -= $Tage * 86400;
+    $Stunden = (int)($duration / 3600);
+    $duration -= $Stunden * 3600;
+    $Minuten = (int)($duration / 60);
+    //$duration -= $Minuten * 60;
+    //$Sekunden = $duration;
+    if ($Tage === 1) {
+        $text .= $Tage . '&nbsp;Tag ';
+    } elseif ($Tage > 1) {
+        $text .= $Tage . '&nbsp;Tage ';
+    }
+
+    $text .= str_pad($Stunden, 2 , '0') . ':';
+    $text .= str_pad($Minuten, 2 , '0') . '&nbsp;h';
+
+    return $text;
+}
+
+//******************************************************************************
+//
+// returns the parsed xml
+// loaded with simplexml_load_file (allow_url_fopen must be true) or curl Extension
+
+function simplexml_load_file_ex($url)
+{
+    libxml_use_internal_errors(true);
+    
+    if (ini_get('allow_url_fopen') == true) {
+        return simplexml_load_file($url);
+    } else if (function_exists('curl_init')) {                 //curl is available
+        if ($curl = curl_init($url)) {
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+            curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE);
+            $result = curl_exec($curl);
+            curl_close($curl);
+            return simplexml_load_string($result);
+        } else {
+            return FALSE;
+        }
+    } else {
+        return FALSE;
+    }
+}
+
 ?>

@@ -356,9 +356,10 @@ while ( $row = $db->db_fetch_array($result) ) {
 	}
 
     if (defined( 'NEBULA' ) && NEBULA === TRUE && !empty($row['nebula'])) {
-        $sys[$row['sys']] .= "; background-image:url(bilder/" . $row['nebula']
-                          .  ".gif); background-repeat:no-repeat";
-	}
+        if (in_array($row['nebula'], array('blau','gelb','gruen','rot','violett'))) {
+            $sys[$row['sys']] .= "; background-image:url(bilder/iwdb/nebel/{$row['nebula']}.png); background-repeat:no-repeat";
+        }
+    }
 
 	$maxsys = $row['sys'];
 }

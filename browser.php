@@ -30,7 +30,7 @@ if ($row_g['gesperrt'] == 1)
 	die ('<div style="text-align:center;color:red">ihr Account ist gesperrt worden!</div>');
 
 if (empty($sid) || empty($user_sitterlogin) || !($user_adminsitten == SITTEN_BOTH || $user_adminsitten == SITTEN_ONLY_LOGINS) || $user_id == "guest") {
-	header("Location: " . $config_url);
+	header("Location: " . APPLICATION_PATH);
 	exit;
 }
 

@@ -406,6 +406,110 @@ function scanAge($scandate) {
   return ("#" . str_pad(dechex($rot), 2, "0", STR_PAD_LEFT) . str_pad(dechex($gruen), 2, "0", STR_PAD_LEFT) . "00");
 }
 
+/**
+ * function filter_int
+ *
+ * filtert einfache Ganzzahlen mit Tausendertrennzeichen
+ *
+ * @param string $numberstring Zahl zum filtern
+ * @param int $min_value Minimalwert
+ * @param int $max_value Maximalwert
+ * @param int $default_value Standardwert
+ *
+ * @return int gefilterte Zahl
+ *
+ * @author masel
+ */
+function filter_int($numberstring, $default_value = NULL, $min_value = NULL, $max_value = NULL) {
+
+    $filtered_number = filter_var($numberstring, FILTER_SANITIZE_NUMBER_INT);
+    if (($filtered_number !== FALSE) AND ($filtered_number !== '')) {                    //Ergebnis nicht fehlgeschlagen oder leer
+
+        $filtered_number = (int)$filtered_number;
+    } else {                                                                             //sonst Standardwert
+
+        $filtered_number = $default_value;
+
+    }
+
+    if (!is_null($min_value) AND ($filtered_number < $min_value)) {                   //Limit-Check
+
+        return (int)$min_value;
+
+    } elseif (!is_null($max_value) AND ($filtered_number > $max_value)) {
+
+        return (int)$max_value;
+
+    } else {
+
+        return $filtered_number;
+
+    }
+}
+
+/**
+ * function filter_number
+ *
+ * filtert beliebige Zahlen mit Tausendertrennzeichen ggf mit Exponenten oder Si-prefix Mega oder Kilo am Ende
+ *
+ * @param string $numberstring Zahl zum filtern
+ * @param int $min_value Minimalwert
+ * @param int $max_value Maximalwert
+ * @param int $default_value Standardwert
+ *
+ * @return int|float gefilterte Zahl
+ *
+ * @author masel
+ */
+function filter_number($numberstring, $default_value = NULL, $min_value = NULL, $max_value = NULL) {
+
+    if (preg_match ('~(-?)(\d.*?)(e([+-]?\d+))?(m|k)?$~i' , $numberstring , $numberpart)) {         //evl vorhandene Negativ-Vorzeichen und Exponenten sichern
+
+        if (preg_match ('~(.*?\d)\D(?=(\d{1,2}))(?!(\d{3}))~' , $numberpart[2] , $number) === 1) {          //float
+
+            $vorkomma = preg_replace('~\D~', '', $number[1]);                     //alles außer Zahlen (tausendertrennzeichen) weg
+            if (($vorkomma==='') AND isset($default_value)) {            //falls nichts mehr nach dem Filtern übrigbleibt ggf gesetzten Standardwert zurückgeben
+                return $default_value;
+            }
+
+            $filtered_number = $vorkomma . "." . $number[2];
+
+        } else {                                                                        //Integer -> alles außer den Zahlen weg
+            $filtered_number = preg_replace('~\D~', '', $numberpart[2]);
+        }
+
+        if (!empty($numberpart[1])) {                        //if(!empty($numberpart[1]) ist ein Tick schneller als if($numberpart[1]='-') kann aber nach RegEx nur '-' sein
+            $filtered_number = -$filtered_number;            //negatives Vorzeichen wieder dazu
+        }
+
+        if (!empty($numberpart[4])) {                                                     //Exponent vorhanden?
+            $filtered_number=$filtered_number * pow(10, (float)$numberpart[4]);           //Exponent reinmultiplizieren
+        } elseif (!empty($numberpart[5])) {                                               // alternativ SI-Prefix vorhanden?
+
+            if ($numberpart[5] === 'm') {
+                $filtered_number = $filtered_number * 1000000;           //SI-prefix reinmultiplizieren
+            } elseif ($numberpart[5] === 'k'){
+                $filtered_number = $filtered_number * 1000;           //SI-prefix reinmultiplizieren
+            }
+
+        }
+
+    } else {
+        $filtered_number = $default_value;
+    }
+
+    if (!is_null($min_value) AND ($filtered_number < $min_value)) {                 //Limit-Check
+        return $min_value;
+    }
+    if (!is_null($max_value) AND ($filtered_number > $max_value)) {
+        return $max_value;
+    }
+
+        return (float)$filtered_number;
+
+
+}
+
 //******************************************************************************
 //
 // Replace thousand-separator with nothing, and the comma-sign with a period

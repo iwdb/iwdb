@@ -333,7 +333,7 @@ switch ($rowP['value']) {
   <td class="windowbg1">
 <?php
 if ( $user_status == "admin" ) {
-    echo "<input type='text' name='id' value='$id' style='width: 100px'>\n";
+    echo "<input type='text' name='id' value='$id' style='width: 25em'>\n";
 } else {
     echo "<input type='hidden' name='id' value='$id'>$id\n";
 }
@@ -346,7 +346,7 @@ if ( $user_status == "admin" ) {
    <span style="font-style:italic;">Dein Loginpasswort.</span>
   </td>
   <td class="windowbg1">
-   <input type="password" name="password" value="" style="width: 100">
+   <input type="password" name="password" value="" style="width: 25em">
   </td>
  </tr>
  <tr>
@@ -355,7 +355,7 @@ if ( $user_status == "admin" ) {
    <span style="font-style:italic;">Passwort zur Sicherheit wiederholen.</span>
   </td>
   <td class="windowbg1">
-   <input type="password" name="passwordwdhl" value="" style="width: 100">
+   <input type="password" name="passwordwdhl" value="" style="width: 25em">
   </td>
  </tr>
  <tr>
@@ -364,7 +364,7 @@ if ( $user_status == "admin" ) {
    <span style="font-style:italic;">An diese Adresse wird dein Passwort gesendet, wenn du es vergessen hast.</span>
   </td>
   <td class="windowbg1">
-   <input type="text" name="email" value="<?php echo $email;?>" style="width: 200">
+   <input type="text" name="email" value="<?php echo $email;?>" style="width: 25em">
   </td>
  </tr>
  <tr>
@@ -375,7 +375,7 @@ if ( $user_status == "admin" ) {
   <td class="windowbg1">
 <?php
 if ( $user_status == "admin" ) {
-    echo "input type='text' name='allianz' value='$allianz'' style='width: 100px'>\n";
+    echo "<input type='text' name='allianz' value='$allianz' style='width: 25em'>\n";
 } else {
     echo $allianz;
 }
@@ -388,7 +388,7 @@ if ( $user_status == "admin" ) {
    <span style="font-style:italic;">Gebe hier deinen Squadnamen an.</span>
   </td>
   <td class="windowbg1">
-      <input type="text" name="squad" value="<?php echo $squad;?>" style="width: 100">
+      <input type="text" name="squad" value="<?php echo $squad;?>" style="width: 25em">
   </td>
  </tr><tr>
   <td class="windowbg2">
@@ -396,7 +396,7 @@ if ( $user_status == "admin" ) {
    <span style="font-style:italic;">Trage hier den Bereich der Gravitation ein, die du besiedeln kannst.</span>
   </td>
   <td class="windowbg1">
-    von <input type="text" name="grav_von" value="<?php echo $grav_von;?>" style="width: 30" maxlength="3"> bis <input type="text" name="grav_bis" value="<?php echo $grav_bis;?>" style="width: 30" maxlength="3">
+    von <input type="text" name="grav_von" value="<?php echo $grav_von;?>" style="width: 5em" maxlength="3"> bis <input type="text" name="grav_bis" value="<?php echo $grav_bis;?>" style="width: 5em" maxlength="3">
   </td>
  </tr>
  <tr>
@@ -405,7 +405,7 @@ if ( $user_status == "admin" ) {
    <span style="font-style:italic;">Trage hier den Bereich der Galaxien ein, die du sehen kannst.</span>
   </td>
   <td class="windowbg1">
-   von <input type="text" name="gal_start" value="<?php echo $gal_start;?>" style="width: 30"> bis <input type="text" name="gal_end" value="<?php echo $gal_end;?>" style="width: 30">
+   von <input type="text" name="gal_start" value="<?php echo $gal_start;?>" style="width: 5em"> bis <input type="text" name="gal_end" value="<?php echo $gal_end;?>" style="width: 5em">
   </td>
  </tr>
  <tr>
@@ -414,7 +414,7 @@ if ( $user_status == "admin" ) {
    <span style="font-style:italic;">Trage hier den Bereich der Systeme ein, die du sehen kannst.</span>
   </td>
   <td class="windowbg1">
-   von <input type="text" name="sys_start" value="<?php echo $sys_start;?>" style="width: 30"> bis <input type="text" name="sys_end" value="<?php echo $sys_end;?>" style="width: 30">
+   von <input type="text" name="sys_start" value="<?php echo $sys_start;?>" style="width: 5em"> bis <input type="text" name="sys_end" value="<?php echo $sys_end;?>" style="width: 5em">
   </td>
  </tr>
  <tr>
@@ -485,7 +485,7 @@ if ( $user_status == "admin" ) {
    <span style="font-style:italic;">Dein Sitterpasswort in Icewars.</span>
   </td>
   <td class="windowbg1">
-   <input type="password" name="sitterpwd" value="<?php echo $sitterpwdsp;?>" style="width: 100">
+   <input type="password" name="sitterpwd" value="<?php echo $sitterpwdsp;?>" style="width: 25em">
    Null:
    <input type="checkbox" name="deleteSitterpass" value="1"> 
   </td>
@@ -495,7 +495,7 @@ if ( $user_status == "admin" ) {
    Sitterpasswort Wiederholung:
   </td>
   <td class="windowbg1">
-   <input type="password" name="sitterpwdwdhl" value="<?php echo $sitterpwdsp;?>" style="width: 100">
+   <input type="password" name="sitterpwdwdhl" value="<?php echo $sitterpwdsp;?>" style="width: 25em">
    Null:
    <input type="checkbox" name="deleteSitterpasswdh" value="1"> 
   </td>
@@ -523,7 +523,7 @@ if ( $user_status == "admin" ) {
   <td class="windowbg1">
 <?php
 if ( $user_status == "admin" ) {
- echo "<input type='text' name='sitterpunkte' value='$sitterpunkte'' style='width: 100pc'>\n";
+ echo "<input type='text' name='sitterpunkte' value='$sitterpunkte' style='width: 5em'>\n";
 } else {
     echo $sitterpunkte;
 }
@@ -555,7 +555,7 @@ if ( $user_status == "admin" ) {
  <tr>
   <td class="windowbg2">
    Fadein: <br>
-   <span style="font-style:italic;">Wie möchtest du bei Sitteraufträgen zusaätzlich benachrichtigt werden?</span>
+   <span style="font-style:italic;">Wie möchtest du bei Sitteraufträgen zusätzlich benachrichtigt werden?</span>
   </td>
   <td class="windowbg1">
     <select name="sound" size="1">

@@ -51,7 +51,7 @@ global $db_host, $db_user, $db_pass, $db_name, $db_prefix;
 require_once("config/configsql.php");
 require_once("includes/function.php");
 require_once("includes/db_mysql.php");
-require_once('parser_help.php');        //ausgelagerte Parserhilfsfunktionen
+require_once('parser/parser_help.php');        //ausgelagerte Parserhilfsfunktionen
 
 $error = '';
 libxml_use_internal_errors(true);

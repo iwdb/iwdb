@@ -248,12 +248,12 @@ if ($sql_where != '') {
 
 $sql_where = " WHERE " . $sql_where . " reset_timestamp>0 AND geoscantime>0 AND objekt='---' ";
 
-$sql_order = " ORDER BY reset_timestamp ".$sort." , coords_gal ASC , coords_sys ASC , coords_planet ASC";
+$sql_order = " ORDER BY reset_timestamp_2 ".$sort." , coords_gal ASC , coords_sys ASC , coords_planet ASC";
 
 $Limit = " Limit 100";
 
 // Abfrage ausführen
-$sql = "SELECT coords,typ,(eisengehalt/dgmod) AS Eisen_eff,(chemievorkommen/dgmod) AS Chem_eff,(eisdichte/dgmod) AS Eis_eff,lebensbedingungen,DGmod,reset_timestamp FROM " . $db_tb_scans . $sql_where . $sql_order . $Limit;
+$sql = "SELECT coords,typ,(eisengehalt/dgmod) AS Eisen_eff,(chemievorkommen/dgmod) AS Chem_eff,(eisdichte/dgmod) AS Eis_eff,lebensbedingungen,DGmod, (geoscantime + reset_timestamp) AS reset_timestamp_2 FROM " . $db_tb_scans . $sql_where . $sql_order . $Limit;
 
 $result = $db->db_query($sql)
 	or error(GENERAL_ERROR, 'Could not query scans_historie information.', '', __FILE__, __LINE__, $sql);
@@ -291,13 +291,13 @@ while ($row = $db->db_fetch_array($result)) {
 	echo "    <td>\n";
 
     echo '<a href="index.php?action=m_sprengung&amp;ordered=asc&amp;sid='.$sid.'><img src="bilder/asc.gif" border="0" alt="asc"></a>';
-	$timediff = ($row['reset_timestamp'] - 86400) - $config_date;   //vorverlegen des Sprengdatums wegen +-24h
+	$timediff = ($row['reset_timestamp_2'] - 86400) - $config_date;   //vorverlegen des Sprengdatums wegen +-24h
     if ($timediff>0)
         echo makeduration2(0, $timediff) . " \n";
     elseif ($timediff>-172800)                                        // 2 Tage Toleranz
 		echo "evl. seit ".makeduration2($timediff, 0)." gesprengt\n";
     else
-        echo "wahrscheinlich gesprengt!";                             //alles was drüber ist ist wohl weg
+        echo "wahrscheinlich gesprengt!";                             //alles was drüber ist, ist wohl weg
     
 	echo "    </td>\n";
 	echo "  </tr>\n";

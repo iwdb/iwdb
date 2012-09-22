@@ -31,10 +31,8 @@ if (file_exists('install.php')) {
 }
 
 date_default_timezone_set('Europe/Berlin');
-
 mb_internal_encoding("UTF-8");                   //just to make sure we are talking the same language
 mb_http_output("UTF-8");
-mb_http_input("UTF-8");
 header('Content-Type: text/html; charset=UTF-8');
 
 // define's vor allen anderen Includes durchführen 
@@ -46,37 +44,40 @@ define('SPECIALSEARCH', TRUE);
 define('ALLY_MEMBERS_ON_MAP', TRUE); 
 define('SHOWWITHOUTSCAN', TRUE);
 define('GENERAL_ERROR', 'GENERAL_ERROR');
+define('APPLICATION_PATH', dirname(__FILE__));
+define("MAX_INSERTS", 1000);
 
 global $db_host, $db_user, $db_pass, $db_name, $db_prefix;
-include_once("config/configsql.php");
-include_once("includes/function.php");
-include_once("includes/db_mysql.php");
+require_once("config/configsql.php");
+require_once("includes/function.php");
+require_once("includes/db_mysql.php");
+require_once('parser_help.php');        //ausgelagerte Parserhilfsfunktionen
 
 $error = '';
+libxml_use_internal_errors(true);
 
 $db = new db();
 $link_id = $db->db_connect($db_host, $db_user, $db_pass, $db_name)
-    or error(GENERAL_ERROR,
-    'Could not connect to database.', '',
-    __FILE__, __LINE__);
+    or error(GENERAL_ERROR, 'Could not connect to database.', '', __FILE__, __LINE__);
 
-include("config/config.php");
+require_once("config/config.php");
 
-$action = getVar('action');
-if ( empty($action) )
-{
-	$action = $config_default_action;
+$action = preg_replace('/[^a-zA-Z0-9_-]/', '', mb_substr(getVar('action'), 0, 100));      //get and filter actionstring (limited to 100 chars)
+if ( empty($action) ) {
+    $action = $config_default_action;
 }
 
-include("includes/sid.php");
+require_once("includes/sid.php");
 global $sid;
 
-  //Abkratzen sollte der User gesperrt sein
- 	$sql = "SELECT gesperrt FROM " . $db_tb_user . " WHERE id = '" . $user_id . "'"; 
- 	$result_g = $db->db_query($sql)       
-		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-      $row_g = $db->db_fetch_array($result_g);
-      if ($row_g['gesperrt'] == 1 ) die ('<div style="text-align:center;color:red">Der Account ist gesperrt worden!</div>');
+//Abkratzen sollte der User gesperrt sein
+$sql = "SELECT gesperrt FROM " . $db_tb_user . " WHERE id = '" . $user_id . "'";
+$result_g = $db->db_query($sql)
+    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$row_g = $db->db_fetch_array($result_g);
+if ($row_g['gesperrt'] == 1 ) {
+    die ('<div style="text-align:center;color:red">Der Account ist gesperrt worden!</div>');
+}
 
 if (isset($user_status)) {
 
@@ -116,12 +117,11 @@ echo '
 
 // Regeln akzeptieren //
 $rules = getVar('rules');
-if ( ( ! empty($rules) ) && ( $rules == "1" ) && ( $user_id <> "guest" ) )
-{
+if ( ( ! empty($rules) ) && ( $rules == "1" ) && ( $user_id <> "guest" ) ) {
 	$user_rules = "1";
 	$sql = "UPDATE " . $db_tb_user . " SET rules = '1' WHERE sitterlogin = '" . $user_sitterlogin . "'";
 	$result = $db->db_query($sql)
-		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+		or error(GENERAL_ERROR, 'Could not query rules information.', '', __FILE__, __LINE__, $sql);
 }
 
 // Sitterlogin //
@@ -163,7 +163,6 @@ if (( ( $user_adminsitten == SITTEN_BOTH ) || ( $user_adminsitten == SITTEN_ONLY
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	$row = $db->db_fetch_array($result);
 	header("Location: http://icewars.de/index.php?action=login&name=" . urlencode($sitterlogin) . "&pswd=" . $row['sitterpwd'] . "&sitter=1&ismd5=1&ip_change=1&serverskin=1&serverskin_typ=" . $user_sitterskin . "&submit=true");
-//	echo "Location: http://icewars.de/index.php?action=login&name=" . urlencode($sitterlogin) . "&pswd=" . $row['sitterpwd'] . "&sitter=1&ismd5=1&ip_change=1&serverskin=1&serverskin_typ=" . $user_sitterskin . "&submit=true";
 	exit;
 }
 ?>
@@ -183,7 +182,9 @@ if (( ( $user_adminsitten == SITTEN_BOTH ) || ( $user_adminsitten == SITTEN_ONLY
     }
     ?>
     <link href="style.css" rel="stylesheet" type="text/css">
-    <script language="javascript" type="text/javascript">
+    <script type="text/javascript" src="javascript/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="javascript/bbcode.js"></script>
+    <script type="text/javascript">
     function confirmlink(link, text)
     {
         return is_confirmed = confirm(text);
@@ -261,12 +262,6 @@ if ( ( empty($user_sitterpwd) ) && ( $user_sitten == "1" ) )
 
 if ( ( $user_id <> "guest" ) && ( $user_rules == "1" ) )
 {
-  # check action string for valid chars         
-  if (! preg_match('/^[a-zA-Z0-9_-]*$/', $action)) {
-    error(GENERAL_ERROR, 'Malformed action string (' . $action . ') .', '',
-          __FILE__, __LINE__);
-    exit(1);
-  }
 	if ( file_exists("modules/" . $action . ".php") === TRUE ) include("modules/" . $action . ".php");
 	if ( $action == 'memberlogin2' ) include("modules/" . $config_default_action . ".php");
 	if ( $action == 'deluser' )

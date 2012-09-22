@@ -36,6 +36,19 @@ CREATE TABLE IF NOT EXISTS `prefix_allianzstatus` (
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `prefix_bbcodes`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_bbcodes` (
+  `isregex` tinyint(1) NOT NULL DEFAULT '0',
+  `bbcode` varchar(100) NOT NULL DEFAULT '',
+  `htmlcode` varchar(100) NOT NULL DEFAULT '',
+  PRIMARY KEY (`bbcode`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='bbcode Übersetzungstabelle';
+
+-- --------------------------------------------------------
+
+--
 -- Tabellenstruktur für Tabelle `prefix_bestellung`
 --
 

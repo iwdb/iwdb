@@ -59,8 +59,8 @@ function ResetGeodata($updatetime) {
 		or error(GENERAL_ERROR, 'DB ResetGeodata Fehler!', '', __FILE__, __LINE__, '');
 
     //Zuweisen neuer Planiebilder
-    //planet_pic = 0-29 bei Steinklumpen, 0-19 bei Asteroid oder Gasgigant oder Eisplanet, Angabe bei Typ=nichts wird planet_pic ignoriert
-    //shadow_pic = 0-2 wird bei Planietyp Asteroid und Nichts ignoriert
+    //planet_pic = 0-29 bei Steinklumpen, 0-19 bei Asteroid oder Gasgigant oder Eisplanet, wird bei Typ "nichts" ignoriert
+    //shadow_pic = 0-2 wird bei Planietyp "Asteroid" oder "Nichts" ignoriert
     //bg_pic = 0-3
     $sql="UPDATE `{$db_prefix}scans`
            SET `planet_pic` = IF(STRCMP(`typ`,'Steinklumpen'),ROUND( RAND() * 19),ROUND( RAND() * 29)), `shadow_pic` = ROUND( RAND() * 2), `bg_pic` = ROUND( RAND() * 3) 

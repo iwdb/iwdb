@@ -1130,3 +1130,55 @@ INSERT INTO `prefix_parser` (`modulename`, `recognizer`, `message`) VALUES
 DELETE FROM `prefix_iwdbtabellen` WHERE `name`=`spielerinfo`;
 DELETE FROM `prefix_iwdbtabellen` WHERE `name`=`bestellen`;
 DELETE FROM `prefix_iwdbtabellen` WHERE `name`=`versand_auftrag`;
+
+--
+-- Daten für Tabelle `prefix_bbcodes`
+--
+
+INSERT INTO `prefix_bbcodes` (`isregex`, `bbcode`, `htmlcode`) VALUES
+(1, '\\[hr\\]', '<hr />'),
+(1, '\\[b\\](.*?)\\[/b\\]', '<span style="font-weight:bold;">$1</span>'),
+(1, '\\[i\\](.*?)\\[/i\\]', '<span style="font-style:italic;">$1</span>'),
+(1, '\\[u\\](.*?)\\[/u\\]', '<span style="text-decoration:underline;">$1</span>'),
+(1, '\\[s\\](.*?)\\[/s\\]', '<span style="text-decoration:line-through;">$1</span>'),
+(1, '\\[small\\](.*?)\\[/small\\]', '<span style="font-size:x-small">$1</span>'),
+(1, '\\[size=([0-9]|[0-2][0-9])\\](.*?)\\[/size\\]', '<span style="font-size:$1px;">$2</span>'),
+(1, '\\[color=#?((?:(?:[a-fA-F0-9]){3}){1,2})\\](.*?)\\[/color\\]', '<span style="color:#$1;">$2</span>'),
+(0, ' :D', ' <img src="bilder/smilies/biggrin.gif" />'),
+(0, ' :)', ' <img src="bilder/smilies/smile.gif" />'),
+(0, ' :-)', ' <img src="bilder/smilies/smile.gif" />'),
+(0, ' :lol: ', ' <img src="bilder/smilies/lol.gif" />'),
+(0, ' 8)', ' <img src="bilder/smilies/cool.gif" />'),
+(0, ' :?', ' <img src="bilder/smilies/confused.gif" />'),
+(0, ' :eek:', ' <img src="bilder/smilies/eek.gif" />'),
+(0, ' :(', '<img src="bilder/smilies/frown.gif" />'),
+(0, ' :-(', '<img src="bilder/smilies/frown.gif" />'),
+(0, ' :P', ' <img src="bilder/smilies/tongue.gif" />'),
+(0, ' :mad:', ' <img src="bilder/smilies/mad.gif" />'),
+(0, ' :cry:', ' <img src="bilder/smilies/crying.gif" />'),
+(0, ' :roll:', ' <img src="bilder/smilies/rolleyes.gif" />'),
+(0, ' :]', ' <img src="bilder/smilies/pleased.gif" />'),
+(0, ' :zZzz:', ' <img src="bilder/smilies/sleep.gif" />'),
+(0, ' :knuddel:', ' <img src="bilder/smilies/knuddel.gif" />'),
+(0, ' :beer:', ' <img src="bilder/smilies/beer.gif" />'),
+(0, ' :deal:', ' <img src="bilder/smilies/deal.gif" />'),
+(0, ' :nono:', ' <img src="bilder/smilies/nono.gif" />'),
+(0, ' :gott:', ' <img src="bilder/smilies/nono.gif" />'),
+(0, ' :lifesuckz:', ' <img src="bilder/smilies/lifesux.gif" />'),
+(0, ' :doof:', ' <img src="bilder/smilies/doof.gif" />'),
+(0, ' :no:', ' <img src="bilder/smilies/nein.gif" />'),
+(0, ' :nein:', ' <img src="bilder/smilies/nein.gif" />'),
+(0, ' :yes:', ' <img src="bilder/smilies/ja.gif" />'),
+(0, ' :dafür:', ' <img src="bilder/smilies/ja.gif" />'),
+(0, ' :respekt:', ' <img src="bilder/smilies/respekt.gif" />'),
+(0, ' :anbet:', ' <img src="bilder/smilies/anbet.gif" />'),
+(0, ' ;)', ' <img src="bilder/smilies/wink.gif" />'),
+(0, ' ;-)', ' <img src="bilder/smilies/wink.gif" />'),
+(0, ' :rotfl:', ' <img src="bilder/smilies/rotfl.gif" />'),
+(0, ' :zisch:', ' <img src="bilder/smilies/peitsche.gif" />'),
+(0, ' :wie:', ' <img src="bilder/smilies/wie.gif" />'),
+(0, ' :scol:', ' <img src="bilder/smilies/sauf.gif" />'),
+(0, ' :evil:', ' <img src="bilder/smilies/angry_evil.gif" />'),
+(0, ' :wayne:', ' <img src="bilder/smilies/wayne.gif" />'),
+(0, ' :wall:', ' <img src="bilder/smilies/wall.gif" />'),
+(0, ' :wtf:', ' <img src="bilder/smilies/wtf.gif" />');

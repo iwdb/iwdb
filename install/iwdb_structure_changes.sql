@@ -23,6 +23,7 @@ DROP TABLE IF EXISTS `prefix_bestellen`;
 DROP TABLE IF EXISTS `prefix_versand_auftrag`;
 DROP TABLE IF EXISTS `prefix_spielerinfo`;
 
+-- Tabellenoptimierung und Ergänzung by masel
 ALTER TABLE `prefix_scans` CHANGE  `user`  `user` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  '';
 ALTER TABLE `prefix_scans` CHANGE  `planetenname`  `planetenname` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  '';
 ALTER TABLE `prefix_scans` CHANGE  `typ`  `typ` ENUM('', 'Nichts', 'Steinklumpen', 'Asteroid', 'Gasgigant', 'Eisplanet' ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  '';
@@ -123,3 +124,11 @@ CREATE TABLE IF NOT EXISTS `prefix_spielerallychange` (
   `time` int(10) unsigned NOT NULL,
   KEY `time` (`time`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Tabelle aller Allianzänderungen';
+
+-- bbcodes my basel :)
+CREATE TABLE IF NOT EXISTS `prefix_bbcodes` (
+  `isregex` tinyint(1) NOT NULL DEFAULT '0',
+  `bbcode` varchar(100) NOT NULL DEFAULT '',
+  `htmlcode` varchar(100) NOT NULL DEFAULT '',
+  PRIMARY KEY (`bbcode`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='bbcode Übersetzungstabelle';

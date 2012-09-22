@@ -897,14 +897,8 @@ function parse_kbxml($xmldata)
 }
 
 function parse_unixml($xmldata) {
-    require_once('parser_help.php');        //ausgelagerte Parserhilfsfunktionen
-
-    if (!defined('MAX_INSERTS')) {
-        define("MAX_INSERTS", 1000);            //maximale Anzahl gebündelter DB-Inserts (überschreitet sonst evl DB-query limits)
-    }
-    
     global $db_prefix, $db;
-    
+
     $xml = simplexml_load_file_ex($xmldata->strUrl);                     //Unisichtxml-Datei laden und parsen
     if(empty($xml)) {
         echo "<div class='system_error'>XML-Fehler: {$xmldata->strUrl} konnte nicht geladen werden</div>\n";

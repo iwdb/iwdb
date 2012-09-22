@@ -611,7 +611,6 @@ function makeduration2($time1, $time2=NULL) {
 
 function simplexml_load_file_ex($url)
 {
-    libxml_use_internal_errors(true);
 
     if (ini_get('allow_url_fopen') == true) {                  //allow_url_fopen ist an -> direkt simplexml_load_file zum laden und parsen der XML-Datei verwenden
         return @simplexml_load_file($url);                     //ToDo: Möglicher 404 Fehler bei nicht mehr vorhandener XML loggen aber keine doppelte Fehlermeldung.
@@ -628,4 +627,62 @@ function simplexml_load_file_ex($url)
     } else {
         return FALSE;
     }
+}
+
+function convert_bbcode($string) {
+    global $db, $db_prefix;
+
+    if ($string === '') {
+       return '';
+    }
+
+    //ToDo: implement some caching
+    $sql = "SELECT isregex, bbcode, htmlcode FROM {$db_prefix}bbcodes;";
+    $result_bbcodes = $db->db_query($sql)
+        or error(GENERAL_ERROR, 'Could not query bbcodes.', '', __FILE__, __LINE__, $sql);
+    while($row_bbcodes = $db->db_fetch_array($result_bbcodes))
+    {
+        if (!empty($row_bbcodes['bbcode']) AND !empty($row_bbcodes['htmlcode'])) {
+            if ($row_bbcodes['isregex']) {
+                $return = preg_replace('~'.$row_bbcodes['bbcode'].'~Us', $row_bbcodes['htmlcode'], $string);
+                if (!is_null($return)) {
+                    $string = $return;
+                }
+            } else {
+                $string = str_replace($row_bbcodes['bbcode'], $row_bbcodes['htmlcode'], $string);
+            }
+        }
+    }
+
+    return $string;
+}
+
+function bbcode_buttons($id) {
+    global $db, $db_prefix;
+    //ToDo: implement some caching
+
+    $smilies = array();
+    $bbscriptcode = "<script type='text/javascript'>\n";
+    $bbscriptcode .= "var smilies = new Array();\n";
+
+    $sql = "SELECT bbcode, htmlcode FROM {$db_prefix}bbcodes WHERE htmlcode LIKE '%<img src=%' GROUP BY htmlcode";        //Smiliebilder holen
+    $result_bbcodes = $db->db_query($sql)
+        or error(GENERAL_ERROR, 'Could not query bbcodes.', '', __FILE__, __LINE__, $sql);
+    while($row_bbcodes = $db->db_fetch_array($result_bbcodes))
+    {
+        if (!empty($row_bbcodes['bbcode'])) {
+            $smilies[$row_bbcodes['bbcode']] = $row_bbcodes['htmlcode'];
+        }
+    }
+    $bbscriptcode .= "smilies = ".json_encode($smilies).";\n";
+    $bbscriptcode .= "</script><br />";
+
+    $bbscriptcode .= "<button type='button' class='bbcodebutton' id='bbcode_b_button' onclick='insertText(\"{$id}\",\"[b]\",\"[/b]\")' title='fett'></button>";
+    $bbscriptcode .= "<button type='button' class='bbcodebutton' id='bbcode_i_button' onclick='insertText(\"{$id}\",\"[i]\",\"[/i]\")' title='kursiv'></button>";
+    $bbscriptcode .= "<button type='button' class='bbcodebutton' id='bbcode_u_button' onclick='insertText(\"{$id}\",\"[u]\",\"[/u]\")' title='unterstrichen'></button>";
+    $bbscriptcode .= "<button type='button' class='bbcodebutton' id='bbcode_s_button' onclick='insertText(\"{$id}\",\"[s]\",\"[/s]\")' title='durchgestrichen'></button>";
+    $bbscriptcode .= "<button type='button' class='bbcodebutton' id='bbcode_farbe_button' onclick='generateColorPicker(\"{$id}\")' title='Schriftfarbe'></button>";
+    $bbscriptcode .= "<button type='button' class='bbcodebutton' id='bbcode_smilie_button' onclick='generateSmiliePicker(\"{$id}\")' title='Smilies'></button>";
+
+    return $bbscriptcode;
 }

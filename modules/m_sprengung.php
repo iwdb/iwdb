@@ -253,7 +253,7 @@ $sql_order = " ORDER BY reset_timestamp ".$sort." , coords_gal ASC , coords_sys 
 $Limit = " Limit 100";
 
 // Abfrage ausführen
-$sql = "SELECT coords,typ,(eisengehalt*100/DGmod) AS Eisen_eff,(chemievorkommen*100/DGmod) AS Chem_eff,(eisdichte*100/DGmod) AS Eis_eff,lebensbedingungen,DGmod,reset_timestamp FROM " . $db_tb_scans . $sql_where . $sql_order . $Limit;
+$sql = "SELECT coords,typ,(eisengehalt/dgmod) AS Eisen_eff,(chemievorkommen/dgmod) AS Chem_eff,(eisdichte/dgmod) AS Eis_eff,lebensbedingungen,DGmod,reset_timestamp FROM " . $db_tb_scans . $sql_where . $sql_order . $Limit;
 
 $result = $db->db_query($sql)
 	or error(GENERAL_ERROR, 'Could not query scans_historie information.', '', __FILE__, __LINE__, $sql);
@@ -286,7 +286,7 @@ while ($row = $db->db_fetch_array($result)) {
 	echo "      " . $row['lebensbedingungen'] . "%\n";
 	echo "    </td>\n";
 	echo "    <td>\n";
-	echo "      " . $row['DGmod'] . " %\n";
+	echo "      " . $row['DGmod'] . "\n";
 	echo "    </td>\n";
 	echo "    <td>\n";
 

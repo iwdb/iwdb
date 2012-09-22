@@ -291,14 +291,14 @@ while ($row = $db->db_fetch_array($result)) {
 	echo "    <td>\n";
 
     echo '<a href="index.php?action=m_sprengung&amp;ordered=asc&amp;sid='.$sid.'><img src="bilder/asc.gif" border="0" alt="asc"></a>';
-	$timediff = ($row['reset_timestamp_2'] - 86400) - $config_date;   //vorverlegen des Sprengdatums wegen +-24h
-    if ($timediff>0)
-        echo makeduration2(0, $timediff) . " \n";
-    elseif ($timediff>-172800)                                        // 2 Tage Toleranz
-		echo "evl. seit ".makeduration2($timediff, 0)." gesprengt\n";
-    else
+	$reset_timestamp_first = ($row['reset_timestamp_2'] - 86400);   //vorverlegen des Sprengdatums wegen +-24h
+    if ($reset_timestamp_first > $config_date) {
+        echo makeduration2($config_date, $reset_timestamp_first) . " \n";
+    } elseif (($reset_timestamp_first+172800) > $config_date) {                                        // 2 Tage Toleranz
+		echo "evl. seit ".makeduration2($reset_timestamp_first, $config_date)." gesprengt\n";
+    } else {
         echo "wahrscheinlich gesprengt!";                             //alles was drüber ist, ist wohl weg
-    
+    }
 	echo "    </td>\n";
 	echo "  </tr>\n";
 }

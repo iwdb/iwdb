@@ -702,8 +702,8 @@ function makeduration2($time1, $time2=NULL) {
         $text .= $Tage . '&nbsp;Tage ';
     }
 
-    $text .= str_pad($Stunden, 2 , '0') . ':';
-    $text .= str_pad($Minuten, 2 , '0') . '&nbsp;h';
+    $text .= str_pad($Stunden, 2 , '0', STR_PAD_LEFT) . ':';
+    $text .= str_pad($Minuten, 2 , '0', STR_PAD_LEFT) . '&nbsp;h';
 
     return $text;
 }

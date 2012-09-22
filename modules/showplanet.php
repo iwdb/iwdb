@@ -92,8 +92,7 @@ if ( ! empty($coords) )
 }
 ?>
 <br>
-<table border="0" cellpadding="4" cellspacing="1" class="bordercolor"
-	style="width: 80%;">
+<table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 80%;">
 	<?php
 	if ( $user_planibilder == "1" )
 	{

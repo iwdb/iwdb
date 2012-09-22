@@ -193,16 +193,16 @@ echo "</form>\n";
 ?>
 <br>
 
-<table class="centeredtable">
+<table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 80%;">
     <tr>
-        <th>Koords</th>
-        <th>Planetentyp</th>
-        <th>Eisen<br><span style="font-size:x-small">(eff)</span></th>
-        <th>Chemie<br><span style="font-size:x-small">(eff)</span></th>
-        <th>Eis<br><span style="font-size:x-small">(eff)</span></th>
-        <th>LB</th>
-        <th>Gebäude-<br>dauer</th>
-        <th>
+        <th class='windowbg2'>Koords</th>
+        <th class='windowbg2'>Planetentyp</th>
+        <th class='windowbg2'>Eisen<br><span style="font-size:x-small">(eff)</span></th>
+        <th class='windowbg2'>Chemie<br><span style="font-size:x-small">(eff)</span></th>
+        <th class='windowbg2'>Eis<br><span style="font-size:x-small">(eff)</span></th>
+        <th class='windowbg2'>LB</th>
+        <th class='windowbg2'>Gebäude-<br>dauer</th>
+        <th class='windowbg2'>
             <a href="index.php?action=m_sprengung&amp;ordered=asc&amp;sid=<?php echo $sid; ?>"><img src="bilder/desc.gif" border="0" alt="a"></a>
             Sprengung
             <a href="index.php?action=m_sprengung&amp;ordered=desc&amp;sid=<?php echo $sid; ?>"><img src="bilder/asc.gif" border="0" alt="d"></a>
@@ -265,30 +265,30 @@ while ($row = $db->db_fetch_array($result)) {
     }
 
 	echo "  <tr>\n";
-	echo "    <td>\n";
+	echo "    <td class='windowbg1' style='text-align:center;'>\n";
 	echo "      <a href='index.php?action=showplanet&amp;coords=" . $row['coords'] . "&amp;ansicht=auto&amp;sid=" . $sid . "'>\n";
 	echo "      " . $row['coords'] . "\n";
 	echo "      </a>\n";
 	echo "    </td>\n";
-	echo "    <td>\n";
+	echo "    <td class='windowbg1' style='text-align:center;'>\n";
 	echo "      " . $row['typ'] . "\n";
 	echo "    </td>\n";
-	echo "    <td>\n";
+	echo "    <td class='windowbg1' style='text-align:center;'>\n";
 	echo "      " . (int)($row['Eisen_eff']) . " %\n";
 	echo "    </td>\n";
-	echo "    <td>\n";
+	echo "    <td class='windowbg1' style='text-align:center;'>\n";
 	echo "      " . (int)($row['Chem_eff']) . " %\n";
 	echo "    </td>\n";
-	echo "    <td>\n";
+	echo "    <td class='windowbg1' style='text-align:center;'>\n";
 	echo "      " . (int)($row['Eis_eff']) . " %\n";
 	echo "    </td>\n";
-	echo "    <td>\n";
+	echo "    <td class='windowbg1' style='text-align:center;'>\n";
 	echo "      " . $row['lebensbedingungen'] . "%\n";
 	echo "    </td>\n";
-	echo "    <td>\n";
+	echo "    <td class='windowbg1' style='text-align:center;'>\n";
 	echo "      " . $row['DGmod'] . "\n";
 	echo "    </td>\n";
-	echo "    <td>\n";
+	echo "    <td class='windowbg1' style='text-align:center;'>\n";
 
     echo '<a href="index.php?action=m_sprengung&amp;ordered=asc&amp;sid='.$sid.'><img src="bilder/asc.gif" border="0" alt="asc"></a>';
 	$reset_timestamp_first = ($row['reset_timestamp_2'] - 86400);   //vorverlegen des Sprengdatums wegen +-24h

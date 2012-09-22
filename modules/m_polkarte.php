@@ -252,7 +252,7 @@ echo "<br />";
 
 // Anzeige Galaxiezahllinks (schnellere Auswahl als per Inputfeld) - masel
 echo "<div class='doc_big_black'>";
-if ($galaxy > 1 ) {
+if ($galaxy > $config_map_galaxy_min ) {
     echo "<a href='index.php?action=m_polkarte&amp;galaxy=" . ($galaxy - 1) .
         "&amp;sid=" . $sid . "'><b>&lt;&lt;</b></a>\n";                 // <<
 }
@@ -263,7 +263,7 @@ if (isset($config_map_galaxy_min) AND !empty($config_map_galaxy_min)) {
     $gal=1;
 }
 
-while ($gal <= $config_map_galaxy_count) {                               // Galaxiezahl
+while ($gal <= $config_map_galaxy_max) {                               // Galaxiezahl
     echo "<a href='index.php?action=m_polkarte&amp;galaxy=" . ($gal) . "&amp;sid=" . $sid . "'>";
     if ($gal == $galaxy) {
         echo "<b>[".$gal."]</b></a>\n";
@@ -273,7 +273,7 @@ while ($gal <= $config_map_galaxy_count) {                               // Gala
     $gal++;
 }
 
-if ($galaxy < $config_map_galaxy_count ) {
+if ($galaxy < $config_map_galaxy_max ) {
     echo "<a href='index.php?action=m_polkarte&amp;galaxy=" . ($galaxy + 1) ."&amp;sid=" . $sid . "'><b>&gt;&gt;</b></a>\n";      // >>
 }
 echo "</div></p>";

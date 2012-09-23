@@ -473,7 +473,7 @@ function parse_kbxml($xmldata)
 				$kb['verluste'][] = array(
 					'id' => (int)$value->id['value'],
 					'seite' => 2,
-					'name' => utf8_decode((string)$value->name['value']),
+					'name' => (string)$value->name['value'],
 					'anzahl' => (int)$value->anzahl['value'],
 				);
 			}
@@ -485,7 +485,7 @@ function parse_kbxml($xmldata)
 			foreach ($res as $value) {
 				$kb['pluenderung'][] = array(
 					'id' => (int)$value->id['value'],
-					'name' => utf8_decode((string)$value->name['value']),
+					'name' => (string)$value->name['value'],
 					'anzahl' => (int)$value->anzahl['value'],
 				);
 			}
@@ -494,7 +494,7 @@ function parse_kbxml($xmldata)
 		    // Bomb
 		if (isset($xml->bomben->user)) {
 			$xml_bomb = $xml->bomben;
-			$kb['bomb']['user'] = utf8_decode((string)$xml_bomb->user->name['value']);
+			$kb['bomb']['user'] = (string)$xml_bomb->user->name['value'];
 			// Bombertrefferchance
 			if (isset($xml_bomb->bombentrefferchance))
 				$kb['bomb']['trefferchance'] = $xml_bomb->bombentrefferchance['value'];
@@ -510,7 +510,7 @@ function parse_kbxml($xmldata)
 				foreach ($xml_geb as $value) {
 					$kb['bomb']['geb'][] = array(
 						'id' => (int)$value->id['value'],
-						'name' => utf8_decode((string)$value->name['value']),
+						'name' => (string)$value->name['value'],
 						'anzahl' => (int)$value->anzahl['value'],
 					);
 				}
@@ -523,15 +523,15 @@ function parse_kbxml($xmldata)
 			$user = $xml->pla_def->user;
 			$flotte = array(
 				'art' => 1,
-				'name' => utf8_decode((string)$user->name['value']),
-				'ally' => utf8_decode((string)$user->allianz_tag['value']),
+				'name' => (string)$user->name['value'],
+				'ally' => (string)$user->allianz_tag['value'],
 			);
 			if (isset($user->schiffe)) {
 				$schiffe = $user->schiffe->schifftyp;
 				foreach ($schiffe as $value) {
 					$flotte['schiffe'][] = array(
 						'id' => (int)$value->id['value'],
-						'name' => utf8_decode((string)$value->name['value']),
+						'name' => (string)$value->name['value'],
 						'klasse' => (int)$value->klasse['value'],
 						'anzahl_start' => (int)$value->anzahl_start['value'],
 						'anzahl_ende' => (int)$value->anzahl_ende['value'],
@@ -548,15 +548,15 @@ function parse_kbxml($xmldata)
 			foreach ($user as $value) {
 				$flotte = array(
 					'art' => 2,
-					'name' => utf8_decode((string)$value->name['value']),
-					'ally' => utf8_decode((string)$value->allianz_tag['value']),
+					'name' => (string)$value->name['value'],
+					'ally' => (string)$value->allianz_tag['value'],
 				);
 				if (isset($value->schiffe)) {
 					$schiffe = $value->schiffe->schifftyp;
 					foreach ($schiffe as $value) {
 						$flotte['schiffe'][] = array(
 							'id' => (int)$value->id['value'],
-							'name' => utf8_decode((string)$value->name['value']),
+							'name' => (string)$value->name['value'],
 							'klasse' => (int)$value->klasse['value'],
 							'anzahl_start' => (int)$value->anzahl_start['value'],
 							'anzahl_ende' => (int)$value->anzahl_ende['value'],
@@ -574,17 +574,17 @@ function parse_kbxml($xmldata)
 			foreach ($user as $value) {
 				$flotte = array(
 					'art' => 3,
-					'name' => utf8_decode((string)$value->name['value']),
-					'ally' => utf8_decode((string)$value->allianz_tag['value']),
+					'name' => (string)$value->name['value'],
+					'ally' => (string)$value->allianz_tag['value'],
 					'planet_name' => (string)$value->startplanet->plani_name['value'],
-					'koords_string' => utf8_decode((string)$value->startplanet->koordinaten->string['value']),
+					'koords_string' => (string)$value->startplanet->koordinaten->string['value'],
 				);
 				if (isset($value->schiffe)) {
 					$schiffe = $value->schiffe->schifftyp;
 					foreach ($schiffe as $value) {
 						$flotte['schiffe'][] = array(
 							'id' => (int)$value->id['value'],
-							'name' => utf8_decode((string)$value->name['value']),
+							'name' => (string)$value->name['value'],
 							'klasse' => (int)$value->klasse['value'],
 							'anzahl_start' => (int)$value->anzahl_start['value'],
 							'anzahl_ende' => (int)$value->anzahl_ende['value'],
@@ -682,7 +682,7 @@ function parse_kbxml($xmldata)
 				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
             // Gebäude
-			if (count($kb['bomb']['geb'])) {
+			if (!empty($kb['bomb']['geb'])) {
                 $sql = "
                     INSERT INTO {$db_prefix}kb_bomb_geb
                         (ID_KB, ID_IW_GEB, anzahl)

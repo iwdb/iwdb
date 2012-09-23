@@ -132,3 +132,7 @@ CREATE TABLE IF NOT EXISTS `prefix_bbcodes` (
   `htmlcode` varchar(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`bbcode`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='bbcode Übersetzungstabelle';
+
+-- fix #93
+ALTER TABLE `prefix_kb_bomb` ADD `trefferchance` INT UNSIGNED NOT NULL;
+ALTER TABLE `prefix_kb_bomb` ADD `basis` BOOLEAN NOT NULL;

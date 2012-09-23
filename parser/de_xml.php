@@ -427,13 +427,13 @@ function parse_kbxml($xmldata)
 		
 		// Allgemein
 		$kb = array(
-			'verteidiger' => utf8_decode((string)$xml->plani_data->user->name['value']),
-			'verteidiger_ally' => utf8_decode((string)$xml->plani_data->user->allianz_tag['value']),
-			'planet_name' => utf8_decode((string)$xml->plani_data->plani_name['value']),
+			'verteidiger' => (string)$xml->plani_data->user->name['value'],
+			'verteidiger_ally' => (string)$xml->plani_data->user->allianz_tag['value'],
+			'planet_name' => (string)$xml->plani_data->plani_name['value'],
 			'koords_gal' => (int)$xml->plani_data->koordinaten->gal['value'],
 			'koords_sol' => (int)$xml->plani_data->koordinaten->sol['value'],
 			'koords_pla' => (int)$xml->plani_data->koordinaten->pla['value'],
-			'koords_string' => utf8_decode((string)$xml->plani_data->koordinaten->string['value']),
+			'koords_string' => (string)$xml->plani_data->koordinaten->string['value'],
 			'typ' => (int)$xml->kampf_typ->id['value'],
 			'resultat' => (int)$xml->resultat->id['value'],
 		);
@@ -444,7 +444,7 @@ function parse_kbxml($xmldata)
 			foreach($def as $value){
 				$kb['def'][] = array(
 					'id' => (int)$value->id['value'],
-					'name' => utf8_decode((string)$value->name['value']),
+					'name' => (string)$value->name['value'],
 					'start' => (int)$value->anzahl_start['value'],
 					'ende' => (int)$value->anzahl_ende['value'],
 					'verlust' => (int)$value->anzahl_verlust['value'],
@@ -460,7 +460,7 @@ function parse_kbxml($xmldata)
 				$kb['verluste'][] = array(
 					'id' => (int)$value->id['value'],
 					'seite' => 1,
-					'name' => utf8_decode((string)$value->name['value']),
+					'name' => (string)$value->name['value'],
 					'anzahl' => (int)$value->anzahl['value'],
 				);
 			}
@@ -681,22 +681,24 @@ function parse_kbxml($xmldata)
 			$result = $db->db_query($sql)
 				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
-				// Gebäude
-			$sql = "
-				INSERT INTO {$db_prefix}kb_bomb_geb
-					(ID_KB, ID_IW_GEB, anzahl)
-				VALUES";
-			foreach ($kb['bomb']['geb'] as $key => $value) {
-				if ($key == 0) {
-					$sql .= "
-						('$kb_id', '$value[id]', '$value[anzahl]')";
-                } else {
-					$sql .= ",
-						('$kb_id', '$value[id]', '$value[anzahl]')";
+            // Gebäude
+			if (count($kb['bomb']['geb'])) {
+                $sql = "
+                    INSERT INTO {$db_prefix}kb_bomb_geb
+                        (ID_KB, ID_IW_GEB, anzahl)
+                    VALUES";
+                foreach ($kb['bomb']['geb'] as $key => $value) {
+                    if ($key == 0) {
+                        $sql .= "
+                            ('$kb_id', '$value[id]', '$value[anzahl]')";
+                    } else {
+                        $sql .= ",
+                            ('$kb_id', '$value[id]', '$value[anzahl]')";
+                    }
                 }
-			}
-			$result = $db->db_query($sql)
-				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                $result = $db->db_query($sql)
+                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            }
 		}
 		// Eintrag Flotte
 		if (isset($kb['flotte'])) {

@@ -396,7 +396,9 @@ CREATE TABLE IF NOT EXISTS `prefix_kb` (
 CREATE TABLE IF NOT EXISTS `prefix_kb_bomb` (
   `ID_KB` int(11) NOT NULL DEFAULT '0',
   `time` int(11) NOT NULL,
-  `user` varchar(30) NOT NULL DEFAULT ''
+  `user` varchar(30) NOT NULL DEFAULT '',
+  `trefferchance` int(10) unsigned NOT NULL,
+  `basis` tinyint(1) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

@@ -169,7 +169,7 @@ if ( ! empty($anz) )
             echo "<a href='index.php?action=sitterlogins&sitterlogin=" . urlencode($data) . "&sid=" . $sid . "' target='_blank'>[einloggen]</a>";
         }
 ?>
-   <br><a href=\"javascript:Collapse('d<?php echo $key;?>');\"><img src='bilder/plus.gif' alt='' border='0' id='collapse_d<?php echo $key;?>'></a>
+  <br><a href="javascript:Collapse('d<?php echo $key;?>');"><img src="bilder/plus.gif" alt="" border="0" id="collapse_d<?php echo $key;?>"></a>
   </td>
   <td class='windowbg<?php echo $num;?>' valign='top'>
    <?php echo ( empty($users_lastlogin_user[$key]) ) ? "": strftime($config_sitter_timeformat, $users_lastlogin[$key]) . " - " . $users_lastlogin_user[$key];?>

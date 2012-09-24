@@ -1147,7 +1147,7 @@ INSERT INTO `prefix_bbcodes` (`isregex`, `bbcode`, `htmlcode`) VALUES
 (0, ' :D', ' <img src="bilder/smilies/biggrin.gif" />'),
 (0, ' :)', ' <img src="bilder/smilies/smile.gif" />'),
 (0, ' :-)', ' <img src="bilder/smilies/smile.gif" />'),
-(0, ' :lol: ', ' <img src="bilder/smilies/lol.gif" />'),
+(0, ' :lol:', ' <img src="bilder/smilies/lol.gif" />'),
 (0, ' 8)', ' <img src="bilder/smilies/cool.gif" />'),
 (0, ' :?', ' <img src="bilder/smilies/confused.gif" />'),
 (0, ' :eek:', ' <img src="bilder/smilies/eek.gif" />'),

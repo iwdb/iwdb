@@ -92,7 +92,7 @@ function parse_de_alli_memberliste ( $result )
     
     //! Mac: in der original Version wurden nie Spieler entfernt ?
 	foreach ($oldMember as $formerUser) {
-		if (!in_array($formerUser,$aktMember)) {
+		if (!in_array($formerUser,$aktMember, true)) {
 			echo "Mac: todo: " . $formerUser . " entfernen<br />";
 		}
 	}

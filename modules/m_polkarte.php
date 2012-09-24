@@ -214,7 +214,7 @@ if ($showmembers) {
   	    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
     while( $row = $db->db_fetch_array($result)) {
-        if (in_array($row['allianz'],$arrrayofAlis)) {
+        if (in_array($row['allianz'],$arrrayofAlis, true)) {
             $txta = 'a' . $row['coords_sys'];
             $txte = 'e' . $row['coords_sys'];
             $txtm = 'm' . $row['coords_sys'];
@@ -231,7 +231,7 @@ if ($showmembers) {
                     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
                 while( $row2 = $db->db_fetch_array($result2)) {
-                    if (in_array($row2['allianz'],$arrrayofAlis)) {
+                    if (in_array($row2['allianz'],$arrrayofAlis, true)) {
                         if( !empty($allymember[$txtm])) {
                             $allymember[$txtm] .= ", ";
                         }
@@ -356,7 +356,7 @@ while ( $row = $db->db_fetch_array($result) ) {
 	}
 
     if (defined( 'NEBULA' ) && NEBULA === TRUE && !empty($row['nebula'])) {
-        if (in_array($row['nebula'], array('blau','gelb','gruen','rot','violett'))) {
+        if (in_array($row['nebula'], array('blau','gelb','gruen','rot','violett'), true)) {
             $sys[$row['sys']] .= "; background-image:url(bilder/iwdb/nebel/{$row['nebula']}.png); background-repeat:no-repeat";
         }
     }

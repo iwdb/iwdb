@@ -34,6 +34,8 @@ date_default_timezone_set('Europe/Berlin');
 mb_internal_encoding("UTF-8");                   //just to make sure we are talking the same language
 mb_http_output("UTF-8");
 header('Content-Type: text/html; charset=UTF-8');
+header('X-Frame-Options: DENY');
+header('X-XSS-Protection: 1; mode=block');
 
 // define's vor allen anderen Includes durchführen 
 define('DEBUG', TRUE);
@@ -223,8 +225,8 @@ if (isset($config_banner))
         </table>
 <?php	} ?>					
 <?php
-if ( ( $user_id <> "guest" ) && ( $user_rules == "1" ) )
-{
+if ( ( $user_id <> "guest" ) && ( $user_rules == "1" ) ) {
+
    if(getVar("action") == "profile") {
      // Menue-Änderung voraus?
      $newmenustyle = getVar("menu_default");
@@ -243,9 +245,7 @@ if ( ( $user_id <> "guest" ) && ( $user_rules == "1" ) )
    include "./menustyles/doc_" . $user_doc_style . ".php";
 	if (!getVar("nobody"))
 		include "./menustyles/menu_" . $user_menu_default . ".php";
-}
-else 
-{
+} else {
 ?>
           <table width="95%" border="0" cellspacing="0" cellpadding="0">
             <tr>
@@ -260,12 +260,12 @@ if ( ( $user_password == "a338268847bac752d23c30b410570c2c" ) ||
 if ( ( empty($user_sitterpwd) ) && ( $user_sitten == "1" ) ) 
   echo "<br><div class='system_notification'><b>*moep* Achtung! Du hast zwar anderen das Sitten erlaubt, aber kein Sitterpasswort eingetragen.</b></div><br><br>";
 
-if ( ( $user_id <> "guest" ) && ( $user_rules == "1" ) )
-{
+if ( ( $user_id <> "guest" ) && ( $user_rules == "1" ) ) {
+
 	if ( file_exists("modules/" . $action . ".php") === TRUE ) include("modules/" . $action . ".php");
 	if ( $action == 'memberlogin2' ) include("modules/" . $config_default_action . ".php");
-	if ( $action == 'deluser' )
-	{
+	if ( $action == 'deluser' AND $user_status === "admin")	{
+
 		$sql = "DELETE FROM " . $db_tb_user . " WHERE sitterlogin='" . $sitterlogin . "'";
 		$result = $db->db_query($sql)
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -325,9 +325,7 @@ if ( ( $user_id <> "guest" ) && ( $user_rules == "1" ) )
 <div class='system_notification'>Account '<?php echo $sitterlogin;?>' gelöscht!</div>
 <?php
 	}
-}
-elseif ( ( $user_id <> "guest" ) && ( $user_rules != "1" ) )
-{
+} elseif ( ( $user_id <> "guest" ) && ( $user_rules != "1" ) ) {
 ?>
 <table border="0" cellpadding="0" cellspacing="0">
  <tr>
@@ -341,11 +339,12 @@ elseif ( ( $user_id <> "guest" ) && ( $user_rules != "1" ) )
 <form method="POST" action="index.php?sid=<?php echo $sid;?>" enctype="multipart/form-data">
 Regeln akzeptieren? <input type="checkbox" name="rules" value="1"> <input type="submit" value="speichern" name="B1" class="submit"></form>
 <?php
-}
-else
-{
-	if ( $action == 'password' ) include("modules/password.php");
-	else include("modules/login.php");
+} else {
+	if ( $action == 'password' ) {
+        include("modules/password.php");
+    } else {
+        include("modules/login.php");
+    }
 }
     echo $error;
 

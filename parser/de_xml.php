@@ -754,7 +754,7 @@ function parse_kbxml($xmldata)
 			$links[] = $rowL['link'];
 		}
 		
-		if (in_array($link, $links)) {    //! Überpruefung zu Beginn sollte eigentlich schon ausreichen ?
+		if (in_array($link, $links, true)) {    //! Überpruefung zu Beginn sollte eigentlich schon ausreichen ?
             echo "KB <a href='".$link."' target='_new'><i>" . $link=substr($link, 42, 60) . "</i></a> bereits vorhanden.\n";
         } else {
             $vars = array(

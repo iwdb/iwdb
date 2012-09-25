@@ -534,18 +534,19 @@ else
 				$rtime = round((time() - $row1['date']) / (24 * 60 * 60));
 
 				if ( $rtime == 0 ) {
-					echo "<br/><b>System zuletzt gescannt: heute</b><br/><br/>";
+					echo "<br /><b>System zuletzt gescannt: heute</b><br /><br />";
 				} else if ( $rtime == 1 ) {
-					echo "<br/><b>System zuletzt gescannt: gestern</b><br/><br/>";
+					echo "<br /><b>System zuletzt gescannt: gestern</b><br /><br />";
 				} else {
-					echo "<br/><b>System zuletzt gescannt: vor " . $rtime . " Tagen</b><br/><br/>";
+					echo "<br /><b>System zuletzt gescannt: vor " . $rtime . " Tagen</b><br /><br />";
 				}
-				switch ($row1['nebula']) {
-					case "BLN": echo "<b>Blauer Nebel</b><br/><br/>"; break;
-					case "GEN": echo "<b>Gelber Nebel</b><br/><br/>"; break;
-					case "GRN": echo "<b>Grüner Nebel</b><br/><br/>"; break;
-					case "RON": echo "<b>Roter Nebel</b><br/><br/>"; break;
-					case "VIN": echo "<b>Violetter Nebel</b><br/><br/>"; break;
+
+                switch ($row1['nebula']) {
+					case 'blau': echo '<b>Blauer Nebel</b><br /><br />'; break;
+					case 'gelb': echo '<b>Gelber Nebel</b><br /><br />'; break;
+					case 'gruen': echo '<b>Grüner Nebel</b><br /><br />'; break;
+					case 'rot': echo '<b>Roter Nebel</b><br /><br />'; break;
+					case 'violett': echo '<b>Violetter Nebel</b><br /><br />'; break;
 				}
 			}
 		}
@@ -816,7 +817,7 @@ if ( ( ( $ansicht == "auto") && ( $objekt != "---" ) ) || ( $ansicht == "taktisc
 			} else  echo (empty($row['time'])) ? "/" : round((time() - $row['time']) / (24 * 60 * 60)) . " Tage"; ?>
 		</a></td>
 		<td class="windowbg2" style="width: <?php echo (11 / $teiler);?>%; background-color: <?php echo $color;?>;" valign="middle" align="center">
-		<a
+        <a
 			href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=<?php echo $ansicht;?>&sid=<?php echo $sid;?>">
 			<?php
 			if ( ! empty($row['geb'])) echo "Gebäude<br>";

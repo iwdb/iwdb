@@ -80,8 +80,8 @@ while($row = $db->db_fetch_array($result))
   <td class="windowbg1">
 <?php
 if ( $user_status == "admin" ) 
-  echo "<a href=\"index.php?action=profile&sitterlogin=" . urlencode($row['fromuser']) .
-	     "&sid=" . $sid . "\">" . $row['fromuser'] . "</a>";
+  echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($row['fromuser']) .
+	     "&sid=" . $sid . "'>" . $row['fromuser'] . "</a>";
 else 
   echo $row['fromuser'];
 ?>
@@ -90,7 +90,7 @@ else
    <?php echo strftime($config_sitter_timeformat, $row['date']);?>
   </td>
   <td class="windowbg1">
-   <?php echo $row['action'];?>
+    <?php echo convert_bbcode($row['action']);?>
   </td>
  </tr>
 <?php
@@ -128,8 +128,8 @@ while($row = $db->db_fetch_array($result))
   <td class="windowbg1">
 <?php
 if ( $user_status == "admin" ) 
-  echo "<a href=\"index.php?action=profile&sitterlogin=" . urlencode($row['sitterlogin']) .
-	     "&sid=" . $sid . "\">" . $row['sitterlogin'] . "</a>";
+  echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($row['sitterlogin']) .
+	     "&sid=" . $sid . "'>" . $row['sitterlogin'] . "</a>";
 else 
   echo $row['sitterlogin'];
 ?>
@@ -138,7 +138,7 @@ else
    <?php echo strftime($config_sitter_timeformat, $row['date']);?>
   </td>
   <td class="windowbg1">
-   <?php echo $row['action'];?>
+    <?php echo convert_bbcode($row['action']);?>
   </td>
  </tr>
 <?php

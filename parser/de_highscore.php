@@ -45,7 +45,7 @@ function parse_de_highscore ( $result )
 {
 	$count = 0;
 	$scan_data = array("time" => $result->objResultData->iTimestamp);
-    
+
     $bDateOfEntryVisible = $result->objResultData->bDateOfEntryVisible;
 
 	foreach ($result->objResultData->aMembers as $object_user)
@@ -68,7 +68,7 @@ function parse_de_highscore ( $result )
 	}
 	
     echo "<div class='system_notification'>" . $count . " Highscore(s) hinzugefügt.</div>";
-    
+
 	return true;
 }
 

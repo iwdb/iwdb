@@ -91,6 +91,52 @@ class db {
 		}
 	}
 
+    function db_update($table, $data, $add = '')
+    {
+        unset($this->query_result);
+
+        if (empty($table)) {
+            return FALSE;
+        } else {
+            $query = "Update {$table} SET ";
+        }
+
+        if (empty($data)) {
+            return FALSE;
+        }
+
+        if (is_array($data)) {
+            $updates = Array();
+
+            //sql-query zusammenbauen
+            foreach ($data as $key => $value) {
+
+                if ($value === NULL) {
+                    $value = "NULL"; 
+                } elseif (is_string($value)) {              //Wert ist String? -> escapen!
+                    $value = mysql_real_escape_string($value, $this->db_link_id);
+                    if ($value === FALSE) {
+                        return FALSE;
+                    }
+                    $value = "'$value'";
+                }
+                $updates[] = "$key = $value";
+            }
+            $query .= implode(', ', $updates);
+
+        } else {
+            $query .= mysql_real_escape_string($data, $this->db_link_id);
+        }
+
+        if ($add !== '') {
+            $query .= ' ' . $add;
+        }
+
+        $this->query_result = @mysql_query($query, $this->db_link_id);
+        return $this->query_result;
+
+    }
+
 	function db_num_rows($query_id = 0) {
 		if( ! $query_id )
 		{

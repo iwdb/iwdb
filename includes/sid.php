@@ -181,7 +181,7 @@ if ( ( $action == "memberlogin2" ) || ( $action == "memberlogout2" ) )
  <title>Login Error</title>
 </head>
 <body>
-<font face=verdana,arial size=2><b>Login Error at ' . $config_url . '</b><br><br>
+<font face=verdana,arial size=2><b>Login Error at ' . APPLICATION_PATH . '</b><br><br>
 Username: ' . $login_id . '<br>
 Date: ' . date("d.m.Y H:i") . '<br>
 IPs:<br>' . $ips . $client_ip . '</font>
@@ -195,7 +195,7 @@ IPs:<br>' . $ips . $client_ip . '</font>
                             "To: " . $config_mailto_id . " <" . $config_mailto . ">\r\n";
                     "From: " . $config_mailname . " <" . $config_mailfrom . ">\r\n";
 
-                    @mail($config_mailto, "Login Error at " . $config_url, $message, $mail_head);
+                    @mail($config_mailto, "Login Error at " . APPLICATION_PATH, $message, $mail_head);
                 }
             }
         }

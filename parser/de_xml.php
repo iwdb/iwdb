@@ -41,6 +41,7 @@ global $anzahl_kb, $anzahl_kb_neu, $anzahl_sb;
 $anzahl_kb = 0;
 $anzahl_kb_neu = 0;
 $anzahl_sb = 0;
+$anzahl_unixml = 0;
 
 if (!defined('DEBUG_LEVEL'))
 	define("DEBUG_LEVEL", 0);
@@ -49,30 +50,38 @@ include_once("./includes/debug.php");
 
 function parse_de_xml( $return )
 {
-    global $anzahl_kb, $anzahl_kb_neu, $anzahl_sb;
+    global $anzahl_kb, $anzahl_kb_neu, $anzahl_sb, $anzahl_unixml;
 
-    foreach ($return->objResultData->aKbLinks as $link)
+    foreach ($return->objResultData->aKbLinks as $xmlinfo)
 	{
-        if (kb($link))
+        if (parse_kbxml($xmlinfo)) {
             ++$anzahl_kb;
+        }
     }
     
-    foreach ($return->objResultData->aSbLinks as $link)
+    foreach ($return->objResultData->aSbLinks as $xmlinfo)
 	{
-        if (parse_sbxml($link))
+        if (parse_sbxml($xmlinfo)) {
             ++$anzahl_sb;
+        }
     }
-    
-    //! @todo: UniversumXML
-    
-    if (isset($anzahl_kb) && $anzahl_kb >= 1) {
-        echo '
-    <div class="system_notification">',$anzahl_kb,' KB-',($anzahl_kb == 1) ? 'Link': 'Links',' gefunden (',$anzahl_kb_neu,' ',($anzahl_kb_neu == 1) ? 'neuer': 'neue',')</div><br />';
+
+    foreach ($return->objResultData->aUniversumLinks as $xmlinfo)
+    {
+        if (parse_unixml($xmlinfo)) {
+            ++$anzahl_unixml;
+        }
     }
-    if (isset($anzahl_sb) && $anzahl_sb >= 1) {
-        echo '
-    <div class="system_notification">',$anzahl_sb,' SB-',($anzahl_sb == 1) ? 'Link': 'Links',' gefunden</div><br />';
-    }	
+
+    if (isset($anzahl_kb) && $anzahl_kb > 0) {
+        echo '<div class="system_notification">',$anzahl_kb,' KB-',($anzahl_kb == 1) ? 'Link': 'Links',' geparsed (',$anzahl_kb_neu,' ',($anzahl_kb_neu == 1) ? 'neuer': 'neue',')</div><br />';
+    }
+    if (isset($anzahl_sb) && $anzahl_sb > 0) {
+        echo '<div class="system_notification">',$anzahl_sb,' SB-',($anzahl_sb == 1) ? 'Link': 'Links',' geparsed</div><br />';
+    }
+    if (isset($anzahl_unixml) && $anzahl_unixml > 0) {
+        echo '<div class="system_notification">',$anzahl_unixml,' Unixml-',($anzahl_unixml == 1) ? 'Link': 'Links',' geparsed</div><br />';
+    }
 }
 
 /*****************************************************************************/
@@ -81,15 +90,12 @@ function parse_de_xml( $return )
 /*****************************************************************************/
 function parse_sbxml($xmldata) {
   	
-	$fxml = file_get_contents($xmldata->strUrl);
-
-	if (empty($fxml)) {
-        echo "... load xml_kb_sb '$xmldata->strUrl' failed!";
+	$xml = simplexml_load_file_ex($xmldata->strUrl);
+    if(empty($xml)) {
+        echo "<div class='system_error'>XML-Fehler: {$xmldata->strUrl} konnte nicht geladen werden</div>\n";
         return false;
-	}
-	
-	$xml = simplexml_load_string($fxml);            
-    
+    }
+
     debug_var("scan_data['coords_gal']", $scan_data['coords_gal'] = (int)$xml->plani_data->koordinaten->gal);
     debug_var("scan_data['coords_sys']", $scan_data['coords_sys'] = (int)$xml->plani_data->koordinaten->sol);
     debug_var("scan_data['coords_planet']", $scan_data['coords_planet'] = (int)$xml->plani_data->koordinaten->pla);
@@ -141,16 +147,15 @@ function parse_sbxml($xmldata) {
         if (isset($xml->plani_data->modifikatoren->gebaeude_bau)) {
             debug_var("scan_data['kgmod']", $scan_data['kgmod'] = (string)$xml->plani_data->modifikatoren->gebaeude_bau->kosten);
             debug_var("scan_data['dgmod']", $scan_data['dgmod'] = (string)$xml->plani_data->modifikatoren->gebaeude_bau->dauer);
-        }
-        else {
+        } else {
             debug_var("scan_data['kgmod']", $scan_data['kgmod'] = "0");
             debug_var("scan_data['dgmod']", $scan_data['dgmod'] = "0");
         }
+
         if (isset($xml->plani_data->modifikatoren->schiff_bau)) {
             debug_var("scan_data['ksmod']", $scan_data['ksmod'] = (string)$xml->plani_data->modifikatoren->schiff_bau->kosten);
             debug_var("scan_data['dsmod']", $scan_data['dsmod'] = (string)$xml->plani_data->modifikatoren->schiff_bau->dauer);
-        }
-        else {
+        } else {
             debug_var("scan_data['ksmod']", $scan_data['ksmod'] = "0");
             debug_var("scan_data['dsmod']", $scan_data['dsmod'] = "0");
         }
@@ -182,8 +187,9 @@ function parse_sbxml($xmldata) {
 				$scan_data['geb'] .= "\n\t</td>\n</tr>\n";
 			}
         }
-		if (isset($scan_data['geb']))
+		if (isset($scan_data['geb'])) {
             debug_var("scan_data['geb']", $scan_data['geb'] .= "</table>\n");
+        }
     // Schiffe/Ress
     } else if ($scan_typ == 3) {
         debug_var("scan_data['schiffscantime']", $scan_data['schiffscantime'] = $scan_data['time']);
@@ -218,14 +224,16 @@ function parse_sbxml($xmldata) {
                 }
             }
         }
-        if (isset($scan_data['plan']))
+        if (isset($scan_data['plan'])) {
             debug_var("scan_data['plan']", $scan_data['plan'] .= "</table>\n");
-        else
+        } else {
             debug_var("scan_data['plan']", $scan_data['plan'] = "");
-        if (isset($scan_data['def']))
+        }
+        if (isset($scan_data['def'])) {
             debug_var("scan_data['def']", $scan_data['def'] .= "</table>\n");
-        else
+        } else {
             debug_var("scan_data['def']", $scan_data['def'] = "");
+        }
         foreach ($xml->flotten_def as $flotten_def) {
             foreach ($flotten_def->user as $user) {
                 if (!isset($scan_data['stat']))
@@ -249,10 +257,11 @@ function parse_sbxml($xmldata) {
                 }
             }
         }
-        if (isset($scan_data['stat']))
+        if (isset($scan_data['stat'])) {
             debug_var("scan_data['stat']", $scan_data['stat'] .= "</table>\n");
-        else
+        } else {
             debug_var("scan_data['stat']", $scan_data['stat'] = "");
+        }
     }
     // Gebäude oder Schiffe/Ress
     if ($scan_typ == 2 || $scan_typ == 3) {
@@ -277,9 +286,9 @@ function parse_sbxml($xmldata) {
         }
     }
     debug_var("save_sbxml", $results = save_sbxml($scan_data));
-    foreach ($results as $result)
+    foreach ($results as $result) {
         echo "<div class='system_notification'>" . $result . "</div>";
-    
+    }
     return true;
 }
 
@@ -323,10 +332,10 @@ function save_sbxml($scan_data) {
 	}
 	// Nebel vorhanden
 	if (isset($scan_data['nebula'])) {
-		$sql = "UPDATE " . $db_tb_sysscans . " SET ";
-		$sql .= " nebula='" . $scan_data['nebula'] . "'";
-		$sql .= " WHERE gal=" . $scan_data['coords_gal'];
-		$sql .= " AND sys=" . $scan_data['coords_sys'];
+		$sql = "UPDATE " . $db_tb_sysscans . " SET "
+		     . " nebula='" . $scan_data['nebula'] . "'"
+		     . " WHERE gal=" . $scan_data['coords_gal']
+		     . " AND sys=" . $scan_data['coords_sys'];
 		unset($scan_data['nebula']);
 	}
 	// INSERT
@@ -383,7 +392,7 @@ function save_sbxml($scan_data) {
 	return $results;
 }
 
-function kb($xmldata)
+function parse_kbxml($xmldata)
 {
 	global $db_prefix, $db, $anzahl_kb_neu, $ausgabe;
 	
@@ -392,7 +401,7 @@ function kb($xmldata)
     
 	$link = str_replace("&typ=xml", "", $xmldata->strUrl);  //! damit BBCode nachher funktioniert
 
-	// Uberprufen, ob KB schon in Datenbank
+	// Überprüfen, ob KB schon in Datenbank
 	$sql = "
 		SELECT ID_KB
 		FROM {$db_prefix}kb
@@ -400,44 +409,42 @@ function kb($xmldata)
 			ID_KB = '$id'";
 	$result = $db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-	// Wenn keiner da weiter
-	if (mysql_num_rows($result) == 0) {
 
-        $fxml = file_get_contents($xmldata->strUrl);
-        if (empty($fxml)) {
-            echo "... load xml_kb_kb '$xmldata->strUrl' failed!";
+	// Wenn keiner da weiter
+	if ($db->db_num_rows($result) == 0) {
+
+        $xml = simplexml_load_file_ex($xmldata->strUrl);
+        if(empty($xml)) {
+            echo "<div class='system_error'>XML-Fehler: {$xmldata->strUrl} konnte nicht geladen werden</div>\n";
             return false;
         }
 
-        $xml = simplexml_load_string($fxml);         
-
-		$anzahl_kb_neu++;
+		++$anzahl_kb_neu;
 		
 		$kb_id = $id;
 		$kb_hash = $hash;
 		$kb_time = (int)$xml->timestamp['value'];
 		
-		$kb = array();
-		
 		// Allgemein
 		$kb = array(
-			'verteidiger' => utf8_decode((string)$xml->plani_data->user->name['value']),
-			'verteidiger_ally' => utf8_decode((string)$xml->plani_data->user->allianz_tag['value']),
-			'planet_name' => utf8_decode((string)$xml->plani_data->plani_name['value']),
+			'verteidiger' => (string)$xml->plani_data->user->name['value'],
+			'verteidiger_ally' => (string)$xml->plani_data->user->allianz_tag['value'],
+			'planet_name' => (string)$xml->plani_data->plani_name['value'],
 			'koords_gal' => (int)$xml->plani_data->koordinaten->gal['value'],
 			'koords_sol' => (int)$xml->plani_data->koordinaten->sol['value'],
 			'koords_pla' => (int)$xml->plani_data->koordinaten->pla['value'],
-			'koords_string' => utf8_decode((string)$xml->plani_data->koordinaten->string['value']),
+			'koords_string' => (string)$xml->plani_data->koordinaten->string['value'],
 			'typ' => (int)$xml->kampf_typ->id['value'],
 			'resultat' => (int)$xml->resultat->id['value'],
 		);
+
 		// Defstellungen
 		if (isset($xml->pla_def->user->defence->defencetyp)){
 			$def = $xml->pla_def->user->defence->defencetyp;
 			foreach($def as $value){
 				$kb['def'][] = array(
 					'id' => (int)$value->id['value'],
-					'name' => utf8_decode((string)$value->name['value']),
+					'name' => (string)$value->name['value'],
 					'start' => (int)$value->anzahl_start['value'],
 					'ende' => (int)$value->anzahl_ende['value'],
 					'verlust' => (int)$value->anzahl_verlust['value'],
@@ -446,53 +453,56 @@ function kb($xmldata)
 		}
 
 		// Verluste
-			// att
+		    // att
 		if (isset($xml->resverluste->att->resource)){
 			$res = $xml->resverluste->att->resource;
 			foreach($res as $value){
 				$kb['verluste'][] = array(
 					'id' => (int)$value->id['value'],
 					'seite' => 1,
-					'name' => utf8_decode((string)$value->name['value']),
+					'name' => (string)$value->name['value'],
 					'anzahl' => (int)$value->anzahl['value'],
 				);
 			}
 		}
-			// def
+
+		    // def
 		if (isset($xml->resverluste->def->resource)){
 			$res = $xml->resverluste->def->resource;
 			foreach($res as $value){
 				$kb['verluste'][] = array(
 					'id' => (int)$value->id['value'],
 					'seite' => 2,
-					'name' => utf8_decode((string)$value->name['value']),
+					'name' => (string)$value->name['value'],
 					'anzahl' => (int)$value->anzahl['value'],
 				);
 			}
 		}
-		// Plunderung
+
+		    // Plünderung
 		if (isset($xml->pluenderung->resource)) {
 			$res = $xml->pluenderung->resource;
 			foreach ($res as $value) {
 				$kb['pluenderung'][] = array(
 					'id' => (int)$value->id['value'],
-					'name' => utf8_decode((string)$value->name['value']),
+					'name' => (string)$value->name['value'],
 					'anzahl' => (int)$value->anzahl['value'],
 				);
 			}
 		}
-		// Bomb
+
+		    // Bomb
 		if (isset($xml->bomben->user)) {
 			$xml_bomb = $xml->bomben;
-			$kb['bomb']['user'] = utf8_decode((string)$xml_bomb->user->name['value']);
+			$kb['bomb']['user'] = (string)$xml_bomb->user->name['value'];
 			// Bombertrefferchance
-			if (isset($bomb->bombentrefferchance))
+			if (isset($xml_bomb->bombentrefferchance))
 				$kb['bomb']['trefferchance'] = $xml_bomb->bombentrefferchance['value'];
-			// Basis zerstort
-			if (isset($bomb->basis_zerstoert))
+			// Basis zerstört
+			if (isset($xml_bomb->basis_zerstoert))
 				$kb['bomb']['basis'] = (int)$xml_bomb->basis_zerstoert['value'];
-			// Bevolerung
-			if (isset($bomb->bev_zerstoert))
+			// Bevölkerung
+			if (isset($xml_bomb->bev_zerstoert))
 				$kb['bomb']['bev'] = (int)$xml_bomb->bev_zerstoert['value'];
 			// getroffene Gebaude
 			if (isset($xml_bomb->geb_zerstoert->geb)) {
@@ -500,27 +510,28 @@ function kb($xmldata)
 				foreach ($xml_geb as $value) {
 					$kb['bomb']['geb'][] = array(
 						'id' => (int)$value->id['value'],
-						'name' => utf8_decode((string)$value->name['value']),
+						'name' => (string)$value->name['value'],
 						'anzahl' => (int)$value->anzahl['value'],
 					);
 				}
 			}
 		}
+
 		// Flotten
-			// Def (auf Planet)
+		    // Def (auf Planet)
 		if (isset($xml->pla_def->user->schiffe)) {
 			$user = $xml->pla_def->user;
 			$flotte = array(
 				'art' => 1,
-				'name' => utf8_decode((string)$user->name['value']),
-				'ally' => utf8_decode((string)$user->allianz_tag['value']),
+				'name' => (string)$user->name['value'],
+				'ally' => (string)$user->allianz_tag['value'],
 			);
 			if (isset($user->schiffe)) {
 				$schiffe = $user->schiffe->schifftyp;
 				foreach ($schiffe as $value) {
 					$flotte['schiffe'][] = array(
 						'id' => (int)$value->id['value'],
-						'name' => utf8_decode((string)$value->name['value']),
+						'name' => (string)$value->name['value'],
 						'klasse' => (int)$value->klasse['value'],
 						'anzahl_start' => (int)$value->anzahl_start['value'],
 						'anzahl_ende' => (int)$value->anzahl_ende['value'],
@@ -537,15 +548,15 @@ function kb($xmldata)
 			foreach ($user as $value) {
 				$flotte = array(
 					'art' => 2,
-					'name' => utf8_decode((string)$value->name['value']),
-					'ally' => utf8_decode((string)$value->allianz_tag['value']),
+					'name' => (string)$value->name['value'],
+					'ally' => (string)$value->allianz_tag['value'],
 				);
 				if (isset($value->schiffe)) {
 					$schiffe = $value->schiffe->schifftyp;
 					foreach ($schiffe as $value) {
 						$flotte['schiffe'][] = array(
 							'id' => (int)$value->id['value'],
-							'name' => utf8_decode((string)$value->name['value']),
+							'name' => (string)$value->name['value'],
 							'klasse' => (int)$value->klasse['value'],
 							'anzahl_start' => (int)$value->anzahl_start['value'],
 							'anzahl_ende' => (int)$value->anzahl_ende['value'],
@@ -556,23 +567,24 @@ function kb($xmldata)
 			}
 			$kb['flotte'][] = $flotte;
 		}
-		//	Att
+
+		    //	Att
 		if (isset($xml->flotten_att->user)) {
 			$user = $xml->flotten_att->user;
 			foreach ($user as $value) {
 				$flotte = array(
 					'art' => 3,
-					'name' => utf8_decode((string)$value->name['value']),
-					'ally' => utf8_decode((string)$value->allianz_tag['value']),
+					'name' => (string)$value->name['value'],
+					'ally' => (string)$value->allianz_tag['value'],
 					'planet_name' => (string)$value->startplanet->plani_name['value'],
-					'koords_string' => utf8_decode((string)$value->startplanet->koordinaten->string['value']),
+					'koords_string' => (string)$value->startplanet->koordinaten->string['value'],
 				);
 				if (isset($value->schiffe)) {
 					$schiffe = $value->schiffe->schifftyp;
 					foreach ($schiffe as $value) {
 						$flotte['schiffe'][] = array(
 							'id' => (int)$value->id['value'],
-							'name' => utf8_decode((string)$value->name['value']),
+							'name' => (string)$value->name['value'],
 							'klasse' => (int)$value->klasse['value'],
 							'anzahl_start' => (int)$value->anzahl_start['value'],
 							'anzahl_ende' => (int)$value->anzahl_ende['value'],
@@ -594,6 +606,7 @@ function kb($xmldata)
 				'$kb[koords_sol]', '$kb[koords_pla]', '$kb[typ]', '$kb[resultat]')";
 		$result = $db->db_query($sql)
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
 			// Def
 		if (isset($kb['def'])) {
 			$sql = "
@@ -601,12 +614,13 @@ function kb($xmldata)
 					(ID_KB, ID_IW_DEF, anz_start, anz_verlust)
 				VALUES";
 			foreach ($kb['def'] as $key => $value) {
-				if ($key == 0)
+				if ($key == 0) {
 					$sql .= "
 					('$kb_id', '$value[id]', '$value[start]', '$value[verlust]')";
-				else
+                } else {
 					$sql .= ",
 					('$kb_id', '$value[id]', '$value[start]', '$value[verlust]')";
+                }
 			}
 			$result = $db->db_query($sql)
 				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -618,34 +632,38 @@ function kb($xmldata)
 					(ID_KB, ID_IW_RESS, seite, anzahl)
 				VALUES";
 			foreach ($kb['verluste'] as $key => $value) {
-				if ($key == 0)
+				if ($key == 0) {
 					$sql .= "
 					('$kb_id', '$value[id]', '$value[seite]', '$value[anzahl]')";
-				else
+                } else {
 					$sql .= ",
 					('$kb_id', '$value[id]', '$value[seite]', '$value[anzahl]')";
+                }
 			}
 			$result = $db->db_query($sql)
 				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 			}
-			// Plunderung
+
+		    // Plünderung
 		if (isset($kb['pluenderung'])) {
 			$sql = "
 				INSERT INTO {$db_prefix}kb_pluenderung
 					(ID_KB, ID_IW_RESS, anzahl)
 				VALUES";
 			foreach ($kb['pluenderung'] as $key => $value) {
-				if ($key == 0)
+				if ($key == 0) {
 					$sql .= "
 					('$kb_id', '$value[id]', '$value[anzahl]')";
-				else
+                } else {
 					$sql .= ",
 					('$kb_id', '$value[id]', '$value[anzahl]')";
+                }
 			}
 			$result = $db->db_query($sql)
 				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 		}
-			// Bomb
+
+		    // Bomb
 		if (isset($kb['bomb'])) {
 			$sql = "
 				INSERT INTO {$db_prefix}kb_bomb
@@ -662,21 +680,25 @@ function kb($xmldata)
 			$sql .= ") $values )";
 			$result = $db->db_query($sql)
 				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-				// Gebaude
-			$sql = "
-				INSERT INTO {$db_prefix}kb_bomb_geb
-					(ID_KB, ID_IW_GEB, anzahl)
-				VALUES";
-			foreach ($kb['bomb']['geb'] as $key => $value) {
-				if ($key == 0)
-					$sql .= "
-						('$kb_id', '$value[id]', '$value[anzahl]')";
-				else
-					$sql .= ",
-						('$kb_id', '$value[id]', '$value[anzahl]')";
-			}
-			$result = $db->db_query($sql)
-				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
+            // Gebäude
+			if (!empty($kb['bomb']['geb'])) {
+                $sql = "
+                    INSERT INTO {$db_prefix}kb_bomb_geb
+                        (ID_KB, ID_IW_GEB, anzahl)
+                    VALUES";
+                foreach ($kb['bomb']['geb'] as $key => $value) {
+                    if ($key == 0) {
+                        $sql .= "
+                            ('$kb_id', '$value[id]', '$value[anzahl]')";
+                    } else {
+                        $sql .= ",
+                            ('$kb_id', '$value[id]', '$value[anzahl]')";
+                    }
+                }
+                $result = $db->db_query($sql)
+                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            }
 		}
 		// Eintrag Flotte
 		if (isset($kb['flotte'])) {
@@ -684,19 +706,20 @@ function kb($xmldata)
 				INSERT INTO {$db_prefix}kb_flotten
 					(ID_KB, time, art, name, ally)
 				VALUES";
-			foreach ($kb['flotte'] as $key => $value) {
-				if ($value['art'] == 3)
+			foreach ($kb['flotte'] as $value) {
+				if ($value['art'] == 3) {
 					$sql = "
 						INSERT INTO {$db_prefix}kb_flotten
 							(ID_KB, time, art, name, ally, planet_name, koords_string)
 						VALUES
 							('$kb_id', '$kb_time', '$value[art]', '$value[name]', '$value[ally]', '$value[planet_name]', '$value[koords_string]')";
-				else
+                } else {
 					$sql = "
 						INSERT INTO {$db_prefix}kb_flotten
 							(ID_KB, time, art, name, ally)
 						VALUES
 							('$kb_id', '$kb_time', '$value[art]', '$value[name]', '$value[ally]')";
+                }
 				$result = $db->db_query($sql)
 					or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 				$ID_FLOTTE = @mysql_insert_id();
@@ -705,12 +728,13 @@ function kb($xmldata)
 						(ID_FLOTTE, ID_IW_SCHIFF, anz_start, anz_verlust)
 					VALUES";
 				foreach ($value['schiffe'] as $key2 => $value2) {
-					if ($key2 == 0)
+					if ($key2 == 0) {
 						$sql .= "
 						('$ID_FLOTTE', '$value2[id]', '$value2[anzahl_start]', '$value2[anzahl_verlust]')";
-					else
+                    } else {
 						$sql .= ",
 						('$ID_FLOTTE', '$value2[id]', '$value2[anzahl_start]', '$value2[anzahl_verlust]')";
+                    }
 				}
 				$result = $db->db_query($sql)
 					or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -718,24 +742,21 @@ function kb($xmldata)
 		}
 
         //! ########### HACK fuer raidmodul/raidview  #############################
-        //! Mac: Eintrag Daten fuer raidview Tabelle (voellig ueberholt. Raidmodul sollte einfach auf die KB tabellen umgeschrieben werden)
+        //! Mac: Eintrag Daten fuer raidview Tabelle (voellig überholt. Raidmodul sollte einfach auf die KB tabellen umgeschrieben werden)
         global $db_tb_raidview, $selectedusername;
 
 		// links sammeln die bereits in der db drinnen sind
 		$sqlL = "SELECT link FROM " . $db_tb_raidview;
 		$resultL = $db->db_query($sqlL)
-		or error(GENERAL_ERROR,
-             'Could not query config information.', '',
-		__FILE__, __LINE__, $sqlL);
+		    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlL);
 		$links=array();
 		while($rowL=$db->db_fetch_array($resultL)) {
 			$links[] = $rowL['link'];
 		}
 		
-		if (in_array($link, $links))    //! Ueberpruefung zu Beginn sollte eigentlich schon ausreichen ?
-            echo "KB <a href=\"".$link."\" target=\"_new\"><i>" . $link=substr($link, 42, 60) . "</i></a> bereits vorhanden.\n";
-        else {
-            
+		if (in_array($link, $links, true)) {    //! Überpruefung zu Beginn sollte eigentlich schon ausreichen ?
+            echo "KB <a href='".$link."' target='_new'><i>" . $link=substr($link, 42, 60) . "</i></a> bereits vorhanden.\n";
+        } else {
             $vars = array(
                         'eisen',
                         'stahl',
@@ -768,22 +789,26 @@ function kb($xmldata)
             $zeit = $kb_time;
             $geraidet = $kb["verteidiger"];
             if (isset($kb['pluenderung'])) {
-                foreach ($kb['pluenderung'] as $key => $value) {
+                foreach ($kb['pluenderung'] as $value) {
                     $name = strtolower($value["name"]);
-                    if (strpos($name,"chem") !== FALSE)
+                    if (strpos($name,"chem") !== FALSE) {
                             $chem = $value["anzahl"];
-                    else
-                        ${$name} = $value["anzahl"];                    
+                    } else {
+                        ${$name} = $value["anzahl"];
+                    }
                 }
             }
             if (isset($kb["verluste"])) {
-                foreach ($kb['verluste'] as $key => $value) {
-                    if ($value["seite"] == 2) continue; //! Verteidigerverluste ueberspringen
+                foreach ($kb['verluste'] as $value) {
+                    if ($value["seite"] == 2)
+                        continue; //! Verteidigerverluste überspringen
+
                     $name = "v_" . strtolower($value["name"]);
-                    if (strpos($name,"chem") !== FALSE)
+                    if (strpos($name,"chem") !== FALSE) {
                             $v_chem = $value["anzahl"];
-                    else
-                        ${$name} = $value["anzahl"];                    
+                    } else {
+                        ${$name} = $value["anzahl"];
+                    }
                 }
             }
             
@@ -802,10 +827,9 @@ function kb($xmldata)
                         ('NULL','$plani','$zeit',$eisen,$stahl,$vv4a,$chem,$eis,$wasser,$energie,'$selectedusername','$geraidet','$link','$v_eisen','$v_stahl','$v_vv4a','$v_chem','$v_eis','$v_wasser','$v_energie','$g_eisen','$g_stahl','$g_vv4a','$g_chem','$g_eis','$g_wasser','$g_energie')";
 
             $result = $db->db_query($sql)
-            or error(GENERAL_ERROR,
-                    'Could not query config information.', '',
-            __FILE__, __LINE__, $sql);
-            echo "neuer KB: <a href=\"".$link."\" target=\"_new\">" . $link=substr($link, 42, 60) . "</a>\n";
+                or error(GENERAL_ERROR,'Could not query config information.', '',__FILE__, __LINE__, $sql);
+
+            echo "neuer KB: <a href='".$link."' target='_new'>" . $link=substr($link, 42, 60) . "</a>\n";
         }
         //! ########### HACK fuer raidmodul/raidview  Ende #############################
 
@@ -837,8 +861,7 @@ function kb($xmldata)
 			'Link' => $link,
 			);
 		
-	}
-	else {		// nur BBCode holen
+	} else {		// nur BBCode holen
 		if ( !empty($link) ) {
 			if ($handle = @fopen($link.'&typ=bbcode', "r")) {
 				$bbcode	= '';
@@ -860,8 +883,11 @@ function kb($xmldata)
 		$ersetzen = array('[td]');
 		$bbcode = str_replace($suchen, $ersetzen, $bbcode);
 
-		$xml = simplexml_load_file($link.'&typ=xml');
-		
+        $xml = simplexml_load_file_ex($link.'&typ=xml');
+        if(empty($xml)) {
+            echo "<div class='system_error'>XML-Fehler: {$link}&typ=xml konnte nicht geladen werden</div>\n";
+            return false;
+        }
 		
 		$ausgabe['KBs'][] = array(
 			'Zeit' => (int)$xml->timestamp['value'],
@@ -869,6 +895,184 @@ function kb($xmldata)
 			'Link' => $link,
 			);
 	}	
-//	echo '<div class="system_debug_blue"><pre>'.print_r($kb, true).'</pre></div>'; //Testausgabe
     return true;
+}
+
+function parse_unixml($xmldata) {
+    global $db_prefix, $db;
+
+    $xml = simplexml_load_file_ex($xmldata->strUrl);                     //Unisichtxml-Datei laden und parsen
+    if(empty($xml)) {
+        echo "<div class='system_error'>XML-Fehler: {$xmldata->strUrl} konnte nicht geladen werden</div>\n";
+        return false;
+    }
+
+    $aktualisierungszeit = (int)$xml->informationen->aktualisierungszeit;
+    if (empty($aktualisierungszeit)) {           //keine gültige Aktualisierungszeit -> Ende
+        echo "<div class='system_error'>Aktualisierungszeit nicht gefunden -> XML wird ignoriert</div>\n";
+        return false;    
+    }
+
+    $sql_scan_begin = "INSERT INTO `{$db_prefix}scans` (`coords`, `coords_gal`, `coords_sys`, `coords_planet`, `user`, `userchange_time`, `planetenname`, `typ`, `typchange_time`, `objekt`, `objektchange_time`, `nebel`, `plaid`, `time`) VALUES ";
+
+    //bei schon vorhandenem Planten in der DB werden einige Einträge selektiv ersetzt (Hinweis: Die Werte werden in Reihenfolge innerhalb des Queries nacheinander zugewiesen NICHT erst beim ende des kompletten Queries)
+    $sql_scan_end = " ON DUPLICATE KEY UPDATE";                                                                
+    $sql_scan_end .= " `userchange_time` = IF((({$aktualisierungszeit} > `time`) AND STRCMP(VALUES(`user`), `user`)), {$aktualisierungszeit}, `userchange_time`),";
+    $sql_scan_end .= " `user` = IF(({$aktualisierungszeit} > `time`), VALUES(`user`), `user`),";       //Besitzer des Planeten ersetzen wenn aktualisierungszeit älter als in der DB
+    $sql_scan_end .= " `planetenname` = IF(({$aktualisierungszeit} > `time`), VALUES(`planetenname`), `planetenname`),";     //Planetenname ersetzen wenn aktualisierungszeit älter als in der DB
+    $sql_scan_end .= " `typchange_time` = IF((({$aktualisierungszeit} > `time`) AND STRCMP(VALUES(`typ`), `typ`)), {$aktualisierungszeit}, `typchange_time`),";
+    $sql_scan_end .= " `typ` = IF({$aktualisierungszeit} > `time`, VALUES(`typ`), `typ`),";                //Planetentyp ersetzen wenn aktualisierungszeit älter als in der DB und vorliegender Änderung
+    $sql_scan_end .= " `objektchange_time` = IF((({$aktualisierungszeit} > `time`) AND STRCMP(VALUES(`objekt`), `objekt`)), {$aktualisierungszeit}, `objektchange_time`),";
+    $sql_scan_end .= " `objekt` = IF({$aktualisierungszeit} > `time`, VALUES(`objekt`), `objekt`);";                //Objekttyp ersetzen wenn aktualisierungszeit älter als in der DB und vorliegender Änderung
+
+    //$sql_scan_end .= " `nebel` = IF(STRCMP(VALUES(`nebel`), `nebel`), VALUES(`nebel`), `nebel`);";                //Nebel aktualisieren sollten sich nicht ändern deswegen mal auskommentiert
+
+
+    $sql_spieler_begin = "INSERT INTO `{$db_prefix}spieler` (`name`, `allianz`, `dabeiseit`, `playerupdate_time`) VALUES ";
+    //bei schon vorhandenem Spieler in der DB prüfen auf Allianzänderung
+    $sql_spieler_end = " ON DUPLICATE KEY UPDATE";    
+    $sql_spieler_end .= " `exallianz` = IF((((`allychange_time` IS NULL) OR {$aktualisierungszeit} > `allychange_time`) AND STRCMP(VALUES(`allianz`), `allianz`)), `allianz`, `exallianz`),"; //Speichern der alten Allianz zuerst erzwingen (sonst optimiert mysql da was kaputt?!)
+    $sql_spieler_end .= " `allychange_time` = IF(!STRCMP(`exallianz`, `allianz`), {$aktualisierungszeit}, `allychange_time`),";     //allianzänderungszeit nach Allywechsel auf die dses Scans setzen, nachfolgende Abfragen können sich dann darauf beziehen
+    $sql_spieler_end .= " `allianzrang` = IF((`allychange_time` = {$aktualisierungszeit}), NULL, `allianzrang`),";                  //alten Allianzrang löschen
+    $sql_spieler_end .= " `allianz` = IF((`allychange_time` = {$aktualisierungszeit}), VALUES(`allianz`), `allianz`);";             //neue Allianz schreiben
+
+    $sql_sysscans_begin = "INSERT INTO `{$db_prefix}sysscans` (`id`, `gal`, `sys`, `objekt`, `date`, `nebula`) VALUES ";
+    $sql_sysscans_end = " ON DUPLICATE KEY UPDATE";
+    //andere Daten sollten sich nicht ändern deshalb nur die Aktualisierung des Scandatums   
+    $sql_sysscans_end .= " `date` = IF(({$aktualisierungszeit} > `date`), {$aktualisierungszeit}, `date`);";
+
+    $planet_inserts = 0;
+    $planet_num = 0;
+
+    $spieler = Array();
+    $spielertoinsert = Array();
+
+    $sql_scan = $sql_scan_begin;
+    $sql_spieler = $sql_spieler_begin;
+    
+    $sys_num = 0;
+    $systoinsert = Array();
+    $sql_sysscans = $sql_sysscans_begin;
+    
+    foreach($xml->planet as $Plannie) {
+        $planienummer = (int)($Plannie->koordinaten->pla);
+        
+        if ($planienummer > 0) {                            //Planieinfos ab Planienummer 1
+
+            if (($planienummer === 1) AND ((string)$Plannie->objekt_typ === 'Raumstation')) {                      //check auf Raumstation (=Stargate)
+                $id = (int)($Plannie->koordinaten->gal).':'.(int)($Plannie->koordinaten->sol);
+                $systoinsert[$id]['objekt'] = 'Stargate';
+                
+                if (count($systoinsert) >= MAX_INSERTS) {               //eingestellte Maximalanzahl der Datensätze für die DB erreicht
+                                                                        // -> sql String zusammenbauen und in die DB einfügen
+                    foreach ($systoinsert as $id => $sys) {
+                        $sql_sysscans .= "('{$id}', {$sys['gal']}, {$sys['sys']}, '{$sys['objekt']}', {$sys['date']}, '{$sys['nebula']}'),";
+                    }
+                        
+                    $sql_sysscans = mb_substr($sql_sysscans, 0, -1) . $sql_sysscans_end;            //letztes "," des SQL-Queries entfernen und ON DUPLICATE KEY UPDATE - Teil anhängen
+                    $result = $db->db_query($sql_sysscans)
+                        or error(GENERAL_ERROR, 'DB System Insertfehler!', '', __FILE__, __LINE__, $sql_sysscans);
+                    
+                    $sys_num += count($systoinsert);                                 //neue Systeme und sql-query zurücksetzen
+                    $systoinsert = Array();
+                    $sql_sysscans = $sql_sysscans_begin;
+                }
+            }
+
+            $username = (string)$Plannie->user->name;
+
+            $sql_scan .= "('".(string)$Plannie->koordinaten->string."', ".(int)($Plannie->koordinaten->gal).", ".(int)($Plannie->koordinaten->sol).", ".$planienummer.", '{$username}', {$aktualisierungszeit}, '".(string)$Plannie->name."', '".(string)$Plannie->planet_typ."', {$aktualisierungszeit}, '".(string)$Plannie->objekt_typ."', {$aktualisierungszeit}, '". (isset($Plannie->nebel) ? (string)$Plannie->nebel : '') . "', " . (int)($Plannie->id).", {$aktualisierungszeit}),";
+            ++$planet_inserts;
+            
+            if ($planet_inserts >= MAX_INSERTS) {                   //eingestellte Maximalanzahl der Datensätze für die DB erreicht
+                                                                    // -> sql String zusammenbauen und in die DB einfügen
+                $sql_scan = mb_substr($sql_scan, 0, -1) . $sql_scan_end;            //letztes "," des SQL-Queries entfernen und ON DUPLICATE KEY UPDATE - Teil anhängen
+                $result = $db->db_query($sql_scan)
+                    or error(GENERAL_ERROR, 'DB Planeten Insertfehler!', '', __FILE__, __LINE__, $sql_scan);
+                
+                $planet_num += $planet_inserts;
+                $planet_inserts = 0;                                 //Planetendatensatzzähler und sql-query zurücksetzen
+                $sql_scan = $sql_scan_begin;
+            }
+
+
+            if ($username !== '') {
+                if (!array_key_exists($username, $spieler)) {                       //Spieler noch nicht im Spieler array vorhanden -> hinzufügen
+                
+                    $spielertoinsert[$username] = (string)$Plannie->user->allianz_tag;
+                    $spieler[$username] = (string)$Plannie->user->allianz_tag;
+
+                    if (count($spielertoinsert) >= MAX_INSERTS) {                   //eingestellte Maximalanzahl der Datensätze für die DB erreicht
+                                                                                    // -> sql String zusammenbauen und in die DB einfügen
+                        foreach ($spielertoinsert as $name => $ally) {
+                            $sql_spieler .= "('".$name."', '".$ally."', {$aktualisierungszeit}, {$aktualisierungszeit}),";
+                        }
+                        
+                        $sql_spieler = mb_substr($sql_spieler, 0, -1) . $sql_spieler_end;            //letztes "," des SQL-Queries entfernen und ON DUPLICATE KEY UPDATE - Teil anhängen
+                        $result = $db->db_query($sql_spieler)
+                            or error(GENERAL_ERROR, 'DB Spieler Insertfehler!', '', __FILE__, __LINE__, $sql_spieler);
+
+                        $spielertoinsert = Array();                                 //neue Spieler und sql-query zurücksetzen
+                        $sql_spieler = $sql_spieler_begin;
+                    }
+                }
+            }
+        } elseif ($planienummer === 0) {        //Planienummer 0 = Sonne / schwarzes Loch -> für Systeminfo Tabelle auswerten
+          
+            $id = (int)($Plannie->koordinaten->gal).':'.(int)($Plannie->koordinaten->sol);
+            $systoinsert[$id]['gal'] = (int)($Plannie->koordinaten->gal);
+            $systoinsert[$id]['sys'] = (int)($Plannie->koordinaten->sol);
+            $systoinsert[$id]['objekt'] = (((string)$Plannie->planet_typ === 'Sonne') ? 'sys' : $Plannie->planet_typ);
+            $systoinsert[$id]['date'] = $aktualisierungszeit;
+            $systoinsert[$id]['nebula'] = (isset($Plannie->nebel) ? (string)$Plannie->nebel : '');
+            
+        }
+    }
+
+    if (!empty($planet_inserts)) {                                       //letzten Planetendaten in die DB laden
+        $sql_scan = mb_substr($sql_scan,0,-1) . $sql_scan_end;            //letztes "," des SQL-Queries entfernen und ON DUPLICATE KEY UPDATE - Teil anhängen
+        $result = $db->db_query($sql_scan) 
+            or error(GENERAL_ERROR, 'DB Updatefehler!', '', __FILE__, __LINE__, $sql_scan);
+
+        $planet_num += $planet_inserts;
+    }
+
+    if (!empty($systoinsert)) {                                           //letzten Systemdaten in die DB laden
+        foreach ($systoinsert as $id => $sys) {
+            $sql_sysscans .= "('{$id}', {$sys['gal']}, {$sys['sys']}, '{$sys['objekt']}', {$sys['date']}, '{$sys['nebula']}'),";
+        }
+                        
+        $sql_sysscans = mb_substr($sql_sysscans, 0, -1) . $sql_sysscans_end;            //letztes "," des SQL-Queries entfernen und ON DUPLICATE KEY UPDATE - Teil anhängen
+        $result = $db->db_query($sql_sysscans)
+            or error(GENERAL_ERROR, 'DB System Insertfehler!', '', __FILE__, __LINE__, $sql_sysscans);
+                    
+        $sys_num += count($systoinsert);
+        $systoinsert = Array();
+    }
+
+    if (!empty($spielertoinsert)) {                                          //letzte Spielerdaten in die DB laden
+        foreach ($spielertoinsert as $name => $ally) {
+            $sql_spieler .= "('".$name."', '".$ally."', {$aktualisierungszeit}, {$aktualisierungszeit}),";
+        }
+
+        $sql_spieler = mb_substr($sql_spieler,0,-1) . $sql_spieler_end;
+        $result = $db->db_query($sql_spieler) 
+            or error(GENERAL_ERROR, 'DB Updatefehler!', '', __FILE__, __LINE__, $sql_spieler);
+            
+        $spielertoinsert = Array();    
+    }
+
+    //ungültige planSchiff/Deff/Ressscanberichte löschen (bei Änderung Planettyp oder Objekttyp oder username)
+    ResetPlaniedata($aktualisierungszeit);
+    
+    //ungültige Geodaten zu löschen (bei Änderung Planettyp)
+    ResetGeodata($aktualisierungszeit);
+
+    //Allianzänderungen in Historytabele übertragen
+    AddAllychangetoHistory($aktualisierungszeit);
+
+    //aktuelle Allianzen in alle Kartendaten übertragen
+    TransferAllytoScans($aktualisierungszeit);
+ 
+    echo "<div class='system_notification'>",$planet_num, ' Planeten geparsed, ',$sys_num,' Systeme aktualisiert, ',count($spieler),' Spieler aktualisiert</div><br>';
 }

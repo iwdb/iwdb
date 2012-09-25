@@ -713,7 +713,7 @@ if (isset($results))
 		echo $result;
 
 // Team Dropdown
-echo '<form method="POST" action="' . makeurl(array()) . '" enctype="multipart/form-data"><p align=\"center\">';
+echo '<form method="POST" action="' . makeurl(array()) . '" enctype="multipart/form-data"><p align="center">';
 echo 'Team: ';
 echo makefield(array("type" => 'select', "values" => $config['teams'], "value" => $params['filter_team']), 'filter_team');
 echo ' <input type="submit" name="submit" value="anzeigen"/>';
@@ -733,14 +733,14 @@ foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
 			'order' => $orderkey,
 			'orderd' => 'asc'
 		),
-		"<img src=\"./bilder/asc.gif\" border=\"0\">");
+		"<img src='./bilder/asc.gif' border='0'>");
 	echo '<b>' . $viewcolumnname . '</b>';
 	echo makelink(
 		array(
 			'order' => $orderkey,
 			'orderd' => 'desc'
 		),
-		"<img src=\"./bilder/desc.gif\" border=\"0\">");
+		"<img src='./bilder/desc.gif' border='0'>");
 }
 if (isset($view['edit'])) {
 	next_cell("titlebg", 'nowrap valign=top');
@@ -771,17 +771,17 @@ foreach ($data as $row) {
 		if (!isset($row['allow_edit']) || $row['allow_edit'])
 			echo makelink(
 				array('edit' => $key),
-				"<img src=\"bilder/file_edit_s.gif\" border=\"0\" alt=\"bearbeiten\">"
+				"<img src='bilder/file_edit_s.gif' border='0' alt='bearbeiten'>"
 			);
 		if (!isset($row['allow_delete']) || $row['can_delete'])
 			echo makelink(
 				array('delete' => $key),
-				"<img src=\"bilder/file_delete_s.gif\" border=\"0\" onclick=\"return confirmlink(this, 'Datensatz wirklich löschen?')\" alt=\"löschen\">"
+				"<img src='bilder/file_delete_s.gif' border='0' onclick=\"return confirmlink(this, 'Datensatz wirklich löschen?')\" alt='löschen'>"
 			);
 	}
 	// Markierbuttons ausgeben
 	next_cell("windowbg1", 'nowrap valign=top');
-	echo "<input type=\"checkbox\" name=\"mark_" . $index++ . "\" value=\"" . $key . "\"";
+	echo "<input type='checkbox' name='mark_" . $index++ . "' value='" . $key . "'";
 	if (getVar("mark_all"))
 		echo " checked";
 	echo ">";
@@ -868,7 +868,7 @@ function makeschifftable($row, $nocolor = false) {
 	$html = '<table width="100%">';
 	foreach ($row as $typ => $menge) {
 		$html .= '<tr>';
-		$html .= '<td nowrap width=\"30%\">';
+		$html .= "<td nowrap width='30%'>";
 		if (!$nocolor) {
 			$html .= '<span class="';
 			if ($menge > 0)

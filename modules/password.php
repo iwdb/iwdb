@@ -61,8 +61,7 @@ if( ! empty($username)) {
                " <title>Neues Passwort</title>\n" .
                "</head>\n" .
                "<body>\n" .
-               "<div class='doc_centered'><b>Neues Passwort für " .
-               $config_server . "</b><br><br>\n" .
+               "<div class='doc_centered'><b>Neues Passwort für " . APPLICATION_PATH . "</b><br><br>\n" .
                "Username: " . $username . "<br>\n" .
                "Passwort: " . $newpass . "<br></div>\n" .
                "</body>\n" .

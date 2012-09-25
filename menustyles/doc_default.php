@@ -41,12 +41,12 @@ function doc_message($text) {
 //
 function start_table($width = 90, $border = 0, $cellpadding = 4, 
                      $cellspacing = 1, $class = "bordercolor") {
-  echo "<table border=\"" . $border . "\" " . 
-              "cellpadding=\"" . $cellpadding . "\" " .
-              "cellspacing=\"" . $cellspacing . "\" " .
-              "class=\"" . $class . "\"";
+  echo "<table border='" . $border . "' " .
+              "cellpadding='" . $cellpadding . "' " .
+              "cellspacing='" . $cellspacing . "' " .
+              "class='" . $class . "'";
   if($width > 0) {
-    echo  " style=\"width: " . $width . "%;\"";
+    echo  " style='width: " . $width . "%;'";
   }
   echo ">\n";
 }
@@ -64,7 +64,7 @@ function cell($class = "", $extra = "", $columns = 1) {
   echo "  <td";
   
   if(!empty($class)) {
-    echo " class=\"" . $class . "\"";
+    echo " class='" . $class . "'";
   }
   
   if(!empty($extra)) {
@@ -72,7 +72,7 @@ function cell($class = "", $extra = "", $columns = 1) {
   }
    
   if($columns > 1) {
-    echo " colspan=\"" . $columns . "\"";
+    echo " colspan='" . $columns . "'";
   }
   
   echo ">";
@@ -103,7 +103,7 @@ function start_row($class = "", $extra = "", $columns = 1) {
 function start_row_only($class = "", $extra = "") {
   $html = " <tr";
   if (!empty($class))
-    $html .= " class=\"$class\"";
+    $html .= " class='$class'";
   if (!empty($extra))
     $html .= " $extra";
   $html .= ">\n";
@@ -131,9 +131,9 @@ function next_row($class = "", $extra = "", $columns = 1) {
 //
 function start_form($action, $params = 0) {
 	global $sid;
-	$html = "<form method=\"POST\" action=\"";
+	$html = "<form method='POST' action='";
 	$html .= url($action, $params);
-	$html .= "\" enctype=\"multipart/form-data\">\n";
+	$html .= "' enctype='multipart/form-data'>\n";
 	echo $html;
 }
 
@@ -147,8 +147,7 @@ function end_form() {
 //
 function action($action, $text) {
   global $sid;
-  echo "<a href=\"index.php?action=" . $action . "&sid=" . $sid ."\">" .
-       $text . "</a>\n";
+  echo "<a href='index.php?action=" . $action . "&sid=" . $sid ."'>" . $text . "</a>\n";
 }
 
 //******************************************************************************
@@ -188,7 +187,7 @@ function url($action, $params = 0) {
 //	"attributes" => array(
 //		// col_extra wird im <td>-Tag ausgegeben
 //		"col_extra" => array(
-//			"spaltenschluessel" => "width=\"100%\"",
+//			"spaltenschluessel" => "width='100%'",
 //		),
 //		// col_value_func wird fuer jeden Datenwert aufgerufen
 //		"col_value_func" => array(
@@ -239,7 +238,7 @@ function make_table($view, $data) {
             } else {
 				$row_class = "windowbg1";
             }
-			$row_extra = "id=\"" . $row_key . "\"";
+			$row_extra = "id='" . $row_key . "'";
 			if (isset($row["attributes"]["row_extra"])) {
 				$row_extra .= " " . $row["attributes"]["row_extra"];
             } elseif (isset($view["attributes"]["row_extra"])) {
@@ -261,7 +260,7 @@ function make_table($view, $data) {
                 } else {
 					$col_class = $row_class;
                 }
-				$col_extra = "id=\"" . $row_key . "_" . $col_key . "\"";
+				$col_extra = "id='" . $row_key . "_" . $col_key . "'";
 
                 if (isset($row["attributes"]["col_extra"][$col_key]))
 					$col_extra .= " " . $row["attributes"]["col_extra"][$col_key];
@@ -299,4 +298,3 @@ function make_table($view, $data) {
 	}
 	end_table();
 }
-?>

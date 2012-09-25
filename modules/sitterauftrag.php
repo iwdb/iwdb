@@ -334,14 +334,15 @@ if($id == $user_sitterlogin ) {
   </td>
   <td class="windowbg1" style="width:15%;">
    Zeit:
-   <input type="text" name="date" value="" style="width: 200px;">
+   <input type="text" name="date" value="" required="required" style="width: 200px;">
   </td>
   <td class="windowbg1" style="width:15%;">
    Bauschleife:
    <input type="checkbox" name="bauschleife" value="1"<?php echo ($user_peitschen) ? " checked": "";?>>
   </td>
   <td class="windowbg1" style="width:15%;">
-   <textarea name="auftrag" rows="2" cols="25" style="width: 200px;">Auftrag</textarea>
+   <textarea name='auftrag' id='auftrag' rows='2' cols='25' placeholder='Auftrag' required='required' style='width: 200px;'></textarea>
+   <?php echo bbcode_buttons('auftrag'); ?>
   </td>
  </tr>
  <tr>
@@ -491,7 +492,7 @@ if(!empty($row['ByUser']) && ($row['user'] != $row['ByUser'])) {
    <?php echo $row['typ'];?>
   </td>
   <td class="windowbg<?php echo $num;?>">
-   <?php echo $row['auftrag'];?>
+      <?php echo convert_bbcode($row['auftrag']);?>
   </td>
   <td class="windowbg<?php echo $num;?>" align="center">
 <?php
@@ -614,7 +615,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 <?php
 	if ( ( ! empty($serie) ) || ( ! empty($auftragid) && ! empty($thisid)) ) {
     if(! empty($planet) && isset($planets[$planet]))
-  		echo "<input type=\"hidden\" name=\"planet\" value=\"" . $planet . "\">[" . $planet . "] " . $planets[$planet];
+  		echo "<input type='hidden' name='planet' value='" . $planet . "'>[" . $planet . "] " . $planets[$planet];
   }
 	else
 	{
@@ -622,7 +623,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
    <select name="planet" style="width: 200px;">
 <?php
 	  foreach ($planets as $key => $data)
-			echo ($planet == $key) ? " <option value=\"" . $key . "\" selected>[" . $key . "] " . $data . "</option>\n": " <option value=\"" . $key . "\">[" . $key . "] " . $data . "</option>\n";
+			echo ($planet == $key) ? " <option value='" . $key . "' selected>[" . $key . "] " . $data . "</option>\n": " <option value='" . $key . "'>[" . $key . "] " . $data . "</option>\n";
 ?>
    </select>
 <?php
@@ -644,7 +645,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
   <td class="windowbg1">
 <?php
 			if ( ( ! empty($serie) ) || ( ! empty($auftragid) && ! empty($thisid)) )
-				echo "<input type=\"hidden\" name=\"date_b2\" value=\"" . (isset($date_b2) ? $date_b2 : "") . "\">" . (isset($date_b2) ? $date_b2 : "");
+				echo "<input type='hidden' name='date_b2' value='" . (isset($date_b2) ? $date_b2 : "") . "'>" . (isset($date_b2) ? $date_b2 : "");
 			else
 			{
 ?>
@@ -664,7 +665,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
   <td class="windowbg1">
 <?php
 		if ( ( ! empty($serie) ) || ( ! empty($auftragid) && ! empty($thisid)) )
-			echo "<input type=\"hidden\" name=\"date_b1\" value=\"" . (isset($date_b1) ? $date_b1 : "") . "\">" . (isset($date_b1) ? $date_b1 : "");
+			echo "<input type='hidden' name='date_b1' value='" . (isset($date_b1) ? $date_b1 : "") . "'>" . (isset($date_b1) ? $date_b1 : "");
 		else
 		{
 ?>
@@ -700,7 +701,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
   <td class="windowbg1">
 <?php
 	if ( ( ! empty($serie) ) || ( ! empty($auftragid) && ! empty($thisid)) )
-		echo "<input type=\"hidden\" name=\"date\" value=\"" . (isset($date) ? $date : "") . "\">" . (isset($date) ? $date : "");
+		echo "<input type='hidden' name='date' value='" . (isset($date) ? $date : "") . "'>" . (isset($date) ? $date : "");
 	else
 	{
 ?>
@@ -759,7 +760,8 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
    Notizen:<?php echo ($typ == "Sonstiges") ? "": "<br><i>(optional)</i>";?>
   </td>
   <td class="windowbg1">
-   <textarea name="auftrag" rows="4" cols="25" style="width: 200px;"><?php echo $auftrag;?></textarea>
+    <textarea name='auftrag' id='auftrag' rows='4' cols='25' style='width: 200px;'><?php echo $auftrag;?></textarea>
+    <?php echo bbcode_buttons('auftrag'); ?>
   </td>
 <?php
 	}
@@ -785,10 +787,10 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 	{
 		if ( $typprev != $row_schiff['typ'] )
 		{
-			echo "<optgroup label=\"" . $row_schiff['typ'] . "\" title=\"" . $row_schiff['typ'] . "\"></optgroup>\n";
+			echo "<optgroup label='" . $row_schiff['typ'] . "' title='" . $row_schiff['typ'] . "'></optgroup>\n";
 			$typprev = $row_schiff['typ'];
 		}
-		echo ($schiff == $row_schiff['id']) ? " <option value=\"" . $row_schiff['id'] . "\" selected>" . $row_schiff['abk'] . "</option>\n": " <option value=\"" . $row_schiff['id'] . "\">" . $row_schiff['abk'] . "</option>\n";
+		echo ($schiff == $row_schiff['id']) ? " <option value='" . $row_schiff['id'] . "' selected>" . $row_schiff['abk'] . "</option>\n": " <option value='" . $row_schiff['id'] . "'>" . $row_schiff['abk'] . "</option>\n";
 	}
 ?>
    </select>

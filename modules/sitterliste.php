@@ -91,7 +91,7 @@ if ( ! empty($edit) )
 				if ( $row['date_b1'] <> $row['date'] ) $bauschleifenmod = 1.1;
 				if ( $row['date_b2'] <> $row['date_b1'] ) $bauschleifenmod = 1.2;
 			}
-			$logtext = "<font color=\"#FF0000\"><b>" . $row_planet['planetenname'] . " [" . $row['planet'] . "]<br>" . auftrag($row['typ'], $row['bauschleife'], $row['bauid'], $row['auftrag'], $row['schiffanz'], $row_planet['dgmod'], $row['user'], $bauschleifenmod) . "<br>gelöscht von " . $user_sitterlogin . ( (empty($comment) ) ? "" : ": " . nl2br($comment) ) . "</b></font>";
+			$logtext = "<font color='#FF0000'><b>" . $row_planet['planetenname'] . " [" . $row['planet'] . "]<br>" . auftrag($row['typ'], $row['bauschleife'], $row['bauid'], $row['auftrag'], $row['schiffanz'], $row_planet['dgmod'], $row['user'], $bauschleifenmod) . "<br>gelöscht von " . $user_sitterlogin . ( (empty($comment) ) ? "" : ": " . nl2br($comment) ) . "</b></font>";
 			$sql = "INSERT INTO " . $db_tb_sitterlog . " (sitterlogin, fromuser, date, action) VALUES ('" . $row['user'] . "', '" . $user_sitterlogin . "', '" . $config_date . "', '" . $logtext . "')";
 			$result = $db->db_query($sql)
 				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -100,7 +100,7 @@ if ( ! empty($edit) )
 			$result_del = $db->db_query($sql)
 				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 		}
-		$alert = "<br><font color=\"#FF0000\"><b>Auftrag gelöscht.</b></font><br>";
+		$alert = "<br><font color='#FF0000'><b>Auftrag gelöscht.</b></font><br>";
 	}
 	else
 	{
@@ -109,7 +109,7 @@ if ( ! empty($edit) )
 			$sql = "UPDATE " . $db_tb_sitterauftrag . " SET auftrag = '" . $row_last['auftrag'] . "\nvon " . $user_sitterlogin . ": " . $comment . "' WHERE id = '" . $auftragids[(count($auftragids) - 1)] . "'";
 			$result = $db->db_query($sql)
 				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-			$alert .= "<br><font color=\"#FF0000\"><b>Kommentar hinzugefügt.</b></font><br>";
+			$alert .= "<br><font color='#FF0000'><b>Kommentar hinzugefügt.</b></font><br>";
 		}
 		if ( ! empty($date_parse) )
 		{
@@ -151,7 +151,7 @@ if ( ! empty($edit) )
 
 		if ( ( $date < $config_date - $config_sitterauftrag_timeout ) || ( $date_b1 < $config_date - $config_sitterauftrag_timeout ) || ( $date_b2 < $config_date - $config_sitterauftrag_timeout ) )
 		{
-			$alert .= "<br><font color=\"#FF0000\"><b>Ungültiger Zeitpunkt.</b></font><br>";
+			$alert .= "<br><font color='#FF0000'><b>Ungültiger Zeitpunkt.</b></font><br>";
 		}
 		else
 		{
@@ -167,7 +167,7 @@ if ( ! empty($edit) )
 
 			dates($auftragids[0], $row_first['user']);
 
-			if ( ( $date <> $row_first['date']) || ( $date_b1 <> $row_first['date_b1']) || ( $date_b2 <> $row_first['date_b2']) ) $alert .= "<br><font color=\"#FF0000\"><b>Zeit editiert.</b></font><br>";
+			if ( ( $date <> $row_first['date']) || ( $date_b1 <> $row_first['date_b1']) || ( $date_b2 <> $row_first['date_b2']) ) $alert .= "<br><font color='#FF0000'><b>Zeit editiert.</b></font><br>";
 		}
 	}
 
@@ -269,7 +269,7 @@ if ( ! empty($erledigt) )
 					or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 			}
 
-			$alert = "<br><font color=\"#FF0000\"><b>Auftrag als erledigt markiert.</b></font><br>";
+			$alert = "<br><font color='#FF0000'><b>Auftrag als erledigt markiert.</b></font><br>";
 		}
 		else
 		{
@@ -315,9 +315,9 @@ if ( ! empty($erledigt) )
 			}
 
 			if ( empty($date) && empty($date_parse) && empty($date_b1) && empty($date_b2 ) )
-				$alert = "<br><font color=\"#FF0000\"><b>Bitte ausfüllen.</b></font><br>";
+				$alert = "<br><font color='#FF0000'><b>Bitte ausfüllen.</b></font><br>";
 			else
-				$alert = ( ( $date < $config_date - $config_sitterauftrag_timeout ) || ( $date_b1 < $config_date - $config_sitterauftrag_timeout ) || ( $date_b2 < $config_date - $config_sitterauftrag_timeout ) ) ? "<br><font color=\"#FF0000\"><b>Ungueltiger Zeitpunkt.</b></font><br>": "";
+				$alert = ( ( $date < $config_date - $config_sitterauftrag_timeout ) || ( $date_b1 < $config_date - $config_sitterauftrag_timeout ) || ( $date_b2 < $config_date - $config_sitterauftrag_timeout ) ) ? "<br><font color='#FF0000'><b>Ungueltiger Zeitpunkt.</b></font><br>": "";
 	
 			$sql = "SELECT bauschleife, refid FROM " . $db_tb_sitterauftrag . " WHERE id = '" . $erledigtids[(count($erledigtids) - 1)] . "'";
 			$result_act = $db->db_query($sql)
@@ -392,7 +392,7 @@ if ( ! empty($erledigt) )
 						or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 				}
 	
-				$alert = "<br><font color=\"#FF0000\"><b>Auftrag als erledigt markiert.</b></font><br>";
+				$alert = "<br><font color='#FF0000'><b>Auftrag als erledigt markiert.</b></font><br>";
 			}
 	
 			if ( ( empty($date) ) && ( empty($date_parse) ) && ( $count != 0 ) )
@@ -649,11 +649,11 @@ $sql = "SELECT id, auftrag, bauid, bauschleife, typ, refid, user, date_b1, date_
  <tr>
   <td class="windowbg<?php echo $num;?>">
 <?php
-if ( $user_status == "admin" ) echo "<a href=\"index.php?action=profile&sitterlogin=" . urlencode($row['user']) . "&sid=" . $sid . "\">" . $row['user'] . "</a>";
+if ( $user_status == "admin" ) echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($row['user']) . "&sid=" . $sid . "'>" . $row['user'] . "</a>";
 else echo $row['user'];
 ?>
    [<?php echo $users_sitterpunkte;?> + <?php echo $users_sitterpunkte_user;?>]
-   <?php echo ( ($users_sitterpunkte+$users_sitterpunkte_user) > (3 * round($row_avg['AVG(sitterpunkte)']) ) ) ? "<img src=\"bilder/star1.gif\" border=\0\" style=\"vertical-align:middle;\">": ( ( ($users_sitterpunkte+$users_sitterpunkte_user) > (2 * round($row_avg['AVG(sitterpunkte)']) ) ) ? "<img src=\"bilder/star2.gif\" border=\0\" style=\"vertical-align:middle;\">" : ( ( ($users_sitterpunkte+$users_sitterpunkte_user) > (round($row_avg['AVG(sitterpunkte)']) ) ) ? "<img src=\"bilder/star3.gif\" border=\0\" style=\"vertical-align:middle;\">" : ""));?>
+   <?php echo ( ($users_sitterpunkte+$users_sitterpunkte_user) > (3 * round($row_avg['AVG(sitterpunkte)']) ) ) ? "<img src='bilder/star1.gif' alt='star1' style='border:0;vertical-align:middle;'>": ( ( ($users_sitterpunkte+$users_sitterpunkte_user) > (2 * round($row_avg['AVG(sitterpunkte)']) ) ) ? "<img src='bilder/star2.gif' alt='star2' style='border:0;vertical-align:middle;'>" : ( ( ($users_sitterpunkte+$users_sitterpunkte_user) > (round($row_avg['AVG(sitterpunkte)']) ) ) ? "<img src='bilder/star3.gif' alt='star3' style='border:0;vertical-align:middle;'>" : ""));?>
 <?php
   if(!empty($row['ByUser']) && ($row['user'] != $row['ByUser'])) {
 	  echo "<br>(eingestellt von " . $row['ByUser'] . ")";
@@ -669,7 +669,7 @@ else echo $row['user'];
    <?php echo $row_planet['planetenname'];?> [<?php echo $row['planet'];?>]
   </td>
   <td class="windowbg<?php echo $num;?>">
-   <?php echo $row['auftrag'];?>
+    <?php echo convert_bbcode($row['auftrag']);?>
   </td>
   <td class="windowbg<?php echo $num;?>" align="center">
 <?php
@@ -717,7 +717,8 @@ if (is_array($users_logged_in)) {
    <i>Hier kannst du einen Kommentar<br>zu dem Auftrag hinzufügen.</i>
   </td>
   <td class="windowbg1">
-   <textarea name="comment" rows="4" cols="25" style="width: 200;"></textarea>
+   <textarea name='comment' id='comment' rows='4' cols='25' style='width: 200px;'></textarea>
+   <?php echo bbcode_buttons('comment'); ?>
   </td>
  </tr>
  <tr>
@@ -896,7 +897,7 @@ while($row = $db->db_fetch_array($result))
  <tr>
   <td class="windowbg1">
 <?php
-if ( $user_status == "admin" ) echo "<a href=\"index.php?action=profile&sitterlogin=" . urlencode($row['user']) . "&sid=" . $sid . "\">" . $row['user'] . "</a>";
+if ( $user_status == "admin" ) echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($row['user']) . "&sid=" . $sid . "'>" . $row['user'] . "</a>";
 else echo $row['user'];
 if(!empty($row['ByUser']) && ($row['user'] != $row['ByUser'])) {
   echo "<br>(eingestellt von " . $row['ByUser'] . ")";
@@ -910,7 +911,7 @@ if(!empty($row['ByUser']) && ($row['user'] != $row['ByUser'])) {
    <?php echo $row_planet['planetenname'];?> [<?php echo $row['planet'];?>]
   </td>
   <td class="windowbg1">
-   <?php echo $row['auftrag'];?>
+    <?php echo convert_bbcode($row['auftrag']);?>
   </td>
  </tr>
 <?php

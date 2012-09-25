@@ -40,11 +40,18 @@ if (basename($_SERVER['PHP_SELF']) != "index.php")
 // nur negative Werte vorkommen dürfen.
 define('SHOWNEGATIVE', TRUE);	
 	
-$ressu = (isset($db_tb_ressuebersicht) && !empty($db_tb_ressuebersicht)) ? TRUE : FALSE; 
-	
-$c_to   = stripNumber(getVar('to'));
+$ressu = (isset($db_tb_ressuebersicht) && !empty($db_tb_ressuebersicht)) ? TRUE : FALSE;
 
-empty($c_to) ? $c_to = '5' : '';
+$hs_places   = filter_int(getVar('to'), 5, 1, NULL);
+
+//Limitieren der Highscoreplätze auf die Anzahl der IW-Accounts
+$sql= "SELECT COUNT( DISTINCT sitterlogin ) AS 'igaccs' FROM " . $db_tb_user .";";
+$result = $db->db_query($sql) or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$row = $db->db_fetch_array($result);
+
+if ($hs_places>$row['igaccs']) {
+    $hs_places=$row['igaccs'];
+}
 
 doc_title('Wer hat den Längsten?');
 
@@ -52,14 +59,14 @@ echo '<br>
 <form action="index.php" method="post"><p>
 <input type="hidden" name="action" value="showhighscore">
 <input type="hidden" name="sid" value="'.$sid.'">
-Top/Flop <input type="text" name="to" value="'.$c_to.'" size="2">
+Top/Flop <input type="text" name="to" value="'.$hs_places.'" size="2">
 <input type="submit" value="zeigen" name="B1" class="submit">
 </p></form>
 ';
 
 start_table(100, 0, 10, 0, "");
 start_row('windowbg2', 'align="center"', 3);
-echo "<font style='font-size: 15px; color: white'>HALL OF FAME - TOP {$c_to} DER BESTEN</font>";
+echo "<font style='font-size: 15px; color: white'>HALL OF FAME - TOP {$hs_places} DER BESTEN</font>";
 next_row();
 
 if($ressu) {
@@ -122,7 +129,7 @@ if ($user_fremdesitten != 1) {
 
 if($ressu) {
   next_row('windowbg2', 'align="center"', 3);
-echo "<font style='font-size: 15px; color: white'>HALL OF SHAME - TOP {$c_to} DER ERSTEN VON HINTEN</font>";
+echo "<font style='font-size: 15px; color: white'>HALL OF SHAME - TOP {$hs_places} DER ERSTEN VON HINTEN</font>";
   next_row();
   	
 	createRessieTable("Eisen", "ASC");
@@ -164,7 +171,7 @@ return;
 // Füllt eine kleine Tabelle mit den Werten für eine Hall of fame/shame.
 // 
 function createRessieTable($ressie, $direction, $altress = "", $decimals=2, $altsql = "") {
-  global $db, $db_tb_ressuebersicht, $db_tb_user, $c_to, $user_fremdesitten, $user_allianz;
+  global $db, $db_tb_ressuebersicht, $db_tb_user, $hs_places, $user_fremdesitten, $user_allianz;
 	
 	if(empty($altress)) {
   	$lowress = strtolower( $ressie );
@@ -207,7 +214,7 @@ function createRessieTable($ressie, $direction, $altress = "", $decimals=2, $alt
 						 __FILE__, __LINE__, $sql);
 
 	$count = 0;
-  while($count < $c_to && $row = $db->db_fetch_array($result)) {
+  while($count < $hs_places && $row = $db->db_fetch_array($result)) {
     next_row("windowbg1", "align=\"center\"");
 		if($count == 0)
 		  echo $pic;
@@ -230,7 +237,7 @@ function createRessieTable($ressie, $direction, $altress = "", $decimals=2, $alt
 		$count++;
 	}
 
-  while($count < $c_to) {
+  while($count < $hs_places) {
     next_row("windowbg1");
 		if($count == 0)
 		  echo $pic;

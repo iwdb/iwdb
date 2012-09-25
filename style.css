@@ -634,15 +634,26 @@ td[abbr=both] {
 	white-space:nowrap;
 }
 
-/* ma was testen */
+/* bbcode styling */
 
-.m_war_header {
-	text-color: #ff000000;
-}
+.bbcodebutton {width:18px; height:18px; padding:3px; margin:1px; border:1px solid #ccc; background: url('bilder/iwdb/bbcodebuttons.png') no-repeat;}
+#bbcode_b_button{ background-position: 0 0; }
+#bbcode_i_button{ background-position: -32px 0; }
+#bbcode_u_button{ background-position: -80px 0; }
+#bbcode_s_button{ background-position: -48px 0; }
+#bbcode_farbe_button{ background-position: -16px 0; }
+#bbcode_smilie_button{ background-position: -64px 0; }
 
-/* ab hier kommt was anderes */
+#cpcontainer { z-index:1000; border:0; }
+#spcontainer { z-index:1000; border:0; }
 
+#colorpickertable { border:2px ridge #ddd; margin:auto; }
+#colorpickertable td { width:10px; height:10px; cursor:pointer; }
+#colorpickertable td:hover { height:8px; width:8px; border:1px solid white; }
 
+#smiliepickertable { border:2px ridge #ddd; margin:auto; background-color: #eee; }
+#smiliepickertable td { cursor:pointer; text-align:center; vertical-align:middle; }
+#smiliepickertable td:hover { background-color: #ddd; }
 
 
 

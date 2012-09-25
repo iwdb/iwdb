@@ -24,10 +24,11 @@
 /* The GNU GPL can be found in LICENSE in this directory                     */
 /*****************************************************************************/
 
-if (!defined('IRA'))
-	die('Hacking attempt...');
-if  ( ( $user_adminsitten != SITTEN_BOTH ) && ( $user_adminsitten != SITTEN_ONLY_LOGINS ) )
-	die('Hacking attempt...');
+//direktes Aufrufen verhindern
+if (basename($_SERVER['PHP_SELF']) != "index.php") {header('HTTP/1.1 404 not found');exit;};
+if (!defined('IRA')) {header('HTTP/1.1 404 not found');exit;};
+
+//****************************************************************************
 
 $newlog = getVar('newlog');
 
@@ -85,23 +86,23 @@ if ( ! empty($anz) )
 <br>
 
 <br>
-<table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">
+<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 90%;'>
  <tr>
-  <td class="titlebg" colspan="4" align="center">
-   <b>Dauerauftraege</b>
+  <td class='titlebg' colspan='4' align='center'>
+   <b>Daueraufträge</b>
   </td>
  </tr>
  <tr>
-  <td class="titlebg" style="width:20%;">
+  <td class='titlebg' style='width:20%;'>
    <b>Username</b>
   </td>
-  <td class="titlebg" style="width:60%;">
+  <td class='titlebg' style='width:60%;'>
    <b>Grund / Anweisungen</b>
   </td>  
-  <td class="titlebg" style="width:10%;">
+  <td class='titlebg' style='width:10%;'>
    <b>einloggen</b>
   </td>
-  <td class="titlebg" style="width:10%;">
+  <td class='titlebg' style='width:10%;'>
    <b>letzter Login</b>
   </td>
  </tr>
@@ -120,7 +121,7 @@ if ( ! empty($anz) )
 				
 			$row_lastlogin['MAX(date)'] = 0;
 			$row_lastlogin['date'] = 0;
-			$row_lastlogin['fromuser'] = "";
+			$row_lastlogin['fromuser'] = '';
 			
 			while ($row_lastlogins = $db->db_fetch_array($result_lastlogin))
 			{
@@ -148,50 +149,54 @@ if ( ! empty($anz) )
 		else $num = 2;
 ?>
  <tr>
-  <td class="windowbg<?php echo $num;?>" valign="top">
+  <td class='windowbg<?php echo $num;?>' valign='top'>
 <?php
-		if ( $user_status == "admin" ) echo "<a href=\"index.php?action=profile&sitterlogin=" . urlencode($data) . "&sid=" . $sid . "\">" . $data . "</a>";
+		if ( $user_status == "admin" ) echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($data) . "&sid=" . $sid . "'>" . $data . "</a>";
 		else echo $data;
 ?>
    <?php echo $users_sitterpunkte_anz[$key];?>
-   <?php echo ( $users_sitterpunkte[$key] > (3 * round($row_avg['AVG(sitterpunkte)']) ) ) ? "<img src=\"bilder/star1.gif\" border=\0\" style=\"vertical-align:middle;\">": ( ( $users_sitterpunkte[$key] > (2 * round($row_avg['AVG(sitterpunkte)']) ) ) ? "<img src=\"bilder/star2.gif\" border=\0\" style=\"vertical-align:middle;\">" : ( ( $users_sitterpunkte[$key] > round($row_avg['AVG(sitterpunkte)'] ) ) ? "<img src=\"bilder/star3.gif\" border=\0\" style=\"vertical-align:middle;\">" : ""));?> 
+   <?php echo ( $users_sitterpunkte[$key] > (3 * round($row_avg['AVG(sitterpunkte)']) ) ) ? "<img src='bilder/star1.gif' alt='star1' style='border:0;vertical-align:middle;'>": ( ( $users_sitterpunkte[$key] > (2 * round($row_avg['AVG(sitterpunkte)']) ) ) ? "<img src='bilder/star2.gif' alt='star2' style='border:0;vertical-align:middle;'>" : ( ( $users_sitterpunkte[$key] > round($row_avg['AVG(sitterpunkte)'] ) ) ? "<img src='bilder/star3.gif' alt='star3' style='border:0;vertical-align:middle;'>" : ""));?>
   </td>
-  <td class="windowbg<?php echo $num;?>" valign="top">
-   <?php echo nl2br($users_sittercomment[$key]);?>
-   <?php echo ( $users_sitterpeitschen[$key] == "1" ) ? "<br><br><i>Meister d. Peitschen</i>": "";?>
+  <td class='windowbg<?php echo $num;?>' valign='top'>
+   <?php echo nl2br(convert_bbcode($users_sittercomment[$key]));?>
+   <?php echo ( $users_sitterpeitschen[$key] == '1' ) ? "<br><br><i>Meister d. Peitschen</i>": "";?>
   </td>
-  <td class="windowbg<?php echo $num;?>" valign="middle" align="center">
+  <td class='windowbg<?php echo $num;?>' valign='middle' align='center'>
 <?php
-		if ( ! empty($users_logged_in[$key]) ) echo $users_logged_in[$key] . " ist eingeloggt";
-		else echo "<a href=\"index.php?action=sitterlogins&sitterlogin=" . urlencode($data) . "&sid=" . $sid . "\" target=\"_blank\">[einloggen]</a>";
+		if ( ! empty($users_logged_in[$key]) ) {
+            echo $users_logged_in[$key] . ' ist eingeloggt';
+        } else {
+            echo "<a href='index.php?action=sitterlogins&sitterlogin=" . urlencode($data) . "&sid=" . $sid . "' target='_blank'>[einloggen]</a>";
+        }
 ?>
-   <br><a href=\"javascript:Collapse('d<?php echo $key;?>');\"><img src="bilder/plus.gif" alt="" border="0" id="collapse_d<?php echo $key;?>"></a>
+  <br><a href="javascript:Collapse('d<?php echo $key;?>');"><img src="bilder/plus.gif" alt="" border="0" id="collapse_d<?php echo $key;?>"></a>
   </td>
-  <td class="windowbg<?php echo $num;?>" valign="top">
+  <td class='windowbg<?php echo $num;?>' valign='top'>
    <?php echo ( empty($users_lastlogin_user[$key]) ) ? "": strftime($config_sitter_timeformat, $users_lastlogin[$key]) . " - " . $users_lastlogin_user[$key];?>
   </td>
  </tr>
- <tr id="row_d<?php echo $key;?>" style="display: none;">
-  <td colspan="4" class="windowbg1" valign="top" align="center" style="width: 100%;">
-<form method="POST" action="index.php?action=sitterliste&sid=<?php echo $sid;?>" enctype="multipart/form-data">
-<table border="0" cellpadding="4" cellspacing="0" class="bordercolor">
+ <tr id='row_d<?php echo $key;?>' style='display: none;'>
+  <td colspan='4' class='windowbg1' valign='top' align='center' style='width: 100%;'>
+<form method='POST' action='index.php?action=sitterliste&sid=<?php echo $sid;?>' enctype='multipart/form-data'>
+<table border='0' cellpadding='4' cellspacing='0' class='bordercolor'>
  <tr>
-  <td colspan="2" class="windowbg1" align="center">
+  <td colspan='2' class='windowbg1' align='center'>
    <b>Sitteraktivität</b>
   </td>
  </tr>
  <tr>
  <tr>
-  <td class="windowbg1">
+  <td class='windowbg1'>
    Auftrag:<br>
    <i>Wenn du etwas gebaut hast,<br>bitte hier eintragen.</i>
   </td>
-  <td class="windowbg1">
-   <textarea name="auftrag" rows="3" style="width: 200;"></textarea>
+  <td class='windowbg1'>
+   <textarea name='auftrag' id='auftrag' rows='3' placeholder='Beschreibung Dauerauftrag' style='width: 200px;'></textarea>
+   <?php echo bbcode_buttons("auftrag"); ?>
   </td>
  </tr>
  <tr>
-  <td colspan="2" class="windowbg1" align="center">
+  <td colspan='2' class='windowbg1' align='center'>
    <input type="hidden" name="newlog" value="true"><input type="hidden" name="sitterlogin" value="<?php echo $data;?>"><input type="submit" value="speichern" name="B1" class="submit">
   </td>
  </tr>

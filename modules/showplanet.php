@@ -29,33 +29,15 @@ die('Hacking attempt...');
 
 global $sid,$db;
 
-function makeduration($time) {
-	if (empty($time))
-		return '---';
-	$duration = $time - time();
-	$text = "";
-	$days = (int)($duration / (24 * 60 * 60));
-	$duration -= $days * 24 * 60 * 60;
-	$hours = (int)($duration / (60 * 60));
-	$duration -= $hours * 60 * 60;
-	$mins = (int)($duration / 60);
-	$duration -= $mins * 60;
-	$secs = $duration;
-	if ($days)
-		$text .= $days . " Tagen ";
-	$text .= (($hours < 10) ? "0" . $hours : $hours) . ":";
-	$text .= (($mins < 10) ? "0" . $mins : $mins) . ":";
-	$text .= (($secs < 10) ? "0" . $secs : $secs);
-	return $text;
-}
-
 ?>
 
 <div class='doc_title'>Planet</div>
 <?php
 $ansicht = getVar('ansicht');
-$ansicht = ( empty($ansicht) ) ? "auto": $ansicht;
-if (! isset($coords) ) $coords  = getVar('coords');
+$ansicht = ( empty($ansicht) ) ? "auto" : $ansicht;
+if (! isset($coords) ) {
+    $coords  = getVar('coords');
+}
 $order   = getVar('order');
 
 if ( ! empty($coords) )
@@ -110,8 +92,7 @@ if ( ! empty($coords) )
 }
 ?>
 <br>
-<table border="0" cellpadding="4" cellspacing="1" class="bordercolor"
-	style="width: 80%;">
+<table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 80%;">
 	<?php
 	if ( $user_planibilder == "1" )
 	{
@@ -152,11 +133,11 @@ if ( ! empty($coords) )
 	<tr>
 		<td class="windowbg2">letztes Update:</td>
 		<td class="windowbg1"><?php
-		echo (empty($row['time']) ) ? "/": round((time() - $row['time']) / (24 * 60 * 60)) . " Tage";
+		echo (empty($row['time']) ) ? "/": round(($config_date - $row['time']) / (24 * 60 * 60)) . " Tage";
 		?></td>
 	</tr>
 	<?php
-	if ( ( ( $ansicht == "auto") && ( $row['objekt'] != "---" ) ) || ( $ansicht == "taktisch") || ( $ansicht == "beide") )
+    if ( ( ( $ansicht == "auto") && ( $row['objekt'] != "---" ) ) || ( $ansicht == "taktisch") || ( $ansicht == "beide") )
 	{
 		?>
 	<tr>
@@ -173,10 +154,6 @@ if ( ! empty($coords) )
 		<td class="windowbg2">Planetennamen:</td>
 		<td class="windowbg1"><?php echo $row['planetenname'];?></td>
 	</tr>
-	<tr>
-		<td class="windowbg2">Punkte:</td>
-		<td class="windowbg1"><?php echo $row['punkte'];?></td>
-	</tr>
 	<?php
 }
 ?>
@@ -192,14 +169,10 @@ if ( ! empty($coords) )
 		<td class="windowbg1"><?php echo $row['objekt'];?></td>
 	</tr>
 	<tr>
-		<td class="windowbg2">Planetengröße:</td>
-		<td class="windowbg1"><?php echo $row['bevoelkerungsanzahl'];?></td>
-	</tr>
-	<tr>
 		<td colspan="2" class="titlebg"><b>Notizen:</b></td>
 	</tr>
 	<tr>
-		<td class="windowbg2"><i>Hier bitte jegliche Informationen ueber diesen Planeten, sei es Raids, Uhrzeiten, Absprachen, Tipps fuer Raider eingeben.</i></td>
+		<td class="windowbg2"><i>Hier bitte jegliche Informationen über diesen Planeten, sei es Raids, Uhrzeiten, Absprachen, Tipps für Raider eingeben.</i></td>
 		<td class="windowbg1"><?php
 		$notice = getVar('notice');
 		$submitnotice = getVar('submitnotice');
@@ -243,9 +216,13 @@ if ( ! empty($coords) )
 		?></td>
 	</tr>
 	<?php
-	if ( ( ( $ansicht == "auto") && ( $row['objekt'] == "---" ) ) || ( $ansicht == "geologisch") || ( $ansicht == "beide") )
+
+    if ( ( ( ( $ansicht == "auto") ) || ( $ansicht == "geologisch") || ( $ansicht == "beide") ) AND !empty($row['geoscantime']))
 	{
 		?>
+    <tr>
+        <td colspan="2" class="titlebg"><b>Geologie:</b></td>
+    </tr>
 	<tr>
 		<td class="windowbg2">Gravitation:</td>
 		<td class="windowbg1"><?php echo $row['gravitation'];?></td>
@@ -275,6 +252,10 @@ if ( ! empty($coords) )
 		<td class="windowbg1"><?php echo ($row['dsmod'] > 1) ? "<div class='doc_red'>" . $row['dsmod'] . "</div>": $row['dsmod'];?>
 		</td>
 	</tr>
+    <tr>
+        <td class="windowbg2">Planetengröße:</td>
+        <td class="windowbg1"><?php echo number_format($row['bevoelkerungsanzahl'], 0, ',' , '.' );?></td>
+    </tr>
 	<tr>
 		<td colspan="2" class="titlebg"><b>Ressourcen:</b></td>
 	</tr>
@@ -282,8 +263,8 @@ if ( ! empty($coords) )
 		<td class="windowbg2">Eisengehalt:</td>
 		<td class="windowbg1"><?php echo ($row['eisengehalt'] > 100) ? "<b>" . $row['eisengehalt'] . " %</b>": $row['eisengehalt'] . ' %';?>
 		<?php echo  "mit TechTeam: " ?> <?php echo ($row['tteisen'] > 130) ? "<b>" . $row['tteisen'] . "%</b>": $row['tteisen'] . "%";?>
-		<?php echo  "=> effektiv Eisen: " ?> <?php echo ($eisen_effektiv) ? "<b>" . $eisen_effektiv . "%</b>": $eisen_effektiv . "%";?>
-		<?php echo  "mit TechTeam: " ?> <?php echo ($tteisen_effektiv) ? "<b>" . $tteisen_effektiv . "%</b>": $tteisen_effektiv . "%";?>
+		<?php echo  "=> effektiv Eisen: " ?> <?php echo ($eisen_effektiv) ? "<b>" . round($eisen_effektiv,1) . "%</b>": round($eisen_effektiv,1) . "%";?>
+		<?php echo  "mit TechTeam: " ?> <?php echo ($tteisen_effektiv) ? "<b>" . round($tteisen_effektiv,1) . "%</b>": round($tteisen_effektiv,1) . "%";?>
 		</td>
 	
 	</tr>
@@ -291,16 +272,16 @@ if ( ! empty($coords) )
 		<td class="windowbg2">Chemievorkommen:</td>
 		<td class="windowbg1"><?php echo ($row['chemievorkommen'] > 100) ? "<b>" . $row['chemievorkommen'] . " %</b>": $row['chemievorkommen'] . ' %';?>
 		<?php echo  "mit TechTeam: " ?> <?php echo ($row['ttchemie'] > 130) ? "<b>" . $row['ttchemie'] . "%</b>": $row['ttchemie'] . "%";?>
-		<?php echo  "=> effektiv Chemie: " ?> <?php echo ($chemie_effektiv) ? "<b>" . $chemie_effektiv . "%</b>": $chemie_effektiv . "%";?>
-		<?php echo  "mit TechTeam: " ?> <?php echo ($ttchemie_effektiv) ? "<b>" . $ttchemie_effektiv . "%</b>": $ttchemie_effektiv . "%";?>
+		<?php echo  "=> effektiv Chemie: " ?> <?php echo ($chemie_effektiv) ? "<b>" . round($chemie_effektiv,1) . "%</b>": round($chemie_effektiv,1) . "%";?>
+		<?php echo  "mit TechTeam: " ?> <?php echo ($ttchemie_effektiv) ? "<b>" . round($ttchemie_effektiv,1) . "%</b>": round($ttchemie_effektiv,1) . "%";?>
 		</td>
 	</tr>
 	<tr>
 		<td class="windowbg2">Eisdichte:</td>
 		<td class="windowbg1"><?php echo ($row['eisdichte'] > 30) ? "<b>" . $row['eisdichte'] . " %</b>": $row['eisdichte'] . ' %';?>
 		<?php echo  "mit TechTeam: " ?> <?php echo ($row['tteis'] > 30) ? "<b>" . $row['tteis'] . "%</b>": $row['tteis'] . "%";?>
-		<?php echo  "=> effektiv Eis: " ?> <?php echo ($eis_effektiv) ? "<b>" . $eis_effektiv . "%</b>": $eis_effektiv . "%";?>
-		<?php echo  "mit TechTeam: " ?> <?php echo ($tteis_effektiv) ? "<b>" . $tteis_effektiv . "%</b>": $tteis_effektiv . "%";?>
+		<?php echo  "=> effektiv Eis: " ?> <?php echo ($eis_effektiv) ? "<b>" . round($eis_effektiv,1) . "%</b>": round($eis_effektiv,1) . "%";?>
+		<?php echo  "mit TechTeam: " ?> <?php echo ($tteis_effektiv) ? "<b>" . round($tteis_effektiv,1) . "%</b>": round($tteis_effektiv,1) . "%";?>
 		</td>
 	</tr>
 	<tr>
@@ -320,7 +301,16 @@ if ( ! empty($coords) )
 	</tr>
 	<tr>
 		<td colspan="2" class="windowbg2">
-Dieser Planet wird vorraussichtlich in <?php echo  makeduration($row['geoscantime'] + $row['reset_timestamp']) ?> (plusminus 24h) für den Bau einer Hyperraumumgehungsstraße gesprengt.
+ <?php
+            $reset_timestamp_first = (($row['geoscantime'] + $row['reset_timestamp']) - 86400);   //vorverlegen des Sprengdatums wegen +-24h
+            if ($reset_timestamp_first > $config_date) {
+                echo "Noch mindestens ".makeduration2($config_date, $reset_timestamp_first) . " bis der Planet für etwas anderes tolles gesprengt wird.\n";
+            } elseif (($reset_timestamp_first+172800) > $config_date) {                                        // 2 Tage Toleranz
+                echo "Evl. seit ".makeduration2($reset_timestamp_first, $config_date)." gesprengt.\n";
+            } else {
+                echo "Wahrscheinlich gesprengt!";                             //alles was drüber ist, ist wohl weg
+            }
+?>
 		</td>
 	</tr>
 	<?php
@@ -345,15 +335,15 @@ if ( $row['objekt'] == "---" )
 			action="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&sid=<?php echo $sid;?>"
 			enctype="multipart/form-data"><?php
 			if ( empty($row['reserviert']) )
-			echo "Diesen Planeten für dich reservieren? <input type=\"checkbox\" name=\"reservieren\"><input type=\"hidden\" name=\"editplanet\" value=\"true\"> <input type=\"submit\" value=\"speichern\" name=\"B1\" class=\"submit\">";
+			echo "Diesen Planeten für dich reservieren? <input type='checkbox' name='reservieren'><input type='hidden' name='editplanet' value='true'> <input type='submit' value='speichern' name='B1' class='submit'>";
 			elseif ( ( isset($user_sitterlogin) ) && ( $row['reserviert'] == $user_sitterlogin ) )
-			echo "Diesen Planeten für dich reservieren? <input type=\"checkbox\" name=\"reservieren\" class=\"checkbox\" checked><input type=\"hidden\" name=\"editplanet\" value=\"true\"> <input type=\"submit\" value=\"speichern\" name=\"B1\" class=\"submit\">";
+			echo "Diesen Planeten für dich reservieren? <input type='checkbox' name='reservieren' class='checkbox' checked><input type='hidden' name='editplanet' value='true'> <input type='submit' value='speichern' name='B1' class='submit'>";
 			else
 			{
 				echo "Dieser Planet ist für " . $row['reserviert'] . " reserviert. Bitte besiedel ihn nicht.";
 				if ( ( isset($user_status) ) && ( $user_status == "admin" ) )
 				{
-					echo "<br>Ändern? <input type=\"checkbox\" name=\"reservieren\" class=\"checkbox\" checked><input type=\"hidden\" name=\"editplanet\" value=\"true\"> <input type=\"submit\" value=\"speichern\" name=\"B1\" class=\"submit\">";
+					echo "<br>Ändern? <input type='checkbox' name='reservieren' class='checkbox' checked><input type='hidden' name='editplanet' value='true'> <input type='submit' value='speichern' name='B1' class='submit'>";
 				}
 			}
 			?></form>
@@ -361,7 +351,7 @@ if ( $row['objekt'] == "---" )
 	</tr>
 	<?php
 }
-if ( ( ( $ansicht == "auto") && ( $row['objekt'] != "---" ) ) || ( $ansicht == "taktisch") || ( $ansicht == "beide") )
+if ( ( ( ( $ansicht == "auto") && ( $row['objekt'] != "---" ) ) || ( $ansicht == "taktisch") || ( $ansicht == "beide") ) AND (!empty($row['schiffscantime']) OR !empty($row['gebscantime']) ) )
 {
 	$class1 = $row['eisen'] + 2 * $row['stahl'] + 4 * $row['vv4a'] + 3 * $row['chemie'];
 	$class2 = 2 * $row['eis'] + 2 * $row['wasser'] + $row['energie'];
@@ -371,65 +361,61 @@ if ( ( ( $ansicht == "auto") && ( $row['objekt'] != "---" ) ) || ( $ansicht == "
 	</tr>
 	<tr>
 		<td class="windowbg2">Eisen:</td>
-		<td class="windowbg1"><?php echo $row['eisen'];?></td>
+		<td class="windowbg1"><?php echo number_format($row['eisen'], 0, ',' , '.' );?></td>
 	</tr>
 	<tr>
 		<td class="windowbg2">Stahl:</td>
-		<td class="windowbg1"><?php echo $row['stahl'];?></td>
+        <td class="windowbg1"><?php echo number_format($row['stahl'], 0, ',' , '.' );?></td>
 	</tr>
 	<tr>
 		<td class="windowbg2">VV4A:</td>
-		<td class="windowbg1"><?php echo $row['vv4a'];?></td>
+        <td class="windowbg1"><?php echo number_format($row['vv4a'], 0, ',' , '.' );?></td>
 	</tr>
 	<tr>
 		<td class="windowbg2">Chemie:</td>
-		<td class="windowbg1"><?php echo $row['chemie'];?></td>
+        <td class="windowbg1"><?php echo number_format($row['chemie'], 0, ',' , '.' );?></td>
 	</tr>
 	<tr>
 		<td class="windowbg2">Eis:</td>
-		<td class="windowbg1"><?php echo $row['eis'];?></td>
+        <td class="windowbg1"><?php echo number_format($row['eis'], 0, ',' , '.' );?></td>
 	</tr>
 	<tr>
 		<td class="windowbg2">Wasser:</td>
-		<td class="windowbg1"><?php echo $row['wasser'];?></td>
+        <td class="windowbg1"><?php echo number_format($row['wasser'], 0, ',' , '.' );?></td>
 	</tr>
 	<tr>
 		<td class="windowbg2">Energie:</td>
-		<td class="windowbg1"><?php echo $row['energie'];?></td>
-	
-	
+        <td class="windowbg1"><?php echo number_format($row['energie'], 0, ',' , '.' );?></td>
 	<tr>
 		<td colspan="2" class="titlebg"><b>benötigte Frachtkapazität:</b></td>
 	</tr>
 	<tr>
 		<td class="windowbg2">Klasse 1:</td>
-		<td class="windowbg1"><?php echo $class1;?></td>
+		<td class="windowbg1"><?php echo number_format($class1, 0, ',' , '.' );?></td>
 	</tr>
 	<tr>
 		<td class="windowbg2">Klasse 2:</td>
-		<td class="windowbg1"><?php echo $class2;?></td>
+		<td class="windowbg1"><?php echo number_format($class2, 0, ',' , '.' );?></td>
 	</tr>
 
 	<?php
 	if ( ! empty($row['lager_chemie']) AND ! empty($row['lager_eis']) AND ! empty($row['lager_energie']) )
 	{
 		?>
-
-
 	<tr>
 		<td colspan="2" class="titlebg"><b>Lagerkapazität:</b></td>
 	</tr>
 	<tr>
 		<td class="windowbg2">Lager Chemie:</td>
-		<td class="windowbg1"><?php echo $row['lager_chemie'];?></td>
+		<td class="windowbg1"><?php echo number_format($row['lager_chemie'], 0, ',' , '.' );?></td>
 	</tr>
 	<tr>
 		<td class="windowbg2">Lager Eis:</td>
-		<td class="windowbg1"><?php echo $row['lager_eis'];?></td>
+		<td class="windowbg1"><?php echo number_format($row['lager_eis'], 0, ',' , '.' );?></td>
 	</tr>
 	<tr>
 		<td class="windowbg2">Lager Energie:</td>
-		<td class="windowbg1"><?php echo $row['lager_energie'];?></td>
+		<td class="windowbg1"><?php echo number_format($row['lager_energie'], 0, ',' , '.' );?></td>
 	</tr>
 
 	<?php

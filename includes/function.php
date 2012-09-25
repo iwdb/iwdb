@@ -406,6 +406,110 @@ function scanAge($scandate) {
   return ("#" . str_pad(dechex($rot), 2, "0", STR_PAD_LEFT) . str_pad(dechex($gruen), 2, "0", STR_PAD_LEFT) . "00");
 }
 
+/**
+ * function filter_int
+ *
+ * filtert einfache Ganzzahlen mit Tausendertrennzeichen
+ *
+ * @param string $numberstring Zahl zum filtern
+ * @param int $min_value Minimalwert
+ * @param int $max_value Maximalwert
+ * @param int $default_value Standardwert
+ *
+ * @return int gefilterte Zahl
+ *
+ * @author masel
+ */
+function filter_int($numberstring, $default_value = NULL, $min_value = NULL, $max_value = NULL) {
+
+    $filtered_number = filter_var($numberstring, FILTER_SANITIZE_NUMBER_INT);
+    if (($filtered_number !== FALSE) AND ($filtered_number !== '')) {                    //Ergebnis nicht fehlgeschlagen oder leer
+
+        $filtered_number = (int)$filtered_number;
+    } else {                                                                             //sonst Standardwert
+
+        $filtered_number = $default_value;
+
+    }
+
+    if (!is_null($min_value) AND ($filtered_number < $min_value)) {                   //Limit-Check
+
+        return (int)$min_value;
+
+    } elseif (!is_null($max_value) AND ($filtered_number > $max_value)) {
+
+        return (int)$max_value;
+
+    } else {
+
+        return $filtered_number;
+
+    }
+}
+
+/**
+ * function filter_number
+ *
+ * filtert beliebige Zahlen mit Tausendertrennzeichen ggf mit Exponenten oder Si-prefix Mega oder Kilo am Ende
+ *
+ * @param string $numberstring Zahl zum filtern
+ * @param int $min_value Minimalwert
+ * @param int $max_value Maximalwert
+ * @param int $default_value Standardwert
+ *
+ * @return int|float gefilterte Zahl
+ *
+ * @author masel
+ */
+function filter_number($numberstring, $default_value = NULL, $min_value = NULL, $max_value = NULL) {
+
+    if (preg_match ('~(-?)(\d.*?)(e([+-]?\d+))?(m|k)?$~i' , $numberstring , $numberpart)) {         //evl vorhandene Negativ-Vorzeichen und Exponenten sichern
+
+        if (preg_match ('~(.*?\d)\D(?=(\d{1,2}))(?!(\d{3}))~' , $numberpart[2] , $number) === 1) {          //float
+
+            $vorkomma = preg_replace('~\D~', '', $number[1]);                     //alles außer Zahlen (tausendertrennzeichen) weg
+            if (($vorkomma==='') AND isset($default_value)) {            //falls nichts mehr nach dem Filtern übrigbleibt ggf gesetzten Standardwert zurückgeben
+                return $default_value;
+            }
+
+            $filtered_number = $vorkomma . "." . $number[2];
+
+        } else {                                                                        //Integer -> alles außer den Zahlen weg
+            $filtered_number = preg_replace('~\D~', '', $numberpart[2]);
+        }
+
+        if (!empty($numberpart[1])) {                        //if(!empty($numberpart[1]) ist ein Tick schneller als if($numberpart[1]='-') kann aber nach RegEx nur '-' sein
+            $filtered_number = -$filtered_number;            //negatives Vorzeichen wieder dazu
+        }
+
+        if (!empty($numberpart[4])) {                                                     //Exponent vorhanden?
+            $filtered_number=$filtered_number * pow(10, (float)$numberpart[4]);           //Exponent reinmultiplizieren
+        } elseif (!empty($numberpart[5])) {                                               // alternativ SI-Prefix vorhanden?
+
+            if ($numberpart[5] === 'm') {
+                $filtered_number = $filtered_number * 1000000;           //SI-prefix reinmultiplizieren
+            } elseif ($numberpart[5] === 'k'){
+                $filtered_number = $filtered_number * 1000;           //SI-prefix reinmultiplizieren
+            }
+
+        }
+
+    } else {
+        $filtered_number = $default_value;
+    }
+
+    if (!is_null($min_value) AND ($filtered_number < $min_value)) {                 //Limit-Check
+        return $min_value;
+    }
+    if (!is_null($max_value) AND ($filtered_number > $max_value)) {
+        return $max_value;
+    }
+
+        return (float)$filtered_number;
+
+
+}
+
 //******************************************************************************
 //
 // Replace thousand-separator with nothing, and the comma-sign with a period
@@ -565,4 +669,124 @@ function rating ( $scan_data , $coords = '0:0:0' )
 	return "<span class=\"ranking_" . $color . "\">" . $rating . "</span>";
 }
 
-?>
+function makeduration2($time1, $time2=NULL) {
+    //errechnet Zeitraum von Zeitpunkt 1 zu jetzt oder Zeitpunkt 2 ($time2)
+    // masel
+
+    Global $config_date;
+
+    if (!isset($time1)) {
+        return '---';
+    }
+    if (!isset($time2)) {
+        $time2 = $config_date;
+    }
+
+    if ($time1>$time2) {
+        $duration = $time1 - $time2;
+        $text = '-';
+    } else {
+        $duration = $time2 - $time1;
+        $text = '';
+    }
+    $Tage = (int)($duration / 86400);
+    $duration -= $Tage * 86400;
+    $Stunden = (int)($duration / 3600);
+    $duration -= $Stunden * 3600;
+    $Minuten = (int)($duration / 60);
+    //$duration -= $Minuten * 60;
+    //$Sekunden = $duration;
+    if ($Tage === 1) {
+        $text .= $Tage . '&nbsp;Tag ';
+    } elseif ($Tage > 1) {
+        $text .= $Tage . '&nbsp;Tage ';
+    }
+
+    $text .= str_pad($Stunden, 2 , '0', STR_PAD_LEFT) . ':';
+    $text .= str_pad($Minuten, 2 , '0', STR_PAD_LEFT) . '&nbsp;h';
+
+    return $text;
+}
+
+//******************************************************************************
+//
+// returns the parsed xml
+// loaded with simplexml_load_file (allow_url_fopen must be true) or curl Extension
+
+function simplexml_load_file_ex($url)
+{
+
+    if (ini_get('allow_url_fopen') == true) {                  //allow_url_fopen ist an -> direkt simplexml_load_file zum laden und parsen der XML-Datei verwenden
+        return @simplexml_load_file($url);                     //ToDo: Möglicher 404 Fehler bei nicht mehr vorhandener XML loggen aber keine doppelte Fehlermeldung.
+    } else if (function_exists('curl_init')) {                 //alternativ per curl laden
+        if ($curl = curl_init($url)) {
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+            curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE);
+            $result = curl_exec($curl);
+            curl_close($curl);
+            return simplexml_load_string($result);
+        } else {
+            return FALSE;
+        }
+    } else {
+        return FALSE;
+    }
+}
+
+function convert_bbcode($string) {
+    global $db, $db_prefix;
+
+    if ($string === '') {
+       return '';
+    }
+
+    //ToDo: implement some caching
+    $sql = "SELECT isregex, bbcode, htmlcode FROM {$db_prefix}bbcodes;";
+    $result_bbcodes = $db->db_query($sql)
+        or error(GENERAL_ERROR, 'Could not query bbcodes.', '', __FILE__, __LINE__, $sql);
+    while($row_bbcodes = $db->db_fetch_array($result_bbcodes))
+    {
+        if (!empty($row_bbcodes['bbcode']) AND !empty($row_bbcodes['htmlcode'])) {
+            if ($row_bbcodes['isregex']) {
+                $return = preg_replace('~'.$row_bbcodes['bbcode'].'~Us', $row_bbcodes['htmlcode'], $string);
+                if (!is_null($return)) {
+                    $string = $return;
+                }
+            } else {
+                $string = str_replace($row_bbcodes['bbcode'], $row_bbcodes['htmlcode'], $string);
+            }
+        }
+    }
+
+    return $string;
+}
+
+function bbcode_buttons($id) {
+    global $db, $db_prefix;
+    //ToDo: implement some caching
+
+    $smilies = array();
+    $bbscriptcode = "<script type='text/javascript'>\n";
+    $bbscriptcode .= "var smilies = new Array();\n";
+
+    $sql = "SELECT bbcode, htmlcode FROM {$db_prefix}bbcodes WHERE htmlcode LIKE '%<img src=%' GROUP BY htmlcode";        //Smiliebilder holen
+    $result_bbcodes = $db->db_query($sql)
+        or error(GENERAL_ERROR, 'Could not query bbcodes.', '', __FILE__, __LINE__, $sql);
+    while($row_bbcodes = $db->db_fetch_array($result_bbcodes))
+    {
+        if (!empty($row_bbcodes['bbcode'])) {
+            $smilies[$row_bbcodes['bbcode']] = $row_bbcodes['htmlcode'];
+        }
+    }
+    $bbscriptcode .= "smilies = ".json_encode($smilies).";\n";
+    $bbscriptcode .= "</script><br />";
+
+    $bbscriptcode .= "<button type='button' class='bbcodebutton' id='bbcode_b_button' onclick='insertText(\"{$id}\",\"[b]\",\"[/b]\")' title='fett'></button>";
+    $bbscriptcode .= "<button type='button' class='bbcodebutton' id='bbcode_i_button' onclick='insertText(\"{$id}\",\"[i]\",\"[/i]\")' title='kursiv'></button>";
+    $bbscriptcode .= "<button type='button' class='bbcodebutton' id='bbcode_u_button' onclick='insertText(\"{$id}\",\"[u]\",\"[/u]\")' title='unterstrichen'></button>";
+    $bbscriptcode .= "<button type='button' class='bbcodebutton' id='bbcode_s_button' onclick='insertText(\"{$id}\",\"[s]\",\"[/s]\")' title='durchgestrichen'></button>";
+    $bbscriptcode .= "<button type='button' class='bbcodebutton' id='bbcode_farbe_button' onclick='generateColorPicker(\"{$id}\")' title='Schriftfarbe'></button>";
+    $bbscriptcode .= "<button type='button' class='bbcodebutton' id='bbcode_smilie_button' onclick='generateSmiliePicker(\"{$id}\")' title='Smilies'></button>";
+
+    return $bbscriptcode;
+}

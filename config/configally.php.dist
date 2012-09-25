@@ -38,11 +38,10 @@ if (!defined('IRA'))
 	die('Hacking attempt...');
 
 // *************************************************************************** 
-//  Wichtige Angaben die ueberprueft werden und fuer die eigene Allianz 
-//  eingestellt werden sollten!
+//  Wichtige Angaben die überprüft und für die eigene Allianz eingestellt werden sollten!
 //
 
-// Mailadresse (z.B. wenn sich ein User falsch eingeloggt hat)
+// Mailadresse (z.B. wenn sich ein User mehrfach falsch eingeloggt hat)
 $config_mailto = "iwdb@iwdb.de";
 
 // angezeigter Name in Mail
@@ -51,22 +50,30 @@ $config_mailto_id = "IWDB Admin";
 // Mail von Adresse/Name
 $config_mailname = "IWDB-Server";
 $config_mailfrom = "iwdb@iw-allianz.de";
-$config_server   = "localhost";
-$config_url      = "http://iwdb.de";
+
 // Titel der AllianzDatenbank
-$config_allytitle = "IWDB Datenbank";
+$config_allytitle = "IWDB";
 
-// Tag der Allianz - wird fuer die Anzeige der Mitglieder auf der Karte benoetigt
-$config_allytag = "IWDB";
+// Tag der Allianz - wird für die Anzeige der Mitglieder auf der Karte benötigt
+$config_allytag = "IW-Ally";
 
-// Aktuelle Spielversion (wird auch fuer den Techtree benoetigt).
-$config_gameversion = "11.74";
+// Aktuelle Spielversion (wird auch für den Techtree benötigt).
+$config_gameversion = "XII";
 
 // Default Galaxy
 $config_map_default_galaxy = 10;
 
-// maximale Anzahl der Galaxien
-$config_map_galaxy_count = 20;
+// vorderste Gala
+$config_map_galaxy_min = 1;
+
+// hinterste Gala
+$config_map_galaxy_max = 20;
+
+// vorderstes System
+$config_map_system_min = 1;
+
+// hinterstes System
+$config_map_system_max = 150;
 
 // Spaltenanzahl der Karte
 $config_map_cols = 20;
@@ -74,7 +81,7 @@ $config_map_cols = 20;
 // ab welchem Alter des Universumsscans, soll keine Farbabstufung mehr stattfinden (in Sekunden)
 $config_map_timeout = 14 * (24 * 60 * 60);
 
-// Anzahl der Tage, ab der ein Geoscan als veraltet gilt und erneuert werden muesste 
+// Anzahl der Tage, ab der ein Geoscan als veraltet gilt und erneuert werden müsste
 $config_geoscan_yellow = 14;
 $config_geoscan_red    = 30;
 
@@ -82,7 +89,7 @@ $config_geoscan_red    = 30;
 // als "aktiv" (einloggen/erledigt anwahlbar) geschaltet werden?
 $sitter_wie_lange_vorher_zeigen = 30;
 
-// Breite und Hoehe des Member-Statistikgraphen
+// Breite und Höhe des Member-Statistikgraphen
 $config_xsize = 950;
 $config_ysize = 500;
 
@@ -91,5 +98,3 @@ $config_default_action = "showhighscore";
 
 $config_banner = "bilder/logo.gif";
 $config_banner_width = "500px";
-
-?>

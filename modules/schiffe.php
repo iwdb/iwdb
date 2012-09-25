@@ -57,7 +57,7 @@ $result_schiffe = $db->db_query($sql)
            __FILE__, __LINE__, $sql);
 
 while($row_schiffe = $db->db_fetch_array($result_schiffe)) {
-	if ( ! in_array($row_schiffe['user'], $users) ) 
+	if ( ! in_array($row_schiffe['user'], $users, true) )
     $users[] = $row_schiffe['user'];
 }
 

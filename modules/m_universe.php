@@ -182,7 +182,7 @@ $db->db_free_result($result);
 // and height)
 //
 $imageheight = $config_bordertop  + $config_borderbottom + 
-               ( $config_map_galaxy_count * $config_lineheight );
+               ( $config_map_galaxy_max * $config_lineheight );
 $imagewidth  = $config_borderleft + $config_borderright +  
                ( $maxsys * $config_linewidth );
 
@@ -222,7 +222,7 @@ ImageFilledRectangle(
 // Draw horizontal grid lines first
 //
 echo "<map name=\"universemap\">\n";
-for( $i=0; $i<=$config_map_galaxy_count; $i++ ) { 
+for( $i=0; $i<=$config_map_galaxy_max; $i++ ) { 
     if( $i != 0 ) {
         // Draw galaxy number
         ImageString( 

@@ -543,7 +543,7 @@ if (!@include("./config/".$modulname.".cfg.php")) {
   
     echo "<table border=\"0\" cellpadding=\"4\" cellspacing=\"1\" class=\"bordercolor\" style=\"width: 30em;\">";
     start_row("titlebg", "style=\"width:40%\" align=\"center\" colspan=\"3\"");
-    echo "  <b>Wer hat wieviel Credits eingezahlt?</b>\n";
+    echo "  <b>Wer hat Credits bekommen?</b>\n";
     next_row("windowbg2", "style=\"width:40%\" align=\"center\"");
     echo "<a href=\"$url&order=user&ordered=asc\"> <img src=\"bilder/asc.gif\" border=\"0\" alt=\"asc\"> </a>";
     echo "Einzahler";

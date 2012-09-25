@@ -71,13 +71,11 @@ $db_tb_iwdbtabellen = $db_prefix . "iwdbtabellen";
 // Die restlichen Tabellennamen werden aus der DB gelesen.
 $sql = "SELECT name FROM " . $db_prefix . "iwdbtabellen";
 $result = $db->db_query($sql)
-	or error(GENERAL_ERROR, 
-           'Could not query config information.', '', 
-           __FILE__, __LINE__, $sql);
+	or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
            
-while($row = $db->db_fetch_array($result)) {
-  $tbname = "db_tb_" . $row['name'];
-  ${$tbname} = $db_prefix . $row['name'];
+while ($row = $db->db_fetch_array($result)) {
+    $tbname = "db_tb_" . $row['name'];
+    ${$tbname} = $db_prefix . $row['name'];
 }
 
 // Basisdefinitionen fuer Zeitraueme.
@@ -163,4 +161,3 @@ define('SITTEN_DISABLED', 2);
 define('SITTEN_ONLY_NEWTASKS', 0);
 define('SITTEN_ONLY_LOGINS', 3);
 define('SITTEN_BOTH', 1);
-?>

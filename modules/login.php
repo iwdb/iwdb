@@ -24,14 +24,15 @@
 /* The GNU GPL can be found in LICENSE in this directory                     */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
-//    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") {
-	echo "Hacking attempt...!!"; 
-	exit; 
-}
-include "./menustyles/doc_default.php";
-doc_title("Login");
+//direktes Aufrufen verhindern
+if (basename($_SERVER['PHP_SELF']) != "index.php") {header('HTTP/1.1 404 not found');exit;};
+
+//****************************************************************************
+?>
+
+<div class='doc_title'>Login</div>
+
+<?php
 if(( isset($login_id) ) && ($login_ok === FALSE) && ($action != "memberlogout2" )) {
   doc_message("Falscher Benutzername oder Passwort!");
 
@@ -48,32 +49,31 @@ if(( isset($login_id) ) && ($login_ok === FALSE) && ($action != "memberlogout2" 
                 "Daten wurden an den Admin übermittelt.");
   }
 }
-
-echo "<br>\n";
-
-start_form("memberlogin2");
-start_table(0);
-
-start_row("windowbg2");
-echo "Username:&nbsp;";
-next_cell("windowbg1");
-echo "<input style=\"width: 200\" type=\"text\" name=\"login_id\">\n";
-
-next_row("windowbg2");
-echo "Passwort:&nbsp;";
-next_cell("windowbg1");
-echo "<input type=\"password\" style=\"width: 200\" name=\"login_password\">\n";
-
-next_row("windowbg2");
-echo "Eingeloggt bleiben?";
-next_cell("windowbg1", "align=\"center\"");
-echo "<input type=\"checkbox\" name=\"login_cookie\" value=\"1\">\n";
-
-next_row("titlebg", "align=\"center\"", 2);
-echo "<input type=\"submit\" value=\"OK\" name=\"B1\" class=\"submit\">&nbsp;".
-     "<input type=\"reset\" value=\"reset\" name=\"B2\" class=\"submit\">\n";
-end_row();
-end_table();
-end_form();
-action("password", "Passwort vergessen?");
 ?>
+
+<br>
+
+<form method='POST' action='index.php?action=memberlogin2' enctype='multipart/form-data'>
+    <table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style="margin: 0 auto;">
+        <tr>
+            <td class='windowbg2'>Username:&nbsp;</td>
+            <td class='windowbg1'><input style='width: 200px' type='text' name='login_id' required='required'>
+            </td>
+        </tr>
+        <tr>
+            <td class='windowbg2'>Passwort:&nbsp;</td>
+            <td class='windowbg1'><input style='width: 200px' type='password' name='login_password' required='required'>
+            </td>
+        </tr>
+        <tr>
+            <td class='windowbg2'>Eingeloggt bleiben?</td>
+            <td class='windowbg1' align='center'><input type='checkbox' name='login_cookie' value='1'>
+            </td>
+        </tr>
+        <tr>
+            <td class='titlebg' align='center' colspan='2'><input type='submit' value='lass mich rein' name='B1' class='submit'>
+            </td>
+        </tr>
+    </table>
+</form>
+<a href='index.php?action=password'>Passwort vergessen?</a>

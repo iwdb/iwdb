@@ -2,5 +2,6 @@
 /nbproject/private/
 /config/configsql.php
 /config/configally.php
-/uxml/
+/config/*.cfg.php
 /.idea/
+universe.gif

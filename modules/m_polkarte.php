@@ -37,12 +37,9 @@
 /*                                                                           */
 /*****************************************************************************/
 
-// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
-//    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") {
-	echo "Hacking attempt...!!";
-	exit;
-}
+//direktes Aufrufen verhindern
+if (basename($_SERVER['PHP_SELF']) != "index.php") {header('HTTP/1.1 404 not found');exit;};
+if (!defined('IRA')) {header('HTTP/1.1 404 not found');exit;};
 
 //****************************************************************************
 //
@@ -119,25 +116,25 @@ function workInstallConfigString() {
   return
   "// verwendete Allianzstatuse  \n" .
   "\$config_polstat = array(); \n" .
-  "\$config_polstat['1v1']=\"own\"; \n" .
-  "\$config_polstat['1v2']=\"wing\"; \n" .
-  "\$config_polstat['1v3']=\"Wing\"; \n" .
-  "\$config_polstat['2v1']=\"VB\";   \n" .
-  "\$config_polstat['2v2']=\"iVB\";  \n" .
-  "\$config_polstat['2v3']=\"keineAhnung\"; \n" .
-  "\$config_polstat['3v1']=\"Krieg\";   \n" .
-  "\$config_polstat['3v2']=\"hmmm\";   \n" .
-  "\$config_polstat['3v3']=\"waswasi\"; \n" .
+  "\$config_polstat['1v1']='own'; \n" .
+  "\$config_polstat['1v2']='wing'; \n" .
+  "\$config_polstat['1v3']='Wing'; \n" .
+  "\$config_polstat['2v1']='VB';   \n" .
+  "\$config_polstat['2v2']='iVB';  \n" .
+  "\$config_polstat['2v3']='keineAhnung'; \n" .
+  "\$config_polstat['3v1']='Krieg';   \n" .
+  "\$config_polstat['3v2']='hmmm';   \n" .
+  "\$config_polstat['3v3']='waswasi'; \n" .
   "// verwendete Farben \n" .
   "\$config_polcolor = array(); " .
-  "\$config_polcolor['nichts'] = \"#FFFFFF\"; \n" .
-  "\$config_polcolor['1allein'] = \"#C4F493\";  \n" .
-  "\$config_polcolor['2allein'] = \"#4A71D5\";  \n" .
-  "\$config_polcolor['3allein'] = \"#E84528\";  \n" .
-  "\$config_polcolor['1und2'] = \"#191970\";    \n" .
-  "\$config_polcolor['1und3'] = \"#FF7F24\";    \n" .
-  "\$config_polcolor['2und3'] = \"#FA8072\";     \n" .
-  "\$config_polcolor['1und2und3'] = \"#FF7F24\"; \n";
+  "\$config_polcolor['nichts'] = '#FFFFFF'; \n" .
+  "\$config_polcolor['1allein'] = '#C4F493';  \n" .
+  "\$config_polcolor['2allein'] = '#4A71D5';  \n" .
+  "\$config_polcolor['3allein'] = '#E84528';  \n" .
+  "\$config_polcolor['1und2'] = '#191970';    \n" .
+  "\$config_polcolor['1und3'] = '#FF7F24';    \n" .
+  "\$config_polcolor['2und3'] = '#FA8072';     \n" .
+  "\$config_polcolor['1und2und3'] = '#FF7F24'; \n";
 }
 
 //****************************************************************************
@@ -162,19 +159,22 @@ function workUninstallDatabase() {
 // durch den Dateinamen des Moduls ersetzen.
 //
 if( !empty($_REQUEST['was'])) {
-  //  -> Nur der Admin darf Module installieren. (Meistens weiss er was er tut)
-  if ( $user_status != "admin" )
-		die('Hacking attempt...');
+    //  -> Nur der Admin darf Module installieren. (Meistens weiss er was er tut)
 
-  echo "<div class='system_notification'>Installationsarbeiten am Modul " . $modulname .
+    if ( $user_status != "admin" ) {
+        die('Hacking attempt...');
+    }
+
+    echo "<div class='system_notification'>Installationsarbeiten am Modul " . $modulname .
 	     " ("  . $_REQUEST['was'] . ")</div>\n";
 
-  if (!@include("./includes/menu_fn.php"))
-	  die( "Cannot load menu functions" );
+    if (!@include("./includes/menu_fn.php")) {
+        die( "Cannot load menu functions" );
+    }
 
-  // Wenn ein Modul administriert wird, soll der Rest nicht mehr
-  // ausgeführt werden.
-  return;
+    // Wenn ein Modul administriert wird, soll der Rest nicht mehr
+    // ausgeführt werden.
+    return;
 }
 
 if (!@include("./config/".$modulname.".cfg.php")) {
@@ -185,129 +185,130 @@ if (!@include("./config/".$modulname.".cfg.php")) {
 //
 // -> Und hier beginnt das eigentliche Modul
 
-      $sqlALI = "SELECT allianz FROM ".$db_tb_allianzstatus . " WHERE status='own' OR status='wing'";   
-      $resultALI = $db->db_query($sqlALI)
-      	or error(GENERAL_ERROR, 
-                 'Could not query config information.', '', 
-                 __FILE__, __LINE__, $sqlALI);
-       $i = 0;
-       while( $rowALI = $db->db_fetch_array($resultALI)) {
-          $i++;
-          $arrrayofAlis[$i] = $rowALI['allianz'];
-       }
+$sqlALI = "SELECT allianz FROM ".$db_tb_allianzstatus . " WHERE status='own' OR status='wing'";
+$resultALI = $db->db_query($sqlALI)
+    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlALI);
 
-$galaxy = getVar('galaxy');
+$i = 0;
+while( $rowALI = $db->db_fetch_array($resultALI)) {
+    $i++;
+    $arrrayofAlis[$i] = $rowALI['allianz'];
+}
+
+$galaxy = (int)getVar('galaxy');
 if ( empty($galaxy) ) {
-  $galaxy = $config_map_default_galaxy;
+    $galaxy = $config_map_default_galaxy;
 }
 
+//ToDo: Profileinstellung ermöglichen - masel
+$showmembers = FALSE;
 if( defined('ALLY_MEMBERS_ON_MAP' ) && ALLY_MEMBERS_ON_MAP === TRUE ) {
-  $showmembers = getVar('shownames');
-  $showmembers = !empty($showmembers) ;
-
-  $allymember = array();
-  $sql = "SELECT DISTINCT coords_sys,allianz FROM " . $db_tb_scans . 
-         " WHERE coords_gal='" . $galaxy . "';";
-  $result = $db->db_query($sql)
-  	or error(GENERAL_ERROR,
-             'Could not query config information.', '',
-             __FILE__, __LINE__, $sql);
-
-  while( $row = $db->db_fetch_array($result)) {
-   if (in_array($row['allianz'],$arrrayofAlis)) {
-    $txta = 'a' . $row['coords_sys'];
-    $txte = 'e' . $row['coords_sys'];
-		$txtm = 'm' . $row['coords_sys'];
-  	$allymember[$txta] = "<b><i>";
-  	$allymember[$txte] = "</i></b>";
-  	$allymember[$txtm] = "";
-
-	  if( $showmembers == true ) {
-	$sql = "SELECT DISTINCT user,allianz FROM " . $db_tb_scans . 
-             " WHERE coords_gal='" . $galaxy . 
-             "' AND coords_sys='" . $row['coords_sys'] . "'";
-
-      $result2 = $db->db_query($sql)
-      	or error(GENERAL_ERROR,
-                 'Could not query config information.', '',
-                 __FILE__, __LINE__, $sql);
-
-  		while( $row2 = $db->db_fetch_array($result2)) {
-             if (in_array($row2['allianz'],$arrrayofAlis)) {
-  		  if( !empty($allymember[$txtm])) {
-  			  $allymember[$txtm] .= ", ";
-        }
-
-  		 	$allymember[$txtm] .= $row2['user'];
-  		}
-		}
-            }
-  }
- }
+    $showmembers = TRUE;
 }
 
+if ($showmembers) {
+    $allymember = array();
+    $sql = "SELECT DISTINCT coords_sys,allianz FROM " . $db_tb_scans .
+           " WHERE coords_gal='" . $galaxy . "';";
+    $result = $db->db_query($sql)
+  	    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
+    while( $row = $db->db_fetch_array($result)) {
+        if (in_array($row['allianz'],$arrrayofAlis, true)) {
+            $txta = 'a' . $row['coords_sys'];
+            $txte = 'e' . $row['coords_sys'];
+            $txtm = 'm' . $row['coords_sys'];
+            $allymember[$txta] = "<b><i>";
+            $allymember[$txte] = "</i></b>";
+            $allymember[$txtm] = "";
+
+            if( $showmembers === TRUE ) {
+                $sql =  "SELECT DISTINCT user,allianz FROM " . $db_tb_scans .
+                        " WHERE coords_gal='" . $galaxy .
+                        "' AND coords_sys='" . $row['coords_sys'] . "'";
+
+                $result2 = $db->db_query($sql)
+                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
+                while( $row2 = $db->db_fetch_array($result2)) {
+                    if (in_array($row2['allianz'],$arrrayofAlis, true)) {
+                        if( !empty($allymember[$txtm])) {
+                            $allymember[$txtm] .= ", ";
+                        }
+
+                        $allymember[$txtm] .= $row2['user'];
+                    }
+                }
+            }
+        }
+    }
+}
 
 echo "<div class='doc_title'>Karte</div>\n";
-echo "<br>\n";
-echo "<form method=\"POST\" action=\"index.php?action=m_polkarte&sid=" . $sid .
-     "\" enctype=\"multipart/form-data\" name=\"form1\">\n";
-echo " <p align=\"center\">\n";
+echo "<br />";
 
-if( defined('ALLY_MEMBERS_ON_MAP' ) && ALLY_MEMBERS_ON_MAP === TRUE ) {
- echo "<input type=\"checkbox\" name=\"shownames\"" .
-      ($showmembers != false ? " checked" : "" ) .
-      "> Mitgliedsnamen als Tooltip anzeigen\n";
- echo "<br/><br/>\n";
+// Tooltip Auswahlbox zur Memberanzeige gelöscht -> bei Gelegenheit in die Profileinstellungen verschieben
+// masel
+
+// Anzeige Galaxiezahllinks (schnellere Auswahl als per Inputfeld) - masel
+echo "<div class='doc_big_black'>";
+if ($galaxy > $config_map_galaxy_min ) {
+    echo "<a href='index.php?action=m_polkarte&amp;galaxy=" . ($galaxy - 1) .
+        "&amp;sid=" . $sid . "'><b>&lt;&lt;</b></a>\n";                 // <<
 }
 
-if ($galaxy > 1 )
-{
-  echo "<a href=\"index.php?action=m_polkarte&galaxy=" . ($galaxy - 1) .
-        "&sid=" . $sid . "\"><b>&lt;&lt;</b></a>\n";
-}
-echo "Galaxie: <input type=\"text\" name=\"galaxy\" value=\"" . $galaxy .
-     "\" style=\"width: 30\">&nbsp;<input type=\"submit\" value=\"los\" name=\"B1\" class=\"submit\">\n";
-
-if ($galaxy < $config_map_galaxy_count )
-{
-  echo "<a href=\"index.php?action=m_polkarte&galaxy=" . ($galaxy + 1) .
-       "&sid=" . $sid . "\"><b>&gt;&gt;</b></a>\n";
+if (isset($config_map_galaxy_min) AND !empty($config_map_galaxy_min)) {
+    $gal = $config_map_galaxy_min;
+} else {
+    $gal=1;
 }
 
-echo "</p></form>\n";
-echo "<table border=\"0\" cellpadding=\"4\" cellspacing=\"1\" class=\"bordercolor\" style=\"width: 80%;\">\n";
+while ($gal <= $config_map_galaxy_max) {                               // Galaxiezahl
+    echo "<a href='index.php?action=m_polkarte&amp;galaxy=" . ($gal) . "&amp;sid=" . $sid . "'>";
+    if ($gal == $galaxy) {
+        echo "<b>[".$gal."]</b></a>\n";
+    } else {
+        echo $gal."</a>\n";
+    }
+    $gal++;
+}
+
+if ($galaxy < $config_map_galaxy_max ) {
+    echo "<a href='index.php?action=m_polkarte&amp;galaxy=" . ($galaxy + 1) ."&amp;sid=" . $sid . "'><b>&gt;&gt;</b></a>\n";      // >>
+}
+echo "</div></p>";
+
+echo "<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 80%;'>\n";
 echo " <tr>\n";
-echo "  <td class=\"titlebg\" align=\"center\" colspan=" . $config_map_cols . "\">\n";
+echo "  <td class='titlebg' align='center' colspan=" . $config_map_cols . "'>\n";
 echo "   <b>Galaxie " . $galaxy . "</b>\n";
 echo "  </td>\n";
 echo " </tr>\n";
 
 if( defined( 'NEBULA' ) && NEBULA === TRUE ) {
-  $sql = "SELECT sys, objekt, nebula FROM " . $db_tb_sysscans .
-         " WHERE gal = '" . $galaxy . "' ORDER BY sys";
+    $sql =  "SELECT sys, objekt, nebula FROM " . $db_tb_sysscans .
+            " WHERE gal = '" . $galaxy . "' ORDER BY sys";
 } else {
-  $sql = "SELECT sys, objekt, FROM " . $db_tb_sysscans .
-         " WHERE gal = '" . $galaxy . "' ORDER BY sys";
+    $sql =  "SELECT sys, objekt, FROM " . $db_tb_sysscans .
+            " WHERE gal = '" . $galaxy . "' ORDER BY sys";
 }
 $result = $db->db_query($sql)
-	or error(GENERAL_ERROR,
-           'Could not query config information.', '',
-           __FILE__, __LINE__, $sql);
+	or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
 $maxsys = 0;
 while ( $row = $db->db_fetch_array($result) ) {
 	if ( $row['objekt'] == "Stargate" )	{
 		$sys[$row['sys']] = $config_color['Stargate'];
-	}	elseif ( $row['objekt'] == "Schwarzes Loch" )	{
+	} elseif ( $row['objekt'] == "Schwarzes Loch" )	{
 		$sys[$row['sys']] = $config_color['SchwarzesLoch'];
-	}	else {
+	} else {
 	    $own=0;
         $vb=0;
         $krieg=0;
 		$sql = "SELECT allianz FROM " . $db_tb_scans . " WHERE coords_sys='" . $row['sys'] . "' AND coords_gal='" . $galaxy . "'";
 		$result_sys = $db->db_query($sql);
-		while ( $row_sys = $db->db_fetch_array($result_sys))
-          {
+
+		while ( $row_sys = $db->db_fetch_array($result_sys)) {
              	$sql = "SELECT status FROM " . $db_tb_allianzstatus . " WHERE allianz LIKE '" . $row_sys['allianz'] . "'";
 		        $result_status = $db->db_query($sql)
 			        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -321,36 +322,44 @@ while ( $row = $db->db_fetch_array($result) ) {
 			    if( $row_status['status'] == $config_polstat['3v1'] ) $krieg=1;
 			    if( $row_status['status'] == $config_polstat['3v2'] ) $krieg=1;
 			    if( $row_status['status'] == $config_polstat['3v3'] ) $krieg=1;
-          }
+        }
 
-        if ($own == 1)
-           {if($vb == 1)
-              {if($krieg == 1) $sys[$row['sys']] = $config_polcolor['1und2und3'];
-               else $sys[$row['sys']] = $config_polcolor['1und2'];
-               }
-            else
-              {if ($krieg == 1) $sys[$row['sys']] = $config_polcolor['1und3'];
-		       else $sys[$row['sys']] = $config_polcolor['1allein'];
-		       }
-		   }
-		else
-		   {if($vb == 1)
-              {if($krieg == 1) $sys[$row['sys']] = $config_polcolor['2und3'];
-               else $sys[$row['sys']] = $config_polcolor['2allein'];
-               }
-            else
-              {if ($krieg == 1) $sys[$row['sys']] = $config_polcolor['3allein'];
-		       else $sys[$row['sys']] = $config_polcolor['nichts'];
-		       }
+        if ($own == 1) {
+            if($vb == 1) {
+              if($krieg == 1) {
+                  $sys[$row['sys']] = $config_polcolor['1und2und3'];
+              } else {
+                  $sys[$row['sys']] = $config_polcolor['1und2'];
+              }
+            } else {
+                if ($krieg == 1) {
+                    $sys[$row['sys']] = $config_polcolor['1und3'];
+                } else {
+                    $sys[$row['sys']] = $config_polcolor['1allein'];
+		        }
+            }
+        } else {
+            if($vb == 1) {
+                if($krieg == 1) {
+                    $sys[$row['sys']] = $config_polcolor['2und3'];
+                } else {
+                    $sys[$row['sys']] = $config_polcolor['2allein'];
+                }
+            } else {
+                if ($krieg == 1) {
+                    $sys[$row['sys']] = $config_polcolor['3allein'];
+                } else {
+                    $sys[$row['sys']] = $config_polcolor['nichts'];
+                }
 		    }
-
-
+        }
 	}
 
-  if (defined( 'NEBULA' ) && NEBULA === TRUE && !empty($row['nebula'])) {
-  	$sys[$row['sys']] .= "; background-image:url(bilder/" . $row['nebula'] .
-                         ".gif); background-repeat:no-repeat";
-	}
+    if (defined( 'NEBULA' ) && NEBULA === TRUE && !empty($row['nebula'])) {
+        if (in_array($row['nebula'], array('blau','gelb','gruen','rot','violett'), true)) {
+            $sys[$row['sys']] .= "; background-image:url(bilder/iwdb/nebel/{$row['nebula']}.png); background-repeat:no-repeat";
+        }
+    }
 
 	$maxsys = $row['sys'];
 }
@@ -358,110 +367,108 @@ while ( $row = $db->db_fetch_array($result) ) {
 $col = 0;
 for ( $i = 1; $i <= $maxsys; $i++ ) {
 	if ( empty($sys[$i]) ) {
-		$sql = "SELECT objekt FROM " . $db_tb_scans .
-           " WHERE coords_sys='" . $i .
-           "' AND coords_gal='" . $galaxy . "'";
+		$sql =  "SELECT objekt FROM " . $db_tb_scans .
+                " WHERE coords_sys='" . $i .
+                "' AND coords_gal='" . $galaxy . "'";
 		$result_leer = $db->db_query($sql)
-			or error(GENERAL_ERROR,
-               'Could not query config information.', '',
-               __FILE__, __LINE__, $sql);
+			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 		$row_leer = $db->db_num_rows($result_leer);
-		if ( $row_leer > 0 )
-      $sys[$i] = "#FF0000";
+		if ( $row_leer > 0 ) {
+            $sys[$i] = "#FF0000";
+        }
 	}
 
-  if( defined('ALLY_MEMBERS_ON_MAP' ) && ALLY_MEMBERS_ON_MAP === TRUE ) {
-  	$txta = 'a' . $i;
-  	$txte = 'e' . $i;
-		$txtm = 'm' . $i;
+    if ($showmembers) {
+        $txta = 'a' . $i;
+        $txte = 'e' . $i;
+            $txtm = 'm' . $i;
 
-    if(isset($allymember[$txta])) {
-     	$formatStart = $allymember[$txta];
-    } else {
-      $formatStart = "";
+        if(isset($allymember[$txta])) {
+            $formatStart = $allymember[$txta];
+        } else {
+          $formatStart = "";
+        }
+
+        if(isset($allymember[$txte])) {
+            $formatEnd = $allymember[$txte];
+        } else {
+          $formatEnd = "";
+        }
+
+        if(isset($allymember[$txtm])) {
+            $memberlist = $allymember[$txtm];
+        } else {
+          $memberlist = "";
+        }
     }
 
-    if(isset($allymember[$txte])) {
-    	$formatEnd = $allymember[$txte];
-    } else {
-      $formatEnd = "";
+	if ( $col == 0 ) {
+        echo "<tr>\n";
     }
 
-    if(isset($allymember[$txtm])) {
-  		$memberlist = $allymember[$txtm];
-    } else {
-      $memberlist = "";
-    }
-  }
-
-	if ( $col == 0 )
-    echo "<tr>\n";
-
-  echo " <td class=\"windowbg1\" style=\"width: " .
-       floor(100 / $config_map_cols) . " %; background-color: " .
-       (( empty($sys[$i]) ) ? "#FFFFFF"
-                            : $sys[$i] ) .
-       ";\" align=\"center\">";
+    echo " <td class='windowbg1' style='width: " . floor(100 / $config_map_cols) . " %; background-color: "
+        . (( empty($sys[$i]) ) ? "#FFFFFF"
+            : $sys[$i] )
+        . ";' align='center'>";
 
 	if ( empty($sys[$i]) ) {
-    echo $i;
-  } else {
-    $showgalaxylink = "<a href=\"index.php?action=showgalaxy&sys_end=" . $i .
-         "&sys_start=" . $i . "&gal_end=" . $galaxy .
-         "&gal_start=" . $galaxy . "&sid=" . $sid . "\" ";
-
-    if( ALLY_MEMBERS_ON_MAP === TRUE ) {
-	 		echo $formatStart;
-      echo $showgalaxylink . " title=\"". $memberlist . "\">" . $i . "</a>\n";
-      echo $formatEnd;
+        echo $i;
     } else {
-      echo $showgalaxylink . ">". $i . "</a>\n";
-    }
+        $showgalaxylink = "<a href='index.php?action=showgalaxy&sys_end=" . $i .
+         "&sys_start=" . $i . "&gal_end=" . $galaxy .
+         "&gal_start=" . $galaxy . "&sid=" . $sid . "' ";
+
+        if ($showmembers) {
+            echo $formatStart;
+            echo $showgalaxylink . " title='". $memberlist . "'>" . $i . "</a>\n";
+            echo $formatEnd;
+        } else {
+            echo $showgalaxylink . ">". $i . "</a>\n";
+        }
 	}
-  echo "  </td>\n";
+
+    echo "  </td>\n";
 
 	$col++;
-	if ( $col == $config_map_cols )
-	{
+	if ( $col == $config_map_cols )	{
 		echo "</tr>\n";
 		$col = 0;
 	}
 }
 
 if ( $col <> $config_map_cols ) {
-	echo "  <td class=\"windowbg1\" colspan=\"" . ( $config_map_cols - $col ) . "\"></td>\n";
-  echo " </tr>\n";
+    echo "  <td class='windowbg1' colspan='" . ( $config_map_cols - $col ) . "'></td>\n";
+    echo " </tr>\n";
 }
 echo "</table>\n";
 
 echo "<br>\n";
 echo "<br>\n";
 
-echo "<table border=\"0\" cellpadding=\"4\" cellspacing=\"0\">\n";
+echo "<table border='0'cellpadding='4' cellspacing='0'>\n";
 echo " <tr>\n";
-echo "  <td style=\"width: 30; background-color: " . $config_color['Stargate'] . "\"></td>\n";
-echo "  <td style=\"width: 100;\">Stargate</td>\n";
-echo "  <td style=\"width: 30; background-color: " . $config_color['SchwarzesLoch'] ."\"></td>\n";
-echo "  <td style=\"width: 100;\">Schwarzes Loch</td>\n";
-echo "  <td style=\"width: 30; background-color: " . $config_polcolor['1allein'] ."\"></td>\n";
-echo "  <td style=\"width: 100;\">Eigene + Wing</td>\n";
-echo "  <td style=\"width: 30; background-color: " . $config_polcolor['2allein'] ."\"></td>\n";
-echo "  <td style=\"width: 100;\">Verbündete</td>\n";
-echo "  <td style=\"width: 30; background-color: " . $config_polcolor['3allein'] ."\"></td>\n";
-echo "  <td style=\"width: 100;\">Verfeindete</td>\n";
+echo "  <td style='width: 30px; background-color: " . $config_color['Stargate'] . "'></td>\n";
+echo "  <td style='width: 100px;'>Stargate</td>\n";
+echo "  <td style='width: 30px; background-color: " . $config_color['SchwarzesLoch'] ."'></td>\n";
+echo "  <td style='width: 100px;'>Schwarzes Loch</td>\n";
+echo "  <td style='width: 30px; background-color: " . $config_polcolor['1allein'] ."'></td>\n";
+echo "  <td style='width: 100px;'>Eigene + Wing</td>\n";
+echo "  <td style='width: 30px; background-color: " . $config_polcolor['2allein'] ."'></td>\n";
+echo "  <td style='width: 100px;'>Verbündete</td>\n";
+echo "  <td style='width: 30px; background-color: " . $config_polcolor['3allein'] ."'></td>\n";
+echo "  <td style='width: 100px;'>Verfeindete</td>\n";
 echo " </tr>\n";
 echo " <tr>\n";
 echo " </tr>\n";
 echo " <tr>\n";
-echo "  <td style=\"width: 30; background-color: " . $config_polcolor['1und2'] ."\"></td>\n";
-echo "  <td style=\"width: 100;\">Eigene + Verbündete</td>\n";
-echo "  <td style=\"width: 30; background-color: " . $config_polcolor['1und3'] ."\"></td>\n";
-echo "  <td style=\"width: 100;\">Eigenen + Verfeindete</td>\n";
-echo "  <td style=\"width: 30; background-color: " . $config_polcolor['2und3'] ."\"></td>\n";
-echo "  <td style=\"width: 100;\">Verbündete + Verfeindete</td>\n";
-echo "  <td style=\"width: 30; background-color: " . $config_polcolor['1und2und3'] ."\"></td>\n";
-echo "  <td style=\"width: 100;\">Von allem ein bissi was</td>\n";
+echo "  <td style='width: 30px; background-color: " . $config_polcolor['1und2'] ."'></td>\n";
+echo "  <td style='width: 100px;'>Eigene + Verbündete</td>\n";
+echo "  <td style='width: 30px; background-color: " . $config_polcolor['1und3'] ."'></td>\n";
+echo "  <td style='width: 100px;'>Eigenen + Verfeindete</td>\n";
+echo "  <td style='width: 30px; background-color: " . $config_polcolor['2und3'] ."'></td>\n";
+echo "  <td style='width: 100px;'>Verbündete + Verfeindete</td>\n";
+echo "  <td style='width: 30px; background-color: " . $config_polcolor['1und2und3'] ."'></td>\n";
+echo "  <td style='width: 100px;'>Von allem ein bissi was</td>\n";
 echo " </tr>\n";
 
 echo "</table>\n";
-?>

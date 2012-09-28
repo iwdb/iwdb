@@ -38,8 +38,6 @@ if (basename($_SERVER['PHP_SELF']) != "index.php")
 if (!defined('IRA'))
 	die('Hacking attempt...');
 
-error_reporting(E_ALL);
-
 function parse_de_wirtschaft_geb ( $return )
 {
     global $db, $db_tb_gebaeude_spieler, $selectedusername;
@@ -77,24 +75,9 @@ function parse_de_wirtschaft_geb ( $return )
 	}
 
     if ($count)
-		echo "<div class='system_notification'>Geb&auml;ude&uuml;bersicht aktualisiert.</div>";
+		echo "<div class='system_notification'>Gebäudeübersicht aktualisiert.</div>";
 
     return;
 }
 
-// ****************************************************************************
-// Gibt den Wert einer Variablen aus.
-if (!defined('DEBUG_VAR')) {
-	define('DEBUG_VAR', true);
-	function debug_var($name, $wert, $level = 2) {
-		if (DEBUG_LEVEL >= $level) {
-			echo "<div class='system_debug_blue'>" . $name . ":'";
-			if (is_array($wert))
-				print_r($wert);
-			else
-				echo $wert;
-			echo "'</div>";
-		}
-	}
-}
 ?>

@@ -100,7 +100,7 @@ function TransferAllytoScans($updatetime) {
     //Allianz für nicht mehr vorhandene Spieler löschen
     $sql="UPDATE `{$db_prefix}scans`
            SET `{$db_prefix}scans`.`allianz` = ''
-           WHERE `{$db_prefix}spieler`.`userchange_time` = {$updatetime}
+           WHERE `{$db_prefix}scans`.`userchange_time` = {$updatetime}
            AND `{$db_prefix}spieler`.`name` = '';";
 
 	$result = $db->db_query($sql)

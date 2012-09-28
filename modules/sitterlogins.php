@@ -47,33 +47,6 @@ function NumToStaatsform($num) {
     }
 }
 
-$newlog = getVar('newlog');
-
-if ( ! empty($newlog) )
-{
-	$sitterlogin = getVar('sitterlogin');
-	$auftrag = getVar('auftrag');
-
-	$sql = "SELECT id FROM " . $db_tb_sitterlog . " WHERE sitterlogin = '" . $sitterlogin . "' AND fromuser = '" . $user_sitterlogin . "' AND action <> 'login' AND date > " . ( $config_date - $config_sitterpunkte_timeout );
-	$result = $db->db_query($sql)
-		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-	$anz = $db->db_num_rows($result);
-
-	// Log
-	$logtext = nl2br($auftrag);
-	$sql = "INSERT INTO " . $db_tb_sitterlog . " (sitterlogin, fromuser, date, action) VALUES ('" . $sitterlogin . "', '" . $user_sitterlogin . "', '" . $config_date . "', '" . $logtext . "')";
-	$result = $db->db_query($sql)
-		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-
-	// Punkte //
-	if ( ( $sitterlogin != $user_sitterlogin ) && ( $anz == 0 ) )
-	{
-		$sql = "UPDATE " . $db_tb_user . " SET sitterpunkte = sitterpunkte + " . $config_sitterpunkte_auftrag_frei . " WHERE sitterlogin = '" . $user_sitterlogin . "'";
-		$result = $db->db_query($sql)
-			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-	}
-}
-
 $sql = "SELECT AVG(sitterpunkte) FROM " . $db_tb_user . " WHERE sitterpunkte <> 0";
 $result_avg = $db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -89,41 +62,7 @@ while($row = $db->db_fetch_array($result))
 	$sitterlogins[] = $row['sitterlogin'];
 }
 ?>
-<font style="font-size: 22px; color: #004466">Sitterlogins</font><br>
-<?php
-if ( ! empty($newlog) )
-{
-	echo "<br><font color='#FF0000'><b>Auftrag gespeichert.</b></font><br>";
-}
-?>
-<br>
-<form method="POST" action="index.php?action=sitterlogins&sid=<?php echo $sid;?>" enctype="multipart/form-data">
-<table border="0" cellpadding="4" cellspacing="1" class="bordercolor">
- <tr>
-  <td class="titlebg" colspan="2" align="center">
-   <b>Sitteraktivität</b>
-  </td>
- </tr>
- <tr>
-  <td class="windowbg1">
-   User:
-   <select name="sitterlogin" style="width: 200;">
-<?php
-  foreach ($sitterlogins as $key => $data)
-		echo " <option value='" . $data . "'>" . $data . "</option>\n";
-?>
-   </select>
-  <td class="windowbg1">
-   <textarea name="auftrag" rows="3" style="width: 400;">Auftrag</textarea>
-  </td>
- </tr>
- <tr>
-  <td class="titlebg" colspan="2" align="center">
-   <input type="hidden" name="newlog" value="true"><input type="submit" value="speichern" name="B1" class="submit">
-  </td>
- </tr>
-</table></form>
-<br>
+<div class='doc_title'>Sitterlogins</div>
 <br>
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 95%;">
  <tr>

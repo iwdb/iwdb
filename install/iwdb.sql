@@ -1099,8 +1099,8 @@ CREATE TABLE IF NOT EXISTS `prefix_sysscans` (
   `sys` smallint(6) NOT NULL DEFAULT '0',
   `objekt` varchar(20) NOT NULL DEFAULT '',
   `date` varchar(11) NOT NULL DEFAULT '',
-  `nebula` varchar(10) NOT NULL DEFAULT '',
-  KEY `idx_sg_search` (`gal`,`objekt`)
+  `nebula` enum('','blau','gelb','gruen','rot','violett') NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

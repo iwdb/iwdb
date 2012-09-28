@@ -167,7 +167,7 @@ function parse_de_index ( $return )
                         $scan_datas[] = $scan_data;
 					}
                     else {
-                        echo "<font color='red'>unknown transfer_type detected: " .$tf_type."</font>";
+                        echo "<font color='red'>unbekannter Transporttyp erkannt: " .$tf_type."</font>";
                         continue;
                     }	
 				}
@@ -358,6 +358,7 @@ function display_de_index() {
 
 // ****************************************************************************
 // Gibt den Wert einer Variablen aus.
+/*
 if (!function_exists ('debug_var')) {
 	function debug_var($name, $wert, $level = 2) {
 		if (DEBUG_LEVEL >= $level) {
@@ -369,6 +370,6 @@ if (!function_exists ('debug_var')) {
 			echo "</div>";
 		}
 	}
-}
+}*/
 
 ?>

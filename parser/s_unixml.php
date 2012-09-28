@@ -69,7 +69,7 @@ function arary_striponlys($xml_arr)
 			if (count($value) > 1) {
 				if (isset($debug)) {
 					echo "<div style=color:blue'>";
-					echo "<br>Count mit groesser als eins!";
+					echo "<br>Count mit größer als eins!";
 					echo "<pre>";
 					print_r($value);
 					echo "</pre>";
@@ -100,7 +100,7 @@ function xml_array($arrax) {
 			//hgaben wir hier ein Element, dann weiter zaehlen:
 			if ( !( preg_match('/\&lt;.+\&gt;/',$stringline) == 0 ) ) $count[$where]++;
 			if (isset($debug)) {
-				echo "<pre style='color:blue'>Zaehler:<br>";
+				echo "<pre style='color:blue'>Zähler:<br>";
 				print_r($keys);
 				print_r($count);
 				echo "</pre>";
@@ -371,3 +371,4 @@ if (function_exists('parse_unixml') === false) {
 		}
 	}
 }
+?>

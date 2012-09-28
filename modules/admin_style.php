@@ -371,7 +371,5 @@ if ($action == 'default') {
 </form>
 
 <?php
-
 }
-
 ?>

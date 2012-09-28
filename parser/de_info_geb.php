@@ -43,7 +43,7 @@ error_reporting(E_ALL);
 function parse_de_info_geb ( $return )
 {
 	/* do some database stuff here */
-    echo "InfoGeb Parser not fully implemented<br />";
+    echo "InfoGeb Parser noch nicht vollständig implementiert<br />";
 	return true;
 }
 

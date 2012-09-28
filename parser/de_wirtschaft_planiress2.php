@@ -76,7 +76,7 @@ function parse_de_wirtschaft_planiress2 ( $return )
         insert_data_2($scan_data);                
     }    
     
-    echo "<div class='system_notification'>Lager&uuml;bersicht aktualisiert.</div>";
+    echo "<div class='system_notification'>Lagerübersicht aktualisiert.</div>";
 }
 
 function insert_data_2($scan_data) {

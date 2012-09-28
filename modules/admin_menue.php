@@ -671,6 +671,4 @@ Grund: <?php echo $grund;?><br>
 </form>
 <?php
 }
-
-
 ?>

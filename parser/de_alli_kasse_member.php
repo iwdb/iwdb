@@ -58,7 +58,7 @@ function parse_de_alli_kasse_member ( $return )
         $allianz = $return->objResultData->strAlliance;
     }
     if (empty($allianz)) {
-        echo "zugeh&ouml;rige Allianz konnte nicht ermittelt werden<br />";
+        echo "zugehörige Allianz konnte nicht ermittelt werden<br />";
         return;
     }
     
@@ -74,7 +74,7 @@ function parse_de_alli_kasse_member ( $return )
 	{
         //Array ( [0] => EINZAHLER 14.04.2007 15:07 117.256,53 1.712 pro Tag [1] => EINZAHLER [2] => 117256.53 )
         updateIncoming($member->strUser, $member->fCreditsPaid, $allianz);
-        echo $member->strUser . "&nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;&nbsp;" . $member->fCreditsPaid . "<br>\n";
+        //echo $member->strUser . "&nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;&nbsp;" . $member->fCreditsPaid . "<br>\n";
      }
 }
 
@@ -97,3 +97,4 @@ function updateIncoming($user, $amount, $ally) {
     $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not update member cash incomming!', '', __FILE__, __LINE__, $sql);
 }
+?>

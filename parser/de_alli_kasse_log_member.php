@@ -72,13 +72,15 @@ function parse_de_alli_kasse_log_member($return)
         $db->db_query($sql)
             or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
-        (!isset($out) || empty($out)) ? $out = "<p><u>Auszahlungen der letzten drei Wochen:</u><p>" : $out = ' ';
+        /*
+		(!isset($out) || empty($out)) ? $out = "<p><u>Auszahlungen der letzten drei Wochen:</u><p>" : $out = ' ';
         echo $out;
 
         echo "{" . date("d.m.Y H:i", $log->iDateTime)
                 . "} Allizahlung [$allianz] von " . $log->strFromUser . " an " . $log->strToUser
                 . " mit " . $log->iCredits . " Credits erkannt." . ( (!empty($log->strReason)) ? (" (" . $log->strReason . ")") : "") ."<br />\n";            
-    }
+		*/
+	}
 }
 
 ?>

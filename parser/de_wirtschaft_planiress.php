@@ -77,7 +77,7 @@ function parse_de_wirtschaft_planiress ( $return )
 	}
     insert_data_total($scan_data_total);
     
-    echo "<div class='system_notification'>Produktion Teil 1 aktualisiert/hinzugef&uuml;gt.</div>";
+    echo "<div class='system_notification'>Produktion Teil 1 aktualisiert/hinzugefügt.</div>";
 }
 
 function insert_data($scan_data) {
@@ -151,6 +151,5 @@ function insert_data_total($scan_data) {
 	$db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);		
 }
-
 
 ?>

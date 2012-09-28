@@ -57,7 +57,7 @@ function parse_de_alli_kasse_inhalt ( $return )
       $allianz = $return->objResultData->strAlliance;
   }
   if (empty($allianz)) {
-      echo "zugeh&ouml;rige Allianz konnte nicht ermittelt werden<br />";
+      echo "zugehörige Allianz konnte nicht ermittelt werden<br />";
       return;
   }
   
@@ -68,7 +68,6 @@ function parse_de_alli_kasse_inhalt ( $return )
   $db->db_query($sql)
   or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);   
   
-  echo "<p><b>Allykasse updated: $content</b></p>\n";
+  //echo "<p><b>Allykasse updated: $content</b></p>\n";
 }
-
 ?>

@@ -28,7 +28,7 @@ function ResetPlaniedata($updatetime) {
    );
 
     $db->db_update("{$db_prefix}scans", $data, "WHERE `userchange_time` = {$updatetime} OR `typchange_time` = {$updatetime}  OR `objektchange_time` = {$updatetime};")
-		or error(GENERAL_ERROR, 'DB ResetGeodata Fehler!', '', __FILE__, __LINE__, '');
+		or error(GENERAL_ERROR, 'DB ResetPlaniedata Fehler!', '', __FILE__, __LINE__, '');
 }
 
 function ResetGeodata($updatetime) {
@@ -67,7 +67,7 @@ function ResetGeodata($updatetime) {
            WHERE typchange_time = {$updatetime};";
 
 	$result = $db->db_query($sql)
-		or error(GENERAL_ERROR, 'DB Planiepic Update Fehler!', '', __FILE__, __LINE__, $sql);
+		or error(GENERAL_ERROR, 'DB Planie_pic Update Fehler!', '', __FILE__, __LINE__, $sql);
 
 }
 
@@ -96,5 +96,14 @@ function TransferAllytoScans($updatetime) {
 
 	$result = $db->db_query($sql)
 		or error(GENERAL_ERROR, 'DB TransferAllytoScans Fehler!', '', __FILE__, __LINE__, $sql);
+
+    //Allianz für nicht mehr vorhandene Spieler löschen
+    $sql="UPDATE `{$db_prefix}scans`
+           SET `{$db_prefix}scans`.`allianz` = ''
+           WHERE `{$db_prefix}spieler`.`userchange_time` = {$updatetime}
+           AND `{$db_prefix}spieler`.`name` = '';";
+
+	$result = $db->db_query($sql)
+		or error(GENERAL_ERROR, 'DB AllyDelete Fehler!', '', __FILE__, __LINE__, $sql);
 
 }

@@ -44,13 +44,14 @@ define('IRA', TRUE);
 define('NEBULA', TRUE);
 define('SPECIALSEARCH', TRUE);
 define('ALLY_MEMBERS_ON_MAP', TRUE); 
-define('SHOWWITHOUTSCAN', TRUE);
 define('GENERAL_ERROR', 'GENERAL_ERROR');
+define('APPLICATION_FILE', basename(__FILE__));
 define('APPLICATION_PATH', dirname(__FILE__));
 define("MAX_INSERTS", 1000);
 
 global $db_host, $db_user, $db_pass, $db_name, $db_prefix;
 require_once("config/configsql.php");
+require_once("includes/debug.php");
 require_once("includes/function.php");
 require_once("includes/db_mysql.php");
 require_once('parser/parser_help.php');        //ausgelagerte Parserhilfsfunktionen

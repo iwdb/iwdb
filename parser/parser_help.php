@@ -98,7 +98,7 @@ function TransferAllytoScans($updatetime) {
 		or error(GENERAL_ERROR, 'DB TransferAllytoScans Fehler!', '', __FILE__, __LINE__, $sql);
 
     //Allianz für nicht mehr vorhandene Spieler löschen
-    $sql="UPDATE `{$db_prefix}scans`
+    $sql="UPDATE `{$db_prefix}scans`, `{$db_prefix}spieler`
            SET `{$db_prefix}scans`.`allianz` = ''
            WHERE `{$db_prefix}scans`.`userchange_time` = {$updatetime}
            AND `{$db_prefix}spieler`.`name` = '';";

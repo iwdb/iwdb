@@ -1288,5 +1288,6 @@ CREATE TABLE IF NOT EXISTS `prefix_spielerallychange` (
   `fromally` varchar(50) NOT NULL,
   `toally` varchar(50) NOT NULL,
   `time` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`name`,`fromally`,`toally`,`time`),
   KEY `time` (`time`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

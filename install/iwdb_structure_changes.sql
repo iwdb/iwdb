@@ -136,3 +136,6 @@ CREATE TABLE IF NOT EXISTS `prefix_bbcodes` (
 -- fix #93
 ALTER TABLE `prefix_kb_bomb` ADD `trefferchance` INT UNSIGNED NOT NULL;
 ALTER TABLE `prefix_kb_bomb` ADD `basis` BOOLEAN NOT NULL;
+
+-- #96
+ALTER TABLE  `iwdb`.`prefix_spielerallychange` ADD PRIMARY KEY (  `name` ,  `fromally` ,  `toally` ,  `time` );

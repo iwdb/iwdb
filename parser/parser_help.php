@@ -105,7 +105,7 @@ function TransferAllytoScans($updatetime)
     $sql = "UPDATE `{$db_prefix}scans`
             SET `{$db_prefix}scans`.`allianz` = ''
             WHERE `{$db_prefix}scans`.`userchange_time` = {$updatetime}
-            AND `{$db_prefix}scans`.`name` = '';";
+            AND `{$db_prefix}scans`.`user` = '';";
 
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'DB AllyDelete Fehler!', '', __FILE__, __LINE__, $sql);

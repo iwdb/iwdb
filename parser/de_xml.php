@@ -930,7 +930,7 @@ function parse_unixml($xmldata) {
     $sql_spieler_begin = "INSERT INTO `{$db_prefix}spieler` (`name`, `allianz`, `dabeiseit`, `playerupdate_time`) VALUES ";
     //bei schon vorhandenem Spieler in der DB prüfen auf Allianzänderung
     $sql_spieler_end = " ON DUPLICATE KEY UPDATE";    
-    $sql_spieler_end .= " `allychange_time` = IF((STRCMP(`exallianz`, `allianz`) AND ((`allychange_time` IS NULL) OR ({$aktualisierungszeit} > `allychange_time`))), {$aktualisierungszeit}, `allychange_time`),";               //Allianzänderungszeit auf die des Scans setzen (wenn sie neuer bzw nicht vorhanden ist und sich die Allianz geändert hat), nachfolgende Abfragen können sich dann darauf beziehen
+    $sql_spieler_end .= " `allychange_time` = IF((STRCMP(VALUES(`allianz`), `allianz`) AND ((`allychange_time` IS NULL) OR ({$aktualisierungszeit} > `allychange_time`))), {$aktualisierungszeit}, `allychange_time`),";               //Allianzänderungszeit auf die des Scans setzen (wenn sie neuer bzw nicht vorhanden ist und sich die Allianz geändert hat), nachfolgende Abfragen können sich dann darauf beziehen
     $sql_spieler_end .= " `exallianz` = IF((`allychange_time` = {$aktualisierungszeit}), `allianz`, `exallianz`),";                 //exallianz aktualisieren
     $sql_spieler_end .= " `allianzrang` = IF((`allychange_time` = {$aktualisierungszeit}), NULL, `allianzrang`),";                  //alten Allianzrang löschen
     $sql_spieler_end .= " `allianz` = IF((`allychange_time` = {$aktualisierungszeit}), VALUES(`allianz`), `allianz`);";             //neue Allianz schreiben

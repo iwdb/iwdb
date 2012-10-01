@@ -78,17 +78,18 @@ function AddAllychangetoHistory($updatetime)
     //Allianzänderungen in Historytabele übertragen
     global $db_prefix, $db;
 
-    $sql = "INSERT INTO `{$db_prefix}spielerallychange` (name, fromally, toally, time)
-            SELECT name, exallianz, allianz, allychange_time
+    $sql = "INSERT INTO `{$db_prefix}spielerallychange` (`name`, `fromally`, `toally`, `time`)
+            SELECT `name`, `exallianz`, `allianz`, `allychange_time`
             FROM `{$db_prefix}spieler`
-            WHERE `allychange_time` = {$updatetime};";
+            WHERE `allychange_time` = {$updatetime}
+            ON DUPLICATE KEY UPDATE `{$db_prefix}spielerallychange`.`name`=`{$db_prefix}spielerallychange`.`name`";
 
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'DB AddAllychangetoHistory Fehler!', '', __FILE__, __LINE__, $sql);
 
 }
 
-function TransferAllytoScans($updatetime)
+function SyncAllies($updatetime)
 {
     //aktuelle Allianzen in Kartendaten übertragen
     global $db_prefix, $db;
@@ -102,11 +103,7 @@ function TransferAllytoScans($updatetime)
         or error(GENERAL_ERROR, 'DB TransferAllytoScans Fehler!', '', __FILE__, __LINE__, $sql);
 
     //Allianz für nicht mehr vorhandene Spieler löschen
-    $sql = "UPDATE `{$db_prefix}scans`
-            SET `{$db_prefix}scans`.`allianz` = ''
-            WHERE `{$db_prefix}scans`.`userchange_time` = {$updatetime}
-            AND `{$db_prefix}scans`.`user` = '';";
-
+    $sql = "UPDATE `{$db_prefix}scans` SET `allianz` = '' WHERE `userchange_time` = {$updatetime} AND `user` = '';";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'DB AllyDelete Fehler!', '', __FILE__, __LINE__, $sql);
 }

@@ -183,10 +183,10 @@ echo '<div class="textsmall">Daten von '.date("d.m.Y H:i",$playerupdatetime).'</
     	echo "<a href='index.php?action=showgalaxy&amp;user=".urlencode($row['name'])."&amp;exact=1'>".$row['name']."</a>";
     	echo "</td>\n";
     	echo "<td class='windowbg1' style='text-align: center;'>";
-        echo "<a href='index.php?action=allydetail&allianz=".$row['fromally']."'>" . $row['fromally'] . "</a>";
+        echo "<a href='index.php?action=m_allystats&allianz=".$row['fromally']."'>" . $row['fromally'] . "</a>";
     	echo "</td>\n";
     	echo "<td class='windowbg1' style='text-align: center;'>";
-        echo "<a href='index.php?action=allydetail&allianz=".$row['toally']."'>" . $row['toally'] . "</a>";
+        echo "<a href='index.php?action=m_allystats&allianz=".$row['toally']."'>" . $row['toally'] . "</a>";
     	echo "</td>\n";
     	echo "<td class='windowbg1' style='text-align: center;'>";
     	echo date('d.m.Y H:i', $row['time']);

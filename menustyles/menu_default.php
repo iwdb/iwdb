@@ -97,7 +97,7 @@ $row = $db->db_fetch_array($result);
 $anzahl = $row['anzahl'];
 $db->db_free_result($result);
 if($anzahl > 0) {
-	$anz_angriffe = " (" . $anzahl . ")";
+	$anz_angriffe = " (<span style='color:red;'>" . $anzahl . "</span>)";
 } else
 	$anz_angriffe = "";
 
@@ -316,7 +316,11 @@ while( $row = $db->db_fetch_array($result)) {
 	  $title = str_replace("#sitter", $anzauftrag_sitter, $title);
 	  $title = str_replace("#schiffe", $anzauftrag_schiffe, $title);
 	  $title = str_replace("#ress", $anzauftrag_ress, $title);
-	  $title = str_replace("#angriffe", $anz_angriffe, $title);
+          if (!empty($anz_angriffe) AND strpos($title, '#angriffe')) {
+          	$title = "<span style='font-weight: bold;'>".str_replace("#angriffe", $anz_angriffe, $title)."</span>";
+          } else {
+          	$title = str_replace("#angriffe", $anz_angriffe, $title);
+          }
 	  $title = str_replace("#sondierungen", $anz_sondierungen, $title);
 //  	$title = str_replace("#", $anzauftrag, $title);
 

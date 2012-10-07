@@ -139,3 +139,17 @@ ALTER TABLE `prefix_kb_bomb` ADD `basis` BOOLEAN NOT NULL;
 
 -- #96
 ALTER TABLE `prefix_spielerallychange` ADD PRIMARY KEY (  `name` ,  `fromally` ,  `toally` ,  `time` );
+
+-- Mac: umsetzung des Sondierungsparsers (Fremdsondierungen)
+CREATE TABLE IF NOT EXISTS `prefix_fremdsondierung` (
+   `koords_to` varchar(11) NOT NULL,
+   `name_to` varchar(50) NOT NULL,
+   `allianz_to` varchar(50) NOT NULL,
+   `koords_from` varchar(11) NOT NULL,
+   `name_from` varchar(50) NOT NULL,
+   `allianz_from` varchar(50) NOT NULL,
+   `sondierung_art` ENUM( 'schiffe', 'gebaeude' ) NOT NULL COMMENT 'Schiffe oder Gebäude',
+   `timestamp` int(10) unsigned NOT NULL COMMENT 'Zeitstempel Sondierung',
+   `erfolgreich` int(1) DEFAULT '0' COMMENT '0=fail,1=success',
+PRIMARY KEY (`timestamp`,`koords_to`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Tabelle eingegangener Sondierungen';

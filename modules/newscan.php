@@ -109,6 +109,8 @@ function plural($singular)
 
   if( preg_match( '/.*scan$/i', $singular ))
     return ($singular . "s");  
+  
+  return $singular;
 } 
 
 $selectedusername = getVar('seluser');	

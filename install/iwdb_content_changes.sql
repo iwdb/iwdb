@@ -1184,3 +1184,7 @@ INSERT INTO `prefix_bbcodes` (`isregex`, `bbcode`, `htmlcode`) VALUES
 (0, ' :wtf:', ' <img src="bilder/smilies/wtf.gif" />');
 
 DELETE FROM `prefix_parser` WHERE `modulename` = 'unixml';
+
+-- Mac: fuer Fremdsondierungsparser
+INSERT INTO `prefix_iwdbtabellen` (`name`) VALUES
+('fremdsondierung');

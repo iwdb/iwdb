@@ -270,24 +270,24 @@ Achja bei dem ganzen Chaos kamen 142 Leute ums Leben.
     foreach ($return->objResultData->aSondierungMsgs as $msg)
 	{	
         $parsertyp = ($msg->eParserType == "Sondierung (Schiffe/Def/Ress)") ? "schiffe" : "gebaeude";
+
+        //! Hier die Namen für die Koordinaten aus der Datenbank holen
+        $name_to = GetNameByCoords($msg->strCoordsTo);
+        $name_from = GetNameByCoords($msg->strCoordsFrom);
+        
+        $alliance_to = GetAllianceByUser($name_to);
         if (empty($msg->strAllianceFrom)) {
             // Allianz konnte nicht aus dem Text bestimmt werden
-            // code zum ermitteln des Namens ausfuehren
-            $msg->strAllianceFrom = "";
+            $msg->strAllianceFrom = GetAllianceByUser($name_from);
         }
-
-        //! Hier die Namen für die Koordinaten aus der Datenbank holen (target Tabelle ?)
-         $name_to = "";
-         $alliance_to = "";
-         $name_from = "";
-         
-         $sql = "INSERT INTO " . $db_tb_fremdsondierung 
+        
+        $sql = "INSERT INTO " . $db_tb_fremdsondierung 
                  . "(koords_to, name_to, allianz_to, koords_from, name_from, allianz_from, sondierung_art, timestamp, erfolgreich ";
-         $sql .= ") VALUES( '$msg->strCoordsTo', '$name_to', '$alliance_to', '$msg->strCoordsFrom', '$name_from', '$msg->strAllianceFrom', '$parsertyp', $msg->iMsgDateTime, '$msg->bSuccess' ) "
+        $sql .= ") VALUES( '$msg->strCoordsTo', '$name_to', '$alliance_to', '$msg->strCoordsFrom', '$name_from', '$msg->strAllianceFrom', '$parsertyp', $msg->iMsgDateTime, '$msg->bSuccess' ) "
                  ."ON DUPLICATE KEY UPDATE 
                     name_to='$name_to', allianz_to='$alliance_to', koords_from='$msg->strCoordsFrom', name_from='$name_from', allianz_from='$msg->strAllianceFrom', sondierung_art='$parsertyp', erfolgreich='$msg->bSuccess'"
                  ;	
-         $result = $db->db_query($sql)
+        $result = $db->db_query($sql)
             or error(GENERAL_ERROR, 
                 'Could not query config information.', '', 
                 __FILE__, __LINE__, $sql);

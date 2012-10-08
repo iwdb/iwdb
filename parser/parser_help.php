@@ -107,3 +107,59 @@ function SyncAllies($updatetime)
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'DB AllyDelete Fehler!', '', __FILE__, __LINE__, $sql);
 }
+
+/**
+ *
+ * @desc Bestimmung von Spielernamen aufgrund von Koordinaten
+ * @author Mac (MacXY@herr-der-mails.de)
+ * @global obj $db
+ * @global string $db_tb_scans
+ * @param string $coords
+ * @todo Funktion sollte gecached werden, damit nicht unnoetig viele Aufrufe erfolgen
+ * @return string 
+ */
+function GetNameByCoords($coords)
+{
+    global $db, $db_tb_scans;
+    
+    if (empty($coords))
+        return;
+    
+    $sql = "SELECT user FROM " . $db_tb_scans . " WHERE coords = '$coords'";
+                 
+    $result = $db->db_query($sql)
+            or error(GENERAL_ERROR, 
+                'Could not query config information.', '', 
+                __FILE__, __LINE__, $sql);
+    $row = $db->db_fetch_array($result);
+    
+    return $row['user'];
+}
+
+/**
+ *
+ * @desc Bestimmung von Allianznamen aufgrund von Spielername
+ * @author Mac (MacXY@herr-der-mails.de)
+ * @global obj $db
+ * @global string $db_tb_scans
+ * @param string $username
+ * @todo Funktion sollte gecached werden, damit nicht unnoetig viele Aufrufe erfolgen
+ * @return string 
+ */
+function GetAllianceByUser($username)
+{
+    global $db, $db_tb_scans;
+    
+    if (empty($username))
+        return;
+    
+    $sql = "SELECT DISTINCT allianz FROM " . $db_tb_scans . " WHERE user = '$username'";
+                 
+    $result = $db->db_query($sql)
+            or error(GENERAL_ERROR, 
+                'Could not query config information.', '', 
+                __FILE__, __LINE__, $sql);
+    $row = $db->db_fetch_array($result);
+    
+    return $row['allianz'];
+}

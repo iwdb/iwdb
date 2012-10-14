@@ -102,7 +102,16 @@ if($anzahl > 0) {
 	$anz_angriffe = "";
 
 
-$sql = "SELECT COUNT(*) AS 'anzahl' FROM $db_tb_lieferung, $db_tb_user WHERE art='Sondierung (Schiffe/Deff/Ress)' OR art='Sondierung (Gebäude/Ress)' AND $db_tb_lieferung.user_to=$db_tb_user.id AND $db_tb_lieferung.time>" . (time() - 5 * 60);
+//$sql = "SELECT COUNT(*) AS 'anzahl' FROM $db_tb_lieferung, $db_tb_user WHERE art='Sondierung (Schiffe/Def/Ress)' OR art='Sondierung (Gebäude/Ress)' AND $db_tb_lieferung.user_to=$db_tb_user.id AND $db_tb_lieferung.time>" . (time() - 5 * 60);
+$sql = "SELECT COUNT(*) AS 'anzahl'
+FROM $db_tb_lieferung INNER JOIN $db_tb_user ON ($db_tb_lieferung.user_to=$db_tb_user.id)
+WHERE (
+(
+`art` =  'Sondierung (Schiffe/Def/Ress)'
+OR `art` =  'Sondierung (Gebäude/Ress)'
+)
+AND  `prefix_lieferung`.`time` > ".$config_date.
+")";
 $result = $db->db_query($sql)
 	or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row = $db->db_fetch_array($result);

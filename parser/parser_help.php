@@ -163,3 +163,16 @@ function GetAllianceByUser($username)
     
     return $row['allianz'];
 }
+
+function GetObjectByCoords($coords) {
+	global $db, $db_tb_scans;
+	if (empty($coords))
+		return;
+	$sql = "SELECT objekt FROM " . $db_tb_scans . " WHERE coords = '$coords'";
+	$result = $db->db_query($sql)
+            or error(GENERAL_ERROR, 
+                'Could not query config information.', '', 
+                __FILE__, __LINE__, $sql);
+    $row = $db->db_fetch_array($result);
+    return $row['objekt'];
+}

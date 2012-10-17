@@ -66,9 +66,16 @@ function parse_de_index ( $return )
 			if ($aContainer->strIdentifier == "de_index_fleet")
 			{
 				$fleetType = $aContainer->objResultData->strType;	//! own OR opposite
-                if (!$aContainer->objResultData->bObjectsVisible)
-                     echo "<font color='orange'>Info: </font> keine Transportinformation (" . $fleetType . ") sichtbar. Bitte Fluginformationen vor dem Parsen ausklappen";
-
+                
+				$flottentyp="";
+				if ($fleetType=="own")
+					$flottentyp="eigene Flotten, * = Anzahl Schiffe, + = Anzahl Ress";
+				else
+					$flottentyp="fremde Flotten, + = Anzahl Ress";
+				
+				if (!$aContainer->objResultData->bObjectsVisible)
+                     echo "<font color='orange'>Info: </font> keine Transportinformation (" . $flottentyp . ") sichtbar. Bitte Fluginformationen vor dem Parsen ausklappen <br />";
+               
 				foreach ($aContainer->objResultData->aFleets as $msg)
 				{	
 					$tf_type = $msg->eTransfairType;
@@ -167,7 +174,7 @@ function parse_de_index ( $return )
                         $scan_datas[] = $scan_data;
 					}
                     else {
-                        echo "<font color='red'>unbekannter Transporttyp erkannt: " .$tf_type."</font>";
+                        //echo "<font color='red'>unknown transfer_type detected: " .$tf_type."</font>";
                         continue;
                     }	
 				}
@@ -247,7 +254,7 @@ function find_research_id($researchname) {
 }
 
 function save_data($scan_data) {
-	global $db, $db_tb_lieferung, $db_tb_scans;
+	global $db, $db_tb_lieferung, $db_tb_scans, $db_tb_incomings;
     
 	$fields = array(
 		'time' => $scan_data['time'],
@@ -315,6 +322,29 @@ function save_data($scan_data) {
 		$result = $db->db_query($sql)
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	}
+	
+	if (($scan_data['art'] == "Angriff") || (($scan_data['art'] == "Sondierung (Schiffe/Def/Ress)") || ($scan_data['art'] == "Sondierung (Gebäude/Ress)"))) {
+		$allianz_to = GetAllianceByUser($scan_data['user_to']);
+		if ($allianz_to=='Kilrathy') {
+			if ($scan_data['time']>(time()-20*60)) {
+				
+				//Löschen der Einträge in der Tabelle incomings, es sollen nur aktuelle Sondierungen und Angriffe eingetragen sein
+				//ToDo : evtl Trennung Sondierung und Angriffe, damit die Sondierungen früher entfernt sind
+				$sql = "DELETE FROM prefix_incomings WHERE timestamp<" . (time()-20*60);
+				$result = $db->db_query($sql)
+					or error(GENERAL_ERROR, 
+					'Could not query config information.', '', 
+					__FILE__, __LINE__, $sql);
+				
+				$koords_from = $scan_data['coords_from_gal'] . ":" . $scan_data['coords_from_sys'] . ":" . $scan_data['coords_from_planet'];
+				$koords_to = $scan_data['coords_to_gal'] . ":" . $scan_data['coords_to_sys'] . ":" . $scan_data['coords_to_planet'];
+				$sql = "INSERT INTO $db_tb_incomings (koords_to,name_to,allianz_to,koords_from,name_from,allianz_from,art,timestamp) VALUES ('".$koords_to."','".$scan_data['user_to']."','".$allianz_to."','".$koords_from."','".$scan_data['user_from']."','".(GetAllianceByUser($scan_data['user_from']))."','".$scan_data['art']."','".$scan_data['time']."')";
+				debug_var('sql', $sql);
+				$result = $db->db_query($sql)
+					or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);	
+			}
+		}
+	}
 }
 
 function display_de_index() {
@@ -358,7 +388,6 @@ function display_de_index() {
 
 // ****************************************************************************
 // Gibt den Wert einer Variablen aus.
-/*
 if (!function_exists ('debug_var')) {
 	function debug_var($name, $wert, $level = 2) {
 		if (DEBUG_LEVEL >= $level) {
@@ -370,6 +399,6 @@ if (!function_exists ('debug_var')) {
 			echo "</div>";
 		}
 	}
-}*/
+}
 
 ?>

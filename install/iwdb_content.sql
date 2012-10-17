@@ -323,6 +323,7 @@ INSERT INTO `prefix_iwdbtabellen` (`name`) VALUES
 ('group_sort'),
 ('group_user'),
 ('highscore'),
+('incomings'),
 ('kasse_content'),
 ('kasse_incoming'),
 ('kasse_outgoing'),

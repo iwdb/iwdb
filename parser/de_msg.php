@@ -280,6 +280,8 @@ Achja bei dem ganzen Chaos kamen 142 Leute ums Leben.
             // Allianz konnte nicht aus dem Text bestimmt werden
             $msg->strAllianceFrom = GetAllianceByUser($name_from);
         }
+		
+		doc_message("Fremdsondierung erkannt");
         
         $sql = "INSERT INTO " . $db_tb_fremdsondierung 
                  . "(koords_to, name_to, allianz_to, koords_from, name_from, allianz_from, sondierung_art, timestamp, erfolgreich ";

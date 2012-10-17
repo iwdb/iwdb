@@ -170,7 +170,11 @@ if( $allow1 AND $allow2 ) {
 }
 
 echo "   <textarea name='text' rows='14' cols='70'></textarea><br />\n";
-echo "   Für Hilfe bitte oben auf den 'Hilfe' Button drücken.\n";
+echo " 	 <br />\n";
+echo "<font color='red'>Wichtig : Beim Einlesen der Ressübersicht darauf achten, dass das Lager ausgeklappt ist!</font><br />";
+echo "<font color='red'>Wichtig : Beim Einlesen der Startseite darauf achten, dass die Fluginformationen ausgeklappt sind!</font><br />";
+echo " 	 <br />\n";
+echo "   Für Hilfe bitte oben auf den \"Hilfe\" Button drücken.\n";
 echo "  </td>\n";
 echo " </tr>\n";
 echo " <tr>\n";

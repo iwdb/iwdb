@@ -254,9 +254,9 @@ echo "  <td style='width: 14%;'>jünger 24 Stunden</td>\n";
 echo "  <td style='width: 4%; background-color: #00FF00'></td>\n";
 echo "  <td style='width: 14%;'>älter 24 Stunden</td>\n";
 echo "  <td style='width: 4%; background-color: #FFFF00'></td>\n";
-echo "  <td style='width: 14%;'>" . (round( $config_map_timeout / $DAYS / 2)) . " Tage alt</td>\n";
+echo "  <td style='width: 14%;'>" . (round( $config_map_timeout / DAY / 2)) . " Tage alt</td>\n";
 echo "  <td style='width: 4%; background-color: #FF0000'></td>\n";
-echo "  <td style='width: 14%;'>älter als " . (round( $config_map_timeout / $DAYS)) . " Tage</td>\n";
+echo "  <td style='width: 14%;'>älter als " . (round( $config_map_timeout / DAY)) . " Tage</td>\n";
 echo " </tr>\n";
 
 if ($showmembers) {

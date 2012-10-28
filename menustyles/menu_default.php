@@ -29,7 +29,6 @@
 if (!defined('IRA'))
     die('Hacking attempt...');
 
-// Anstehende Aufträge zählen
 $anzauftrag_sitter = "";
 $anzauftrag_schiffe = "";
 $anzauftrag_ress = "";
@@ -94,7 +93,7 @@ if (isset($db_tb_bestellung)) {
     $anzauftrag_ress = "";
 }
 
-$sql = "SELECT COUNT(*) AS 'anzahl' FROM $db_tb_lieferung, $db_tb_user WHERE art='Angriff' AND $db_tb_lieferung.user_to=$db_tb_user.id AND $db_tb_lieferung.time>" . (time() - 15 * 60);
+$sql = "SELECT COUNT(*) AS 'anzahl' FROM $db_tb_lieferung, $db_tb_user WHERE art='Angriff' AND $db_tb_lieferung.user_to=$db_tb_user.id AND $db_tb_lieferung.time>" . ($config_date - 15 * MINUTE);
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row = $db->db_fetch_array($result);
@@ -110,7 +109,7 @@ $sql = "SELECT COUNT(*) AS 'anzahl'
 FROM `{$db_tb_lieferung}` AS lieferung, `{$db_tb_user}` AS user
 WHERE (`lieferung`.`art` = 'Sondierung (Schiffe/Def/Ress)' OR `lieferung`.`art` = 'Sondierung (Gebäude/Ress)')
 AND `lieferung`.`user_to` = `user`.`id`
-AND `lieferung`.`time` > ({$config_date} - 5 * 60);";
+AND `lieferung`.`time` > ({$config_date} - 5 * MINUTE);";
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row = $db->db_fetch_array($result);
@@ -123,7 +122,7 @@ if ($anzahl > 0) {
 }
 
 if (isset($db_tb_incomings)) {
-    $sql = "SELECT COUNT(*) AS 'anzahl' FROM $db_tb_incomings WHERE (art='Sondierung (Schiffe/Def/Ress)' OR art='Sondierung (Gebäude/Ress)') AND timestamp >" . ($config_date - 5 * 60);
+    $sql = "SELECT COUNT(*) AS 'anzahl' FROM $db_tb_incomings WHERE (art='Sondierung (Schiffe/Def/Ress)' OR art='Sondierung (Gebäude/Ress)') AND timestamp >" . ($config_date - 5 * Minute);
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     $row = $db->db_fetch_array($result);
@@ -131,7 +130,7 @@ if (isset($db_tb_incomings)) {
     $db->db_free_result($result);
     $anz_incomings1 = $anzahl;
 
-    $sql = "SELECT COUNT(*) AS 'anzahl' FROM $db_tb_incomings WHERE art='Angriff' AND timestamp >" . (time() - 15 * 60);
+    $sql = "SELECT COUNT(*) AS 'anzahl' FROM $db_tb_incomings WHERE art='Angriff' AND timestamp >" . ($config_date - 15 * MINUTE);
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     $row = $db->db_fetch_array($result);
@@ -154,7 +153,7 @@ $sql = "SELECT time FROM " . $db_tb_lager . " WHERE user='" . $user_id . "' LIMI
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row = $db->db_fetch_array($result);
-if ($row['time'] < (time() - 24 * 60 * 60)) {
+if ($row['time'] < ($config_date - 24 * HOUR)) {
     ?>
 <br>
 <table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
@@ -172,7 +171,7 @@ $sql = "SELECT MAX(time) AS time FROM " . $db_tb_highscore . " LIMIT 0,1";
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row = $db->db_fetch_array($result);
-if ($row['time'] < (time() - 24 * 60 * 60)) {
+if ($row['time'] < ($config_date - 24 * HOUR)) {
     ?>
 <br>
 <table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
@@ -190,7 +189,7 @@ $sql = "SELECT lastshipscan FROM " . $db_tb_user . " WHERE id='" . $user_id . "'
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row = $db->db_fetch_array($result);
-if ($row['lastshipscan'] < (time() - 48 * 60 * 60)) {
+if ($row['lastshipscan'] < ($config_date - 48 * HOUR)) {
     ?>
 <br>
 <table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
@@ -208,7 +207,7 @@ $sql = "SELECT time FROM " . $db_tb_gebaeude_spieler . " WHERE user='" . $user_i
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row = $db->db_fetch_array($result);
-if ($row['time'] < (time() - 48 * 60 * 60)) {
+if ($row['time'] < ($config_date - 48 * HOUR)) {
     ?>
 <br>
 <table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
@@ -222,16 +221,12 @@ if ($row['time'] < (time() - 48 * 60 * 60)) {
 }
 
 // Warnung nicht eingelesene Allikasse seit 24 Stunden
-$sql = "SELECT MAX(time_of_insert) AS time FROM " . $db_tb_kasse_content . " LIMIT 0,1";
+$sql = "SELECT UNIX_TIMESTAMP(MAX(time_of_insert)) AS time FROM " . $db_tb_kasse_content;
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row = $db->db_fetch_array($result);
-//echo $row['time'];
-$time1 = new DateTime($row['time']);
-$time1 = date_format($time1, 'U');
-//echo $time1;
-$time2 = time();
-if (($time2 - 24 * 60 * 60) > $time1) {
+
+if (($config_date - 24 * HOUR) > $row['time']) {
     ?>
 <br>
 <table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
@@ -245,11 +240,11 @@ if (($time2 - 24 * 60 * 60) > $time1) {
 }
 
 // Warnung nicht eingelesene Mitgliederliste seit 96 Stunden
-$sql = "SELECT MAX(date) AS time FROM " . $db_tb_punktelog . " LIMIT 0,1";
+$sql = "SELECT MAX(date) AS time FROM " . $db_tb_punktelog;
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row = $db->db_fetch_array($result);
-if ($row['time'] < (time() - 96 * 60 * 60)) {
+if ($row['time'] < ($config_date - 96 * HOUR)) {
     ?>
 <br>
 <table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
@@ -329,7 +324,7 @@ if ($row['time'] < (time() - 96 * 60 * 60)) {
 
                 // Hat der angemeldete Benutzer die entsprechende Berechtigung?
                 if (($row['status'] == "") || ($user_status == "admin") || ($user_status == $row['status'])) {
-                    // Neues Hauptmenu?
+                    // Neues Hauptmenü?
                     if ($lastmenu != $row['menu']) {
                         // Bin ich noch in der vorhergehenden Tabelle? Dann entsprechend schliessen.
                         if ($tableopen != 0) {
@@ -340,7 +335,7 @@ if ($row['time'] < (time() - 96 * 60 * 60)) {
                         }
 
                         // Neue Tabelle aufmachen.
-                        echo "<table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"1\" class=\"bordercolor\">\n <tr>\n";
+                        echo "<table width='100%' border='0' cellpadding='0' cellspacing='1' class='bordercolor'>\n <tr>\n";
                         $tableopen = 1;
                         $insidetable = 0;
                         $lastmenu = $row['menu'];
@@ -371,23 +366,22 @@ if ($row['time'] < (time() - 96 * 60 * 60)) {
                     // Habe ich hier den neuen Hauptmenu-Titel?
                     if ($row['submenu'] == 0) {
                         // Ja, dann in entsprechender Formatierung ausgeben.
-                        echo " <td class=\"titlebg\" style=\"padding: 3px;\"><b>" . $title . "</b></td>\n" .
+                        echo " <td class='titlebg' style='padding: 3px;'><b>" . $title . "</b></td>\n" .
                             " </tr>\n" .
                             " <tr>\n";
                     } else {
                         // Kein Hauptmenu. Eintraege in einzelne Tabellenzelle zusammenfassen.
                         if ($insidetable == 0) {
-                            echo " <td class=\"menu\">\n";
+                            echo " <td class='menu'>\n";
                             $insidetable = 1;
                         }
 
-                        echo "<a href=\"";
-                        // Es handelt sich hier um einen "internen" Link.
                         if ($row['extlink'] == "n") {
-                            echo "index.php?sid=" . $sid . "&action=" . $row['action'] . "\">" . $title . "</a>";
+                            // interner Link
+                            echo "<a href='index.php?sid=" . $sid . "&action=" . $row['action'] . "'>" . $title . "</a>";
                         } else {
-                            // Linkziel und Titel ausgeben
-                            echo $row['action'] . "\" target=_new>" . $title . "</a>";
+                            // externer Link
+                            echo "<a href='" . $row['action'] . "' target=_new>" . $title . "</a>";
                         }
 
                     }

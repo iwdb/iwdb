@@ -63,7 +63,7 @@ $config_color = array();
 $config_color['Stargate']      = "#A0BFCD";
 $config_color['SchwarzesLoch'] = "#3F6778";
 $config_color['reserviert']    = "#CCDCE3";
-$config_color['last24'] = "#00AACC";
+$config_color['last24']        = "#00AACC";
 
 // Tabellennamen - Definition des Einstiegsnamens
 $db_tb_iwdbtabellen = $db_prefix . "iwdbtabellen";
@@ -78,7 +78,12 @@ while ($row = $db->db_fetch_array($result)) {
     ${$tbname} = $db_prefix . $row['name'];
 }
 
-// Basisdefinitionen fuer Zeitraueme.
+// Basisdefinitionen für Zeiträume.
+define("MINUTE", 60);
+define("HOUR", 60*60);
+define("DAY", 24*60*60);
+
+// old for compatibility
 $MINUTES = 60;
 $HOURS   = 60 * $MINUTES;
 $DAYS    = 24 * $HOURS;
@@ -88,7 +93,7 @@ $DAYS    = 24 * $HOURS;
 $config_date = time();
 
 // Zeit, wie lange die SID aktuell bleibt (in Sekunden)
-$config_sid_timeout = 1 * $HOURS;
+$config_sid_timeout = 1 * HOUR;
 
 // zugelassene Zeichen fuer SIDs
 $config_sid_string = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890-_";
@@ -103,13 +108,13 @@ $config_password_string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1
 $config_cookie_name = "iwdb";
 
 // Zeit, wie lange das Cookie gueltig ist in Sekunden
-$config_cookie_timeout = 365 * $DAYS;
+$config_cookie_timeout = 365 * DAY;
 
 // Zeit, wie lange ein User als online angezeigt wird in Sekunden
-$config_counter_timeout = 4 * $MINUTES;
+$config_counter_timeout = 4 * MINUTE;
 
 // Zeit, wie lange ein Username gesperrt wird nach x falschen Loginversuchen in Sekunden
-$config_wronglogin_timeout = 6 * $HOURS;
+$config_wronglogin_timeout = 6 * HOUR;
 
 // nach wie vielen Loginversuchen soll der Username gesperrt werden
 $config_wronglogins = 5;
@@ -119,9 +124,9 @@ $config_timeformat = "%d.%m.%Y %H:%M";
 // Zeitformat der Memberregistrierung in Icewars
 $config_members_timeformat = "%d.%m.%y";
 // Zeit, wie oft Sitterseiten neu geladen werden sollen in Sekunden
-$config_refresh_timeout = 1 * $MINUTES;
+$config_refresh_timeout = 1 * MINUTE;
 // Zeit, nach wie vielen Sekunden es wieder Punkte fuer einen gleichen Scan gibt
-$config_scan_timeout = 1 * $DAYS;
+$config_scan_timeout = 1 * DAY;
 
 // Punkte, die es fuer einen einfachen Login gibt
 $config_sitterpunkte_login = 0.25;
@@ -136,22 +141,22 @@ $config_sitterpunkte_auftrag = 3;
 $config_sitterpunkte_auftrag_frei = 1;
 
 // Zeit, wie lange die Sitterlog gespeichert wird in Sekunden
-$config_sitterlog_timeout = 30 * $DAYS;
+$config_sitterlog_timeout = 30 * DAY;
 
 // Zeit, die vergehen muss in Sekunden, bevor man neue Punkte bekommt, wenn man sich mehrmals beim gleichen User einloggt
-$config_sitterpunkte_timeout = 15 * $MINUTES;
+$config_sitterpunkte_timeout = 15 * MINUTE;
 
 // Zeit, wie lange ein Sitterlogin gesperrt ist in Sekunden, wenn sich jemand eingeloggt hat
-$config_sitterlogin_timeout = 2 * $MINUTES;
+$config_sitterlogin_timeout = 2 * MINUTE;
 
 // wie viele Sitteraufträge in den nächsten x Sekunden sollen angezeigt werden
-$config_sitterliste_timeout = 12 * $HOURS;
+$config_sitterliste_timeout = 12 * HOUR;
 
 // Zeit, wie lange Sitterauftrag in der Vergangenheit liegen darf (gewisse Toleranz ist hier zu empfehlen!)
-$config_sitterauftrag_timeout = 1 * $DAYS + 12 * $HOURS;
+$config_sitterauftrag_timeout = 2 * DAY;
 
 // Zeit in Sekunden, bei Daueraufträgen, wie lange ein Auftrag nach Login als "erledigt" markiert werden soll
-$config_dauer_timeout = 3 * $HOURS;
+$config_dauer_timeout = 3 * HOUR;
 
 // Zeitformat im Sittertool
 $config_sitter_timeformat = "%d.%m.%y %H:%M";

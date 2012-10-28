@@ -37,11 +37,9 @@ if ( $user_status != "admin" ) {
 
 function dauer($zeit)
 {
-    global $DAYS, $HOURS, $MINUTES;
-
-    $return['d'] = floor($zeit / $DAYS);
-    $return['h'] = floor(($zeit - $return['d'] * $DAYS) / $HOURS);
-    $return['m'] = ($zeit - $return['d'] * $DAYS - $return['h'] * $HOURS) / $MINUTES;
+    $return['d'] = floor($zeit / DAY);
+    $return['h'] = floor(($zeit - $return['d'] * DAY) / HOUR);
+    $return['m'] = ($zeit - $return['d'] * DAY - $return['h'] * HOUR) / MINUTE;
     return $return;
 }
 
@@ -92,7 +90,7 @@ while($row_gebaeude = $db->db_fetch_array($result_gebaeude)) {
 
             $delete    = getVar(($row_gebaeude['id'] . '_delete'));
 
-            $dauer     = ($dauer_d * $DAYS) + ($dauer_h * $HOURS) + ($dauer_m * $MINUTES);
+            $dauer     = ($dauer_d * DAY) + ($dauer_h * HOUR) + ($dauer_m * MINUTE);
 
             if (empty($delete)) {
 
@@ -141,7 +139,7 @@ if((!empty($lastid_name)) && (empty($editgebaeude))) {
     $dauer_h   = (int)getVar((($lastid + 1) . '_dauer_h'));
     $dauer_m   = (int)getVar((($lastid + 1) . '_dauer_m'));
 
-    $dauer     = ($dauer_d * $DAYS) + ($dauer_h * $HOURS) + ($dauer_m * $MINUTES);
+    $dauer     = ($dauer_d * DAY) + ($dauer_h * HOUR) + ($dauer_m * MINUTE);
     $sql = "INSERT INTO " . $db_tb_gebaeude .
         " (name, category, idcat, inactive, dauer, bild, id_iw) " .
         " VALUES ('" . $geb_name .

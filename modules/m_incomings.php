@@ -42,8 +42,8 @@
 // -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
 if (basename($_SERVER['PHP_SELF']) != "index.php") {
-	echo "Hacking attempt...!!"; 
-	exit; 
+    echo "Hacking attempt...!!";
+    exit;
 }
 
 //****************************************************************************
@@ -53,7 +53,7 @@ if (basename($_SERVER['PHP_SELF']) != "index.php") {
 // -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung für 
 //    eine Installation über das Menü
 //
-$modulname  = "m_incomings";
+$modulname = "m_incomings";
 
 //****************************************************************************
 //
@@ -81,26 +81,27 @@ $moduldesc = "Anzeige der Incomings (Sondierung/Angriff) auf die eigene Allianz"
 // Function workInstallDatabase is creating all database entries needed for
 // installing this module. 
 //
-function workInstallDatabase() {
-	/*
-	global $db, $db_prefix, $db_tb_iwdbtabellen;
+function workInstallDatabase()
+{
+    /*
+    global $db, $db_prefix, $db_tb_iwdbtabellen;
 
-	$sqlscript = array(
-		"CREATE TABLE " . $db_prefix . "neuername
-		(
-		);",
+    $sqlscript = array(
+        "CREATE TABLE " . $db_prefix . "neuername
+        (
+        );",
 
     "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
     " VALUES('neuername')"
-	);
-	foreach($sqlscript as $sql) {
-		$result = $db->db_query($sql)
-			or error(GENERAL_ERROR,
+    );
+    foreach($sqlscript as $sql) {
+        $result = $db->db_query($sql)
+            or error(GENERAL_ERROR,
             'Could not query config information.', '',
             __FILE__, __LINE__, $sql);
-	}
-	*/
-	echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
+    }
+    */
+    echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
 }
 
 //****************************************************************************
@@ -109,19 +110,20 @@ function workInstallDatabase() {
 // installing this module. This function is called by the installation method
 // in the included file includes/menu_fn.php
 //
-function workInstallMenu() {
+function workInstallMenu()
+{
     global $modultitle, $modulstatus;
 
-    $menu    = getVar('menu');
+    $menu = getVar('menu');
     $submenu = getVar('submenu');
 
-	$actionparamters = "";
-  	insertMenuItem( $menu, $submenu, $modultitle, $modulstatus, $actionparamters );
-	  //
-	  // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
-	  //
-	  // 	insertMenuItem( $menu+1, ($submenu+1), "Titel2", "hc", "&weissichnichtwas=1" );
-	  //
+    $actionparamters = "";
+    insertMenuItem($menu, $submenu, $modultitle, $modulstatus, $actionparamters);
+    //
+    // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
+    //
+    // 	insertMenuItem( $menu+1, ($submenu+1), "Titel2", "hc", "&weissichnichtwas=1" );
+    //
 }
 
 //****************************************************************************
@@ -129,34 +131,37 @@ function workInstallMenu() {
 // Function workInstallConfigString will return all the other contents needed 
 // for the configuration file
 //
-function workInstallConfigString() {
-/*  global $config_gameversion;
-  return
-    "\$v04 = \" <div class=\\\"doc_lightred\\\">(V " . $config_gameversion . ")</div>\";";
-*/}
+function workInstallConfigString()
+{
+    /*  global $config_gameversion;
+      return
+        "\$v04 = \" <div class=\\\"doc_lightred\\\">(V " . $config_gameversion . ")</div>\";";
+    */
+}
 
 //****************************************************************************
 //
 // Function workUninstallDatabase is creating all database entries needed for
 // removing this module. 
 //
-function workUninstallDatabase() {
-	/*
-	global $db, $db_tb_iwdbtabellen, $db_tb_neuername;
+function workUninstallDatabase()
+{
+    /*
+    global $db, $db_tb_iwdbtabellen, $db_tb_neuername;
 
-	$sqlscript = array(
-		"DROP TABLE " . $db_tb_neuername . ";",
-		"DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='neuername';"
-	);
+    $sqlscript = array(
+        "DROP TABLE " . $db_tb_neuername . ";",
+        "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='neuername';"
+    );
 
-	foreach($sqlscript as $sql) {
-		$result = $db->db_query($sql)
-			or error(GENERAL_ERROR,
+    foreach($sqlscript as $sql) {
+        $result = $db->db_query($sql)
+            or error(GENERAL_ERROR,
             'Could not query config information.', '',
             __FILE__, __LINE__, $sql);
-	}
-	*/
-	echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
+    }
+    */
+    echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
 }
 
 //****************************************************************************
@@ -171,24 +176,24 @@ function workUninstallDatabase() {
 // Anstatt "Mein.Server" natürlich deinen Server angeben und default 
 // durch den Dateinamen des Moduls ersetzen.
 //
-if( !empty($_REQUEST['was'])) {
-	//  -> Nur der Admin darf Module installieren. (Meistens weiss er was er tut)
-	if ( $user_status != "admin" ) 
-		die('Hacking attempt...');
+if (!empty($_REQUEST['was'])) {
+    //  -> Nur der Admin darf Module installieren. (Meistens weiss er was er tut)
+    if ($user_status != "admin")
+        die('Hacking attempt...');
 
-	echo "<div class='system_notification'>Installationsarbeiten am Modul " . $modulname . 
-	    " ("  . $_REQUEST['was'] . ")</div>\n";
+    echo "<div class='system_notification'>Installationsarbeiten am Modul " . $modulname .
+        " (" . $_REQUEST['was'] . ")</div>\n";
 
-	if (!@include("./includes/menu_fn.php")) 
-		die( "Cannot load menu functions" );
+    if (!@include("./includes/menu_fn.php"))
+        die("Cannot load menu functions");
 
-	// Wenn ein Modul administriert wird, soll der Rest nicht mehr 
-	// ausgeführt werden.
-	return;
+    // Wenn ein Modul administriert wird, soll der Rest nicht mehr
+    // ausgeführt werden.
+    return;
 }
 
-if (!@include("./config/".$modulname.".cfg.php")) { 
-	die( "Error:<br><b>Cannot load ".$modulname." - configuration!</b>");
+if (!@include("./config/" . $modulname . ".cfg.php")) {
+    die("Error:<br><b>Cannot load " . $modulname . " - configuration!</b>");
 }
 
 //****************************************************************************
@@ -206,75 +211,79 @@ echo " 	 <br />\n";
 
 //Löschen der Einträge in der Tabelle incomings, es sollen nur aktuelle Sondierungen und Angriffe eingetragen sein
 //ToDo : evtl Trennung Sondierung und Angriffe, damit die Sondierungen früher entfernt sind
-$sql = "DELETE FROM " . $db_tb_incomings . " WHERE timestamp<" . (time()-20*60);
+$sql = "DELETE FROM " . $db_tb_incomings . " WHERE timestamp<" . (time() - 20 * 60);
 $result = $db->db_query($sql)
-	or error(GENERAL_ERROR, 
-	'Could not query config information.', '', 
-	__FILE__, __LINE__, $sql);
+    or error(GENERAL_ERROR, 'Could not delete incomings information.', '', __FILE__, __LINE__, $sql);
 
 $sql = "SELECT * FROM " . $db_tb_incomings . " WHERE art = 'Sondierung (Schiffe/Def/Ress)' OR art = 'Sondierung (Gebäude/Ress)' ORDER BY timestamp ASC";
 $result = $db->db_query($sql)
-	or error(GENERAL_ERROR, 
-	'Could not query config information.', '', 
-	__FILE__, __LINE__, $sql);
+    or error(GENERAL_ERROR, 'Could not query incomings information.', '', __FILE__, __LINE__, $sql);
 
 $data = array();
 
 //Tabelle für die Sondierungen	
 start_table();
-	start_row("titlebg", "align=\"center\" colspan=\"13\"");
-		echo "<b>Sondierungen</b>";
-		next_row("titlebg", "nowrap style=\"width:0%\" align=\"center\" ");
-		echo "<b>Wer wird sondiert?</b>";
-		next_cell("titlebg", "nowrap style=\"width:0%\" align=\"center\"");
-		echo "<b>Zielplanet</b>";
-		next_cell("titlebg", "nowrap style=\"width:0%\" align=\"center\"");
-		echo "<b>Wer sondiert?</b>";
-		next_cell("titlebg", "nowrap style=\"width:0%\" align=\"center\"");
-		echo "<b>Von wo wird sondiert?</b>";
-		next_cell("titlebg", "nowrap style=\"width:0%\" align=\"center\"");
-		echo "<b>Zeitpunkt</b>";
-		next_cell("titlebg", "nowrap style=\"width:0%\" align=\"center\"");
-		echo "<b>Art der Sondierung</b>";
-	
-	while ($row = $db->db_fetch_array($result)) {
-		
-		next_row("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
-		echo $row['name_to'];
-		next_cell("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
-		$objekt=GetObjectByCoords($row['koords_to']);
-		if ($objekt=='Kolonie')
-			echo "<img src=\"bilder/kolo.png\">" . $row['koords_to'];
-		else if ($objekt=='Sammelbasis')
-			echo "<img src=\"bilder/ress_basis.png\">" . $row['koords_to'];
-		else if ($objekt=='Artefaktbasis')
-			echo "<img src=\"bilder/artefakt_basis.png\">" . $row['koords_to'];
-		else if ($objekt=='Kampfbasis')
-			echo "<img src=\"bilder/kampf_basis.png\">" . $row['koords_to'];
-		next_cell("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
-		if (!empty($row['allianz_from'])) {
-			echo ($row['name_from'] . " [" . $row['allianz_from'] ."]");
-		}
-		else {
-			echo $row['name_from'];
-		}
-		next_cell("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
-		$objekt=GetObjectByCoords($row['koords_from']);
-		if ($objekt=='Kolonie')
-			echo "<img src=\"bilder/kolo.png\">" . $row['koords_from'];
-		else if ($objekt=='Sammelbasis')
-			echo "<img src=\"bilder/ress_basis.png\">" . $row['koords_from'];
-		else if ($objekt=='Artefaktbasis')
-			echo "<img src=\"bilder/artefakt_basis.png\">" . $row['koords_from'];
-		else if ($objekt=='Kampfbasis')
-			echo "<img src=\"bilder/kampf_basis.png\">" . $row['koords_from'];
-		next_cell("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
-		echo strftime("%d.%m.%y %H:%M:%S", $row['timestamp']);
-		next_cell("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
-		echo $row['art'];
-	
-	}	
-	end_row();
+start_row("titlebg", "align='center' colspan='6'");
+echo "<b>Sondierungen</b>";
+next_row("titlebg", "nowrap style='width:0%' align='center' ");
+echo "<b>Wer wird sondiert?</b>";
+next_cell("titlebg", "nowrap style='width:0%' align='center'");
+echo "<b>Zielplanet</b>";
+next_cell("titlebg", "nowrap style='width:0%' align='center'");
+echo "<b>Wer sondiert?</b>";
+next_cell("titlebg", "nowrap style='width:0%' align='center'");
+echo "<b>Von wo wird sondiert?</b>";
+next_cell("titlebg", "nowrap style='width:0%' align='center'");
+echo "<b>Zeitpunkt</b>";
+next_cell("titlebg", "nowrap style='width:0%' align='center'");
+echo "<b>Art der Sondierung</b>";
+
+while ($row = $db->db_fetch_array($result)) {
+
+    next_row("windowbg1", "nowrap style='width:0%' align='left'");
+    echo $row['name_to'];
+
+    next_cell("windowbg1", "nowrap style='width:0%' align='left'");
+    $objekt = GetObjectByCoords($row['koords_to']);
+    if ($objekt == 'Kolonie') {
+        echo "<img src='bilder/kolo.png'>";
+    } else if ($objekt == 'Sammelbasis') {
+        echo "<img src='bilder/ress_basis.png'>";
+    } else if ($objekt == 'Artefaktbasis') {
+        echo "<img src='bilder/artefakt_basis.png'>";
+    } else if ($objekt == 'Kampfbasis') {
+        echo "<img src='bilder/kampf_basis.png'>";
+    }
+    echo $row['koords_to'];
+
+    next_cell("windowbg1", "nowrap style='width:0%' align='center'");
+    if (!empty($row['allianz_from'])) {
+        echo ($row['name_from'] . " [" . $row['allianz_from'] . "]");
+    } else {
+        echo $row['name_from'];
+    }
+
+    next_cell("windowbg1", "nowrap style='width:0%' align='center'");
+    $objekt = GetObjectByCoords($row['koords_from']);
+    if ($objekt == 'Kolonie') {
+        echo "<img src='bilder/kolo.png'>";
+    } else if ($objekt == 'Sammelbasis') {
+        echo "<img src='bilder/ress_basis.png'>";
+    } else if ($objekt == 'Artefaktbasis') {
+        echo "<img src='bilder/artefakt_basis.png'>";
+    } else if ($objekt == 'Kampfbasis') {
+        echo "<img src='bilder/kampf_basis.png'>";
+    }
+    echo $row['koords_from'];
+
+    next_cell("windowbg1", "nowrap style='width:0%' align='center'");
+    echo strftime("%d.%m.%y %H:%M:%S", $row['timestamp']);
+
+    next_cell("windowbg1", "nowrap style='width:0%' align='center'");
+    echo $row['art'];
+
+}
+end_row();
 end_table();
 
 echo " 	 <br />\n";
@@ -282,62 +291,67 @@ echo " 	 <br />\n";
 
 $sql = "SELECT * FROM " . $db_tb_incomings . " WHERE art = 'Angriff' ORDER BY timestamp DESC";
 $result = $db->db_query($sql)
-	or error(GENERAL_ERROR, 
-	'Could not query config information.', '', 
-	__FILE__, __LINE__, $sql);
+    or error(GENERAL_ERROR, 'Could not query incomings information.', '', __FILE__, __LINE__, $sql);
 
 $data = array();
 
 //Tabelle für die Angriffe	
 start_table();
-	start_row("titlebg", "align=\"center\" colspan=\"13\"");
-		echo "<b>Angriffe</b>";
-		next_row("titlebg", "nowrap style=\"width:0%\" align=\"center\" ");
-		echo "<b>Wer wird angegriffen?</b>";
-		next_cell("titlebg", "nowrap style=\"width:0%\" align=\"center\"");
-		echo "<b>Zielplanet</b>";
-		next_cell("titlebg", "nowrap style=\"width:0%\" align=\"center\"");
-		echo "<b>Wer greift an?</b>";
-		next_cell("titlebg", "nowrap style=\"width:0%\" align=\"center\"");
-		echo "<b>Von wo wird angegriffen?</b>";
-		next_cell("titlebg", "nowrap style=\"width:0%\" align=\"center\"");
-		echo "<b>Zeitpunkt</b>";
-	
-	while ($row = $db->db_fetch_array($result)) {
-		
-		next_row("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
-		echo $row['name_to'];
-		next_cell("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
-		$objekt=GetObjectByCoords($row['koords_to']);
-		if ($objekt=='Kolonie')
-			echo "<img src=\"bilder/kolo.png\">" . $row['koords_to'];
-		else if ($objekt=='Sammelbasis')
-			echo "<img src=\"bilder/ress_basis.png\">" . $row['koords_to'];
-		else if ($objekt=='Artefaktbasis')
-			echo "<img src=\"bilder/artefakt_basis.png\">" . $row['koords_to'];
-		else if ($objekt=='Kampfbasis')
-			echo "<img src=\"bilder/kampf_basis.png\">" . $row['koords_to'];
-		next_cell("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
-		if (!empty($row['allianz_from'])) {
-			echo ($row['name_from'] . " [" . $row['allianz_from'] ."]");
-		}
-		else {
-			echo $row['name_from'];
-		}
-		next_cell("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
-		$objekt=GetObjectByCoords($row['koords_from']);
-		if ($objekt=='Kolonie')
-			echo "<img src=\"bilder/kolo.png\">" . $row['koords_from'];
-		else if ($objekt=='Sammelbasis')
-			echo "<img src=\"bilder/ress_basis.png\">" . $row['koords_from'];
-		else if ($objekt=='Artefaktbasis')
-			echo "<img src=\"bilder/artefakt_basis.png\">" . $row['koords_from'];
-		else if ($objekt=='Kampfbasis')
-			echo "<img src=\"bilder/kampf_basis.png\">" . $row['koords_from'];
-		next_cell("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
-		echo strftime("%d.%m.%y %H:%M:%S", $row['timestamp']);
-	}		
-	end_row();
+start_row("titlebg", "align='center' colspan='5'");
+echo "<b>Angriffe</b>";
+next_row("titlebg", "nowrap style='width:0%' align='center'");
+echo "<b>Wer wird angegriffen?</b>";
+next_cell("titlebg", "nowrap style='width:0%' align='center'");
+echo "<b>Zielplanet</b>";
+next_cell("titlebg", "nowrap style='width:0%' align='center'");
+echo "<b>Wer greift an?</b>";
+next_cell("titlebg", "nowrap style='width:0%' align='center'");
+echo "<b>Von wo wird angegriffen?</b>";
+next_cell("titlebg", "nowrap style='width:0%' align='center'");
+echo "<b>Zeitpunkt</b>";
+
+while ($row = $db->db_fetch_array($result)) {
+
+    next_row("windowbg1", "nowrap style='width:0%' align='center'");
+    echo $row['name_to'];
+
+    next_cell("windowbg1", "nowrap style='width:0%' align='center'");
+    $objekt = GetObjectByCoords($row['koords_to']);
+    if ($objekt == 'Kolonie') {
+        echo "<img src='bilder/kolo.png'>";
+    } else if ($objekt == 'Sammelbasis') {
+        echo "<img src='bilder/ress_basis.png'>";
+    } else if ($objekt == 'Artefaktbasis') {
+        echo "<img src='bilder/artefakt_basis.png'>";
+    } else if ($objekt == 'Kampfbasis') {
+        echo "<img src='bilder/kampf_basis.png'>";
+    }
+    echo $row['koords_to'];
+
+    next_cell("windowbg1", "nowrap style='width:0%' align='center'");
+    if (!empty($row['allianz_from'])) {
+        echo ($row['name_from'] . " [" . $row['allianz_from'] . "]");
+    } else {
+        echo $row['name_from'];
+    }
+
+    next_cell("windowbg1", "nowrap style='width:0%' align='center'");
+    $objekt = GetObjectByCoords($row['koords_from']);
+    if ($objekt == 'Kolonie') {
+        echo "<img src='bilder/kolo.png'>";
+    } else if ($objekt == 'Sammelbasis') {
+        echo "<img src='bilder/ress_basis.png'>";
+    } else if ($objekt == 'Artefaktbasis') {
+        echo "<img src='bilder/artefakt_basis.png'>";
+    } else if ($objekt == 'Kampfbasis') {
+        echo "<img src='bilder/kampf_basis.png'>";
+    }
+    echo $row['koords_from'];
+
+    next_cell("windowbg1", "nowrap style='width:0%' align='center'");
+    echo strftime("%d.%m.%y %H:%M:%S", $row['timestamp']);
+}
+end_row();
 end_table();
 
 echo " 	 <br />\n";
@@ -345,15 +359,13 @@ echo " 	 <br />\n";
 
 //Legende, weil es immer noch IW-Spieler gibt, die nichts mit den Symbolen anfangen können 
 start_table();
-	start_row("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
-		echo "<img src=\"bilder/kolo.png\"> = Kolonie";
-		next_cell("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
-		echo "<img src=\"bilder/ress_basis.png\"> = Ressourcensammelbasis";
-		next_cell("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
-		echo "<img src=\"bilder/artefakt_basis.png\"> = Artefaktsammelbasis";
-		next_cell("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
-		echo "<img src=\"bilder/kampf_basis.png\"> = Kampfbasis";
-	end_row();
+start_row("windowbg1", "nowrap style='width:0%' align='center'");
+echo "<img src='bilder/kolo.png'> = Kolonie";
+next_cell("windowbg1", "nowrap style='width:0%' align='center'");
+echo "<img src='bilder/ress_basis.png'> = Ressourcensammelbasis";
+next_cell("windowbg1", "nowrap style='width:0%' align='center'");
+echo "<img src='bilder/artefakt_basis.png'> = Artefaktsammelbasis";
+next_cell("windowbg1", "nowrap style='width:0%' align='center'");
+echo "<img src='bilder/kampf_basis.png'> = Kampfbasis";
+end_row();
 end_table();
-
-?>

@@ -109,7 +109,7 @@ $sql = "SELECT COUNT(*) AS 'anzahl'
 FROM `{$db_tb_lieferung}` AS lieferung, `{$db_tb_user}` AS user
 WHERE (`lieferung`.`art` = 'Sondierung (Schiffe/Def/Ress)' OR `lieferung`.`art` = 'Sondierung (Gebäude/Ress)')
 AND `lieferung`.`user_to` = `user`.`id`
-AND `lieferung`.`time` > ({$config_date} - 5 * MINUTE);";
+AND `lieferung`.`time` > ".($config_date - 5 * MINUTE);
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row = $db->db_fetch_array($result);
@@ -122,7 +122,7 @@ if ($anzahl > 0) {
 }
 
 if (isset($db_tb_incomings)) {
-    $sql = "SELECT COUNT(*) AS 'anzahl' FROM $db_tb_incomings WHERE (art='Sondierung (Schiffe/Def/Ress)' OR art='Sondierung (Gebäude/Ress)') AND timestamp >" . ($config_date - 5 * Minute);
+    $sql = "SELECT COUNT(*) AS 'anzahl' FROM $db_tb_incomings WHERE (art='Sondierung (Schiffe/Def/Ress)' OR art='Sondierung (Gebäude/Ress)') AND timestamp >" . ($config_date - 5 * MINUTE);
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     $row = $db->db_fetch_array($result);

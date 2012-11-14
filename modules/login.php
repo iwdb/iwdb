@@ -44,7 +44,7 @@ if(( isset($login_id) ) && ($login_ok === FALSE) && ($action != "memberlogout2" 
 	if( $wronglogins >= $config_wronglogins ) { 
     doc_message("Du hast dich " . $wronglogins . " mal falsch eingeloggt! " .
                 "Einloggen für die nächsten " .
-                round($config_wronglogin_timeout / $HOURS) . 
+                round($config_wronglogin_timeout / HOUR) .
                 " Stunden gesperrt.<br>". 
                 "Daten wurden an den Admin übermittelt.");
   }

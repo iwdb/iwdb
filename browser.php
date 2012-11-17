@@ -225,6 +225,8 @@ var redirectURL = "<?php
 		echo 'http://sandkasten.icewars.de/game/index.php?action=mil&typ=schiff_uebersicht';
 	else if ($redirect == 'gebaeude_uebersicht')
 		echo 'http://sandkasten.icewars.de/game/index.php?action=wirtschaft&typ=geb';
+	else if ($redirect == 'forschung_uebersicht')
+		echo 'http://sandkasten.icewars.de/game/index.php?action=forschung&forschung_allshow=1';
 	
 ?>";
 function setRedirection(url)
@@ -364,7 +366,8 @@ setTimeout("update()", 60000);
 				 		<option value="">(Startseite)</option>
 				 		<option value="planiress"<?php echo $redirect == 'planiress' ? ' selected' : '' ?>>Kolo-/Ressübersicht</option>
 				 		<option value="schiff_uebersicht"<?php echo $redirect == 'schiff_uebersicht' ? ' selected' : '' ?>>Schiffübersicht</option>
-						<option value="gebaeude_uebersicht"<?php echo $redirect == 'gebaeude_uebersicht' ? ' selected' : '' ?>>Geb&auml;udeübersicht</option>
+						<option value="gebaeude_uebersicht"<?php echo $redirect == 'gebaeude_uebersicht' ? ' selected' : '' ?>>Gebäudeübersicht</option>
+						<option value="forschung_uebersicht"<?php echo $redirect == 'forschung_uebersicht' ? ' selected' : '' ?>>Forschungsübersicht</option>
 					</select>
 				</td>
 			<tr>

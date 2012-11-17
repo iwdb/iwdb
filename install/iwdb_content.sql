@@ -317,6 +317,7 @@ INSERT INTO `prefix_iwdbtabellen` (`name`) VALUES
 ('building2building'),
 ('building2research'),
 ('def'),
+('fremdsondierung'),
 ('gebaeude'),
 ('gebaeude_spieler'),
 ('group'),

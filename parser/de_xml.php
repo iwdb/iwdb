@@ -828,7 +828,7 @@ function parse_kbxml($xmldata)
             $result = $db->db_query($sql)
                 or error(GENERAL_ERROR,'Could not query config information.', '',__FILE__, __LINE__, $sql);
 
-            echo "neuer KB: <a href='".$link."' target='_new'>" . $link=substr($link, 42, 60) . "</a>\n";
+            //echo "neuer KB: <a href='".$link."' target='_new'>" . $link=substr($link, 42, 60) . "</a>\n";
         }
         //! ########### HACK fuer raidmodul/raidview  Ende #############################
 

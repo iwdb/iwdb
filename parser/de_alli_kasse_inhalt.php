@@ -40,13 +40,14 @@ error_reporting(E_ALL);
 function parse_de_alli_kasse_inhalt ( $return )
 {
 
-  global $db, $db_tb_scans, $db_tb_kasse_content, $config_date, $user_sitterlogin;
+  global $db, $db_tb_scans, $db_tb_kasse_content, $config_date, $db_tb_user, $user_id, $user_sitterlogin;
 
   $seluser = getVar('seluser') ?  getVar('seluser') : $user_sitterlogin;
 
   $allianz = "";
   // ally vom user herausfinden
-  $sql = "SELECT DISTINCT allianz FROM $db_tb_scans WHERE user like '" . $seluser . "'";
+  //$sql = "SELECT DISTINCT allianz FROM $db_tb_scans WHERE user like '" . $seluser . "'";
+    $sql = "SELECT allianz FROM " . $db_tb_user . " WHERE id = '" . $user_id . "'";
   $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
   while($row = $db->db_fetch_array($result)) 
@@ -64,7 +65,7 @@ function parse_de_alli_kasse_inhalt ( $return )
   $content=$return->objResultData->fCredits;
     
   $sql = "REPLACE INTO $db_tb_kasse_content (amount, time_of_insert, allianz) 
-          VALUES ($content, CURRENT_DATE(), '$allianz')";
+          VALUES ($content, NOW(), '$allianz')";
   $db->db_query($sql)
   or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);   
   

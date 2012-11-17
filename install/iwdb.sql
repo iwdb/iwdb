@@ -253,6 +253,25 @@ CREATE TABLE IF NOT EXISTS `prefix_gebaeude_spieler` (
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `prefix_fremdsondierung`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_fremdsondierung` (
+   `koords_to` varchar(11) NOT NULL,
+   `name_to` varchar(50) NOT NULL,
+   `allianz_to` varchar(50) NOT NULL,
+   `koords_from` varchar(11) NOT NULL,
+   `name_from` varchar(50) NOT NULL,
+   `allianz_from` varchar(50) NOT NULL,
+   `sondierung_art` ENUM( 'schiffe', 'gebaeude' ) NOT NULL COMMENT 'Schiffe oder Gebäude',
+   `timestamp` int(10) unsigned NOT NULL COMMENT 'Zeitstempel Sondierung',
+   `erfolgreich` int(1) DEFAULT '0' COMMENT '0=fail,1=success',
+PRIMARY KEY (`timestamp`,`koords_to`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Tabelle eingegangener Sondierungen';
+
+-- --------------------------------------------------------
+
+--
 -- Tabellenstruktur für Tabelle `prefix_group`
 --
 
@@ -315,6 +334,24 @@ CREATE TABLE IF NOT EXISTS `prefix_highscore` (
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `prefix_incomings`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_incomings` (
+  `koords_to` varchar(11) NOT NULL,
+  `name_to` varchar(50) NOT NULL,
+  `allianz_to` varchar(50) NOT NULL,
+  `koords_from` varchar(11) NOT NULL,
+  `name_from` varchar(50) NOT NULL,
+  `allianz_from` varchar(50) NOT NULL,
+  `art` varchar(100) NOT NULL COMMENT 'Angriff oder Sondierung',
+  `timestamp` int(10) unsigned NOT NULL COMMENT 'Zeitstempel Sondierung',
+  PRIMARY KEY (`timestamp`,`koords_to`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Tabelle für Incomings';
+
+-- --------------------------------------------------------
+
+--
 -- Tabellenstruktur für Tabelle `prefix_iwdbtabellen`
 --
 
@@ -332,7 +369,7 @@ CREATE TABLE IF NOT EXISTS `prefix_iwdbtabellen` (
 CREATE TABLE IF NOT EXISTS `prefix_kasse_content` (
   `amount` decimal(22,2) NOT NULL DEFAULT '0.00',
   `allianz` varchar(50) NOT NULL DEFAULT '',
-  `time_of_insert` date NOT NULL DEFAULT '0000-00-00',
+  `time_of_insert` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   UNIQUE KEY `allianz` (`allianz`,`time_of_insert`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -345,7 +382,7 @@ CREATE TABLE IF NOT EXISTS `prefix_kasse_content` (
 CREATE TABLE IF NOT EXISTS `prefix_kasse_incoming` (
   `user` varchar(30) NOT NULL DEFAULT '',
   `amount` decimal(22,2) NOT NULL DEFAULT '0.00',
-  `time_of_insert` date NOT NULL DEFAULT '0000-00-00',
+  `time_of_insert` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `allianz` varchar(50) NOT NULL DEFAULT '',
   UNIQUE KEY `user` (`user`,`time_of_insert`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

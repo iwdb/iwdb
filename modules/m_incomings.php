@@ -59,7 +59,7 @@ $modulname = "m_incomings";
 //
 // -> Menütitel des Moduls der in der Navigation dargestellt werden soll.
 //
-$modultitle = "Incomings #incomings";
+$modultitle = "Incomings";
 
 //****************************************************************************
 //
@@ -118,7 +118,8 @@ function workInstallMenu()
     $submenu = getVar('submenu');
 
     $actionparamters = "";
-    insertMenuItem($menu, $submenu, $modultitle, $modulstatus, $actionparamters);
+    $menuetitel = "Incomings #incomings";
+    insertMenuItem($menu, $submenu, $menuetitel, $modulstatus, $actionparamters);
     //
     // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
     //

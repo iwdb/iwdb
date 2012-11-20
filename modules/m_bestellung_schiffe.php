@@ -65,9 +65,9 @@ $modulname  = "m_bestellung_schiffe";
 
 //****************************************************************************
 //
-// -> Menuetitel des Moduls der in der Navigation dargestellt werden soll.
+// -> Titel des Moduls
 //
-$modultitle = "Schiffe #schiffe";
+$modultitle = "Schiffsbestellung";
 
 //****************************************************************************
 //
@@ -138,10 +138,14 @@ function workInstallDatabase() {
 // in the included file includes/menu_fn.php
 //
 function workInstallMenu() {
-    global $modultitle, $modulstatus, $_POST;
-		
-		$actionparamters = "";
-  	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparamters );
+    global $modulstatus;
+
+    $menu = getVar('menu');
+    $submenu = getVar('submenu');
+    $menuetitel = "Schiffe #schiffe";    // -> Menütitel in der Navigation, #schiffe wird gegen die Anzahl der Bestellungen ersetzt
+    $actionparamters = "";
+
+  	insertMenuItem( $menu, $submenu, $menuetitel, $modulstatus, $actionparamters );
 	  //
 	  // Weitere Wiederholungen fuer weitere Menue-Einträge, z.B.
 	  //

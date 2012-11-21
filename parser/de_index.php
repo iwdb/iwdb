@@ -42,24 +42,26 @@ if (!defined('IRA')) {
     die('Hacking attempt...');
 }
 
-error_reporting(E_ALL);
-
 function parse_de_index($return)
 {
     global $db, $db_tb_scans, $db_tb_user_research, $selectedusername, $scan_datas;
 
     if ($return->objResultData->bOngoingResearch == false) { // keine laufende Forschung
 
-        $sql = "UPDATE
-			$db_tb_user_research
-		SET
-			rId = '0',
-			date = '',
-			time = " . CURRENT_UNIX_TIME . "
-		WHERE
-			user = '$selectedusername'";
+        $sql = "INSERT INTO `$db_tb_user_research` "
+             . "(`rId`, `date`, `time`, `user`) VALUES "
+             . "(0, '', ".CURRENT_UNIX_TIME.", '".$selectedusername . "') "
+             . " ON DUPLICATE KEY UPDATE "
+             . "`rId` = 0, "
+             . "`date` = '', "
+             . "`time` = " . CURRENT_UNIX_TIME . ";";
+
+        var_dump($sql);
+
         $result = $db->db_query($sql)
             or error(GENERAL_ERROR, 'Could not update researchtime.', '', __FILE__, __LINE__, $sql);
+
+        echo "<div class='system_warning'>Es läuft keine Forschung bei {$selectedusername}!</div>";
     }
 
     foreach ($return->objResultData->aContainer as $aContainer) {

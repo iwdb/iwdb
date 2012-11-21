@@ -30,14 +30,17 @@
 /*****************************************************************************/
 
 
-if (!defined('DEBUG_LEVEL'))
-    define('DEBUG_LEVEL', 2);
+if (!defined('DEBUG_LEVEL')) {
+    define('DEBUG_LEVEL', 0);
+}
 
-if (basename($_SERVER['PHP_SELF']) != "index.php")
+if (basename($_SERVER['PHP_SELF']) != "index.php") {
     die('Hacking attempt...!!');
+}
 
-if (!defined('IRA'))
+if (!defined('IRA')) {
     die('Hacking attempt...');
+}
 
 error_reporting(E_ALL);
 
@@ -45,17 +48,18 @@ function parse_de_index($return)
 {
     global $db, $db_tb_scans, $db_tb_user_research, $selectedusername, $scan_datas;
 
-    if (!$return->objResultData->bOngoingResearch) { //! keine laufende Forschung
+    if ($return->objResultData->bOngoingResearch == false) { // keine laufende Forschung
+
         $sql = "UPDATE
 			$db_tb_user_research
 		SET
 			rId = '0',
 			date = '',
-			time = ".CURRENT_UNIX_TIME."
+			time = " . CURRENT_UNIX_TIME . "
 		WHERE
 			user = '$selectedusername'";
         $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query user information.', '', __FILE__, __LINE__, $sql);
+            or error(GENERAL_ERROR, 'Could not update researchtime.', '', __FILE__, __LINE__, $sql);
     }
 
     foreach ($return->objResultData->aContainer as $aContainer) {
@@ -87,10 +91,16 @@ function parse_de_index($return)
                         continue;
                     } else if ($tf_type == "Kolonisation") { //! keine weiteren Infos vorhanden
                         continue;
-                    } else if ($tf_type == "Übergabe" || $tf_type == "Transport" || $tf_type == "Übergabe (tr Schiffe)" || $tf_type == "Massdriverpaket"
-                        || $tf_type == "Sondierung (Schiffe/Def/Ress)" || $tf_type == "Angriff"
-                        || $tf_type == "Sondierung (Gebäude/Ress)" || $tf_type == "Sondierung (Schiff) (Scout)"
-                        || $tf_type == "Sondierung (Gebäude) (Scout)" || $tf_type == "Sondierung (Geologie) (Scout)"
+                    } else if ($tf_type == "Übergabe"
+                        || $tf_type == "Transport"
+                        || $tf_type == "Übergabe (tr Schiffe)"
+                        || $tf_type == "Massdriverpaket"
+                        || $tf_type == "Sondierung (Schiffe/Def/Ress)"
+                        || $tf_type == "Angriff"
+                        || $tf_type == "Sondierung (Gebäude/Ress)"
+                        || $tf_type == "Sondierung (Schiff) (Scout)"
+                        || $tf_type == "Sondierung (Gebäude) (Scout)"
+                        || $tf_type == "Sondierung (Geologie) (Scout)"
                         || $tf_type == "Sondierung (Geologie)"
                     ) {
 
@@ -240,23 +250,23 @@ function save_data($scan_data)
     global $db, $db_tb_lieferung, $db_tb_scans, $db_tb_incomings, $config_allytag;
 
     $fields = array(
-        'time' => $scan_data['time'],
-        'coords_from_gal' => $scan_data['coords_from_gal'],
-        'coords_from_sys' => $scan_data['coords_from_sys'],
+        'time'               => $scan_data['time'],
+        'coords_from_gal'    => $scan_data['coords_from_gal'],
+        'coords_from_sys'    => $scan_data['coords_from_sys'],
         'coords_from_planet' => $scan_data['coords_from_planet'],
-        'coords_to_gal' => $scan_data['coords_to_gal'],
-        'coords_to_sys' => $scan_data['coords_to_sys'],
-        'coords_to_planet' => $scan_data['coords_to_planet'],
-        'user_from' => $scan_data['user_from'],
-        'user_to' => $scan_data['user_to'],
-        'eisen' => isset($scan_data['pos']['Eisen']) ? $scan_data['pos']['Eisen'] : 0,
-        'stahl' => isset($scan_data['pos']['Stahl']) ? $scan_data['pos']['Stahl'] : 0,
-        'vv4a' => isset($scan_data['pos']['VV4A']) ? $scan_data['pos']['VV4A'] : 0,
-        'chem' => isset($scan_data['pos']['chem. Elemente']) ? $scan_data['pos']['chem. Elemente'] : 0,
-        'eis' => isset($scan_data['pos']['Eis']) ? $scan_data['pos']['Eis'] : 0,
-        'wasser' => isset($scan_data['pos']['Wasser']) ? $scan_data['pos']['Wasser'] : 0,
-        'energie' => isset($scan_data['pos']['Energie']) ? $scan_data['pos']['Energie'] : 0,
-        'art' => $scan_data['art'],
+        'coords_to_gal'      => $scan_data['coords_to_gal'],
+        'coords_to_sys'      => $scan_data['coords_to_sys'],
+        'coords_to_planet'   => $scan_data['coords_to_planet'],
+        'user_from'          => $scan_data['user_from'],
+        'user_to'            => $scan_data['user_to'],
+        'eisen'              => isset($scan_data['pos']['Eisen']) ? $scan_data['pos']['Eisen'] : 0,
+        'stahl'              => isset($scan_data['pos']['Stahl']) ? $scan_data['pos']['Stahl'] : 0,
+        'vv4a'               => isset($scan_data['pos']['VV4A']) ? $scan_data['pos']['VV4A'] : 0,
+        'chem'               => isset($scan_data['pos']['chem. Elemente']) ? $scan_data['pos']['chem. Elemente'] : 0,
+        'eis'                => isset($scan_data['pos']['Eis']) ? $scan_data['pos']['Eis'] : 0,
+        'wasser'             => isset($scan_data['pos']['Wasser']) ? $scan_data['pos']['Wasser'] : 0,
+        'energie'            => isset($scan_data['pos']['Energie']) ? $scan_data['pos']['Energie'] : 0,
+        'art'                => $scan_data['art'],
     );
     if (isset($scan_data['schiffe'])) {
         foreach ($scan_data['schiffe'] as $name => $anzahl) {
@@ -318,7 +328,7 @@ function save_data($scan_data)
             or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     }
 
-    if (!empty($db_tb_incomings)) {                    //incoming-Modul vorhanden
+    if (!empty($db_tb_incomings)) { //incoming-Modul vorhanden
 
         if (($scan_data['art'] == "Angriff") || (($scan_data['art'] == "Sondierung (Schiffe/Def/Ress)") || ($scan_data['art'] == "Sondierung (Gebäude/Ress)"))) {
             $allianz_to = GetAllianceByUser($scan_data['user_to']);

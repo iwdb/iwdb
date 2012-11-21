@@ -216,6 +216,8 @@ if (!@include("./config/".$modulname.".cfg.php")) {
     <td class='windowbg1'><input type='text' size='17' id='seepferdchen_vorhanden' value='0' pattern="\d*" style='width: 100px; text-align:right'></td>
 </tr>
 </table>
+<br>
+<input type="reset">
 </form>
 <br>
 <table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 100%;'>

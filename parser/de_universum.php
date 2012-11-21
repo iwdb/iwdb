@@ -1,0 +1,43 @@
+<?php
+
+include_once("de_xml.php"); //unixml-parser input_unixml ist dort
+
+/**
+ * function parse_de_universum
+ *
+ * verarbeitet Systemxml-Strings zu SimpleXMLElement Objekten und gibt sie an den unixml-parser weiter
+ *
+ * @param $xmldata object Daten von der parserlib
+ *
+ * @return bool Verarbeitung erfolgreich
+ */
+
+function parse_de_universum($xmldata)
+{
+    if ($xmldata->objResultData instanceof DTOParserUniversumXmlTextC) {
+        //we have an array of xml-strings
+
+        foreach ($xmldata->objResultData->aXmlText as $XmlText) {
+
+            $xmlobject = simplexml_load_string($XmlText);
+
+            if (!empty($xmlobject)) {
+                input_unixml($xmlobject);
+            } else {
+                echo "<div class='system_error'>XML-Fehler</div>\n";
+
+                return false;
+            }
+
+        }
+
+    } elseif ($xmldata->objResultData instanceof DTOParserUniversumResultC) {
+        echo "<div class='system_warning'>Input erfolgreich erkannt. Passende Verarbeitung ist aber bisher nicht vorhanden.</div>";
+
+        return false;
+
+    }
+
+    return true;
+
+}

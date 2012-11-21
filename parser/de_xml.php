@@ -790,7 +790,7 @@ function parse_kbxml($xmldata)
             if (isset($kb['pluenderung'])) {
                 foreach ($kb['pluenderung'] as $value) {
                     $name = strtolower($value["name"]);
-                    if (strpos($name,"chem") !== FALSE) {
+                    if (strpos($name,"chem") !== false) {
                             $chem = $value["anzahl"];
                     } else {
                         ${$name} = $value["anzahl"];
@@ -803,7 +803,7 @@ function parse_kbxml($xmldata)
                         continue; //! Verteidigerverluste überspringen
 
                     $name = "v_" . strtolower($value["name"]);
-                    if (strpos($name,"chem") !== FALSE) {
+                    if (strpos($name,"chem") !== false) {
                             $v_chem = $value["anzahl"];
                     } else {
                         ${$name} = $value["anzahl"];
@@ -897,32 +897,69 @@ function parse_kbxml($xmldata)
     return true;
 }
 
-function parse_unixml($xmldata) {
+/**
+ * function parse_unixml
+ *
+ * Läd die unixml-Datei und gibt Inhalt als SimpleXMLElement Objekt an den unixml-parser weiter.
+ *
+ * @param $xmldata object Daten von der parserlib
+ *
+ * @return bool Verarbeitung erfolgreich
+ */
+
+function parse_unixml($xmldata)
+{
+    $xml = simplexml_load_file_ex($xmldata->strUrl); //Unisichtxml-Datei laden und parsen
+    if (!empty($xml)) {
+        input_unixml($xml);
+    } else {
+        echo "<div class='system_error'>XML-Fehler: {$xmldata->strUrl} konnte nicht geladen werden</div>\n";
+
+        return false;
+    }
+
+    return true;
+}
+
+/**
+ * unixml-parser
+ *
+ * Verarbeitet Uni/Systemxml-Objekte und aktualisiert die DB.
+ *
+ * @param object SimpleXMLElement Uni/Systemxmldaten
+ *
+ * @return bool Verarbeitung erfolgreich
+ *
+ * @author masel
+ */
+function input_unixml($xml)
+{
     global $db_prefix, $db;
 
-    $xml = simplexml_load_file_ex($xmldata->strUrl);                     //Unisichtxml-Datei laden und parsen
-    if(empty($xml)) {
-        echo "<div class='system_error'>XML-Fehler: {$xmldata->strUrl} konnte nicht geladen werden</div>\n";
+    if (empty($xml)) {
+        echo "<div class='system_error'>XML-Fehler</div>\n";
+
         return false;
     }
 
     $aktualisierungszeit = (int)$xml->informationen->aktualisierungszeit;
-    if (empty($aktualisierungszeit)) {           //keine gültige Aktualisierungszeit -> Ende
+    if (empty($aktualisierungszeit)) { //keine gültige Aktualisierungszeit -> Ende
         echo "<div class='system_error'>Aktualisierungszeit nicht gefunden -> XML wird ignoriert</div>\n";
-        return false;    
+
+        return false;
     }
 
     $sql_scan_begin = "INSERT INTO `{$db_prefix}scans` (`coords`, `coords_gal`, `coords_sys`, `coords_planet`, `user`, `userchange_time`, `planetenname`, `typ`, `typchange_time`, `objekt`, `objektchange_time`, `nebel`, `plaid`, `time`) VALUES ";
 
     //bei schon vorhandenem Planten in der DB werden einige Einträge selektiv ersetzt (Hinweis: Die Werte werden in Reihenfolge innerhalb des Queries nacheinander zugewiesen NICHT erst beim ende des kompletten Queries)
-    $sql_scan_end = " ON DUPLICATE KEY UPDATE";                                                                
+    $sql_scan_end = " ON DUPLICATE KEY UPDATE";
     $sql_scan_end .= " `userchange_time` = IF((({$aktualisierungszeit} > `time`) AND STRCMP(VALUES(`user`), `user`)), {$aktualisierungszeit}, `userchange_time`),";
-    $sql_scan_end .= " `user` = IF(({$aktualisierungszeit} > `time`), VALUES(`user`), `user`),";       //Besitzer des Planeten ersetzen wenn aktualisierungszeit älter als in der DB
-    $sql_scan_end .= " `planetenname` = IF(({$aktualisierungszeit} > `time`), VALUES(`planetenname`), `planetenname`),";     //Planetenname ersetzen wenn aktualisierungszeit älter als in der DB
+    $sql_scan_end .= " `user` = IF(({$aktualisierungszeit} > `time`), VALUES(`user`), `user`),"; //Besitzer des Planeten ersetzen wenn aktualisierungszeit älter als in der DB
+    $sql_scan_end .= " `planetenname` = IF(({$aktualisierungszeit} > `time`), VALUES(`planetenname`), `planetenname`),"; //Planetenname ersetzen wenn aktualisierungszeit älter als in der DB
     $sql_scan_end .= " `typchange_time` = IF((({$aktualisierungszeit} > `time`) AND STRCMP(VALUES(`typ`), `typ`)), {$aktualisierungszeit}, `typchange_time`),";
-    $sql_scan_end .= " `typ` = IF({$aktualisierungszeit} > `time`, VALUES(`typ`), `typ`),";                //Planetentyp ersetzen wenn aktualisierungszeit älter als in der DB und vorliegender Änderung
+    $sql_scan_end .= " `typ` = IF({$aktualisierungszeit} > `time`, VALUES(`typ`), `typ`),"; //Planetentyp ersetzen wenn aktualisierungszeit älter als in der DB und vorliegender Änderung
     $sql_scan_end .= " `objektchange_time` = IF((({$aktualisierungszeit} > `time`) AND STRCMP(VALUES(`objekt`), `objekt`)), {$aktualisierungszeit}, `objektchange_time`),";
-    $sql_scan_end .= " `objekt` = IF({$aktualisierungszeit} > `time`, VALUES(`objekt`), `objekt`);";                //Objekttyp ersetzen wenn aktualisierungszeit älter als in der DB und vorliegender Änderung
+    $sql_scan_end .= " `objekt` = IF({$aktualisierungszeit} > `time`, VALUES(`objekt`), `objekt`);"; //Objekttyp ersetzen wenn aktualisierungszeit älter als in der DB und vorliegender Änderung
 
     //$sql_scan_end .= " `nebel` = IF(STRCMP(VALUES(`nebel`), `nebel`), VALUES(`nebel`), `nebel`);";                //Nebel aktualisieren sollten sich nicht ändern deswegen mal auskommentiert
 
@@ -949,31 +986,31 @@ function parse_unixml($xmldata) {
 
     $sql_scan = $sql_scan_begin;
     $sql_spieler = $sql_spieler_begin;
-    
+
     $sys_num = 0;
     $systoinsert = Array();
     $sql_sysscans = $sql_sysscans_begin;
-    
-    foreach($xml->planet as $Plannie) {
-        $planienummer = (int)($Plannie->koordinaten->pla);
-        
-        if ($planienummer > 0) {                            //Planieinfos ab Planienummer 1
 
-            if (($planienummer === 1) AND ((string)$Plannie->objekt_typ === 'Raumstation')) {                      //check auf Raumstation (=Stargate)
-                $id = (int)($Plannie->koordinaten->gal).':'.(int)($Plannie->koordinaten->sol);
+    foreach ($xml->planet as $Plannie) {
+        $planienummer = (int)($Plannie->koordinaten->pla);
+
+        if ($planienummer > 0) { //Planieinfos ab Planienummer 1
+
+            if (($planienummer === 1) AND ((string)$Plannie->objekt_typ === 'Raumstation')) { //check auf Raumstation (=Stargate)
+                $id = (int)($Plannie->koordinaten->gal) . ':' . (int)($Plannie->koordinaten->sol);
                 $systoinsert[$id]['objekt'] = 'Stargate';
-                
-                if (count($systoinsert) >= MAX_INSERTS) {               //eingestellte Maximalanzahl der Datensätze für die DB erreicht
-                                                                        // -> sql String zusammenbauen und in die DB einfügen
+
+                if (count($systoinsert) >= MAX_INSERTS) { //eingestellte Maximalanzahl der Datensätze für die DB erreicht
+                    // -> sql String zusammenbauen und in die DB einfügen
                     foreach ($systoinsert as $id => $sys) {
                         $sql_sysscans .= "('{$id}', {$sys['gal']}, {$sys['sys']}, '{$sys['objekt']}', {$sys['date']}, '{$sys['nebula']}'),";
                     }
-                        
-                    $sql_sysscans = mb_substr($sql_sysscans, 0, -1) . $sql_sysscans_end;            //letztes "," des SQL-Queries entfernen und ON DUPLICATE KEY UPDATE - Teil anhängen
+
+                    $sql_sysscans = mb_substr($sql_sysscans, 0, -1) . $sql_sysscans_end; //letztes "," des SQL-Queries entfernen und ON DUPLICATE KEY UPDATE - Teil anhängen
                     $result = $db->db_query($sql_sysscans)
                         or error(GENERAL_ERROR, 'DB System Insertfehler!', '', __FILE__, __LINE__, $sql_sysscans);
-                    
-                    $sys_num += count($systoinsert);                                 //neue Systeme und sql-query zurücksetzen
+
+                    $sys_num += count($systoinsert); //neue Systeme und sql-query zurücksetzen
                     $systoinsert = Array();
                     $sql_sysscans = $sql_sysscans_begin;
                 }
@@ -981,90 +1018,90 @@ function parse_unixml($xmldata) {
 
             $username = (string)$Plannie->user->name;
 
-            $sql_scan .= "('".(string)$Plannie->koordinaten->string."', ".(int)($Plannie->koordinaten->gal).", ".(int)($Plannie->koordinaten->sol).", ".$planienummer.", '{$username}', {$aktualisierungszeit}, '".(string)$Plannie->name."', '".(string)$Plannie->planet_typ."', {$aktualisierungszeit}, '".(string)$Plannie->objekt_typ."', {$aktualisierungszeit}, '". (isset($Plannie->nebel) ? (string)$Plannie->nebel : '') . "', " . (int)($Plannie->id).", {$aktualisierungszeit}),";
+            $sql_scan .= "('" . (string)$Plannie->koordinaten->string . "', " . (int)($Plannie->koordinaten->gal) . ", " . (int)($Plannie->koordinaten->sol) . ", " . $planienummer . ", '{$username}', {$aktualisierungszeit}, '" . (string)$Plannie->name . "', '" . (string)$Plannie->planet_typ . "', {$aktualisierungszeit}, '" . (string)$Plannie->objekt_typ . "', {$aktualisierungszeit}, '" . (isset($Plannie->nebel) ? (string)$Plannie->nebel : '') . "', " . (int)($Plannie->id) . ", {$aktualisierungszeit}),";
             ++$planet_inserts;
-            
-            if ($planet_inserts >= MAX_INSERTS) {                   //eingestellte Maximalanzahl der Datensätze für die DB erreicht
-                                                                    // -> sql String zusammenbauen und in die DB einfügen
-                $sql_scan = mb_substr($sql_scan, 0, -1) . $sql_scan_end;            //letztes "," des SQL-Queries entfernen und ON DUPLICATE KEY UPDATE - Teil anhängen
+
+            if ($planet_inserts >= MAX_INSERTS) { //eingestellte Maximalanzahl der Datensätze für die DB erreicht
+                // -> sql String zusammenbauen und in die DB einfügen
+                $sql_scan = mb_substr($sql_scan, 0, -1) . $sql_scan_end; //letztes "," des SQL-Queries entfernen und ON DUPLICATE KEY UPDATE - Teil anhängen
                 $result = $db->db_query($sql_scan)
                     or error(GENERAL_ERROR, 'DB Planeten Insertfehler!', '', __FILE__, __LINE__, $sql_scan);
-                
+
                 $planet_num += $planet_inserts;
-                $planet_inserts = 0;                                 //Planetendatensatzzähler und sql-query zurücksetzen
+                $planet_inserts = 0; //Planetendatensatzzähler und sql-query zurücksetzen
                 $sql_scan = $sql_scan_begin;
             }
 
 
             if ($username !== '') {
-                if (!array_key_exists($username, $spieler)) {                       //Spieler noch nicht im Spieler array vorhanden -> hinzufügen
-                
+                if (!array_key_exists($username, $spieler)) { //Spieler noch nicht im Spieler array vorhanden -> hinzufügen
+
                     $spielertoinsert[$username] = (string)$Plannie->user->allianz_tag;
                     $spieler[$username] = (string)$Plannie->user->allianz_tag;
 
-                    if (count($spielertoinsert) >= MAX_INSERTS) {                   //eingestellte Maximalanzahl der Datensätze für die DB erreicht
-                                                                                    // -> sql String zusammenbauen und in die DB einfügen
+                    if (count($spielertoinsert) >= MAX_INSERTS) { //eingestellte Maximalanzahl der Datensätze für die DB erreicht
+                        // -> sql String zusammenbauen und in die DB einfügen
                         foreach ($spielertoinsert as $name => $ally) {
-                            $sql_spieler .= "('".$name."', '".$ally."', {$aktualisierungszeit}, {$aktualisierungszeit}),";
+                            $sql_spieler .= "('" . $name . "', '" . $ally . "', {$aktualisierungszeit}, {$aktualisierungszeit}),";
                         }
-                        
-                        $sql_spieler = mb_substr($sql_spieler, 0, -1) . $sql_spieler_end;            //letztes "," des SQL-Queries entfernen und ON DUPLICATE KEY UPDATE - Teil anhängen
+
+                        $sql_spieler = mb_substr($sql_spieler, 0, -1) . $sql_spieler_end; //letztes "," des SQL-Queries entfernen und ON DUPLICATE KEY UPDATE - Teil anhängen
                         $result = $db->db_query($sql_spieler)
                             or error(GENERAL_ERROR, 'DB Spieler Insertfehler!', '', __FILE__, __LINE__, $sql_spieler);
 
-                        $spielertoinsert = Array();                                 //neue Spieler und sql-query zurücksetzen
+                        $spielertoinsert = Array(); //neue Spieler und sql-query zurücksetzen
                         $sql_spieler = $sql_spieler_begin;
                     }
                 }
             }
-        } elseif ($planienummer === 0) {        //Planienummer 0 = Sonne / schwarzes Loch -> für Systeminfo Tabelle auswerten
-          
-            $id = (int)($Plannie->koordinaten->gal).':'.(int)($Plannie->koordinaten->sol);
+        } elseif ($planienummer === 0) { //Planienummer 0 = Sonne / schwarzes Loch -> für Systeminfo Tabelle auswerten
+
+            $id = (int)($Plannie->koordinaten->gal) . ':' . (int)($Plannie->koordinaten->sol);
             $systoinsert[$id]['gal'] = (int)($Plannie->koordinaten->gal);
             $systoinsert[$id]['sys'] = (int)($Plannie->koordinaten->sol);
             $systoinsert[$id]['objekt'] = (((string)$Plannie->planet_typ === 'Sonne') ? 'sys' : $Plannie->planet_typ);
             $systoinsert[$id]['date'] = $aktualisierungszeit;
             $systoinsert[$id]['nebula'] = (isset($Plannie->nebel) ? (string)$Plannie->nebel : '');
-            
+
         }
     }
 
-    if (!empty($planet_inserts)) {                                       //letzten Planetendaten in die DB laden
-        $sql_scan = mb_substr($sql_scan,0,-1) . $sql_scan_end;            //letztes "," des SQL-Queries entfernen und ON DUPLICATE KEY UPDATE - Teil anhängen
-        $result = $db->db_query($sql_scan) 
+    if (!empty($planet_inserts)) { //letzten Planetendaten in die DB laden
+        $sql_scan = mb_substr($sql_scan, 0, -1) . $sql_scan_end; //letztes "," des SQL-Queries entfernen und ON DUPLICATE KEY UPDATE - Teil anhängen
+        $result = $db->db_query($sql_scan)
             or error(GENERAL_ERROR, 'DB Updatefehler!', '', __FILE__, __LINE__, $sql_scan);
 
         $planet_num += $planet_inserts;
     }
 
-    if (!empty($systoinsert)) {                                           //letzten Systemdaten in die DB laden
+    if (!empty($systoinsert)) { //letzten Systemdaten in die DB laden
         foreach ($systoinsert as $id => $sys) {
             $sql_sysscans .= "('{$id}', {$sys['gal']}, {$sys['sys']}, '{$sys['objekt']}', {$sys['date']}, '{$sys['nebula']}'),";
         }
-                        
-        $sql_sysscans = mb_substr($sql_sysscans, 0, -1) . $sql_sysscans_end;            //letztes "," des SQL-Queries entfernen und ON DUPLICATE KEY UPDATE - Teil anhängen
+
+        $sql_sysscans = mb_substr($sql_sysscans, 0, -1) . $sql_sysscans_end; //letztes "," des SQL-Queries entfernen und ON DUPLICATE KEY UPDATE - Teil anhängen
         $result = $db->db_query($sql_sysscans)
             or error(GENERAL_ERROR, 'DB System Insertfehler!', '', __FILE__, __LINE__, $sql_sysscans);
-                    
+
         $sys_num += count($systoinsert);
-        $systoinsert = Array();
+        unset($systoinsert);
     }
 
-    if (!empty($spielertoinsert)) {                                          //letzte Spielerdaten in die DB laden
+    if (!empty($spielertoinsert)) { //letzte Spielerdaten in die DB laden
         foreach ($spielertoinsert as $name => $ally) {
-            $sql_spieler .= "('".$name."', '".$ally."', {$aktualisierungszeit}, {$aktualisierungszeit}),";
+            $sql_spieler .= "('" . $name . "', '" . $ally . "', {$aktualisierungszeit}, {$aktualisierungszeit}),";
         }
 
-        $sql_spieler = mb_substr($sql_spieler,0,-1) . $sql_spieler_end;
-        $result = $db->db_query($sql_spieler) 
+        $sql_spieler = mb_substr($sql_spieler, 0, -1) . $sql_spieler_end;
+        $result = $db->db_query($sql_spieler)
             or error(GENERAL_ERROR, 'DB Updatefehler!', '', __FILE__, __LINE__, $sql_spieler);
-            
-        $spielertoinsert = Array();    
+
+        unset($spielertoinsert);
     }
 
     //ungültige planSchiff/Deff/Ressscanberichte löschen (bei Änderung Planettyp oder Objekttyp oder username)
     ResetPlaniedata($aktualisierungszeit);
-    
+
     //ungültige Geodaten zu löschen (bei Änderung Planettyp)
     ResetGeodata($aktualisierungszeit);
 
@@ -1073,6 +1110,8 @@ function parse_unixml($xmldata) {
 
     //aktuelle Allianzen in alle Kartendaten übertragen
     SyncAllies($aktualisierungszeit);
- 
-    echo "<div class='system_notification'>",$planet_num, ' Planeten geparsed, ',$sys_num,' Systeme aktualisiert, ',count($spieler),' Spieler aktualisiert</div><br>';
+
+    echo "<div class='system_notification'>", $planet_num, ' Planeten geparsed, ', $sys_num, ($sys_num === 1 ? ' System ' : ' Systeme ') . 'aktualisiert', (count($spieler) > 0 ? ', ' . (count($spieler) . ' Spieler aktualisiert ') : ''), ' </div><br>';
+
+    return true;
 }

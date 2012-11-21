@@ -387,11 +387,38 @@ function getVar($varname, $noentities = false) {
 	return FALSE;
 }
 
+/**
+ * function getScanAgeColor
+ *
+ * Function for getting an html code between green and red, depending on the
+ * given scandate. The date is green when 0 and red when reaching an age of $config_map_timeout
+ *
+ * @param int $scandate unixtime of scan
+ *
+ * @return string color in format #rrggbb
+ */
+function getScanAgeColor($scandate)
+{
+    global $config_map_timeout, $config_color;
+
+    if ($scandate < CURRENT_UNIX_TIME - $config_map_timeout) {
+        return $config_color['scanoutdated'];
+    } elseif ((CURRENT_UNIX_TIME - $scandate) < DAY) {
+        return $config_color['first24h'];
+    }
+
+    $i = round(($scandate - CURRENT_UNIX_TIME + $config_map_timeout) / ($config_map_timeout / 510));
+    $gruen = ($i < 256) ? $i : 255;
+    $rot = ($i < 256) ? 255 : 254 - ($i - 256);
+    return "#" . sprintf("%02X",$rot) . sprintf("%02X",$gruen) . "00";
+}
+
 //******************************************************************************
 //
 // Function for getting an html code between green and red, depending on the
-// given scandate. The date is green when 0 and red when reaching   
+// given scandate. The date is green when 0 and red when reaching
 //
+// old use getScanAgeColor
 function scanAge($scandate) {
   global $config_map_timeout;
   

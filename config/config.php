@@ -34,36 +34,38 @@
 /*                                                                           */
 /*****************************************************************************/
 
-if (!defined('IRA'))
-die('Hacking attempt...');
+if (!defined('IRA')) {
+    die('Hacking attempt...');
+}
 
 // Lade die Allianzdefinitionen. Wenn das nicht klappt, ist was falsch.
-if (!@include("./config/" . $_SERVER["HTTP_HOST"] . "/configally.php")) {
-	if (!@include("./config/configally.php")) { 
-		die( "Error:<br><b>Allianz Konfiguration (configally.php) wurde nicht geladen!</b>");
-	}  
-} 
-  
+if (!@include("./config/configally.php")) {
+    die("Error:<br><b>Allianz Konfiguration (configally.php) wurde nicht geladen!</b>");
+}
+
 // ***************************************************************************
 //  Ab hier sind Angaben die nicht unbedingt geändert werden muessen.
 //
 
 // Farben in der Karte der Allianzen (own - eigene Allianz/Wings, NAP, iNAP, VB, Krieg)
 $config_allianzstatus = array();
-$config_allianzstatus['own']   = "#C4F493";
-$config_allianzstatus['wing']   = "#E6F6A5";
-$config_allianzstatus['NAP']   = "#7C9CF1";
-$config_allianzstatus['iNAP']  = "#8DADF2";
-$config_allianzstatus['VB']    = "#4A71D5";
+$config_allianzstatus['own'] = "#C4F493";
+$config_allianzstatus['wing'] = "#E6F6A5";
+$config_allianzstatus['NAP'] = "#7C9CF1";
+$config_allianzstatus['iNAP'] = "#8DADF2";
+$config_allianzstatus['VB'] = "#4A71D5";
 $config_allianzstatus['Krieg'] = "#E84528";
 $config_allianzstatus['noraid'] = "#DD9911";
 
 // Farben von Stargates, Schwarze Loecher, reservierten Planeten
 $config_color = array();
-$config_color['Stargate']      = "#A0BFCD";
+$config_color['Stargate'] = "#A0BFCD";
 $config_color['SchwarzesLoch'] = "#3F6778";
-$config_color['reserviert']    = "#CCDCE3";
-$config_color['last24']        = "#00AACC";
+$config_color['reserviert'] = "#CCDCE3";
+$config_color['first24h'] = "#00AACC";
+$config_color['last24'] = "#00AACC"; //old
+$config_color['unscanned'] = "#4B4B00";
+$config_color['scanoutdated'] = "#FF0000";
 
 // Tabellennamen - Definition des Einstiegsnamens
 $db_tb_iwdbtabellen = $db_prefix . "iwdbtabellen";
@@ -71,8 +73,8 @@ $db_tb_iwdbtabellen = $db_prefix . "iwdbtabellen";
 // Die restlichen Tabellennamen werden aus der DB gelesen.
 $sql = "SELECT name FROM " . $db_prefix . "iwdbtabellen";
 $result = $db->db_query($sql)
-	or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-           
+    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
 while ($row = $db->db_fetch_array($result)) {
     $tbname = "db_tb_" . $row['name'];
     ${$tbname} = $db_prefix . $row['name'];
@@ -85,8 +87,8 @@ define("DAY", 24 * HOUR);
 
 // old for compatibility
 $MINUTES = 60;
-$HOURS   = 60 * $MINUTES;
-$DAYS    = 24 * $HOURS;
+$HOURS = 60 * $MINUTES;
+$DAYS = 24 * $HOURS;
 
 // Das aktuelle Datum wird pro Skriptaufruf nur einmal geholt, +-x kann
 // entsprechend hier geändert werden

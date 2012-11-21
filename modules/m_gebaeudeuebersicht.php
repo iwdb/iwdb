@@ -336,7 +336,7 @@ foreach ($categories as $category => $value) {
 		echo "</a>";
 	}
 	foreach ($data[$category] as $coords => $planet_buildings) {
-		$color = scanAge($planet_buildings['time']);
+		$color = getScanAgeColor($planet_buildings['time']);
 		next_row("windowbg1", "nowrap style=\"width:0%; background-color: $color\" align=\"left\"");
 		echo $planet_buildings['user'];
 		next_cell("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");

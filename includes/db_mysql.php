@@ -228,4 +228,3 @@ class db {
 		return $result;
 	}
 }
-?>

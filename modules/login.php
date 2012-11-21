@@ -26,10 +26,9 @@
 
 //direktes Aufrufen verhindern
 if (basename($_SERVER['PHP_SELF']) != "index.php") {
-    header('HTTP/1.1 404 not found');
+    header('HTTP/1.1 403 forbidden');
     exit;
 }
-;
 
 //****************************************************************************
 ?>
@@ -61,23 +60,18 @@ if ((isset($login_id)) && ($login_ok === false) && ($action != "memberlogout2"))
     <table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style="margin: 0 auto;">
         <tr>
             <td class='windowbg2'>Username:&nbsp;</td>
-            <td class='windowbg1'><input style='width: 200px' type='text' name='login_id' required='required'>
-            </td>
+            <td class='windowbg1'><input style='width: 200px' type='text' name='login_id' required='required'></td>
         </tr>
         <tr>
             <td class='windowbg2'>Passwort:&nbsp;</td>
-            <td class='windowbg1'><input style='width: 200px' type='password' name='login_password' required='required'>
-            </td>
+            <td class='windowbg1'><input style='width: 200px' type='password' name='login_password' required='required'></td>
         </tr>
         <tr>
             <td class='windowbg2'>Eingeloggt bleiben?</td>
-            <td class='windowbg1' align='center'><input type='checkbox' name='login_cookie' value='1'>
-            </td>
+            <td class='windowbg1' align='center'><input type='checkbox' name='login_cookie' value='1'></td>
         </tr>
         <tr>
-            <td class='titlebg' align='center' colspan='2'><input type='submit' value='lass mich rein' name='B1'
-                                                                  class='submit'>
-            </td>
+            <td class='titlebg' align='center' colspan='2'><input type='submit' value='lass mich rein' name='B1' class='submit'></td>
         </tr>
     </table>
 </form>

@@ -150,7 +150,7 @@ while ( $row = $db->db_fetch_array($result) ) {
 	} elseif ( (CURRENT_UNIX_TIME - $row['date']) < 24*60*60 ) {
 		$sys[$row['sys']] = $config_color['last24'];
 	} else {
-		$sys[$row['sys']] = scanAge($row['date']);
+		$sys[$row['sys']] = getScanAgeColor($row['date']);
 	}
 
 	if (defined( 'NEBULA' ) && NEBULA === TRUE && !empty($row['nebula'])) {

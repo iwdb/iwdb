@@ -212,7 +212,7 @@ echo " 	 <br />\n";
 
 //Löschen der Einträge in der Tabelle incomings, es sollen nur aktuelle Sondierungen und Angriffe eingetragen sein
 //ToDo : evtl Trennung Sondierung und Angriffe, damit die Sondierungen früher entfernt sind
-$sql = "DELETE FROM " . $db_tb_incomings . " WHERE timestamp<" . (time() - 20 * 60);
+$sql = "DELETE FROM " . $db_tb_incomings . " WHERE timestamp<" . (CURRENT_UNIX_TIME - 20 * 60);
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not delete incomings information.', '', __FILE__, __LINE__, $sql);
 

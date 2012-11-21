@@ -42,7 +42,7 @@ if ( $user_rules == "1" )
       $anzauftrag = "";
 
       $sql = "SELECT count(*) AS anzahl FROM " . $db_tb_sitterauftrag .
-             " WHERE date_b2 < " . ( $config_date );
+             " WHERE date_b2 < " . CURRENT_UNIX_TIME;
       $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
       $row = $db->db_fetch_array($result);

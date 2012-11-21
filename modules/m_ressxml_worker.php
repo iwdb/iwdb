@@ -191,7 +191,7 @@ function updateXML($user)
 	$sql = 	"SELECT `xml_link`, `datum` ".
 		" FROM `" . $db_tb_ressuebersicht . "`".
 		" WHERE (`xml_link` IS NOT NULL)".
-		" AND (`xml_valid` > ".time().") ".
+		" AND (`xml_valid` > ".CURRENT_UNIX_TIME.") ".
 		" and (`user` = '$user') ".
 		" LIMIT 1";
 	$result = mysql_query($sql) OR error(GENERAL_ERROR,mysql_error(), '',__FILE__, __LINE__, $sql);
@@ -321,7 +321,7 @@ function updateXML($user)
 					$sql.=	" bev_q = 0 ,\n";
 						
 				$sql.= 	"datum = ".$xml->timestamp." ,\n".
-					"last_xml_try = ".time()." \n".
+					"last_xml_try = ".CURRENT_UNIX_TIME." \n".
 					" WHERE (`user` = '$user');";
 				
 				mysql_query($sql) OR error(GENERAL_ERROR,mysql_error(), '',__FILE__, __LINE__, $sql);
@@ -335,7 +335,7 @@ function updateXML($user)
 			
 			echo "<div class='system_notification'>Autoupdates von $user's Datensatz über XML-Link fehlgeschlagen.<br>XML ist veraltet/Datenbasis ist neuer</div>";
 			$sql = 	" UPDATE " . $db_tb_ressuebersicht .
-				" SET last_xml_try = ".time().
+				" SET last_xml_try = ".CURRENT_UNIX_TIME.
 				" WHERE `user` = '$user'";
 				
 			mysql_query($sql) OR error(GENERAL_ERROR,mysql_error(), '',__FILE__, __LINE__, $sql);
@@ -452,13 +452,13 @@ while ($row = mysql_fetch_assoc($result))
   next_row("windowbg1", "nowrap=\"nowrap\"");
   echo $row['user'];
 
-  $difftime = time()-$row['datum'];
+  $difftime = CURRENT_UNIX_TIME-$row['datum'];
   $color = scanAge(0);
-  if ($difftime < (3*24*3600)) $color = scanAge(time()-(7*24*3600));
-  if ($difftime < (24*3600)) $color = scanAge(time());
+  if ($difftime < (3*24*3600)) $color = scanAge(CURRENT_UNIX_TIME-(7*24*3600));
+  if ($difftime < (24*3600)) $color = scanAge(CURRENT_UNIX_TIME);
   next_cell("windowbg1", "align=\"center\" nowrap=\"nowrap\" style=\"background-color:" . $color . "\"");
-  $timestr = ((int)($difftime/86400)) ? number_format($difftime/86400, 1, ',', '')." Tage " : null; 
-  $difftime = $difftime%86400;
+  $timestr = ((int)($difftime/DAY)) ? number_format($difftime/DAY, 1, ',', '')." Tage " : null;
+  $difftime = $difftime%DAY;
   if ($timestr == null)
  	$timestr = ((int)($difftime/3600)) ? ((int)($difftime/3600))." Stunden" : null;
   $difftime = $difftime%3600;
@@ -467,7 +467,7 @@ while ($row = mysql_fetch_assoc($result))
   echo $timestr;
 
   next_cell("windowbg1", "align=\"center\" nowrap=\"nowrap\"");
-  if($row['xml_valid'] > time())
+  if($row['xml_valid'] > CURRENT_UNIX_TIME)
   {
 	echo "Gültig bis ".strftime("%d.%m.%y %H:%M", $row['xml_valid'])."<br>";
 	$link = "index.php?action=".$modulname."&sid=".$sid."&xmlrun=".$row['user']."&order=" . $order . "&ordered=" . $ordered;
@@ -505,7 +505,7 @@ next_row("windowbg1", "nowrap=\"nowrap\"");
 <input name="xml_link" type="text" size="70" maxlength="255"></p>
 <?
 next_cell("windowbg1", "nowrap=\"nowrap\"");
-echo "<input name=\"xml_valid\" type=\"text\" size=\"15\" maxlength=\"20\" value=\"".date("d.m.Y H:i", time()+14*24*3600)."\">";
+echo "<input name=\"xml_valid\" type=\"text\" size=\"15\" maxlength=\"20\" value=\"".date("d.m.Y H:i", CURRENT_UNIX_TIME+14*24*3600)."\">";
 
 end_row();
 

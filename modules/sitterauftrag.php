@@ -196,7 +196,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 
 	$bauid = ( $typ == "Schiffe" ) ? $schiff: ( ( $typ == "Gebaeude" ) ? $geb: "" );
 
-	if ( ( $date < $config_date - $config_sitterauftrag_timeout ) || ( $date_b1 < $config_date - $config_sitterauftrag_timeout )  || ( $date_b2 < $config_date - $config_sitterauftrag_timeout ) )
+	if ( ( $date < CURRENT_UNIX_TIME - $config_sitterauftrag_timeout ) || ( $date_b1 < CURRENT_UNIX_TIME - $config_sitterauftrag_timeout )  || ( $date_b2 < CURRENT_UNIX_TIME - $config_sitterauftrag_timeout ) )
 		$alert = "<div class='system_error'>Ungültiger Zeitpunkt!</div>";
 	else
 	{
@@ -453,7 +453,7 @@ if($id == $user_sitterlogin ) {
       $planetmod = 1;
     }
     
-		$num = ( $row['date'] < $config_date) ? 2: 1;
+		$num = ( $row['date'] < CURRENT_UNIX_TIME) ? 2: 1;
 		$row['auftrag'] = auftrag($row['typ'], $row['bauschleife'], $row['bauid'], $row['auftrag'], $row['schiffanz'], $planetmod, $row['user'], $bauschleifenmod);
 ?>
  <tr>

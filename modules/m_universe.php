@@ -297,13 +297,13 @@ while ( $row = $db->db_fetch_array($result) ) {
         $color = $blackhole_color;
     } else {
         // Specials are checked, now check the date
-        if ( $row['date'] < $config_date - $config_map_timeout ) {
+        if ( $row['date'] < CURRENT_UNIX_TIME - $config_map_timeout ) {
             // System totally out of time frame.
             $color = $redcolor;
         } else {
             // Color is calculates by the same method as in "karte.php"
             $i = round(
-                    ($row['date'] - $config_date + $config_map_timeout) /
+                    ($row['date'] - CURRENT_UNIX_TIME + $config_map_timeout) /
                     ($config_map_timeout / 510)
                  );
             

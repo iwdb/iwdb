@@ -246,7 +246,7 @@ else
 	// leere Planies mit abgelaufenem Sprengdatum
 		if ( ! empty($withoutscan)) {
 			if( empty( $unscanned_only )) {
-				$where .= " AND (`geoscantime` IS NULL OR (geoscantime+reset_timestamp) < " . $config_date . " ) AND objekt = '---' AND " . $nothing_types;
+				$where .= " AND (`geoscantime` IS NULL OR (geoscantime+reset_timestamp) < " . CURRENT_UNIX_TIME . " ) AND objekt = '---' AND " . $nothing_types;
 			} else {
 				$where .= " AND time = 0 AND objekt = '---' AND " . $nothing_types;
 			}
@@ -498,7 +498,7 @@ else
 			$row1 = $db->db_fetch_array($result1);
 
 			if(!empty($row1)) {
-				$rtime = round((time() - $row1['date']) / (24 * 60 * 60));
+				$rtime = round((CURRENT_UNIX_TIME - $row1['date']) / (24 * 60 * 60));
 
 				if ( $rtime == 0 ) {
 					echo "<br /><b>System zuletzt gescannt: heute</b><br /><br />";
@@ -762,7 +762,7 @@ if ( ( ( $ansicht == "auto") && ( $objekt != "---" ) ) || ( $ansicht == "taktisc
 				if(empty($row['time']) ) {
 					echo "/";
 				} else {
-					$rtime = round((time() - $row['time']) / (24 * 60 * 60));
+					$rtime = round((CURRENT_UNIX_TIME - $row['time']) / (24 * 60 * 60));
 					if ($rtime > $config_geoscan_yellow && $rtime <= $config_geoscan_red) {
 						echo "<div class='doc_yellow'>" . $rtime . " Tage</div>";
 					} else if ($rtime > $config_geoscan_red) {

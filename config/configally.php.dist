@@ -79,7 +79,7 @@ $config_map_system_max = 150;
 $config_map_cols = 20;
 
 // ab welchem Alter des Universumsscans, soll keine Farbabstufung mehr stattfinden (in Sekunden)
-$config_map_timeout = 14 * (24 * 60 * 60);
+$config_map_timeout = 14 * DAY;
 
 // Anzahl der Tage, ab der ein Geoscan als veraltet gilt und erneuert werden müsste
 $config_geoscan_yellow = 14;

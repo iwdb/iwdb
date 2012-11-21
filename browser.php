@@ -5,7 +5,6 @@ date_default_timezone_set('Europe/Berlin');
 
 mb_internal_encoding("UTF-8");                   //just to make sure we are talking the same language
 mb_http_output("UTF-8");
-mb_http_input("UTF-8");
 header('Content-Type: text/html; charset=UTF-8');
 
 include_once('config/configsql.php');
@@ -37,7 +36,7 @@ if (empty($sid) || empty($user_sitterlogin) || !($user_adminsitten == SITTEN_BOT
 // Get sitterprofile
 $serverskin = 1;
 $serverskin_typ = 3;
-$config_sitterlogin_timeout = 4 * 60;
+$config_sitterlogin_timeout = 4 * MINUTE;
 
 $status = array(
 	'use' => 1,
@@ -63,7 +62,7 @@ while ($row = $db->db_fetch_array($result)) {
 	$user['typ'] = $row['budflesol'];
 	$user['lastsitterlogin'] = $row['lastsitterlogin'];
 	$user['lastsitteruser'] = $row['lastsitteruser'];
-	if ($row['lastsitterloggedin'] && $row['lastsitterlogin'] > (time() - 5 * 60)) {
+	if ($row['lastsitterloggedin'] && $row['lastsitterlogin'] > (CURRENT_UNIX_TIME - 5 * MINUTE)) {
 		$user['lastsitterloggedin'] = 1;
 		$user['next_status'] = $status['use'];
 	} else {
@@ -77,7 +76,7 @@ while ($row = $db->db_fetch_array($result)) {
 	$user['dauersitten'] = $row['dauersitten'];
 	$user['dauersittentext'] = $row['dauersittentext'];
 	$user['dauersittenlast'] = $row['dauersittenlast'];
-	if (!empty($user['dauersitten']) && (empty($user['dauersittenlast']) || ($user['dauersittenlast'] + $user['dauersitten'] < time())))
+	if (!empty($user['dauersitten']) && (empty($user['dauersittenlast']) || ($user['dauersittenlast'] + $user['dauersitten'] < CURRENT_UNIX_TIME)))
 		$user['dauersittendue'] = true;
 	else
 		$user['dauersittendue'] = false;
@@ -96,7 +95,7 @@ while ($row = $db->db_fetch_array($result)) {
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	if ($row_sitterorder = $db->db_fetch_array($result_sitterorder)) {
 		//$user['next_date'] = $row_sitterorder['date'];
-		//$user['next_status'] = $user['next_date'] < time() ? 'due' : 'pending';
+		//$user['next_status'] = $user['next_date'] < CURRENT_UNIX_TIME ? 'due' : 'pending';
 		$user['sitterorder']['planet'] = $row_sitterorder['planet'];
 		if ($row_sitterorder['typ'] == 'Gebaeude') {
 			$sql = "SELECT * FROM " . $db_tb_gebaeude . " WHERE id=" . $row_sitterorder['bauid'];
@@ -113,18 +112,18 @@ while ($row = $db->db_fetch_array($result)) {
 			$user['sitterorder']['text'] = 'Sitten';
 	}
 */
-	$sql = "SELECT * FROM " . $db_tb_lieferung . " WHERE user_to='" . $row['id'] . "' AND art IN ('Angriff','Sondierung','Sondierung (Schiffe/Def/Ress)','Sondierung (Gebäude/Ress)') AND time>" . (time() - (15 * 60)) . " ORDER BY time DESC";
+	$sql = "SELECT * FROM " . $db_tb_lieferung . " WHERE user_to='" . $row['id'] . "' AND art IN ('Angriff','Sondierung','Sondierung (Schiffe/Def/Ress)','Sondierung (Gebäude/Ress)') AND time>" . (CURRENT_UNIX_TIME - (15 * MINUTE)) . " ORDER BY time DESC";
 	$result_angriff = $db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	while ($row_angriff = $db->db_fetch_array($result_angriff)) {
-		if ($row_angriff['time'] > (time() - ($row_angriff['art'] == 'Angriff' ? (15 * 60) : (5 * 60)))) {
+		if ($row_angriff['time'] > (CURRENT_UNIX_TIME - ($row_angriff['art'] == 'Angriff' ? (15 * MINUTE) : (5 * MINUTE)))) {
 			$key = $row_angriff['art'] == 'Angriff' ? 'attack' : 'probe';
 			$user[$key][] = array(
 				'coords' => $row_angriff['coords_to_gal'] . ':' . $row_angriff['coords_to_sys'] . ':' . $row_angriff['coords_to_planet'],
 				'time' => $row_angriff['time'],
 				'from' => $row_angriff['user_from'],
 			);
-			if (!isset($user['next_date']) || $user['next_date'] > ($row_angriff['time'] + (15 * 60))) {
+			if (!isset($user['next_date']) || $user['next_date'] > ($row_angriff['time'] + (15 * MINUTE))) {
 				$user['next_date'] = $row_angriff['time'];
 			}
 			if ($user['next_status'] > $status[$key]) {
@@ -179,7 +178,7 @@ if ($done == 'Erledigt') {
 		if ($user['lastsitteruser'] == $user_sitterlogin)
 		{
 			$user['lastsitterloggedin'] = 0;
-			$sql = "UPDATE " . $db_tb_user . " SET lastsitterloggedin=0,dauersittenlast=" . time() . " WHERE id='" . $user['id'] . "'";
+			$sql = "UPDATE " . $db_tb_user . " SET lastsitterloggedin=0,dauersittenlast=" . CURRENT_UNIX_TIME . " WHERE id='" . $user['id'] . "'";
 			$result = $db->db_query($sql)
 				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 		}
@@ -193,7 +192,7 @@ elseif (isset($users[$login])) {
 	foreach ($users as $user)
 		if ($user['lastsitteruser'] == $user_sitterlogin)
 			$user['lastsitterloggedin'] = 0;
-	$login_user['lastsitterlogin'] = time();
+	$login_user['lastsitterlogin'] = CURRENT_UNIX_TIME;
 	$login_user['lastsitteruser'] =  $user_sitterlogin;
 	$login_user['lastsitterloggedin'] = 1;
 	$sql = "UPDATE " . $db_tb_user . " SET lastsitterloggedin=0 WHERE lastsitteruser='" . $user_sitterlogin . "'";
@@ -202,7 +201,7 @@ elseif (isset($users[$login])) {
 	$sql = "UPDATE " . $db_tb_user . " SET lastsitterlogin=" . $login_user['lastsitterlogin'] . ",lastsitteruser='" . $login_user['lastsitteruser'] . "',lastsitterloggedin=1 WHERE id='" . $login_user['id'] . "'";
 	$result = $db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);	
-	$sql = "INSERT INTO " . $db_tb_sitterlog . " (sitterlogin,fromuser,date,action) VALUES ('" . $login_user['id'] . "', '" . $user_sitterlogin . "', '" . $config_date . "', 'login')";
+	$sql = "INSERT INTO " . $db_tb_sitterlog . " (sitterlogin,fromuser,date,action) VALUES ('" . $login_user['id'] . "', '" . $user_sitterlogin . "', '" . CURRENT_UNIX_TIME . "', 'login')";
 	$result = $db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 }
@@ -402,7 +401,7 @@ setTimeout("update()", 60000);
 				echo "<font color=\"#FF00FF\"><b>Rausschmeissen!</b></font><br>";
 			if (!empty($login_user['dauersitten'])) {
 				echo "<span class=\"dursitting\">" . $login_user['dauersittentext'] . "</span>";
-				echo " <span class=\"dursitting_time\">(alle " . ($login_user['dauersitten'] / 60) . " Minuten)</span><br>";
+				echo " <span class=\"dursitting_time\">(alle " . ($login_user['dauersitten'] / MINUTE) . " Minuten)</span><br>";
 			}
 		} else { ?>
 			<br>
@@ -428,7 +427,7 @@ setTimeout("update()", 60000);
 					<span class="time">Uhrzeit</span>
 				</td>
 				<td nowrap>
-					<span class="time"><?php echo strftime($config_sitter_timeformat, time()); ?></span>
+					<span class="time"><?php echo strftime($config_sitter_timeformat, CURRENT_UNIX_TIME); ?></span>
 				</td>
 			</tr>
 		</table>
@@ -440,9 +439,9 @@ setTimeout("update()", 60000);
 				</td>
 <?php		if (isset($user['next_date_text'])) { ?>
 				<td nowrap>
-<?php			if ($user['next_status'] == $status['attack'] && $user['next_date'] <= time()) { ?>
+<?php			if ($user['next_status'] == $status['attack'] && $user['next_date'] <= CURRENT_UNIX_TIME) { ?>
 					<span class="time_critical">
-<?php			} elseif ($user['next_status'] == $status['attack'] && $user['next_date'] > time()) { ?>
+<?php			} elseif ($user['next_status'] == $status['attack'] && $user['next_date'] > CURRENT_UNIX_TIME) { ?>
 					<span class="time_warning">
 <?php			} else { ?>
 					<span class="time_normal">

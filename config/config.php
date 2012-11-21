@@ -80,8 +80,8 @@ while ($row = $db->db_fetch_array($result)) {
 
 // Basisdefinitionen für Zeiträume.
 define("MINUTE", 60);
-define("HOUR", 60*60);
-define("DAY", 24*60*60);
+define("HOUR", 60 * MINUTE);
+define("DAY", 24 * HOUR);
 
 // old for compatibility
 $MINUTES = 60;
@@ -90,6 +90,9 @@ $DAYS    = 24 * $HOURS;
 
 // Das aktuelle Datum wird pro Skriptaufruf nur einmal geholt, +-x kann
 // entsprechend hier geändert werden
+define("CURRENT_UNIX_TIME", time());
+
+// old for compatibility
 $config_date = time();
 
 // Zeit, wie lange die SID aktuell bleibt (in Sekunden)

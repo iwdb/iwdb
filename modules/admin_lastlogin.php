@@ -56,7 +56,7 @@ while($row = $db->db_fetch_array($result)) {
   $lastlogindate = ( empty($logindate)) ? "noch nie"
                                         : strftime($config_timeformat, $logindate);
   $lastloggedon  = ( empty($logindate)) ? "" 
-                                        : floor(($config_date - $logindate) / DAY ) .
+                                        : floor((CURRENT_UNIX_TIME - $logindate) / DAY ) .
                                           " Tage her";                                   
                                                
   start_row("windowbg1");

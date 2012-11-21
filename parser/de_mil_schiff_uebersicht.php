@@ -40,7 +40,7 @@ error_reporting(E_ALL);
 
 function parse_de_mil_schiff_uebersicht ( $return )
 {    
-    global $db, $db_tb_schiffstyp, $db_tb_schiffe, $db_tb_user, $selectedusername, $config_date;
+    global $db, $db_tb_schiffstyp, $db_tb_schiffe, $db_tb_user, $selectedusername;
     
 //    foreach ($return->objResultData->aKolos as $kolo)
 //	{
@@ -56,7 +56,7 @@ function parse_de_mil_schiff_uebersicht ( $return )
                 'Could not query config information.', '', 
                 __FILE__, __LINE__, $sql);
 
-        $sql = "UPDATE " . $db_tb_user . " SET lastshipscan='" . $config_date . 
+        $sql = "UPDATE " . $db_tb_user . " SET lastshipscan='" . CURRENT_UNIX_TIME .
             "' WHERE sitterlogin='" . $selectedusername . "'";
         $result = $db->db_query($sql)
             or error(GENERAL_ERROR, 

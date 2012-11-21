@@ -128,7 +128,7 @@ while($row = $db->db_fetch_array($result))
 		if (isset($row_lastlogin)) {
 			$users_lastlogin[$count] = $row_lastlogin['MAX(date)'];
 			$users_lastlogin_user[$count] = $row_lastlogin['fromuser'];
-			$users_logged_in[$count] = ( ( $row_lastlogin['MAX(date)'] > ($config_date - $config_sitterlogin_timeout) ) && ( $row_lastlogin['fromuser'] != $user_sitterlogin ) ) ? $row_lastlogin['fromuser'] : "";
+			$users_logged_in[$count] = ( ( $row_lastlogin['MAX(date)'] > (CURRENT_UNIX_TIME - $config_sitterlogin_timeout) ) && ( $row_lastlogin['fromuser'] != $user_sitterlogin ) ) ? $row_lastlogin['fromuser'] : "";
 		} else {
 			$users_lastlogin[$count] = 0;
 			$users_lastlogin_user[$count] = '';

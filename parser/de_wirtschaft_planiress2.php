@@ -80,7 +80,8 @@ function parse_de_wirtschaft_planiress2 ( $return )
 }
 
 function insert_data_2($scan_data) {
-	global $db, $db_tb_lager, $config_date;
+	global $db, $db_tb_lager;
+
 	$sql = "UPDATE " . $db_tb_lager;
 	$sql .= " SET fp=" . $scan_data['fp'];
 	$sql .= ",fp_b=" . $scan_data['fp_b'];
@@ -96,7 +97,7 @@ function insert_data_2($scan_data) {
 		$sql .= ",zufr=" . $scan_data['zufr'];
 	if (!empty($scan_data['zufr_w']))
 		$sql .= ",zufr_w=" . $scan_data['zufr_w'];
-	$sql .= ",time=" . $config_date;
+	$sql .= ",time=" . CURRENT_UNIX_TIME;
 	$sql .= " WHERE coords_gal=" . $scan_data['coords_gal'];
 	$sql .= " AND coords_sys=" . $scan_data['coords_sys'];
 	$sql .= " AND coords_planet=" . $scan_data['coords_planet'];
@@ -105,7 +106,7 @@ function insert_data_2($scan_data) {
 }
 
 function insert_data_total_2($scan_data) {
-	global $db, $db_tb_ressuebersicht, $selectedusername, $config_date;
+	global $db, $db_tb_ressuebersicht, $selectedusername;
 
 	if (empty($db_tb_ressuebersicht))
 		return;
@@ -118,7 +119,7 @@ function insert_data_total_2($scan_data) {
 	$sql .= ",bev_a=" . $scan_data['total_bev_a'];
 	$sql .= ",bev_g=" . $scan_data['total_bev_g'];
 	$sql .= ",bev_q=" . $scan_data['total_bev_q'];
-	$sql .= ",datum=" . $config_date;
+	$sql .= ",datum=" . CURRENT_UNIX_TIME;
 	$sql .= " WHERE user='" . $selectedusername . "'";
 	$db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);		

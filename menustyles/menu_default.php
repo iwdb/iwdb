@@ -38,7 +38,7 @@ $anz_incomings = "";
 
 if (($user_adminsitten == SITTEN_BOTH) || ($user_adminsitten == SITTEN_ONLY_LOGINS)) {
     $sql = "SELECT count(*) AS anzahl FROM " . $db_tb_sitterauftrag .
-        " WHERE date_b2 < " . ($config_date);
+        " WHERE date_b2 < " . CURRENT_UNIX_TIME;
     if (!$user_fremdesitten) {
         $sql .= " AND (SELECT allianz FROM " . $db_tb_user . " WHERE " . $db_tb_user . ".id=" . $db_tb_sitterauftrag . ".user) = '" . $user_allianz . "'";
     }
@@ -93,7 +93,7 @@ if (isset($db_tb_bestellung)) {
     $anzauftrag_ress = "";
 }
 
-$sql = "SELECT COUNT(*) AS 'anzahl' FROM $db_tb_lieferung, $db_tb_user WHERE art='Angriff' AND $db_tb_lieferung.user_to=$db_tb_user.id AND $db_tb_lieferung.time>" . ($config_date - 15 * MINUTE);
+$sql = "SELECT COUNT(*) AS 'anzahl' FROM $db_tb_lieferung, $db_tb_user WHERE art='Angriff' AND $db_tb_lieferung.user_to=$db_tb_user.id AND $db_tb_lieferung.time>" . (CURRENT_UNIX_TIME - 15 * MINUTE);
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row = $db->db_fetch_array($result);
@@ -109,7 +109,7 @@ $sql = "SELECT COUNT(*) AS 'anzahl'
 FROM `{$db_tb_lieferung}` AS lieferung, `{$db_tb_user}` AS user
 WHERE (`lieferung`.`art` = 'Sondierung (Schiffe/Def/Ress)' OR `lieferung`.`art` = 'Sondierung (Gebäude/Ress)')
 AND `lieferung`.`user_to` = `user`.`id`
-AND `lieferung`.`time` > ".($config_date - 5 * MINUTE);
+AND `lieferung`.`time` > ".(CURRENT_UNIX_TIME - 5 * MINUTE);
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row = $db->db_fetch_array($result);
@@ -122,7 +122,7 @@ if ($anzahl > 0) {
 }
 
 if (isset($db_tb_incomings)) {
-    $sql = "SELECT COUNT(*) AS 'anzahl' FROM $db_tb_incomings WHERE (art='Sondierung (Schiffe/Def/Ress)' OR art='Sondierung (Gebäude/Ress)') AND timestamp >" . ($config_date - 5 * MINUTE);
+    $sql = "SELECT COUNT(*) AS 'anzahl' FROM $db_tb_incomings WHERE (art='Sondierung (Schiffe/Def/Ress)' OR art='Sondierung (Gebäude/Ress)') AND timestamp >" . (CURRENT_UNIX_TIME - 5 * MINUTE);
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     $row = $db->db_fetch_array($result);
@@ -130,7 +130,7 @@ if (isset($db_tb_incomings)) {
     $db->db_free_result($result);
     $anz_incomings1 = $anzahl;
 
-    $sql = "SELECT COUNT(*) AS 'anzahl' FROM $db_tb_incomings WHERE art='Angriff' AND timestamp >" . ($config_date - 15 * MINUTE);
+    $sql = "SELECT COUNT(*) AS 'anzahl' FROM $db_tb_incomings WHERE art='Angriff' AND timestamp >" . (CURRENT_UNIX_TIME - 15 * MINUTE);
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     $row = $db->db_fetch_array($result);
@@ -153,7 +153,7 @@ $sql = "SELECT time FROM " . $db_tb_lager . " WHERE user='" . $user_id . "' LIMI
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row = $db->db_fetch_array($result);
-if ($row['time'] < ($config_date - 24 * HOUR)) {
+if ($row['time'] < (CURRENT_UNIX_TIME - 24 * HOUR)) {
     ?>
 <br>
 <table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
@@ -171,7 +171,7 @@ $sql = "SELECT MAX(time) AS time FROM " . $db_tb_highscore . " LIMIT 0,1";
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row = $db->db_fetch_array($result);
-if ($row['time'] < ($config_date - 24 * HOUR)) {
+if ($row['time'] < (CURRENT_UNIX_TIME - 24 * HOUR)) {
     ?>
 <br>
 <table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
@@ -189,7 +189,7 @@ $sql = "SELECT lastshipscan FROM " . $db_tb_user . " WHERE id='" . $user_id . "'
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row = $db->db_fetch_array($result);
-if ($row['lastshipscan'] < ($config_date - 48 * HOUR)) {
+if ($row['lastshipscan'] < (CURRENT_UNIX_TIME - 48 * HOUR)) {
     ?>
 <br>
 <table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
@@ -207,7 +207,7 @@ $sql = "SELECT time FROM " . $db_tb_gebaeude_spieler . " WHERE user='" . $user_i
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row = $db->db_fetch_array($result);
-if ($row['time'] < ($config_date - 48 * HOUR)) {
+if ($row['time'] < (CURRENT_UNIX_TIME - 48 * HOUR)) {
     ?>
 <br>
 <table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
@@ -226,7 +226,7 @@ $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row = $db->db_fetch_array($result);
 
-if (($config_date - 24 * HOUR) > $row['time']) {
+if ((CURRENT_UNIX_TIME - 24 * HOUR) > $row['time']) {
     ?>
 <br>
 <table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
@@ -244,7 +244,7 @@ $sql = "SELECT MAX(date) AS time FROM " . $db_tb_punktelog;
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row = $db->db_fetch_array($result);
-if ($row['time'] < ($config_date - 96 * HOUR)) {
+if ($row['time'] < (CURRENT_UNIX_TIME - 96 * HOUR)) {
     ?>
 <br>
 <table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">

@@ -121,7 +121,7 @@ function parse_de_forschung ( $return )
 	foreach ($return->objResultData->aResearchsOpen as $research)
         $akt_fp[$research->strResearchName] = $research->iFP * ($research->iResearchCosts/100.);
 
-    $time = time();
+    $time = CURRENT_UNIX_TIME;
 
 	foreach($akt_fp as $key => $value) {
 		$sql = "UPDATE " . $db_tb_research . " SET " .

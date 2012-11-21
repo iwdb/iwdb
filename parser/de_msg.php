@@ -33,7 +33,7 @@ error_reporting(E_ALL);
 
 function parse_de_msg ( $return )
 {
-    global $db, $db_tb_raid, $config_date, $db_tb_transferliste, $db_tb_user, $db_tb_fremdsondierung;
+    global $db, $db_tb_raid, $db_tb_transferliste, $db_tb_user, $db_tb_fremdsondierung;
     
 	$transp_skipped=0;
 	$transp_failed=0;
@@ -155,7 +155,7 @@ Achja bei dem ganzen Chaos kamen 142 Leute ums Leben.
                 __FILE__, __LINE__, $sql);
             
         // Aktualisierungszeit für Transportberichte setzen
-        $sql = "UPDATE " . $db_tb_user . " SET lasttransport='" . $config_date . 
+        $sql = "UPDATE " . $db_tb_user . " SET lasttransport='" . CURRENT_UNIX_TIME .
             "' WHERE sitterlogin='" . $buddler . "'";
         $result = $db->db_query($sql)
             or error(GENERAL_ERROR, 

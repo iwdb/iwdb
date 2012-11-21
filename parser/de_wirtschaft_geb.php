@@ -63,7 +63,7 @@ function parse_de_wirtschaft_geb ( $return )
 				$sql .= ",'" . $area->strAreaName . "'";
 				$sql .= ",'" . $building->strBuildingName . "'";
 				$sql .= "," . $count;
-				$sql .= "," . time() . "),
+				$sql .= "," . CURRENT_UNIX_TIME . "),
                     ";
             }
                 $sql = preg_replace('@\,\s+\z@',';',$sql);

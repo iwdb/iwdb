@@ -235,7 +235,7 @@ $universum = getVar('universum');
 $flotteversenden = getVar('flotteversenden');
 if (!empty($universum) || !empty($flotteversenden))
 {
-	$name = 'Automatische Zielliste vom ' . date("j.n.Y H:i:s", time());
+	$name = 'Automatische Zielliste vom ' . date("j.n.Y H:i:s", CURRENT_UNIX_TIME);
 	debug_var("sql", $sql =
 		"DELETE FROM " . $db_tb_target .
 		" WHERE user='" . $user_sitterlogin . "' AND name LIKE 'Automatische Zielliste%'");
@@ -382,7 +382,7 @@ if (empty($edit['reserveraiduser']))
 if (empty($edit['reserveraidhours']))
 	$edit['reserveraidhours'] = '24';
 
-$edit['reserveraiduntil'] = strftime("%d.%m.%Y %H:%M", (time() + (60 * 60 * $edit['reserveraidhours'])));
+$edit['reserveraiduntil'] = strftime("%d.%m.%Y %H:%M", (CURRENT_UNIX_TIME + (60 * 60 * $edit['reserveraidhours'])));
 
 // Edit-Daten löschen
 if (isset($params['delete']) && !empty($params['delete'])) {
@@ -404,7 +404,7 @@ if (!empty($button_edit)) {
 	$explode = explode(":", $params['edit']);
 	$sql = "UPDATE " . $db_tb_scans . " SET ";
 	$sql .= "reserveraiduser='" . $edit['reserveraiduser'] . "',";
-	$sql .= "reserveraid=" . (time() + (60 * 60 * $edit['reserveraidhours']));
+	$sql .= "reserveraid=" . (CURRENT_UNIX_TIME + (60 * 60 * $edit['reserveraidhours']));
 	$sql .= " WHERE ";
 	$sql .= "coords_gal=" . $explode[0] . " AND coords_sys=" . $explode[1] . " AND coords_planet=" . $explode[2];
 	debug_var('sql', $sql);
@@ -428,7 +428,7 @@ if (empty($button_edit) && empty($button_add) && !empty($params['edit'])) {
 		if (!empty($row['reserveraiduser'])) {
 			$edit['reserveraiduser'] = $row['reserveraiduser'];
 			$edit['reserveraid'] = $row['reserveraid'];
-			$edit['reserveraidhours'] = round(($row['reserveraid'] - time()) / (60 * 60));
+			$edit['reserveraidhours'] = round(($row['reserveraid'] - CURRENT_UNIX_TIME) / (60 * 60));
 			$edit['reserveraiduntil'] = strftime("%d.%m.%Y %H:%M", $edit['reserveraid']);
 		}
 	}
@@ -791,60 +791,60 @@ if (empty($params['view'])) {
 
 	// Schiffsscan
 	if (!empty($params['scan_schiff_age_min'])) {
-		$time = time() - 60 * 60 * ($params['scan_schiff_age_min'] + 1);
+		$time = CURRENT_UNIX_TIME - 60 * 60 * ($params['scan_schiff_age_min'] + 1);
 		array_push($where, $db_tb_scans . ".schiffscantime<" . $time);
 	}
 	if (!empty($params['scan_schiff_age_max'])) {
-		$time = time() - 60 * 60 * ($params['scan_schiff_age_max'] + 1);
+		$time = CURRENT_UNIX_TIME - 60 * 60 * ($params['scan_schiff_age_max'] + 1);
 		array_push($where, $db_tb_scans . ".schiffscantime>" . $time);
 	}
 
 	// Gebscan
 	if (!empty($params['scan_geb_age_min'])) {
-		$time = time() - 60 * 60 * ($params['scan_geb_age_min'] + 1);
+		$time = CURRENT_UNIX_TIME - 60 * 60 * ($params['scan_geb_age_min'] + 1);
 		array_push($where, $db_tb_scans . ".gebscantime<" . $time);
 	}
 	if (!empty($params['scan_geb_age_max'])) {
-		$time = time() - 60 * 60 * ($params['scan_geb_age_max'] + 1);
+		$time = CURRENT_UNIX_TIME - 60 * 60 * ($params['scan_geb_age_max'] + 1);
 		array_push($where, $db_tb_scans . ".gebscantime>" . $time);
 	}	
 
 	// Fehlgeschlagene Scans
 	if (!empty($params['scan_failure_age_min'])) {
-		$time = time() - 60 * 60 * ($params['scan_failure_age_min'] + 1);
+		$time = CURRENT_UNIX_TIME - 60 * 60 * ($params['scan_failure_age_min'] + 1);
 		array_push($where, $db_tb_scans . ".fehlscantime<" . $time);
 	}
 	if (!empty($params['scan_failure_age_max'])) {
-		$time = time() - 60 * 60 * ($params['scan_failure_age_max'] + 1);
+		$time = CURRENT_UNIX_TIME - 60 * 60 * ($params['scan_failure_age_max'] + 1);
 		array_push($where, $db_tb_scans . ".fehlscantime>" . $time);
 	}
 
 	// Noobstatus
 	// copper will 22 Tage :)
 	if (!empty($params['no_noob'])) {
-		$time = time() - 60 * 60 * 24 * 22;
+		$time = CURRENT_UNIX_TIME - 60 * 60 * 24 * 22;
 		array_push($where, "(" . $db_tb_highscore . ".dabei_seit<" . $time . " OR " . $db_tb_highscore . ".dabei_seit IS NULL)");
 	}	
 	// Inaktiv
 	if (!empty($params['inaktiv'])) {
-		$time = time() - 60 * 60 * 24 * ($params['inaktiv']);
+		$time = CURRENT_UNIX_TIME - 60 * 60 * 24 * ($params['inaktiv']);
 		array_push($where, "(" . $db_tb_highscore . ".gebp_nodiff<" . $time . " AND " . $db_tb_highscore . ".gebp_nodiff IS NOT NULL)");
 	}
 
 	// Angriff
 	if (!empty($params['angriff'])) {
-		array_push($where, $db_tb_scans . ".angriff>" . (time() - 15 * 60));
+		array_push($where, $db_tb_scans . ".angriff>" . (CURRENT_UNIX_TIME - 15 * 60));
 	}
 	if (!empty($params['no_angriff'])) {
-		array_push($where, "(" . $db_tb_scans . ".angriff<" . time() . " OR " . $db_tb_scans . ".angriff IS NULL)");
+		array_push($where, "(" . $db_tb_scans . ".angriff<" . CURRENT_UNIX_TIME . " OR " . $db_tb_scans . ".angriff IS NULL)");
 	}
 	
 	// Sondierung
 	if (!empty($params['sondierung'])) {
-		array_push($where, $db_tb_scans . ".sondierung>" . time());
+		array_push($where, $db_tb_scans . ".sondierung>" . CURRENT_UNIX_TIME);
 	}
 	if (!empty($params['no_sondierung'])) {
-		array_push($where, "(" . $db_tb_scans . ".sondierung<" . time() . " OR " . $db_tb_scans . ".sondierung IS NULL)");
+		array_push($where, "(" . $db_tb_scans . ".sondierung<" . CURRENT_UNIX_TIME . " OR " . $db_tb_scans . ".sondierung IS NULL)");
 	}
 
 	// Ressourcen Min
@@ -854,13 +854,13 @@ if (empty($params['view'])) {
 
 	// Reservierung
 	if (!empty($params['no_reservierung']))
-		array_push($where, "(" . $db_tb_scans . ".reserveraid<" . time() . " OR " . $db_tb_scans . ".reserveraid IS NULL)");
+		array_push($where, "(" . $db_tb_scans . ".reserveraid<" . CURRENT_UNIX_TIME . " OR " . $db_tb_scans . ".reserveraid IS NULL)");
 	if (!empty($params['reservierung_user']) && !empty($params['reservierung_foreign']))
-		array_push($where, "(" . $db_tb_scans . ".reserveraid>" . time() . ")");
+		array_push($where, "(" . $db_tb_scans . ".reserveraid>" . CURRENT_UNIX_TIME . ")");
 	elseif (!empty($params['reservierung_user']))
-		array_push($where, "(" . $db_tb_scans . ".reserveraid>" . time() . " AND " . $db_tb_scans . ".reserveraiduser='" . $user_sitterlogin . "')");
+		array_push($where, "(" . $db_tb_scans . ".reserveraid>" . CURRENT_UNIX_TIME . " AND " . $db_tb_scans . ".reserveraiduser='" . $user_sitterlogin . "')");
 	elseif (!empty($params['reservierung_foreign']))
-		array_push($where, "(" . $db_tb_scans . ".reserveraid>" . time() . " AND " . $db_tb_scans . ".reserveraiduser<>'" . $user_sitterlogin . "')");
+		array_push($where, "(" . $db_tb_scans . ".reserveraid>" . CURRENT_UNIX_TIME . " AND " . $db_tb_scans . ".reserveraiduser<>'" . $user_sitterlogin . "')");
 	
 	// WHERE-Clause aufbauen
 	$first = true;
@@ -913,7 +913,7 @@ if (empty($params['view'])) {
 		else
 			$comment = "";
 		// Reservierter Raid
-		if ($row['reserveraid'] > time()) {
+		if ($row['reserveraid'] > CURRENT_UNIX_TIME) {
 			$comment .= "<div style=\"color: #808080\">Reserviert von " . $row['reserveraiduser'] . " bis " . date("j.n.Y H:i:s", $row['reserveraid']) . "</div>";
 			$text_color = "color: #808080;";
 		} else
@@ -927,7 +927,7 @@ if (empty($params['view'])) {
 			$sql_angriff .= " AND " . $db_tb_lieferung . ".coords_to_sys=" . $row['coords_sys'];
 			$sql_angriff .= " AND " . $db_tb_lieferung . ".coords_to_planet=" . $row['coords_planet'];
 			$sql_angriff .= " AND (" . $db_tb_lieferung . ".art='Angriff' OR " . $db_tb_lieferung . ".art='Sondierung' OR " . $db_tb_lieferung . ".art='Sondierung (Schiffe/Def/Ress)' OR " . $db_tb_lieferung . ".art='Sondierung (Gebäude/Ress)')";
-			$sql_angriff .= " AND " . $db_tb_lieferung . ".time>" . (time() - 60 * 15);
+			$sql_angriff .= " AND " . $db_tb_lieferung . ".time>" . (CURRENT_UNIX_TIME - 60 * 15);
 			$sql_angriff .= " ORDER BY time DESC";
 			$result_angriff = $db->db_query($sql_angriff)
 				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -1547,7 +1547,7 @@ function format_value($row, $name, $value) {
 		else
 			return '<span class="ranking_green">' . $value . '</span>';
 	case 'inaktiv':
-		$diff = time()-$value;		
+		$diff = CURRENT_UNIX_TIME-$value;
 		if ($diff > 60 * 60 * 48)
 			return '<span class="ranking_red">'.makeduration($value).'</span>';
 		elseif ($diff > 60 * 60 * 24)
@@ -1555,7 +1555,7 @@ function format_value($row, $name, $value) {
 		else
 			return '<span class="ranking_green">'.makeduration($value).'</span>';
 	case 'dabei_seit':
-		$diff = time()-$value;
+		$diff = CURRENT_UNIX_TIME-$value;
 		if (($diff > 60 * 60 * 24 * 20) && ($diff <= 60 * 60 * 24 * 21))
 			return '<span class="ranking_yellow">'.makeduration($value).'</span>';
 		elseif ($diff > 60 * 60 * 24 * 21)
@@ -1687,7 +1687,7 @@ function makeurl($newparams, $nomerge = false) {
 function makeduration($time) {
 	if (empty($time))
 		return '---';
-	$duration = time() - $time;
+	$duration = CURRENT_UNIX_TIME - $time;
 	if ($duration > 2 * 24 * 60 * 60)
 		return round($duration / (24 * 60 * 60)) . "d";
 	elseif ($duration > 60 * 60) {

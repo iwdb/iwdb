@@ -43,7 +43,7 @@ error_reporting(E_ALL);
 
 function parse_de_index($return)
 {
-    global $db, $db_tb_scans, $db_tb_user_research, $selectedusername, $scan_datas, $config_date;
+    global $db, $db_tb_scans, $db_tb_user_research, $selectedusername, $scan_datas;
 
     if (!$return->objResultData->bOngoingResearch) { //! keine laufende Forschung
         $sql = "UPDATE
@@ -51,7 +51,7 @@ function parse_de_index($return)
 		SET
 			rId = '0',
 			date = '',
-			time = '$config_date'
+			time = ".CURRENT_UNIX_TIME."
 		WHERE
 			user = '$selectedusername'";
         $result = $db->db_query($sql)
@@ -189,7 +189,7 @@ function parse_de_index($return)
                     $rid = find_research_id($msg->strResearchName);
                     if ($rid != 0) {
                         $sql = "INSERT INTO " . $db_tb_user_research .
-                            " SET user='" . $selectedusername . "', rId='" . $rid . "', date=" . $msg->iResearchEnd . ", time=" . $config_date;
+                            " SET user='" . $selectedusername . "', rId='" . $rid . "', date=" . $msg->iResearchEnd . ", time=" . CURRENT_UNIX_TIME;
                         $result = $db->db_query($sql)
                             or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
                     }
@@ -237,7 +237,7 @@ function find_research_id($researchname)
 
 function save_data($scan_data)
 {
-    global $db, $db_tb_lieferung, $db_tb_scans, $db_tb_incomings, $config_date, $config_allytag;
+    global $db, $db_tb_lieferung, $db_tb_scans, $db_tb_incomings, $config_allytag;
 
     $fields = array(
         'time' => $scan_data['time'],
@@ -325,11 +325,11 @@ function save_data($scan_data)
 
             //Löschen der Einträge älter als 20 min in der Tabelle incomings, es sollen nur aktuelle Sondierungen und Angriffe eingetragen sein
             //ToDo : evtl Trennung Sondierung und Angriffe, damit die Sondierungen früher entfernt sind
-            $sql = "DELETE FROM $db_tb_incomings WHERE timestamp<" . ($config_date - 20 * MINUTE);
+            $sql = "DELETE FROM $db_tb_incomings WHERE timestamp<" . (CURRENT_UNIX_TIME - 20 * MINUTE);
             $result = $db->db_query($sql)
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
-            if (($allianz_to === $config_allytag) AND ($scan_data['time'] > ($config_date - 20 * MINUTE))) { //nur incomings auf die eigene Ally und maximal 20 min in der Vergangenheit?
+            if (($allianz_to === $config_allytag) AND ($scan_data['time'] > (CURRENT_UNIX_TIME - 20 * MINUTE))) { //nur incomings auf die eigene Ally und maximal 20 min in der Vergangenheit?
                 $koords_from = $scan_data['coords_from_gal'] . ":" . $scan_data['coords_from_sys'] . ":" . $scan_data['coords_from_planet'];
                 $koords_to = $scan_data['coords_to_gal'] . ":" . $scan_data['coords_to_sys'] . ":" . $scan_data['coords_to_planet'];
                 $sql = "INSERT INTO $db_tb_incomings (koords_to,name_to,allianz_to,koords_from,name_from,allianz_from,art,timestamp) VALUES ('" . $koords_to . "','" . $scan_data['user_to'] . "','" . $allianz_to . "','" . $koords_from . "','" . $scan_data['user_from'] . "','" . (GetAllianceByUser($scan_data['user_from'])) . "','" . $scan_data['art'] . "','" . $scan_data['time'] . "')";

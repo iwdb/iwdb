@@ -283,7 +283,7 @@ $universum = getVar('universum');
 $flotteversenden = getVar('flotteversenden');
 if (!empty($universum) || !empty($flotteversenden))
 {
-	$name = 'Automatische Zielliste vom ' . date("j.n.Y H:i:s", time());
+	$name = 'Automatische Zielliste vom ' . date("j.n.Y H:i:s", CURRENT_UNIX_TIME);
 	debug_var("sql", $sql =
 		"DELETE FROM " . $db_tb_target .
 		" WHERE user='" . $user_sitterlogin . "' AND name LIKE 'Automatische Zielliste%'");
@@ -461,7 +461,7 @@ foreach ($resses as $ress) {
 		$sql .= " + (" . $db_tb_lager . "." . $ress . "_prod * ";
 		//Advanced Forecast
 		if ($params['advanced_forecast'] && $params['extended_settings']) { 
-			$sql .= "(" . $params['forecast'] . "+ (" . time() . " - " . $db_tb_lager . ".time) / 60 / 60)";
+			$sql .= "(" . $params['forecast'] . "+ (" . CURRENT_UNIX_TIME . " - " . $db_tb_lager . ".time) / 60 / 60)";
 		}
 		else {
 			$sql .= $params['forecast'];
@@ -498,7 +498,7 @@ foreach ($resses as $ress) {
 		$sql .= "-(" . $ress . "_prod * -1 * ";	
 		//Advanced Forecast
 		if ($params['advanced_forecast'] && $params['extended_settings']) { 
-			$sql .= "(" . $params['forecast'] . "+ (" . time() . " - " . $db_tb_lager . ".time) / 60 / 60)";		
+			$sql .= "(" . $params['forecast'] . "+ (" . CURRENT_UNIX_TIME . " - " . $db_tb_lager . ".time) / 60 / 60)";
 		}
 		else {
 			$sql .= $params['forecast'];
@@ -518,7 +518,7 @@ $sql .= "," . $db_tb_user . ".buddlerfrom";
 $sql .= "," . $db_tb_user . ".budflesol";
 //Advanced Forecast
 if ($params['forecast'] && $params['advanced_forecast']) {
-	$sql .= ",((" . time() . " - " . $db_tb_lager . ".time) / 60 / 60) AS advanced_forecast";
+	$sql .= ",((" . CURRENT_UNIX_TIME . " - " . $db_tb_lager . ".time) / 60 / 60) AS advanced_forecast";
 }
 else {
 	$sql .= ",0 AS advanced_forecast";
@@ -575,7 +575,7 @@ if (isset($params['ress']) && $params['rote_lager'] && $params['extended_setting
 		$sql .= "+ (" . $db_tb_lager . "." . $params['ress'] . "_prod * ";
 		//Advanced Forecast
 		if ($params['advanced_forecast'] && $params['extended_settings']) { 
-			$sql .= "(" . $params['forecast'] . "+ (" . time() . " - " . $db_tb_lager . ".time) / 60 / 60)";
+			$sql .= "(" . $params['forecast'] . "+ (" . CURRENT_UNIX_TIME . " - " . $db_tb_lager . ".time) / 60 / 60)";
 		}
 		else {
 			$sql .= $params['forecast'];
@@ -1443,7 +1443,7 @@ function format_value($row, $key, $value, $expand = false) {
 }
 
 function make_duration($time) {
-	$diff = time() - $time;
+	$diff = CURRENT_UNIX_TIME - $time;
 	$days = intval($diff / (60 * 60 * 24));
 	$diff -= $days * 60 * 60 * 24;
 	$hours = intval($diff / (60 * 60));
@@ -1521,7 +1521,7 @@ function parsetime($text) {
 	if (preg_match("/(\d+).(\d+).(\d+) (\d+):(\d+)/", $text, $match) > 0)
 		return mktime($match[4], $match[5], 0, $match[2], $match[1], $match[3]);
 	else
-		return time();
+		return CURRENT_UNIX_TIME;
 }
 
 // ****************************************************************************

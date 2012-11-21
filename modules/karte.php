@@ -142,13 +142,12 @@ $result = $db->db_query($sql)
     or error(GENERAL_ERROR,'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
 $maxsys = 0;
-global $config_date;
 while ( $row = $db->db_fetch_array($result) ) {
     if ( $row['objekt'] === "Stargate" )	{
 		$sys[$row['sys']] = $config_color['Stargate'];
 	} elseif ( $row['objekt'] === "schwarzes Loch" )	{
 		$sys[$row['sys']] = $config_color['SchwarzesLoch'];
-	} elseif ( ($config_date - $row['date']) < 24*60*60 ) {
+	} elseif ( (CURRENT_UNIX_TIME - $row['date']) < 24*60*60 ) {
 		$sys[$row['sys']] = $config_color['last24'];
 	} else {
 		$sys[$row['sys']] = scanAge($row['date']);

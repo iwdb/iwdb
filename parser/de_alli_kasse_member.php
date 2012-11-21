@@ -40,7 +40,7 @@ error_reporting(E_ALL);
 
 function parse_de_alli_kasse_member ( $return )
 {
-	global $db, $db_tb_scans, $config_date, $user_sitterlogin, $db_tb_user , $user_id;
+	global $db, $db_tb_scans, CURRENT_UNIX_TIME, $user_sitterlogin, $db_tb_user , $user_id;
 
     $seluser = getVar('seluser') ?  getVar('seluser') : $user_sitterlogin;
 

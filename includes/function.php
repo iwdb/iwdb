@@ -393,14 +393,14 @@ function getVar($varname, $noentities = false) {
 // given scandate. The date is green when 0 and red when reaching   
 //
 function scanAge($scandate) {
-  global $config_date, $config_map_timeout;
+  global $config_map_timeout;
   
-	if ( $scandate < $config_date - $config_map_timeout )
+	if ( $scandate < CURRENT_UNIX_TIME - $config_map_timeout )
 	{
 		return "#FF0000";
 	}
   
-  $i     = round(( $scandate - $config_date + $config_map_timeout ) / ($config_map_timeout / 510) );
+  $i     = round(( $scandate - CURRENT_UNIX_TIME + $config_map_timeout ) / ($config_map_timeout / 510) );
   $gruen = ($i < 256) ? $i: 255;
   $rot   = ($i < 256) ? 255: 254 - ($i - 256);
   return ("#" . str_pad(dechex($rot), 2, "0", STR_PAD_LEFT) . str_pad(dechex($gruen), 2, "0", STR_PAD_LEFT) . "00");
@@ -673,13 +673,11 @@ function makeduration2($time1, $time2=NULL) {
     //errechnet Zeitraum von Zeitpunkt 1 zu jetzt oder Zeitpunkt 2 ($time2)
     // masel
 
-    Global $config_date;
-
     if (!isset($time1)) {
         return '---';
     }
     if (!isset($time2)) {
-        $time2 = $config_date;
+        $time2 = CURRENT_UNIX_TIME;
     }
 
     if ($time1>$time2) {
@@ -689,12 +687,12 @@ function makeduration2($time1, $time2=NULL) {
         $duration = $time2 - $time1;
         $text = '';
     }
-    $Tage = (int)($duration / 86400);
-    $duration -= $Tage * 86400;
-    $Stunden = (int)($duration / 3600);
-    $duration -= $Stunden * 3600;
-    $Minuten = (int)($duration / 60);
-    //$duration -= $Minuten * 60;
+    $Tage = (int)($duration / DAY);
+    $duration -= $Tage * DAY;
+    $Stunden = (int)($duration / HOUR);
+    $duration -= $Stunden * HOUR;
+    $Minuten = (int)($duration / MINUTE);
+    //$duration -= $Minuten * MINUTE;
     //$Sekunden = $duration;
     if ($Tage === 1) {
         $text .= $Tage . '&nbsp;Tag ';

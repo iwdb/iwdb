@@ -202,7 +202,7 @@ echo "Anzeige der Sondierungen auf uns in den letzten 14 Tagen";
 echo " 	 <br />\n";
 echo " 	 <br />\n";
 
-$sql = "SELECT * FROM " . $db_tb_fremdsondierung . " WHERE timestamp >" . (time()-14*24*60*60) . " ORDER BY timestamp DESC";
+$sql = "SELECT * FROM " . $db_tb_fremdsondierung . " WHERE timestamp >" . (CURRENT_UNIX_TIME-14*24*60*60) . " ORDER BY timestamp DESC";
 $result = $db->db_query($sql)
 	or error(GENERAL_ERROR, 
 	'Could not query config information.', '', 

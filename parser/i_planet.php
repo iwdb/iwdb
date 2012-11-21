@@ -46,16 +46,15 @@ if (!defined('IRA'))
 // Gemeinsame Support-Funktionen für die Parser geoscan, schiffs
 function reset_data()
 {
-	global $config_date;
-  
-	$scan_data = array();
-	$scan_data['plan'] = ''; 
-  $scan_data['stat'] = ''; 
-  $scan_data['def']  = ''; 
-  $scan_data['geb']  = '';
-	$scan_data['time'] = $config_date;
-  
-	return $scan_data;
+
+    $scan_data = array();
+    $scan_data['plan'] = '';
+    $scan_data['stat'] = '';
+    $scan_data['def'] = '';
+    $scan_data['geb'] = '';
+    $scan_data['time'] = CURRENT_UNIX_TIME;
+
+    return $scan_data;
 }
   
 //*****************************************************************************
@@ -63,8 +62,7 @@ function reset_data()
 function updateplanet()
 {
 	global 
-    $db, $db_tb_scans, $db_tb_user, $selectedusername, $config_date, 
-    $config_scan_timeout, $scan_type, $scan_data;
+    $db, $db_tb_scans, $db_tb_user, $selectedusername, $config_scan_timeout, $scan_type, $scan_data;
 	
   $user_sitterlogin = $selectedusername;
 
@@ -96,7 +94,7 @@ function updateplanet()
 	}
   
 	if ($scan_type == 'schiffsscan') {
-		$scan_data['schiffsscantime'] = time();
+		$scan_data['schiffsscantime'] = CURRENT_UNIX_TIME;
 		echo 'schiff';
 	}
 
@@ -121,7 +119,7 @@ function updateplanet()
 		return 0;
 	}
 
-	if( ( $row['time'] < $config_date - $config_scan_timeout ) && 
+	if( ( $row['time'] < CURRENT_UNIX_TIME - $config_scan_timeout ) &&
       ( $scan_type == 'geoscan' )) 
   {
 		$sql = "UPDATE " . $db_tb_user . " SET geopunkte=geopunkte+1 " . 
@@ -143,7 +141,7 @@ function updateplanet()
 	{
 		$sql = "INSERT INTO " . $db_tb_scans_historie . " (`coords`,`time`,`coords_gal`,`coords_sys`,`coords_planet`,`user`,`allianz`,`punkte`) VALUES (" .
 			"'" . $scan_data['coords'] . "'" .
-			"," . $config_date .
+			"," . CURRENT_UNIX_TIME .
 			"," . $scan_data['coords_gal'] .
 			"," . $scan_data['coords_sys'] .
 			"," . $scan_data['coords_planet'] .

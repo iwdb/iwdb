@@ -56,8 +56,6 @@ function parse_de_index($return)
              . "`date` = '', "
              . "`time` = " . CURRENT_UNIX_TIME . ";";
 
-        var_dump($sql);
-
         $result = $db->db_query($sql)
             or error(GENERAL_ERROR, 'Could not update researchtime.', '', __FILE__, __LINE__, $sql);
 

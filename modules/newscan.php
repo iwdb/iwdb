@@ -111,11 +111,12 @@ function plural($singular)
     return ($singular . "s");  
   
   return $singular;
-} 
+}
 
-$selectedusername = getVar('seluser');	
-if( empty($selectedusername)) 
-  $selectedusername = $user_sitterlogin;
+$selectedusername = validAccname(getVar('seluser'));
+if ($selectedusername === false ) {
+    $selectedusername = $user_sitterlogin;
+}
 
 echo "<div class='doc_title'>Neuer Bericht</div>\n";
 echo "<form method='POST' action='index.php?action=newscan&sid=" . $sid. "' enctype='multipart/form-data'>\n";
@@ -130,27 +131,27 @@ $sqlP = "SELECT value FROM ".$db_prefix."params WHERE name = 'bericht_fuer_rang'
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
  $rowP = $db->db_fetch_array($resultP);  
 
-$allow1 = FALSE;
+$allow1 = false;
 
-if ( $rowP['value'] == 'hc' AND ( strtolower($user_status) == 'hc' ) ) $allow1 = TRUE;
-if ( $rowP['value'] == 'mv' AND ( strtolower($user_status) == 'hc' OR strtolower($user_status) == 'mv' ) ) $allow1 = TRUE;
-if ( $rowP['value'] == 'all' AND ( strtolower($user_status) != 'guest' ) ) $allow1 = TRUE;
+if ( $rowP['value'] == 'hc' AND ( strtolower($user_status) == 'hc' ) ) $allow1 = true;
+if ( $rowP['value'] == 'mv' AND ( strtolower($user_status) == 'hc' OR strtolower($user_status) == 'mv' ) ) $allow1 = true;
+if ( $rowP['value'] == 'all' AND ( strtolower($user_status) != 'guest' ) ) $allow1 = true;
 
 $sqlP = "SELECT value FROM ".$db_prefix."params WHERE name = 'bericht_fuer_sitter' ";
   $resultP = $db->db_query($sqlP)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
  $rowP = $db->db_fetch_array($resultP);  
 
-$allow2 = FALSE;
+$allow2 = false;
 
-if ($rowP['value'] == 0 AND ( $user_sitten == 0 OR $user_sitten == 1 ) ) $allow2 = TRUE;
-if ($rowP['value'] == 1 AND ( $user_sitten == 1 ) ) $allow2 = TRUE;
-if ($rowP['value'] == 3 AND ( $user_sitten == 0 OR $user_sitten == 1 ) ) $allow2 = TRUE;
-if ($rowP['value'] == 2 ) $allow2 = TRUE;
+if ($rowP['value'] == 0 AND ( $user_sitten == 0 OR $user_sitten == 1 ) ) $allow2 = true;
+if ($rowP['value'] == 1 AND ( $user_sitten == 1 ) ) $allow2 = true;
+if ($rowP['value'] == 3 AND ( $user_sitten == 0 OR $user_sitten == 1 ) ) $allow2 = true;
+if ($rowP['value'] == 2 ) $allow2 = true;
 
 if( $user_status == "admin" ) {
- $allow1 = TRUE;
- $allow2 = TRUE;
+ $allow1 = true;
+ $allow2 = true;
 }
 
 if( $allow1 AND $allow2 ) { 
@@ -185,7 +186,7 @@ echo " </tr>\n";
 echo "</table>\n";
 echo "</form>\n";
 
-$textinput = getVar('text',true);        //! ungefilterten Bericht holen
+$textinput = getVar('text',true);        // ungefilterten Bericht holen
 if ( ! empty($textinput) )
 {
     $count = 0;
@@ -319,17 +320,17 @@ if ( ! empty($textinput) )
         $update_users = array();
         $scanlines = array();
 
-        $ignoremenu = FALSE;
+        $ignoremenu = false;
         $ignorekoloinfo = -1;
 
         foreach ($text as $scan) {
 
             //Wirtshcaftsmenu auslassen, da das sonst zu Fehlern mi9t der Koloinfo f&uuml;hrt
-            if( strpos( $scan, 'Wirtschaft - Men&uuml;' ) !== FALSE ) {
-                $ignoremenu = TRUE;
+            if( strpos( $scan, 'Wirtschaft - Men&uuml;' ) !== false ) {
+                $ignoremenu = true;
             }
-            if( strpos( $scan, 'Artefakt&uuml;bersicht' ) !== FALSE ) {
-                $ignoremenu = FALSE; 
+            if( strpos( $scan, 'Artefakt&uuml;bersicht' ) !== false ) {
+                $ignoremenu = false;
                 $ignorekoloinfo = 1;
             }
             if( $ignoremenu ) {
@@ -341,12 +342,12 @@ if ( ! empty($textinput) )
             // fuer $value[0] nicht mehr noetig ...
                
                 //da die Koloinfo den gleichen Recognizer wie als Titel hat muss hier Bugcatching betrieben werden
-                if ( ($value[0] == 'Kolonieinfo') AND ($ignorekoloinfo == 1) AND ( strpos( $scan, $value[0] ) !== FALSE ) ) {
+                if ( ($value[0] == 'Kolonieinfo') AND ($ignorekoloinfo == 1) AND ( strpos( $scan, $value[0] ) !== false ) ) {
                     $scan = 'ignored';
                     $ignorekoloinfo = 0;
                 }
 
-                if( strpos( $scan, $value[0] ) !== FALSE ) {
+                if( strpos( $scan, $value[0] ) !== false ) {
                     if( !empty( $scan_type )) {
                         if($parser[$scan_type][1] == 1) {
                             echo "<div class='system_notification'>" . $parser[$scan_type][2] . 

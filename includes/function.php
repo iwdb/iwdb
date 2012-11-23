@@ -434,6 +434,46 @@ function scanAge($scandate) {
 }
 
 /**
+ * function validAccname
+ *
+ * Überprüft ob sich der angegebene Acc in der IWDB befindet
+ *
+ * @param string $name Zu überprüfender Accname
+ *
+ * @return string geprüfter Accname oder false falls nicht vorhanden
+ *
+ * @author masel
+ */
+function validAccname($name)
+{
+    global $db, $db_tb_user;
+    static $IwAccnames;
+
+    if (empty($name)) {
+        return false;
+    }
+
+    //sind Informationen nicht im statischen cache -> neu holen
+    if (empty($IwAccnames)) {
+        $IwAccnames = Array();
+
+        $sql = "SELECT `sitterlogin` FROM  `$db_tb_user`";
+        $result = $db->db_query($sql)
+            or error(GENERAL_ERROR, 'Could not query iw accnames.', '', __FILE__, __LINE__, $sql);
+
+        while ($row = $db->db_fetch_array($result)) {
+            $IwAccnames[] = $row['sitterlogin'];
+        }
+    }
+
+    if (!in_array($name, $IwAccnames)) {
+        return false;
+    }
+
+    return $name;
+}
+
+/**
  * function filter_int
  *
  * filtert einfache Ganzzahlen mit Tausendertrennzeichen

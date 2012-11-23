@@ -1,4 +1,12 @@
-#hide .htaccess files (mostly standard)
+#magic quotes stuff off
+<ifmodule mod_php.c>
+    php_value magic_quotes 0
+    php_flag magic_quotes off
+    php_value magic_quotes_gpc 0
+    php_flag magic_quotes_gpc off
+</ifmodule>
+
+#hide .htaccess files (mostly standard just to be sure)
 <files .htaccess>
     order allow,deny
     deny from all

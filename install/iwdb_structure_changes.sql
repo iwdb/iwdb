@@ -167,5 +167,8 @@ CREATE TABLE IF NOT EXISTS `prefix_incomings` (
   PRIMARY KEY (`timestamp`,`koords_to`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Tabelle für Incomings';
 
-ALTER TABLE `prefix_kasse_incoming` CHANGE `time_of_insert` `time_of_insert` DATETIME NOT NULL DEFAULT '0000-00-00'
-ALTER TABLE `prefix_kasse_content` CHANGE `time_of_insert` `time_of_insert` DATETIME NOT NULL DEFAULT '0000-00-00'
+ALTER TABLE `prefix_kasse_incoming` CHANGE `time_of_insert` `time_of_insert` DATETIME NOT NULL DEFAULT '0000-00-00';
+ALTER TABLE `prefix_kasse_content` CHANGE `time_of_insert` `time_of_insert` DATETIME NOT NULL DEFAULT '0000-00-00';
+
+-- masel: fix #105
+ALTER TABLE  `prefix_kb_bomb` ADD  `bev` INT UNSIGNED NOT NULL;

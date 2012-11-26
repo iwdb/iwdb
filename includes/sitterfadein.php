@@ -151,13 +151,13 @@ if (!empty($user_id) AND ($user_id != 'guest') AND ($SitternoticeInModul)) {
                         if (($iSitterauftraege == 1) AND ($iForschungsauftraege == 0)) {
                             ?>
                             <a href="index.php?sid=<?php echo $sid;?>&action=sitterliste"><span
-                                    style="font-size: 1.8rem; color: Cyan;">Es sind ein Auftrag offen!</span></a>
+                                    style="font-size: 1.8rem; color: Cyan;">Es ist ein Auftrag offen!</span></a>
                             <?php
                         }
                         if (($iSitterauftraege == 1) AND ($iForschungsauftraege == 1)) {
                             ?>
                             <a href="index.php?sid=<?php echo $sid;?>&action=sitterliste"><span
-                                    style="font-size: 1.8rem; color: Cyan;">Es sind ein Forschungsauftrag offen!</span></a>
+                                    style="font-size: 1.8rem; color: Cyan;">Es ist ein Forschungsauftrag offen!</span></a>
                             <?php
                         }
                         if (($iSitterauftraege > 1) AND ($iForschungsauftraege == 0)) {

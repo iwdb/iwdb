@@ -52,9 +52,6 @@ if (!@include("./config/config.php")) {
 if ( $user_status != "admin" )
   die('Hacking attempt...');
 
-// -> lädt die statischen Modulbeschreibungen
-  @include ('moduldesc.php');
-  
 ?>  
 <script type="text/javascript" language="javascript">
 var confirmMsg  = 'Menütitel wirklich löschen?';
@@ -74,6 +71,26 @@ function confirmLink(theLink, theSqlQuery)
 </script>
 <?php
 
+function getmoduleinfo($file) { 
+    $moduleinfo['filename']=basename($file);
+    $moduleinfo['name']=basename($file, '.php');
+    $moduleinfo['title']='';
+    $moduleinfo['desc']='';
+             
+    $code = file_get_contents($file);
+    if ($code) {
+        if (preg_match('/\$modultitle\s*=\s*(?:\'|")(.+?)(?:\'|");/s', $code, $match )) {
+            $moduleinfo['title']=$match[1];
+            $moduleinfo['title'] = preg_replace('/(?:\'|")\s*\.\s*(?:\'|")/', '<br>', $moduleinfo['title'] ); //unterteilte Strings auf jeweils eine Zeile 
+        }
+        if (preg_match('/\$moduldesc\s*=\s*(?:\'|")(.+?)(?:\'|");/s', $code, $match )) {
+            $moduleinfo['desc']=$match[1];
+            $moduleinfo['desc'] = preg_replace('/(?:\'|")\s*\.\s*(?:\'|")/', '<br>', $moduleinfo['desc'] ); //unterteilte Strings auf jeweils eine Zeile 
+        }
+     }
+     
+     return $moduleinfo;
+}
 
 /* #############################################################################
 
@@ -547,84 +564,81 @@ echo "<table width='90%' class='bordercolor' border='0' cellpadding='2' cellspac
     echo "</form></tr>";
 echo "</table>";
 
-// Sucht nach Modulen und sieht nach, ob eine zugehörige config.cfg.php existiert
-// Wenn ein Modul gefunden wird, versucht es dieses zu installieren.
-$uninstallecho = "";
-$fp6=opendir("./modules");
+// Durchsuchen aller vorhandener Module
+$installecho = "";
+$moduledir = APPLICATION_PATH.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR;
+$moduledirhandle=opendir($moduledir);
 echo "<br><br> \n";
-echo "<br><div width='90%' class='windowbg2' style='padding:2px; width:90%; border-width:1px; border-style: solid; boder-color:black'>Installierte Module:</div><br>";
-while ($datei1 = readdir($fp6)) {
-  if (strstr($datei1, "m_")) {
-    $modulname = str_replace(".php", "", $datei1);
-    if(file_exists("./config/".$modulname.".cfg.php")){
-		  // Read configuration header
-		  @include("./config/".$modulname.".cfg.php");
+echo "<br><div width='90%' class='windowbg2' style='padding:2px; width:90%; border-width:1px; border-style: solid; border-color:black'>Installierte Module:</div><br>";
+while (false !== ($modulefile = readdir($moduledirhandle))) {
+    if (is_file($moduledir.$modulefile) AND (substr($modulefile,0,2) == 'm_') AND (substr($modulefile,-4) == '.php')) {    //suche phpfiles mit Anfang 'm_' (= IWDB-Module)
+        $moduleinfo = getmoduleinfo($moduledir.$modulefile);
+        
+        if (file_exists(APPLICATION_PATH.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.$moduleinfo['name'].'.cfg.php')) {     //Moduleinstellungsdatei vorhanden (Modul installiert) -> Deinstallation anbieten
 
-			echo "<form method='POST' action='index.php?action=".$modulname."&was=uninstall&sid=".$sid."'>\n";
-			echo " <table class='bordercolor' width='90%' cellpadding='4' cellspacing='1'>\n";
-			echo "  <tr>\n";
-      if (isset($modulary[$modulname]["name"])) {
- 		      echo "   <td align='left' valign='center' class='titlebg'><strong>\n" . $modulary[$modulname]["titel"] . "</strong>&nbsp;<i>(".$modulname.")</i></td>\n";
-      } else {
-			echo "   <td align='left' valign='center' class='titlebg'><strong>\n" . $modulname . "</strong></td>\n";
-      }
-			echo "   <td width='140' rowspan='2' class='windowbg1' align='center'>";
-			echo "<input type='submit' value='deinstallieren' name='uninstall' class='submit'>";
-			echo "</td>\n";
-			echo "  </tr>\n";
-			echo "  <tr>\n";
-			echo "   <td valign='top' class='windowbg1'>" . ${"desc_".$modulname} . "</td>\n";
-			echo "  </tr>\n";
-			echo " </table>";
-                  echo "</form><br>\n";
-    }else{
+            echo "<form method='POST' action='index.php?action=".$moduleinfo['name']."&was=uninstall&sid=".$sid."'>\n";
+            echo " <table class='bordercolor' width='90%' cellpadding='4' cellspacing='1'>\n";
+            echo "  <tr>\n";
+          
+            if (!empty($moduleinfo['title'])) {
+                echo "   <td align='left' valign='center' class='titlebg'><strong>\n" . $moduleinfo['title'] . "</strong>&nbsp;<i>(".$moduleinfo['name'].")</i></td>\n";
+            } else {
+                echo "   <td align='left' valign='center' class='titlebg'><strong>\n" . $moduleinfo['name'] . "</strong></td>\n";
+            }
+                
+            echo "   <td width='140' rowspan='2' class='windowbg1' align='center'>";
+            echo "<input type='submit' value='deinstallieren' name='uninstall' class='submit'>";
+            echo "</td>\n";
+            echo "  </tr>\n";
+            echo "  <tr>\n";
+            echo "   <td valign='top' class='windowbg1'>" . $moduleinfo['desc'] . "</td>\n";
+            echo "  </tr>\n";
+            echo " </table>";
+            echo "</form><br>\n";
 
-      if (isset($modulary[$modulname]["name"])) {
+        } else {                                                //Moduleinstellungsdatei nicht vorhanden (Modul nicht installiert) -> Installation anbieten (erst nach der Anzeige der Installierten Module)
+            if (!empty($moduleinfo['title'])) {
 
-        $uninstallecho = $uninstallecho . "<form method='POST' action='index.php?action=".$modulname."&was=install&sid=".$sid."'>";
-		$uninstallecho = $uninstallecho . " <table class='bordercolor' width='90%' cellpadding='4' cellspacing='1'>\n";
-		$uninstallecho = $uninstallecho . "  <tr>\n";
-		$uninstallecho = $uninstallecho . "   <td align='left' valign='center' class='titlebg'><strong>\n" . $modulary[$modulname]["titel"] . "</strong>&nbsp;<i>(".$modulname.")</i></td>\n";
-		$uninstallecho = $uninstallecho . "   <td width='140' rowspan='2' class='windowbg1' align='center'>";
-            $uninstallecho = $uninstallecho . "<input type='submit' value='Installieren' name='install' class='submit'>";
-		$uninstallecho = $uninstallecho . "</td>\n";
-		$uninstallecho = $uninstallecho . "  </tr>\n";
-		$uninstallecho = $uninstallecho . "  <tr>\n";
-		$uninstallecho = $uninstallecho . "   <td valign='top' class='windowbg1'>" . $modulary[$modulname]["desc"] . "</td>\n";
-		$uninstallecho = $uninstallecho . "  </tr>\n";
-		$uninstallecho = $uninstallecho . " </table>";
-            $uninstallecho = $uninstallecho . "</form><br>\n";
+                $installecho = $installecho . "<form method='POST' action='index.php?action=".$moduleinfo['name']."&was=install&sid=".$sid."'>"
+                             . " <table class='bordercolor' width='90%' cellpadding='4' cellspacing='1'>\n"
+                             . "  <tr>\n"
+                             . "   <td align='left' valign='center' class='titlebg'><strong>\n" . $moduleinfo['title'] . "</strong>&nbsp;<i>(".$moduleinfo['name'].")</i></td>\n"
+                             . "   <td width='140' rowspan='2' class='windowbg1' align='center'>"
+                             . "<input type='submit' value='Installieren' name='install' class='submit'>"
+                             . "</td>\n"
+                             . "  </tr>\n"
+                             . "  <tr>\n"
+                             . "   <td valign='top' class='windowbg1'>" . $moduleinfo['desc'] . "</td>\n"
+                             . "  </tr>\n"
+                             . " </table>"
+                             . "</form><br>\n";
+            } else {
 
-      } else {
+                $installecho = $installecho . "<hr width='90%'>"
+                             . "<big><b>".$moduleinfo['name']."</b></big><br><br>"
+                             . "Willst du es jetzt installieren?<br><br>"
+                             . "<form method='POST' action='index.php?action=".$moduleinfo['name']."&was=install&sid=".$sid."'>"
+                             . "<input type='submit' value='Na klar!' name='install' class='submit'>"
+                             . "</form><br>"
+                             . "<hr width='90%'><br>";
 
-     $uninstallecho = $uninstallecho . "<hr width='90%'>";
-     $uninstallecho = $uninstallecho . "<big><b>".$modulname."</b></big><br><br>";
-     $uninstallecho = $uninstallecho . "Willst du es jetzt installieren?<br><br>";
-     $uninstallecho = $uninstallecho . "<form method='POST' action='index.php?action=".$modulname."&was=install&sid=".$sid."'>";
-     $uninstallecho = $uninstallecho . "<input type='submit' value='Na klar!' name='install' class='submit'>";
-     $uninstallecho = $uninstallecho . "</form><br>";
-     $uninstallecho = $uninstallecho . "<hr width='90%'><br>";
-
-      }
-    }
+          }
+        }
   }
 }
+closedir($moduledirhandle);
 
-if ($uninstallecho <> "") {
+if (!empty($installecho)) {
 
-      echo "<center>";
+    echo "<center>";
 
-echo "<br><div width='90%' class='windowbg2' style='padding:2px; width:90%; border-width:1px; border-style: solid; boder-color:black'>Nicht installierte Module:</div><br>";
+    echo "<br><div width='90%' class='windowbg2' style='padding:2px; width:90%; border-width:1px; border-style: solid; boder-color:black'>Nicht installierte Module:</div><br>";
 
-      echo "Es wurde mindestens ein Modul gefunden, das noch nicht installiert wurde:<br><br>";
+    echo "Es wurde mindestens ein Modul gefunden, das noch nicht installiert wurde:<br><br>";
 
-      echo  $uninstallecho;
+    echo  $installecho;
 
-      echo "Solltest du eines dieser Module nicht installieren wollen,<br>";
-      echo "oder gar nicht wissen wie es auf deinen Server kommt,<br>";
-      echo "rate ich dir es aus den Ordner 'modules' zu löschen.<br><br>";
-
-      echo "</center> \n";
+    echo "</center> \n";
 
 }
 

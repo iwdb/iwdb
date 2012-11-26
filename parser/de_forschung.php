@@ -69,9 +69,11 @@ function parse_de_forschung ( $return )
                 __FILE__, __LINE__, $sql);
     }
     else {
-        echo "es wurden nur die sichtbaren Forschungen eingetragen! Verwende \"Alle Forschungen anzeigen\" für eine vollständige Eintragung<br />";
+        echo "Es wurden nur die sichtbaren Forschungen eingetragen! Verwende \"Alle Forschungen anzeigen\" für eine vollständige Eintragung<br />";
     }
-    
+    /*
+	 *von Patsch: rausgenommen, da man ansonsten die Startseite direkt wieder einlesen muss, um die aktuell laufenden Forschungen zu bekommen
+	
     //! aktuell laufende Forschungen resetten
     $sql = "DELETE FROM " . $db_tb_user_research . 
 			" WHERE user='" . $selectedusername . "'";
@@ -79,8 +81,9 @@ function parse_de_forschung ( $return )
 		or error(GENERAL_ERROR, 
 			 'Could not query config information.', '', 
 			 __FILE__, __LINE__, $sql);
+	*/
     
-    //! Mac: hier koenten mit Genetik auch zwei Forschungen laufen, deswegen in der Schleife
+    //! Mac: hier könnten mit Genetik auch zwei Forschungen laufen, deswegen in der Schleife
     foreach ($return->objResultData->aResearchsProgress as $research)
 	{
         $akt_forschung = isset($research2id[$research->strResearchName]) ? $research2id[$research->strResearchName] : "";

@@ -57,7 +57,7 @@ function parse_de_alli_kasse_member($return)
      * -> Eintrag also pro Spieler und Allianz (und Beitrittsdatum) nötig
      */
     $members = $return->objResultData->aMember;
-    echo "<p><u>Bisherige Einzahlungen:</u></p>";
+    //echo "<p><u>Bisherige Einzahlungen:</u></p>";
     foreach ($members as $member) {
         //Array ( [0] => EINZAHLER 14.04.2007 15:07 117.256,53 1.712 pro Tag [1] => EINZAHLER [2] => 117256.53 )
         updateIncoming($member->strUser, $member->fCreditsPaid, $allianz);

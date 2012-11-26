@@ -1,25 +1,24 @@
 <?php
-/**
- * Parsermodule for the alli bank parser
- *
- * This parsemodule is responsible for analysing the alli bank parser data
- * for help see
- * @link https://handels-gilde.org/?www/forum/index.php;board=1099.0 the devforum
- * or
- * @link https://github.com/iwdb/iwdb the repo at github
- *
- * @author    Mac <MacXY@herr-der-mails.de>
- * @copyright Mac <MacXY@herr-der-mails.de>
- * @license   GNU GPL version 2 or any later version
- * @license   http://opensource.org/licenses/gpl-license.php GNU Public License
- * @package   iwdb
- * @subpackage parsermodule
- */
-
 if (!defined('IRA')) {
     header('HTTP/1.1 403 forbidden');
     exit;
 }
+
+/**
+ * parse_de_alli_kasse_log_allis
+ *
+ * This parsermodule is responsible for analysing the delivered alli bank parser data <br>
+ * for help see:
+ *
+ * @link       https://handels-gilde.org/?www/forum/index.php;board=1099.0 the devforum
+ * @link       https://github.com/iwdb/iwdb github repo
+ *
+ * @author     Mac <MacXY@herr-der-mails.de>
+ * @license    GNU GPL version 2 or any later version
+ * @license    http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @package    iwdb
+ * @subpackage parsermodule
+ */
 
 function parse_de_alli_kasse_log_allis($return)
 {

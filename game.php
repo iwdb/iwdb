@@ -1,5 +1,6 @@
 <?php
 define('IRA', TRUE);
+define('APPLICATION_PATH', dirname(__FILE__));
 
 include_once('includes/iwdb.php');
 include_once('includes/debug.php');

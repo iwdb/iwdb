@@ -1,5 +1,6 @@
 <?php
 define('IRA', TRUE);
+define('APPLICATION_PATH', dirname(__FILE__));
 
 date_default_timezone_set('Europe/Berlin');
 

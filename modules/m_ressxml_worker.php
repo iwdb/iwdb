@@ -62,15 +62,6 @@ $modultitle = "Ressourcen-XML Updater";
 //****************************************************************************
 //
 // -> Status des Moduls, bestimmt wer dieses Modul über die Navigation
-//    ausfuehren darf. Moegliche Werte:
-//    - ""      <- nix = jeder,
-//    - "admin" <- na wer wohl
-//
-$modulstatus = "";
-
-//****************************************************************************
-//
-// -> Status des Moduls, bestimmt wer dieses Modul über die Navigation
 //    ausführen darf. Mögliche Werte:
 //    - ""      <- nix = jeder,
 //    - "admin" <- na wer wohl
@@ -172,7 +163,7 @@ if( !empty($_REQUEST['was'])) {
 }
 
 if (!@include("./config/".$modulname.".cfg.php")) {
-	die( "Error:<br><b>Cannot load ".$modulname." - configuration!</b>");
+	die( "Error:<br /><b>Cannot load ".$modulname." - configuration!</b>");
 }
 
 //****************************************************************************
@@ -204,7 +195,7 @@ function updateXML($user)
 		{
 		?>
 			<div class='system_notification'>Xml-Link scheint kaputt!</div>
-		<? 	return;
+		<?php 	return;
 		}
 		if ($row['datum'] < $xml->timestamp)
 		{ //ist wirklich neuer
@@ -333,7 +324,7 @@ function updateXML($user)
 		else
 		{//ist nicht neuer
 
-			echo "<div class='system_notification'>Autoupdates von $user's Datensatz über XML-Link fehlgeschlagen.<br>XML ist veraltet/Datenbasis ist neuer</div>";
+			echo "<div class='system_notification'>Autoupdates von $user's Datensatz über XML-Link fehlgeschlagen.<br />XML ist veraltet/Datenbasis ist neuer</div>";
 			$sql = 	" UPDATE " . $db_tb_ressuebersicht .
 				" SET last_xml_try = ".CURRENT_UNIX_TIME.
 				" WHERE `user` = '$user'";
@@ -344,7 +335,7 @@ function updateXML($user)
 }
 
 ?>
-<div class='doc_title'>Kolo-Ress-Info-Via-XML-Holer-Ding</div><br>
+<div class='doc_title'>Kolo-Ress-Info-Via-XML-Holer-Ding</div><br />
 
 <div align='left'>
 Einschr&auml;nkungen :
@@ -355,8 +346,8 @@ Einschr&auml;nkungen :
 <li>Die Einwilligung, dass die XML generiert wird, muss alle 14 Tage erneut gegeben werden</li>
 </ul>
 ... wenn es also nicht funzt, weil die XML veraltet ist, liegt es daran, dass der Spieler einige Zeit nicht auf der Kolo-/Ressübersicht in IW war, oder eben das letzte Update der XML vor weniger als 12 Stunden immer noch älter als die Datenbasis ist.
-</div><br>
-<?
+</div><br />
+<?php
 
 
 function make_link($order, $ordered) {
@@ -426,7 +417,7 @@ next_cell("titlebg", "style=\"width:3%\" align=\"center\" nowrap=\"nowrap\"");
 make_link("last_xml_try", "asc");
 echo "<b>Letztes update via xml</b>";
 make_link("last_xml_try", "desc");
-echo "<br>(auch Versuche)";
+echo "<br />(auch Versuche)";
 
 
 
@@ -472,7 +463,7 @@ while ($row = mysql_fetch_assoc($result))
   next_cell("windowbg1", "align=\"center\" nowrap=\"nowrap\"");
   if($row['xml_valid'] > CURRENT_UNIX_TIME)
   {
-	echo "Gültig bis ".strftime("%d.%m.%y %H:%M", $row['xml_valid'])."<br>";
+	echo "Gültig bis ".strftime("%d.%m.%y %H:%M", $row['xml_valid'])."<br />";
 	$link = "index.php?action=".$modulname."&sid=".$sid."&xmlrun=".$row['user']."&order=" . $order . "&ordered=" . $ordered;
 	echo "<input type='button' onclick=\"window.location.href = '$link';\" value='Update'>";
   }
@@ -495,7 +486,7 @@ echo "<form action=\"$link\" method=\"post\">\n";
 
 ?>
 <h2>Eigenen Link eintragen</h2>
-<?
+<?php
 start_table();
 start_row("titlebg", "style=\"width:9%\" align=\"center\" nowrap=\"nowrap\"");
 echo "Link";
@@ -506,13 +497,13 @@ echo "gültig bis";
 next_row("windowbg1", "nowrap=\"nowrap\"");
 ?>
 <input name="xml_link" type="text" size="70" maxlength="255"></p>
-<?
+<?php
 next_cell("windowbg1", "nowrap=\"nowrap\"");
 echo "<input name=\"xml_valid\" type=\"text\" size=\"15\" maxlength=\"20\" value=\"".date("d.m.Y H:i", CURRENT_UNIX_TIME + 14*DAY)."\">";
 
 end_row();
 
 end_table();
-?><br>
+?><br />
 <input type="submit" value="eintragen">
 </form>

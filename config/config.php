@@ -38,6 +38,21 @@ if (!defined('IRA')) {
     die('Hacking attempt...');
 }
 
+// Das aktuelle Datum wird pro Skriptaufruf nur einmal geholt, +-x kann
+// entsprechend hier geändert werden
+define("CURRENT_UNIX_TIME", time());
+
+// Basisdefinitionen für Zeiträume.
+define("MINUTE", 60);
+define("HOUR", 60 * MINUTE);
+define("DAY", 24 * HOUR);
+
+// nicht ändern
+define('SITTEN_DISABLED', 2);
+define('SITTEN_ONLY_NEWTASKS', 0);
+define('SITTEN_ONLY_LOGINS', 3);
+define('SITTEN_BOTH', 1);
+
 // Lade die Allianzdefinitionen. Wenn das nicht klappt, ist was falsch.
 if (!@include("./config/configally.php")) {
     die("Error:<br><b>Allianz Konfiguration (configally.php) wurde nicht geladen!</b>");
@@ -80,22 +95,13 @@ while ($row = $db->db_fetch_array($result)) {
     ${$tbname} = $db_prefix . $row['name'];
 }
 
-// Basisdefinitionen für Zeiträume.
-define("MINUTE", 60);
-define("HOUR", 60 * MINUTE);
-define("DAY", 24 * HOUR);
+// old for compatibility
+$MINUTES = MINUTE;
+$HOURS = HOUR;
+$DAYS = DAY;
 
 // old for compatibility
-$MINUTES = 60;
-$HOURS = 60 * $MINUTES;
-$DAYS = 24 * $HOURS;
-
-// Das aktuelle Datum wird pro Skriptaufruf nur einmal geholt, +-x kann
-// entsprechend hier geändert werden
-define("CURRENT_UNIX_TIME", time());
-
-// old for compatibility
-$config_date = time();
+$config_date = CURRENT_UNIX_TIME;
 
 // Zeit, wie lange die SID aktuell bleibt (in Sekunden)
 $config_sid_timeout = 1 * HOUR;
@@ -165,9 +171,3 @@ $config_dauer_timeout = 3 * HOUR;
 
 // Zeitformat im Sittertool
 $config_sitter_timeformat = "%d.%m.%y %H:%M";
-
-// nicht ändern
-define('SITTEN_DISABLED', 2);
-define('SITTEN_ONLY_NEWTASKS', 0);
-define('SITTEN_ONLY_LOGINS', 3);
-define('SITTEN_BOTH', 1);

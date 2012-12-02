@@ -52,7 +52,7 @@ function parse_de_alli_kasse_inhalt($return)
     $content = $return->objResultData->fCredits;
 
     $sql = "REPLACE INTO $db_tb_kasse_content (amount, time_of_insert, allianz)
-          VALUES ($content, ".strftime('%Y-%m-%d %H:%M:00', CURRENT_UNIX_TIME).", '$allianz')";
+          VALUES ($content, '".strftime('%Y-%m-%d %H:%M:00', CURRENT_UNIX_TIME)."', '$allianz')";
 
     $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);

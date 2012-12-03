@@ -261,7 +261,7 @@ $sql = "SELECT $db_tb_gebaeude_spieler.coords_gal,
 		 WHERE $db_tb_gebaeude.name=$db_tb_gebaeude_spieler.building) AS 'inactive'";
 $sql .= " FROM $db_tb_gebaeude_spieler";
 $sql .= ",$db_tb_user";
-$sql .= " WHERE $db_tb_user.id=user AND $db_tb_gebaeude_spieler.count!='0'";
+$sql .= " WHERE $db_tb_user.id=user AND $db_tb_gebaeude_spieler.count!='0' AND $db_tb_gebaeude_spieler.kolo_typ='Kolonie'";
 if (isset($params['team'])) {
 	if ($params['team'] == '(Nur Fleeter)')
 		$sql .= " AND " . $db_tb_user . ".budflesol='Fleeter'";

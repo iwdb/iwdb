@@ -37,11 +37,20 @@ if (basename($_SERVER['PHP_SELF']) != "index.php")
 
 if (!defined('IRA'))
 	die('Hacking attempt...');
+	
+error_reporting(E_ALL);
 
 function parse_de_wirtschaft_geb ( $return )
 {
     global $db, $db_tb_gebaeude_spieler, $selectedusername;
 	$count = 0;
+	
+	$sql = "DELETE FROM " . $db_tb_gebaeude_spieler . 
+            			" WHERE user='" . $selectedusername . "'";
+    $result = $db->db_query($sql)
+        or error(GENERAL_ERROR, 
+        'Could not query config information.', '', 
+        __FILE__, __LINE__, $sql);
         
 	foreach ($return->objResultData->aAreas as $area)
 	{		

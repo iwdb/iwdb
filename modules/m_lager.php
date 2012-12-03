@@ -370,7 +370,7 @@ if (isset($params['delete']) && $params['delete'] != '') {
 	debug_var('sql', $sql);
 	$db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-	$results[] = "<div class='system_notification'>Datensatz gel&ouml;scht.</div><br>";
+	$results[] = "<div class='system_notification'>Datensatz gelöscht.</div><br>";
 	$params['delete'] = '';
 	$params['edit'] = '';
 }
@@ -1091,7 +1091,7 @@ echo '<div style="width: 100%; text-align: right; margin-bottom: 6px">';
 echo '<input type="submit" name="flotteversenden" value="Flotte versenden"/>';
 echo '</div>';
 
-//Ueberschriften ausgeben
+//Überschriften ausgeben
 echo '<table class="bordercolor" width="100%" cellspacing="1" cellpadding="4">';
 start_row("titlebg", "nowrap valign=top");
 foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
@@ -1188,7 +1188,7 @@ foreach ($group_data as $groupkey => $group) {
 				if (!isset($row['allow_delete']) || $row['can_delete'])
 					echo makelink(
 						array('delete' => $key),
-						"<img src=\"bilder/file_delete_s.gif\" border=\"0\" onclick=\"return confirmlink(this, 'Datensatz wirklich loeschen?')\" alt=\"loeschen\">"
+						"<img src=\"bilder/file_delete_s.gif\" border=\"0\" onclick=\"return confirmlink(this, 'Datensatz wirklich löschen?')\" alt=\"löschen\">"
 					);
 			}
 			//Markierung-Checkbox

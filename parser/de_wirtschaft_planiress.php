@@ -83,7 +83,7 @@ function parse_de_wirtschaft_planiress ( $return )
 function insert_data($scan_data) {
 	global $db, $db_tb_lager, $selectedusername;
 
-//	debug_var('insert_data()', '');
+	//	debug_var('insert_data()', '');
 	$sql = "INSERT INTO " . $db_tb_lager . " (";
 	$sql .= "user,coords_gal,coords_sys,coords_planet,kolo_typ,";
 	$sql .= "eisen,eisen_prod,eisen_bunker,stahl,stahl_prod,stahl_bunker,";

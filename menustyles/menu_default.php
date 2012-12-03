@@ -149,7 +149,7 @@ if (isset($db_tb_incomings)) {
 include ('configmenu.php');
 
 //Warnung für nicht eingelesene Ressourcenkoloübersicht seit 24 Stunden
-$sql = "SELECT time FROM " . $db_tb_lager . " WHERE user='" . $user_id . "' LIMIT 0,1";
+$sql = "SELECT MAX(time) AS time FROM " . $db_tb_lager . " WHERE user='" . $user_id . "' LIMIT 0,1";
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row = $db->db_fetch_array($result);

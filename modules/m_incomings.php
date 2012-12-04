@@ -83,25 +83,31 @@ $moduldesc = "Anzeige der Incomings (Sondierung/Angriff) auf die eigene Allianz"
 //
 function workInstallDatabase()
 {
-    /*
     global $db, $db_prefix, $db_tb_iwdbtabellen;
 
-    $sqlscript = array(
-        "CREATE TABLE " . $db_prefix . "neuername
-        (
-        );",
+      $sqlscript = array(
+        "CREATE TABLE IF NOT EXISTS `prefix_incomings` (
+        `koords_to` varchar(11) NOT NULL,
+        `name_to` varchar(50) NOT NULL,
+        `allianz_to` varchar(50) NOT NULL,
+        `koords_from` varchar(11) NOT NULL,
+        `name_from` varchar(50) NOT NULL,
+        `allianz_from` varchar(50) NOT NULL,
+        `art` varchar(100) NOT NULL COMMENT 'Angriff oder Sondierung',
+        `timestamp` int(10) unsigned NOT NULL COMMENT 'Zeitstempel Sondierung',
+        PRIMARY KEY (`timestamp`,`koords_to`, `koords_from` , `art`)
+        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Tabelle für Incomings';
+        ",
 
-    "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-    " VALUES('neuername')"
-    );
-    foreach($sqlscript as $sql) {
+        "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
+        " VALUES('incomings')"
+      );
+      foreach($sqlscript as $sql) {
         $result = $db->db_query($sql)
-            or error(GENERAL_ERROR,
-            'Could not query config information.', '',
-            __FILE__, __LINE__, $sql);
-    }
-    */
-    echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+      }
+      echo "<div class='system_success'>Installation: Datenbankänderungen = <b>OK</b></div>";
+
 }
 
 //****************************************************************************
@@ -117,9 +123,9 @@ function workInstallMenu()
     $menu = getVar('menu');
     $submenu = getVar('submenu');
     $menuetitel = "Incomings #incomings";    // -> Menütitel in der Navigation, #incomings wird gegen die Anzahl ersetzt
-    $actionparamters = "";
+    $actionparameters = "";
 
-    insertMenuItem($menu, $submenu, $menuetitel, $modulstatus, $actionparamters);
+    insertMenuItem($menu, $submenu, $menuetitel, $modulstatus, $actionparameters);
     //
     // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
     //
@@ -147,22 +153,19 @@ function workInstallConfigString()
 //
 function workUninstallDatabase()
 {
-    /*
-    global $db, $db_tb_iwdbtabellen, $db_tb_neuername;
+    global $db, $db_tb_iwdbtabellen, $db_tb_incomings;
 
     $sqlscript = array(
-        "DROP TABLE " . $db_tb_neuername . ";",
-        "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='neuername';"
+        "DROP TABLE " . $db_tb_incomings . ";",
+        "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='incomings';"
     );
 
-    foreach($sqlscript as $sql) {
+    foreach ($sqlscript as $sql) {
         $result = $db->db_query($sql)
-            or error(GENERAL_ERROR,
-            'Could not query config information.', '',
-            __FILE__, __LINE__, $sql);
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     }
-    */
-    echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
+    echo "<div class='system_success'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
+
 }
 
 //****************************************************************************
@@ -182,11 +185,9 @@ if (!empty($_REQUEST['was'])) {
     if ($user_status != "admin")
         die('Hacking attempt...');
 
-    echo "<div class='system_notification'>Installationsarbeiten am Modul " . $modulname .
-        " (" . $_REQUEST['was'] . ")</div>\n";
+    echo "<h2>Installationsarbeiten am Modul " . $modulname . " ("  . $_REQUEST['was'] . ")</h2>\n";
 
-    if (!@include("./includes/menu_fn.php"))
-        die("Cannot load menu functions");
+    include("./includes/menu_fn.php");
 
     // Wenn ein Modul administriert wird, soll der Rest nicht mehr
     // ausgeführt werden.
@@ -245,7 +246,7 @@ while ($row = $db->db_fetch_array($result)) {
     echo $row['name_to'];
 
     next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-    $objekt = GetObjectByCoords($row['koords_to']);
+    $objekt = planieinfo::getObjectByCoords($row['koords_to']);
     if ($objekt == 'Kolonie') {
         echo "<img src='bilder/kolo.png'>";
     } else if ($objekt == 'Sammelbasis') {
@@ -265,7 +266,7 @@ while ($row = $db->db_fetch_array($result)) {
     }
 
     next_cell("windowbg1", "nowrap style='width:0%' align='center'");
-    $objekt = GetObjectByCoords($row['koords_from']);
+    $objekt = planieinfo::getObjectByCoords($row['koords_from']);
     if ($objekt == 'Kolonie') {
         echo "<img src='bilder/kolo.png'>";
     } else if ($objekt == 'Sammelbasis') {
@@ -317,7 +318,7 @@ while ($row = $db->db_fetch_array($result)) {
     echo $row['name_to'];
 
     next_cell("windowbg1", "nowrap style='width:0%' align='center'");
-    $objekt = GetObjectByCoords($row['koords_to']);
+    $objekt = planieinfo::getObjectByCoords($row['koords_to']);
     if ($objekt == 'Kolonie') {
         echo "<img src='bilder/kolo.png'>";
     } else if ($objekt == 'Sammelbasis') {
@@ -337,7 +338,7 @@ while ($row = $db->db_fetch_array($result)) {
     }
 
     next_cell("windowbg1", "nowrap style='width:0%' align='center'");
-    $objekt = GetObjectByCoords($row['koords_from']);
+    $objekt = planieinfo::getObjectByCoords($row['koords_from']);
     if ($objekt == 'Kolonie') {
         echo "<img src='bilder/kolo.png'>";
     } else if ($objekt == 'Sammelbasis') {

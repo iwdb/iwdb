@@ -246,7 +246,7 @@ while ($row = $db->db_fetch_array($result)) {
     echo $row['name_to'];
 
     next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-    $objekt = planieinfo::getObjectByCoords($row['koords_to']);
+    $objekt = GetObjectByCoords($row['koords_to']);
     if ($objekt == 'Kolonie') {
         echo "<img src='bilder/kolo.png'>";
     } else if ($objekt == 'Sammelbasis') {
@@ -266,7 +266,7 @@ while ($row = $db->db_fetch_array($result)) {
     }
 
     next_cell("windowbg1", "nowrap style='width:0%' align='center'");
-    $objekt = planieinfo::getObjectByCoords($row['koords_from']);
+    $objekt = GetObjectByCoords($row['koords_from']);
     if ($objekt == 'Kolonie') {
         echo "<img src='bilder/kolo.png'>";
     } else if ($objekt == 'Sammelbasis') {
@@ -318,7 +318,7 @@ while ($row = $db->db_fetch_array($result)) {
     echo $row['name_to'];
 
     next_cell("windowbg1", "nowrap style='width:0%' align='center'");
-    $objekt = planieinfo::getObjectByCoords($row['koords_to']);
+    $objekt = GetObjectByCoords($row['koords_to']);
     if ($objekt == 'Kolonie') {
         echo "<img src='bilder/kolo.png'>";
     } else if ($objekt == 'Sammelbasis') {
@@ -338,7 +338,7 @@ while ($row = $db->db_fetch_array($result)) {
     }
 
     next_cell("windowbg1", "nowrap style='width:0%' align='center'");
-    $objekt = planieinfo::getObjectByCoords($row['koords_from']);
+    $objekt = GetObjectByCoords($row['koords_from']);
     if ($objekt == 'Kolonie') {
         echo "<img src='bilder/kolo.png'>";
     } else if ($objekt == 'Sammelbasis') {

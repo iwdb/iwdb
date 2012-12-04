@@ -959,10 +959,9 @@ function input_unixml($xml)
     $sql_scan_end .= " `typchange_time` = IF((({$aktualisierungszeit} > `time`) AND STRCMP(VALUES(`typ`), `typ`)), {$aktualisierungszeit}, `typchange_time`),";
     $sql_scan_end .= " `typ` = IF({$aktualisierungszeit} > `time`, VALUES(`typ`), `typ`),"; //Planetentyp ersetzen wenn aktualisierungszeit älter als in der DB und vorliegender Änderung
     $sql_scan_end .= " `objektchange_time` = IF((({$aktualisierungszeit} > `time`) AND STRCMP(VALUES(`objekt`), `objekt`)), {$aktualisierungszeit}, `objektchange_time`),";
-    $sql_scan_end .= " `objekt` = IF({$aktualisierungszeit} > `time`, VALUES(`objekt`), `objekt`);"; //Objekttyp ersetzen wenn aktualisierungszeit älter als in der DB und vorliegender Änderung
-
-    //$sql_scan_end .= " `nebel` = IF(STRCMP(VALUES(`nebel`), `nebel`), VALUES(`nebel`), `nebel`);";                //Nebel aktualisieren sollten sich nicht ändern deswegen mal auskommentiert
-
+    $sql_scan_end .= " `objekt` = IF({$aktualisierungszeit} > `time`, VALUES(`objekt`), `objekt`)"; //Objekttyp ersetzen wenn aktualisierungszeit älter als in der DB und vorliegender Änderung
+    //$sql_scan_end .= " `nebel` = IF(STRCMP(VALUES(`nebel`), `nebel`), VALUES(`nebel`), `nebel`)";                //Nebel aktualisieren sollten sich nicht ändern deswegen mal auskommentiert
+    $sql_scan_end .= ";";
 
     $sql_spieler_begin = "INSERT INTO `{$db_prefix}spieler` (`name`, `allianz`, `dabeiseit`, `playerupdate_time`) VALUES ";
     //bei schon vorhandenem Spieler in der DB prüfen auf Allianzänderung

@@ -24,8 +24,6 @@ function parse_de_universum($xmldata)
 
             if (!empty($xmlobject)) {
                 input_unixml($xmlobject);
-
-                return true;
             } else {
                 echo "<div class='system_warning'>XML-Fehler</div>\n";
 

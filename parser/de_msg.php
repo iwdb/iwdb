@@ -29,11 +29,9 @@
 /*                                                                           */
 /*****************************************************************************/
 
-error_reporting(E_ALL);
-
 function parse_de_msg ( $return )
 {
-    global $db, $db_tb_raid, $db_tb_transferliste, $db_tb_user, $db_tb_fremdsondierung;
+    global $db, $db_tb_raid, $db_tb_transferliste, $db_tb_user, $db_tb_fremdsondierung, $selectedusername;
     
 	$transp_skipped=0;
 	$transp_failed=0;
@@ -273,26 +271,30 @@ Achja bei dem ganzen Chaos kamen 142 Leute ums Leben.
 
         //! Hier die Namen für die Koordinaten aus der Datenbank holen
         $name_to = GetNameByCoords($msg->strCoordsTo);
-        $name_from = GetNameByCoords($msg->strCoordsFrom);
-        
-        $alliance_to = GetAllianceByUser($name_to);
-        if (empty($msg->strAllianceFrom)) {
-            // Allianz konnte nicht aus dem Text bestimmt werden
-            $msg->strAllianceFrom = GetAllianceByUser($name_from);
+        if (empty($name_to)) {
+            $name_to = $selectedusername;
         }
-		
-		doc_message("Fremdsondierung erkannt");
+        $alliance_to = GetAllianceByUser($name_to);
+
+        if (empty($msg->strNameFrom)) {
+            $msg->strNameFrom = '';
+        } else {
+            if (empty($msg->strAllianceFrom)) {
+                // Allianz konnte nicht aus dem Text bestimmt werden
+                $msg->strAllianceFrom = GetAllianceByUser($msg->strNameFrom);
+            }
+        }
+
+    	doc_message("Fremdsondierung erkannt");
         
         $sql = "INSERT INTO " . $db_tb_fremdsondierung 
                  . "(koords_to, name_to, allianz_to, koords_from, name_from, allianz_from, sondierung_art, timestamp, erfolgreich ";
-        $sql .= ") VALUES( '$msg->strCoordsTo', '$name_to', '$alliance_to', '$msg->strCoordsFrom', '$name_from', '$msg->strAllianceFrom', '$parsertyp', $msg->iMsgDateTime, '$msg->bSuccess' ) "
+        $sql .= ") VALUES( '$msg->strCoordsTo', '$name_to', '$alliance_to', '$msg->strCoordsFrom', '$msg->strNameFrom', '$msg->strAllianceFrom', '$parsertyp', $msg->iMsgDateTime, '$msg->bSuccess' ) "
                  ."ON DUPLICATE KEY UPDATE 
-                    name_to='$name_to', allianz_to='$alliance_to', koords_from='$msg->strCoordsFrom', name_from='$name_from', allianz_from='$msg->strAllianceFrom', sondierung_art='$parsertyp', erfolgreich='$msg->bSuccess'"
+                    name_to='$name_to', allianz_to='$alliance_to', koords_from='$msg->strCoordsFrom', name_from='$msg->strNameFrom', allianz_from='$msg->strAllianceFrom', sondierung_art='$parsertyp', erfolgreich='$msg->bSuccess'"
                  ;	
         $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 
-                'Could not query config information.', '', 
-                __FILE__, __LINE__, $sql);
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     }
     
 	foreach ($return->objResultData->aMsgs as $msg)

@@ -1,5 +1,6 @@
 <?php
 define('IRA', TRUE);
+define('APPLICATION_PATH', dirname(__FILE__));
 
 include_once('includes/iwdb.php');
 include_once('includes/debug.php');
@@ -357,7 +358,7 @@ while ($row = $db->db_fetch_array($result))
 			'value' => $shipattack,
 		);
 	// Link to simulator
-	$info['simulator'] = "sandkasten.icewars.de/game/index.php?action=simulator";
+	$info['simulator'] = "http://sandkasten.icewars.de/game/index.php?action=simulator";
 	foreach ($objects as $key => $value)
 		if (isset($data['def'][$key]))
 			$info['simulator'] .= "&simu_def[" . $data['def'][$key]['id_iw'] . "]=" . $value;

@@ -24,8 +24,10 @@
 /* The GNU GPL can be found in LICENSE in this directory                     */
 /*****************************************************************************/
 
-if (!defined('IRA'))
-    die('Hacking attempt...');
+//direktes Aufrufen verhindern
+if (!defined('IRA')) {header('HTTP/1.1 404 not found');exit;};
+
+//****************************************************************************
 
 global $db, $db_tb_sid, $db_prefix, $db_tb_user;
 
@@ -103,14 +105,14 @@ if ( ( $action == "memberlogin2" ) || ( $action == "memberlogout2" ) )
 
     // Erst mal den Benutzernamen so holen, wie er ?bergeben wird. Dann
     // auf Gueltigkeit pruefen (und eventuell abkratzen).
-    $login_id = mysql_real_escape_string(getVar('login_id', true));
+    $login_id = $db->escape(getVar('login_id', true));
     $alert = check_username($login_id);
     if(!empty($alert)) {
         die ($alert);
     }
 
     // Benutzerdaten noch mal holen, aber diesmal mit htmlentities encodiert.
-    $login_id       = mysql_real_escape_string(getVar('login_id'));
+    $login_id       = $db->escape(getVar('login_id'));
     $login_password = getVar('login_password');
     $login_cookie   = getVar('login_cookie');
 

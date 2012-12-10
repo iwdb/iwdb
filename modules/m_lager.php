@@ -283,7 +283,7 @@ $universum = getVar('universum');
 $flotteversenden = getVar('flotteversenden');
 if (!empty($universum) || !empty($flotteversenden))
 {
-	$name = 'Automatische Zielliste vom ' . date("j.n.Y H:i:s", time());
+	$name = 'Automatische Zielliste vom ' . date("j.n.Y H:i:s", CURRENT_UNIX_TIME);
 	debug_var("sql", $sql =
 		"DELETE FROM " . $db_tb_target .
 		" WHERE user='" . $user_sitterlogin . "' AND name LIKE 'Automatische Zielliste%'");
@@ -370,7 +370,7 @@ if (isset($params['delete']) && $params['delete'] != '') {
 	debug_var('sql', $sql);
 	$db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-	$results[] = "<div class='system_notification'>Datensatz gel&ouml;scht.</div><br>";
+	$results[] = "<div class='system_notification'>Datensatz gelöscht.</div><br>";
 	$params['delete'] = '';
 	$params['edit'] = '';
 }
@@ -461,7 +461,7 @@ foreach ($resses as $ress) {
 		$sql .= " + (" . $db_tb_lager . "." . $ress . "_prod * ";
 		//Advanced Forecast
 		if ($params['advanced_forecast'] && $params['extended_settings']) { 
-			$sql .= "(" . $params['forecast'] . "+ (" . time() . " - " . $db_tb_lager . ".time) / 60 / 60)";
+			$sql .= "(" . $params['forecast'] . "+ (" . CURRENT_UNIX_TIME . " - " . $db_tb_lager . ".time) / 60 / 60)";
 		}
 		else {
 			$sql .= $params['forecast'];
@@ -498,7 +498,7 @@ foreach ($resses as $ress) {
 		$sql .= "-(" . $ress . "_prod * -1 * ";	
 		//Advanced Forecast
 		if ($params['advanced_forecast'] && $params['extended_settings']) { 
-			$sql .= "(" . $params['forecast'] . "+ (" . time() . " - " . $db_tb_lager . ".time) / 60 / 60)";		
+			$sql .= "(" . $params['forecast'] . "+ (" . CURRENT_UNIX_TIME . " - " . $db_tb_lager . ".time) / 60 / 60)";
 		}
 		else {
 			$sql .= $params['forecast'];
@@ -518,7 +518,7 @@ $sql .= "," . $db_tb_user . ".buddlerfrom";
 $sql .= "," . $db_tb_user . ".budflesol";
 //Advanced Forecast
 if ($params['forecast'] && $params['advanced_forecast']) {
-	$sql .= ",((" . time() . " - " . $db_tb_lager . ".time) / 60 / 60) AS advanced_forecast";
+	$sql .= ",((" . CURRENT_UNIX_TIME . " - " . $db_tb_lager . ".time) / 60 / 60) AS advanced_forecast";
 }
 else {
 	$sql .= ",0 AS advanced_forecast";
@@ -575,7 +575,7 @@ if (isset($params['ress']) && $params['rote_lager'] && $params['extended_setting
 		$sql .= "+ (" . $db_tb_lager . "." . $params['ress'] . "_prod * ";
 		//Advanced Forecast
 		if ($params['advanced_forecast'] && $params['extended_settings']) { 
-			$sql .= "(" . $params['forecast'] . "+ (" . time() . " - " . $db_tb_lager . ".time) / 60 / 60)";
+			$sql .= "(" . $params['forecast'] . "+ (" . CURRENT_UNIX_TIME . " - " . $db_tb_lager . ".time) / 60 / 60)";
 		}
 		else {
 			$sql .= $params['forecast'];
@@ -660,7 +660,7 @@ while ($row = $db->db_fetch_array($result)) {
 		'eis_total' => $row['eis_total'],
 		'wasser_total' => $row['wasser_total'],
 		'energie_total' => $row['energie_total'],
-		'user_style' => 'background-color: ' . scanAge($row['time']),
+		'user_style' => 'background-color: ' . getScanAgeColor($row['time']),
 		'eisen_style' => 'background-color: ' . make_color($row, 'eisen') . '; text-align: right;',
 		'stahl_style' => 'background-color: ' . make_color($row, 'stahl') . '; text-align: right;',
 		'vv4a_style' => 'background-color: ' . make_color($row, 'vv4a') . '; text-align: right;',
@@ -684,7 +684,7 @@ while ($row = $db->db_fetch_array($result)) {
 			'eis' => $row['eis_transfer'],
 			'wasser' => $row['wasser_transfer'],
 			'energie' => $row['energie_transfer'],
-			'user_style' => 'background-color: ' . scanAge($row['time']),
+			'user_style' => 'background-color: ' . getScanAgeColor($row['time']),
 			'eisen_style' => "text-align: right;",
 			'stahl_style' => "text-align: right;",
 			'vv4a_style' => "text-align: right;",
@@ -706,7 +706,7 @@ while ($row = $db->db_fetch_array($result)) {
 			'eis' => $row['eis_stat'],
 			'wasser' => $row['wasser_stat'],
 			'energie' => $row['energie_stat'],
-			'user_style' => 'background-color: ' . scanAge($row['time']),
+			'user_style' => 'background-color: ' . getScanAgeColor($row['time']),
 			'eisen_style' => "text-align: right;",
 			'stahl_style' => "text-align: right;",
 			'vv4a_style' => "text-align: right;",
@@ -728,7 +728,7 @@ while ($row = $db->db_fetch_array($result)) {
 			'eis' => $row['eis_total'],
 			'wasser' => $row['wasser_total'],
 			'energie' => $row['energie_total'],
-			'user_style' => 'background-color: ' . scanAge($row['time']),
+			'user_style' => 'background-color: ' . getScanAgeColor($row['time']),
 			'eisen_style' => "text-align: right;",
 			'stahl_style' => "text-align: right;",
 			'vv4a_style' => "text-align: right;",
@@ -750,7 +750,7 @@ while ($row = $db->db_fetch_array($result)) {
 			'eis' => $row['eis_soll'],
 			'wasser' => $row['wasser_soll'],
 			'energie' => $row['energie_soll'],
-			'user_style' => 'background-color: ' . scanAge($row['time']),
+			'user_style' => 'background-color: ' . getScanAgeColor($row['time']),
 			'eisen_style' => "text-align: right;",
 			'stahl_style' => "text-align: right;",
 			'vv4a_style' => "text-align: right;",
@@ -772,7 +772,7 @@ while ($row = $db->db_fetch_array($result)) {
 			'eis' => $row['eis_soll'] != '' ? $data[$key]['eis_soll_diff'] : '',
 			'wasser' => $row['wasser_soll'] != '' ? $data[$key]['wasser_soll_diff'] : '',
 			'energie' => $row['energie_soll'] != '' ? $data[$key]['energie_soll_diff'] : '',
-			'user_style' => 'background-color: ' . scanAge($row['time']),
+			'user_style' => 'background-color: ' . getScanAgeColor($row['time']),
 			'eisen_style' => "color: " . ($data[$key]['eisen_soll_diff'] < 0 ? 'red' : 'green') . "; text-align: right;",
 			'stahl_style' => "color: " . ($data[$key]['stahl_soll_diff'] < 0 ? 'red' : 'green') . "; text-align: right;",
 			'vv4a_style' => "color: " . ($data[$key]['vv4a_soll_diff'] < 0 ? 'red' : 'green') . "; text-align: right;",
@@ -794,7 +794,7 @@ while ($row = $db->db_fetch_array($result)) {
 			'eis' => $row['eis_lager'],
 			'wasser' => $row['wasser_lager'],
 			'energie' => $row['energie_lager'],
-			'user_style' => 'background-color: ' . scanAge($row['time']),
+			'user_style' => 'background-color: ' . getScanAgeColor($row['time']),
 			'eisen_style' => "text-align: right;",
 			'stahl_style' => "text-align: right;",
 			'vv4a_style' => "text-align: right;",
@@ -816,7 +816,7 @@ while ($row = $db->db_fetch_array($result)) {
 			'eis' => $row['eis_prod'] * 24,
 			'wasser' => $row['wasser_prod'] * 24,
 			'energie' => $row['energie_prod'] * 24,
-			'user_style' => 'background-color: ' . scanAge($row['time']),
+			'user_style' => 'background-color: ' . getScanAgeColor($row['time']),
 			'eisen_style' => "color: " . ($row['eisen_prod'] < 0 ? 'red' : 'green') . "; text-align: right;",
 			'stahl_style' => "color: " . ($row['stahl_prod'] < 0 ? 'red' : 'green') . "; text-align: right;",
 			'vv4a_style' => "color: " . ($row['vv4a_prod'] < 0 ? 'red' : 'green') . "; text-align: right;",
@@ -838,7 +838,7 @@ while ($row = $db->db_fetch_array($result)) {
 			'eis' => $row['eis_prod'] < 0 ? (-($row['eis_total'] - ($row['eis_prod'] * ($params['forecast'] + $row['advanced_forecast']))) / $row['eis_prod']-$params['forecast']) : 0,
 			'wasser' => $row['wasser_prod'] < 0 ? (-($row['wasser_total'] + ($row['wasser_prod'] * ($params['forecast'] + $row['advanced_forecast']))) / $row['wasser_prod']-$params['forecast']) : 0,
 			'energie' => $row['energie_prod'] < 0 ? (-($row['energie_total'] + ($row['energie_prod'] * ($params['forecast'] + $row['advanced_forecast']))) / $row['energie_prod']-$params['forecast']) : 0,
-			'user_style' => 'background-color: ' . scanAge($row['time']),
+			'user_style' => 'background-color: ' . getScanAgeColor($row['time']),
 			'eisen_style' => "text-align: right;",
 			'stahl_style' => "text-align: right;",
 			'vv4a_style' => "text-align: right;",
@@ -1091,7 +1091,7 @@ echo '<div style="width: 100%; text-align: right; margin-bottom: 6px">';
 echo '<input type="submit" name="flotteversenden" value="Flotte versenden"/>';
 echo '</div>';
 
-//Ueberschriften ausgeben
+//Überschriften ausgeben
 echo '<table class="bordercolor" width="100%" cellspacing="1" cellpadding="4">';
 start_row("titlebg", "nowrap valign=top");
 foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
@@ -1188,7 +1188,7 @@ foreach ($group_data as $groupkey => $group) {
 				if (!isset($row['allow_delete']) || $row['can_delete'])
 					echo makelink(
 						array('delete' => $key),
-						"<img src=\"bilder/file_delete_s.gif\" border=\"0\" onclick=\"return confirmlink(this, 'Datensatz wirklich loeschen?')\" alt=\"loeschen\">"
+						"<img src=\"bilder/file_delete_s.gif\" border=\"0\" onclick=\"return confirmlink(this, 'Datensatz wirklich löschen?')\" alt=\"löschen\">"
 					);
 			}
 			//Markierung-Checkbox
@@ -1443,7 +1443,7 @@ function format_value($row, $key, $value, $expand = false) {
 }
 
 function make_duration($time) {
-	$diff = time() - $time;
+	$diff = CURRENT_UNIX_TIME - $time;
 	$days = intval($diff / (60 * 60 * 24));
 	$diff -= $days * 60 * 60 * 24;
 	$hours = intval($diff / (60 * 60));
@@ -1521,7 +1521,7 @@ function parsetime($text) {
 	if (preg_match("/(\d+).(\d+).(\d+) (\d+):(\d+)/", $text, $match) > 0)
 		return mktime($match[4], $match[5], 0, $match[2], $match[1], $match[3]);
 	else
-		return time();
+		return CURRENT_UNIX_TIME;
 }
 
 // ****************************************************************************
@@ -1586,17 +1586,4 @@ function makeurl($newparams) {
 	return $url;
 }
 
-// ****************************************************************************
-//
-// Gibt den Wert einer Variablen aus.
-function debug_var($name, $wert, $level = 2) {
-	if (DEBUG_LEVEL >= $level) {
-		echo "<div class='system_debug_blue'>$" . $name . ":'";
-		if (is_array($wert))
-			print_r($wert);
-		else
-			echo ($wert);
-		echo "'</div>";
-	}
-}
 ?>

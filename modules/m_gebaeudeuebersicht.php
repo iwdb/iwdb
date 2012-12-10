@@ -261,7 +261,7 @@ $sql = "SELECT $db_tb_gebaeude_spieler.coords_gal,
 		 WHERE $db_tb_gebaeude.name=$db_tb_gebaeude_spieler.building) AS 'inactive'";
 $sql .= " FROM $db_tb_gebaeude_spieler";
 $sql .= ",$db_tb_user";
-$sql .= " WHERE $db_tb_user.id=user AND $db_tb_gebaeude_spieler.count!='0'";
+$sql .= " WHERE $db_tb_user.id=user AND $db_tb_gebaeude_spieler.count!='0' AND $db_tb_gebaeude_spieler.kolo_typ='Kolonie'";
 if (isset($params['team'])) {
 	if ($params['team'] == '(Nur Fleeter)')
 		$sql .= " AND " . $db_tb_user . ".budflesol='Fleeter'";
@@ -336,7 +336,7 @@ foreach ($categories as $category => $value) {
 		echo "</a>";
 	}
 	foreach ($data[$category] as $coords => $planet_buildings) {
-		$color = scanAge($planet_buildings['time']);
+		$color = getScanAgeColor($planet_buildings['time']);
 		next_row("windowbg1", "nowrap style=\"width:0%; background-color: $color\" align=\"left\"");
 		echo $planet_buildings['user'];
 		next_cell("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");

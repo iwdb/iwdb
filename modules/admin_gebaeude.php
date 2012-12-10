@@ -23,7 +23,6 @@
 /*                                                                           */
 /* The GNU GPL can be found in LICENSE in this directory                     */
 /*****************************************************************************/
-//ToDo: diekte Verwendung von mysql_real_escape_string ist vorübergehend bis Fertigstellung der Umstellung auf mysqli prepared statments (und übernommener Filterfunktionen)
 
 // -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
@@ -37,11 +36,9 @@ if ( $user_status != "admin" ) {
 
 function dauer($zeit)
 {
-    global $DAYS, $HOURS, $MINUTES;
-
-    $return['d'] = floor($zeit / $DAYS);
-    $return['h'] = floor(($zeit - $return['d'] * $DAYS) / $HOURS);
-    $return['m'] = ($zeit - $return['d'] * $DAYS - $return['h'] * $HOURS) / $MINUTES;
+    $return['d'] = floor($zeit / DAY);
+    $return['h'] = floor(($zeit - $return['d'] * DAY) / HOUR);
+    $return['m'] = ($zeit - $return['d'] * DAY - $return['h'] * HOUR) / MINUTE;
     return $return;
 }
 
@@ -79,11 +76,11 @@ while($row_gebaeude = $db->db_fetch_array($result_gebaeude)) {
         $temp_name = getVar(($row_gebaeude['id'] . '_name'));
         if (!empty($temp_name)) {
 
-            $geb_name   = mysql_real_escape_string(getVar($row_gebaeude['id'] . '_name',true));
-            $geb_cat    = mysql_real_escape_string(getVar($row_gebaeude['id'] . '_category', true));
+            $geb_name   = $db->escape(getVar($row_gebaeude['id'] . '_name',true));
+            $geb_cat    = $db->escape(getVar($row_gebaeude['id'] . '_category', true));
             $geb_idcat  = (int)getVar($row_gebaeude['id'] . '_idcat');
             $geb_inact  = getVar($row_gebaeude['id'] . '_inactive');
-            $geb_bild   = mysql_real_escape_string(getVar($row_gebaeude['id'] . '_bild'));
+            $geb_bild   = $db->escape(getVar($row_gebaeude['id'] . '_bild'));
             $id_iw      = (int)getVar($row_gebaeude['id'] . '_id_iw');
 
             $dauer_d   = (int)getVar($row_gebaeude['id'] . '_dauer_d');
@@ -92,7 +89,7 @@ while($row_gebaeude = $db->db_fetch_array($result_gebaeude)) {
 
             $delete    = getVar(($row_gebaeude['id'] . '_delete'));
 
-            $dauer     = ($dauer_d * $DAYS) + ($dauer_h * $HOURS) + ($dauer_m * $MINUTES);
+            $dauer     = ($dauer_d * DAY) + ($dauer_h * HOUR) + ($dauer_m * MINUTE);
 
             if (empty($delete)) {
 
@@ -130,18 +127,18 @@ while($row_gebaeude = $db->db_fetch_array($result_gebaeude)) {
 $lastid_name  = getVar((($lastid + 1) . '_name'));
 
 if((!empty($lastid_name)) && (empty($editgebaeude))) {
-    $geb_name  = mysql_real_escape_string(getVar((($lastid + 1) . '_name'), true));
-    $geb_cat   = mysql_real_escape_string(getVar((($lastid + 1) . '_category'), true));
+    $geb_name  = $db->escape(getVar((($lastid + 1) . '_name'), true));
+    $geb_cat   = $db->escape(getVar((($lastid + 1) . '_category'), true));
     $geb_idcat = (int)getVar((($lastid + 1) . '_idcat'));
     $geb_inact = getVar((($lastid + 1) . '_inactive'));
-    $geb_bild  = mysql_real_escape_string(getVar((($lastid + 1) . '_bild')));
+    $geb_bild  = $db->escape(getVar((($lastid + 1) . '_bild')));
     $id_iw     = (int)getVar((($lastid + 1) . '_id_iw'));
 
     $dauer_d   = (int)getVar((($lastid + 1) . '_dauer_d'));
     $dauer_h   = (int)getVar((($lastid + 1) . '_dauer_h'));
     $dauer_m   = (int)getVar((($lastid + 1) . '_dauer_m'));
 
-    $dauer     = ($dauer_d * $DAYS) + ($dauer_h * $HOURS) + ($dauer_m * $MINUTES);
+    $dauer     = ($dauer_d * DAY) + ($dauer_h * HOUR) + ($dauer_m * MINUTE);
     $sql = "INSERT INTO " . $db_tb_gebaeude .
         " (name, category, idcat, inactive, dauer, bild, id_iw) " .
         " VALUES ('" . $geb_name .

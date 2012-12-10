@@ -29,11 +29,9 @@
 /*                                                                           */
 /*****************************************************************************/
 
-error_reporting(E_ALL);
-
 function parse_de_msg ( $return )
 {
-    global $db, $db_tb_raid, $config_date, $db_tb_transferliste, $db_tb_user;
+    global $db, $db_tb_raid, $db_tb_transferliste, $db_tb_user, $db_tb_fremdsondierung, $selectedusername;
     
 	$transp_skipped=0;
 	$transp_failed=0;
@@ -112,7 +110,7 @@ Achja bei dem ganzen Chaos kamen 142 Leute ums Leben.
         // Lieferungen an sich selbst ignorieren
         // Manuell: DELETE FROM `prefix_transferliste` WHERE `buddler`=`fleeter`
         if(!empty($transfair_date) && $buddler == $fleeter) {
-            doc_message("Bericht ".$transfair_date." vom ".strftime("%d.%m.%Y %H:%M:%S", $transfair_date)." ignoriert! - Absender und Empfänger sind identisch...");
+            //doc_message("Bericht ".$transfair_date." vom ".strftime("%d.%m.%Y %H:%M:%S", $transfair_date)." ignoriert! - Absender und Empfänger sind identisch...");
             ++$transp_skipped;
             continue;
         }
@@ -155,7 +153,7 @@ Achja bei dem ganzen Chaos kamen 142 Leute ums Leben.
                 __FILE__, __LINE__, $sql);
             
         // Aktualisierungszeit für Transportberichte setzen
-        $sql = "UPDATE " . $db_tb_user . " SET lasttransport='" . $config_date . 
+        $sql = "UPDATE " . $db_tb_user . " SET lasttransport='" . CURRENT_UNIX_TIME .
             "' WHERE sitterlogin='" . $buddler . "'";
         $result = $db->db_query($sql)
             or error(GENERAL_ERROR, 
@@ -182,7 +180,7 @@ Achja bei dem ganzen Chaos kamen 142 Leute ums Leben.
 	{	
 		//! @todo:
 		if (!$msg->bSuccessfullyParsed) {
-			echo ".....  failed Geo Scan<br />";
+			echo ".....  fehlgeschlagener Geoscan<br />";
 			echo implode("<br>",$msg->aErrors);
 			continue;
 		}
@@ -197,7 +195,7 @@ Achja bei dem ganzen Chaos kamen 142 Leute ums Leben.
 	foreach ($return->objResultData->aTransfairMsgs as $msg)
 	{	
 		if (!$msg->bSuccessfullyParsed) {
-			echo "..... failed TransfairMsg!<br />";
+			echo "..... fehlgeschlagene Tranportnachricht!<br />";
 			if (!empty($msg->aErrors))
 				echo implode("<br />",$msg->aErrors) . "<br />";
 			++$transfair_failed;
@@ -245,7 +243,7 @@ Achja bei dem ganzen Chaos kamen 142 Leute ums Leben.
         // Lieferungen an sich selbst ignorieren
         // Manuell: DELETE FROM `prefix_transferliste` WHERE `buddler`=`fleeter`
         if(!empty($transfair_date) && $buddler == $fleeter) {
-            doc_message("Bericht ".$transfair_date." vom ".strftime("%d.%m.%Y %H:%M:%S", $transfair_date)." ignoriert! - Absender und Empfänger sind identisch...");
+            //doc_message("Bericht ".$transfair_date." vom ".strftime("%d.%m.%Y %H:%M:%S", $transfair_date)." ignoriert! - Absender und Empfänger sind identisch...");
             ++$transfair_skipped;
             continue;
         }
@@ -267,10 +265,42 @@ Achja bei dem ganzen Chaos kamen 142 Leute ums Leben.
     
 //! ..... Stationieren not yet implemented
 
+    foreach ($return->objResultData->aSondierungMsgs as $msg)
+	{	
+        $parsertyp = ($msg->eParserType == "Sondierung (Schiffe/Def/Ress)") ? "schiffe" : "gebaeude";
+
+        //! Hier die Namen für die Koordinaten aus der Datenbank holen
+        $name_to = GetNameByCoords($msg->strCoordsTo);
+        if (empty($name_to)) {
+            $name_to = $selectedusername;
+        }
+        $alliance_to = GetAllianceByUser($name_to);
+
+        if (empty($msg->strNameFrom)) {
+            $msg->strNameFrom = '';
+        } else {
+            if (empty($msg->strAllianceFrom)) {
+                // Allianz konnte nicht aus dem Text bestimmt werden
+                $msg->strAllianceFrom = GetAllianceByUser($msg->strNameFrom);
+            }
+        }
+
+    	doc_message("Fremdsondierung erkannt");
+        
+        $sql = "INSERT INTO " . $db_tb_fremdsondierung 
+                 . "(koords_to, name_to, allianz_to, koords_from, name_from, allianz_from, sondierung_art, timestamp, erfolgreich ";
+        $sql .= ") VALUES( '$msg->strCoordsTo', '$name_to', '$alliance_to', '$msg->strCoordsFrom', '$msg->strNameFrom', '$msg->strAllianceFrom', '$parsertyp', $msg->iMsgDateTime, '$msg->bSuccess' ) "
+                 ."ON DUPLICATE KEY UPDATE 
+                    name_to='$name_to', allianz_to='$alliance_to', koords_from='$msg->strCoordsFrom', name_from='$msg->strNameFrom', allianz_from='$msg->strAllianceFrom', sondierung_art='$parsertyp', erfolgreich='$msg->bSuccess'"
+                 ;	
+        $result = $db->db_query($sql)
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    }
+    
 	foreach ($return->objResultData->aMsgs as $msg)
 	{	
 		if (!$msg->bSuccessfullyParsed) {
-			echo "..... failed UserMsg!<br />";
+			echo "..... fehlgeschlagene UserMsg!<br />";
 			echo implode("<br />",$msg->aErrors);
 			continue;
 		}
@@ -281,7 +311,7 @@ Achja bei dem ganzen Chaos kamen 142 Leute ums Leben.
 		else if ($msg->eParserType == "Basisaufbau")
 			continue;
 		else {
-			echo "..... " . $msg->eParserType . "<font color='red'> not yet implemented</font><br />";
+			echo "..... " . $msg->eParserType . "<font color='red'> noch nicht implementiert</font><br />";
         }
 		//dummy
 	}

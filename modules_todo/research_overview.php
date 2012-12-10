@@ -225,7 +225,7 @@ function obResearchGetOverview()
     $users=array();
     while($row = db_fetch_array($result)) {
 
-        if ($row["finished_time"] > 0 && $row["finished_time"] <= time()) {
+        if ($row["finished_time"] > 0 && $row["finished_time"] <= CURRENT_UNIX_TIME) {
             $sql = "DELETE FROM 
                         $db_tb_user_research
                     WHERE 

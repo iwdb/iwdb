@@ -142,16 +142,15 @@ $result = $db->db_query($sql)
     or error(GENERAL_ERROR,'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
 $maxsys = 0;
-global $config_date;
 while ( $row = $db->db_fetch_array($result) ) {
     if ( $row['objekt'] === "Stargate" )	{
 		$sys[$row['sys']] = $config_color['Stargate'];
 	} elseif ( $row['objekt'] === "schwarzes Loch" )	{
 		$sys[$row['sys']] = $config_color['SchwarzesLoch'];
-	} elseif ( ($config_date - $row['date']) < 24*60*60 ) {
+	} elseif ( (CURRENT_UNIX_TIME - $row['date']) < 24*60*60 ) {
 		$sys[$row['sys']] = $config_color['last24'];
 	} else {
-		$sys[$row['sys']] = scanAge($row['date']);
+		$sys[$row['sys']] = getScanAgeColor($row['date']);
 	}
 
 	if (defined( 'NEBULA' ) && NEBULA === TRUE && !empty($row['nebula'])) {
@@ -254,9 +253,9 @@ echo "  <td style='width: 14%;'>jünger 24 Stunden</td>\n";
 echo "  <td style='width: 4%; background-color: #00FF00'></td>\n";
 echo "  <td style='width: 14%;'>älter 24 Stunden</td>\n";
 echo "  <td style='width: 4%; background-color: #FFFF00'></td>\n";
-echo "  <td style='width: 14%;'>" . (round( $config_map_timeout / $DAYS / 2)) . " Tage alt</td>\n";
+echo "  <td style='width: 14%;'>" . (round( $config_map_timeout / DAY / 2)) . " Tage alt</td>\n";
 echo "  <td style='width: 4%; background-color: #FF0000'></td>\n";
-echo "  <td style='width: 14%;'>älter als " . (round( $config_map_timeout / $DAYS)) . " Tage</td>\n";
+echo "  <td style='width: 14%;'>älter als " . (round( $config_map_timeout / DAY)) . " Tage</td>\n";
 echo " </tr>\n";
 
 if ($showmembers) {

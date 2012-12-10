@@ -940,7 +940,7 @@ function showbuddler($buddler) {
   
   if ($show_buddler_graph) 
   {
-    $date = intval(time() / (24*3600))*24*3600;
+    $date = intval(CURRENT_UNIX_TIME / (24*3600))*24*3600;
 
     build_graph_transfer(array($buddler),"",$date - 30*3600*24,$date,$buddler_graph_typ);
   }

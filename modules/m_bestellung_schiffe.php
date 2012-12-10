@@ -65,9 +65,9 @@ $modulname  = "m_bestellung_schiffe";
 
 //****************************************************************************
 //
-// -> Menuetitel des Moduls der in der Navigation dargestellt werden soll.
+// -> Titel des Moduls
 //
-$modultitle = "Schiffe #schiffe";
+$modultitle = "Schiffsbestellung";
 
 //****************************************************************************
 //
@@ -138,10 +138,14 @@ function workInstallDatabase() {
 // in the included file includes/menu_fn.php
 //
 function workInstallMenu() {
-    global $modultitle, $modulstatus, $_POST;
-		
-		$actionparamters = "";
-  	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparamters );
+    global $modulstatus;
+
+    $menu = getVar('menu');
+    $submenu = getVar('submenu');
+    $menuetitel = "Schiffe #schiffe";    // -> Menütitel in der Navigation, #schiffe wird gegen die Anzahl der Bestellungen ersetzt
+    $actionparamters = "";
+
+  	insertMenuItem( $menu, $submenu, $menuetitel, $modulstatus, $actionparamters );
 	  //
 	  // Weitere Wiederholungen fuer weitere Menue-Einträge, z.B.
 	  //
@@ -338,7 +342,7 @@ if (!empty($button_edit) || !empty($button_add)) {
 		'team' => '(Alle)',
 		'project' => '(Keins)',
 		'text' => '',
-		'time' => time(),
+		'time' => CURRENT_UNIX_TIME,
 	));
 }
 foreach ($config['schiffstypen'] as $schiffstyp)
@@ -381,7 +385,7 @@ if (!empty($button_add)) {
 		$results[] = "<div class='system_notification'>Pro Planet kann nur eine Bestellung hinzugefügt werden.</div><br>";	
 		$doppelbelegung="true";		
 	} else {
-		$fields['time_created'] = time();
+		$fields['time_created'] = CURRENT_UNIX_TIME;
 		$sql = "INSERT INTO " . $db_tb_bestellung_schiffe . " (";
 		$sql .= implode(array_keys($fields), ",");
 		$sql .= ") VALUES (";
@@ -969,15 +973,15 @@ function sort_data_cmp($a, $b) {
 function parsetime($text) {
 	if (preg_match("/(\d+).(\d+).(\d+) (\d+):(\d+)/", $text, $match) > 0) {
 		$temptime=mktime($match[4], $match[5], 0, $match[2], $match[1], $match[3]);
-		if ($temptime < time()){
-			return time();
+		if ($temptime < CURRENT_UNIX_TIME){
+			return CURRENT_UNIX_TIME;
 		}
 		else {
 			return mktime($match[4], $match[5], 0, $match[2], $match[1], $match[3]);
 		}
 	}
 	else
-		return time();
+		return CURRENT_UNIX_TIME;
 }
 
 // ****************************************************************************

@@ -253,6 +253,25 @@ CREATE TABLE IF NOT EXISTS `prefix_gebaeude_spieler` (
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `prefix_fremdsondierung`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_fremdsondierung` (
+   `koords_to` varchar(11) NOT NULL,
+   `name_to` varchar(50) NOT NULL,
+   `allianz_to` varchar(50) NOT NULL,
+   `koords_from` varchar(11) NOT NULL,
+   `name_from` varchar(50) NOT NULL,
+   `allianz_from` varchar(50) NOT NULL,
+   `sondierung_art` ENUM( 'schiffe', 'gebaeude' ) NOT NULL COMMENT 'Schiffe oder Gebäude',
+   `timestamp` int(10) unsigned NOT NULL COMMENT 'Zeitstempel Sondierung',
+   `erfolgreich` int(1) DEFAULT '0' COMMENT '0=fail,1=success',
+PRIMARY KEY (`timestamp`,`koords_to`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Tabelle eingegangener Sondierungen';
+
+-- --------------------------------------------------------
+
+--
 -- Tabellenstruktur für Tabelle `prefix_group`
 --
 
@@ -332,7 +351,7 @@ CREATE TABLE IF NOT EXISTS `prefix_iwdbtabellen` (
 CREATE TABLE IF NOT EXISTS `prefix_kasse_content` (
   `amount` decimal(22,2) NOT NULL DEFAULT '0.00',
   `allianz` varchar(50) NOT NULL DEFAULT '',
-  `time_of_insert` date NOT NULL DEFAULT '0000-00-00',
+  `time_of_insert` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   UNIQUE KEY `allianz` (`allianz`,`time_of_insert`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -345,7 +364,7 @@ CREATE TABLE IF NOT EXISTS `prefix_kasse_content` (
 CREATE TABLE IF NOT EXISTS `prefix_kasse_incoming` (
   `user` varchar(30) NOT NULL DEFAULT '',
   `amount` decimal(22,2) NOT NULL DEFAULT '0.00',
-  `time_of_insert` date NOT NULL DEFAULT '0000-00-00',
+  `time_of_insert` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `allianz` varchar(50) NOT NULL DEFAULT '',
   UNIQUE KEY `user` (`user`,`time_of_insert`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -398,7 +417,8 @@ CREATE TABLE IF NOT EXISTS `prefix_kb_bomb` (
   `time` int(11) NOT NULL,
   `user` varchar(30) NOT NULL DEFAULT '',
   `trefferchance` int(10) unsigned NOT NULL,
-  `basis` tinyint(1) NOT NULL
+  `basis` tinyint(1) NOT NULL,
+  `bev` int(10) unsigned NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -530,13 +550,13 @@ CREATE TABLE IF NOT EXISTS `prefix_lager` (
   `bev_w` float DEFAULT NULL,
   `zufr` float DEFAULT NULL,
   `zufr_w` float DEFAULT NULL,
-  `eisen_soll` float DEFAULT NULL,
-  `stahl_soll` float DEFAULT NULL,
-  `vv4a_soll` float DEFAULT NULL,
-  `chem_soll` float DEFAULT NULL,
-  `eis_soll` float DEFAULT NULL,
-  `wasser_soll` float DEFAULT NULL,
-  `energie_soll` float DEFAULT NULL,
+  `eisen_soll` int DEFAULT NULL,
+  `stahl_soll` int DEFAULT NULL,
+  `vv4a_soll` int DEFAULT NULL,
+  `chem_soll` int DEFAULT NULL,
+  `eis_soll` int DEFAULT NULL,
+  `wasser_soll` int DEFAULT NULL,
+  `energie_soll` int DEFAULT NULL,
   `eisen_baukosten` float NOT NULL,
   `stahl_baukosten` float NOT NULL,
   `vv4a_baukosten` float NOT NULL,
@@ -1099,8 +1119,8 @@ CREATE TABLE IF NOT EXISTS `prefix_sysscans` (
   `sys` smallint(6) NOT NULL DEFAULT '0',
   `objekt` varchar(20) NOT NULL DEFAULT '',
   `date` varchar(11) NOT NULL DEFAULT '',
-  `nebula` varchar(10) NOT NULL DEFAULT '',
-  KEY `idx_sg_search` (`gal`,`objekt`)
+  `nebula` enum('','blau','gelb','gruen','rot','violett') NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1288,5 +1308,6 @@ CREATE TABLE IF NOT EXISTS `prefix_spielerallychange` (
   `fromally` varchar(50) NOT NULL,
   `toally` varchar(50) NOT NULL,
   `time` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`name`,`fromally`,`toally`,`time`),
   KEY `time` (`time`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

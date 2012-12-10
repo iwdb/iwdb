@@ -197,8 +197,8 @@ $result = $db->db_query($sql)
 	__FILE__, __LINE__, $sql);
 
 $data = array();
-//$akt=strftime("%d.%m.%y %H:%M:%S", time());
-$akt=time();
+//$akt=strftime("%d.%m.%y %H:%M:%S", CURRENT_UNIX_TIME);
+$akt=CURRENT_UNIX_TIME;
 
 start_table();
 	start_row("titlebg", "nowrap style=\"width:0%\" align=\"center\" ");

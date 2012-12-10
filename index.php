@@ -44,13 +44,14 @@ define('IRA', TRUE);
 define('NEBULA', TRUE);
 define('SPECIALSEARCH', TRUE);
 define('ALLY_MEMBERS_ON_MAP', TRUE); 
-define('SHOWWITHOUTSCAN', TRUE);
 define('GENERAL_ERROR', 'GENERAL_ERROR');
+define('APPLICATION_FILE', basename(__FILE__));
 define('APPLICATION_PATH', dirname(__FILE__));
 define("MAX_INSERTS", 1000);
 
 global $db_host, $db_user, $db_pass, $db_name, $db_prefix;
 require_once("config/configsql.php");
+require_once("includes/debug.php");
 require_once("includes/function.php");
 require_once("includes/db_mysql.php");
 require_once('parser/parser_help.php');        //ausgelagerte Parserhilfsfunktionen
@@ -132,16 +133,16 @@ if (( ( $user_adminsitten == SITTEN_BOTH ) || ( $user_adminsitten == SITTEN_ONLY
     ( $action == "sitterlogins" ) && ( ! empty($sitterlogin) ) && ( $user_id <> "guest" ) )
 {
 	$sql = "DELETE FROM " . $db_tb_sitterlog . 
-         " WHERE date<" . ( $config_date - $config_sitterlog_timeout );
+         " WHERE date<" . ( CURRENT_UNIX_TIME - $config_sitterlog_timeout );
 	$result = $db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
-	$sql = "SELECT id FROM " . $db_tb_sitterlog . " WHERE sitterlogin = '" . $sitterlogin . "' AND fromuser = '" . $user_sitterlogin . "' AND action = 'login' AND date > " . ( $config_date - $config_sitterpunkte_timeout );
+	$sql = "SELECT id FROM " . $db_tb_sitterlog . " WHERE sitterlogin = '" . $sitterlogin . "' AND fromuser = '" . $user_sitterlogin . "' AND action = 'login' AND date > " . ( CURRENT_UNIX_TIME - $config_sitterpunkte_timeout );
 	$result = $db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	$anz = $db->db_num_rows($result);
 
-	$sql = "INSERT INTO " . $db_tb_sitterlog . " (sitterlogin, fromuser, date, action) VALUES ('" . $sitterlogin . "', '" . $user_sitterlogin . "', '" . $config_date . "', 'login')";
+	$sql = "INSERT INTO " . $db_tb_sitterlog . " (sitterlogin, fromuser, date, action) VALUES ('" . $sitterlogin . "', '" . $user_sitterlogin . "', '" . CURRENT_UNIX_TIME . "', 'login')";
 	$result = $db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
@@ -149,7 +150,7 @@ if (( ( $user_adminsitten == SITTEN_BOTH ) || ( $user_adminsitten == SITTEN_ONLY
 	$sql = "UPDATE " . $db_tb_user . " SET lastsitterloggedin=0 WHERE lastsitteruser='" . $user_sitterlogin . "'";
 	$result = $db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-	$sql = "UPDATE " . $db_tb_user . " SET lastsitterlogin=" . time() . ",lastsitteruser='" . $user_sitterlogin . "',lastsitterloggedin=1 WHERE id='" . $sitterlogin . "'";
+	$sql = "UPDATE " . $db_tb_user . " SET lastsitterlogin=" . CURRENT_UNIX_TIME . ",lastsitteruser='" . $user_sitterlogin . "',lastsitterloggedin=1 WHERE id='" . $sitterlogin . "'";
 	$result = $db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);	
 
@@ -309,13 +310,6 @@ if ( ( $user_id <> "guest" ) && ( $user_rules == "1" ) ) {
 		$sql = "DELETE FROM " . $db_tb_bestellung . " WHERE user='" . $sitterlogin . "'";
 		$result = $db->db_query($sql)
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-
-		
-		// remove alliance info on member	in the maps		
-  	$sql = "UPDATE " . $db_tb_scans . " SET allianz='' WHERE user='" . $sitterlogin . "'";
-		$result = $db->db_query($sql)
-			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-		
 
 ?>
 

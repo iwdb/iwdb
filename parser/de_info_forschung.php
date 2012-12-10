@@ -329,7 +329,7 @@ function unhtmlentities($string)
 function find_building_id($name) {
 	global $db, $db_tb_gebaeude;
 
-  // Aenderungen für Gebaeude, die bereits unter anderem Namen in der DB sind.
+  // Änderungen für Gebäude, die bereits unter anderem Namen in der DB sind.
 	if(strpos($name, "Glace") > 0) {
 	  $name = "Eiscrusher der Sirius Corp, Typ Glace la mine";
 	}

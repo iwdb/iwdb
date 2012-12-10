@@ -1,4 +1,12 @@
-#hide .htaccess files (mostly standard)
+#magic quotes stuff off
+<ifmodule mod_php.c>
+    php_value magic_quotes 0
+    php_flag magic_quotes off
+    php_value magic_quotes_gpc 0
+    php_flag magic_quotes_gpc off
+</ifmodule>
+
+#hide .htaccess files (mostly standard just to be sure)
 <files .htaccess>
     order allow,deny
     deny from all
@@ -20,11 +28,6 @@
     <FilesMatch "\.(gif|jpg|jpeg|png|swf)$">
         ExpiresDefault "access plus 1 month"
     </FilesMatch>
-
-    #die universe.gif quasi nicht cachen
-    <Files universe.gif>
-        ExpiresDefault "access plus 30 seconds"
-    </Files>
 
     # Javascript und CSS-Styles 1 Monat cachen
     <FilesMatch "\.(js|css)$">

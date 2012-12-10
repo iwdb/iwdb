@@ -36,10 +36,10 @@ if ( ( $user_adminsitten != SITTEN_BOTH ) && ( $user_adminsitten != SITTEN_ONLY_
 
 function dauer($zeit)
 {
-	$tage = floor($zeit / 86400);
+	$tage = floor($zeit / DAY);
 	$return = ($tage > 0) ? $tage . " Tage, ": "";
-	$stunden = floor(($zeit - $tage * 86400) / 3600);
-	$minuten = round(($zeit - $tage * 86400 - $stunden * 3600) / 60);
+	$stunden = floor(($zeit - $tage * DAY) / 3600);
+	$minuten = round(($zeit - $tage * DAY - $stunden * 3600) / 60);
 	$return .= str_pad($stunden, 2, "0", STR_PAD_LEFT) . ":" . str_pad($minuten, 2, "0", STR_PAD_LEFT);
 	return $return;
 }
@@ -92,7 +92,7 @@ if ( ! empty($edit) )
 				if ( $row['date_b2'] <> $row['date_b1'] ) $bauschleifenmod = 1.2;
 			}
 			$logtext = "<font color='#FF0000'><b>" . $row_planet['planetenname'] . " [" . $row['planet'] . "]<br>" . auftrag($row['typ'], $row['bauschleife'], $row['bauid'], $row['auftrag'], $row['schiffanz'], $row_planet['dgmod'], $row['user'], $bauschleifenmod) . "<br>gelöscht von " . $user_sitterlogin . ( (empty($comment) ) ? "" : ": " . nl2br($comment) ) . "</b></font>";
-			$sql = "INSERT INTO " . $db_tb_sitterlog . " (sitterlogin, fromuser, date, action) VALUES ('" . $row['user'] . "', '" . $user_sitterlogin . "', '" . $config_date . "', '" . $logtext . "')";
+			$sql = "INSERT INTO " . $db_tb_sitterlog . " (sitterlogin, fromuser, date, action) VALUES ('" . $row['user'] . "', '" . $user_sitterlogin . "', '" . CURRENT_UNIX_TIME . "', '" . $logtext . "')";
 			$result = $db->db_query($sql)
 				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 		
@@ -144,12 +144,12 @@ if ( ! empty($edit) )
 		//Schieben auf alle Zeiten anwenden
 		if ($plus_stunden>0 || $plus_minuten>0) {
 			$schiebe_zeit=$plus_stunden*60*60+$plus_minuten*60;
-			$date=time()+$schiebe_zeit;
-			$date_b1=time()+$schiebe_zeit;
-			$date_b2=time()+$schiebe_zeit;
+			$date=CURRENT_UNIX_TIME+$schiebe_zeit;
+			$date_b1=CURRENT_UNIX_TIME+$schiebe_zeit;
+			$date_b2=CURRENT_UNIX_TIME+$schiebe_zeit;
 		}
 
-		if ( ( $date < $config_date - $config_sitterauftrag_timeout ) || ( $date_b1 < $config_date - $config_sitterauftrag_timeout ) || ( $date_b2 < $config_date - $config_sitterauftrag_timeout ) )
+		if ( ( $date < CURRENT_UNIX_TIME - $config_sitterauftrag_timeout ) || ( $date_b1 < CURRENT_UNIX_TIME - $config_sitterauftrag_timeout ) || ( $date_b2 < CURRENT_UNIX_TIME - $config_sitterauftrag_timeout ) )
 		{
 			$alert .= "<br><font color='#FF0000'><b>Ungültiger Zeitpunkt.</b></font><br>";
 		}
@@ -209,7 +209,7 @@ if ( ! empty($edit) )
 		$logtext = "Zeit geändert auf " . strftime($config_sitter_timeformat, $date) . $verschoben_text . "<br>" . $row_planet['planetenname'] . " [" . $row['planet'] . "]<br>" . auftrag($row['typ'], $row['bauschleife'], $row['bauid'], $row['auftrag'], $row['schiffanz'], $row_planet['dgmod'], $row['user'], $bauschleifenmod);
 		}
 		
-	$sql = "INSERT INTO " . $db_tb_sitterlog . " (sitterlogin, fromuser, date, action) VALUES ('" . $row['user'] . "', '" . $user_sitterlogin . "', '" . $config_date . "', '" . $logtext . "')";
+	$sql = "INSERT INTO " . $db_tb_sitterlog . " (sitterlogin, fromuser, date, action) VALUES ('" . $row['user'] . "', '" . $user_sitterlogin . "', '" . CURRENT_UNIX_TIME . "', '" . $logtext . "')";
 	$result = $db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 }
@@ -240,7 +240,7 @@ if ( ! empty($erledigt) )
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 		$row_planet = $db->db_fetch_array($result_planet);
 	
-		if ( ( $row['date'] > $config_date ) || ( empty($row['refid']) ) )
+		if ( ( $row['date'] > CURRENT_UNIX_TIME ) || ( empty($row['refid']) ) )
 		{
 			$sql = "DELETE FROM " . $db_tb_sitterauftrag . " WHERE id = '" . $erledigtids[0] . "'";
 			$result_del = $db->db_query($sql)
@@ -257,7 +257,7 @@ if ( ! empty($erledigt) )
 	    if(!empty($row['ByUser']) && ($row['user'] != $row['ByUser'])) {
 			  $logtext .= "<br>(Auftrag erstellt von " . $row['ByUser'] . ")";
 			}
-			$sql = "INSERT INTO " . $db_tb_sitterlog . " (sitterlogin, fromuser, date, action) VALUES ('" . $row['user'] . "', '" . $user_sitterlogin . "', '" . $config_date . "', '" . $logtext . "')";
+			$sql = "INSERT INTO " . $db_tb_sitterlog . " (sitterlogin, fromuser, date, action) VALUES ('" . $row['user'] . "', '" . $user_sitterlogin . "', '" . CURRENT_UNIX_TIME . "', '" . $logtext . "')";
 			$result = $db->db_query($sql)
 				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 		
@@ -317,7 +317,7 @@ if ( ! empty($erledigt) )
 			if ( empty($date) && empty($date_parse) && empty($date_b1) && empty($date_b2 ) )
 				$alert = "<br><font color='#FF0000'><b>Bitte ausfüllen.</b></font><br>";
 			else
-				$alert = ( ( $date < $config_date - $config_sitterauftrag_timeout ) || ( $date_b1 < $config_date - $config_sitterauftrag_timeout ) || ( $date_b2 < $config_date - $config_sitterauftrag_timeout ) ) ? "<br><font color='#FF0000'><b>Ungueltiger Zeitpunkt.</b></font><br>": "";
+				$alert = ( ( $date < CURRENT_UNIX_TIME - $config_sitterauftrag_timeout ) || ( $date_b1 < CURRENT_UNIX_TIME - $config_sitterauftrag_timeout ) || ( $date_b2 < CURRENT_UNIX_TIME - $config_sitterauftrag_timeout ) ) ? "<br><font color='#FF0000'><b>Ungueltiger Zeitpunkt.</b></font><br>": "";
 	
 			$sql = "SELECT bauschleife, refid FROM " . $db_tb_sitterauftrag . " WHERE id = '" . $erledigtids[(count($erledigtids) - 1)] . "'";
 			$result_act = $db->db_query($sql)
@@ -375,7 +375,7 @@ if ( ! empty($erledigt) )
 					}
 	
 					$logtext = $row_planet['planetenname'] . " [" . $row['planet'] . "]<br>" . auftrag($row_x['typ'], $row_x['bauschleife'], $row_x['bauid'], $row_x['auftrag'], $row_x['schiffanz'], $row_planet['dgmod'], $row_x['user'], $bauschleifenmod);
-					$sql = "INSERT INTO " . $db_tb_sitterlog . " (sitterlogin, fromuser, date, action) VALUES ('" . $row['user'] . "', '" . $user_sitterlogin . "', '" . $config_date . "', '" . $logtext . " ')";
+					$sql = "INSERT INTO " . $db_tb_sitterlog . " (sitterlogin, fromuser, date, action) VALUES ('" . $row['user'] . "', '" . $user_sitterlogin . "', '" . CURRENT_UNIX_TIME . "', '" . $logtext . " ')";
 					$result_log = $db->db_query($sql)
 						or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	
@@ -535,7 +535,7 @@ $result_avg = $db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row_avg = $db->db_fetch_array($result_avg);
 
-$sql = "SELECT t1.* FROM " . $db_tb_sitterauftrag . " as t1 LEFT JOIN " . $db_tb_sitterauftrag . " as t2 ON t1.id = t2.refid WHERE t2.refid is null AND t1.date_b2 <= " . $config_date;
+$sql = "SELECT t1.* FROM " . $db_tb_sitterauftrag . " as t1 LEFT JOIN " . $db_tb_sitterauftrag . " as t2 ON t1.id = t2.refid WHERE t2.refid is null AND t1.date_b2 <= " . CURRENT_UNIX_TIME;
 if ($user_fremdesitten == "0")
 {
 	$sql .= " AND (SELECT allianz FROM " . $db_tb_user . " WHERE id=t1.user) = '" . $user_allianz . "'";
@@ -545,15 +545,15 @@ $result = $db->db_query($sql)
 	or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 while($row = $db->db_fetch_array($result))
 {
-	if ( $row['date'] < $config_date )
+	if ( $row['date'] < CURRENT_UNIX_TIME )
 	{
 		$row['date_b1'] = $row['date'];
 	}
-	if ( $row['date_b1'] < $config_date )
+	if ( $row['date_b1'] < CURRENT_UNIX_TIME )
 	{
 		$row['date_b2'] = $row['date_b1'];
 	}
-	if ( ( $row['date_b1'] < $config_date ) || ( $row['date_b2'] < $config_date ) )
+	if ( ( $row['date_b1'] < CURRENT_UNIX_TIME ) || ( $row['date_b2'] < CURRENT_UNIX_TIME ) )
 	{
 		$sql = "UPDATE " . $db_tb_sitterauftrag . " SET date_b1 = '" . $row['date_b1'] . "', date_b2 = '" . $row['date_b2'] . "' WHERE id = '" . $row['id'] . "'";
 		$result_u = $db->db_query($sql)
@@ -586,7 +586,7 @@ while($row = $db->db_fetch_array($result))
 		$count++;
 
 		// Auftragsformatierung //
-		$num = ( $row['date'] <= $config_date) ? 2: 1;
+		$num = ( $row['date'] <= CURRENT_UNIX_TIME) ? 2: 1;
 		if (!empty($ikea) && $row_act['typ']=="Gebaeude") {
 			$sql = "SELECT * FROM " . $db_tb_gebaeude . " WHERE id = '" . $row_act['bauid'] . "'";
 			$result_gebaeude = $db->db_query($sql)
@@ -606,7 +606,7 @@ while($row = $db->db_fetch_array($result))
 		$row['auftrag'] .= auftrag($row_act['typ'], $row_act['bauschleife'], $row_act['bauid'], $row_act['auftrag'], $row_act['schiffanz'], $row_planet['dgmod'], $row_act['user'], $bauschleifenmod) . "<br>";
 
 		// Auftragsabhaengigkeiten //
-$sql = "SELECT id, auftrag, bauid, bauschleife, typ, refid, user, date_b1, date_b2, date, schiffanz FROM " . $db_tb_sitterauftrag . " WHERE id = '" . $row_act['refid'] . "' AND date <= '".($config_date + $sitter_wie_lange_vorher_zeigen) . "';";
+$sql = "SELECT id, auftrag, bauid, bauschleife, typ, refid, user, date_b1, date_b2, date, schiffanz FROM " . $db_tb_sitterauftrag . " WHERE id = '" . $row_act['refid'] . "' AND date <= '".(CURRENT_UNIX_TIME + $sitter_wie_lange_vorher_zeigen) . "';";
 		$result_act = $db->db_query($sql)
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 		$row_act = $db->db_fetch_array($result_act);
@@ -639,7 +639,7 @@ $sql = "SELECT id, auftrag, bauid, bauschleife, typ, refid, user, date_b1, date_
 	if (isset($row_lastlogin) ) {
 		$users_lastlogin = $row_lastlogin['MAX(date)'];
 		$users_lastlogin_user = $row_lastlogin['fromuser'];
-		$users_logged_in = ( ( $row_lastlogin['MAX(date)'] > ($config_date - $config_sitterlogin_timeout) ) && ( $row_lastlogin['fromuser'] != $user_sitterlogin ) ) ? $row_lastlogin['fromuser'] : "";
+		$users_logged_in = ( ( $row_lastlogin['MAX(date)'] > (CURRENT_UNIX_TIME - $config_sitterlogin_timeout) ) && ( $row_lastlogin['fromuser'] != $user_sitterlogin ) ) ? $row_lastlogin['fromuser'] : "";
 	}
     else
     {
@@ -864,7 +864,7 @@ if (is_array($users_logged_in)) {
  </tr>
 <?php
 // Auftraege durchgehen //
-$sql = "SELECT * FROM " . $db_tb_sitterauftrag . " WHERE date_b2 > " . $config_date . " AND date_b2 < " . ($config_date + $config_sitterliste_timeout);
+$sql = "SELECT * FROM " . $db_tb_sitterauftrag . " WHERE date_b2 > " . CURRENT_UNIX_TIME . " AND date_b2 < " . (CURRENT_UNIX_TIME + $config_sitterliste_timeout);
 if ($user_fremdesitten == "0")
 {
 	$sql .= " AND (SELECT allianz FROM " . $db_tb_user . " WHERE id=" . $db_tb_sitterauftrag . ".user) = '" . $user_allianz . "'";

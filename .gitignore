@@ -4,4 +4,5 @@
 /config/configally.php
 /config/*.cfg.php
 /.idea/
-universe.gif
+/test/
+/docs/

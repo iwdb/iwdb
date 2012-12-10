@@ -316,6 +316,28 @@ a:hover        {
  }
 
 
+/* !N Systemnachrichten */
+/* !T Systemhinweis hervorgehoben */
+/* !I */
+
+.system_notification_blue {
+    font-size: 1.2em;
+    text-align: center;
+    color: #0000FF;
+}
+
+/* !N Systemnachrichten */
+/* !T Systemwarnung */
+/* !I */
+
+.system_warning {
+    font-size: 1.3em;
+    color: #FF6600;
+    font-weight: bold;
+    text-align: center;
+}
+
+
 /* !N system_notification b */
 /* !T Systemfehler */
 /* !I */

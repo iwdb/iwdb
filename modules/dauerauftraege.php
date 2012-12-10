@@ -37,14 +37,14 @@ if ( ! empty($newlog) )
 	$sitterlogin = getVar('sitterlogin');
 	$auftrag = getVar('auftrag');
 
-	$sql = "SELECT id FROM " . $db_tb_sitterlog . " WHERE sitterlogin = '" . $sitterlogin . "' AND fromuser = '" . $user_sitterlogin . "' AND action <> 'login' AND date > " . ( $config_date - $config_sitterpunkte_timeout );
+	$sql = "SELECT id FROM " . $db_tb_sitterlog . " WHERE sitterlogin = '" . $sitterlogin . "' AND fromuser = '" . $user_sitterlogin . "' AND action <> 'login' AND date > " . ( CURRENT_UNIX_TIME - $config_sitterpunkte_timeout );
 	$result = $db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	$anz = $db->db_num_rows($result);
 
 	// Log
 	$logtext = nl2br($auftrag);
-	$sql = "INSERT INTO " . $db_tb_sitterlog . " (sitterlogin, fromuser, date, action) VALUES ('" . $sitterlogin . "', '" . $user_sitterlogin . "', '" . $config_date . "', '" . $logtext . "')";
+	$sql = "INSERT INTO " . $db_tb_sitterlog . " (sitterlogin, fromuser, date, action) VALUES ('" . $sitterlogin . "', '" . $user_sitterlogin . "', '" . CURRENT_UNIX_TIME . "', '" . $logtext . "')";
 	$result = $db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
@@ -136,7 +136,7 @@ if ( ! empty($anz) )
 			$users_sitten[$count] = $row['sitten'];
 			$users_lastlogin[$count] = $row_lastlogin['MAX(date)'];
 			$users_lastlogin_user[$count] = $row_lastlogin['fromuser'];
-			$users_logged_in[$count] = ( ( $row_lastlogin['MAX(date)'] > ($config_date - $config_sitterlogin_timeout) ) && ( $row_lastlogin['fromuser'] != $user_sitterlogin ) ) ? $row_lastlogin['fromuser'] : "";
+			$users_logged_in[$count] = ( ( $row_lastlogin['MAX(date)'] > (CURRENT_UNIX_TIME - $config_sitterlogin_timeout) ) && ( $row_lastlogin['fromuser'] != $user_sitterlogin ) ) ? $row_lastlogin['fromuser'] : "";
 	
 			$count++;
 		}
@@ -145,7 +145,7 @@ if ( ! empty($anz) )
 	
 	foreach ($users_sitterlogin as $key => $data)
 	{
-		if ($config_date - $config_dauer_timeout < $users_lastlogin[$key] )	$num = 1;
+		if (CURRENT_UNIX_TIME - $config_dauer_timeout < $users_lastlogin[$key] )	$num = 1;
 		else $num = 2;
 ?>
  <tr>

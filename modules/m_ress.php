@@ -375,7 +375,7 @@ $result = $db->db_query($sql)
 
 
 while($row = $db->db_fetch_array($result)) {
-	$color = scanAge($row['datum']);
+	$color = getScanAgeColor($row['datum']);
 
   next_row("windowbg1", " nowrap=\"nowrap\"");
   echo $row['user'] . "<br>";
@@ -602,12 +602,10 @@ foreach ($fleeterlist as $key => $value) {
                 `" . $order . "` " . $ordered;
 
     $result3 = $db->db_query($sql3)
-      or error(GENERAL_ERROR, 
-               'Could not query config information.', '', 
-               __FILE__, __LINE__, $sql);
+      or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
     while($row = $db->db_fetch_array($result3)) {
-        $color = scanAge($row['datum']);
+        $color = getScanAgeColor($row['datum']);
 
       next_row("windowbg1", " nowrap=\"nowrap\"");
       echo $row['user'] . "<br>";

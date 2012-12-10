@@ -159,10 +159,6 @@ if( !empty($_REQUEST['was'])) {
 }
 
 //****************************************************************************
-
-Global $config_date;
-
-
 if ((getVar('ordered') === 'desc')) {
     $sort='DESC';
 } else {
@@ -291,11 +287,11 @@ while ($row = $db->db_fetch_array($result)) {
 	echo "    <td class='windowbg1' style='text-align:center;'>\n";
 
     echo '<a href="index.php?action=m_sprengung&amp;ordered=asc&amp;sid='.$sid.'><img src="bilder/asc.gif" border="0" alt="asc"></a>';
-	$reset_timestamp_first = ($row['reset_timestamp_2'] - 86400);   //vorverlegen des Sprengdatums wegen +-24h
-    if ($reset_timestamp_first > $config_date) {
-        echo makeduration2($config_date, $reset_timestamp_first) . " \n";
-    } elseif (($reset_timestamp_first+172800) > $config_date) {                                        // 2 Tage Toleranz
-		echo "evl. seit ".makeduration2($reset_timestamp_first, $config_date)." gesprengt\n";
+	$reset_timestamp_first = ($row['reset_timestamp_2'] - DAY);   //vorverlegen des Sprengdatums wegen +-24h
+    if ($reset_timestamp_first > CURRENT_UNIX_TIME) {
+        echo makeduration2(CURRENT_UNIX_TIME, $reset_timestamp_first) . " \n";
+    } elseif (($reset_timestamp_first + 2*DAY) > CURRENT_UNIX_TIME) {                                        // 2 Tage Toleranz
+		echo "evl. seit ".makeduration2($reset_timestamp_first, CURRENT_UNIX_TIME)." gesprengt\n";
     } else {
         echo "wahrscheinlich gesprengt!";                             //alles was drüber ist, ist wohl weg
     }

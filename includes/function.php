@@ -361,10 +361,10 @@ function getVar($varname, $noentities = false) {
 		if(!$noentities) {
 			if (is_array($_POST[$varname])) {
 				$returnary = array();
-				foreach($_POST[$varname] as $key => $value) $returnary[$key] = htmlentities($value, ENT_QUOTES, 'UTF-8');
+				foreach($_POST[$varname] as $key => $value) $returnary[$key] = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
 				return $returnary;
 			} else {
-				return htmlentities($_POST[$varname], ENT_QUOTES, 'UTF-8');
+				return htmlspecialchars($_POST[$varname], ENT_QUOTES, 'UTF-8');
 			}
 		} else {
 			return $_POST[$varname];
@@ -374,10 +374,10 @@ function getVar($varname, $noentities = false) {
 		if(!$noentities) {
 			if (is_array($_GET[$varname])) {
 				$returnary = array();
-				foreach($_GET[$varname] as $key => $value) $returnary[$key] = htmlentities($value, ENT_QUOTES, 'UTF-8');
+				foreach($_GET[$varname] as $key => $value) $returnary[$key] = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
 				return $returnary;
 			} else {			
-				return htmlentities($_GET[$varname], ENT_QUOTES, 'UTF-8');
+				return htmlspecialchars($_GET[$varname], ENT_QUOTES, 'UTF-8');
 			}
 		} else {
 			return $_GET[$varname];
@@ -387,23 +387,90 @@ function getVar($varname, $noentities = false) {
 	return FALSE;
 }
 
+/**
+ * function getScanAgeColor
+ *
+ * Function for getting an html code between green and red, depending on the
+ * given scandate. The date is green when 0 and red when reaching an age of $config_map_timeout
+ *
+ * @param int $scandate unixtime of scan
+ *
+ * @return string color in format #rrggbb
+ */
+function getScanAgeColor($scandate)
+{
+    global $config_map_timeout, $config_color;
+
+    if ($scandate < CURRENT_UNIX_TIME - $config_map_timeout) {
+        return $config_color['scanoutdated'];
+    } elseif ((CURRENT_UNIX_TIME - $scandate) < DAY) {
+        return $config_color['first24h'];
+    }
+
+    $i = round(($scandate - CURRENT_UNIX_TIME + $config_map_timeout) / ($config_map_timeout / 510));
+    $gruen = ($i < 256) ? $i : 255;
+    $rot = ($i < 256) ? 255 : 254 - ($i - 256);
+    return "#" . sprintf("%02X",$rot) . sprintf("%02X",$gruen) . "00";
+}
+
 //******************************************************************************
 //
 // Function for getting an html code between green and red, depending on the
-// given scandate. The date is green when 0 and red when reaching   
+// given scandate. The date is green when 0 and red when reaching
 //
+// old use getScanAgeColor
 function scanAge($scandate) {
-  global $config_date, $config_map_timeout;
+  global $config_map_timeout;
   
-	if ( $scandate < $config_date - $config_map_timeout )
+	if ( $scandate < CURRENT_UNIX_TIME - $config_map_timeout )
 	{
 		return "#FF0000";
 	}
   
-  $i     = round(( $scandate - $config_date + $config_map_timeout ) / ($config_map_timeout / 510) );
+  $i     = round(( $scandate - CURRENT_UNIX_TIME + $config_map_timeout ) / ($config_map_timeout / 510) );
   $gruen = ($i < 256) ? $i: 255;
   $rot   = ($i < 256) ? 255: 254 - ($i - 256);
   return ("#" . str_pad(dechex($rot), 2, "0", STR_PAD_LEFT) . str_pad(dechex($gruen), 2, "0", STR_PAD_LEFT) . "00");
+}
+
+/**
+ * function validAccname
+ *
+ * Überprüft ob sich der angegebene Acc in der IWDB befindet
+ *
+ * @param string $name Zu überprüfender Accname
+ *
+ * @return string geprüfter Accname oder false falls nicht vorhanden
+ *
+ * @author masel
+ */
+function validAccname($name)
+{
+    global $db, $db_tb_user;
+    static $IwAccnames;
+
+    if (empty($name)) {
+        return false;
+    }
+
+    //sind Informationen nicht im statischen cache -> neu holen
+    if (empty($IwAccnames)) {
+        $IwAccnames = Array();
+
+        $sql = "SELECT `sitterlogin` FROM  `$db_tb_user`";
+        $result = $db->db_query($sql)
+            or error(GENERAL_ERROR, 'Could not query iw accnames.', '', __FILE__, __LINE__, $sql);
+
+        while ($row = $db->db_fetch_array($result)) {
+            $IwAccnames[] = $row['sitterlogin'];
+        }
+    }
+
+    if (!in_array($name, $IwAccnames)) {
+        return false;
+    }
+
+    return $name;
 }
 
 /**
@@ -673,13 +740,11 @@ function makeduration2($time1, $time2=NULL) {
     //errechnet Zeitraum von Zeitpunkt 1 zu jetzt oder Zeitpunkt 2 ($time2)
     // masel
 
-    Global $config_date;
-
     if (!isset($time1)) {
         return '---';
     }
     if (!isset($time2)) {
-        $time2 = $config_date;
+        $time2 = CURRENT_UNIX_TIME;
     }
 
     if ($time1>$time2) {
@@ -689,12 +754,12 @@ function makeduration2($time1, $time2=NULL) {
         $duration = $time2 - $time1;
         $text = '';
     }
-    $Tage = (int)($duration / 86400);
-    $duration -= $Tage * 86400;
-    $Stunden = (int)($duration / 3600);
-    $duration -= $Stunden * 3600;
-    $Minuten = (int)($duration / 60);
-    //$duration -= $Minuten * 60;
+    $Tage = (int)($duration / DAY);
+    $duration -= $Tage * DAY;
+    $Stunden = (int)($duration / HOUR);
+    $duration -= $Stunden * HOUR;
+    $Minuten = (int)($duration / MINUTE);
+    //$duration -= $Minuten * MINUTE;
     //$Sekunden = $duration;
     if ($Tage === 1) {
         $text .= $Tage . '&nbsp;Tag ';

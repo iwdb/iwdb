@@ -77,13 +77,13 @@ function parse_de_wirtschaft_planiress ( $return )
 	}
     insert_data_total($scan_data_total);
     
-    echo "<div class='system_notification'>Produktion Teil 1 aktualisiert/hinzugef&uuml;gt.</div>";
+    echo "<div class='system_notification'>Produktion Teil 1 aktualisiert/hinzugefügt.</div>";
 }
 
 function insert_data($scan_data) {
-	global $db, $db_tb_lager, $selectedusername, $config_date;
+	global $db, $db_tb_lager, $selectedusername;
 
-//	debug_var('insert_data()', '');
+	//	debug_var('insert_data()', '');
 	$sql = "INSERT INTO " . $db_tb_lager . " (";
 	$sql .= "user,coords_gal,coords_sys,coords_planet,kolo_typ,";
 	$sql .= "eisen,eisen_prod,eisen_bunker,stahl,stahl_prod,stahl_bunker,";
@@ -102,7 +102,7 @@ function insert_data($scan_data) {
 	$sql .= $scan_data['eis'] . "," . $scan_data['eis_prod'] . "," . $scan_data['eis_lager'] . "," . $scan_data['eis_bunker'] . ",";
 	$sql .= $scan_data['wasser'] . "," . $scan_data['wasser_prod'] . "," . $scan_data['wasser_bunker'] . ",";
 	$sql .= $scan_data['energie'] . "," . $scan_data['energie_prod'] . "," . $scan_data['energie_lager'] . "," . $scan_data['energie_bunker'] . ",";
-	$sql .= $config_date;
+	$sql .= CURRENT_UNIX_TIME;
 	$sql .= ") ON DUPLICATE KEY UPDATE";
 	$sql .= " user='" . $selectedusername . "'";
 	$sql .= ",kolo_typ='" . $scan_data["kolo_typ"] . "'";
@@ -113,14 +113,14 @@ function insert_data($scan_data) {
 	$sql .= ",eis=" . $scan_data["eis"] . ",eis_prod=" . $scan_data['eis_prod'] . ",eis_lager=" . $scan_data['eis_lager'] . ",eis_bunker=" . $scan_data['eis_bunker'];
 	$sql .= ",wasser=" . $scan_data["wasser"] . ",wasser_prod=" . $scan_data['wasser_prod'] . ",wasser_bunker=" . $scan_data['wasser_bunker'];
 	$sql .= ",energie=" . $scan_data["energie"] . ",energie_prod=" . $scan_data['energie_prod'] . ",energie_lager=" . $scan_data['energie_lager'] . ",energie_bunker=" . $scan_data['energie_bunker'];
-	$sql .= ",time=" . $config_date;
+	$sql .= ",time=" . CURRENT_UNIX_TIME;
 //	debug_var('sql', $sql);
 	$db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 }
 
 function insert_data_total($scan_data) {
-	global $db, $db_tb_ressuebersicht, $selectedusername, $config_date;
+	global $db, $db_tb_ressuebersicht, $selectedusername;
 
 //	debug_var('insert_data_total()', '');
 
@@ -130,7 +130,7 @@ function insert_data_total($scan_data) {
 	$sql = "INSERT INTO " . $db_tb_ressuebersicht;
 	$sql .= " (user,datum,eisen,stahl,chem,vv4a,eis,wasser,energie) VALUES (";
 	$sql .= "'" . $selectedusername . "'";
-	$sql .= "," . $config_date;
+	$sql .= "," . CURRENT_UNIX_TIME;
 	$sql .= "," . $scan_data['total_eisen_prod'];
 	$sql .= "," . $scan_data['total_stahl_prod'];
 	$sql .= "," . $scan_data['total_chem_prod'];
@@ -139,7 +139,7 @@ function insert_data_total($scan_data) {
 	$sql .= "," . $scan_data['total_wasser_prod'];
 	$sql .= "," . $scan_data['total_energie_prod'];
 	$sql .= ") ON DUPLICATE KEY UPDATE";
-	$sql .= " datum=" . $config_date;
+	$sql .= " datum=" . CURRENT_UNIX_TIME;
 	$sql .= ",eisen=" . $scan_data['total_eisen_prod'];
 	$sql .= ",stahl=" . $scan_data['total_stahl_prod'];
 	$sql .= ",chem=" . $scan_data['total_chem_prod'];
@@ -151,6 +151,5 @@ function insert_data_total($scan_data) {
 	$db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);		
 }
-
 
 ?>

@@ -65,9 +65,9 @@ $modulname  = "m_bestellung";
 
 //****************************************************************************
 //
-// -> Menuetitel des Moduls der in der Navigation dargestellt werden soll.
+// -> Titel des Moduls
 //
-$modultitle = "Bestellung #ress";
+$modultitle = "Ressbestellung";
 
 //****************************************************************************
 //
@@ -139,10 +139,14 @@ function workInstallDatabase() {
 // in the included file includes/menu_fn.php
 //
 function workInstallMenu() {
-    global $modultitle, $modulstatus, $_POST;
-		
-		$actionparamters = "";
-  	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparameters );
+    global $modulstatus;
+
+    $menu = getVar('menu');
+    $submenu = getVar('submenu');
+    $menuetitel = "Bestellung #ress";    // -> Menütitel in der Navigation, #ress wird gegen die Anzahl der Bestellungen ersetzt
+    $actionparamters = "";
+
+    insertMenuItem( $menu, $submenu, $menuetitel, $modulstatus, $actionparamters );
 	  //
 	  // Weitere Wiederholungen fuer weitere Menue-Einträge, z.B.
 	  //
@@ -351,7 +355,7 @@ if (!empty($button_edit) || !empty($button_add)) {
 		'team' => $user_buddlerfrom,
 		'project' => '(Keins)',
 		'text' => '',
-		'time' => time(),
+		'time' => CURRENT_UNIX_TIME,
 		'eisen' => '',
 		'stahl' => '',
 		'chemie' => '',
@@ -397,7 +401,7 @@ if (!empty($button_add)) {
 	if ($row = $db->db_fetch_array($result)) {
 		$results[] = "<div class='system_notification'>Pro Planet kann nur eine Bestellung hinzugef&uuml;gt werden.</div><br>";			
 	} else {
-		$fields['time_created'] = time();
+		$fields['time_created'] = CURRENT_UNIX_TIME;
 		$sql = "INSERT INTO " . $db_tb_bestellung . " (";
 		$sql .= implode(array_keys($fields), ",");
 		$sql .= ") VALUES (";
@@ -981,7 +985,7 @@ function parsetime($text) {
 	if (preg_match("/(\d+).(\d+).(\d+) (\d+):(\d+)/", $text, $match) > 0)
 		return mktime($match[4], $match[5], 0, $match[2], $match[1], $match[3]);
 	else
-		return time();
+		return CURRENT_UNIX_TIME;
 }
 
 // ****************************************************************************

@@ -1182,3 +1182,12 @@ INSERT INTO `prefix_bbcodes` (`isregex`, `bbcode`, `htmlcode`) VALUES
 (0, ' :wayne:', ' <img src="bilder/smilies/wayne.gif" />'),
 (0, ' :wall:', ' <img src="bilder/smilies/wall.gif" />'),
 (0, ' :wtf:', ' <img src="bilder/smilies/wtf.gif" />');
+
+DELETE FROM `prefix_parser` WHERE `modulename` = 'unixml';
+
+-- Mac: fuer Fremdsondierungsparser
+INSERT INTO `prefix_iwdbtabellen` (`name`) VALUES
+('fremdsondierung');
+
+INSERT INTO `prefix_iwdbtabellen` (`name`) VALUES
+('incomings');

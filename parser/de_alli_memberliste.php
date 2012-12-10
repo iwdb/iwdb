@@ -100,18 +100,17 @@ function parse_de_alli_memberliste ( $result )
 
 function updateuser( $scan_data )
 {
-    global $db, $db_tb_user, $db_tb_punktelog, $config_date;
+    global $db, $db_tb_user, $db_tb_punktelog;
 
     // Daten ins Punktelog übernehmen.
     $sql = "INSERT INTO " . $db_tb_punktelog . "(" .
          " user, date, gebp, fp, gesamtp, ptag" .
          ") VALUES (" .
-         " '" . $scan_data['sitterlogin'] . "', '" . $config_date . "', '" .
+         " '" . $scan_data['sitterlogin'] . "', '" . CURRENT_UNIX_TIME . "', '" .
                 $scan_data['gebp'] . "', '" . $scan_data['fp'] . "', '" .
                 $scan_data['gesamtp'] . "', '" . $scan_data['ptag'] . "' )";
     $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '',
-             __FILE__, __LINE__, $sql);
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
     // Prüfe Mitglied, ob es bereits in der DB gespeichert ist.
     $sql = "SELECT sitterlogin FROM " . $db_tb_user .

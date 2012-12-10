@@ -39,10 +39,10 @@ if (basename($_SERVER['PHP_SELF']) != "index.php") {
 <?php
 function dauer($zeit)
 {
-	$tage = floor($zeit / 86400);
+	$tage = floor($zeit / DAY);
 	$return = ($tage > 0) ? $tage . " Tage, ": "";
-	$stunden = floor(($zeit - $tage * 86400) / 3600);
-	$minuten = ($zeit - $tage * 86400 - $stunden * 3600) / 60;
+	$stunden = floor(($zeit - $tage * DAY) / 3600);
+	$minuten = ($zeit - $tage * DAY - $stunden * 3600) / 60;
 	$return .= str_pad($stunden, 2, "0", STR_PAD_LEFT) . ":" . str_pad($minuten, 2, "0", STR_PAD_LEFT);
 	return $return;
 }

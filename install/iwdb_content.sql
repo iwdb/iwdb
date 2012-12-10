@@ -317,12 +317,14 @@ INSERT INTO `prefix_iwdbtabellen` (`name`) VALUES
 ('building2building'),
 ('building2research'),
 ('def'),
+('fremdsondierung'),
 ('gebaeude'),
 ('gebaeude_spieler'),
 ('group'),
 ('group_sort'),
 ('group_user'),
 ('highscore'),
+('incomings'),
 ('kasse_content'),
 ('kasse_incoming'),
 ('kasse_outgoing'),
@@ -452,7 +454,6 @@ INSERT INTO `prefix_parsemenu` (`ersetze`, `durch`, `varorstr`) VALUES
 
 INSERT INTO `prefix_parser` (`modulename`, `recognizer`, `message`) VALUES
 ('raid', 'Kampf auf dem Planeten', 'Raid-Bericht'),
-('unixml', '?xml ', 'UniXML'),
 ('researchoverview', 'Erforschte Forschungen', 'Forschungsliste'),
 ('fehlscan', 'Sondierung fehlgeschlagen', 'Fehlgeschlagene Sondierung'),
 ('highscore', 'Letzte Aktualisierung', 'Highscore'),

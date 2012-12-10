@@ -56,23 +56,14 @@ if( ! empty($username)) {
                'Could not query config information.', '', 
                __FILE__, __LINE__, $sql);
 
-    $message = "<html>\n" .
-               "<head>\n" .
-               " <title>Neues Passwort</title>\n" .
-               "</head>\n" .
-               "<body>\n" .
-               "<div class='doc_centered'><b>Neues Passwort für " . APPLICATION_PATH . "</b><br><br>\n" .
-               "Username: " . $username . "<br>\n" .
-               "Passwort: " . $newpass . "<br></div>\n" .
-               "</body>\n" .
-               "</html>\n";
-		$mail_head =
-			"MIME-Version: 1.0\r\n".
-			"Content-type: text/html; charset=iso-8859-1\r\n".
-			"To: " . $username . " <" . $row['email'] . ">\r\n";
-			"From: " . $config_mailname . " <" . $config_mailfrom . ">\r\n";
-
-		@mail($row['email'], "Neues Passwort", $message, $mail_head);
+		$empfaenger = $row['email'];
+		$betreff = "Neues Passwort";
+		$from = $config_mailname;
+		$text = "Ein neues Passwort für die Icewars-DB wurde angefordert \n" .
+			"Benutzername : " . $username . " \n" .
+			"Passwort : " . $newpass . "\n";
+		@mail($empfaenger, $betreff, $text, "From: $from ");
+	
 	}
 
   doc_message("Passwort an gespeicherte EMail-Adresse versendet.");

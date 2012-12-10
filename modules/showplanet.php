@@ -133,7 +133,7 @@ if ( ! empty($coords) )
 	<tr>
 		<td class="windowbg2">letztes Update:</td>
 		<td class="windowbg1"><?php
-		echo (empty($row['time']) ) ? "/": round(($config_date - $row['time']) / (24 * 60 * 60)) . " Tage";
+		echo (empty($row['time']) ) ? "/": round((CURRENT_UNIX_TIME - $row['time']) / DAY) . " Tage";
 		?></td>
 	</tr>
 	<?php
@@ -302,11 +302,11 @@ if ( ! empty($coords) )
 	<tr>
 		<td colspan="2" class="windowbg2">
  <?php
-            $reset_timestamp_first = (($row['geoscantime'] + $row['reset_timestamp']) - 86400);   //vorverlegen des Sprengdatums wegen +-24h
-            if ($reset_timestamp_first > $config_date) {
-                echo "Noch mindestens ".makeduration2($config_date, $reset_timestamp_first) . " bis der Planet für etwas anderes tolles gesprengt wird.\n";
-            } elseif (($reset_timestamp_first+172800) > $config_date) {                                        // 2 Tage Toleranz
-                echo "Evl. seit ".makeduration2($reset_timestamp_first, $config_date)." gesprengt.\n";
+            $reset_timestamp_first = (($row['geoscantime'] + $row['reset_timestamp']) - DAY);   //vorverlegen des Sprengdatums wegen +-24h
+            if ($reset_timestamp_first > CURRENT_UNIX_TIME) {
+                echo "Noch mindestens ".makeduration2(CURRENT_UNIX_TIME, $reset_timestamp_first) . " bis der Planet für etwas anderes tolles gesprengt wird.\n";
+            } elseif (($reset_timestamp_first + 2*DAY) > CURRENT_UNIX_TIME) {                                        // 2 Tage Toleranz
+                echo "Evl. seit ".makeduration2($reset_timestamp_first, CURRENT_UNIX_TIME)." gesprengt.\n";
             } else {
                 echo "Wahrscheinlich gesprengt!";                             //alles was drüber ist, ist wohl weg
             }

@@ -168,11 +168,11 @@ if (!@include("./config/".$modulname.".cfg.php")) {
     <td class='windowbg2' style='width: 200px;'>Stahl:</td>
     <td class='windowbg1'><input type='text' size='17' id='stahl' value='0' pattern="\d*" style='width: 100px; text-align:right'></td>
 </tr><tr>
-    <td class='windowbg2' style='width: 200px;'>chem. Elemente:</td>
-    <td class='windowbg1'><input type='text' size='17' id='chemie' value='0' pattern="\d*" style='width: 100px; text-align:right'></td>
-</tr><tr>
     <td class='windowbg2' style='width: 200px;'>VV4A:</td>
     <td class='windowbg1'><input type='text' size='17' id='vv4a' value='0' pattern="\d*" style='width: 100px; text-align:right'></td>
+</tr><tr>
+    <td class='windowbg2' style='width: 200px;'>chem. Elemente:</td>
+    <td class='windowbg1'><input type='text' size='17' id='chemie' value='0' pattern="\d*" style='width: 100px; text-align:right'></td>
 </tr><tr>
     <td class='windowbg2' style='width: 200px;'>Eis:</td>
     <td class='windowbg1'><input type='text' size='17' id='eis' value='0' pattern="\d*" style='width: 100px; text-align:right'></td>
@@ -216,6 +216,8 @@ if (!@include("./config/".$modulname.".cfg.php")) {
     <td class='windowbg1'><input type='text' size='17' id='seepferdchen_vorhanden' value='0' pattern="\d*" style='width: 100px; text-align:right'></td>
 </tr>
 </table>
+<br>
+<input type="reset">
 </form>
 <br>
 <table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 100%;'>

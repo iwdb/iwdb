@@ -534,10 +534,10 @@ if (!@include("./config/".$modulname.".cfg.php")) {
   
     $whereclause = "AND ";
     if (isset($fromdate)) {
-      $whereclause.="time_of_insert >= '" . $fromdate . "' AND ";
+      $whereclause.="time_of_insert >= '" . $fromdate . " 00:00:00' AND ";
     }
     if (isset($todate)) {
-      $whereclause.="time_of_insert <= '" . $todate . "' AND ";
+      $whereclause.="time_of_insert <= '" . $todate . " 23:59:59' AND ";
     }
     $whereclause.="1";
   

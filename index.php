@@ -310,6 +310,10 @@ if ( ( $user_id <> "guest" ) && ( $user_rules == "1" ) ) {
 		$sql = "DELETE FROM " . $db_tb_bestellung . " WHERE user='" . $sitterlogin . "'";
 		$result = $db->db_query($sql)
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+			
+		$sql = "DELETE FROM " . $db_tb_user_research . " WHERE user='" . $sitterlogin . "'";
+		$result = $db->db_query($sql)
+			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
 ?>
 

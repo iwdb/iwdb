@@ -115,7 +115,13 @@ Achja bei dem ganzen Chaos kamen 142 Leute ums Leben.
             continue;
         }
 
-        $sql = "SELECT COUNT(*) AS anzahl FROM " . $db_tb_transferliste . 
+        if (count($msg->aResources) === 0) {
+            //keine Ress transportiert, zum Beispiel Artefakte
+            ++$transp_skipped;
+            continue;
+        }
+
+        $sql = "SELECT COUNT(*) AS anzahl FROM " . $db_tb_transferliste .
             " WHERE zeitmarke=" . $transfair_date . " AND buddler='" . $buddler . 
                     "' AND fleeter='" . $fleeter . "'"; 
         $result = $db->db_query($sql)

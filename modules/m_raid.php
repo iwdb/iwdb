@@ -1234,7 +1234,7 @@ function Collapse(what) {
 				next_cell("windowbg1", 'nowrap valign=center style="' . $row['row_style'] . '"');
 			else
 				next_cell("windowbg1", 'nowrap valign=center');
-			out_echo(format_value($row, $viewcolumnkey, $row[$viewcolumnkey]));
+			out_echo(format_value((float)$row, $viewcolumnkey, $row[$viewcolumnkey]));
 		}
 		// Editbuttons ausgeben
 		if (isset($view['edit'])) {
@@ -1504,19 +1504,19 @@ function format_value($row, $name, $value) {
 		elseif ($value == 'Artefaktbasis')
 			return "<alt title=\"Artefaktbasis\"><img src=\"bilder/artefakt_basis.png\"></a>";
 	case 'eisen':
-		return "<alt title=\"" . number_format($value, 0, ",", '.')  . " Eisen\">" . makeamount($value) . "</a>";
+		return "<alt title=\"" . number_format((float)$value, 0, ",", '.')  . " Eisen\">" . makeamount($value) . "</a>";
 	case 'stahl':
-		return "<alt title=\"" . number_format($value, 0, ",", '.')  . " Stahl\">" . makeamount($value) . "</a>";
+		return "<alt title=\"" . number_format((float)$value, 0, ",", '.')  . " Stahl\">" . makeamount($value) . "</a>";
 	case 'vv4a':
-		return "<alt title=\"" . number_format($value, 0, ",", '.')  . " VV4A\">" . makeamount($value) . "</a>";
+		return "<alt title=\"" . number_format((float)$value, 0, ",", '.')  . " VV4A\">" . makeamount($value) . "</a>";
 	case 'chemie':
-		return "<alt title=\"" . number_format($value, 0, ",", '.')  . " Chemie\">" . makeamount($value) . "</a>";
+		return "<alt title=\"" . number_format((float)$value, 0, ",", '.')  . " Chemie\">" . makeamount($value) . "</a>";
 	case 'eis':
-		return "<alt title=\"" . number_format($value, 0, ",", '.')  . " Eis\">" . makeamount($value) . "</a>";
+		return "<alt title=\"" . number_format((float)$value, 0, ",", '.')  . " Eis\">" . makeamount($value) . "</a>";
 	case 'wasser':
-		return "<alt title=\"" . number_format($value, 0, ",", '.')  . " Wasser\">" . makeamount($value) . "</a>";
+		return "<alt title=\"" . number_format((float)$value, 0, ",", '.')  . " Wasser\">" . makeamount($value) . "</a>";
 	case 'energie':
-		return "<alt title=\"" . number_format($value, 0, ",", '.')  . " Energie\">" . makeamount($value) . "</a>";
+		return "<alt title=\"" . number_format((float)$value, 0, ",", '.')  . " Energie\">" . makeamount($value) . "</a>";
 	case 'ress':
 		/*$title = "";
 		if (!empty($row['eisen']))
@@ -1531,15 +1531,15 @@ function format_value($row, $name, $value) {
 			$title .= (!empty($title) ? " " : "") . "Wasser: " . makeamount($row['wasser']);
 		if (!empty($row['energie']))
 			$title .= (!empty($title) ? " " : "") . "Energie: " . makeamount($row['energie']);
-		return "<alt title=\"" . $title . "\">" . number_format($value, 0, ',', '.') . "</a>";*/
+		return "<alt title=\"" . $title . "\">" . number_format((float)$value, 0, ',', '.') . "</a>";*/
 		return makeamount($value);
 	//case 'punkte':
 	case 'gesamt':
-		return number_format($value, 0, ',', '.');
+		return number_format((float)$value, 0, ',', '.');
 	case 'schiff':
-		return "<alt title=\"" . $row['schiffe'] . "\">" . number_format($value, 0, ',', '.') . "</a>";
+		return "<alt title=\"" . $row['schiffe'] . "\">" . number_format((float)$value, 0, ',', '.') . "</a>";
 	case 'anlage':
-		return "<alt title=\"" . $row['anlagen'] . "\">" . number_format($value, 0, ',', '.') . "</a>";
+		return "<alt title=\"" . $row['anlagen'] . "\">" . number_format((float)$value, 0, ',', '.') . "</a>";
 	case 'tsonden':
 	case 'x13sonden':
 		if (substr($value, 0, 1) == ">")
@@ -1588,7 +1588,7 @@ function format_value($row, $name, $value) {
 			$result = '<span class="ranking_yellow">';
 		else
 			$result = '<span class="ranking_green">';
-		$result .= number_format($value, 0, ',', '.') . '%';
+		$result .= number_format((float)$value, 0, ',', '.') . '%';
 		$result .= '</span>';
 		return $result;
 	default:
@@ -1708,7 +1708,7 @@ function makeamount($amount) {
 	elseif (empty($amount))
 		return "";
 	else
-		return number_format($amount, 0, ",", '.');
+		return number_format((float)$amount, 0, ",", '.');
 }
 
 // ****************************************************************************

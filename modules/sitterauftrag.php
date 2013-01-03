@@ -80,6 +80,7 @@ while ($row = $db->db_fetch_array($result))
 // hole Auftragsdaten von Parent -> refid bei Einfuegen, Daten fuer "anhängen"
 $parentid = getVar('parentid');
 $delid = getVar('delid');
+$thisid = '';
 
 if ( ! empty($parentid) )
 {
@@ -89,7 +90,7 @@ if ( ! empty($parentid) )
 	$row_parent = $db->db_fetch_array($result_parent);
 
 	$refid = $row_parent['refid'];
-	// Daten fuer "anhängen" //
+	// Daten für "anhängen" //
 	if ( ( empty($delid) ) && ( empty($editauftrag) ) )
 	{
 		$sql = "SELECT dauer FROM " . $db_tb_gebaeude . " WHERE id='" . $row_parent['bauid'] . "'";
@@ -743,10 +744,10 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
   </td>
   <td class="windowbg1">
 <?php if( defined('RESEARCH') && (RESEARCH === TRUE)) { ?>
-   <select name="researchid" style="width: 400px;">
+    <select name="researchid" style="width: 400px;">
 <!--  	 <optgroup label="Unbekannt" title="Unbekannt"></optgroup> -->
 		 <?php echo  fill_selection($resid); ?>
-	 </select>
+	</select><br>
     Sollte eine Forschung noch nicht aufgeführt sein, bitte die Forschungsinfo ingame in den Parser einfügen.
 <?php } else {?>
    <input type="text" name="auftrag" value="<?php echo $auftrag;?>" style="width: 200px;">
@@ -758,7 +759,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
 	{
 ?>
   <td class="windowbg2">
-   Notizen:<?php echo ($typ == "Sonstiges") ? "": "<br><i>(optional)</i>";?>
+   Notizen:<?php echo ($typ == "Sonstiges") ? "" : "<br><i>(optional)</i>";?>
   </td>
   <td class="windowbg1">
     <textarea name='auftrag' id='auftrag' rows='4' cols='25' style='width: 200px;'><?php echo $auftrag;?></textarea>
@@ -781,6 +782,7 @@ if( defined('RESEARCH') && (RESEARCH === TRUE)) {
    <option value="">---</option>
 <?php
 	$typprev = '';
+    $schiff='';
 	$sql = "SELECT typ, id, abk FROM " . $db_tb_schiffstyp . " typ ORDER BY typ asc";
 	$result_schiff = $db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);

@@ -91,7 +91,7 @@ if ( ! empty($edit) )
 				if ( $row['date_b1'] <> $row['date'] ) $bauschleifenmod = 1.1;
 				if ( $row['date_b2'] <> $row['date_b1'] ) $bauschleifenmod = 1.2;
 			}
-			$logtext = "<font color='#FF0000'><b>" . $row_planet['planetenname'] . " [" . $row['planet'] . "]<br>" . auftrag($row['typ'], $row['bauschleife'], $row['bauid'], $row['auftrag'], $row['schiffanz'], $row_planet['dgmod'], $row['user'], $bauschleifenmod) . "<br>gelöscht von " . $user_sitterlogin . ( (empty($comment) ) ? "" : ": " . nl2br($comment) ) . "</b></font>";
+            $logtext = $db->escape($row_planet['planetenname'] . " [" . $row['planet'] . "]<br>" . auftrag($row['typ'], $row['bauschleife'], $row['bauid'], $row['auftrag'], $row['schiffanz'], $row_planet['dgmod'], $row['user'], $bauschleifenmod) . "<br><font color='#FF0000'><b>gelöscht von " . $user_sitterlogin . ( (empty($comment) ) ? "" : ": " . nl2br($comment) ) . "</b></font>");
 			$sql = "INSERT INTO " . $db_tb_sitterlog . " (sitterlogin, fromuser, date, action) VALUES ('" . $row['user'] . "', '" . $user_sitterlogin . "', '" . CURRENT_UNIX_TIME . "', '" . $logtext . "')";
 			$result = $db->db_query($sql)
 				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -206,8 +206,8 @@ if ( ! empty($edit) )
 		$verschoben_text = "";
 	}
 	if ($del!="1"){
-		$logtext = "Zeit geändert auf " . strftime($config_sitter_timeformat, $date) . $verschoben_text . "<br>" . $row_planet['planetenname'] . " [" . $row['planet'] . "]<br>" . auftrag($row['typ'], $row['bauschleife'], $row['bauid'], $row['auftrag'], $row['schiffanz'], $row_planet['dgmod'], $row['user'], $bauschleifenmod);
-		}
+		$logtext = $db->escape("Zeit geändert auf " . strftime($config_sitter_timeformat, $date) . $verschoben_text . "<br>" . $row_planet['planetenname'] . " [" . $row['planet'] . "]<br>" . auftrag($row['typ'], $row['bauschleife'], $row['bauid'], $row['auftrag'], $row['schiffanz'], $row_planet['dgmod'], $row['user'], $bauschleifenmod));
+	}
 		
 	$sql = "INSERT INTO " . $db_tb_sitterlog . " (sitterlogin, fromuser, date, action) VALUES ('" . $row['user'] . "', '" . $user_sitterlogin . "', '" . CURRENT_UNIX_TIME . "', '" . $logtext . "')";
 	$result = $db->db_query($sql)
@@ -254,9 +254,10 @@ if ( ! empty($erledigt) )
 				if ( $row['date_b2'] <> $row['date_b1'] ) $bauschleifenmod = 1.2;
 			}
 			$logtext = $row_planet['planetenname'] . " [" . $row['planet'] . "]<br>" . auftrag($row['typ'], $row['bauschleife'], $row['bauid'], $row['auftrag'], $row['schiffanz'], $row_planet['dgmod'], $row['user'], $bauschleifenmod);
-	    if(!empty($row['ByUser']) && ($row['user'] != $row['ByUser'])) {
+	        if(!empty($row['ByUser']) && ($row['user'] != $row['ByUser'])) {
 			  $logtext .= "<br>(Auftrag erstellt von " . $row['ByUser'] . ")";
 			}
+            $logtext = $db->escape($logtext);
 			$sql = "INSERT INTO " . $db_tb_sitterlog . " (sitterlogin, fromuser, date, action) VALUES ('" . $row['user'] . "', '" . $user_sitterlogin . "', '" . CURRENT_UNIX_TIME . "', '" . $logtext . "')";
 			$result = $db->db_query($sql)
 				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -374,7 +375,7 @@ if ( ! empty($erledigt) )
 						if ( $row_x['date_b2'] <> $row_x['date_b1'] ) $bauschleifenmod = 1.2;
 					}
 	
-					$logtext = $row_planet['planetenname'] . " [" . $row['planet'] . "]<br>" . auftrag($row_x['typ'], $row_x['bauschleife'], $row_x['bauid'], $row_x['auftrag'], $row_x['schiffanz'], $row_planet['dgmod'], $row_x['user'], $bauschleifenmod);
+					$logtext = $db->escape($row_planet['planetenname'] . " [" . $row['planet'] . "]<br>" . auftrag($row_x['typ'], $row_x['bauschleife'], $row_x['bauid'], $row_x['auftrag'], $row_x['schiffanz'], $row_planet['dgmod'], $row_x['user'], $bauschleifenmod));
 					$sql = "INSERT INTO " . $db_tb_sitterlog . " (sitterlogin, fromuser, date, action) VALUES ('" . $row['user'] . "', '" . $user_sitterlogin . "', '" . CURRENT_UNIX_TIME . "', '" . $logtext . " ')";
 					$result_log = $db->db_query($sql)
 						or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);

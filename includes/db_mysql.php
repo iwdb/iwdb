@@ -102,7 +102,7 @@ class db {
         if (empty($table)) {
             return FALSE;
         } else {
-            $query = "Update {$table} SET ";
+            $query = "Update `" . $table . "` SET ";
         }
 
         if (empty($data)) {

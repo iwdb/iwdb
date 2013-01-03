@@ -66,6 +66,7 @@ $differentid = !($user_sitterlogin == $id);
 $editauftrag = getVar('editauftrag');
 
 // speichere Planetendaten in Array //
+$planets = Array();
 $sql = "SELECT coords, planetenname, dgmod FROM " . $db_tb_scans .  " WHERE user = '" . $id . "' ORDER BY sortierung,coords_gal ASC, coords_sys ASC, coords_planet";
 $result = $db->db_query($sql)
 	or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);

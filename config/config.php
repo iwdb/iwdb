@@ -86,13 +86,11 @@ $config_color['scanoutdated'] = "#FF0000";
 $db_tb_iwdbtabellen = $db_prefix . "iwdbtabellen";
 
 // Die restlichen Tabellennamen werden aus der DB gelesen.
-$sql = "SELECT name FROM " . $db_prefix . "iwdbtabellen";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-
+$sql = "SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '$db_name' AND table_name LIKE '$db_prefix%'";
+$result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
-    $tbname = "db_tb_" . $row['name'];
-    ${$tbname} = $db_prefix . $row['name'];
+    $tbname = "db_tb_" . mb_substr($row['table_name'], mb_strlen($db_prefix));
+    ${$tbname} = $row['table_name'];
 }
 
 // old for compatibility

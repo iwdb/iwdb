@@ -1054,52 +1054,55 @@ if (empty($params['view'])) {
             }
         }
         // Verteidigungsanlagen
+        $deff_pla = null;
         $anlagen = "";
-        $grav = isset($objects['SDI Gravitonbeam']) ? $objects['SDI Gravitonbeam'] : 0;
-        if (!empty($grav)) {
-            $anlagen .= (!empty($anlagen) ? " " : "") . $grav . " Grav";
+        if (!empty($row['schiffscantime'])) {
+            $grav = isset($objects['SDI Gravitonbeam']) ? $objects['SDI Gravitonbeam'] : 0;
+            if (!empty($grav)) {
+                $anlagen .= (!empty($anlagen) ? " " : "") . $grav . " Grav";
+            }
+            $plasma = isset($objects['SDI Plasmalaser']) ? $objects['SDI Plasmalaser'] : 0;
+            if (!empty($plasma)) {
+                $anlagen .= (!empty($anlagen) ? " " : "") . $plasma . " Plasma";
+            }
+            $arak = isset($objects['SDI Atomraketen']) ? $objects['SDI Atomraketen'] : 0;
+            if (!empty($arak)) {
+                $anlagen .= (!empty($anlagen) ? " " : "") . $arak . " ARak";
+            }
+            $rak = isset($objects['SDI Raketensystem']) ? $objects['SDI Raketensystem'] : 0;
+            if (!empty($rak)) {
+                $anlagen .= (!empty($anlagen) ? " " : "") . $rak . " Rak";
+            }
+            $pulssat = isset($objects['PulslaserSat']) ? $objects['PulslaserSat'] : 0;
+            if (!empty($pulssat)) {
+                $anlagen .= (!empty($anlagen) ? " " : "") . $pulssat . " PulsSat";
+            }
+            $lasersat = isset($objects['LaserSat']) ? $objects['LaserSat'] : 0;
+            if (!empty($lasersat)) {
+                $anlagen .= (!empty($anlagen) ? " " : "") . $lasersat . " LaserSat";
+            }
+            $gauss = isset($objects['Gausskanonensatellit']) ? $objects['Gausskanonensatellit'] : 0;
+            if (!empty($gauss)) {
+                $anlagen .= (!empty($anlagen) ? " " : "") . $gauss . " Gauss";
+            }
+            $raksat = isset($objects['Raketensatellit']) ? $objects['Raketensatellit'] : 0;
+            if (!empty($raksat)) {
+                $anlagen .= (!empty($anlagen) ? " " : "") . $raksat . " RakSat";
+            }
+            $sd01 = isset($objects['SD01 Gatling']) ? $objects['SD01 Gatling'] : 0;
+            if (!empty($sd01)) {
+                $anlagen .= (!empty($anlagen) ? " " : "") . $sd01 . " SD01";
+            }
+            $sd02 = isset($objects['SD02 Pulslaser']) ? $objects['SD02 Pulslaser'] : 0;
+            if (!empty($sd02)) {
+                $anlagen .= (!empty($anlagen) ? " " : "") . $sd02 . " SD02";
+            }
+            $stopfi = isset($objects['Stopfentenwerfer']) ? $objects['Stopfentenwerfer'] : 0;
+            if (!empty($stopfi)) {
+                $anlagen .= (!empty($anlagen) ? " " : "") . $stopfi . " Stopfi";
+            }
+            $deff_pla = $grav * 480 + $plasma * 300 + $arak * 15 + $rak * 10 + $pulssat * 55 + $lasersat * 35 + $gauss * 25 + $raksat * 25 + $stopfi * 1;
         }
-        $plasma = isset($objects['SDI Plasmalaser']) ? $objects['SDI Plasmalaser'] : 0;
-        if (!empty($plasma)) {
-            $anlagen .= (!empty($anlagen) ? " " : "") . $plasma . " Plasma";
-        }
-        $arak = isset($objects['SDI Atomraketen']) ? $objects['SDI Atomraketen'] : 0;
-        if (!empty($arak)) {
-            $anlagen .= (!empty($anlagen) ? " " : "") . $arak . " ARak";
-        }
-        $rak = isset($objects['SDI Raketensystem']) ? $objects['SDI Raketensystem'] : 0;
-        if (!empty($rak)) {
-            $anlagen .= (!empty($anlagen) ? " " : "") . $rak . " Rak";
-        }
-        $pulssat = isset($objects['PulslaserSat']) ? $objects['PulslaserSat'] : 0;
-        if (!empty($pulssat)) {
-            $anlagen .= (!empty($anlagen) ? " " : "") . $pulssat . " PulsSat";
-        }
-        $lasersat = isset($objects['LaserSat']) ? $objects['LaserSat'] : 0;
-        if (!empty($lasersat)) {
-            $anlagen .= (!empty($anlagen) ? " " : "") . $lasersat . " LaserSat";
-        }
-        $gauss = isset($objects['Gausskanonensatellit']) ? $objects['Gausskanonensatellit'] : 0;
-        if (!empty($gauss)) {
-            $anlagen .= (!empty($anlagen) ? " " : "") . $gauss . " Gauss";
-        }
-        $raksat = isset($objects['Raketensatellit']) ? $objects['Raketensatellit'] : 0;
-        if (!empty($raksat)) {
-            $anlagen .= (!empty($anlagen) ? " " : "") . $raksat . " RakSat";
-        }
-        $sd01 = isset($objects['SD01 Gatling']) ? $objects['SD01 Gatling'] : 0;
-        if (!empty($sd01)) {
-            $anlagen .= (!empty($anlagen) ? " " : "") . $sd01 . " SD01";
-        }
-        $sd02 = isset($objects['SD02 Pulslaser']) ? $objects['SD02 Pulslaser'] : 0;
-        if (!empty($sd02)) {
-            $anlagen .= (!empty($anlagen) ? " " : "") . $sd02 . " SD02";
-        }
-        $stopfi = isset($objects['Stopfentenwerfer']) ? $objects['Stopfentenwerfer'] : 0;
-        if (!empty($stopfi)) {
-            $anlagen .= (!empty($anlagen) ? " " : "") . $stopfi . " Stopfi";
-        }
-        $deff_pla = $grav * 480 + $plasma * 300 + $arak * 15 + $rak * 10 + $pulssat * 55 + $lasersat * 35 + $gauss * 25 + $raksat * 25 + $stopfi * 1;
         // Werften
         $klorw = isset($objects['kleine orbitale Werft']) ? $objects['kleine orbitale Werft'] : ($row['geb'] == "" ? '---' : 0);
         $klplw = isset($objects['kleine planetare Werft']) ? $objects['kleine planetare Werft'] : ($row['geb'] == "" ? '---' : 0);
@@ -1122,16 +1125,20 @@ if (empty($params['view'])) {
         // Inaktiv
         $inaktiv = isset($row['gebp_nodiff']) ? $row['gebp_nodiff'] : "---";
         // Schiffe
-        $deff_schiff = 0;
+        $deff_schiff = null;
+        $deff_gesamt = null;
         $schiffe = "";
-        foreach ($config['schiffsangriff'] as $name => $angriff) {
-            if (isset($objects[$name]) && !empty($angriff)) {
-                $deff_schiff += $objects[$name] * $angriff;
-                $schiffe .= (!empty($schiffe) ? " " : "") . makeAmount($objects[$name]) . " " . $name;
+        if (!empty($row['schiffscantime'])) {
+            $deff_schiff = 0;
+            foreach ($config['schiffsangriff'] as $name => $angriff) {
+                if (isset($objects[$name]) && !empty($angriff)) {
+                    $deff_schiff += $objects[$name] * $angriff;
+                    $schiffe .= (!empty($schiffe) ? " " : "") . makeAmount($objects[$name]) . " " . $name;
+                }
             }
+            // Verteidigung
+            $deff_gesamt = $deff_pla + $deff_schiff;
         }
-        // Verteidigung
-        $deff_gesamt = $deff_pla + $deff_schiff;
         // Verteidigungsfilter
         if (!empty($params['def_min']) && $deff_gesamt < $params['def_min']) {
             continue;
@@ -1141,13 +1148,18 @@ if (empty($params['view'])) {
         }
         //ToDo: Ressgewichtung einstellbar machen
         // Ressourcen zählen
-        $ress = $row['eisen'] + $row['stahl'] * 2 + $row['chemie'] + $row['vv4a'] * 4 + $row['eis'] * 2 + $row['wasser'] * 2 + $row['energie'] * 0.1;
-        // Rating
+        $ress = null;
+        if (!empty($row['schiffscantime']) OR !empty($row['gebscantime'])) {
+            $ress = $row['eisen'] + $row['stahl'] * 2 + $row['chemie'] + $row['vv4a'] * 4 + $row['eis'] * 2 + $row['wasser'] * 2 + $row['energie'] * 0.1;
+        }
+
         $rating = $ress;
-        if (!empty($deff_gesamt)) {
+        if (!empty($deff_gesamt) AND !is_null($ress)) {
             $rating /= $deff_gesamt;
         }
-        $rating = round($rating);
+        if (!empty($rating)) {
+            $rating = round($rating);
+        }
         // Berechnende Filter
         if (!empty($params['rating_min']) && $rating < $params['rating_min']) {
             continue;
@@ -1241,8 +1253,8 @@ if (empty($params['view'])) {
             'wasser_style' => "text-align: right; " . $text_color,
             'energie_style' => "text-align: right; " . $text_color,
             'ress_style' => "text-align: right; " . $text_color,
-            'schiff_style' => "text-align: right; " . $text_color,
-            'anlage_style' => "text-align: right; " . $text_color,
+            'deff_schiff_style' => "text-align: right; " . $text_color,
+            'deff_pla_style' => "text-align: right; " . $text_color,
             'gesamt_style' => "text-align: right; " . $text_color,
             'rating_style' => "text-align: right; ",
             'row_style' => $text_color,
@@ -1284,7 +1296,7 @@ if (empty($params['view'])) {
                         'order' => $orderkey,
                         'orderd' => 'asc'
                     ),
-                    "<img src='./bilder/asc.gif' border='0'>"
+                    "<img src='./bilder/asc.gif'>"
                 )
             );
             out_echo('<b>' . $viewcolumnname . '</b>');
@@ -1294,7 +1306,7 @@ if (empty($params['view'])) {
                         'order' => $orderkey,
                         'orderd' => 'desc'
                     ),
-                    "<img src='./bilder/desc.gif' border='0'>"
+                    "<img src='./bilder/desc.gif'>"
                 )
             );
         }
@@ -1317,7 +1329,7 @@ if (empty($params['view'])) {
             next_row("windowbg1", 'nowrap valign=center');
         }
         // Schaltfläche zum auf-/zuklappen
-        echo "<a href=\"javascript:Collapse('" . $key . "');\"><img src='bilder/plus.gif' alt='' border='0' id='collapse_" . $key . "'></a>";
+        echo "<a href=\"javascript:Collapse('" . $key . "');\"><img src='bilder/plus.gif' alt='' id='collapse_" . $key . "'></a>";
         foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
             if (isset($row[$viewcolumnkey . '_style'])) {
                 next_cell("windowbg1", 'nowrap valign=center style="' . $row[$viewcolumnkey . '_style'] . '"');
@@ -1326,7 +1338,7 @@ if (empty($params['view'])) {
             } else {
                 next_cell("windowbg1", 'nowrap valign=center');
             }
-            out_echo(format_value((float)$row, $viewcolumnkey, $row[$viewcolumnkey]));
+            out_echo(format_value($row, $viewcolumnkey, $row[$viewcolumnkey]));
         }
         // Editbuttons ausgeben
         if (isset($view['edit'])) {
@@ -1339,7 +1351,7 @@ if (empty($params['view'])) {
                 out_echo(
                     makelink(
                         array('edit' => $key),
-                        "<img src='bilder/file_edit_s.gif' border='0' alt='bearbeiten'>"
+                        "<img src='bilder/file_edit_s.gif' alt='bearbeiten'>"
                     )
                 );
             }
@@ -1347,7 +1359,7 @@ if (empty($params['view'])) {
                 out_echo(
                     makelink(
                         array('delete' => $key),
-                        "<img src='bilder/file_delete_s.gif' border='0' onclick='return confirmlink(this, '" .
+                        "<img src='bilder/file_delete_s.gif' onclick='return confirmlink(this, '" .
                             (isset($view['deletetitle']) ? $view['deletetitle'] : 'Datensatz') . " wirklich löschen?')' alt='loeschen'>"
                     )
                 );
@@ -1609,6 +1621,7 @@ function format_value($row, $name, $value)
             } else {
                 return $value;
             }
+            break;
         case 'objekttyp':
             if ($value == 'Kolonie') {
                 return "<alt title='Kolonie'><img src='bilder/kolo.png'></a>";
@@ -1619,6 +1632,7 @@ function format_value($row, $name, $value)
             } elseif ($value == 'Artefaktbasis') {
                 return "<alt title='Artefaktbasis'><img src='bilder/artefakt_basis.png'></a>";
             }
+            break;
         case 'eisen':
             return "<alt title='" . number_format((float)$value, 0, ",", '.') . " Eisen'>" . makeAmount($value) . "</a>";
         case 'stahl':
@@ -1653,8 +1667,14 @@ function format_value($row, $name, $value)
         case 'deff_gesamt':
             return number_format((float)$value, 0, ',', '.');
         case 'deff_schiff':
+            if (is_null($value)) {
+                return '';
+            }
             return "<alt title='" . $row['schiffe'] . "'>" . number_format((float)$value, 0, ',', '.') . "</a>";
         case 'deff_pla':
+            if (is_null($value)) {
+                return '';
+            }
             return "<alt title='" . $row['anlagen'] . "'>" . number_format((float)$value, 0, ',', '.') . "</a>";
         case 'tsonden':
         case 'x13sonden':
@@ -1684,13 +1704,13 @@ function format_value($row, $name, $value)
         case 'last_scan':
             $result = "<table width='100%'><tr><td nowrap width='100%'>";
             if (!empty($row['geoscantime'])) {
-                $result .= "<alt title='Geoscan vor " . makeduration($row['geoscantime']) . "'><img src='bilder/scann_geo.png' border='0'></a> ";
+                $result .= "<alt title='Geoscan vor " . makeduration($row['geoscantime']) . "'><img src='bilder/scann_geo.png'></alt> ";
             }
             if (!empty($row['schiffscantime'])) {
-                $result .= "<alt title='Schiffscan vor " . makeduration($row['schiffscantime']) . "'><img src='bilder/scann_schiff.png' border='0'></a> ";
+                $result .= "<alt title='Schiffscan vor " . makeduration($row['schiffscantime']) . "'><img src='bilder/scann_schiff.png'></alt> ";
             }
             if (!empty($row['gebscantime'])) {
-                $result .= "<alt title='Gebäudescan vor " . makeduration($row['gebscantime']) . "'><img src='bilder/scann_geb.png' border='0'></a> ";
+                $result .= "<alt title='Gebäudescan vor " . makeduration($row['gebscantime']) . "'><img src='bilder/scann_geb.png'></alt> ";
             }
             if ($row['last_scan'] == $row['fehlscantime']) {
                 $result .= '</td><td nowrap><span class="ranking_red">' . makeduration($row['last_scan']) . '</span>';
@@ -1707,7 +1727,9 @@ function format_value($row, $name, $value)
                 return "";
             }
         case 'rating':
-            if ($value < 100) {
+            if (is_null($value)) {
+                return '';
+            } elseif ($value < 100) {
                 $result = '<span class="ranking_red">';
             } elseif ($value >= 100 && $value < 999) {
                 $result = '<span class="ranking_yellow">';
@@ -1746,6 +1768,7 @@ function row_color($row)
 // Erstellt ein Formularfeld.
 function makefield($field, $key)
 {
+    $html = '';
     switch ($field['type']) {
         case 'label':
             $html = '<span';

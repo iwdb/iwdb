@@ -70,8 +70,8 @@ class db {
 		return @mysql_select_db($database);
 	}
 
-    function escape($query) {
-        return mysql_real_escape_string($query, $this->db_link_id);
+    function escape($string) {
+        return mysql_real_escape_string($string, $this->db_link_id);
     }
 
 	function db_query($query)

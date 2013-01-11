@@ -130,7 +130,6 @@ function next_row($class = "", $extra = "", $columns = 1) {
 //******************************************************************************
 //
 function start_form($action, $params = 0) {
-	global $sid;
 	$html = "<form method='POST' action='";
 	$html .= url($action, $params);
 	$html .= "' enctype='multipart/form-data'>\n";

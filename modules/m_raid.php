@@ -1657,11 +1657,11 @@ function format_value($row, $name, $value)
             return "<alt title='" . $row['anlagen'] . "'>" . number_format((float)$value, 0, ',', '.') . "</a>";
         case 'tsonden':
         case 'x13sonden':
-        if (substr($value, 0, 1) == ">") {
-            return '<span class="ranking_red">' . $value . '</span>';
-        } else {
-            return '<span class="ranking_green">' . $value . '</span>';
-        }
+            if (substr($value, 0, 1) == ">") {
+                return '<span class="ranking_red">' . $value . '</span>';
+            } else {
+                return '<span class="ranking_green">' . $value . '</span>';
+            }
         case 'inaktiv':
             $diff = CURRENT_UNIX_TIME - $value;
             if ($diff > 60 * 60 * 48) {

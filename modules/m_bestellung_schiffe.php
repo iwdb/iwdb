@@ -43,7 +43,9 @@
 /*                                                                           */
 /*****************************************************************************/
 
-define('DEBUG_LEVEL', 0);
+if (!defined('DEBUG_LEVEL')) {
+    define('DEBUG_LEVEL', 0);
+}
 
 include_once("includes/debug.php");
 

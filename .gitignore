@@ -3,6 +3,5 @@
 /config/configsql.php
 /config/configally.php
 /config/*.cfg.php
-/.idea/
 /test/
 /docs/

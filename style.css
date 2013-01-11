@@ -288,9 +288,8 @@ a:hover        {
 /* !T Systemmessage */
 /* !I */
 
-  .doc_title {
-   color:#FF0000; 
-   text-align:center; 
+  .doc_message {
+   text-align:center;
  }
 
 
@@ -395,8 +394,7 @@ a:hover        {
 
   table.doc_main {
    width:100%; 
-   border:0; 
-   padding:5px; 
+   padding:5px;
    border-spacing:1px; 
    border-color:black; 
    border-style:solid; 
@@ -557,7 +555,7 @@ a:hover        {
 
 
 /* !N textarea */
-/* !T Textfelder ueber mehrere Zeilen */
+/* !T Textfelder über mehrere Zeilen */
 /* !I */
 
   textarea       {
@@ -578,16 +576,16 @@ a:hover        {
   select         {
    font-family:Verdana, arial, helvetica, serif; 
    color:#22282E; 
-   font-size:8pt; 
-   border-width:1px; 
-   border-style:solid; 
-   border-color:#22282E; 
-   background-color:#FFFFFF; 
+   font-size:8pt;
+   border-width:1px;
+   border-style:solid;
+   border-color:#22282E;
+   background-color:#FFFFFF;
  }
 
 
 /* !N fadein */
-/* !T Fadein bei unerledigten Sitetrauftraegen */
+/* !T Fadein bei unerledigten Sitteraufträgen */
 /* !I */
 
   #fadein {
@@ -597,12 +595,9 @@ a:hover        {
    width:150px; 
    height:40px; 
    background-color:#FFEEDD; 
-   margin:5px; 
-   border-style:solid; 
-   border-color:#000000; 
-   border-width:0px; 
-   align:center; 
-   text-align:center; 
+   margin:5px;
+   border: 0;
+   text-align:center;
  }
 
 
@@ -612,15 +607,18 @@ a:hover        {
 
   .fadein {
    background-color:#C4D7DF; 
-   color:#000000; 
-   align:center; 
-   text-align:center; 
+   color:#000000;
+   text-align:center;
  }
 
 
 /* !END */
 
 /* ab hier wird nicht mehr ausgelesen */
+
+img {
+    border: 0;
+}
 
 .scan_table {
 width:100%;
@@ -635,7 +633,7 @@ text-align:right;
 	background-color: #000000;
 }
 
-/* fuer die members.php */
+/* für die members.php */
 
 td[abbr=newtask] {
 	font-style:italic;
@@ -644,13 +642,13 @@ td[abbr=newtask] {
 }
 
 td[abbr=login] {
-	font-weigh:bold;
+	font-weight:bold;
 	text-align:center;
 	white-space:nowrap;
 }
 
 td[abbr=both] {
-	font-weigh:bold;
+	font-weight:bold;
 	font-style:italic;
 	text-align:center;
 	white-space:nowrap;

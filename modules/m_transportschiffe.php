@@ -26,27 +26,29 @@
 
 /*****************************************************************************/
 /* Transportschiffe                                                          */
-/* f¸r die IWDB: Icewars geoscan and sitter database                        */
+/* f√ºr die IWDB: Icewars geoscan and sitter database                        */
 /*---------------------------------------------------------------------------*/
 
 /*****************************************************************************/
 /*Dieses Modul dient als Vorlage zum Erstellen von eigenen Zusatzmodulen     */
-/*f¸r die Iw DB: Icewars geoscan and sitter database                         */
+/*f√ºr die Iw DB: Icewars geoscan and sitter database                         */
 /*---------------------------------------------------------------------------*/
-/*Diese Erweiterung der urspr¸nglichen DB ist ein Gemeinschafftsprojekt von  */
+/*Diese Erweiterung der urspr√ºnglichen DB ist ein Gemeinschafftsprojekt von  */
 /*IW-Spielern.                                                               */
-/*Bei Problemen kannst du dich an das eigens daf¸r eingerichtete             */
+/*Bei Problemen kannst du dich an das eigens daf√ºr eingerichtete             */
 /*Entwiklerforum wenden:                                                     */
 /*                                                                           */
 /*        https://handels-gilde.org/?www/forum/index.php;board=1099.0        */
 /*                                                                           */
 /*****************************************************************************/
 
-define('DEBUG_LEVEL', 0);
+if (!defined('DEBUG_LEVEL')) {
+    define('DEBUG_LEVEL', 0);
+}
 
 include_once("includes/debug.php");
 
-// -> Abfrage ob dieses Modul ¸ber die index.php aufgerufen wurde.
+// -> Abfrage ob dieses Modul √ºber die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
 if (basename($_SERVER['PHP_SELF']) != "index.php") {
 	echo "Hacking attempt...!!";
@@ -55,10 +57,10 @@ if (basename($_SERVER['PHP_SELF']) != "index.php") {
 
 //****************************************************************************
 //
-// -> Name des Moduls, ist notwendig f¸r die Benennung der zugehˆrigen
+// -> Name des Moduls, ist notwendig f√ºr die Benennung der zugeh√∂rigen
 //    Config.cfg.php
-// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung f¸r
-//    eine Installation ¸ber das Men¸
+// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung f√ºr
+//    eine Installation √ºber das Men√º
 //
 $modulname  = "m_transportschiffe";
 
@@ -70,8 +72,8 @@ $modultitle = "Transportschiffe";
 
 //****************************************************************************
 //
-// -> Status des Moduls, bestimmt wer dieses Modul ¸ber die Navigation
-//    ausf¸hren darf. Mˆgliche Werte:
+// -> Status des Moduls, bestimmt wer dieses Modul √ºber die Navigation
+//    ausf√ºhren darf. M√∂gliche Werte:
 //    - ""      <- nix = jeder,
 //    - "admin" <- na wer wohl
 //
@@ -79,7 +81,7 @@ $modulstatus = "";
 
 //****************************************************************************
 //
-// -> Beschreibung des Moduls, wie es in der Men¸-‹bersicht angezeigt wird.
+// -> Beschreibung des Moduls, wie es in der Men√º-√úbersicht angezeigt wird.
 //
 $moduldesc = "Zeigt Bedarfsinfos zu Transen an";
 
@@ -100,7 +102,7 @@ function workInstallDatabase() {
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	}
 
-	echo "<div class='system_notification'>Installation: Datenbank&auml;nderungen = <b>OK</b></div>";
+	echo "<div class='system_notification'>Installation: Datenbank√§nderungen = <b>OK</b></div>";
 }
 
 //****************************************************************************
@@ -112,10 +114,10 @@ function workInstallDatabase() {
 function workInstallMenu() {
     global $modultitle, $modulstatus, $_POST;
 
-		$actionparamters = "";
+	$actionparameters = "";
   	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparameters );
 	  //
-	  // Weitere Wiederholungen f√ºr weitere Men¸-Eintr‰ge, z.B.
+	  // Weitere Wiederholungen f√ºr weitere Men√º-Eintr√§ge, z.B.
 	  //
 	  // 	insertMenuItem( $_POST['menu'], ($_POST['submenu']+1), "Titel2", "hc", "&weissichnichtwas=1" );
 	  //
@@ -263,7 +265,7 @@ while ($row = $db->db_fetch_array($result)) {
 $config['users'] = $users;
 $config['teams'] = $teams;
 
-// Abfrage ausf¸hren
+// Abfrage ausfÔøΩhren
 $sql = "SELECT  $db_tb_user.id AS 'user',
 		  $db_tb_user.budflesol AS 'typ',
 		  $db_tb_user.lastshipscan AS 'lastshipscan',
@@ -469,7 +471,7 @@ while ($row = $db->db_fetch_array($result)) {
 			"abdeckung_hyperraum_klasse2" => 0,
 		);
 	}
-	// Abfragen anfliegender ‹bergaben
+	// Abfragen anfliegender ÔøΩbergaben
 	$sql_detail = "SELECT * FROM $db_tb_lieferung WHERE user_to<>user_from AND user_to='" . $row['user'] . "' AND time > " . time() . " AND art='&Uuml;bergabe'";
 	$result_detail = $db->db_query($sql_detail)
 		or error(GENERAL_ERROR, 'Could not query scans_historie information.', '', __FILE__, __LINE__, $sql_detail);
@@ -696,7 +698,7 @@ $views = array(
 	),
 );
 
-// Aktuelle Ansicht ausw‰hlen
+// Aktuelle Ansicht ausw√§hlen
 $view = $views[$params['view']];
 $expand = $view['expand'];
 

@@ -171,44 +171,44 @@ $results = array();
 // Seitenparameter definieren
 debug_var(
     "defaults", $defaults = array(
-        'view'                 => 'overview',
-        'gal_start'            => $user_gal_start,
-        'gal_end'              => $user_gal_end,
-        'sys_start'            => $user_sys_start,
-        'sys_end'              => $user_sys_end,
-        'order'                => 'coords',
-        'orderd'               => 'asc',
-        'edit'                 => '',
-        'delete'               => '',
-        'expand'               => '',
-        'objekt'               => 'Alle',
-        'user'                 => '',
-        'alli'                 => '',
-        'scans'                => 'Alle',
-        'no_noob'              => '1',
-        'inaktiv'              => '',
-        'def_min'              => '',
-        'def_max'              => '',
-        'scan_schiff_age_min'  => '',
-        'scan_schiff_age_max'  => '',
-        'scan_geb_age_min'     => '',
-        'scan_geb_age_max'     => '',
+        'view' => 'overview',
+        'gal_start' => $user_gal_start,
+        'gal_end' => $user_gal_end,
+        'sys_start' => $user_sys_start,
+        'sys_end' => $user_sys_end,
+        'order' => 'coords',
+        'orderd' => 'asc',
+        'edit' => '',
+        'delete' => '',
+        'expand' => '',
+        'objekt' => 'Alle',
+        'user' => '',
+        'alli' => '',
+        'scans' => 'Alle',
+        'no_noob' => '1',
+        'inaktiv' => '',
+        'def_min' => '',
+        'def_max' => '',
+        'scan_schiff_age_min' => '',
+        'scan_schiff_age_max' => '',
+        'scan_geb_age_min' => '',
+        'scan_geb_age_max' => '',
         'scan_failure_age_min' => '',
         'scan_failure_age_max' => '',
-        'allistatus'           => '',
-        'angriff'              => '',
-        'no_angriff'           => '',
-        'sondierung'           => '',
-        'no_sondierung'        => '',
-        'no_reservierung'      => '',
-        'reservierung_user'    => '',
+        'allistatus' => '',
+        'angriff' => '',
+        'no_angriff' => '',
+        'sondierung' => '',
+        'no_sondierung' => '',
+        'no_reservierung' => '',
+        'reservierung_user' => '',
         'reservierung_foreign' => '',
-        'rating_min'           => '',
-        'rating_max'           => '',
-        'ressource'            => 'Alle',
-        'ress_min'             => '',
-        'sg_start'             => '0',
-        'sg_end'               => '0'
+        'rating_min' => '',
+        'rating_max' => '',
+        'ressource' => 'Alle',
+        'ress_min' => '',
+        'sg_start' => '',
+        'sg_end' => ''
     )
 );
 
@@ -353,44 +353,44 @@ while ($row = $db->db_fetch_array($result)) {
 // Schiffstypen
 $config['schiffsangriff'] = array(
     // Jäger
-    'Sheep'                          => 10,
-    'Shark'                          => 12,
-    'Manta'                          => 15,
-    'Downbringer'                    => 25,
-    'Sirius X300'                    => 45,
-    'Nightcrawler'                   => 35,
+    'Sheep' => 10,
+    'Shark' => 12,
+    'Manta' => 15,
+    'Downbringer' => 25,
+    'Sirius X300' => 45,
+    'Nightcrawler' => 35,
     // Bomber
-    'Atombomber'                     => 10,
-    'Stormbringer'                   => 15,
-    'Nova'                           => 20,
-    'Nepomuk'                        => 5,
+    'Atombomber' => 10,
+    'Stormbringer' => 15,
+    'Nova' => 20,
+    'Nepomuk' => 5,
     // Korvette
-    'Lionheart'                      => 20,
-    'Hunter'                         => 30,
-    'Victim'                         => 45,
-    'Gatling'                        => 65,
-    'Eraser'                         => 25,
+    'Lionheart' => 20,
+    'Hunter' => 30,
+    'Victim' => 45,
+    'Gatling' => 65,
+    'Eraser' => 25,
     // Zerstörer
-    'Slayer'                         => 35,
-    'Vendeta'                        => 55,
-    'Crawler'                        => 85,
-    'Widowmaker'                     => 45,
+    'Slayer' => 35,
+    'Vendeta' => 55,
+    'Crawler' => 85,
+    'Widowmaker' => 45,
     // Kreuzer
-    'Hitman'                         => 120,
-    'Succubus'                       => 360,
-    'Sirius XPi'                     => 450,
-    'TAG Vario Kreuzer'              => 420,
-    'Silent Sorrow'                  => 130,
+    'Hitman' => 120,
+    'Succubus' => 360,
+    'Sirius XPi' => 450,
+    'TAG Vario Kreuzer' => 420,
+    'Silent Sorrow' => 130,
     // Schlachtschiff
-    'Big Daddy'                      => 600,
-    'Kronk'                          => 1000,
-    'Quasal'                         => 1450,
+    'Big Daddy' => 600,
+    'Kronk' => 1000,
+    'Quasal' => 1450,
     // Dreadnoughts
-    'Rentier Kampftransporter'       => 3000,
-    'Zeus'                           => 2580,
-    'Tempest'                        => 3800,
+    'Rentier Kampftransporter' => 3000,
+    'Zeus' => 2580,
+    'Tempest' => 3800,
     'Rosa-Plüschhasen-Spezialschiff' => 250,
-    'Nimbus BP-1729'                 => 360,
+    'Nimbus BP-1729' => 360,
 );
 
 // Button abfragen
@@ -463,24 +463,24 @@ if (empty($button_edit) && empty($button_add) && !empty($params['edit'])) {
 
 // Edit-Bereich definieren
 $editview = array(
-    'reserveraiduser'  => array(
-        'title'  => 'Spieler',
-        'desc'   => 'Für welchen Spieler soll das Ziel reserviert werden?',
-        'type'   => 'select',
+    'reserveraiduser' => array(
+        'title' => 'Spieler',
+        'desc' => 'Für welchen Spieler soll das Ziel reserviert werden?',
+        'type' => 'select',
         'values' => $config['users'],
-        'value'  => $edit['reserveraiduser'],
+        'value' => $edit['reserveraiduser'],
     ),
     'reserveraidhours' => array(
         'title' => 'Stunden',
-        'desc'  => 'Wieviele Stunden soll das Ziel reserviert werden?',
-        'type'  => 'text',
+        'desc' => 'Wieviele Stunden soll das Ziel reserviert werden?',
+        'type' => 'text',
         'value' => $edit['reserveraidhours'],
         'style' => 'width: 70;',
     ),
     'reserveraiduntil' => array(
         'title' => 'Reserviert bis',
-        'desc'  => 'Wie lange ist das Ziel reserviert?',
-        'type'  => 'label',
+        'desc' => 'Wie lange ist das Ziel reserviert?',
+        'type' => 'label',
         'value' => $edit['reserveraiduntil'],
         'style' => 'width: 110;',
     ),
@@ -489,33 +489,33 @@ $editview = array(
 // Ansichten defininieren
 $views = array(
     'overview' => array(
-        'title'       => '&Uuml;bersicht',
-        'columns'     => array(
-            'objekttyp'   => '',
-            'coords'      => 'Koords',
-            'tsonden'     => 'T',
-            'x13sonden'   => 'X13',
+        'title' => 'Übersicht',
+        'columns' => array(
+            'objekttyp' => '',
+            'coords' => 'Koords',
+            'tsonden' => 'T',
+            'x13sonden' => 'X13',
             'planetentyp' => '',
-            'user'        => 'Spieler',
-            'allianz'     => 'Allianz',
-            'last_scan'   => 'Scan',
-            'last_raid'   => 'Raid',
-            'inaktiv'     => 'Inaktiv',
-            'eisen'       => 'FE',
-            'stahl'       => 'St',
-            'vv4a'        => 'V4',
-            'chemie'      => 'CE',
-            'eis'         => 'Ei',
-            'wasser'      => 'HO',
-            'energie'     => 'En',
-            'anlage'      => 'Deff',
-            'schiff'      => 'Schiff',
-            'rating'      => 'Rating',
+            'user' => 'Spieler',
+            'allianz' => 'Allianz',
+            'last_scan' => 'Scan',
+            'last_raid' => 'Raid',
+            'inaktiv' => 'Inaktiv',
+            'eisen' => 'FE',
+            'stahl' => 'St',
+            'vv4a' => 'V4',
+            'chemie' => 'CE',
+            'eis' => 'Ei',
+            'wasser' => 'HO',
+            'energie' => 'En',
+            'deff_pla' => 'Deff',
+            'deff_schiff' => 'Schiff',
+            'rating' => 'Rating',
         ),
-        'edit'        => $editview,
-        'edittitle'   => 'Reservierung',
+        'edit' => $editview,
+        'edittitle' => 'Reservierung',
         'deletetitle' => 'Reservierung',
-        'key'         => 'coords'
+        'key' => 'coords'
     )
 );
 
@@ -551,34 +551,34 @@ if (empty($params['view'])) {
     out_next_row("windowbg2", "style='width:30%;'");
     out_echo("Galaxie:<br>\n");
     out_next_cell("windowbg1");
-    out_echo("von ");
-    out_echo("<input type='text' name='gal_start' value='" . $defaults['gal_start'] . "' style='width: 30'>");
-    out_echo(" bis ");
-    out_echo("<input type='text' name='gal_end' value='" . $defaults['gal_end'] . "' style='width: 30'>");
+    out_echo("von&nbsp;");
+    out_echo("<input type='text' name='gal_start' value='" . $defaults['gal_start'] . "' style='width: 5em' maxlength='2'>");
+    out_echo(" bis&nbsp;");
+    out_echo("<input type='text' name='gal_end' value='" . $defaults['gal_end'] . "' style='width: 5em' maxlength='2'>");
     out_next_row("windowbg2");
     out_echo("System:<br>\n");
     out_next_cell("windowbg1");
-    out_echo("von ");
-    out_echo("<input type='text' name='sys_start' value='" . $defaults['sys_start'] . "' style='width: 30'>");
-    out_echo(" bis ");
-    out_echo("<input type='text' name='sys_end' value='" . $defaults['sys_end'] . "' style='width: 30'>");
+    out_echo("von&nbsp;");
+    out_echo("<input type='text' name='sys_start' value='" . $defaults['sys_start'] . "' style='width: 5em' maxlength='3'>");
+    out_echo(" bis&nbsp;");
+    out_echo("<input type='text' name='sys_end' value='" . $defaults['sys_end'] . "' style='width: 5em' maxlength='3'>");
     out_next_row("windowbg2");
     out_echo("Entfernung zum Stargate (Systeme):<br>\n");
     out_next_cell("windowbg1");
-    out_echo("von ");
-    out_echo("<input type='text' name='sg_start' value='" . $defaults['sg_start'] . "' style='width: 30'>");
-    out_echo(" bis ");
-    out_echo("<input type='text' name='sg_end' value='" . $defaults['sg_end'] . "' style='width: 30'>");
+    out_echo("von&nbsp;");
+    out_echo("<input type='text' name='sg_start' value='" . $defaults['sg_start'] . "' style='width: 5em' maxlength='3'>");
+    out_echo(" bis&nbsp;");
+    out_echo("<input type='text' name='sg_end' value='" . $defaults['sg_end'] . "' style='width: 5em' maxlength='3'>");
     // Eigenschaften
     out_next_row("titlebg", "colspan='2'");
     out_echo('<b>Eigenschaften:');
-    out_next_row("windowbg2", "valign=top");
+    out_next_row("windowbg2");
     out_echo("Objekttyp:<br>\n");
-    out_next_cell("windowbg1", "valign=top");
+    out_next_cell("windowbg1");
     out_echo("<select name='objekt'>\n");
     out_echo("<option value='Alle'>Alle</option>\n");
     out_echo("<option value='unbewohnt'>unbewohnt</option>\n");
-    out_echo("<option value='bewohnt' selected>bewohnt</option>\n");
+    out_echo("<option value='bewohnt' selected='selected'>bewohnt</option>\n");
     out_echo("<option value='Kolonie'>Kolonie</option>\n");
     out_echo("<option value='Steinklumpen'>Steinklumpen</option>\n");
     out_echo("<option value='Asteroid'>Asteroid</option>\n");
@@ -590,58 +590,58 @@ if (empty($params['view'])) {
     out_echo("<option value='Sammelbasis'>Sammelbasis</option>\n");
     out_echo("<option value='Artefaktbasis'>Artefaktbasis</option>\n");
     out_echo("</select>\n");
-    out_next_row("windowbg2", "valign=top");
+    out_next_row("windowbg2");
     out_echo("Spielername (mehrere mit ; getrennt):<br>\n");
     out_echo("<i>Planeten eines bestimmten Spielers suchen</i>\n");
-    out_next_cell("windowbg1", "valign=top");
-    out_echo("<input type='text' name='user' value='' style='width: 100'>");
-    out_next_row("windowbg2", "valign=top");
+    out_next_cell("windowbg1");
+    out_echo("<input type='text' name='user' style='width: 20em'>");
+    out_next_row("windowbg2");
     out_echo("Allianzen (mehrere mit ; getrennt):<br>\n");
     out_echo("<i>Planeten einer bestimmten Allianz suchen</i>");
-    out_next_cell("windowbg1", "valign=top");
-    out_echo("<input type='text' name='alli' value='' style='width: 100'>");
-    out_next_row("windowbg2", "valign=top");
+    out_next_cell("windowbg1");
+    out_echo("<input type='text' name='alli' style='width: 20em'>");
+    out_next_row("windowbg2");
     out_echo("Allianzstatus:<br>\n");
-    out_next_cell("windowbg1", "valign=top");
+    out_next_cell("windowbg1");
     out_echo("<select name='allistatus[]' size='" . (count($config['statusalli']) + 1) . "' multiple='multiple'>");
     out_echo("<option " . (isset($config['statusalli']['Krieg']) ? "" : " selected='selected'") . " value='(kein)'>(kein)</option>");
     foreach ($config['statusalli'] as $key => $value) {
         out_echo("<option" . ($key == 'Krieg' ? " selected='selected'" : "") . " value='" . $key . "'>" . $key . "</option>");
     }
     out_echo("</select>");
-    out_next_row("windowbg2", "valign=top");
+    out_next_row("windowbg2");
     out_echo("Schiffsscan:<br>\n");
-    out_next_cell("windowbg1", "valign=top");
-    out_echo("von <input type='text' name='scan_schiff_age_min' value='' style='width: 30'> bis <input type='text' name='scan_schiff_age_max' value='' style='width: 30'> Stunden<br>");
-    out_next_row("windowbg2", "valign=top");
-    out_echo("Geb&auml;udescan:<br>\n");
-    out_next_cell("windowbg1", "valign=top");
-    out_echo("von <input type='text' name='scan_geb_age_min' value='' style='width: 30'> bis <input type='text' name='scan_geb_age_max' value='' style='width: 30'> Stunden<br>");
-    out_next_row("windowbg2", "valign=top");
+    out_next_cell("windowbg1");
+    out_echo("von <input type='text' name='scan_schiff_age_min' style='width: 5em' maxlength='5'> bis&nbsp;<input type='text' name='scan_schiff_age_max' style='width: 5em' maxlength='5'> Stunden<br>");
+    out_next_row("windowbg2");
+    out_echo("Gebäudescan:<br>\n");
+    out_next_cell("windowbg1");
+    out_echo("von <input type='text' name='scan_geb_age_min'  style='width: 5em' maxlength='5'> bis&nbsp;<input type='text' name='scan_geb_age_max'  style='width: 5em' maxlength='5'> Stunden<br>");
+    out_next_row("windowbg2");
     out_echo("Fehlgeschlagene Scans:<br>\n");
-    out_next_cell("windowbg1", "valign=top");
-    out_echo("von <input type='text' name='scan_failure_age_min' value='' style='width: 30'> bis <input type='text' name='scan_failure_age_max' value='' style='width: 30'> Stunden<br>");
-    out_next_row("windowbg2", "valign=top");
+    out_next_cell("windowbg1");
+    out_echo("von <input type='text' name='scan_failure_age_min'  style='width: 5em' maxlength='5'> bis&nbsp;<input type='text' name='scan_failure_age_max'  style='width: 5em' maxlength='5'> Stunden<br>");
+    out_next_row("windowbg2");
     out_echo("Noobschutz:<br>\n");
-    out_next_cell("windowbg1", "valign=top");
+    out_next_cell("windowbg1");
     out_echo("<input type='checkbox' name='no_noob' value='1' checked> Kein Noobschutz");
 
-    out_next_row("windowbg2", "valign=top");
-    out_echo("Inaktivit&auml;t:<br>\n");
-    out_next_cell("windowbg1", "valign=top");
-    out_echo("seit <input type='text' name='inaktiv' value='' style='width: 30'> Tagen <br>");
+    out_next_row("windowbg2");
+    out_echo("Inaktivität:<br>\n");
+    out_next_cell("windowbg1");
+    out_echo("seit <input type='text' name='inaktiv' style='width: 5em' maxlength='5'> Tagen <br>");
 
-    out_next_row("windowbg2", "valign=top");
+    out_next_row("windowbg2");
     out_echo("Verteidigung:<br>\n");
-    out_next_cell("windowbg1", "valign=top");
-    out_echo("von <input type='text' name='def_min' value='' style='width: 80'>&nbsp;bis <input type='text' name='def_max' value='' style='width: 80'>");
-    out_next_row("windowbg2", "valign=top");
+    out_next_cell("windowbg1");
+    out_echo("von <input type='text' name='def_min' style='width: 5em' maxlength='5'> bis&nbsp;<input type='text' name='def_max' style='width: 5em' maxlength='5'>");
+    out_next_row("windowbg2");
     out_echo("Rating:<br>\n");
-    out_next_cell("windowbg1", "valign=top");
-    out_echo("von <input type='text' name='rating_min' value='' style='width: 80'>&nbsp;bis <input type='text' name='rating_max' value='' style='width: 80'>");
-    out_next_row("windowbg2", "valign=top");
+    out_next_cell("windowbg1");
+    out_echo("von <input type='text' name='rating_min' style='width: 5em' maxlength='5'> bis&nbsp;<input type='text' name='rating_max' style='width: 5em' maxlength='5'>");
+    out_next_row("windowbg2");
     out_echo("Ressource:<br>\n");
-    out_next_cell("windowbg1", "valign=top");
+    out_next_cell("windowbg1");
     out_echo("<select name='ressource'>\n");
     out_echo("<option value='Alle'>Alle</option>\n");
     out_echo("<option value='eisen'>Eisen</option>\n");
@@ -652,15 +652,15 @@ if (empty($params['view'])) {
     out_echo("<option value='wasser'>Wasser</option>\n");
     out_echo("<option value='energie'>Energie</option>\n");
     out_echo("</select>\n");
-    out_echo("von <input type='text' name='ress_min' value='' style='width: 80'>");
-    out_next_row("windowbg2", "valign=top");
+    out_echo("von <input type='text' name='ress_min' style='width: 10em' maxlength='10'>");
+    out_next_row("windowbg2");
     out_echo("Status:<br>\n");
-    out_next_cell("windowbg1", "valign=top");
-    out_echo("<input type='checkbox' name='no_angriff' value='1' checked> Keine Angriffe");
+    out_next_cell("windowbg1");
+    out_echo("<input type='checkbox' name='no_angriff' value='1' checked='checked'> Keine Angriffe");
     out_echo("<input type='checkbox' name='angriff' value='1'> Nur Angriffe<br>");
-    out_echo("<input type='checkbox' name='no_sondierung' value='1' checked> Keine Sondierungen");
+    out_echo("<input type='checkbox' name='no_sondierung' value='1' checked='checked''> Keine Sondierungen");
     out_echo("<input type='checkbox' name='sondierung' value='1'> Nur Sondierungen<br>");
-    out_echo("<input type='checkbox' name='no_reservierung' value='1' checked> Keine Reservierungen");
+    out_echo("<input type='checkbox' name='no_reservierung' value='1' checked='checked'> Keine Reservierungen");
     out_echo("<input type='checkbox' name='reservierung_user' value='1'> Eigene Reservierungen");
     out_echo("<input type='checkbox' name='reservierung_foreign' value='1'> Fremde Reservierungen<br>");
     out_next_row("titlebg", "colspan='2'");
@@ -676,7 +676,7 @@ if (empty($params['view'])) {
     out_echo("</select>");
     // Schaltflächen
     out_next_row("titlebg", "align='center' colspan='2'");
-    out_echo("<input type='submit' value='OK' name='B1' class='submit'>\n");
+    out_echo("<input type='submit' value='suchen' name='searchtargets' class='submit'>\n");
     // Tabelle beenden
     out_end_table();
     // Form beenden
@@ -1099,7 +1099,7 @@ if (empty($params['view'])) {
         if (!empty($stopfi)) {
             $anlagen .= (!empty($anlagen) ? " " : "") . $stopfi . " Stopfi";
         }
-        $anlage = $grav * 480 + $plasma * 300 + $arak * 15 + $rak * 10 + $pulssat * 55 + $lasersat * 35 + $gauss * 25 + $raksat * 25 + $stopfi * 1;
+        $deff_pla = $grav * 480 + $plasma * 300 + $arak * 15 + $rak * 10 + $pulssat * 55 + $lasersat * 35 + $gauss * 25 + $raksat * 25 + $stopfi * 1;
         // Werften
         $klorw = isset($objects['kleine orbitale Werft']) ? $objects['kleine orbitale Werft'] : ($row['geb'] == "" ? '---' : 0);
         $klplw = isset($objects['kleine planetare Werft']) ? $objects['kleine planetare Werft'] : ($row['geb'] == "" ? '---' : 0);
@@ -1122,36 +1122,37 @@ if (empty($params['view'])) {
         // Inaktiv
         $inaktiv = isset($row['gebp_nodiff']) ? $row['gebp_nodiff'] : "---";
         // Schiffe
-        $schiff = 0;
+        $deff_schiff = 0;
         $schiffe = "";
         foreach ($config['schiffsangriff'] as $name => $angriff) {
             if (isset($objects[$name]) && !empty($angriff)) {
-                $schiff += $objects[$name] * $angriff;
-                $schiffe .= (!empty($schiffe) ? " " : "") . makeamount($objects[$name]) . " " . $name;
+                $deff_schiff += $objects[$name] * $angriff;
+                $schiffe .= (!empty($schiffe) ? " " : "") . makeAmount($objects[$name]) . " " . $name;
             }
         }
         // Verteidigung
-        $gesamt = $anlage + $schiff;
+        $deff_gesamt = $deff_pla + $deff_schiff;
         // Verteidigungsfilter
-        if (!empty($params['def_min']) && $gesamt < $params['def_min']) {
+        if (!empty($params['def_min']) && $deff_gesamt < $params['def_min']) {
             continue;
         }
-        if (!empty($params['def_max']) && $gesamt > $params['def_max']) {
+        if (!empty($params['def_max']) && $deff_gesamt > $params['def_max']) {
             continue;
         }
+        //ToDo: Ressgewichtung einstellbar machen
         // Ressourcen zählen
-        $ress = $row['eisen'] + $row['stahl'] * 2 + $row['chemie'] * 3 + $row['vv4a'] * 4 + $row['eis'] * 2 + $row['wasser'] * 2 + $row['energie'] * 0.1;
+        $ress = $row['eisen'] + $row['stahl'] * 2 + $row['chemie'] + $row['vv4a'] * 4 + $row['eis'] * 2 + $row['wasser'] * 2 + $row['energie'] * 0.1;
         // Rating
         $rating = $ress;
-        if (!empty($gesamt)) {
-            $rating /= $gesamt;
+        if (!empty($deff_gesamt)) {
+            $rating /= $deff_gesamt;
         }
         $rating = round($rating);
         // Berechnende Filter
-        if (!empty($params['rating_min']) && !empty($rating) && $rating < $params['rating_min']) {
+        if (!empty($params['rating_min']) && $rating < $params['rating_min']) {
             continue;
         }
-        if (!empty($params['rating_max']) && !empty($rating) && $rating > $params['rating_max']) {
+        if (!empty($params['rating_max']) && $rating > $params['rating_max']) {
             continue;
         }
         // Hintergrund-Farbe festlegen
@@ -1163,88 +1164,88 @@ if (empty($params['view'])) {
         }
         if ($count++ == 1000) {
             echo "<br><div class='system_notification'>Es wurden mehr als 1000 Planeten gefunden. Bitte die Suche weiter einschränken.</div><br>";
-            echo makelink(array('view' => ''), 'Zur&uuml;ck');
+            echo makelink(array('view' => ''), 'Zurück');
             exit;
         }
         $data[$row['coords']] = array(
-            'coords'           => $row['coords'],
-            'gal'              => $row['coords_gal'],
-            'sys'              => $row['coords_sys'],
-            'pla'              => $row['coords_planet'],
-            'user'             => $row['user'],
-            'allianz'          => $row['allianz'],
-            'pos'              => $row['pos'],
-            'planetentyp'      => $row['typ'],
-            'objekttyp'        => $row['objekt'],
-            'dabei_seit'       => $row['dabei_seit'],
-            'last_scan'        => $last_scan,
-            'fehlscantime'     => $row['fehlscantime'],
-            'schiffscantime'   => $row['schiffscantime'],
-            'gebscantime'      => $row['gebscantime'],
-            'geoscantime'      => $row['geoscantime'],
-            'last_raid'        => $row['last_raid'],
-            'last_link'        => $row['last_link'],
-            'inaktiv'          => $inaktiv,
-            'sd_01'            => $sd_01,
-            'sd_02'            => $sd_02,
-            'eisen'            => $row['eisen'],
-            'stahl'            => $row['stahl'],
-            'vv4a'             => $row['vv4a'],
-            'chemie'           => $row['chemie'],
-            'eis'              => $row['eis'],
-            'wasser'           => $row['wasser'],
-            'energie'          => $row['energie'],
-            'ress'             => $ress,
-            'schiff'           => $schiff,
-            'anlage'           => $anlage,
-            'gesamt'           => $gesamt,
-            'rating'           => $rating,
-            'geb'              => $row['geb'],
-            'plan'             => $row['plan'],
-            'stat'             => $row['stat'],
-            'def'              => $row['def'],
-            'klplw'            => $klplw,
-            'klorw'            => $klorw,
-            'miplw'            => $miplw,
-            'miorw'            => $miorw,
-            'grw'              => $grw,
-            'dnw'              => $dnw,
-            'werften'          => $werften,
-            'gala'             => $gala,
-            'flotten'          => $flotten,
-            'koze'             => $koze,
-            'rmk'              => $rmk,
-            'orb_pu'           => $orb_pu,
-            'pla_pu'           => $pla_pu,
-            'alpha'            => $alpha,
-            'beta'             => $beta,
-            'schiffe'          => $schiffe,
-            'anlagen'          => $anlagen,
-            'comment'          => $comment,
-            'tsonden'          => $tsonden,
-            'x13sonden'        => $x13sonden,
-            'allianz_style'    => $allianz_background_color,
+            'coords' => $row['coords'],
+            'gal' => $row['coords_gal'],
+            'sys' => $row['coords_sys'],
+            'pla' => $row['coords_planet'],
+            'user' => $row['user'],
+            'allianz' => $row['allianz'],
+            'pos' => $row['pos'],
+            'planetentyp' => $row['typ'],
+            'objekttyp' => $row['objekt'],
+            'dabei_seit' => $row['dabei_seit'],
+            'last_scan' => $last_scan,
+            'fehlscantime' => $row['fehlscantime'],
+            'schiffscantime' => $row['schiffscantime'],
+            'gebscantime' => $row['gebscantime'],
+            'geoscantime' => $row['geoscantime'],
+            'last_raid' => $row['last_raid'],
+            'last_link' => $row['last_link'],
+            'inaktiv' => $inaktiv,
+            'sd_01' => $sd_01,
+            'sd_02' => $sd_02,
+            'eisen' => $row['eisen'],
+            'stahl' => $row['stahl'],
+            'vv4a' => $row['vv4a'],
+            'chemie' => $row['chemie'],
+            'eis' => $row['eis'],
+            'wasser' => $row['wasser'],
+            'energie' => $row['energie'],
+            'ress' => $ress,
+            'deff_schiff' => $deff_schiff,
+            'deff_pla' => $deff_pla,
+            'deff_gesamt' => $deff_gesamt,
+            'rating' => $rating,
+            'geb' => $row['geb'],
+            'plan' => $row['plan'],
+            'stat' => $row['stat'],
+            'def' => $row['def'],
+            'klplw' => $klplw,
+            'klorw' => $klorw,
+            'miplw' => $miplw,
+            'miorw' => $miorw,
+            'grw' => $grw,
+            'dnw' => $dnw,
+            'werften' => $werften,
+            'gala' => $gala,
+            'flotten' => $flotten,
+            'koze' => $koze,
+            'rmk' => $rmk,
+            'orb_pu' => $orb_pu,
+            'pla_pu' => $pla_pu,
+            'alpha' => $alpha,
+            'beta' => $beta,
+            'schiffe' => $schiffe,
+            'anlagen' => $anlagen,
+            'comment' => $comment,
+            'tsonden' => $tsonden,
+            'x13sonden' => $x13sonden,
+            'allianz_style' => $allianz_background_color,
             'dabei_seit_style' => "text-align: right; " . $text_color,
-            'last_scan_style'  => "text-align: right; " . $text_color,
-            'last_raid_style'  => "text-align: right; " . $text_color,
-            'inaktiv_style'    => "text-align: right; " . $text_color,
-            'sd_01_style'      => "text-align: right; " . $text_color,
-            'sd_02_style'      => "text-align: right; " . $text_color,
-            'tsonden_style'    => "text-align: right; " . $text_color,
-            'x13sonden_style'  => "text-align: right; " . $text_color,
-            'eisen_style'      => "text-align: right; " . $text_color,
-            'stahl_style'      => "text-align: right; " . $text_color,
-            'vv4a_style'       => "text-align: right; " . $text_color,
-            'chemie_style'     => "text-align: right; " . $text_color,
-            'eis_style'        => "text-align: right; " . $text_color,
-            'wasser_style'     => "text-align: right; " . $text_color,
-            'energie_style'    => "text-align: right; " . $text_color,
-            'ress_style'       => "text-align: right; " . $text_color,
-            'schiff_style'     => "text-align: right; " . $text_color,
-            'anlage_style'     => "text-align: right; " . $text_color,
-            'gesamt_style'     => "text-align: right; " . $text_color,
-            'rating_style'     => "text-align: right; ",
-            'row_style'        => $text_color,
+            'last_scan_style' => "text-align: right; " . $text_color,
+            'last_raid_style' => "text-align: right; " . $text_color,
+            'inaktiv_style' => "text-align: right; " . $text_color,
+            'sd_01_style' => "text-align: right; " . $text_color,
+            'sd_02_style' => "text-align: right; " . $text_color,
+            'tsonden_style' => "text-align: right; " . $text_color,
+            'x13sonden_style' => "text-align: right; " . $text_color,
+            'eisen_style' => "text-align: right; " . $text_color,
+            'stahl_style' => "text-align: right; " . $text_color,
+            'vv4a_style' => "text-align: right; " . $text_color,
+            'chemie_style' => "text-align: right; " . $text_color,
+            'eis_style' => "text-align: right; " . $text_color,
+            'wasser_style' => "text-align: right; " . $text_color,
+            'energie_style' => "text-align: right; " . $text_color,
+            'ress_style' => "text-align: right; " . $text_color,
+            'schiff_style' => "text-align: right; " . $text_color,
+            'anlage_style' => "text-align: right; " . $text_color,
+            'gesamt_style' => "text-align: right; " . $text_color,
+            'rating_style' => "text-align: right; ",
+            'row_style' => $text_color,
         );
     }
     usort($data, "sort_data_cmp");
@@ -1280,7 +1281,7 @@ if (empty($params['view'])) {
             out_echo(
                 makelink(
                     array(
-                        'order'  => $orderkey,
+                        'order' => $orderkey,
                         'orderd' => 'asc'
                     ),
                     "<img src='./bilder/asc.gif' border='0'>"
@@ -1290,7 +1291,7 @@ if (empty($params['view'])) {
             out_echo(
                 makelink(
                     array(
-                        'order'  => $orderkey,
+                        'order' => $orderkey,
                         'orderd' => 'desc'
                     ),
                     "<img src='./bilder/desc.gif' border='0'>"
@@ -1588,7 +1589,7 @@ function format_value($row, $name, $value)
                 array(
                     "view" => $params['view'],
                     "user" => $value,
-                    "sid"  => $sid,
+                    "sid" => $sid,
                 ), $value, true
             );
         case 'coords':
@@ -1619,41 +1620,41 @@ function format_value($row, $name, $value)
                 return "<alt title='Artefaktbasis'><img src='bilder/artefakt_basis.png'></a>";
             }
         case 'eisen':
-            return "<alt title='" . number_format((float)$value, 0, ",", '.') . " Eisen'>" . makeamount($value) . "</a>";
+            return "<alt title='" . number_format((float)$value, 0, ",", '.') . " Eisen'>" . makeAmount($value) . "</a>";
         case 'stahl':
-            return "<alt title='" . number_format((float)$value, 0, ",", '.') . " Stahl'>" . makeamount($value) . "</a>";
+            return "<alt title='" . number_format((float)$value, 0, ",", '.') . " Stahl'>" . makeAmount($value) . "</a>";
         case 'vv4a':
-            return "<alt title='" . number_format((float)$value, 0, ",", '.') . " VV4A'>" . makeamount($value) . "</a>";
+            return "<alt title='" . number_format((float)$value, 0, ",", '.') . " VV4A'>" . makeAmount($value) . "</a>";
         case 'chemie':
-            return "<alt title='" . number_format((float)$value, 0, ",", '.') . " Chemie'>" . makeamount($value) . "</a>";
+            return "<alt title='" . number_format((float)$value, 0, ",", '.') . " Chemie'>" . makeAmount($value) . "</a>";
         case 'eis':
-            return "<alt title='" . number_format((float)$value, 0, ",", '.') . " Eis'>" . makeamount($value) . "</a>";
+            return "<alt title='" . number_format((float)$value, 0, ",", '.') . " Eis'>" . makeAmount($value) . "</a>";
         case 'wasser':
-            return "<alt title='" . number_format((float)$value, 0, ",", '.') . " Wasser'>" . makeamount($value) . "</a>";
+            return "<alt title='" . number_format((float)$value, 0, ",", '.') . " Wasser'>" . makeAmount($value) . "</a>";
         case 'energie':
-            return "<alt title='" . number_format((float)$value, 0, ",", '.') . " Energie'>" . makeamount($value) . "</a>";
+            return "<alt title='" . number_format((float)$value, 0, ",", '.') . " Energie'>" . makeAmount($value) . "</a>";
         case 'ress':
             /*$title = "";
             if (!empty($row['eisen']))
-                $title .= (!empty($title) ? " " : "") . "Eisen: " . makeamount($row['eisen']);
+                $title .= (!empty($title) ? " " : "") . "Eisen: " . makeAmount($row['eisen']);
             if (!empty($row['stahl']))
-                $title .= (!empty($title) ? " " : "") . "Stahl: " . makeamount($row['stahl']);
+                $title .= (!empty($title) ? " " : "") . "Stahl: " . makeAmount($row['stahl']);
             if (!empty($row['vv4a']))
-                $title .= (!empty($title) ? " " : "") . "VV4A: " . makeamount($row['vv4a']);
+                $title .= (!empty($title) ? " " : "") . "VV4A: " . makeAmount($row['vv4a']);
             if (!empty($row['chemie']))
-                $title .= (!empty($title) ? " " : "") . "Chemie: " . makeamount($row['chemie']);
+                $title .= (!empty($title) ? " " : "") . "Chemie: " . makeAmount($row['chemie']);
             if (!empty($row['wasser']))
-                $title .= (!empty($title) ? " " : "") . "Wasser: " . makeamount($row['wasser']);
+                $title .= (!empty($title) ? " " : "") . "Wasser: " . makeAmount($row['wasser']);
             if (!empty($row['energie']))
-                $title .= (!empty($title) ? " " : "") . "Energie: " . makeamount($row['energie']);
+                $title .= (!empty($title) ? " " : "") . "Energie: " . makeAmount($row['energie']);
             return "<alt title='" . $title . "'>" . number_format((float)$value, 0, ',', '.') . "</a>";*/
-            return makeamount($value);
+            return makeAmount($value);
         //case 'punkte':
-        case 'gesamt':
+        case 'deff_gesamt':
             return number_format((float)$value, 0, ',', '.');
-        case 'schiff':
+        case 'deff_schiff':
             return "<alt title='" . $row['schiffe'] . "'>" . number_format((float)$value, 0, ',', '.') . "</a>";
-        case 'anlage':
+        case 'deff_pla':
             return "<alt title='" . $row['anlagen'] . "'>" . number_format((float)$value, 0, ',', '.') . "</a>";
         case 'tsonden':
         case 'x13sonden':
@@ -1664,18 +1665,18 @@ function format_value($row, $name, $value)
             }
         case 'inaktiv':
             $diff = CURRENT_UNIX_TIME - $value;
-            if ($diff > 60 * 60 * 48) {
+            if ($diff > 2 * DAY) {
                 return '<span class="ranking_red">' . makeduration($value) . '</span>';
-            } elseif ($diff > 60 * 60 * 24) {
+            } elseif ($diff > DAY) {
                 return '<span class="ranking_yellow">' . makeduration($value) . '</span>';
             } else {
                 return '<span class="ranking_green">' . makeduration($value) . '</span>';
             }
         case 'dabei_seit':
             $diff = CURRENT_UNIX_TIME - $value;
-            if (($diff > 60 * 60 * 24 * 20) && ($diff <= 60 * 60 * 24 * 21)) {
+            if (($diff > DAY * 20) && ($diff <= DAY * 21)) {
                 return '<span class="ranking_yellow">' . makeduration($value) . '</span>';
-            } elseif ($diff > 60 * 60 * 24 * 21) {
+            } elseif ($diff > DAY * 21) {
                 return '<span class="ranking_green">' . makeduration($value) . '</span>';
             } else {
                 return '<span class="ranking_red">' . makeduration($value) . '</span>';
@@ -1830,14 +1831,14 @@ function makeduration($time)
         return '---';
     }
     $duration = CURRENT_UNIX_TIME - $time;
-    if ($duration > 2 * 24 * 60 * 60) {
-        return round($duration / (24 * 60 * 60)) . "d";
-    } elseif ($duration > 60 * 60) {
-        $hours = round($duration / (60 * 60));
+    if ($duration > 2 * DAY) {
+        return round($duration / DAY) . "d";
+    } elseif ($duration > HOUR) {
+        $hours = round($duration / HOUR);
 
         return $hours == 1 ? "1 Stunde" : $hours . "h";
     } else {
-        $minutes = round($duration / 60);
+        $minutes = round($duration / MINUTE);
 
         return $minutes == 1 ? "1 Minute" : $minutes . "min";
     }
@@ -1846,14 +1847,16 @@ function makeduration($time)
 //****************************************************************************
 //
 // Menge formatieren
-function makeamount($amount)
+function makeAmount($amount)
 {
-    if ($amount > 1000) {
-        return number_format(round($amount / 1000), 0, ",", '.') . "k";
-    } elseif (empty($amount)) {
-        return "";
+    if (is_null($amount) or $amount === '') {
+        return '';
     } else {
-        return number_format((float)$amount, 0, ",", '.');
+        if ($amount > 1000) {
+            return number_format(round($amount / 1000), 0, ",", '.') . "k";
+        } else {
+            return number_format((float)$amount, 0, ",", '.');
+        }
     }
 }
 

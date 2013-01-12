@@ -1264,8 +1264,7 @@ if (empty($params['view'])) {
     }
     usort($data, "sort_data_cmp");
     // Daten ausgeben
-    out_echo(
-        '
+    echo '
         <script language="JavaScript" type="text/javascript"><!--
         function Collapse(what) {
             var collapseImage = document.getElementById("collapse_" + what);
@@ -1281,8 +1280,8 @@ if (empty($params['view'])) {
             }
         }
         // --></script>
-            '
-    );
+            ';
+
     start_table();
     start_row("titlebg", "nowrap valign=top");
     foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
@@ -1292,24 +1291,20 @@ if (empty($params['view'])) {
             if (isset($view['sortcolumns'][$orderkey])) {
                 $orderkey = $view['sortcolumns'][$orderkey];
             }
-            out_echo(
-                makelink(
-                    array(
-                        'order'  => $orderkey,
-                        'orderd' => 'asc'
-                    ),
-                    "<img src='./bilder/asc.gif'>"
-                )
+            echo makelink(
+                array(
+                    'order'  => $orderkey,
+                    'orderd' => 'asc'
+                ),
+                "<img src='./bilder/asc.gif'>"
             );
             echo '<b>' . $viewcolumnname . '</b>';
-            out_echo(
-                makelink(
-                    array(
-                        'order'  => $orderkey,
-                        'orderd' => 'desc'
-                    ),
-                    "<img src='./bilder/desc.gif'>"
-                )
+            echo makelink(
+                array(
+                    'order'  => $orderkey,
+                    'orderd' => 'desc'
+                ),
+                "<img src='./bilder/desc.gif'>"
             );
         }
     }
@@ -1350,20 +1345,16 @@ if (empty($params['view'])) {
                 next_cell("windowbg1", 'nowrap valign=center');
             }
             if (!isset($row['allow_edit']) || $row['allow_edit']) {
-                out_echo(
-                    makelink(
-                        array('edit' => $key),
-                        "<img src='bilder/file_edit_s.gif' alt='bearbeiten'>"
-                    )
+                echo makelink(
+                    array('edit' => $key),
+                    "<img src='bilder/file_edit_s.gif' alt='bearbeiten'>"
                 );
             }
             if (!isset($row['allow_delete']) || $row['allow_delete']) {
-                out_echo(
-                    makelink(
-                        array('delete' => $key),
-                        "<img src='bilder/file_delete_s.gif' onclick='return confirmlink(this, '" .
-                            (isset($view['deletetitle']) ? $view['deletetitle'] : 'Datensatz') . " wirklich löschen?')' alt='loeschen'>"
-                    )
+                echo makelink(
+                    array('delete' => $key),
+                    "<img src='bilder/file_delete_s.gif' onclick='return confirmlink(this, '" .
+                        (isset($view['deletetitle']) ? $view['deletetitle'] : 'Datensatz') . " wirklich löschen?')' alt='loeschen'>"
                 );
             }
         }

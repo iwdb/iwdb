@@ -332,7 +332,8 @@ $config = array();
 
 // Spieler abfragen
 $config['users'] = array();
-$sql             = "SELECT * FROM " . $db_tb_user;
+
+$sql = "SELECT * FROM " . $db_tb_user;
 debug_var('sql', $sql);
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -342,7 +343,8 @@ while ($row = $db->db_fetch_array($result)) {
 
 // Allianzstatus abfragen
 $config['allistatus'] = array();
-$sql                  = "SELECT status,allianz FROM " . $db_tb_allianzstatus . " WHERE name='" . $user_allianz . "'";
+
+$sql = "SELECT status,allianz FROM " . $db_tb_allianzstatus . " WHERE name='" . $user_allianz . "'";
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 while ($row = $db->db_fetch_array($result)) {
@@ -525,11 +527,11 @@ if (!empty($params['view'])) {
 }
 
 // Titelzeile ausgeben
-out_doc_title($modultitle);
+doc_title($modultitle);
 
 // Ergebnisse ausgeben
 foreach ($results as $result) {
-    out_echo($result);
+    echo $result;
 }
 
 // Weiterleitung aktiv?
@@ -542,145 +544,145 @@ if (isset($redirect)) {
 // Suchmaske oder Daten ausgeben?
 if (empty($params['view'])) {
     // Form beginnen
-    out_start_form($modulname . "&amp;sid=" . $sid);
+    start_form($modulname . "&amp;sid=" . $sid);
     // Tabelle beginnen
-    out_start_table();
+    start_table();
     // Bereich
-    out_start_row("titlebg", "colspan='2'");
-    out_echo("<b>Bereich:</b>");
-    out_next_row("windowbg2", "style='width:30%;'");
-    out_echo("Galaxie:<br>\n");
-    out_next_cell("windowbg1");
-    out_echo("von&nbsp;");
-    out_echo("<input type='text' name='gal_start' value='" . $defaults['gal_start'] . "' style='width: 5em' maxlength='2'>");
-    out_echo(" bis&nbsp;");
-    out_echo("<input type='text' name='gal_end' value='" . $defaults['gal_end'] . "' style='width: 5em' maxlength='2'>");
-    out_next_row("windowbg2");
-    out_echo("System:<br>\n");
-    out_next_cell("windowbg1");
-    out_echo("von&nbsp;");
-    out_echo("<input type='text' name='sys_start' value='" . $defaults['sys_start'] . "' style='width: 5em' maxlength='3'>");
-    out_echo(" bis&nbsp;");
-    out_echo("<input type='text' name='sys_end' value='" . $defaults['sys_end'] . "' style='width: 5em' maxlength='3'>");
-    out_next_row("windowbg2");
-    out_echo("Entfernung zum Stargate (Systeme):<br>\n");
-    out_next_cell("windowbg1");
-    out_echo("von&nbsp;");
-    out_echo("<input type='text' name='sg_start' value='" . $defaults['sg_start'] . "' style='width: 5em' maxlength='3'>");
-    out_echo(" bis&nbsp;");
-    out_echo("<input type='text' name='sg_end' value='" . $defaults['sg_end'] . "' style='width: 5em' maxlength='3'>");
+    start_row("titlebg", "colspan='2'");
+    echo "<b>Bereich:</b>";
+    next_row("windowbg2", "style='width:30%;'");
+    echo "Galaxie:<br>\n";
+    next_cell("windowbg1");
+    echo "von&nbsp;";
+    echo "<input type='text' name='gal_start' value='" . $defaults['gal_start'] . "' style='width: 5em' maxlength='2'>";
+    echo " bis&nbsp;";
+    echo "<input type='text' name='gal_end' value='" . $defaults['gal_end'] . "' style='width: 5em' maxlength='2'>";
+    next_row("windowbg2");
+    echo "System:<br>\n";
+    next_cell("windowbg1");
+    echo "von&nbsp;";
+    echo "<input type='text' name='sys_start' value='" . $defaults['sys_start'] . "' style='width: 5em' maxlength='3'>";
+    echo " bis&nbsp;";
+    echo "<input type='text' name='sys_end' value='" . $defaults['sys_end'] . "' style='width: 5em' maxlength='3'>";
+    next_row("windowbg2");
+    echo "Entfernung zum Stargate (Systeme):<br>\n";
+    next_cell("windowbg1");
+    echo "von&nbsp;";
+    echo "<input type='text' name='sg_start' value='" . $defaults['sg_start'] . "' style='width: 5em' maxlength='3'>";
+    echo " bis&nbsp;";
+    echo "<input type='text' name='sg_end' value='" . $defaults['sg_end'] . "' style='width: 5em' maxlength='3'>";
     // Eigenschaften
-    out_next_row("titlebg", "colspan='2'");
-    out_echo('<b>Eigenschaften:');
-    out_next_row("windowbg2");
-    out_echo("Objekttyp:<br>\n");
-    out_next_cell("windowbg1");
-    out_echo("<select name='objekt'>\n");
-    out_echo("<option value='Alle'>Alle</option>\n");
-    out_echo("<option value='unbewohnt'>unbewohnt</option>\n");
-    out_echo("<option value='bewohnt' selected='selected'>bewohnt</option>\n");
-    out_echo("<option value='Kolonie'>Kolonie</option>\n");
-    out_echo("<option value='Steinklumpen'>Steinklumpen</option>\n");
-    out_echo("<option value='Asteroid'>Asteroid</option>\n");
-    out_echo("<option value='Gasgigant'>Gasgigant</option>\n");
-    out_echo("<option value='Eisplanet'>Eisplanet</option>\n");
-    out_echo("<option value='Spezialplanet'>Spezialplanet</option>\n");
-    out_echo("<option value='Basen'>alle Basen</option>\n");
-    out_echo("<option value='Kampfbasis'>Kampfbasis</option>\n");
-    out_echo("<option value='Sammelbasis'>Sammelbasis</option>\n");
-    out_echo("<option value='Artefaktbasis'>Artefaktbasis</option>\n");
-    out_echo("</select>\n");
-    out_next_row("windowbg2");
-    out_echo("Spielername (mehrere mit ; getrennt):<br>\n");
-    out_echo("<i>Planeten eines bestimmten Spielers suchen</i>\n");
-    out_next_cell("windowbg1");
-    out_echo("<input type='text' name='user' style='width: 20em'>");
-    out_next_row("windowbg2");
-    out_echo("Allianzen (mehrere mit ; getrennt):<br>\n");
-    out_echo("<i>Planeten einer bestimmten Allianz suchen</i>");
-    out_next_cell("windowbg1");
-    out_echo("<input type='text' name='alli' style='width: 20em'>");
-    out_next_row("windowbg2");
-    out_echo("Allianzstatus:<br>\n");
-    out_next_cell("windowbg1");
-    out_echo("<select name='allistatus[]' size='" . (count($config['statusalli']) + 1) . "' multiple='multiple'>");
-    out_echo("<option " . (isset($config['statusalli']['Krieg']) ? "" : " selected='selected'") . " value='(kein)'>(kein)</option>");
+    next_row("titlebg", "colspan='2'");
+    echo '<b>Eigenschaften:';
+    next_row("windowbg2");
+    echo "Objekttyp:<br>\n";
+    next_cell("windowbg1");
+    echo "<select name='objekt'>\n";
+    echo "<option value='Alle'>Alle</option>\n";
+    echo "<option value='unbewohnt'>unbewohnt</option>\n";
+    echo "<option value='bewohnt' selected='selected'>bewohnt</option>\n";
+    echo "<option value='Kolonie'>Kolonie</option>\n";
+    echo "<option value='Steinklumpen'>Steinklumpen</option>\n";
+    echo "<option value='Asteroid'>Asteroid</option>\n";
+    echo "<option value='Gasgigant'>Gasgigant</option>\n";
+    echo "<option value='Eisplanet'>Eisplanet</option>\n";
+    echo "<option value='Spezialplanet'>Spezialplanet</option>\n";
+    echo "<option value='Basen'>alle Basen</option>\n";
+    echo "<option value='Kampfbasis'>Kampfbasis</option>\n";
+    echo "<option value='Sammelbasis'>Sammelbasis</option>\n";
+    echo "<option value='Artefaktbasis'>Artefaktbasis</option>\n";
+    echo "</select>\n";
+    next_row("windowbg2");
+    echo "Spielername (mehrere mit ; getrennt):<br>\n";
+    echo "<i>Planeten eines bestimmten Spielers suchen</i>\n";
+    next_cell("windowbg1");
+    echo "<input type='text' name='user' style='width: 20em'>";
+    next_row("windowbg2");
+    echo "Allianzen (mehrere mit ; getrennt):<br>\n";
+    echo "<i>Planeten einer bestimmten Allianz suchen</i>";
+    next_cell("windowbg1");
+    echo "<input type='text' name='alli' style='width: 20em'>";
+    next_row("windowbg2");
+    echo "Allianzstatus:<br>\n";
+    next_cell("windowbg1");
+    echo "<select name='allistatus[]' size='" . (count($config['statusalli']) + 1) . "' multiple='multiple'>";
+    echo "<option " . (isset($config['statusalli']['Krieg']) ? "" : " selected='selected'") . " value='(kein)'>(kein)</option>";
     foreach ($config['statusalli'] as $key => $value) {
-        out_echo("<option" . ($key == 'Krieg' ? " selected='selected'" : "") . " value='" . $key . "'>" . $key . "</option>");
+        echo "<option" . ($key == 'Krieg' ? " selected='selected'" : "") . " value='" . $key . "'>" . $key . "</option>";
     }
-    out_echo("</select>");
-    out_next_row("windowbg2");
-    out_echo("Schiffsscan:<br>\n");
-    out_next_cell("windowbg1");
-    out_echo("von <input type='text' name='scan_schiff_age_min' style='width: 5em' maxlength='5'> bis&nbsp;<input type='text' name='scan_schiff_age_max' style='width: 5em' maxlength='5'> Stunden<br>");
-    out_next_row("windowbg2");
-    out_echo("Gebäudescan:<br>\n");
-    out_next_cell("windowbg1");
-    out_echo("von <input type='text' name='scan_geb_age_min'  style='width: 5em' maxlength='5'> bis&nbsp;<input type='text' name='scan_geb_age_max'  style='width: 5em' maxlength='5'> Stunden<br>");
-    out_next_row("windowbg2");
-    out_echo("Fehlgeschlagene Scans:<br>\n");
-    out_next_cell("windowbg1");
-    out_echo("von <input type='text' name='scan_failure_age_min'  style='width: 5em' maxlength='5'> bis&nbsp;<input type='text' name='scan_failure_age_max'  style='width: 5em' maxlength='5'> Stunden<br>");
-    out_next_row("windowbg2");
-    out_echo("Noobschutz:<br>\n");
-    out_next_cell("windowbg1");
-    out_echo("<input type='checkbox' name='no_noob' value='1' checked> Kein Noobschutz");
+    echo "</select>";
+    next_row("windowbg2");
+    echo "Schiffsscan:<br>\n";
+    next_cell("windowbg1");
+    echo "von <input type='text' name='scan_schiff_age_min' style='width: 5em' maxlength='5'> bis&nbsp;<input type='text' name='scan_schiff_age_max' style='width: 5em' maxlength='5'> Stunden<br>";
+    next_row("windowbg2");
+    echo "Gebäudescan:<br>\n";
+    next_cell("windowbg1");
+    echo "von <input type='text' name='scan_geb_age_min'  style='width: 5em' maxlength='5'> bis&nbsp;<input type='text' name='scan_geb_age_max'  style='width: 5em' maxlength='5'> Stunden<br>";
+    next_row("windowbg2");
+    echo "Fehlgeschlagene Scans:<br>\n";
+    next_cell("windowbg1");
+    echo "von <input type='text' name='scan_failure_age_min'  style='width: 5em' maxlength='5'> bis&nbsp;<input type='text' name='scan_failure_age_max'  style='width: 5em' maxlength='5'> Stunden<br>";
+    next_row("windowbg2");
+    echo "Noobschutz:<br>\n";
+    next_cell("windowbg1");
+    echo "<input type='checkbox' name='no_noob' value='1' checked> Kein Noobschutz";
 
-    out_next_row("windowbg2");
-    out_echo("Inaktivität:<br>\n");
-    out_next_cell("windowbg1");
-    out_echo("seit <input type='text' name='inaktiv' style='width: 5em' maxlength='5'> Tagen <br>");
+    next_row("windowbg2");
+    echo "Inaktivität:<br>\n";
+    next_cell("windowbg1");
+    echo "seit <input type='text' name='inaktiv' style='width: 5em' maxlength='5'> Tagen <br>";
 
-    out_next_row("windowbg2");
-    out_echo("Verteidigung:<br>\n");
-    out_next_cell("windowbg1");
-    out_echo("von <input type='text' name='def_min' style='width: 5em' maxlength='5'> bis&nbsp;<input type='text' name='def_max' style='width: 5em' maxlength='5'>");
-    out_next_row("windowbg2");
-    out_echo("Rating:<br>\n");
-    out_next_cell("windowbg1");
-    out_echo("von <input type='text' name='rating_min' style='width: 5em' maxlength='5'> bis&nbsp;<input type='text' name='rating_max' style='width: 5em' maxlength='5'>");
-    out_next_row("windowbg2");
-    out_echo("Ressource:<br>\n");
-    out_next_cell("windowbg1");
-    out_echo("<select name='ressource'>\n");
-    out_echo("<option value='Alle'>Alle</option>\n");
-    out_echo("<option value='eisen'>Eisen</option>\n");
-    out_echo("<option value='stahl'>Stahl</option>\n");
-    out_echo("<option value='chemie'>Chemie</option>\n");
-    out_echo("<option value='vv4a'>VV4A</option>\n");
-    out_echo("<option value='eis'>Eis</option>\n");
-    out_echo("<option value='wasser'>Wasser</option>\n");
-    out_echo("<option value='energie'>Energie</option>\n");
-    out_echo("</select>\n");
-    out_echo("von <input type='text' name='ress_min' style='width: 10em' maxlength='10'>");
-    out_next_row("windowbg2");
-    out_echo("Status:<br>\n");
-    out_next_cell("windowbg1");
-    out_echo("<input type='checkbox' name='no_angriff' value='1' checked='checked'> Keine Angriffe");
-    out_echo("<input type='checkbox' name='angriff' value='1'> Nur Angriffe<br>");
-    out_echo("<input type='checkbox' name='no_sondierung' value='1' checked='checked''> Keine Sondierungen");
-    out_echo("<input type='checkbox' name='sondierung' value='1'> Nur Sondierungen<br>");
-    out_echo("<input type='checkbox' name='no_reservierung' value='1' checked='checked'> Keine Reservierungen");
-    out_echo("<input type='checkbox' name='reservierung_user' value='1'> Eigene Reservierungen");
-    out_echo("<input type='checkbox' name='reservierung_foreign' value='1'> Fremde Reservierungen<br>");
-    out_next_row("titlebg", "colspan='2'");
-    out_echo("<b>Ausgabe:</b>");
-    out_next_row("windowbg2", "style='width:20%;'");
-    out_echo("Ansicht:\n");
-    out_next_cell("windowbg1");
-    out_echo("<select name='view'>");
+    next_row("windowbg2");
+    echo "Verteidigung:<br>\n";
+    next_cell("windowbg1");
+    echo "von <input type='text' name='def_min' style='width: 5em' maxlength='5'> bis&nbsp;<input type='text' name='def_max' style='width: 5em' maxlength='5'>";
+    next_row("windowbg2");
+    echo "Rating:<br>\n";
+    next_cell("windowbg1");
+    echo "von <input type='text' name='rating_min' style='width: 5em' maxlength='5'> bis&nbsp;<input type='text' name='rating_max' style='width: 5em' maxlength='5'>";
+    next_row("windowbg2");
+    echo "Ressource:<br>\n";
+    next_cell("windowbg1");
+    echo "<select name='ressource'>\n";
+    echo "<option value='Alle'>Alle</option>\n";
+    echo "<option value='eisen'>Eisen</option>\n";
+    echo "<option value='stahl'>Stahl</option>\n";
+    echo "<option value='chemie'>Chemie</option>\n";
+    echo "<option value='vv4a'>VV4A</option>\n";
+    echo "<option value='eis'>Eis</option>\n";
+    echo "<option value='wasser'>Wasser</option>\n";
+    echo "<option value='energie'>Energie</option>\n";
+    echo "</select>\n";
+    echo "von <input type='text' name='ress_min' style='width: 10em' maxlength='10'>";
+    next_row("windowbg2");
+    echo "Status:<br>\n";
+    next_cell("windowbg1");
+    echo "<input type='checkbox' name='no_angriff' value='1' checked='checked'> Keine Angriffe";
+    echo "<input type='checkbox' name='angriff' value='1'> Nur Angriffe<br>";
+    echo "<input type='checkbox' name='no_sondierung' value='1' checked='checked''> Keine Sondierungen";
+    echo "<input type='checkbox' name='sondierung' value='1'> Nur Sondierungen<br>";
+    echo "<input type='checkbox' name='no_reservierung' value='1' checked='checked'> Keine Reservierungen";
+    echo "<input type='checkbox' name='reservierung_user' value='1'> Eigene Reservierungen";
+    echo "<input type='checkbox' name='reservierung_foreign' value='1'> Fremde Reservierungen<br>";
+    next_row("titlebg", "colspan='2'");
+    echo "<b>Ausgabe:</b>";
+    next_row("windowbg2", "style='width:20%;'");
+    echo "Ansicht:\n";
+    next_cell("windowbg1");
+    echo "<select name='view'>";
     // Ansichten auflisten
     foreach ($views as $viewkey => $view) {
-        out_echo("<option value='" . $viewkey . "'>" . $view['title'] . "</option>\n");
+        echo "<option value='" . $viewkey . "'>" . $view['title'] . "</option>\n";
     }
-    out_echo("</select>");
+    echo "</select>";
     // Schaltflächen
-    out_next_row("titlebg", "align='center' colspan='2'");
-    out_echo("<input type='submit' value='suchen' name='searchtargets' class='submit'>\n");
+    next_row("titlebg", "align='center' colspan='2'");
+    echo "<input type='submit' value='suchen' name='searchtargets' class='submit'>\n";
     // Tabelle beenden
-    out_end_table();
+    end_table();
     // Form beenden
-    out_end_form();
+    end_form();
 } else {
     $data = array();
     // SQL-Abfrage aufbauen
@@ -1299,7 +1301,7 @@ if (empty($params['view'])) {
                     "<img src='./bilder/asc.gif'>"
                 )
             );
-            out_echo('<b>' . $viewcolumnname . '</b>');
+            echo '<b>' . $viewcolumnname . '</b>';
             out_echo(
                 makelink(
                     array(
@@ -1338,7 +1340,7 @@ if (empty($params['view'])) {
             } else {
                 next_cell("windowbg1", 'nowrap valign=center');
             }
-            out_echo(format_value($row, $viewcolumnkey, $row[$viewcolumnkey]));
+            echo format_value($row, $viewcolumnkey, $row[$viewcolumnkey]);
         }
         // Editbuttons ausgeben
         if (isset($view['edit'])) {
@@ -1367,139 +1369,139 @@ if (empty($params['view'])) {
         }
         // Markierbuttons ausgeben
         next_cell("windowbg1", 'nowrap valign=top');
-        out_echo('<input type="checkbox" name="mark_' . $key . '" ');
+        echo '<input type="checkbox" name="mark_' . $key . '" ';
         if (getVar("mark_all")) {
-            out_echo('value=true checked');
+            echo 'value=true checked';
         }
-        out_echo('>');
+        echo '>';
         // Kommentarbereich ausgeben
         if (!empty($row['comment'])) {
             next_row("", "style='border-width: 0; margin: 0 0 0 0; padding: 4 4 4 4; background-color: white;'");
-            out_echo("");
+            echo "";
             next_cell("windowbg1", "style='border-width: 0; margin: 0 0 0 0; padding: 4 4 4 4; background-color: white;' nowrap valign=center", count($view['columns']) + 1);
-            out_echo("");
+            echo "";
             start_table();
-            out_echo($row['comment']);
+            echo $row['comment'];
             end_table();
             next_cell("windowbg1", "");
-            out_echo("");
+            echo "";
         }
         // Expandbereich ausgeben
-        out_echo("<tr id='row_" . $key . "' style='display: none; border-width: 0; margin: 0 0 0 0; padding: 4 4 4 4; background-color: white;'>");
-        out_echo("<td colspan='23'>");
+        echo "<tr id='row_" . $key . "' style='display: none; border-width: 0; margin: 0 0 0 0; padding: 4 4 4 4; background-color: white;'>";
+        echo "<td colspan='23'>";
         start_table();
         start_row("titlebg", "nowrap valign=top", 2);
-        out_echo('<b>auf Lager:</b>');
+        echo '<b>auf Lager:</b>';
         next_row("windowbg2", "style='width: 20%'");
-        out_echo('Eisen:');
+        echo 'Eisen:';
         next_cell("windowbg1");
-        out_echo($row['eisen']);
+        echo $row['eisen'];
         next_row("windowbg2", "style='width: 20%'");
-        out_echo('Stahl:');
+        echo 'Stahl:';
         next_cell("windowbg1");
-        out_echo($row['stahl']);
+        echo $row['stahl'];
         next_row("windowbg2", "style='width: 20%'");
-        out_echo('VV4A:');
+        echo 'VV4A:';
         next_cell("windowbg1");
-        out_echo($row['vv4a']);
+        echo $row['vv4a'];
         next_row("windowbg2", "style='width: 20%'");
-        out_echo('Chemie:');
+        echo 'Chemie:';
         next_cell("windowbg1");
-        out_echo($row['chemie']);
+        echo $row['chemie'];
         next_row("windowbg2", "style='width: 20%'");
-        out_echo('Eis:');
+        echo 'Eis:';
         next_cell("windowbg1");
-        out_echo($row['eis']);
+        echo $row['eis'];
         next_row("windowbg2", "style='width: 20%'");
-        out_echo('Wasser:');
+        echo 'Wasser:';
         next_cell("windowbg1");
-        out_echo($row['wasser']);
+        echo $row['wasser'];
         next_row("windowbg2", "style='width: 20%'");
-        out_echo('Energie:');
+        echo 'Energie:';
         next_cell("windowbg1");
-        out_echo($row['energie']);
+        echo $row['energie'];
         start_row("titlebg", "nowrap valign=top", 2);
-        out_echo('<b>benötigte Frachtkapazität:</b>');
+        echo '<b>benötigte Frachtkapazität:</b>';
         next_row("windowbg2", "style='width: 20%'");
-        out_echo('Klasse 1:');
+        echo 'Klasse 1:';
         next_cell("windowbg1");
         $kapazitaet = $row['eisen'] + $row['stahl'] * 2 + $row['chemie'] * 3 + $row['vv4a'] * 4;
-        out_echo($kapazitaet);
-        out_echo(" (" . ceil($kapazitaet / 5000) . " Systrans");
-        out_echo(", " . ceil($kapazitaet / 20000) . " Gorgol");
-        out_echo(", " . ceil($kapazitaet / 75000) . " Kamel");
-        out_echo(", " . ceil($kapazitaet / 400000) . " Flughund)");
+        echo $kapazitaet;
+        echo " (" . ceil($kapazitaet / 5000) . " Systrans";
+        echo ", " . ceil($kapazitaet / 20000) . " Gorgol";
+        echo ", " . ceil($kapazitaet / 75000) . " Kamel";
+        echo ", " . ceil($kapazitaet / 400000) . " Flughund)";
         next_row("windowbg2", "style='width: 20%'");
-        out_echo('Klasse 2:');
+        echo 'Klasse 2:';
         next_cell("windowbg1");
         $kapazitaet = $row['eis'] * 2 + $row['wasser'] * 2 + $row['energie'];
-        out_echo($kapazitaet);
-        out_echo(" (" . ceil($kapazitaet / 2000) . " Lurch");
-        out_echo(", " . ceil($kapazitaet / 10000) . " Eisbär");
-        out_echo(", " . ceil($kapazitaet / 50000) . " Waschbär");
-        out_echo(", " . ceil($kapazitaet / 250000) . " Seepferdchen)");
+        echo $kapazitaet;
+        echo " (" . ceil($kapazitaet / 2000) . " Lurch";
+        echo ", " . ceil($kapazitaet / 10000) . " Eisbär";
+        echo ", " . ceil($kapazitaet / 50000) . " Waschbär";
+        echo ", " . ceil($kapazitaet / 250000) . " Seepferdchen)";
         if (!empty($row['geb'])) {
             start_row("titlebg", "nowrap valign=top", 2);
-            out_echo('<b>Gebäude:</b>');
+            echo '<b>Gebäude:</b>';
             next_row("windowbg1", "", 2);
-            out_echo($row['geb']);
+            echo $row['geb'];
         }
         if (!empty($row['plan'])) {
             start_row("titlebg", "nowrap valign=top", 2);
-            out_echo('<b>planetare Flotte:</b>');
+            echo '<b>planetare Flotte:</b>';
             next_row("windowbg1", "", 2);
-            out_echo($row['plan']);
+            echo $row['plan'];
         }
         if (!empty($row['stat'])) {
             start_row("titlebg", "nowrap valign=top", 2);
-            out_echo('<b>stationierte Flotte:</b>');
+            echo '<b>stationierte Flotte:</b>';
             next_row("windowbg1", "", 2);
-            out_echo($row['stat']);
+            echo $row['stat'];
         }
         if (!empty($row['def'])) {
             start_row("titlebg", "nowrap valign=top", 2);
-            out_echo('<b>Verteidigung:</b>');
+            echo '<b>Verteidigung:</b>';
             next_row("windowbg1", "", 2);
-            out_echo($row['def']);
+            echo $row['def'];
         }
         end_table();
-        out_echo("</td>");
-        out_echo("</tr>");
+        echo "</td>";
+        echo "</tr>";
     }
     end_table();
-    out_echo('<table border="0" cellpadding="2" cellspacing="1" style="width: 100%;">');
-    out_echo('<tr><td align="right">');
-    out_echo(makelink(array('mark_all' => true), "Alle auswählen"));
-    out_echo(' / ');
-    out_echo(makelink(array('mark_all' => false), "Auswahl entfernen"));
-    out_echo('</td>');
-    out_echo('</tr>');
-    out_echo('<tr><td align="right">');
-    out_echo('<input type="submit" value="Universum" name="universum" class="submit"> ');
-    out_echo('<input type="submit" value="Flotte versenden" name="flotteversenden" class="submit">');
-    out_echo('</td>');
-    out_echo('</table>');
-    out_echo('</form>');
+    echo '<table border="0" cellpadding="2" cellspacing="1" style="width: 100%;">';
+    echo '<tr><td align="right">';
+    echo makelink(array('mark_all' => true), "Alle auswählen");
+    echo ' / ';
+    echo makelink(array('mark_all' => false), "Auswahl entfernen");
+    echo '</td>';
+    echo '</tr>';
+    echo '<tr><td align="right">';
+    echo '<input type="submit" value="Universum" name="universum" class="submit"> ';
+    echo '<input type="submit" value="Flotte versenden" name="flotteversenden" class="submit">';
+    echo '</td>';
+    echo '</table>';
+    echo '</form>';
     // Legende ausgeben
-    out_echo('<br><table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">');
-    out_echo('<tr>');
-    out_echo('<td style="width: 30; background-color: #C4F493;"></td>');
-    out_echo('<td class="windowbg1" style="width: 70;">own</td>');
-    out_echo('<td style="width: 30; background-color: #E6F6A5;"></td>');
-    out_echo('<td class="windowbg1" style="width: 70;">wing</td>');
-    out_echo('<td style="width: 30; background-color: #7C9CF1;"></td>');
-    out_echo('<td class="windowbg1" style="width: 70;">NAP</td>');
-    out_echo('<td style="width: 30; background-color: #8DADF2;"></td>');
-    out_echo('<td class="windowbg1" style="width: 70;">iNAP</td>');
-    out_echo('<td style="width: 30; background-color: #4A71D5;"></td>');
-    out_echo('<td class="windowbg1" style="width: 70;">VB</td>');
-    out_echo('<td style="width: 30; background-color: #E84528;"></td>');
-    out_echo('<td class="windowbg1" style="width: 70;">Krieg</td>');
-    out_echo('<td style="width: 30; background-color: #CCBB11;"></td>');
-    out_echo('<td class="windowbg1" style="width: 70;">noraid</td>');
-    out_echo('<td class="windowbg1" style="width: 70; color: #808080;">Reserviert</td>');
-    out_echo('<td class="windowbg1" style="width: 70; color: #FF0000;">Angriff</td>');
-    out_echo('</tr>');
+    echo '<br><table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">';
+    echo '<tr>';
+    echo '<td style="width: 30; background-color: #C4F493;"></td>';
+    echo '<td class="windowbg1" style="width: 70;">own</td>';
+    echo '<td style="width: 30; background-color: #E6F6A5;"></td>';
+    echo '<td class="windowbg1" style="width: 70;">wing</td>';
+    echo '<td style="width: 30; background-color: #7C9CF1;"></td>';
+    echo '<td class="windowbg1" style="width: 70;">NAP</td>';
+    echo '<td style="width: 30; background-color: #8DADF2;"></td>';
+    echo '<td class="windowbg1" style="width: 70;">iNAP</td>';
+    echo '<td style="width: 30; background-color: #4A71D5;"></td>';
+    echo '<td class="windowbg1" style="width: 70;">VB</td>';
+    echo '<td style="width: 30; background-color: #E84528;"></td>';
+    echo '<td class="windowbg1" style="width: 70;">Krieg</td>';
+    echo '<td style="width: 30; background-color: #CCBB11;"></td>';
+    echo '<td class="windowbg1" style="width: 70;">noraid</td>';
+    echo '<td class="windowbg1" style="width: 70; color: #808080;">Reserviert</td>';
+    echo '<td class="windowbg1" style="width: 70; color: #FF0000;">Angriff</td>';
+    echo '</tr>';
     echo '</table>';
     // Maske ausgeben
     if (isset($params['edit']) && !empty($params['edit'])) {
@@ -1884,52 +1886,4 @@ function makeAmount($amount)
             return number_format((float)$amount, 0, ",", '.');
         }
     }
-}
-
-// ****************************************************************************
-//
-// Diverse Wrapper für Ausgaben in HTML und BB-Code.
-function out_doc_title($text)
-{
-    doc_title($text);
-}
-
-function out_echo($text)
-{
-    echo $text;
-}
-
-function out_start_table($width = 90, $border = 0, $cellpadding = 4, $cellspacing = 1, $class = "bordercolor")
-{
-    start_table($width, $border, $cellpadding, $cellspacing, $class);
-}
-
-function out_start_row($class = "", $extra = "", $columns = 1)
-{
-    start_row($class, $extra, $columns);
-}
-
-function out_next_row($class = "", $extra = "", $columns = 1)
-{
-    next_row($class, $extra, $columns);
-}
-
-function out_next_cell($class = "", $extra = "", $columns = 1)
-{
-    next_cell($class, $extra, $columns);
-}
-
-function out_end_table()
-{
-    end_table();
-}
-
-function out_start_form($action)
-{
-    start_form($action);
-}
-
-function out_end_form()
-{
-    end_form();
 }

@@ -171,44 +171,44 @@ $results = array();
 // Seitenparameter definieren
 debug_var(
     "defaults", $defaults = array(
-        'view' => 'overview',
-        'gal_start' => $user_gal_start,
-        'gal_end' => $user_gal_end,
-        'sys_start' => $user_sys_start,
-        'sys_end' => $user_sys_end,
-        'order' => 'coords',
-        'orderd' => 'asc',
-        'edit' => '',
-        'delete' => '',
-        'expand' => '',
-        'objekt' => 'Alle',
-        'user' => '',
-        'alli' => '',
-        'scans' => 'Alle',
-        'no_noob' => '1',
-        'inaktiv' => '',
-        'def_min' => '',
-        'def_max' => '',
-        'scan_schiff_age_min' => '',
-        'scan_schiff_age_max' => '',
-        'scan_geb_age_min' => '',
-        'scan_geb_age_max' => '',
+        'view'                 => 'overview',
+        'gal_start'            => $user_gal_start,
+        'gal_end'              => $user_gal_end,
+        'sys_start'            => $user_sys_start,
+        'sys_end'              => $user_sys_end,
+        'order'                => 'coords',
+        'orderd'               => 'asc',
+        'edit'                 => '',
+        'delete'               => '',
+        'expand'               => '',
+        'objekt'               => 'Alle',
+        'user'                 => '',
+        'alli'                 => '',
+        'scans'                => 'Alle',
+        'no_noob'              => '1',
+        'inaktiv'              => '',
+        'def_min'              => '',
+        'def_max'              => '',
+        'scan_schiff_age_min'  => '',
+        'scan_schiff_age_max'  => '',
+        'scan_geb_age_min'     => '',
+        'scan_geb_age_max'     => '',
         'scan_failure_age_min' => '',
         'scan_failure_age_max' => '',
-        'allistatus' => '',
-        'angriff' => '',
-        'no_angriff' => '',
-        'sondierung' => '',
-        'no_sondierung' => '',
-        'no_reservierung' => '',
-        'reservierung_user' => '',
+        'allistatus'           => '',
+        'angriff'              => '',
+        'no_angriff'           => '',
+        'sondierung'           => '',
+        'no_sondierung'        => '',
+        'no_reservierung'      => '',
+        'reservierung_user'    => '',
         'reservierung_foreign' => '',
-        'rating_min' => '',
-        'rating_max' => '',
-        'ressource' => 'Alle',
-        'ress_min' => '',
-        'sg_start' => '',
-        'sg_end' => ''
+        'rating_min'           => '',
+        'rating_max'           => '',
+        'ressource'            => 'Alle',
+        'ress_min'             => '',
+        'sg_start'             => '',
+        'sg_end'               => ''
     )
 );
 
@@ -247,7 +247,7 @@ if (empty($params['allistatus'])) {
 }
 
 // Zum Spiel weiterleiten
-$universum = getVar('universum');
+$universum       = getVar('universum');
 $flotteversenden = getVar('flotteversenden');
 if (!empty($universum) || !empty($flotteversenden)) {
     $name = 'Automatische Zielliste vom ' . date("j.n.Y H:i:s", CURRENT_UNIX_TIME);
@@ -273,7 +273,7 @@ if (!empty($universum) || !empty($flotteversenden)) {
         }
     } while (!empty($current));
     $results[] = "<div class='system_notification'>Zielliste gespeichert.</div><br>";
-    $redirect = 'game.php?sid=' . $sid . '&name=' . $name;
+    $redirect  = 'game.php?sid=' . $sid . '&name=' . $name;
     if (!empty($universum)) {
         $redirect .= '&view=universum';
     } else {
@@ -284,18 +284,18 @@ if (!empty($universum) || !empty($flotteversenden)) {
 // Fehlscan speichern
 $fehlscan = getVar('fehlscan');
 if (!empty($fehlscan)) {
-    $x11_all = getVar('x11_all');
+    $x11_all      = getVar('x11_all');
     $terminus_all = getVar('terminus_all');
-    $x13_all = getVar('x13_all');
-    $index = 0;
+    $x13_all      = getVar('x13_all');
+    $index        = 0;
     while ($index++ < $fehlscan) {
-        $coords_gal = getVar('coords_gal_' . $index);
-        $coords_sys = getVar('coords_sys_' . $index);
+        $coords_gal    = getVar('coords_gal_' . $index);
+        $coords_sys    = getVar('coords_sys_' . $index);
         $coords_planet = getVar('coords_planet_' . $index);
-        $time = getVar('time_' . $index);
-        $x11 = getVar('x11_' . $index);
-        $terminus = getVar('terminus_' . $index);
-        $x13 = getVar('x13_' . $index);
+        $time          = getVar('time_' . $index);
+        $x11           = getVar('x11_' . $index);
+        $terminus      = getVar('terminus_' . $index);
+        $x13           = getVar('x13_' . $index);
         if (empty($x11)) {
             $x11 = $x11_all;
         }
@@ -332,7 +332,7 @@ $config = array();
 
 // Spieler abfragen
 $config['users'] = array();
-$sql = "SELECT * FROM " . $db_tb_user;
+$sql             = "SELECT * FROM " . $db_tb_user;
 debug_var('sql', $sql);
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -342,63 +342,63 @@ while ($row = $db->db_fetch_array($result)) {
 
 // Allianzstatus abfragen
 $config['allistatus'] = array();
-$sql = "SELECT status,allianz FROM " . $db_tb_allianzstatus . " WHERE name='" . $user_allianz . "'";
+$sql                  = "SELECT status,allianz FROM " . $db_tb_allianzstatus . " WHERE name='" . $user_allianz . "'";
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 while ($row = $db->db_fetch_array($result)) {
-    $config['allistatus'][$row['allianz']] = $row['status'];
+    $config['allistatus'][$row['allianz']]  = $row['status'];
     $config['statusalli'][$row['status']][] = $row['allianz'];
 }
 
 // Schiffstypen
 $config['schiffsangriff'] = array(
     // Jäger
-    'Sheep' => 10,
-    'Shark' => 12,
-    'Manta' => 15,
-    'Downbringer' => 25,
-    'Sirius X300' => 45,
-    'Nightcrawler' => 35,
+    'Sheep'                          => 10,
+    'Shark'                          => 12,
+    'Manta'                          => 15,
+    'Downbringer'                    => 25,
+    'Sirius X300'                    => 45,
+    'Nightcrawler'                   => 35,
     // Bomber
-    'Atombomber' => 10,
-    'Stormbringer' => 15,
-    'Nova' => 20,
-    'Nepomuk' => 5,
+    'Atombomber'                     => 10,
+    'Stormbringer'                   => 15,
+    'Nova'                           => 20,
+    'Nepomuk'                        => 5,
     // Korvette
-    'Lionheart' => 20,
-    'Hunter' => 30,
-    'Victim' => 45,
-    'Gatling' => 65,
-    'Eraser' => 25,
+    'Lionheart'                      => 20,
+    'Hunter'                         => 30,
+    'Victim'                         => 45,
+    'Gatling'                        => 65,
+    'Eraser'                         => 25,
     // Zerstörer
-    'Slayer' => 35,
-    'Vendeta' => 55,
-    'Crawler' => 85,
-    'Widowmaker' => 45,
+    'Slayer'                         => 35,
+    'Vendeta'                        => 55,
+    'Crawler'                        => 85,
+    'Widowmaker'                     => 45,
     // Kreuzer
-    'Hitman' => 120,
-    'Succubus' => 360,
-    'Sirius XPi' => 450,
-    'TAG Vario Kreuzer' => 420,
-    'Silent Sorrow' => 130,
+    'Hitman'                         => 120,
+    'Succubus'                       => 360,
+    'Sirius XPi'                     => 450,
+    'TAG Vario Kreuzer'              => 420,
+    'Silent Sorrow'                  => 130,
     // Schlachtschiff
-    'Big Daddy' => 600,
-    'Kronk' => 1000,
-    'Quasal' => 1450,
+    'Big Daddy'                      => 600,
+    'Kronk'                          => 1000,
+    'Quasal'                         => 1450,
     // Dreadnoughts
-    'Rentier Kampftransporter' => 3000,
-    'Zeus' => 2580,
-    'Tempest' => 3800,
+    'Rentier Kampftransporter'       => 3000,
+    'Zeus'                           => 2580,
+    'Tempest'                        => 3800,
     'Rosa-Plüschhasen-Spezialschiff' => 250,
-    'Nimbus BP-1729' => 360,
+    'Nimbus BP-1729'                 => 360,
 );
 
 // Button abfragen
 $button_edit = getVar("button_edit");
-$button_add = getVar("button_add");
+$button_add  = getVar("button_add");
 
 // Edit-Daten belegen
-$edit['reserveraiduser'] = getVar('reserveraiduser');
+$edit['reserveraiduser']  = getVar('reserveraiduser');
 $edit['reserveraidhours'] = getVar('reserveraidhours');
 
 // Edit-Daten validieren
@@ -414,22 +414,22 @@ $edit['reserveraiduntil'] = strftime("%d.%m.%Y %H:%M", (CURRENT_UNIX_TIME + (60 
 // Edit-Daten löschen
 if (isset($params['delete']) && !empty($params['delete'])) {
     $explode = explode(":", $params['delete']);
-    $sql = "UPDATE " . $db_tb_scans;
+    $sql     = "UPDATE " . $db_tb_scans;
     $sql .= " SET reserveraid=NULL, reserveraiduser=NULL";
     $sql .= " WHERE ";
     $sql .= "coords_gal=" . $explode[0] . " AND coords_sys=" . $explode[1] . " AND coords_planet=" . $explode[2];
     debug_var('sql', $sql);
     $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-    $results[] = "<div class='system_notification'>Datensatz gelöscht.</div><br>";
+    $results[]        = "<div class='system_notification'>Datensatz gelöscht.</div><br>";
     $params['delete'] = '';
-    $params['edit'] = '';
+    $params['edit']   = '';
 }
 
 // Edit-Daten modifizieren
 if (!empty($button_edit)) {
     $explode = explode(":", $params['edit']);
-    $sql = "UPDATE " . $db_tb_scans . " SET ";
+    $sql     = "UPDATE " . $db_tb_scans . " SET ";
     $sql .= "reserveraiduser='" . $edit['reserveraiduser'] . "',";
     $sql .= "reserveraid=" . (CURRENT_UNIX_TIME + (60 * 60 * $edit['reserveraidhours']));
     $sql .= " WHERE ";
@@ -443,7 +443,7 @@ if (!empty($button_edit)) {
 // Edit-Daten abfragen
 if (empty($button_edit) && empty($button_add) && !empty($params['edit'])) {
     $explode = explode(":", $params['edit']);
-    $sql = "SELECT ";
+    $sql     = "SELECT ";
     $sql .= "reserveraiduser,reserveraid";
     $sql .= " FROM " . $db_tb_scans;
     $sql .= " WHERE ";
@@ -453,8 +453,8 @@ if (empty($button_edit) && empty($button_add) && !empty($params['edit'])) {
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     if ($row = $db->db_fetch_array($result)) {
         if (!empty($row['reserveraiduser'])) {
-            $edit['reserveraiduser'] = $row['reserveraiduser'];
-            $edit['reserveraid'] = $row['reserveraid'];
+            $edit['reserveraiduser']  = $row['reserveraiduser'];
+            $edit['reserveraid']      = $row['reserveraid'];
             $edit['reserveraidhours'] = round(($row['reserveraid'] - CURRENT_UNIX_TIME) / (60 * 60));
             $edit['reserveraiduntil'] = strftime("%d.%m.%Y %H:%M", $edit['reserveraid']);
         }
@@ -463,24 +463,24 @@ if (empty($button_edit) && empty($button_add) && !empty($params['edit'])) {
 
 // Edit-Bereich definieren
 $editview = array(
-    'reserveraiduser' => array(
-        'title' => 'Spieler',
-        'desc' => 'Für welchen Spieler soll das Ziel reserviert werden?',
-        'type' => 'select',
+    'reserveraiduser'  => array(
+        'title'  => 'Spieler',
+        'desc'   => 'Für welchen Spieler soll das Ziel reserviert werden?',
+        'type'   => 'select',
         'values' => $config['users'],
-        'value' => $edit['reserveraiduser'],
+        'value'  => $edit['reserveraiduser'],
     ),
     'reserveraidhours' => array(
         'title' => 'Stunden',
-        'desc' => 'Wieviele Stunden soll das Ziel reserviert werden?',
-        'type' => 'text',
+        'desc'  => 'Wieviele Stunden soll das Ziel reserviert werden?',
+        'type'  => 'text',
         'value' => $edit['reserveraidhours'],
         'style' => 'width: 70;',
     ),
     'reserveraiduntil' => array(
         'title' => 'Reserviert bis',
-        'desc' => 'Wie lange ist das Ziel reserviert?',
-        'type' => 'label',
+        'desc'  => 'Wie lange ist das Ziel reserviert?',
+        'type'  => 'label',
         'value' => $edit['reserveraiduntil'],
         'style' => 'width: 110;',
     ),
@@ -489,33 +489,33 @@ $editview = array(
 // Ansichten defininieren
 $views = array(
     'overview' => array(
-        'title' => 'Übersicht',
-        'columns' => array(
-            'objekttyp' => '',
-            'coords' => 'Koords',
-            'tsonden' => 'T',
-            'x13sonden' => 'X13',
+        'title'       => 'Übersicht',
+        'columns'     => array(
+            'objekttyp'   => '',
+            'coords'      => 'Koords',
+            'tsonden'     => 'T',
+            'x13sonden'   => 'X13',
             'planetentyp' => '',
-            'user' => 'Spieler',
-            'allianz' => 'Allianz',
-            'last_scan' => 'Scan',
-            'last_raid' => 'Raid',
-            'inaktiv' => 'Inaktiv',
-            'eisen' => 'FE',
-            'stahl' => 'St',
-            'vv4a' => 'V4',
-            'chemie' => 'CE',
-            'eis' => 'Ei',
-            'wasser' => 'HO',
-            'energie' => 'En',
-            'deff_pla' => 'Deff',
+            'user'        => 'Spieler',
+            'allianz'     => 'Allianz',
+            'last_scan'   => 'Scan',
+            'last_raid'   => 'Raid',
+            'inaktiv'     => 'Inaktiv',
+            'eisen'       => 'FE',
+            'stahl'       => 'St',
+            'vv4a'        => 'V4',
+            'chemie'      => 'CE',
+            'eis'         => 'Ei',
+            'wasser'      => 'HO',
+            'energie'     => 'En',
+            'deff_pla'    => 'Deff',
             'deff_schiff' => 'Schiff',
-            'rating' => 'Rating',
+            'rating'      => 'Rating',
         ),
-        'edit' => $editview,
-        'edittitle' => 'Reservierung',
+        'edit'        => $editview,
+        'edittitle'   => 'Reservierung',
         'deletetitle' => 'Reservierung',
-        'key' => 'coords'
+        'key'         => 'coords'
     )
 );
 
@@ -915,7 +915,7 @@ if (empty($params['view'])) {
     }
 
     // WHERE-Clause aufbauen
-    $first = true;
+    $first     = true;
     $sql_where = "";
     foreach ($where as $key => $clause) {
         if (is_array($clause)) {
@@ -941,7 +941,7 @@ if (empty($params['view'])) {
     $sql_order = "";
     // SQL ausführen
     $count = 0;
-    $sql = $sql_select . $sql_from . $sql_where . $sql_order;
+    $sql   = $sql_select . $sql_from . $sql_where . $sql_order;
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     while ($row = $db->db_fetch_array($result)) {
@@ -1017,11 +1017,11 @@ if (empty($params['view'])) {
             $last_scan = $row['fehlscantime'];
         }
         // Verteidigungs-Objekte parsen
-        $lines = explode("\n", $row['def']);
-        $lines = array_merge($lines, explode("\n", $row['plan']));
-        $lines = array_merge($lines, explode("\n", $row['stat']));
-        $lines = array_merge($lines, explode("\n", $row['geb']));
-        $mode = 'block';
+        $lines   = explode("\n", $row['def']);
+        $lines   = array_merge($lines, explode("\n", $row['plan']));
+        $lines   = array_merge($lines, explode("\n", $row['stat']));
+        $lines   = array_merge($lines, explode("\n", $row['geb']));
+        $mode    = 'block';
         $objects = array();
         foreach ($lines as $line) {
             if ($mode == 'object') {
@@ -1037,25 +1037,25 @@ if (empty($params['view'])) {
                 $mode = 'block';
             }
         }
-        $sd_01 = isset($objects['SD01 Gatling']) ? $objects['SD01 Gatling'] : 0;
-        $sd_02 = isset($objects['SD02 Pulslaser']) ? $objects['SD02 Pulslaser'] : 0;
-        $tsonden = ceil(($sd_01 / 1.2 + $sd_02 * 2.5 / 1.2 + 10));
+        $sd_01     = isset($objects['SD01 Gatling']) ? $objects['SD01 Gatling'] : 0;
+        $sd_02     = isset($objects['SD02 Pulslaser']) ? $objects['SD02 Pulslaser'] : 0;
+        $tsonden   = ceil(($sd_01 / 1.2 + $sd_02 * 2.5 / 1.2 + 10));
         $x13sonden = ceil(($sd_01 / 2 + $sd_02 * 2.5 / 2 + 8));
         // Fehlgeschlagene Scans
         if ($last_scan == $row['fehlscantime']) {
             // Mit welchem Sondentyp schlug es fehl?
             if (!empty($row['terminus'])) {
-                $tsonden = ">" . $row['terminus'];
+                $tsonden   = ">" . $row['terminus'];
                 $x13sonden = ""; // Hier könnte man umrechnen
             }
             if (!empty($row['x13'])) {
                 $x13sonden = ">" . $row['x13'];
-                $tsonden = ""; // Hier könnte man umrechnen
+                $tsonden   = ""; // Hier könnte man umrechnen
             }
         }
         // Verteidigungsanlagen
         $deff_pla = null;
-        $anlagen = "";
+        $anlagen  = "";
         if (!empty($row['schiffscantime'])) {
             $grav = isset($objects['SDI Gravitonbeam']) ? $objects['SDI Gravitonbeam'] : 0;
             if (!empty($grav)) {
@@ -1104,30 +1104,30 @@ if (empty($params['view'])) {
             $deff_pla = $grav * 480 + $plasma * 300 + $arak * 15 + $rak * 10 + $pulssat * 55 + $lasersat * 35 + $gauss * 25 + $raksat * 25 + $stopfi * 1;
         }
         // Werften
-        $klorw = isset($objects['kleine orbitale Werft']) ? $objects['kleine orbitale Werft'] : ($row['geb'] == "" ? '---' : 0);
-        $klplw = isset($objects['kleine planetare Werft']) ? $objects['kleine planetare Werft'] : ($row['geb'] == "" ? '---' : 0);
-        $miorw = isset($objects['mittlere orbitale Werft']) ? $objects['mittlere orbitale Werft'] : ($row['geb'] == "" ? '---' : 0);
-        $miplw = isset($objects['mittlere planetare Werft']) ? $objects['mittlere planetare Werft'] : ($row['geb'] == "" ? '---' : 0);
-        $grw = isset($objects['große Werft']) ? $objects['große Werft'] : ($row['geb'] == "" ? '---' : 0);
-        $dnw = isset($objects['DN Werft']) ? $objects['DN Werft'] : ($row['geb'] == "" ? '---' : 0);
+        $klorw   = isset($objects['kleine orbitale Werft']) ? $objects['kleine orbitale Werft'] : ($row['geb'] == "" ? '---' : 0);
+        $klplw   = isset($objects['kleine planetare Werft']) ? $objects['kleine planetare Werft'] : ($row['geb'] == "" ? '---' : 0);
+        $miorw   = isset($objects['mittlere orbitale Werft']) ? $objects['mittlere orbitale Werft'] : ($row['geb'] == "" ? '---' : 0);
+        $miplw   = isset($objects['mittlere planetare Werft']) ? $objects['mittlere planetare Werft'] : ($row['geb'] == "" ? '---' : 0);
+        $grw     = isset($objects['große Werft']) ? $objects['große Werft'] : ($row['geb'] == "" ? '---' : 0);
+        $dnw     = isset($objects['DN Werft']) ? $objects['DN Werft'] : ($row['geb'] == "" ? '---' : 0);
         $werften = $klorw + $klplw + $miorw + $miplw + $grw + $dnw;
         // Sichtweite
-        $gala = isset($objects['orbitaler Galaxienscanner']) ? $objects['orbitaler Galaxienscanner'] : ($row['geb'] == "" ? '---' : 0);
+        $gala    = isset($objects['orbitaler Galaxienscanner']) ? $objects['orbitaler Galaxienscanner'] : ($row['geb'] == "" ? '---' : 0);
         $flotten = isset($objects['Flottenscanner']) ? $objects['Flottenscanner'] : ($row['geb'] == "" ? '---' : 0);
         // Ziele
         $koze = isset($objects['Kolonisationszentrum']) ? $objects['Kolonisationszentrum'] : ($row['geb'] == "" ? '---' : 0);
-        $rmk = isset($objects['Roboterminenkomplex']) ? $objects['Roboterminenkomplex'] : ($row['geb'] == "" ? '---' : 0);
+        $rmk  = isset($objects['Roboterminenkomplex']) ? $objects['Roboterminenkomplex'] : ($row['geb'] == "" ? '---' : 0);
         // Verteidigung
         $pla_pu = isset($objects['Panzerungsupdate Planetar']) ? $objects['Panzerungsupdate Planetar'] : ($row['geb'] == "" ? '---' : 0);
         $orb_pu = isset($objects['Panzerungsupdate Orbital']) ? $objects['Panzerungsupdate Orbital'] : ($row['geb'] == "" ? '---' : 0);
-        $alpha = isset($objects['planetares Alpha Schild']) ? $objects['planetares Alpha Schild'] : ($row['geb'] == "" ? '---' : 0);
-        $beta = isset($objects['planetares Beta Schild']) ? $objects['planetares Beta Schild'] : ($row['geb'] == "" ? '---' : 0);
+        $alpha  = isset($objects['planetares Alpha Schild']) ? $objects['planetares Alpha Schild'] : ($row['geb'] == "" ? '---' : 0);
+        $beta   = isset($objects['planetares Beta Schild']) ? $objects['planetares Beta Schild'] : ($row['geb'] == "" ? '---' : 0);
         // Inaktiv
         $inaktiv = isset($row['gebp_nodiff']) ? $row['gebp_nodiff'] : "---";
         // Schiffe
         $deff_schiff = null;
         $deff_gesamt = null;
-        $schiffe = "";
+        $schiffe     = "";
         if (!empty($row['schiffscantime'])) {
             $deff_schiff = 0;
             foreach ($config['schiffsangriff'] as $name => $angriff) {
@@ -1180,84 +1180,84 @@ if (empty($params['view'])) {
             exit;
         }
         $data[$row['coords']] = array(
-            'coords' => $row['coords'],
-            'gal' => $row['coords_gal'],
-            'sys' => $row['coords_sys'],
-            'pla' => $row['coords_planet'],
-            'user' => $row['user'],
-            'allianz' => $row['allianz'],
-            'pos' => $row['pos'],
-            'planetentyp' => $row['typ'],
-            'objekttyp' => $row['objekt'],
-            'dabei_seit' => $row['dabei_seit'],
-            'last_scan' => $last_scan,
-            'fehlscantime' => $row['fehlscantime'],
-            'schiffscantime' => $row['schiffscantime'],
-            'gebscantime' => $row['gebscantime'],
-            'geoscantime' => $row['geoscantime'],
-            'last_raid' => $row['last_raid'],
-            'last_link' => $row['last_link'],
-            'inaktiv' => $inaktiv,
-            'sd_01' => $sd_01,
-            'sd_02' => $sd_02,
-            'eisen' => $row['eisen'],
-            'stahl' => $row['stahl'],
-            'vv4a' => $row['vv4a'],
-            'chemie' => $row['chemie'],
-            'eis' => $row['eis'],
-            'wasser' => $row['wasser'],
-            'energie' => $row['energie'],
-            'ress' => $ress,
-            'deff_schiff' => $deff_schiff,
-            'deff_pla' => $deff_pla,
-            'deff_gesamt' => $deff_gesamt,
-            'rating' => $rating,
-            'geb' => $row['geb'],
-            'plan' => $row['plan'],
-            'stat' => $row['stat'],
-            'def' => $row['def'],
-            'klplw' => $klplw,
-            'klorw' => $klorw,
-            'miplw' => $miplw,
-            'miorw' => $miorw,
-            'grw' => $grw,
-            'dnw' => $dnw,
-            'werften' => $werften,
-            'gala' => $gala,
-            'flotten' => $flotten,
-            'koze' => $koze,
-            'rmk' => $rmk,
-            'orb_pu' => $orb_pu,
-            'pla_pu' => $pla_pu,
-            'alpha' => $alpha,
-            'beta' => $beta,
-            'schiffe' => $schiffe,
-            'anlagen' => $anlagen,
-            'comment' => $comment,
-            'tsonden' => $tsonden,
-            'x13sonden' => $x13sonden,
-            'allianz_style' => $allianz_background_color,
-            'dabei_seit_style' => "text-align: right; " . $text_color,
-            'last_scan_style' => "text-align: right; " . $text_color,
-            'last_raid_style' => "text-align: right; " . $text_color,
-            'inaktiv_style' => "text-align: right; " . $text_color,
-            'sd_01_style' => "text-align: right; " . $text_color,
-            'sd_02_style' => "text-align: right; " . $text_color,
-            'tsonden_style' => "text-align: right; " . $text_color,
-            'x13sonden_style' => "text-align: right; " . $text_color,
-            'eisen_style' => "text-align: right; " . $text_color,
-            'stahl_style' => "text-align: right; " . $text_color,
-            'vv4a_style' => "text-align: right; " . $text_color,
-            'chemie_style' => "text-align: right; " . $text_color,
-            'eis_style' => "text-align: right; " . $text_color,
-            'wasser_style' => "text-align: right; " . $text_color,
-            'energie_style' => "text-align: right; " . $text_color,
-            'ress_style' => "text-align: right; " . $text_color,
+            'coords'            => $row['coords'],
+            'gal'               => $row['coords_gal'],
+            'sys'               => $row['coords_sys'],
+            'pla'               => $row['coords_planet'],
+            'user'              => $row['user'],
+            'allianz'           => $row['allianz'],
+            'pos'               => $row['pos'],
+            'planetentyp'       => $row['typ'],
+            'objekttyp'         => $row['objekt'],
+            'dabei_seit'        => $row['dabei_seit'],
+            'last_scan'         => $last_scan,
+            'fehlscantime'      => $row['fehlscantime'],
+            'schiffscantime'    => $row['schiffscantime'],
+            'gebscantime'       => $row['gebscantime'],
+            'geoscantime'       => $row['geoscantime'],
+            'last_raid'         => $row['last_raid'],
+            'last_link'         => $row['last_link'],
+            'inaktiv'           => $inaktiv,
+            'sd_01'             => $sd_01,
+            'sd_02'             => $sd_02,
+            'eisen'             => $row['eisen'],
+            'stahl'             => $row['stahl'],
+            'vv4a'              => $row['vv4a'],
+            'chemie'            => $row['chemie'],
+            'eis'               => $row['eis'],
+            'wasser'            => $row['wasser'],
+            'energie'           => $row['energie'],
+            'ress'              => $ress,
+            'deff_schiff'       => $deff_schiff,
+            'deff_pla'          => $deff_pla,
+            'deff_gesamt'       => $deff_gesamt,
+            'rating'            => $rating,
+            'geb'               => $row['geb'],
+            'plan'              => $row['plan'],
+            'stat'              => $row['stat'],
+            'def'               => $row['def'],
+            'klplw'             => $klplw,
+            'klorw'             => $klorw,
+            'miplw'             => $miplw,
+            'miorw'             => $miorw,
+            'grw'               => $grw,
+            'dnw'               => $dnw,
+            'werften'           => $werften,
+            'gala'              => $gala,
+            'flotten'           => $flotten,
+            'koze'              => $koze,
+            'rmk'               => $rmk,
+            'orb_pu'            => $orb_pu,
+            'pla_pu'            => $pla_pu,
+            'alpha'             => $alpha,
+            'beta'              => $beta,
+            'schiffe'           => $schiffe,
+            'anlagen'           => $anlagen,
+            'comment'           => $comment,
+            'tsonden'           => $tsonden,
+            'x13sonden'         => $x13sonden,
+            'allianz_style'     => $allianz_background_color,
+            'dabei_seit_style'  => "text-align: right; " . $text_color,
+            'last_scan_style'   => "text-align: right; " . $text_color,
+            'last_raid_style'   => "text-align: right; " . $text_color,
+            'inaktiv_style'     => "text-align: right; " . $text_color,
+            'sd_01_style'       => "text-align: right; " . $text_color,
+            'sd_02_style'       => "text-align: right; " . $text_color,
+            'tsonden_style'     => "text-align: right; " . $text_color,
+            'x13sonden_style'   => "text-align: right; " . $text_color,
+            'eisen_style'       => "text-align: right; " . $text_color,
+            'stahl_style'       => "text-align: right; " . $text_color,
+            'vv4a_style'        => "text-align: right; " . $text_color,
+            'chemie_style'      => "text-align: right; " . $text_color,
+            'eis_style'         => "text-align: right; " . $text_color,
+            'wasser_style'      => "text-align: right; " . $text_color,
+            'energie_style'     => "text-align: right; " . $text_color,
+            'ress_style'        => "text-align: right; " . $text_color,
             'deff_schiff_style' => "text-align: right; " . $text_color,
-            'deff_pla_style' => "text-align: right; " . $text_color,
-            'gesamt_style' => "text-align: right; " . $text_color,
-            'rating_style' => "text-align: right; ",
-            'row_style' => $text_color,
+            'deff_pla_style'    => "text-align: right; " . $text_color,
+            'gesamt_style'      => "text-align: right; " . $text_color,
+            'rating_style'      => "text-align: right; ",
+            'row_style'         => $text_color,
         );
     }
     usort($data, "sort_data_cmp");
@@ -1293,7 +1293,7 @@ if (empty($params['view'])) {
             out_echo(
                 makelink(
                     array(
-                        'order' => $orderkey,
+                        'order'  => $orderkey,
                         'orderd' => 'asc'
                     ),
                     "<img src='./bilder/asc.gif'>"
@@ -1303,7 +1303,7 @@ if (empty($params['view'])) {
             out_echo(
                 makelink(
                     array(
-                        'order' => $orderkey,
+                        'order'  => $orderkey,
                         'orderd' => 'desc'
                     ),
                     "<img src='./bilder/desc.gif'>"
@@ -1320,7 +1320,7 @@ if (empty($params['view'])) {
     echo '<form method="POST">';
     $index = 1;
     foreach ($data as $row) {
-        $key = $row[$view['key']];
+        $key      = $row[$view['key']];
         $expanded = $params['expand'] == $key;
         echo '<input type="hidden" name="target_' . $index++ . '" value="' . $key . '"/>';
         if (isset($row['row_style'])) {
@@ -1552,7 +1552,7 @@ function sort_data_cmp($a, $b)
     if ($params['order'] == 'coords') {
         $coordsA = explode(':', $a['coords']);
         $coordsB = explode(':', $b['coords']);
-        $result = 0;
+        $result  = 0;
         if ($coordsA[0] < $coordsB[0]) {
             $result = -1;
         } elseif ($coordsA[0] > $coordsB[0]) {
@@ -1601,7 +1601,7 @@ function format_value($row, $name, $value)
                 array(
                     "view" => $params['view'],
                     "user" => $value,
-                    "sid" => $sid,
+                    "sid"  => $sid,
                 ), $value, true
             );
         case 'coords':
@@ -1670,11 +1670,13 @@ function format_value($row, $name, $value)
             if (is_null($value)) {
                 return '';
             }
+
             return "<alt title='" . $row['schiffe'] . "'>" . number_format((float)$value, 0, ',', '.') . "</a>";
         case 'deff_pla':
             if (is_null($value)) {
                 return '';
             }
+
             return "<alt title='" . $row['anlagen'] . "'>" . number_format((float)$value, 0, ',', '.') . "</a>";
         case 'tsonden':
         case 'x13sonden':
@@ -1811,6 +1813,7 @@ function makefield($field, $key)
             $html .= '>';
             break;
     }
+
     return $html;
 }
 

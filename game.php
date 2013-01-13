@@ -2,6 +2,7 @@
 define('IRA', TRUE);
 define('APPLICATION_PATH', dirname(__FILE__));
 
+date_default_timezone_set('Europe/Berlin');
 include_once('includes/iwdb.php');
 include_once('includes/debug.php');
 

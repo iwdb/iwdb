@@ -40,6 +40,8 @@ if (!defined('IRA')) {
 
 function parse_de_wirtschaft_planiress($return)
 {
+    global $selectedusername;
+
     $scan_data = array(); //! Eintragung in die Lagertabelle (nach Kolos ausgeschluesselt)
     $scan_data_total = array(); //! werden in die Ressuebersicht eingetragen
 
@@ -77,6 +79,7 @@ function parse_de_wirtschaft_planiress($return)
         }
         insert_data($scan_data);
     }
+    delete_old_entries($selectedusername, CURRENT_UNIX_TIME);
     insert_data_total($scan_data_total);
 
     echo "<div class='system_notification'>Produktion Teil 1 aktualisiert/hinzugefügt.</div>";
@@ -120,12 +123,6 @@ function insert_data($scan_data)
     $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
-    //Einträge in der Lagertabelle von nicht mehr vorhandenen Kolos/Basen etc weg (diese wurden nicht aktualisiert)
-    $sql  = "DELETE FROM " . $db_tb_lager;
-    $sql .= " WHERE user = '" . $selectedusername . "'";
-    $sql .= " AND time != " . CURRENT_UNIX_TIME . ';';
-    $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 }
 
 function insert_data_total($scan_data)
@@ -161,4 +158,22 @@ function insert_data_total($scan_data)
     $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
+}
+
+function delete_old_entries($username, $time) {
+    global $db, $db_tb_lager;
+
+    if (empty($username) OR empty($time)) {
+        return;
+    }
+
+    $username = $db->escape($username);
+    $time     = (int)$time;
+
+    //Einträge in der Lagertabelle von nicht mehr vorhandenen Kolos/Basen etc weg (diese wurden nicht aktualisiert)
+    $sql  = "DELETE FROM " . $db_tb_lager;
+    $sql .= " WHERE user = '" . $username . "'";
+    $sql .= " AND time != " . $time . ";";
+    $db->db_query($sql)
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 }

@@ -83,7 +83,7 @@ class db {
   		$this->query_count++;
 
 		  if(!empty($this->db_queries))
-			  $this->db_queries .= "<br\n>";
+			  $this->db_queries .= "<br>\n";
 				
 		  $this->db_queries .= $query;
 						 

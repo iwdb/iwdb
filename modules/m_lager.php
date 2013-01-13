@@ -925,99 +925,92 @@ $views = array(
                 'title' => 'Eisen',
                 'desc' => 'Wieviel Eisen soll im Lager sein?',
                 'type' => 'text',
-                'value' => $edit['eisen_soll'],
-                'style' => 'width: 70;',
+                'value' => number_format((float)$edit['eisen_soll'], 0, ",", "."),
+                'style' => 'width: 10em;',
             ),
             'stahl_soll' => array(
                 'title' => 'Stahl',
                 'desc' => 'Wieviel Stahl soll im Lager sein?',
                 'type' => 'text',
-                'value' => $edit['stahl_soll'],
-                'style' => 'width: 70;',
+                'value' => number_format((float)$edit['stahl_soll'], 0, ",", "."),
+                'style' => 'width: 10em;',
             ),
             'vv4a_soll' => array(
                 'title' => 'VV4A',
                 'desc' => 'Wieviel VV4A soll im Lager sein?',
                 'type' => 'text',
-                'value' => $edit['vv4a_soll'],
-                'style' => 'width: 70;',
+                'value' => number_format((float)$edit['vv4a_soll'], 0, ",", "."),
+                'style' => 'width: 10em;',
             ),
             'chem_soll' => array(
                 'title' => 'Chemie',
                 'desc' => 'Wieviel Chemie soll im Lager sein?',
                 'type' => 'text',
-                'value' => $edit['chem_soll'],
-                'style' => 'width: 70;',
+                'value' => number_format((float)$edit['chem_soll'], 0, ",", "."),
+                'style' => 'width: 10em;',
             ),
             'eis_soll' => array(
                 'title' => 'Eis',
                 'desc' => 'Wieviel Eis soll im Lager sein?',
                 'type' => 'text',
-                'value' => $edit['eis_soll'],
-                'style' => 'width: 70;',
+                'value' => number_format((float)$edit['eis_soll'], 0, ",", "."),
+                'style' => 'width: 10em;',
             ),
             'wasser_soll' => array(
                 'title' => 'Wasser',
                 'desc' => 'Wieviel Wasser soll im Lager sein?',
                 'type' => 'text',
-                'value' => $edit['wasser_soll'],
-                'style' => 'width: 70;',
+                'value' => number_format((float)$edit['wasser_soll'], 0, ",", "."),
+                'style' => 'width: 10em;',
             ),
             'energie_soll' => array(
                 'title' => 'Energie',
                 'desc' => 'Wieviel Energie soll im Lager sein?',
                 'type' => 'text',
-                'value' => $edit['energie_soll'],
-                'style' => 'width: 70;',
+                'value' => number_format((float)$edit['energie_soll'], 0, ",", "."),
+                'style' => 'width: 10em;',
             ),
             'eisen_sichtbar' => array(
                 'title' => 'Eisen sichtbar',
                 'desc' => 'Sollen andere Spieler den Bedarf liefern?',
                 'type' => 'checkbox',
                 'value' => $edit['eisen_sichtbar'],
-                'style' => 'width: 70;',
             ),
             'stahl_sichtbar' => array(
                 'title' => 'Stahl sichtbar',
                 'desc' => 'Sollen andere Spieler den Bedarf liefern?',
                 'type' => 'checkbox',
                 'value' => $edit['stahl_sichtbar'],
-                'style' => 'width: 70;',
             ),
             'vv4a_sichtbar' => array(
                 'title' => 'VV4A sichtbar',
                 'desc' => 'Sollen andere Spieler den Bedarf liefern?',
                 'type' => 'checkbox',
                 'value' => $edit['vv4a_sichtbar'],
-                'style' => 'width: 70;',
             ),
             'chem_sichtbar' => array(
                 'title' => 'Chemie sichtbar',
                 'desc' => 'Sollen andere Spieler den Bedarf liefern?',
                 'type' => 'checkbox',
                 'value' => $edit['chem_sichtbar'],
-                'style' => 'width: 70;',
             ),
             'eis_sichtbar' => array(
                 'title' => 'Eis sichtbar',
                 'desc' => 'Sollen andere Spieler den Bedarf liefern?',
                 'type' => 'checkbox',
                 'value' => $edit['eis_sichtbar'],
-                'style' => 'width: 70;',
             ),
             'wasser_sichtbar' => array(
                 'title' => 'Wasser sichtbar',
                 'desc' => 'Sollen andere Spieler den Bedarf liefern?',
                 'type' => 'checkbox',
                 'value' => $edit['wasser_sichtbar'],
-                'style' => 'width: 70;',
             ),
             'energie_sichtbar' => array(
                 'title' => 'Energie sichtbar',
                 'desc' => 'Sollen andere Spieler den Bedarf liefern?',
                 'type' => 'checkbox',
                 'value' => $edit['energie_sichtbar'],
-                'style' => 'width: 70;',
             ),
         ),
         'expand' => array(
@@ -1229,10 +1222,7 @@ foreach ($group_data as $groupkey => $group) {
                     );
                 }
                 if (!isset($row['allow_delete']) || $row['can_delete']) {
-                    echo makelink(
-                        array('delete' => $key),
-                        "<img src='bilder/file_delete_s.gif' onclick=\"return confirmlink(this, 'Datensatz wirklich löschen?')\" alt='löschen'>"
-                    );
+                    //echo makelink(array('delete' => $key), "<img src='bilder/file_delete_s.gif' onclick=\"return confirmlink(this, 'Datensatz wirklich löschen?')\" alt='löschen'>");
                 }
             }
             //Markierung-Checkbox
@@ -1510,7 +1500,7 @@ function make_duration($time)
 
     return ($days > 1 ? $days . " Tage " : ($days > 0 ? $days . " Tag " : ""))
         . str_pad($hours, 2, '0', STR_PAD_LEFT)
-        . ":" . str_pad($mins, 2, '0', STR_PAD_LEFT);
+        . ":" . str_pad($mins, 2, '0', STR_PAD_LEFT).'h';
 
 }
 
@@ -1581,6 +1571,7 @@ function sort_data_cmp($a, $b)
 // Erstellt ein Formularfeld.
 function makefield($field, $key)
 {
+    $html = '';
     switch ($field['type']) {
         case 'text':
             $html = '<input type="text" name="' . $key . '" value="' . $field['value'] . '"';
@@ -1647,5 +1638,3 @@ function makeurl($newparams)
     }
     return $url;
 }
-
-?>

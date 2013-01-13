@@ -27,145 +27,163 @@
 //******************************************************************************
 //
 // 
-function doc_title($text) {
-  echo "<div class='doc_title'>" . $text . "</div>\n";
+function doc_title($text)
+{
+    echo "<div class='doc_title'>" . $text . "</div>\n";
 }
 
 //******************************************************************************
 //
-function doc_message($text) {
-	echo "<div class='doc_message'>" . $text . "</div>\n";
+function doc_message($text)
+{
+    echo "<div class='doc_message'>" . $text . "</div>\n";
 }
 
 //******************************************************************************
 //
-function start_table($width = 90, $border = 0, $cellpadding = 4, 
-                     $cellspacing = 1, $class = "bordercolor") {
-  echo "<table border='" . $border . "' " .
-              "cellpadding='" . $cellpadding . "' " .
-              "cellspacing='" . $cellspacing . "' " .
-              "class='" . $class . "'";
-  if($width > 0) {
-    echo  " style='width: " . $width . "%;'";
-  }
-  echo ">\n";
+function start_table($width = 90, $border = 0, $cellpadding = 4, $cellspacing = 1, $class = "bordercolor")
+{
+    echo "<table border='" . $border . "' " .
+        "cellpadding='" . $cellpadding . "' " .
+        "cellspacing='" . $cellspacing . "' " .
+        "class='" . $class . "'";
+    if ($width > 0) {
+        echo  " style='width: " . $width . "%;'";
+    }
+    echo ">\n";
 }
 
 //******************************************************************************
 //
-function end_table() {
-  echo "</table>\n";
+function end_table()
+{
+    echo "</table>\n";
 }
 
 
 //******************************************************************************
 //
-function cell($class = "", $extra = "", $columns = 1) {
-  echo "  <td";
-  
-  if(!empty($class)) {
-    echo " class='" . $class . "'";
-  }
-  
-  if(!empty($extra)) {
-    echo " " . $extra;
-  }
-   
-  if($columns > 1) {
-    echo " colspan='" . $columns . "'";
-  }
-  
-  echo ">";
+function cell($class = "", $extra = "", $columns = 1)
+{
+    echo "  <td";
+
+    if (!empty($class)) {
+        echo " class='" . $class . "'";
+    }
+
+    if (!empty($extra)) {
+        echo " " . $extra;
+    }
+
+    if ($columns > 1) {
+        echo " colspan='" . $columns . "'";
+    }
+
+    echo ">";
 }
 
 //******************************************************************************
 //
-function next_cell($class = "", $extra = "", $columns = 1) {
-  echo "</td>\n";
-  cell($class, $extra, $columns);
-}
-
-//******************************************************************************
-//
-function end_cell() {
-  echo "</td>\n";
-}
-
-//******************************************************************************
-//
-function start_row($class = "", $extra = "", $columns = 1) {
-  echo " <tr>\n";
-  cell($class, $extra, $columns);
-}
-
-//******************************************************************************
-//
-function start_row_only($class = "", $extra = "") {
-  $html = " <tr";
-  if (!empty($class))
-    $html .= " class='$class'";
-  if (!empty($extra))
-    $html .= " $extra";
-  $html .= ">\n";
-  echo $html;
-}
-
-//******************************************************************************
-//
-function end_row($closecell = true) {
-  if($closecell)
+function next_cell($class = "", $extra = "", $columns = 1)
+{
     echo "</td>\n";
-    
-  echo " </tr>\n";
+    cell($class, $extra, $columns);
 }
 
 //******************************************************************************
 //
-function next_row($class = "", $extra = "", $columns = 1) {
-  end_row();
-  start_row($class, $extra, $columns);
+function end_cell()
+{
+    echo "</td>\n";
+}
+
+//******************************************************************************
+//
+function start_row($class = "", $extra = "", $columns = 1)
+{
+    echo " <tr>\n";
+    cell($class, $extra, $columns);
+}
+
+//******************************************************************************
+//
+function start_row_only($class = "", $extra = "")
+{
+    $html = " <tr";
+    if (!empty($class)) {
+        $html .= " class='$class'";
+    }
+    if (!empty($extra)) {
+        $html .= " $extra";
+    }
+    $html .= ">\n";
+    echo $html;
+}
+
+//******************************************************************************
+//
+function end_row($closecell = true)
+{
+    if ($closecell) {
+        echo "</td>\n";
+    }
+
+    echo " </tr>\n";
+}
+
+//******************************************************************************
+//
+function next_row($class = "", $extra = "", $columns = 1)
+{
+    end_row();
+    start_row($class, $extra, $columns);
 }
 
 
 //******************************************************************************
 //
-function start_form($action, $params = 0) {
-	$html = "<form method='POST' action='";
-	$html .= url($action, $params);
-	$html .= "' enctype='multipart/form-data'>\n";
-	echo $html;
+function start_form($action, $params = 0)
+{
+    $html = "<form method='POST' action='";
+    $html .= url($action, $params);
+    $html .= "' enctype='multipart/form-data'>\n";
+    echo $html;
 }
 
 //******************************************************************************
 //
-function end_form() {
-  echo "</form>\n";
+function end_form()
+{
+    echo "</form>\n";
 }
 
 //******************************************************************************
 //
-function action($action, $text) {
-  global $sid;
-  echo "<a href='index.php?action=" . $action . "&sid=" . $sid ."'>" . $text . "</a>\n";
+function action($action, $text)
+{
+    global $sid;
+    echo "<a href='index.php?action=" . $action . "&sid=" . $sid . "'>" . $text . "</a>\n";
 }
 
 //******************************************************************************
 //
-function url($action, $params = 0) {
-	global $sid;
-	$url = "index.php?action=" . $action . "&sid=" . $sid;
-	if (isset($params) && is_array($params)) {
-		foreach ($params as $key => $value) {
-			if (is_array($value)) {
-				foreach ($value as $subkey => $subvalue) {
-					$url .= "&" . $key . "[" . $subkey . "]" . "=" . $subvalue;
+function url($action, $params = 0)
+{
+    global $sid;
+    $url = "index.php?action=" . $action . "&sid=" . $sid;
+    if (isset($params) && is_array($params)) {
+        foreach ($params as $key => $value) {
+            if (is_array($value)) {
+                foreach ($value as $subkey => $subvalue) {
+                    $url .= "&" . $key . "[" . $subkey . "]" . "=" . $subvalue;
                 }
-			} else {
-				$url .= "&" . $key . "=" . $value;
+            } else {
+                $url .= "&" . $key . "=" . $value;
             }
         }
     }
-	return $url;
+
+    return $url;
 }
 
 //******************************************************************************
@@ -206,94 +224,95 @@ function url($action, $params = 0) {
 //		"row_extra" => "",
 //	),
 // );
-function make_table($view, $data) {
-	// Tabelle ausgeben
-	start_table(100);
+function make_table($view, $data)
+{
+    // Tabelle ausgeben
+    start_table(100);
 
-	// Spalten iterieren
-	$col_index = 0;
-	foreach ($view["columns"] as $col_key => $value) {
-		// Zeile beginnen
-		if (!$col_index++) {
-			start_row_only();
-			cell("titlebg");	
-		} else
-			// Spalte beginnen
-			next_cell("titlebg");
-		// Wert ausgeben
-		echo "<b>";
-		echo $value;
-		echo "</b>";
-	}
-	end_row();
+    // Spalten iterieren
+    $col_index = 0;
+    foreach ($view["columns"] as $col_key => $value) {
+        // Zeile beginnen
+        if (!$col_index++) {
+            start_row_only();
+            cell("titlebg");
+        } else {                    // Spalte beginnen
+            next_cell("titlebg");
+        }
+        // Wert ausgeben
+        echo "<b>";
+        echo $value;
+        echo "</b>";
+    }
+    end_row();
 
-	if (isset($data)) {
-		// Daten iterieren
-		$row_index = 0;
-		foreach ($data as $row_key => $row) {
-			// Zeilenattribute
-			if (isset($row["attributes"]["row_class"])) {
-				$row_class = $row["attributes"]["row_class"];
+    if (isset($data)) {
+        // Daten iterieren
+        $row_index = 0;
+        foreach ($data as $row_key => $row) {
+            // Zeilenattribute
+            if (isset($row["attributes"]["row_class"])) {
+                $row_class = $row["attributes"]["row_class"];
             } else {
-				$row_class = "windowbg1";
+                $row_class = "windowbg1";
             }
-			$row_extra = "id='" . $row_key . "'";
-			if (isset($row["attributes"]["row_extra"])) {
-				$row_extra .= " " . $row["attributes"]["row_extra"];
+            $row_extra = "id='" . $row_key . "'";
+            if (isset($row["attributes"]["row_extra"])) {
+                $row_extra .= " " . $row["attributes"]["row_extra"];
             } elseif (isset($view["attributes"]["row_extra"])) {
-				$row_extra .= " " . $view["attributes"]["row_extra"];
+                $row_extra .= " " . $view["attributes"]["row_extra"];
             }
-			// Spalten iterieren
-			$col_index = 0;
-			foreach ($view['columns'] as $col_key => $value) {
-				// Spalte beginnen
-				if (isset($col_span) && --$col_span) {
-					continue;
+            // Spalten iterieren
+            $col_index = 0;
+            foreach ($view['columns'] as $col_key => $value) {
+                // Spalte beginnen
+                if (isset($col_span) && --$col_span) {
+                    continue;
                 }
 
-				// Spaltenattribute
-				if (isset($row["attributes"]["col_class"][$col_key])) {
-					$col_class = $row["attributes"]["col_class"][$col_key];
+                // Spaltenattribute
+                if (isset($row["attributes"]["col_class"][$col_key])) {
+                    $col_class = $row["attributes"]["col_class"][$col_key];
                 } elseif (isset($view["attributes"]["col_class"][$col_key])) {
-					$col_class = $view["attributes"]["col_class"][$col_key];
+                    $col_class = $view["attributes"]["col_class"][$col_key];
                 } else {
-					$col_class = $row_class;
+                    $col_class = $row_class;
                 }
-				$col_extra = "id='" . $row_key . "_" . $col_key . "'";
+                $col_extra = "id='" . $row_key . "_" . $col_key . "'";
 
-                if (isset($row["attributes"]["col_extra"][$col_key]))
-					$col_extra .= " " . $row["attributes"]["col_extra"][$col_key];
-				elseif (isset($view["attributes"]["col_extra"][$col_key])) {
-					$col_extra .= " " . $view["attributes"]["col_extra"][$col_key];
+                if (isset($row["attributes"]["col_extra"][$col_key])) {
+                    $col_extra .= " " . $row["attributes"]["col_extra"][$col_key];
+                } elseif (isset($view["attributes"]["col_extra"][$col_key])) {
+                    $col_extra .= " " . $view["attributes"]["col_extra"][$col_key];
                 }
 
                 if (isset($row["attributes"]["col_span"][$col_key])) {
-					$col_span = $row["attributes"]["col_span"][$col_key];
+                    $col_span = $row["attributes"]["col_span"][$col_key];
                 } elseif (isset($view["attributes"]["col_span"][$col_key])) {
-					$col_span = $view["attributes"]["col_span"][$col_key];
+                    $col_span = $view["attributes"]["col_span"][$col_key];
                 } else {
-					$col_span = 1;
+                    $col_span = 1;
                 }
 
-				// Zeile beginnen
-				if (!$col_index++) {
-					start_row_only($row_class, $row_extra);
-					cell($col_class, $col_extra);
-				} else {
-					next_cell($col_class, $col_extra, $col_span);
+                // Zeile beginnen
+                if (!$col_index++) {
+                    start_row_only($row_class, $row_extra);
+                    cell($col_class, $col_extra);
+                } else {
+                    next_cell($col_class, $col_extra, $col_span);
                 }
 
-				// Wert ausgeben
-				if (isset($row["attributes"]["col_value_func"][$col_key])) {
-					echo $row["attributes"]["col_value_func"][$col_key]($row[$col_key],$row, $data, $row_key, $col_key);
+                // Wert ausgeben
+                if (isset($row["attributes"]["col_value_func"][$col_key])) {
+                    echo $row["attributes"]["col_value_func"][$col_key]($row[$col_key], $row, $data, $row_key, $col_key);
                 } elseif (isset($view["attributes"]["col_value_func"][$col_key])) {
-					echo $view["attributes"]["col_value_func"][$col_key]($row[$col_key],$row, $data, $row_key, $col_key);
+                    echo $view["attributes"]["col_value_func"][$col_key]($row[$col_key], $row, $data, $row_key, $col_key);
                 } else {
-					echo $row[$col_key];
+                    echo $row[$col_key];
                 }
-			}
-			end_row();
-		}
-	}
-	end_table();
+            }
+            end_row();
+        }
+    }
+    end_table();
 }

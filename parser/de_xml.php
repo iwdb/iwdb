@@ -298,14 +298,14 @@ function save_sbxml($scan_data) {
 	$result = $db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	debug_var("row", $row = $db->db_fetch_array($result));
-	// Unvollständiger Scan
-	unset($scan_data['vollstaendig']);
-	/*if (isset($scan_data['vollstaendig']) && $scan_data['vollstaendig'] == 1) {
+
+	// vollständiger Scan?
+	if (isset($scan_data['vollstaendig']) && $scan_data['vollstaendig'] == 1) {
 		unset($scan_data['vollstaendig']);
 	} else {
 		$results[] = "Der Scan " . $scan_data['coords'] . " ist nicht vollständig.";
 		return $results;
-	}*/
+	}
 
 	// Neuerer Scan vorhanden
 	if (!empty($row) && $row['time'] > $scan_data['time']) {
@@ -356,7 +356,8 @@ function save_sbxml($scan_data) {
 		$sql .= ")";
 		debug_var("sql", $sql);
 		$results[] = "Scan " . $scan_data['coords'] . " hinzugefügt.";
-		if (isset($scan_data['geoscantime'])) {
+		//Geoscanpunkt vergeben
+        if (isset($scan_data['geoscantime'])) {
 	 		$sql1 = "UPDATE " . $db_tb_user . " SET geopunkte=geopunkte+1 " . " WHERE sitterlogin='" . $selectedusername . "'";
 	 		$result_u = $db->db_query($sql1)
 				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -379,7 +380,8 @@ function save_sbxml($scan_data) {
 		$sql .= " WHERE coords_gal=" . $scan_data['coords_gal'] . " AND coords_sys=" . $scan_data['coords_sys'] . " AND coords_planet=" . $scan_data['coords_planet'];
 		debug_var("sql", $sql);
 		$results[] = "Scan " . $scan_data['coords'] . " aktualisiert.";
-		if (isset($scan_data['geoscantime'])) {
+        //Geoscanpunkt vergeben
+        if (isset($scan_data['geoscantime'])) {
 	 		$sql1 = "UPDATE " . $db_tb_user . " SET geopunkte=geopunkte+1 " . " WHERE sitterlogin='" . $selectedusername . "'";
 	 		$result_u = $db->db_query($sql1)
 				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);

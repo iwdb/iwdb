@@ -345,7 +345,6 @@ Regeln akzeptieren? <input type="checkbox" name="rules" value="1"> <input type="
     }
 }
     echo $error;
-
 	if (!getVar("nobody")) { ?>
 &nbsp;
                     </td>

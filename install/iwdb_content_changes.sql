@@ -1186,11 +1186,9 @@ INSERT INTO `prefix_bbcodes` (`isregex`, `bbcode`, `htmlcode`) VALUES
 DELETE FROM `prefix_parser` WHERE `modulename` = 'unixml';
 
 -- Mac: fuer Fremdsondierungsparser
-INSERT INTO `prefix_iwdbtabellen` (`name`) VALUES
-('fremdsondierung');
+INSERT INTO `prefix_iwdbtabellen` (`name`) VALUES ('fremdsondierung');
 
-INSERT INTO `prefix_iwdbtabellen` (`name`) VALUES
-('incomings');
+INSERT INTO `prefix_iwdbtabellen` (`name`) VALUES ('incomings');
 
 -- masel: fix #114
 UPDATE `prefix_gebaeude` SET  `name` =  'Orbitales Habitat' WHERE  `prefix_gebaeude`.`id` =126;

@@ -58,12 +58,10 @@ function parse_de_wirtschaft_universe($return)
             or error(GENERAL_ERROR, 'Could not update NewUniXmlTime information.', '', __FILE__, __LINE__, $sql);
 
         //echo "<div class='system_message'>Zeitpunkt der nächsten Unixml Parsemöglichkeit bei " . $selectedusername . " angepasst.</div>";
-        if ($iNewUniXmlTime <= CURRENT_UNIX_TIME) {
-            echo "<div class='system_notification'>Nächster UniXmlScan bei " . $selectedusername . " ab sofort möglich.</div>";
-        } else {
-            $nextXmlTime = makeduration2(CURRENT_UNIX_TIME, $iNewUniXmlTime);
-            echo "<div class='system_notification'>Nächster UniXML Scan bei " . $selectedusername . " möglich in " . $nextXmlTime . "</div>";
-        }
+    }
+
+    if ($iNewUniXmlTime <= CURRENT_UNIX_TIME) {
+        echo "<div class='system_notification'>Nächster UniXmlScan bei " . $selectedusername . " ab sofort möglich.</div>";
     } else {
         $nextXmlTime = makeduration2(CURRENT_UNIX_TIME, $iNewUniXmlTime);
         echo "<div class='system_notification'>Nächster UniXML Scan bei " . $selectedusername . " möglich in " . $nextXmlTime . "</div>";

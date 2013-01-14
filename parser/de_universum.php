@@ -1,5 +1,13 @@
 <?php
 
+if (!defined('IRA')) {
+    die('Hacking attempt...');
+}
+
+if (!defined('DEBUG_LEVEL')) {
+    define('DEBUG_LEVEL', 0);
+}
+
 require_once("de_xml.php"); //unixml-parser input_unixml ist dort
 
 /**
@@ -19,7 +27,7 @@ function parse_de_universum($xmldata)
 
         foreach ($xmldata->objResultData->aXmlText as $XmlText) {
 
-            $XmlText = mb_convert_encoding($XmlText, "ISO-8859-1");         //zurückkonvertieren zu "ISO-8859-1" weil in der xml so angegeben aber IWDB Input ist utf-8
+            $XmlText   = mb_convert_encoding($XmlText, "ISO-8859-1"); //zurückkonvertieren zu "ISO-8859-1" weil in der xml so angegeben aber IWDB Input ist utf-8
             $xmlobject = simplexml_load_string($XmlText);
 
             if (!empty($xmlobject)) {

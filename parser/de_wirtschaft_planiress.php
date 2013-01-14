@@ -1,48 +1,45 @@
 <?php
-/*****************************************************************************/
-/* de_wirtschaft_planiress2.php                                              */
-/*****************************************************************************/
-/* This program is free software; you can redistribute it and/or modify it   */
-/* under the terms of the GNU General Public License as published by the     */
-/* Free Software Foundation; either version 2 of the License, or (at your    */
-/* option) any later version.                                                */
-/*                                                                           */
-/* This program is distributed in the hope that it will be useful, but       */
-/* WITHOUT ANY WARRANTY; without even the implied warranty of                */
-/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General */
-/* Public License for more details.                                          */
-/*                                                                           */
-/* The GNU GPL can be found in LICENSE in this directory                     */
-/*****************************************************************************/
-
-/*****************************************************************************/
-/* Diese Erweiterung der urspuenglichen DB ist ein Gemeinschafftsprojekt von */
-/* IW-Spielern.                                                              */
-/*                                                                           */
-/* Autor: Mac (MacXY@herr-der-mails.de)                                      */
-/* Datum: April 2012                                                         */
-/*                                                                           */
-/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
-/* Entwicklerforum wenden:                                                   */
-/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
-/*                   https://github.com/iwdb/iwdb                            */
-/*                                                                           */
-/*****************************************************************************/
-
-
-if (basename($_SERVER['PHP_SELF']) != "index.php") {
-    die('Hacking attempt...!!');
-}
+/*****************************************************************************
+ * de_wirtschaft_planiress.php                                               *
+ *****************************************************************************
+ * This program is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU General Public License as published by the     *
+ * Free Software Foundation; either version 2 of the License, or (at your    *
+ * option) any later version.                                                *
+ *                                                                           *
+ * This program is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General *
+ * Public License for more details.                                          *
+ *                                                                           *
+ * The GNU GPL can be found in LICENSE in this directory                     *
+ *****************************************************************************
+ * Diese Erweiterung der urspuenglichen DB ist ein Gemeinschaftsprojekt von  *
+ * IW-Spielern.                                                              *
+ *                                                                           *
+ * Autor: Mac (MacXY@herr-der-mails.de)                                      *
+ * Datum: April 2012                                                         *
+ *                                                                           *
+ * Bei Problemen kannst du dich an das eigens dafür eingerichtete            *
+ * Entwicklerforum wenden:                                                   *
+ *                   https://www.handels-gilde.org                           *
+ *                   https://github.com/iwdb/iwdb                            *
+ *                                                                           *
+ *****************************************************************************/
 
 if (!defined('IRA')) {
     die('Hacking attempt...');
+}
+
+if (!defined('DEBUG_LEVEL')) {
+    define('DEBUG_LEVEL', 0);
 }
 
 function parse_de_wirtschaft_planiress($return)
 {
     global $selectedusername;
 
-    $scan_data = array(); //! Eintragung in die Lagertabelle (nach Kolos ausgeschluesselt)
+    $scan_data       = array(); //! Eintragung in die Lagertabelle (nach Kolos ausgeschluesselt)
     $scan_data_total = array(); //! werden in die Ressuebersicht eingetragen
 
     if (!$return->objResultData->bLagerBunkerVisible) {
@@ -50,22 +47,22 @@ function parse_de_wirtschaft_planiress($return)
     }
 
     foreach ($return->objResultData->aKolos as $kolo) {
-        $scan_data['coords_gal'] = $kolo->aCoords["coords_gal"];
-        $scan_data['coords_sys'] = $kolo->aCoords["coords_sol"];
+        $scan_data['coords_gal']    = $kolo->aCoords["coords_gal"];
+        $scan_data['coords_sys']    = $kolo->aCoords["coords_sol"];
         $scan_data['coords_planet'] = $kolo->aCoords["coords_pla"];
-        $scan_data['kolo_typ'] = $kolo->strObjectType;
+        $scan_data['kolo_typ']      = $kolo->strObjectType;
 
         foreach ($kolo->aData as $resource) {
             $resource_name = $resource->strResourceName;
             $resource_name = trim(strtolower($resource_name));
-            if (strpos($resource_name, "chem") !== FALSE) {
+            if (strpos($resource_name, "chem") !== false) {
                 $resource_name = "chem";
             }
 
-            $scan_data[$resource_name] = $resource->iResourceVorrat;
-            $scan_data[$resource_name . '_prod'] = $resource->fResourceProduction;
+            $scan_data[$resource_name]             = $resource->iResourceVorrat;
+            $scan_data[$resource_name . '_prod']   = $resource->fResourceProduction;
             $scan_data[$resource_name . '_bunker'] = $resource->iResourceBunker;
-            $scan_data[$resource_name . '_lager'] = $resource->iResourceLager;
+            $scan_data[$resource_name . '_lager']  = $resource->iResourceLager;
 
             if (!isset($scan_data_total["total_" . $resource_name . "_prod"])) {
                 $scan_data_total["total_" . $resource_name . "_prod"] = 0;
@@ -160,7 +157,8 @@ function insert_data_total($scan_data)
 
 }
 
-function delete_old_entries($username, $time) {
+function delete_old_entries($username, $time)
+{
     global $db, $db_tb_lager;
 
     if (empty($username) OR empty($time)) {

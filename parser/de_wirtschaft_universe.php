@@ -1,6 +1,6 @@
 <?php
 /*****************************************************************************
- * index.php                                                                 *
+ * de_wirtschaft_unniverse.php                                               *
  *****************************************************************************
  * Iw DB: Icewars geoscan and sitter database                                *
  * Open-Source Project started by Robert Riess (robert@riess.net)            *
@@ -34,6 +34,10 @@
 
 if (!defined('IRA')) {
     die('Hacking attempt...');
+}
+
+if (!defined('DEBUG_LEVEL')) {
+    define('DEBUG_LEVEL', 0);
 }
 
 function parse_de_wirtschaft_universe($return)

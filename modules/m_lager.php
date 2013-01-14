@@ -1178,7 +1178,7 @@ foreach ($group_data as $groupkey => $group) {
             //Expand-Image
             if ($user_before !== $row['user'] AND ($params['order'] === 'user')) {
                 if (!empty($user_before)) {
-                    $border = ' border-top:1px black solid;';
+                    $border = ' border-top:2px black solid;';
                 }
                 $user_before = $row['user'];
             } else {
@@ -1226,7 +1226,7 @@ foreach ($group_data as $groupkey => $group) {
                 }
             }
             //Markierung-Checkbox
-            next_cell('windowbg1', 'nowrap valign=center style="background-color: white;"');
+            next_cell('windowbg1', 'nowrap valign=center style="background-color: white;'.$border.'"');
             echo '<input type="hidden" name="target_' . $targetindex++ . '" value="' . $key . '">';
             echo '<input type="checkbox" name="mark_' . $key . '" value="1" checked>';
             // Expandbereich ausgeben

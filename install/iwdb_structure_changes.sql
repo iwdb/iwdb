@@ -174,4 +174,7 @@ ALTER TABLE `prefix_kasse_content` CHANGE `time_of_insert` `time_of_insert` DATE
 ALTER TABLE `prefix_kb_bomb` ADD  `bev` INT UNSIGNED NOT NULL;
 
 -- masel: 13.01.2013 #119
-ALTER TABLE  `prefix_user` ADD  `NewUniXmlTime` INT UNSIGNED NULL DEFAULT NULL COMMENT  'Timestamp der nächsten Unixml Parsemöglichkeit';
+ALTER TABLE `prefix_user` ADD  `NewUniXmlTime` INT UNSIGNED NULL DEFAULT NULL COMMENT  'Timestamp der nächsten Unixml Parsemöglichkeit';
+
+-- masel: 14.01.2013
+ALTER TABLE `prefix_spieler` ADD `Hauptplanet` VARCHAR( 11 ) NULL DEFAULT NULL COMMENT 'Hauptplanet des Spielers', ADD INDEX ( `Hauptplanet` );

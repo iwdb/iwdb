@@ -1294,8 +1294,10 @@ CREATE TABLE IF NOT EXISTS `prefix_spieler` (
   `forsch_pkt` int(10) unsigned DEFAULT NULL,
   `ges_pkt` int(10) unsigned DEFAULT NULL,
   `pktupdate_time` int(10) unsigned DEFAULT NULL,
+  `Hauptplanet` varchar(11) DEFAULT NULL COMMENT 'Hauptplanet des Spielers',
   PRIMARY KEY (`name`),
-  KEY `allychange_time` (`allychange_time`)
+  KEY `allychange_time` (`allychange_time`),
+  KEY `HP` (`HP`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Tabelle aller Spieler';
 
 -- --------------------------------------------------------

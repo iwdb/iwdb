@@ -89,7 +89,10 @@ if ( ( $sitterlogin <> "" ) && ( $edit == "true" ) && ( ($sitterlogin == $user_s
 	$userd['grav_von']  = getVar('grav_von');
 	$userd['grav_bis']  = getVar('grav_bis');
 	
-  $userd['staatsform']  = getVar('staatsform');
+    $userd['staatsform']  = getVar('staatsform');
+
+    $userd['NewUniXmlTime']  = strtotime(getVar('NewUniXmlTime')) ? strtotime(getVar('NewUniXmlTime')) : NULL;
+    var_dump($userd['NewUniXmlTime']);
 
 	$userd['grav_von']  = str_replace(",", ".", $userd['grav_von']);
 	$userd['grav_bis']  = str_replace(",", ".", $userd['grav_bis']);
@@ -195,7 +198,7 @@ if ( ( $sitterlogin <> "" ) && ( $edit == "true" ) && ( ($sitterlogin == $user_s
 
 	foreach ($userd as $key => $data)
 	{
-		$update = ( empty($update) ) ? $key . "='" . $data . "'": $update . ", " . $key . "='" . $data . "'";
+		$update = ( empty($update) ) ? $key . "='" . $data . "'" : $update . ", " . $key . (is_null($data) ? "=NULL" : "='" . $data . "'");
 	}
 
 	$sql = "UPDATE " . $db_tb_user. " SET " . $update . " WHERE sitterlogin='" . $sitterlogin . "'";
@@ -680,6 +683,15 @@ von
 ?>
 </select>
   </td>
+ </tr>
+ <tr>
+     <td class="windowbg2" style="width:30%;">
+         nächster Unixml Scan:<br>
+         <span style="font-style:italic;">Nächster Zeitpunkt des UniXml Scans.</span>
+     </td>
+     <td class="windowbg1">
+         <input type='text' name='NewUniXmlTime' value='<?php echo ($NewUniXmlTime ? date("d.m.Y H:i", $NewUniXmlTime) : ''); ?>' style='width: 15em;'>
+     </td>
  </tr>
  <tr>
   <td class="windowbg2">

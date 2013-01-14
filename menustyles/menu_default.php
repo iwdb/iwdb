@@ -148,6 +148,25 @@ if (isset($db_tb_incomings)) {
 
 include ('configmenu.php');
 
+//Hinweis für zur Verfügung stehenden UniXML-Scan im IW Account
+if (!empty($user_sitterlogin)) {
+    $sql = "SELECT `NewUniXmlTime` FROM `$db_tb_user` WHERE `sitterlogin`='" . $user_sitterlogin . "';";
+    $result = $db->db_query($sql)
+        or error(GENERAL_ERROR, 'Could not query NewUniXmlTime information.', '', __FILE__, __LINE__, $sql);
+    $row = $db->db_fetch_array($result);
+    if (!empty($row['NewUniXmlTime']) AND ($row['NewUniXmlTime'] <= CURRENT_UNIX_TIME)) {
+        ?>
+        <br>
+        <table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
+            <tr>
+                <td align='center' style='color:red; font-weight:bold; font-size:1.5em;'>
+                    Der Universumsscan als XML Datei steht zur Verfügung!
+                </td>
+            </tr>
+        </table>
+    <?php
+    }
+}
 //Warnung für nicht eingelesene Ressourcenkoloübersicht seit 24 Stunden
 $sql = "SELECT MAX(time) AS time FROM " . $db_tb_lager . " WHERE user='" . $user_id . "' LIMIT 0,1";
 $result = $db->db_query($sql)

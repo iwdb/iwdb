@@ -1241,6 +1241,7 @@ CREATE TABLE IF NOT EXISTS `prefix_user` (
   `dauersitten` int(11) NOT NULL DEFAULT '0' COMMENT 'Anzahl Sekunden bis Login fällig',
   `dauersittentext` varchar(255) NOT NULL COMMENT 'Kommentar zum Dauersitten',
   `dauersittenlast` int(11) DEFAULT NULL COMMENT 'Timestamp der letzten Dauersitten-Erledigung',
+  `NewUniXmlTime` int(10) unsigned DEFAULT NULL COMMENT 'Timestamp der nächsten Unixml Parsemöglichkeit',
   PRIMARY KEY (`id`),
   KEY `ikea` (`ikea`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

@@ -89,7 +89,7 @@ ALTER TABLE `prefix_scans` DROP INDEX `coords_gal`;
 ALTER TABLE `prefix_scans` ADD INDEX  `scans_user` (  `user` );
 ALTER TABLE `prefix_scans` ADD INDEX `scans_coords_pla` (  `coords_planet` );
 ALTER TABLE `prefix_scans` ADD INDEX (  `time` );
-ALTER TABLE `prefix_scans` ADD INDEX (  `typ` )
+ALTER TABLE `prefix_scans` ADD INDEX (  `typ` );
 ALTER TABLE `prefix_scans` ADD INDEX (  `typchange_time` );
 ALTER TABLE `prefix_scans` ADD INDEX (  `userchange_time` );
 ALTER TABLE `prefix_scans` ADD INDEX (  `objektchange_time` );
@@ -171,4 +171,7 @@ ALTER TABLE `prefix_kasse_incoming` CHANGE `time_of_insert` `time_of_insert` DAT
 ALTER TABLE `prefix_kasse_content` CHANGE `time_of_insert` `time_of_insert` DATETIME NOT NULL DEFAULT '0000-00-00';
 
 -- masel: fix #105
-ALTER TABLE  `prefix_kb_bomb` ADD  `bev` INT UNSIGNED NOT NULL;
+ALTER TABLE `prefix_kb_bomb` ADD  `bev` INT UNSIGNED NOT NULL;
+
+-- masel: 13.01.2013 #119
+ALTER TABLE  `prefix_user` ADD  `NewUniXmlTime` INT UNSIGNED NULL DEFAULT NULL COMMENT  'Timestamp der nächsten Unixml Parsemöglichkeit';

@@ -185,6 +185,7 @@ echo "  </td>\n";
 echo " </tr>\n";
 echo "</table>\n";
 echo "</form>\n";
+echo "<br>";
 
 $textinput = getVar('text',true);        // ungefilterten Bericht holen
 if ( ! empty($textinput) )
@@ -478,4 +479,3 @@ if ( ! empty($textinput) )
   
   return;
 }
-?>

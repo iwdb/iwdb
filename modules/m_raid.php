@@ -151,7 +151,7 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 //
 // Hauptprogramm
 
-$max_results = 1000;
+$max_results = 100;
 
 $results = array();
 $params  = array();
@@ -1163,14 +1163,6 @@ if (empty($params['view'])) {
             }
         }
 
-        $count++;
-
-        //ToDo: besser lösen (Limit der von der DB gelieferten Ergebnisse)
-        if ($count > $max_results) {
-            echo "<br><div class='system_notification'>Es wurden nur die ersten {$max_results} Ergebnisse angezeigt. Bitte die Suche weiter einschränken.</div><br>";
-            echo '<br><br>';
-            break;
-        }
         $data[$row['coords']] = array(
             'coords'            => $row['coords'],
             'gal'               => $row['coords_gal'],
@@ -1306,7 +1298,15 @@ if (empty($params['view'])) {
     echo '&nbsp;';
     echo '<form method="POST">';
     $index = 1;
+    $to_much_results = false;
     foreach ($data as $row) {
+
+        //ToDo: besser lösen (Limit der von der DB gelieferten Ergebnisse)
+        if ($index > $max_results) {
+            $to_much_results = true;
+            break;
+        }
+
         $key      = $row[$view['key']];
         $expanded = $params['expand'] == $key;
         echo '<input type="hidden" name="target_' . $index++ . '" value="' . $key . '"/>';
@@ -1450,6 +1450,10 @@ if (empty($params['view'])) {
         echo "</tr>";
     }
     end_table();
+
+    if ($to_much_results) {
+        echo "<br><div class='system_notification'>Es wurden nur die ersten {$max_results} Ergebnisse angezeigt. Bitte die Suche weiter einschränken.</div><br>";
+    }
     echo '<table border="0" cellpadding="2" cellspacing="1" style="width: 100%;">';
     echo '<tr><td align="right">';
     echo makelink(array('mark_all' => true), "Alle auswählen");

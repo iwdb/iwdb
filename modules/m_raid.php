@@ -151,7 +151,7 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 //
 // Hauptprogramm
 
-$max_results = 100;
+$max_results = 1000;
 
 $results = array();
 $params  = array();

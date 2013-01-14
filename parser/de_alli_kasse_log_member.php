@@ -54,8 +54,8 @@ function parse_de_alli_kasse_log_member($return)
 
     foreach ($return->objResultData->aLogs as $log) {
         $strTime = strftime('%Y-%m-%d %H:%M:00', $log->iDateTime);
-        $sql = "REPLACE INTO $db_tb_kasse_outgoing (payedfrom, payedto, amount, time_of_pay, allianz) 
-                VALUES ('$log->strFromUser', '$log->strToUser', '$log->iCredits', '$strTime', '$allianz')";
+        $sql     = "REPLACE INTO $db_tb_kasse_outgoing (payedfrom, payedto, amount, time_of_pay, allianz)".
+                   " VALUES ('$log->strFromUser', '$log->strToUser', '$log->iCredits', '$strTime', '$allianz')";
         $db->db_query($sql)
             or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 

@@ -1,45 +1,38 @@
 <?php
-/*****************************************************************************/
-/* de_index.php                                                     */
-/*****************************************************************************/
-/* This program is free software; you can redistribute it and/or modify it   */
-/* under the terms of the GNU General Public License as published by the     */
-/* Free Software Foundation; either version 2 of the License, or (at your    */
-/* option) any later version.                                                */
-/*                                                                           */
-/* This program is distributed in the hope that it will be useful, but       */
-/* WITHOUT ANY WARRANTY; without even the implied warranty of                */
-/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General */
-/* Public License for more details.                                          */
-/*                                                                           */
-/* The GNU GPL can be found in LICENSE in this directory                     */
-/*****************************************************************************/
-
-/*****************************************************************************/
-/* Diese Erweiterung der urspuenglichen DB ist ein Gemeinschafftsprojekt von */
-/* IW-Spielern.                                                              */
-/*                                                                           */
-/* Autor: Mac (MacXY@herr-der-mails.de)                                      */
-/* Datum: Jun 2009 - April 2012                                              */
-/*                                                                           */
-/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
-/* Entwicklerforum wenden:                                                   */
-/*        https://handels-gilde.org/?www/forum/index.php;board=1099.0        */
-/*                   https://github.com/iwdb/iwdb                            */
-/*                                                                           */
-/*****************************************************************************/
-
-
-if (!defined('DEBUG_LEVEL')) {
-    define('DEBUG_LEVEL', 0);
-}
-
-if (basename($_SERVER['PHP_SELF']) != "index.php") {
-    die('Hacking attempt...!!');
-}
+/*****************************************************************************
+ * de_index.php                                                              *
+ *****************************************************************************
+ * This program is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU General Public License as published by the     *
+ * Free Software Foundation; either version 2 of the License, or (at your    *
+ * option) any later version.                                                *
+ *                                                                           *
+ * This program is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General *
+ * Public License for more details.                                          *
+ *                                                                           *
+ * The GNU GPL can be found in LICENSE in this directory                     *
+ *****************************************************************************
+ * Diese Erweiterung der urspuenglichen DB ist ein Gemeinschaftsprojekt von  *
+ * IW-Spielern.                                                              *
+ *                                                                           *
+ * Autor: Mac (MacXY@herr-der-mails.de)                                      *
+ * Datum: April 2012                                                         *
+ *                                                                           *
+ * Bei Problemen kannst du dich an das eigens dafür eingerichtete            *
+ * Entwicklerforum wenden:                                                   *
+ *                   https://www.handels-gilde.org                           *
+ *                   https://github.com/iwdb/iwdb                            *
+ *                                                                           *
+ *****************************************************************************/
 
 if (!defined('IRA')) {
     die('Hacking attempt...');
+}
+
+if (!defined('DEBUG_LEVEL')) {
+    define('DEBUG_LEVEL', 0);
 }
 
 function parse_de_index($return)
@@ -50,7 +43,7 @@ function parse_de_index($return)
 
         $sql = "INSERT INTO `$db_tb_user_research` "
              . "(`rId`, `date`, `time`, `user`) VALUES "
-             . "(0, '', ".CURRENT_UNIX_TIME.", '".$selectedusername . "') "
+             . "(0, '', " . CURRENT_UNIX_TIME . ", '" . $selectedusername . "') "
              . " ON DUPLICATE KEY UPDATE "
              . "`rId` = 0, "
              . "`date` = '', "
@@ -110,14 +103,14 @@ function parse_de_index($return)
                         } else {
                             $scan_data['user_from'] = $msg->strUserNameFrom;
                         }
-                        $scan_data['planet_to'] = $msg->strPlanetNameTo;
-                        $scan_data['coords_to_gal'] = $msg->aCoordsTo["coords_gal"];
-                        $scan_data['coords_to_sys'] = $msg->aCoordsTo["coords_sol"];
+                        $scan_data['planet_to']        = $msg->strPlanetNameTo;
+                        $scan_data['coords_to_gal']    = $msg->aCoordsTo["coords_gal"];
+                        $scan_data['coords_to_sys']    = $msg->aCoordsTo["coords_sol"];
                         $scan_data['coords_to_planet'] = $msg->aCoordsTo["coords_pla"];
 
-                        $scan_data['planet_from'] = $msg->strPlanetNameFrom;
-                        $scan_data['coords_from_gal'] = $msg->aCoordsFrom["coords_gal"];
-                        $scan_data['coords_from_sys'] = $msg->aCoordsFrom["coords_sol"];
+                        $scan_data['planet_from']        = $msg->strPlanetNameFrom;
+                        $scan_data['coords_from_gal']    = $msg->aCoordsFrom["coords_gal"];
+                        $scan_data['coords_from_sys']    = $msg->aCoordsFrom["coords_sol"];
                         $scan_data['coords_from_planet'] = $msg->aCoordsFrom["coords_pla"];
 
                         $scan_data['art'] = $tf_type;
@@ -135,7 +128,8 @@ function parse_de_index($return)
 
                         if (!isset($scan_data['user_to']) || empty($scan_data['user_to'])) {
                             $scan_data['user_to'] = "";
-                            $sql = "SELECT user FROM " . $db_tb_scans;
+
+                            $sql  = "SELECT user FROM " . $db_tb_scans;
                             $sql .= " WHERE coords_gal=" . $scan_data['coords_to_gal'];
                             $sql .= " AND coords_sys=" . $scan_data['coords_to_sys'];
                             $sql .= " AND coords_planet=" . $scan_data['coords_to_planet'];
@@ -168,7 +162,7 @@ function parse_de_index($return)
 
                         //! Mac: gelieferte Ress/Schiffe eintragen
                         foreach ($msg->aObjects as $object) {
-                            $typ = $object["object"];
+                            $typ   = $object["object"];
                             $menge = $object["count"];
 
                             if ($typ != 'Eisen' && $typ != 'Stahl' && $typ != 'VV4A' && $typ != 'chem. Elemente' && $typ != 'Eis' && $typ != 'Wasser' && $typ != 'Energie') {
@@ -341,8 +335,8 @@ function save_data($scan_data)
 
             if (($allianz_to === $config_allytag) AND ($scan_data['time'] > (CURRENT_UNIX_TIME - 20 * MINUTE))) { //nur incomings auf die eigene Ally und maximal 20 min in der Vergangenheit?
                 $koords_from = $scan_data['coords_from_gal'] . ":" . $scan_data['coords_from_sys'] . ":" . $scan_data['coords_from_planet'];
-                $koords_to = $scan_data['coords_to_gal'] . ":" . $scan_data['coords_to_sys'] . ":" . $scan_data['coords_to_planet'];
-                $sql = "INSERT INTO $db_tb_incomings (koords_to,name_to,allianz_to,koords_from,name_from,allianz_from,art,timestamp) VALUES ('" . $koords_to . "','" . $scan_data['user_to'] . "','" . $allianz_to . "','" . $koords_from . "','" . $scan_data['user_from'] . "','" . (GetAllianceByUser($scan_data['user_from'])) . "','" . $scan_data['art'] . "','" . $scan_data['time'] . "') ON DUPLICATE KEY UPDATE timestamp=timestamp;";  //ON DUPLICATE KEY UPDATE timestamp=timestamp entspricht ON DUPLICATE KEY "DO NOTHING"
+                $koords_to   = $scan_data['coords_to_gal'] . ":" . $scan_data['coords_to_sys'] . ":" . $scan_data['coords_to_planet'];
+                $sql         = "INSERT INTO $db_tb_incomings (koords_to,name_to,allianz_to,koords_from,name_from,allianz_from,art,timestamp) VALUES ('" . $koords_to . "','" . $scan_data['user_to'] . "','" . $allianz_to . "','" . $koords_from . "','" . $scan_data['user_from'] . "','" . (GetAllianceByUser($scan_data['user_from'])) . "','" . $scan_data['art'] . "','" . $scan_data['time'] . "') ON DUPLICATE KEY UPDATE timestamp=timestamp;"; //ON DUPLICATE KEY UPDATE timestamp=timestamp entspricht ON DUPLICATE KEY "DO NOTHING"
                 debug_var('sql', $sql);
                 $result = $db->db_query($sql)
                     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);

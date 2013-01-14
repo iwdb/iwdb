@@ -68,7 +68,7 @@ function updateIncoming($user, $amount, $ally)
 {
     global $db, $db_tb_kasse_incoming;
     $sum_old = 0.0;
-    $sql = "SELECT sum(amount) FROM $db_tb_kasse_incoming WHERE user like '" . $user . "' AND allianz like '" . $ally . "' AND time_of_insert != CURRENT_DATE()";
+    $sql     = "SELECT sum(amount) FROM $db_tb_kasse_incoming WHERE user like '" . $user . "' AND allianz like '" . $ally . "' AND time_of_insert != CURRENT_DATE()";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not get member cash incomming!', '', __FILE__, __LINE__, $sql);
     while ($row = $db->db_fetch_array($result)) {
@@ -77,8 +77,8 @@ function updateIncoming($user, $amount, $ally)
 
     $amount = $amount - $sum_old;
 
-    $sql = "REPLACE INTO $db_tb_kasse_incoming (user, amount, time_of_insert, allianz) 
-             VALUES ('$user', $amount, '".strftime('%Y-%m-%d %H:%M:00', CURRENT_UNIX_TIME)."', '$ally')";
+    $sql = "REPLACE INTO $db_tb_kasse_incoming (user, amount, time_of_insert, allianz)".
+           " VALUES ('$user', $amount, '" . strftime('%Y-%m-%d %H:%M:00', CURRENT_UNIX_TIME) . "', '$ally')";
     $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not update member cash incomming!', '', __FILE__, __LINE__, $sql);
 }

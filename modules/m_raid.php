@@ -1,55 +1,42 @@
 <?php
-/*****************************************************************************/
-/* m_raid.php                                                                */
-/*****************************************************************************/
-/* Iw DB: Icewars geoscan and sitter database                                */
-/* Open-Source Project started by Robert Riess (robert@riess.net)            */
-/* Software Version: Iw DB 1.00                                              */
-/* ========================================================================= */
-/* Software Distributed by:    http://lauscher.riess.net/iwdb/               */
-/* Support, News, Updates at:  http://lauscher.riess.net/iwdb/               */
-/* ========================================================================= */
-/* Copyright (c) 2004 Robert Riess - All Rights Reserved                     */
-/*****************************************************************************/
-/* This program is free software; you can redistribute it and/or modify it   */
-/* under the terms of the GNU General Public License as published by the     */
-/* Free Software Foundation; either version 2 of the License, or (at your    */
-/* option) any later version.                                                */
-/*                                                                           */
-/* This program is distributed in the hope that it will be useful, but       */
-/* WITHOUT ANY WARRANTY; without even the implied warranty of                */
-/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General */
-/* Public License for more details.                                          */
-/*                                                                           */
-/* The GNU GPL can be found in LICENSE in this directory                     */
-/*****************************************************************************/
+/*****************************************************************************
+ * m_raid.php                                                                 *
+ *****************************************************************************
+ * Iw DB: Icewars geoscan and sitter database                                *
+ * Open-Source Project started by Robert Riess (robert@riess.net)            *
+ * ========================================================================= *
+ * Copyright (c) 2004 Robert Riess - All Rights Reserved                     *
+ *****************************************************************************
+ * This program is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU General Public License as published by the     *
+ * Free Software Foundation; either version 2 of the License, or (at your    *
+ * option) any later version.                                                *
+ *                                                                           *
+ * This program is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General *
+ * Public License for more details.                                          *
+ *                                                                           *
+ * The GNU GPL can be found in LICENSE in this directory                     *
+ *****************************************************************************
+ * Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  *
+ * IW-Spielern.                                                              *
+ *                                                                           *
+ * Autor: [GILDE]Thella (icewars@thella.de)                                  *
+ *                                                                           *
+ * Bei Problemen kannst du dich an das eigens dafür eingerichtete            *
+ * Entwicklerforum/Repo wenden:                                              *
+ *        https://handels-gilde.org/?www/forum/index.php;board=1099.0        *
+ *                   https://github.com/iwdb/iwdb                            *
+ *                                                                           *
+ *****************************************************************************/
 
-/*****************************************************************************/
-/* Raid-System                                                               */
-/* für die IWDB: Icewars geoscan and sitter database                         */
-/*---------------------------------------------------------------------------*/
-/* Author: [GILDE]Thella (mailto:icewars@thella.de)                          */
-/* Version: 0.1                                                              */
-/* Date: xx/xx/xxxx                                                          */
-/*---------------------------------------------------------------------------*/
-/* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  */
-/* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
-/* Entwicklerforum wenden:                                                   */
-/*                                                                           */
-/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
-/*                                                                           */
-/*****************************************************************************/
+if (!defined('IRA')) {
+    die('Hacking attempt...');
+}
 
 if (!defined('DEBUG_LEVEL')) {
     define('DEBUG_LEVEL', 0);
-}
-
-// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
-//    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") {
-    echo "Hacking attempt...!!";
-    exit;
 }
 
 //****************************************************************************
@@ -89,9 +76,7 @@ $moduldesc = "Dieses Modul hilft beim pösen Klauen von Lollis.";
 //
 function workInstallDatabase()
 {
-    global $db, $db_tb_scans, $db_tb_iwdbtabellen, $db_prefix, $db_tb_parser;
-
-    echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
+    //nothing here
 }
 
 //****************************************************************************
@@ -125,7 +110,7 @@ function workInstallConfigString()
 //
 function workUninstallDatabase()
 {
-    echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
+    //nothing here
 }
 
 //****************************************************************************
@@ -166,7 +151,10 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 //
 // Hauptprogramm
 
+$max_results = 1000;
+
 $results = array();
+$params  = array();
 
 // Seitenparameter definieren
 debug_var(
@@ -251,11 +239,9 @@ $universum       = getVar('universum');
 $flotteversenden = getVar('flotteversenden');
 if (!empty($universum) || !empty($flotteversenden)) {
     $name = 'Automatische Zielliste vom ' . date("j.n.Y H:i:s", CURRENT_UNIX_TIME);
-    debug_var(
-        "sql", $sql =
-            "DELETE FROM " . $db_tb_target .
-                " WHERE user='" . $user_sitterlogin . "' AND name LIKE 'Automatische Zielliste%'"
-    );
+
+    $sql = "DELETE FROM " . $db_tb_target . " WHERE user='" . $user_sitterlogin . "' AND name LIKE 'Automatische Zielliste%'";
+    debug_var("sql", $sql);
     $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     $index = 1;
@@ -411,7 +397,7 @@ if (empty($edit['reserveraidhours'])) {
     $edit['reserveraidhours'] = '24';
 }
 
-$edit['reserveraiduntil'] = strftime("%d.%m.%Y %H:%M", (CURRENT_UNIX_TIME + (60 * 60 * $edit['reserveraidhours'])));
+$edit['reserveraiduntil'] = strftime("%d.%m.%Y %H:%M", (CURRENT_UNIX_TIME + ($edit['reserveraidhours'] * HOUR)));
 
 // Edit-Daten löschen
 if (isset($params['delete']) && !empty($params['delete'])) {
@@ -433,7 +419,7 @@ if (!empty($button_edit)) {
     $explode = explode(":", $params['edit']);
     $sql     = "UPDATE " . $db_tb_scans . " SET ";
     $sql .= "reserveraiduser='" . $edit['reserveraiduser'] . "',";
-    $sql .= "reserveraid=" . (CURRENT_UNIX_TIME + (60 * 60 * $edit['reserveraidhours']));
+    $sql .= "reserveraid=" . (CURRENT_UNIX_TIME + ($edit['reserveraidhours'] * HOUR));
     $sql .= " WHERE ";
     $sql .= "coords_gal=" . $explode[0] . " AND coords_sys=" . $explode[1] . " AND coords_planet=" . $explode[2];
     debug_var('sql', $sql);
@@ -457,7 +443,7 @@ if (empty($button_edit) && empty($button_add) && !empty($params['edit'])) {
         if (!empty($row['reserveraiduser'])) {
             $edit['reserveraiduser']  = $row['reserveraiduser'];
             $edit['reserveraid']      = $row['reserveraid'];
-            $edit['reserveraidhours'] = round(($row['reserveraid'] - CURRENT_UNIX_TIME) / (60 * 60));
+            $edit['reserveraidhours'] = round(($row['reserveraid'] - CURRENT_UNIX_TIME) / HOUR);
             $edit['reserveraiduntil'] = strftime("%d.%m.%Y %H:%M", $edit['reserveraid']);
         }
     }
@@ -843,49 +829,49 @@ if (empty($params['view'])) {
 
     // Schiffsscan
     if (!empty($params['scan_schiff_age_min'])) {
-        $time = CURRENT_UNIX_TIME - 60 * 60 * ($params['scan_schiff_age_min'] + 1);
+        $time = CURRENT_UNIX_TIME - ($params['scan_schiff_age_min'] + 1) * HOUR;
         array_push($where, $db_tb_scans . ".schiffscantime<" . $time);
     }
     if (!empty($params['scan_schiff_age_max'])) {
-        $time = CURRENT_UNIX_TIME - 60 * 60 * ($params['scan_schiff_age_max'] + 1);
+        $time = CURRENT_UNIX_TIME - ($params['scan_schiff_age_max'] + 1) * HOUR;
         array_push($where, $db_tb_scans . ".schiffscantime>" . $time);
     }
 
     // Gebscan
     if (!empty($params['scan_geb_age_min'])) {
-        $time = CURRENT_UNIX_TIME - 60 * 60 * ($params['scan_geb_age_min'] + 1);
+        $time = CURRENT_UNIX_TIME - ($params['scan_geb_age_min'] + 1) * HOUR;
         array_push($where, $db_tb_scans . ".gebscantime<" . $time);
     }
     if (!empty($params['scan_geb_age_max'])) {
-        $time = CURRENT_UNIX_TIME - 60 * 60 * ($params['scan_geb_age_max'] + 1);
+        $time = CURRENT_UNIX_TIME - ($params['scan_geb_age_max'] + 1) * HOUR;
         array_push($where, $db_tb_scans . ".gebscantime>" . $time);
     }
 
     // Fehlgeschlagene Scans
     if (!empty($params['scan_failure_age_min'])) {
-        $time = CURRENT_UNIX_TIME - 60 * 60 * ($params['scan_failure_age_min'] + 1);
+        $time = CURRENT_UNIX_TIME - ($params['scan_failure_age_min'] + 1) * HOUR;
         array_push($where, $db_tb_scans . ".fehlscantime<" . $time);
     }
     if (!empty($params['scan_failure_age_max'])) {
-        $time = CURRENT_UNIX_TIME - 60 * 60 * ($params['scan_failure_age_max'] + 1);
+        $time = CURRENT_UNIX_TIME - ($params['scan_failure_age_max'] + 1) * HOUR;
         array_push($where, $db_tb_scans . ".fehlscantime>" . $time);
     }
 
     // Noobstatus
     // copper will 22 Tage :)
     if (!empty($params['no_noob'])) {
-        $time = CURRENT_UNIX_TIME - 60 * 60 * 24 * 22;
+        $time = CURRENT_UNIX_TIME - 22 * DAY;
         array_push($where, "(" . $db_tb_highscore . ".dabei_seit<" . $time . " OR " . $db_tb_highscore . ".dabei_seit IS NULL)");
     }
     // Inaktiv
     if (!empty($params['inaktiv'])) {
-        $time = CURRENT_UNIX_TIME - 60 * 60 * 24 * ($params['inaktiv']);
+        $time = CURRENT_UNIX_TIME - ($params['inaktiv']) * DAY;
         array_push($where, "(" . $db_tb_highscore . ".gebp_nodiff<" . $time . " AND " . $db_tb_highscore . ".gebp_nodiff IS NOT NULL)");
     }
 
     // Angriff
     if (!empty($params['angriff'])) {
-        array_push($where, $db_tb_scans . ".angriff>" . (CURRENT_UNIX_TIME - 15 * 60));
+        array_push($where, $db_tb_scans . ".angriff>" . (CURRENT_UNIX_TIME - 15 * MINUTE));
     }
     if (!empty($params['no_angriff'])) {
         array_push($where, "(" . $db_tb_scans . ".angriff<" . CURRENT_UNIX_TIME . " OR " . $db_tb_scans . ".angriff IS NULL)");
@@ -986,7 +972,7 @@ if (empty($params['view'])) {
             $sql_angriff .= " AND " . $db_tb_lieferung . ".coords_to_sys=" . $row['coords_sys'];
             $sql_angriff .= " AND " . $db_tb_lieferung . ".coords_to_planet=" . $row['coords_planet'];
             $sql_angriff .= " AND (" . $db_tb_lieferung . ".art='Angriff' OR " . $db_tb_lieferung . ".art='Sondierung' OR " . $db_tb_lieferung . ".art='Sondierung (Schiffe/Def/Ress)' OR " . $db_tb_lieferung . ".art='Sondierung (Gebäude/Ress)')";
-            $sql_angriff .= " AND " . $db_tb_lieferung . ".time>" . (CURRENT_UNIX_TIME - 60 * 15);
+            $sql_angriff .= " AND " . $db_tb_lieferung . ".time>" . (CURRENT_UNIX_TIME - 15 * MINUTE);
             $sql_angriff .= " ORDER BY time DESC";
             $result_angriff = $db->db_query($sql_angriff)
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -1048,11 +1034,11 @@ if (empty($params['view'])) {
             // Mit welchem Sondentyp schlug es fehl?
             if (!empty($row['terminus'])) {
                 $tsonden   = ">" . $row['terminus'];
-                $x13sonden = ""; // Hier könnte man umrechnen
+                $x13sonden = ceil((($row['terminus'] - 10) * 0.6) + 8);
             }
             if (!empty($row['x13'])) {
                 $x13sonden = ">" . $row['x13'];
-                $tsonden   = ""; // Hier könnte man umrechnen
+                $tsonden   = ceil((($row['x13'] - 8) * 1.67) + 10);
             }
         }
         // Verteidigungsanlagen
@@ -1142,10 +1128,10 @@ if (empty($params['view'])) {
             $deff_gesamt = $deff_pla + $deff_schiff;
         }
         // Verteidigungsfilter
-        if (!empty($params['def_min']) && $deff_gesamt < $params['def_min']) {
+        if (is_null($deff_gesamt) OR (!empty($params['def_min']) AND $deff_gesamt < $params['def_min'])) {
             continue;
         }
-        if (!empty($params['def_max']) && $deff_gesamt > $params['def_max']) {
+        if (is_null($deff_gesamt) OR (!empty($params['def_max']) AND $deff_gesamt > $params['def_max'])) {
             continue;
         }
         //ToDo: Ressgewichtung einstellbar machen
@@ -1162,11 +1148,11 @@ if (empty($params['view'])) {
         if (!empty($rating)) {
             $rating = round($rating);
         }
-        // Berechnende Filter
-        if (!empty($params['rating_min']) && $rating < $params['rating_min']) {
+        // Rating Filter
+        if (is_null($rating) OR (!empty($params['rating_min']) && $rating < $params['rating_min'])) {
             continue;
         }
-        if (!empty($params['rating_max']) && $rating > $params['rating_max']) {
+        if (is_null($rating) OR (!empty($params['rating_max']) && $rating > $params['rating_max'])) {
             continue;
         }
         // Hintergrund-Farbe festlegen
@@ -1176,10 +1162,14 @@ if (empty($params['view'])) {
                 $allianz_background_color = "background-color: " . $config_allianzstatus[$config['allistatus'][$row['allianz']]] . ";";
             }
         }
-        if ($count++ == 1000) {
-            echo "<br><div class='system_notification'>Es wurden mehr als 1000 Planeten gefunden. Bitte die Suche weiter einschränken.</div><br>";
-            echo makelink(array('view' => ''), 'Zurück');
-            exit;
+
+        $count++;
+
+        //ToDo: besser lösen (Limit der von der DB gelieferten Ergebnisse)
+        if ($count > $max_results) {
+            echo "<br><div class='system_notification'>Es wurden nur die ersten {$max_results} Ergebnisse angezeigt. Bitte die Suche weiter einschränken.</div><br>";
+            echo '<br><br>';
+            break;
         }
         $data[$row['coords']] = array(
             'coords'            => $row['coords'],

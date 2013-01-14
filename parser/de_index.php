@@ -14,7 +14,7 @@
  *                                                                           *
  * The GNU GPL can be found in LICENSE in this directory                     *
  *****************************************************************************
- * Diese Erweiterung der urspuenglichen DB ist ein Gemeinschaftsprojekt von  *
+ * Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  *
  * IW-Spielern.                                                              *
  *                                                                           *
  * Autor: Mac (MacXY@herr-der-mails.de)                                      *

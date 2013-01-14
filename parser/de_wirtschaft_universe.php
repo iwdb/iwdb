@@ -19,7 +19,7 @@
  *                                                                           *
  * The GNU GPL can be found in LICENSE in this directory                     *
  *****************************************************************************
- * Diese Erweiterung der urspünglichen DB ist ein Gemeinschafftsprojekt von  *
+ * Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  *
  * IW-Spielern.                                                              *
  *                                                                           *
  * Autor: masel <masel789@googlemail.com>                                    *

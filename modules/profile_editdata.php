@@ -92,7 +92,6 @@ if ( ( $sitterlogin <> "" ) && ( $edit == "true" ) && ( ($sitterlogin == $user_s
     $userd['staatsform']  = getVar('staatsform');
 
     $userd['NewUniXmlTime']  = strtotime(getVar('NewUniXmlTime')) ? strtotime(getVar('NewUniXmlTime')) : NULL;
-    var_dump($userd['NewUniXmlTime']);
 
 	$userd['grav_von']  = str_replace(",", ".", $userd['grav_von']);
 	$userd['grav_bis']  = str_replace(",", ".", $userd['grav_bis']);

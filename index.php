@@ -18,7 +18,17 @@
  * Public License for more details.                                          *
  *                                                                           *
  * The GNU GPL can be found in LICENSE in this directory                     *
+ *****************************************************************************
+ * Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  *
+ * IW-Spielern.                                                              *
+ *                                                                           *
+ * Bei Problemen kannst du dich an das eigens dafür eingerichtete            *
+ * Entwicklerforum/Repo wenden:                                              *
+ *        https://handels-gilde.org/?www/forum/index.php;board=1099.0        *
+ *                   https://github.com/iwdb/iwdb                            *
+ *                                                                           *
  *****************************************************************************/
+
 error_reporting(E_ALL);
 
 //ist noch eine install.php vorhanden?

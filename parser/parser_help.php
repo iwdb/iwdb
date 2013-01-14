@@ -1,31 +1,35 @@
 <?php
 
+if (!defined('IRA')) {
+    die('Hacking attempt...');
+}
+
 function ResetPlaniedata($updatetime)
 {
     //ungültige planSchiff/Deff/Ressscanberichte löschen (Änderung Planettyp oder Objekttyp oder username zur angegebenen Zeit)
     global $db_prefix, $db;
 
     $data = array(
-        "eisen" => NULL,
-        "stahl" => NULL,
-        "vv4a" => NULL,
-        "chemie" => NULL,
-        "eis" => NULL,
-        "wasser" => NULL,
-        "energie" => NULL,
-        "plan" => NULL,
-        "def" => NULL,
-        "geb" => NULL,
-        "lager_chemie" => NULL,
-        "lager_eis" => NULL,
-        "lager_energie" => NULL,
-        "x11" => NULL,
-        "terminus" => NULL,
-        "x13" => NULL,
-        "fehlscantime" => NULL,
-        "reserveraid" => NULL,
-        "reserveraiduser" => NULL,
-        "gebscantime" => NULL
+        "eisen"           => null,
+        "stahl"           => null,
+        "vv4a"            => null,
+        "chemie"          => null,
+        "eis"             => null,
+        "wasser"          => null,
+        "energie"         => null,
+        "plan"            => null,
+        "def"             => null,
+        "geb"             => null,
+        "lager_chemie"    => null,
+        "lager_eis"       => null,
+        "lager_energie"   => null,
+        "x11"             => null,
+        "terminus"        => null,
+        "x13"             => null,
+        "fehlscantime"    => null,
+        "reserveraid"     => null,
+        "reserveraiduser" => null,
+        "gebscantime"     => null
     );
 
     $db->db_update("{$db_prefix}scans", $data, "WHERE `userchange_time` = {$updatetime} OR `typchange_time` = {$updatetime}  OR `objektchange_time` = {$updatetime};")
@@ -37,23 +41,23 @@ function ResetGeodata($updatetime)
     global $db_prefix, $db;
 
     $data = array(
-        "eisengehalt" => NULL,
-        "chemievorkommen" => NULL,
-        "eisdichte" => NULL,
-        "lebensbedingungen" => NULL,
-        "gravitation" => NULL,
-        "besonderheiten" => NULL,
-        "fmod" => NULL,
-        "kgmod" => NULL,
-        "dgmod" => NULL,
-        "ksmod" => NULL,
-        "dsmod" => NULL,
-        "tteisen" => NULL,
-        "ttchemie" => NULL,
-        "tteis" => NULL,
-        "geoscantime" => NULL,
-        "reset_timestamp" => ($updatetime + 30 * 24 * 3600),
-        "astro_pic" => NULL
+        "eisengehalt"       => null,
+        "chemievorkommen"   => null,
+        "eisdichte"         => null,
+        "lebensbedingungen" => null,
+        "gravitation"       => null,
+        "besonderheiten"    => null,
+        "fmod"              => null,
+        "kgmod"             => null,
+        "dgmod"             => null,
+        "ksmod"             => null,
+        "dsmod"             => null,
+        "tteisen"           => null,
+        "ttchemie"          => null,
+        "tteis"             => null,
+        "geoscantime"       => null,
+        "reset_timestamp"   => ($updatetime + 30 * DAY),
+        "astro_pic"         => null
     );
 
     //Query um ungültige Geodaten zu löschen (nach Änderung Planettyp zur angegebenen Zeit)
@@ -78,8 +82,8 @@ function AddAllychangetoHistory($updatetime)
     //Allianzänderungen in Historytabele übertragen
     global $db_prefix, $db;
 
-    $sql = "INSERT INTO `{$db_prefix}spielerallychange` (`name`, `fromally`, `toally`, `time`)
-            SELECT `name`, `exallianz`, `allianz`, `allychange_time`
+    $sql = "INSERT INTO `{$db_prefix}spielerallychange` (`NAME`, `fromally`, `toally`, `TIME`)
+            SELECT `NAME`, `exallianz`, `allianz`, `allychange_time`
             FROM `{$db_prefix}spieler`
             WHERE `allychange_time` = {$updatetime}
             ON DUPLICATE KEY UPDATE `{$db_prefix}spielerallychange`.`name`=`{$db_prefix}spielerallychange`.`name`";
@@ -103,7 +107,7 @@ function SyncAllies($updatetime)
         or error(GENERAL_ERROR, 'DB TransferAllytoScans Fehler!', '', __FILE__, __LINE__, $sql);
 
     //Allianz für nicht mehr vorhandene Spieler löschen
-    $sql = "UPDATE `{$db_prefix}scans` SET `allianz` = '' WHERE `userchange_time` = {$updatetime} AND `user` = '';";
+    $sql = "UPDATE `{$db_prefix}scans` SET `allianz` = '' WHERE `userchange_time` = {$updatetime} AND `USER` = '';";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'DB AllyDelete Fehler!', '', __FILE__, __LINE__, $sql);
 }
@@ -112,27 +116,28 @@ function SyncAllies($updatetime)
  *
  * @desc Bestimmung von Spielernamen aufgrund von Koordinaten
  * @author Mac (MacXY@herr-der-mails.de)
- * @global obj $db
- * @global string $db_tb_scans
- * @param string $coords
- * @todo Funktion sollte gecached werden, damit nicht unnoetig viele Aufrufe erfolgen
- * @return string 
+ * @global object    $db
+ * @global string    $db_tb_scans
+ *
+ * @param string     $coords
+ *
+ * @todo   Funktion sollte gecached werden, damit nicht unnötig viele Aufrufe erfolgen
+ * @return string
  */
 function GetNameByCoords($coords)
 {
     global $db, $db_tb_scans;
-    
-    if (empty($coords))
-        return;
-    
+
+    if (empty($coords)) {
+        return '';
+    }
+
     $sql = "SELECT user FROM " . $db_tb_scans . " WHERE coords = '$coords'";
-                 
+
     $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 
-                'Could not query config information.', '', 
-                __FILE__, __LINE__, $sql);
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     $row = $db->db_fetch_array($result);
-    
+
     return $row['user'];
 }
 
@@ -140,39 +145,41 @@ function GetNameByCoords($coords)
  *
  * @desc Bestimmung von Allianznamen aufgrund von Spielername
  * @author Mac (MacXY@herr-der-mails.de)
- * @global obj $db
- * @global string $db_tb_scans
- * @param string $username
- * @todo Funktion sollte gecached werden, damit nicht unnoetig viele Aufrufe erfolgen
- * @return string 
+ * @global object    $db
+ * @global string    $db_tb_scans
+ *
+ * @param string     $username
+ *
+ * @todo   Funktion sollte gecached werden, damit nicht unnoetig viele Aufrufe erfolgen
+ * @return string
  */
 function GetAllianceByUser($username)
 {
     global $db, $db_tb_scans;
-    
-    if (empty($username))
-        return;
-    
+
+    if (empty($username)) {
+        return '';
+    }
+
     $sql = "SELECT DISTINCT allianz FROM " . $db_tb_scans . " WHERE user = '$username'";
-                 
+
     $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 
-                'Could not query config information.', '', 
-                __FILE__, __LINE__, $sql);
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     $row = $db->db_fetch_array($result);
-    
+
     return $row['allianz'];
 }
 
-function GetObjectByCoords($coords) {
-	global $db, $db_tb_scans;
-	if (empty($coords))
-		return;
-	$sql = "SELECT objekt FROM " . $db_tb_scans . " WHERE coords = '$coords'";
-	$result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 
-                'Could not query config information.', '', 
-                __FILE__, __LINE__, $sql);
+function GetObjectByCoords($coords)
+{
+    global $db, $db_tb_scans;
+    if (empty($coords)) {
+        return '';
+    }
+    $sql = "SELECT objekt FROM " . $db_tb_scans . " WHERE coords = '$coords'";
+    $result = $db->db_query($sql)
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     $row = $db->db_fetch_array($result);
+
     return $row['objekt'];
 }

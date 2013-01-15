@@ -37,17 +37,22 @@ if (!defined('DEBUG_LEVEL')) {
 
 function parse_de_wirtschaft_planiress2($return)
 {
-    $scan_data_total             = array();
-    $scan_data_total['total_fp'] = $return->objResultData->iFPProduction;
+    global $selectedusername;
 
+    $AccName = getAccNameFromKolos($return->objResultData->aKolos);
+    if ($AccName === false) {                     //kein Eintrag gefunden -> ausgewählten Accname verwenden
+        $AccName = $selectedusername;
+    }
+
+    $scan_data_total                    = array();
+    $scan_data_total['total_fp']        = $return->objResultData->iFPProduction;
     $scan_data_total['total_credits_w'] = $return->objResultData->fCreditProduction;
     $scan_data_total['total_alli']      = $return->objResultData->fCreditAlliance;
+    $scan_data_total['total_bev_a']     = $return->objResultData->iPeopleWithoutWork;
+    $scan_data_total['total_bev_g']     = $return->objResultData->iPeopleWithWork;
+    $scan_data_total['total_bev_q']     = $scan_data_total['total_bev_a'] * 100 / $scan_data_total['total_bev_g'];
 
-    $scan_data_total['total_bev_a'] = $return->objResultData->iPeopleWithoutWork;
-    $scan_data_total['total_bev_g'] = $return->objResultData->iPeopleWithWork;
-    $scan_data_total['total_bev_q'] = $scan_data_total['total_bev_a'] * 100 / $scan_data_total['total_bev_g'];
-
-    insert_data_total_2($scan_data_total);
+    insert_data_total_2($scan_data_total, $AccName);
 
     foreach ($return->objResultData->aKolos as $kolo) {
         $scan_data                  = array();
@@ -72,7 +77,7 @@ function parse_de_wirtschaft_planiress2($return)
         insert_data_2($scan_data);
     }
 
-    echo "<div class='system_notification'>Lagerübersicht aktualisiert.</div>";
+    echo "<div class='system_notification'>Lagerübersicht bei {$AccName} aktualisiert.</div>";
 }
 
 function insert_data_2($scan_data)
@@ -105,9 +110,9 @@ function insert_data_2($scan_data)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 }
 
-function insert_data_total_2($scan_data)
+function insert_data_total_2($scan_data, $AccName)
 {
-    global $db, $db_tb_ressuebersicht, $selectedusername;
+    global $db, $db_tb_ressuebersicht;
 
     if (empty($db_tb_ressuebersicht)) {
         return;
@@ -122,7 +127,7 @@ function insert_data_total_2($scan_data)
     $sql .= ",bev_g=" . $scan_data['total_bev_g'];
     $sql .= ",bev_q=" . $scan_data['total_bev_q'];
     $sql .= ",datum=" . CURRENT_UNIX_TIME;
-    $sql .= " WHERE user='" . $selectedusername . "'";
+    $sql .= " WHERE user='" . $AccName . "'";
     $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 }

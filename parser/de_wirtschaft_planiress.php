@@ -39,20 +39,25 @@ function parse_de_wirtschaft_planiress($return)
 {
     global $selectedusername;
 
-    $scan_data       = array(); //! Eintragung in die Lagertabelle (nach Kolos ausgeschluesselt)
-    $scan_data_total = array(); //! werden in die Ressuebersicht eingetragen
-
-    if (!$return->objResultData->bLagerBunkerVisible) {
-        echo "<div class='doc_message'>Info:</font> keine LagerBunker Infos sichtbar! Bitte 'Lager und Bunker anzeigen' aktivieren</div>";
+    $AccName = getAccNameFromKolos($return->objResultData->aKolos);
+    if ($AccName === false) {                     //kein Eintrag gefunden -> ausgewählten Accname verwenden
+        $AccName = $selectedusername;
     }
 
-    foreach ($return->objResultData->aKolos as $kolo) {
-        $scan_data['coords_gal']    = $kolo->aCoords["coords_gal"];
-        $scan_data['coords_sys']    = $kolo->aCoords["coords_sol"];
-        $scan_data['coords_planet'] = $kolo->aCoords["coords_pla"];
-        $scan_data['kolo_typ']      = $kolo->strObjectType;
+    $scan_data       = array(); //! Eintragung in die Lagertabelle (nach Kolos ausgeschlüsselt)
+    $scan_data_total = array(); //! werden in die Ressübersicht eingetragen
 
-        foreach ($kolo->aData as $resource) {
+    if (!$return->objResultData->bLagerBunkerVisible) {
+        echo "<div class='doc_message'>Info: keine LagerBunker Infos sichtbar! Bitte 'Lager und Bunker anzeigen' aktivieren.</div>";
+    }
+
+    foreach ($return->objResultData->aKolos as $Kolo) {
+        $scan_data['coords_gal']    = $Kolo->aCoords["coords_gal"];
+        $scan_data['coords_sys']    = $Kolo->aCoords["coords_sol"];
+        $scan_data['coords_planet'] = $Kolo->aCoords["coords_pla"];
+        $scan_data['kolo_typ']      = $Kolo->strObjectType;
+
+        foreach ($Kolo->aData as $resource) {
             $resource_name = $resource->strResourceName;
             $resource_name = trim(strtolower($resource_name));
             if (strpos($resource_name, "chem") !== false) {
@@ -74,17 +79,17 @@ function parse_de_wirtschaft_planiress($return)
             $scan_data_total["total_" . $resource_name . "_prod"] += $resource->fResourceProduction;
             $scan_data_total["total_" . $resource_name] += $resource->iResourceVorrat;
         }
-        insert_data($scan_data);
+        insert_data($scan_data, $AccName);
     }
-    delete_old_entries($selectedusername, CURRENT_UNIX_TIME);
-    insert_data_total($scan_data_total);
+    delete_old_entries($AccName, CURRENT_UNIX_TIME);
+    insert_data_total($scan_data_total, $AccName);
 
     echo "<div class='system_notification'>Produktion Teil 1 aktualisiert/hinzugefügt.</div>";
 }
 
-function insert_data($scan_data)
+function insert_data($scan_data, $AccName)
 {
-    global $db, $db_tb_lager, $selectedusername;
+    global $db, $db_tb_lager;
 
     $sql = "INSERT INTO " . $db_tb_lager . " (";
     $sql .= "user,coords_gal,coords_sys,coords_planet,kolo_typ,";
@@ -92,7 +97,7 @@ function insert_data($scan_data)
     $sql .= "vv4a,vv4a_prod,vv4a_bunker,chem,chem_prod,chem_lager,chem_bunker,";
     $sql .= "eis,eis_prod,eis_lager,eis_bunker,wasser,wasser_prod,wasser_bunker,";
     $sql .= "energie,energie_prod,energie_lager,energie_bunker,time) VALUES (";
-    $sql .= "'" . $selectedusername . "',";
+    $sql .= "'" . $AccName . "',";
     $sql .= $scan_data['coords_gal'] . ",";
     $sql .= $scan_data['coords_sys'] . ",";
     $sql .= $scan_data['coords_planet'] . ",";
@@ -106,7 +111,7 @@ function insert_data($scan_data)
     $sql .= $scan_data['energie'] . "," . $scan_data['energie_prod'] . "," . $scan_data['energie_lager'] . "," . $scan_data['energie_bunker'] . ",";
     $sql .= CURRENT_UNIX_TIME;
     $sql .= ") ON DUPLICATE KEY UPDATE";
-    $sql .= " user='" . $selectedusername . "'";
+    $sql .= " user='" . $AccName . "'";
     $sql .= ",kolo_typ='" . $scan_data["kolo_typ"] . "'";
     $sql .= ",eisen=" . $scan_data["eisen"] . ",eisen_prod=" . $scan_data['eisen_prod'] . ",eisen_bunker=" . $scan_data['eisen_bunker'];
     $sql .= ",stahl=" . $scan_data["stahl"] . ",stahl_prod=" . $scan_data['stahl_prod'] . ",stahl_bunker=" . $scan_data['stahl_bunker'];
@@ -122,9 +127,9 @@ function insert_data($scan_data)
 
 }
 
-function insert_data_total($scan_data)
+function insert_data_total($scan_data, $AccName)
 {
-    global $db, $db_tb_ressuebersicht, $selectedusername;
+    global $db, $db_tb_ressuebersicht;
 
 //	debug_var('insert_data_total()', '');
 
@@ -134,7 +139,7 @@ function insert_data_total($scan_data)
 
     $sql = "INSERT INTO " . $db_tb_ressuebersicht;
     $sql .= " (user,datum,eisen,stahl,chem,vv4a,eis,wasser,energie) VALUES (";
-    $sql .= "'" . $selectedusername . "'";
+    $sql .= "'" . $AccName . "'";
     $sql .= "," . CURRENT_UNIX_TIME;
     $sql .= "," . $scan_data['total_eisen_prod'];
     $sql .= "," . $scan_data['total_stahl_prod'];

@@ -847,7 +847,7 @@ function bbcode_buttons($id) {
         }
     }
     $bbscriptcode .= "smilies = ".json_encode($smilies).";\n";
-    $bbscriptcode .= "</script><br />";
+    $bbscriptcode .= "</script><br>";
 
     $bbscriptcode .= "<button type='button' class='bbcodebutton' id='bbcode_b_button' onclick='insertText(\"{$id}\",\"[b]\",\"[/b]\")' title='fett'></button>";
     $bbscriptcode .= "<button type='button' class='bbcodebutton' id='bbcode_i_button' onclick='insertText(\"{$id}\",\"[i]\",\"[/i]\")' title='kursiv'></button>";
@@ -857,4 +857,27 @@ function bbcode_buttons($id) {
     $bbscriptcode .= "<button type='button' class='bbcodebutton' id='bbcode_smilie_button' onclick='generateSmiliePicker(\"{$id}\")' title='Smilies'></button>";
 
     return $bbscriptcode;
+}
+
+function getAccNameFromKolos($aKolos) {
+    global $db, $db_tb_spieler;
+
+    foreach ($aKolos as $Kolo) {
+        //schauen ob Koordinaten als Hauptplanetenkoordinaten bekannt sind (nur bei Kolonien überprüfen)
+        if (!empty($Kolo->strObjectType) AND ($Kolo->strObjectType === 'Kolonie')) {
+            $Coords = $db->escape($Kolo->strCoords);
+
+            $sql = "SELECT `name` FROM `{$db_tb_spieler}` WHERE `Hauptplanet`='" . $Coords . "';";
+            $result = $db->db_query($sql)
+                or error(GENERAL_ERROR, 'Could not query homeplanet information.', '', __FILE__, __LINE__, $sql);
+
+            $row = $db->db_fetch_array($result);
+            if (!empty($row)) {              //Besitzer gefunden
+                return $row['name'];
+            }
+        }
+    }
+
+    //nichts gefunden (nicht eingetragen)
+    return false;
 }

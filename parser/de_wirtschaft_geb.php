@@ -40,8 +40,12 @@ function parse_de_wirtschaft_geb($return)
     global $db, $db_tb_gebaeude_spieler, $selectedusername;
     $count = 0;
 
-    $sql = "DELETE FROM " . $db_tb_gebaeude_spieler .
-        " WHERE user='" . $selectedusername . "'";
+    $AccName = getAccNameFromKolos($return->objResultData->aKolos);
+    if ($AccName === false) {                     //kein Eintrag gefunden -> ausgewählten Accname verwenden
+        $AccName = $selectedusername;
+    }
+
+    $sql = "DELETE FROM " . $db_tb_gebaeude_spieler . " WHERE user='" . $AccName . "'";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
@@ -58,7 +62,7 @@ function parse_de_wirtschaft_geb($return)
                 $sql .= "," . $aCoords[1];
                 $sql .= "," . $aCoords[2];
                 $sql .= ",'" . $return->objResultData->aKolos[$coords]->strObjectType . "'";
-                $sql .= ",'" . $selectedusername . "'";
+                $sql .= ",'" . $AccName . "'";
                 $sql .= ",'" . $area->strAreaName . "'";
                 $sql .= ",'" . $building->strBuildingName . "'";
                 $sql .= "," . $count;

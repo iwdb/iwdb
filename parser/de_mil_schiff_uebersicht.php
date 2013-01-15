@@ -39,6 +39,11 @@ function parse_de_mil_schiff_uebersicht($return)
 {
     global $db, $db_tb_schiffstyp, $db_tb_schiffe, $db_tb_user, $selectedusername;
 
+    $AccName = getAccNameFromKolos($return->objResultData->aKolos);
+    if ($AccName === false) {                     //kein Eintrag gefunden -> ausgewählten Accname verwenden
+        $AccName = $selectedusername;
+    }
+
 //    foreach ($return->objResultData->aKolos as $kolo)
 //	{
     //! Mac: @todo: Kolonien prüfen ?
@@ -46,13 +51,12 @@ function parse_de_mil_schiff_uebersicht($return)
 
     if ($return->bSuccessfullyParsed) {
         // Setze Zeitpunkt des letzten Schiffsimportes 
-        $sql = "DELETE FROM " . $db_tb_schiffe .
-            " WHERE user='" . $selectedusername . "'";
+        $sql = "DELETE FROM " . $db_tb_schiffe . " WHERE user='" . $AccName . "'";
         $result = $db->db_query($sql)
             or error(GENERAL_ERROR, 'Could not query config information.', '',__FILE__, __LINE__, $sql);
 
         $sql = "UPDATE " . $db_tb_user . " SET lastshipscan='" . CURRENT_UNIX_TIME .
-            "' WHERE sitterlogin='" . $selectedusername . "'";
+            "' WHERE sitterlogin='" . $AccName . "'";
         $result = $db->db_query($sql)
             or error(GENERAL_ERROR,'Could not query config information.', '',__FILE__, __LINE__, $sql);
 
@@ -96,11 +100,14 @@ function parse_de_mil_schiff_uebersicht($return)
 
                 $sql = "INSERT INTO " . $db_tb_schiffe .
                     " (user, schiff, anzahl) VALUES ('" .
-                    $selectedusername . "', '" . $row['id'] . "', '" .
+                    $AccName . "', '" . $row['id'] . "', '" .
                     $aschiff->iCountGesamt . "')";
                 $result = $db->db_query($sql)
                     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
             }
         }
+
+        doc_message("Schiffsübersicht bei {$AccName} erfolgreich geparsed.");
+
     }
 }

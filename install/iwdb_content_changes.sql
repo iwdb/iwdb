@@ -1192,3 +1192,6 @@ INSERT INTO `prefix_iwdbtabellen` (`name`) VALUES ('incomings');
 
 -- masel: fix #114
 UPDATE `prefix_gebaeude` SET  `name` =  'Orbitales Habitat' WHERE  `prefix_gebaeude`.`id` =126;
+
+-- masel 15.01.
+DELETE FROM `prefix_parser` WHERE `modulename` = 'researchoverview';

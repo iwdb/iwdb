@@ -22,8 +22,8 @@
  * Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  *
  * IW-Spielern.                                                              *
  *                                                                           *
- * Bei Problemen kannst du dich an das eigens dafür eingerichtete            *
- * Entwicklerforum/Repo wenden:                                              *
+ * Entwicklerforum/Repo:                                                     *
+ *                                                                           *
  *        https://handels-gilde.org/?www/forum/index.php;board=1099.0        *
  *                   https://github.com/iwdb/iwdb                            *
  *                                                                           *
@@ -47,7 +47,7 @@ class db
 
         $this->query_count = 0;
         $this->db_version  = @mysql_get_server_info();
-        $this->db_queries  = "";
+        $this->db_queries = array();
         mysql_set_charset('utf8', $this->db_link_id);
 
         return ($this->db_link_id) ? (($this->db_select($database)) ? $this->db_link_id : false) : false;
@@ -84,11 +84,10 @@ class db
             $this->query_result = @mysql_query($query, $this->db_link_id);
             $this->query_count++;
 
-            if (!empty($this->db_queries)) {
-                $this->db_queries .= "<br>\n";
+            //log queries if logging enabled
+            if (defined('DB_LOG') AND (DB_LOG === true)) {
+                $this->db_queries[] = $query;
             }
-
-            $this->db_queries .= $query;
 
             return $this->query_result;
         } else {

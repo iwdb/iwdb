@@ -20,8 +20,8 @@
  * The GNU GPL can be found in LICENSE in this directory                     *
  *****************************************************************************
  *                                                                           *
- * Bei Problemen kannst du dich an das eigens dafür eingerichtete            *
- * Entwicklerforum/Repo wenden:                                              *
+ * Entwicklerforum/Repo:                                                     *
+ *                                                                           *
  *        https://handels-gilde.org/?www/forum/index.php;board=1099.0        *
  *                   https://github.com/iwdb/iwdb                            *
  *                                                                           *
@@ -52,6 +52,7 @@ define('GENERAL_ERROR', 'GENERAL_ERROR');
 define('APPLICATION_FILE', basename(__FILE__));
 define('APPLICATION_PATH', dirname(__FILE__));
 define("MAX_INSERTS", 1000);
+define("DB_LOG", TRUE);
 
 global $db_host, $db_user, $db_pass, $db_name, $db_prefix;
 require_once("config/configsql.php");

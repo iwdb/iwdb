@@ -22,8 +22,8 @@
  * Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  *
  * IW-Spielern.                                                              *
  *                                                                           *
- * Bei Problemen kannst du dich an das eigens dafür eingerichtete            *
- * Entwicklerforum/Repo wenden:                                              *
+ * Entwicklerforum/Repo:                                                     *
+ *                                                                           *
  *        https://handels-gilde.org/?www/forum/index.php;board=1099.0        *
  *                   https://github.com/iwdb/iwdb                            *
  *                                                                           *

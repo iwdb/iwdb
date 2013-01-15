@@ -1,33 +1,35 @@
 <?php
-/*****************************************************************************/
-/* menu_default.php */
-/*****************************************************************************/
-/* Iw DB: Icewars geoscan and sitter database */
-/* Open-Source Project started by Robert Riess (robert@riess.net) */
-/* Software Version: Iw DB 1.00 */
-/* ========================================================================= */
-/* Software Distributed by: http://lauscher.riess.net/iwdb/ */
-/* Support, News, Updates at: http://lauscher.riess.net/iwdb/ */
-/* ========================================================================= */
-/* Copyright (c) 2007 Erik Frohne - All Rights Reserved */
-/*****************************************************************************/
-/* This program is free software; you can redistribute it and/or modify it */
-/* under the terms of the GNU General Public License as published by the */
-/* Free Software Foundation; either version 2 of the License, or (at your */
-/* option) any later version. */
-/* */
-/* This program is distributed in the hope that it will be useful, but */
-/* WITHOUT ANY WARRANTY; without even the implied warranty of */
-/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General */
-/* Public License for more details. */
-/* */
-/* The GNU GPL can be found in LICENSE in this directory */
-/*****************************************************************************/
+/*****************************************************************************
+ * menu_default.php                                                          *
+ *****************************************************************************
+ * Iw DB: Icewars geoscan and sitter database                                *
+ * Open-Source Project started by Robert Riess (robert@riess.net)            *
+ * ========================================================================= *
+ * Copyright (c) 2007 Erik Frohne - All Rights Reserved                     *
+ *****************************************************************************
+ * This program is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU General Public License as published by the     *
+ * Free Software Foundation; either version 2 of the License, or (at your    *
+ * option) any later version.                                                *
+ *                                                                           *
+ * This program is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General *
+ * Public License for more details.                                          *
+ *                                                                           *
+ * The GNU GPL can be found in LICENSE in this directory                     *
+ *****************************************************************************
+ *                                                                           *
+ * Bei Problemen kannst du dich an das eigens dafür eingerichtete            *
+ * Entwicklerforum/Repo wenden:                                              *
+ *        https://handels-gilde.org/?www/forum/index.php;board=1099.0        *
+ *                   https://github.com/iwdb/iwdb                            *
+ *                                                                           *
+ *****************************************************************************/
 
-// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
-// Kann unberechtigte Systemzugriffe verhindern.
-if (!defined('IRA'))
+if (!defined('IRA')) {
     die('Hacking attempt...');
+}
 
 $anzauftrag_sitter = "";
 $anzauftrag_schiffe = "";
@@ -44,7 +46,7 @@ if (($user_adminsitten == SITTEN_BOTH) || ($user_adminsitten == SITTEN_ONLY_LOGI
     }
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-    $row = $db->db_fetch_array($result);
+    $row    = $db->db_fetch_array($result);
     $anzahl = $row['anzahl'];
     $db->db_free_result($result);
 
@@ -68,7 +70,7 @@ if (isset($db_tb_bestellung_schiffe)) {
     $sql .= " AND (SELECT allianz FROM " . $db_tb_user . " WHERE " . $db_tb_user . ".id=" . $db_tb_bestellung_schiffe . ".user) = '" . $user_allianz . "'";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-    $row = $db->db_fetch_array($result);
+    $row    = $db->db_fetch_array($result);
     $anzahl = $row['anzahl'];
     $db->db_free_result($result);
     if ($anzahl > 0) {
@@ -83,7 +85,7 @@ if (isset($db_tb_bestellung)) {
     $sql .= " AND (SELECT allianz FROM " . $db_tb_user . " WHERE " . $db_tb_user . ".id=" . $db_tb_bestellung . ".user) = '" . $user_allianz . "'";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-    $row = $db->db_fetch_array($result);
+    $row    = $db->db_fetch_array($result);
     $anzahl = $row['anzahl'];
     $db->db_free_result($result);
     if ($anzahl > 0) {
@@ -105,11 +107,11 @@ if ($anzahl > 0) {
     $anz_angriffe = "";
 }
 
-$sql = "SELECT COUNT(*) AS 'anzahl'
-FROM `{$db_tb_lieferung}` AS lieferung, `{$db_tb_user}` AS user
-WHERE (`lieferung`.`art` = 'Sondierung (Schiffe/Def/Ress)' OR `lieferung`.`art` = 'Sondierung (Gebäude/Ress)')
-AND `lieferung`.`user_to` = `user`.`id`
-AND `lieferung`.`time` > ".(CURRENT_UNIX_TIME - 5 * MINUTE);
+$sql = "SELECT COUNT(*) AS 'anzahl'"
+    . " FROM `{$db_tb_lieferung}` AS lieferung, `{$db_tb_user}` AS user"
+    . " WHERE (`lieferung`.`art` = 'Sondierung (Schiffe/Def/Ress)' OR `lieferung`.`art` = 'Sondierung (Gebäude/Ress)')"
+    . " AND `lieferung`.`user_to` = `user`.`id`"
+    . " AND `lieferung`.`time` > " . (CURRENT_UNIX_TIME - 5 * MINUTE);
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row = $db->db_fetch_array($result);
@@ -126,6 +128,7 @@ if (isset($db_tb_incomings)) {
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     $row = $db->db_fetch_array($result);
+
     $anzahl = $row['anzahl'];
     $db->db_free_result($result);
     $anz_incomings1 = $anzahl;
@@ -133,7 +136,8 @@ if (isset($db_tb_incomings)) {
     $sql = "SELECT COUNT(*) AS 'anzahl' FROM $db_tb_incomings WHERE art='Angriff' AND timestamp >" . (CURRENT_UNIX_TIME - 15 * MINUTE);
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-    $row = $db->db_fetch_array($result);
+    $row  = $db->db_fetch_array($result);
+
     $anzahl = $row['anzahl'];
     $db->db_free_result($result);
     $anz_incomings2 = $anzahl;
@@ -168,111 +172,111 @@ if (!empty($user_sitterlogin)) {
     }
 }
 //Warnung für nicht eingelesene Ressourcenkoloübersicht seit 24 Stunden
-$sql = "SELECT MAX(time) AS time FROM " . $db_tb_lager . " WHERE user='" . $user_id . "' LIMIT 0,1";
+$sql = "SELECT MAX(time) AS time FROM `" . $db_tb_lager . "` WHERE `user`='" . $user_id . "';";
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row = $db->db_fetch_array($result);
 if ($row['time'] < (CURRENT_UNIX_TIME - 24 * HOUR)) {
     ?>
-<br>
-<table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
-    <tr>
-        <td align='center' style='color:red; font-weight:bold; font-size:1.5em;'>
-            Die Ressourcenkoloübersicht wurde seit 24h nicht mehr aktualisiert!
-        </td>
-    </tr>
-</table>
+    <br>
+    <table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
+        <tr>
+            <td align='center' style='color:red; font-weight:bold; font-size:1.5em;'>
+                Die Ressourcenkoloübersicht wurde seit 24h nicht mehr aktualisiert!
+            </td>
+        </tr>
+    </table>
 <?php
 }
 
 // Warnung nicht eingelesene Highscore seit 24 Stunden
-$sql = "SELECT MAX(time) AS time FROM " . $db_tb_highscore . " LIMIT 0,1";
+$sql = "SELECT MAX(time) AS time FROM `" . $db_tb_highscore . "`;";
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row = $db->db_fetch_array($result);
 if ($row['time'] < (CURRENT_UNIX_TIME - 24 * HOUR)) {
     ?>
-<br>
-<table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
-    <tr>
-        <td align='center' style='color:red; font-weight:bold; font-size:1.5em;'>
-            Die Highscore wurde seit über 24h nicht mehr aktualisiert!
-        </td>
-    </tr>
-</table>
+    <br>
+    <table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
+        <tr>
+            <td align='center' style='color:red; font-weight:bold; font-size:1.5em;'>
+                Die Highscore wurde seit über 24h nicht mehr aktualisiert!
+            </td>
+        </tr>
+    </table>
 <?php
 }
 
 //Warnung für nicht eingelesene Schiffsübersicht seit 48 Stunden
-$sql = "SELECT lastshipscan FROM " . $db_tb_user . " WHERE id='" . $user_id . "' LIMIT 0,1";
+$sql = "SELECT `lastshipscan` FROM " . $db_tb_user . " WHERE `id`='" . $user_id . "' LIMIT 1;";
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row = $db->db_fetch_array($result);
 if ($row['lastshipscan'] < (CURRENT_UNIX_TIME - 48 * HOUR)) {
     ?>
-<br>
-<table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
-    <tr>
-        <td align='center' style='color:red; font-weight:bold; font-size:1.5em;'>
-            Die Schiffsübersicht wurde seit 48h nicht mehr aktualisiert!
-        </td>
-    </tr>
-</table>
+    <br>
+    <table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
+        <tr>
+            <td align='center' style='color:red; font-weight:bold; font-size:1.5em;'>
+                Die Schiffsübersicht wurde seit 48h nicht mehr aktualisiert!
+            </td>
+        </tr>
+    </table>
 <?php
 }
 
 //Warnung für nicht eingelesene Gebäudeübersicht seit 48 Stunden
-$sql = "SELECT time FROM " . $db_tb_gebaeude_spieler . " WHERE user='" . $user_id . "' LIMIT 0,1";
+$sql = "SELECT `time` FROM `" . $db_tb_gebaeude_spieler . "` WHERE `user`='" . $user_id . "' LIMIT 1";
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row = $db->db_fetch_array($result);
 if ($row['time'] < (CURRENT_UNIX_TIME - 48 * HOUR)) {
     ?>
-<br>
-<table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
-    <tr>
-        <td align='center' style='color:red; font-weight:bold; font-size:1.5em;'>
-            Die Gebäudeübersicht wurde seit 48h nicht mehr aktualisiert!
-        </td>
-    </tr>
-</table>
+    <br>
+    <table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
+        <tr>
+            <td align='center' style='color:red; font-weight:bold; font-size:1.5em;'>
+                Die Gebäudeübersicht wurde seit 48h nicht mehr aktualisiert!
+            </td>
+        </tr>
+    </table>
 <?php
 }
 
 // Warnung nicht eingelesene Allikasse seit 24 Stunden
-$sql = "SELECT UNIX_TIMESTAMP(MAX(time_of_insert)) AS time FROM " . $db_tb_kasse_content;
+$sql = "SELECT UNIX_TIMESTAMP(MAX(time_of_insert)) AS time FROM `" . $db_tb_kasse_content . '`;';
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row = $db->db_fetch_array($result);
 
 if ((CURRENT_UNIX_TIME - 24 * HOUR) > $row['time']) {
     ?>
-<br>
-<table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
-    <tr>
-        <td align='center' style='color:red; font-weight:bold; font-size:1.5em;'>
-            Die Allianzkasse wurde seit über 24h nicht mehr aktualisiert!
-        </td>
-    </tr>
-</table>
+    <br>
+    <table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
+        <tr>
+            <td align='center' style='color:red; font-weight:bold; font-size:1.5em;'>
+                Die Allianzkasse wurde seit über 24h nicht mehr aktualisiert!
+            </td>
+        </tr>
+    </table>
 <?php
 }
 
 // Warnung nicht eingelesene Mitgliederliste seit 96 Stunden
-$sql = "SELECT MAX(date) AS time FROM " . $db_tb_punktelog;
+$sql = "SELECT MAX(date) AS time FROM " . $db_tb_punktelog . '`;';
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row = $db->db_fetch_array($result);
 if ($row['time'] < (CURRENT_UNIX_TIME - 96 * HOUR)) {
     ?>
-<br>
-<table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
-    <tr>
-        <td align='center' style='color:red; font-weight:bold; font-size:1.5em;'>
-            Die Mitgliederliste wurde seit über 96h nicht mehr aktualisiert!
-        </td>
-    </tr>
-</table>
+    <br>
+    <table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
+        <tr>
+            <td align='center' style='color:red; font-weight:bold; font-size:1.5em;'>
+                Die Mitgliederliste wurde seit über 96h nicht mehr aktualisiert!
+            </td>
+        </tr>
+    </table>
 <?php
 }
 
@@ -298,14 +302,14 @@ if ($row['time'] < (CURRENT_UNIX_TIME - 96 * HOUR)) {
                 <a href="index.php?action=help&topic=<?php echo $action;?>&sid=<?php echo $sid;?>"><img
                         src="bilder/icon_mini_search.gif" width="12" height="13"
                         alt="profile" border="0" align="middle"> hilfe</a>
-                <?php
+            <?php
             }
             if ($user_status == "admin") {
                 ?>
                 | <a href="index.php?action=admin&sid=<?php echo $sid;?>"><img src="bilder/icon_mini_members.gif"
                                                                                width="12" height="13" alt="admin"
                                                                                border="0" align="middle"> admin</a>
-                <?php
+            <?php
             }
             ?>
         </td>
@@ -330,16 +334,17 @@ if ($row['time'] < (CURRENT_UNIX_TIME - 96 * HOUR)) {
             // Alle Menu-Eintraege durchgehen
             while ($row = $db->db_fetch_array($result)) {
                 // Ist sitten für diesen Menu-Eintrag erlaubt?
-                $sitterentry = ($user_adminsitten == SITTEN_BOTH) ||
-                    ($row['sittertyp'] == 0) ||
-                    ($user_adminsitten == SITTEN_ONLY_LOGINS &&
-                        ($row['sittertyp'] == 1 || $row['sittertyp'] == 3)) ||
-                    ($user_adminsitten == SITTEN_ONLY_NEWTASKS &&
-                        ($row['sittertyp'] == 2 || $row['sittertyp'] == 3));
+                $sitterentry = ($user_adminsitten == SITTEN_BOTH)
+                    || ($row['sittertyp'] == 0)
+                    || ($user_adminsitten == SITTEN_ONLY_LOGINS
+                        && ($row['sittertyp'] == 1 || $row['sittertyp'] == 3))
+                    || ($user_adminsitten == SITTEN_ONLY_NEWTASKS
+                        && ($row['sittertyp'] == 2 || $row['sittertyp'] == 3));
 
                 // Falls nicht, mit dem naechsten Eintrag weitermachen.
-                if (!$sitterentry)
+                if (!$sitterentry) {
                     continue;
+                }
 
                 // Hat der angemeldete Benutzer die entsprechende Berechtigung?
                 if (($row['status'] == "") || ($user_status == "admin") || ($user_status == $row['status'])) {
@@ -355,9 +360,9 @@ if ($row['time'] < (CURRENT_UNIX_TIME - 96 * HOUR)) {
 
                         // Neue Tabelle aufmachen.
                         echo "<table width='100%' border='0' cellpadding='0' cellspacing='1' class='bordercolor'>\n <tr>\n";
-                        $tableopen = 1;
+                        $tableopen   = 1;
                         $insidetable = 0;
-                        $lastmenu = $row['menu'];
+                        $lastmenu    = $row['menu'];
                     }
 
                     $title = $row['title'];

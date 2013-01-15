@@ -19,8 +19,6 @@
  *                                                                           *
  * The GNU GPL can be found in LICENSE in this directory                     *
  *****************************************************************************
- * Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  *
- * IW-Spielern.                                                              *
  *                                                                           *
  * Bei Problemen kannst du dich an das eigens dafür eingerichtete            *
  * Entwicklerforum/Repo wenden:                                              *

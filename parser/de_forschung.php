@@ -41,8 +41,7 @@ function parse_de_forschung($return)
 
     $research2id = array();
 
-    $sql = "SELECT ID, name FROM " . $db_tb_research .
-        " ORDER BY ID ASC";
+    $sql = "SELECT ID, name FROM " . $db_tb_research . " ORDER BY ID ASC";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     while ($row = $db->db_fetch_array($result)) {
@@ -80,7 +79,7 @@ function parse_de_forschung($return)
         $akt_date      = $research->iUserResearchTime;
         if (!empty($akt_forschung) && !empty($akt_data)) {
             $sql = "INSERT INTO " . $db_tb_user_research .
-                   " SET user='" . $selectedusername . "', rid='" . $akt_forschung . "', date=" . $akt_date;
+                " SET user='" . $selectedusername . "', rid='" . $akt_forschung . "', date=" . $akt_date;
             $result = $db->db_query($sql)
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
         }
@@ -99,7 +98,7 @@ function parse_de_forschung($return)
                             rid = $rid
                         ";
             $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '',__FILE__, __LINE__, $sql);
+                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
         } else {
             echo "Forschungs ID für '$research->strResearchName' konnte nicht bestimmt werden<br />";
         }
@@ -110,12 +109,10 @@ function parse_de_forschung($return)
         $akt_fp[$research->strResearchName] = $research->iFP * ($research->iResearchCosts / 100.);
     }
 
-    $time = CURRENT_UNIX_TIME;
-
     foreach ($akt_fp as $key => $value) {
-        $sql = "UPDATE " . $db_tb_research . " SET " .
-            "FPakt=" . $value . ", " .
-            "time=" . $time .
+        $sql = "UPDATE " . $db_tb_research . " SET" .
+            " FPakt=" . $value . "," .
+            " time=" . CURRENT_UNIX_TIME .
             " WHERE name='" . $key . "'";
         $result = $db->db_query($sql)
             or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);

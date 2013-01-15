@@ -42,32 +42,34 @@ if (!defined('DEBUG_LEVEL')) {
 
 function parse_de_wirtschaft_universe($return)
 {
-    global $db, $db_tb_user, $selectedusername;
+    if ($return->bSuccessfullyParsed) {
+        global $db, $db_tb_user, $selectedusername;
 
-    //Zeitpunkt der nächsten UniXML-Parsemöglichkeit ggf anpassen
+        //Zeitpunkt der nächsten UniXML-Parsemöglichkeit ggf anpassen
 
-    $iNewUniXmlTime = $return->objResultData->iNewUniXmlTime;
-    if ($iNewUniXmlTime === false) { //keine Zeit angegeben, UniXml vorhanden -> neuer Scan sofort verfügbar
-        $iNewUniXmlTime = CURRENT_UNIX_TIME;
-    }
+        $iNewUniXmlTime = $return->objResultData->iNewUniXmlTime;
+        if ($iNewUniXmlTime === false) { //keine Zeit angegeben, UniXml vorhanden -> neuer Scan sofort verfügbar
+            $iNewUniXmlTime = CURRENT_UNIX_TIME;
+        }
 
-    $sql = "SELECT `NewUniXmlTime` FROM `$db_tb_user` WHERE `sitterlogin`='" . $selectedusername . "';";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query NewUniXmlTime information.', '', __FILE__, __LINE__, $sql);
-    $row = $db->db_fetch_array($result);
-
-    if (empty($row['NewUniXmlTime']) OR ($row['NewUniXmlTime'] < $iNewUniXmlTime)) {
-        $sql = "UPDATE `$db_tb_user` SET `NewUniXmlTime` = " . $iNewUniXmlTime . " WHERE `sitterlogin`='" . $selectedusername . "';";
+        $sql = "SELECT `NewUniXmlTime` FROM `$db_tb_user` WHERE `sitterlogin`='" . $selectedusername . "';";
         $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not update NewUniXmlTime information.', '', __FILE__, __LINE__, $sql);
+            or error(GENERAL_ERROR, 'Could not query NewUniXmlTime information.', '', __FILE__, __LINE__, $sql);
+        $row = $db->db_fetch_array($result);
 
-        //echo "<div class='system_message'>Zeitpunkt der nächsten Unixml Parsemöglichkeit bei " . $selectedusername . " angepasst.</div>";
-    }
+        if (empty($row['NewUniXmlTime']) OR ($row['NewUniXmlTime'] < $iNewUniXmlTime)) {
+            $sql = "UPDATE `$db_tb_user` SET `NewUniXmlTime` = " . $iNewUniXmlTime . " WHERE `sitterlogin`='" . $selectedusername . "';";
+            $result = $db->db_query($sql)
+                or error(GENERAL_ERROR, 'Could not update NewUniXmlTime information.', '', __FILE__, __LINE__, $sql);
 
-    if ($iNewUniXmlTime <= CURRENT_UNIX_TIME) {
-        echo "<div class='system_notification'>Nächster UniXmlScan bei " . $selectedusername . " ab sofort möglich.</div>";
-    } else {
-        $nextXmlTime = makeduration2(CURRENT_UNIX_TIME, $iNewUniXmlTime);
-        echo "<div class='system_notification'>Nächster UniXML Scan bei " . $selectedusername . " möglich in " . $nextXmlTime . "</div>";
+            //echo "<div class='system_message'>Zeitpunkt der nächsten Unixml Parsemöglichkeit bei " . $selectedusername . " angepasst.</div>";
+        }
+
+        if ($iNewUniXmlTime <= CURRENT_UNIX_TIME) {
+            echo "<div class='system_notification'>Nächster UniXmlScan bei " . $selectedusername . " ab sofort möglich.</div>";
+        } else {
+            $nextXmlTime = makeduration2(CURRENT_UNIX_TIME, $iNewUniXmlTime);
+            echo "<div class='system_notification'>Nächster UniXML Scan bei " . $selectedusername . " möglich in " . $nextXmlTime . "</div>";
+        }
     }
 }

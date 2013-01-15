@@ -42,12 +42,12 @@ function parse_de_index($return)
     if ($return->objResultData->bOngoingResearch == false) { // keine laufende Forschung
 
         $sql = "INSERT INTO `$db_tb_user_research` "
-             . "(`rId`, `date`, `time`, `user`) VALUES "
-             . "(0, '', " . CURRENT_UNIX_TIME . ", '" . $selectedusername . "') "
-             . " ON DUPLICATE KEY UPDATE "
-             . "`rId` = 0, "
-             . "`date` = '', "
-             . "`time` = " . CURRENT_UNIX_TIME . ";";
+            . "(`rId`, `date`, `time`, `user`) VALUES "
+            . "(0, '', " . CURRENT_UNIX_TIME . ", '" . $selectedusername . "') "
+            . " ON DUPLICATE KEY UPDATE "
+            . "`rId` = 0, "
+            . "`date` = '', "
+            . "`time` = " . CURRENT_UNIX_TIME . ";";
 
         $result = $db->db_query($sql)
             or error(GENERAL_ERROR, 'Could not update researchtime.', '', __FILE__, __LINE__, $sql);
@@ -75,10 +75,10 @@ function parse_de_index($return)
                     $tf_type = $msg->eTransfairType;
 
                     //! Mac: fehlt noch
-//	     $scan_data['art'] == 'Ressourcen abholen' ||
-//	     $scan_data['art'] == 'Ressourcenhandel' ||
-//	     $scan_data['art'] == 'Ressourcenhandel (ok)' ||
-//	     $scan_data['art'] == 'Stationieren' ||
+//	                $scan_data['art'] == 'Ressourcen abholen' ||
+//	                $scan_data['art'] == 'Ressourcenhandel' ||
+//	                $scan_data['art'] == 'Ressourcenhandel (ok)' ||
+//	                $scan_data['art'] == 'Stationieren' ||
 
                     if ($tf_type == "Rückkehr") { //! keine weiteren Infos vorhanden
                         continue;
@@ -129,7 +129,7 @@ function parse_de_index($return)
                         if (!isset($scan_data['user_to']) || empty($scan_data['user_to'])) {
                             $scan_data['user_to'] = "";
 
-                            $sql  = "SELECT user FROM " . $db_tb_scans;
+                            $sql = "SELECT user FROM " . $db_tb_scans;
                             $sql .= " WHERE coords_gal=" . $scan_data['coords_to_gal'];
                             $sql .= " AND coords_sys=" . $scan_data['coords_to_sys'];
                             $sql .= " AND coords_planet=" . $scan_data['coords_to_planet'];
@@ -203,12 +203,12 @@ function parse_de_index($return)
                     continue;
                 }
                 foreach ($aContainer->objResultData->aGeb as $msg) {
-                    //! Mac: @todo: laufende Gebaeude auswerten, ggf. aus Sitting entfernen
+                    //! Mac: @todo: laufende Gebäude auswerten, ggf. aus Sitting entfernen
                 }
             } else if ($aContainer->strIdentifier == "de_index_schiff") {
                 foreach ($aContainer->objResultData->aSchiff as $plan) {
                     foreach ($plan as $ship_types) {
-                        //! Mac: @todo: laufende Schiffe auswerten, ggf. aus Sitting entfernen oder Auftraege schieben
+                        //! Mac: @todo: laufende Schiffe auswerten, ggf. aus Sitting entfernen oder Aufträge schieben
                     }
                 }
             }

@@ -37,54 +37,57 @@ if (!defined('DEBUG_LEVEL')) {
 
 function parse_de_wirtschaft_planiress($return)
 {
-    global $selectedusername;
+    if ($return->bSuccessfullyParsed) {
 
-    $AccName = getAccNameFromKolos($return->objResultData->aKolos);
-    if ($AccName === false) {                     //kein Eintrag gefunden -> ausgewählten Accname verwenden
-        $AccName = $selectedusername;
-    }
+        global $selectedusername;
 
-    $scan_data       = array(); //! Eintragung in die Lagertabelle (nach Kolos ausgeschlüsselt)
-    $scan_data_total = array(); //! werden in die Ressübersicht eingetragen
-
-    if (!$return->objResultData->bLagerBunkerVisible) {
-        echo "<div class='doc_message'>Info: keine LagerBunker Infos sichtbar! Bitte 'Lager und Bunker anzeigen' aktivieren.</div>";
-    }
-
-    foreach ($return->objResultData->aKolos as $Kolo) {
-        $scan_data['coords_gal']    = $Kolo->aCoords["coords_gal"];
-        $scan_data['coords_sys']    = $Kolo->aCoords["coords_sol"];
-        $scan_data['coords_planet'] = $Kolo->aCoords["coords_pla"];
-        $scan_data['kolo_typ']      = $Kolo->strObjectType;
-
-        foreach ($Kolo->aData as $resource) {
-            $resource_name = $resource->strResourceName;
-            $resource_name = trim(strtolower($resource_name));
-            if (strpos($resource_name, "chem") !== false) {
-                $resource_name = "chem";
-            }
-
-            $scan_data[$resource_name]             = $resource->iResourceVorrat;
-            $scan_data[$resource_name . '_prod']   = $resource->fResourceProduction;
-            $scan_data[$resource_name . '_bunker'] = $resource->iResourceBunker;
-            $scan_data[$resource_name . '_lager']  = $resource->iResourceLager;
-
-            if (!isset($scan_data_total["total_" . $resource_name . "_prod"])) {
-                $scan_data_total["total_" . $resource_name . "_prod"] = 0;
-            }
-            if (!isset($scan_data_total["total_" . $resource_name])) {
-                $scan_data_total["total_" . $resource_name] = 0;
-            }
-
-            $scan_data_total["total_" . $resource_name . "_prod"] += $resource->fResourceProduction;
-            $scan_data_total["total_" . $resource_name] += $resource->iResourceVorrat;
+        $AccName = getAccNameFromKolos($return->objResultData->aKolos);
+        if ($AccName === false) { //kein Eintrag gefunden -> ausgewählten Accname verwenden
+            $AccName = $selectedusername;
         }
-        insert_data($scan_data, $AccName);
-    }
-    delete_old_entries($AccName, CURRENT_UNIX_TIME);
-    insert_data_total($scan_data_total, $AccName);
 
-    echo "<div class='system_notification'>Produktion Teil 1 aktualisiert/hinzugefügt.</div>";
+        $scan_data       = array(); //! Eintragung in die Lagertabelle (nach Kolos ausgeschlüsselt)
+        $scan_data_total = array(); //! werden in die Ressübersicht eingetragen
+
+        if (!$return->objResultData->bLagerBunkerVisible) {
+            echo "<div class='doc_message'>Info: keine LagerBunker Infos sichtbar! Bitte 'Lager und Bunker anzeigen' aktivieren.</div>";
+        }
+
+        foreach ($return->objResultData->aKolos as $Kolo) {
+            $scan_data['coords_gal']    = $Kolo->aCoords["coords_gal"];
+            $scan_data['coords_sys']    = $Kolo->aCoords["coords_sol"];
+            $scan_data['coords_planet'] = $Kolo->aCoords["coords_pla"];
+            $scan_data['kolo_typ']      = $Kolo->strObjectType;
+
+            foreach ($Kolo->aData as $resource) {
+                $resource_name = $resource->strResourceName;
+                $resource_name = trim(strtolower($resource_name));
+                if (strpos($resource_name, "chem") !== false) {
+                    $resource_name = "chem";
+                }
+
+                $scan_data[$resource_name]             = $resource->iResourceVorrat;
+                $scan_data[$resource_name . '_prod']   = $resource->fResourceProduction;
+                $scan_data[$resource_name . '_bunker'] = $resource->iResourceBunker;
+                $scan_data[$resource_name . '_lager']  = $resource->iResourceLager;
+
+                if (!isset($scan_data_total["total_" . $resource_name . "_prod"])) {
+                    $scan_data_total["total_" . $resource_name . "_prod"] = 0;
+                }
+                if (!isset($scan_data_total["total_" . $resource_name])) {
+                    $scan_data_total["total_" . $resource_name] = 0;
+                }
+
+                $scan_data_total["total_" . $resource_name . "_prod"] += $resource->fResourceProduction;
+                $scan_data_total["total_" . $resource_name] += $resource->iResourceVorrat;
+            }
+            insert_data($scan_data, $AccName);
+        }
+        delete_old_entries($AccName, CURRENT_UNIX_TIME);
+        insert_data_total($scan_data_total, $AccName);
+
+        echo "<div class='system_notification'>Produktion Teil 1 aktualisiert/hinzugefügt.</div>";
+    }
 }
 
 function insert_data($scan_data, $AccName)
@@ -174,7 +177,7 @@ function delete_old_entries($username, $time)
     $time     = (int)$time;
 
     //Einträge in der Lagertabelle von nicht mehr vorhandenen Kolos/Basen etc weg (diese wurden nicht aktualisiert)
-    $sql  = "DELETE FROM " . $db_tb_lager;
+    $sql = "DELETE FROM " . $db_tb_lager;
     $sql .= " WHERE user = '" . $username . "'";
     $sql .= " AND time != " . $time . ";";
     $db->db_query($sql)

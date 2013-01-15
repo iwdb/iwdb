@@ -37,47 +37,49 @@ if (!defined('DEBUG_LEVEL')) {
 
 function parse_de_wirtschaft_planiress2($return)
 {
-    global $selectedusername;
+    if ($return->bSuccessfullyParsed) {
+        global $selectedusername;
 
-    $AccName = getAccNameFromKolos($return->objResultData->aKolos);
-    if ($AccName === false) {                     //kein Eintrag gefunden -> ausgewählten Accname verwenden
-        $AccName = $selectedusername;
+        $AccName = getAccNameFromKolos($return->objResultData->aKolos);
+        if ($AccName === false) { //kein Eintrag gefunden -> ausgewählten Accname verwenden
+            $AccName = $selectedusername;
+        }
+
+        $scan_data_total                    = array();
+        $scan_data_total['total_fp']        = $return->objResultData->iFPProduction;
+        $scan_data_total['total_credits_w'] = $return->objResultData->fCreditProduction;
+        $scan_data_total['total_alli']      = $return->objResultData->fCreditAlliance;
+        $scan_data_total['total_bev_a']     = $return->objResultData->iPeopleWithoutWork;
+        $scan_data_total['total_bev_g']     = $return->objResultData->iPeopleWithWork;
+        $scan_data_total['total_bev_q']     = $scan_data_total['total_bev_a'] * 100 / $scan_data_total['total_bev_g'];
+
+        insert_data_total_2($scan_data_total, $AccName);
+
+        foreach ($return->objResultData->aKolos as $kolo) {
+            $scan_data                  = array();
+            $scan_data['coords_gal']    = $kolo->aCoords["coords_gal"];
+            $scan_data['coords_sys']    = $kolo->aCoords["coords_sol"];
+            $scan_data['coords_planet'] = $kolo->aCoords["coords_pla"];
+
+            $scan_data['fp']      = $kolo->fFPProduction;
+            $scan_data['fp_b']    = $kolo->fFPProductionWithoutMods;
+            $scan_data['fp_m1']   = $kolo->fResearchModGlobal;
+            $scan_data['fp_m2']   = $kolo->fResearchModPlanet;
+            $scan_data['credits'] = $kolo->fCreditProduction;
+
+            $scan_data['bev_a'] = $kolo->iPeopleWithoutWork;
+            $scan_data['bev_g'] = $kolo->iPeopleWithWork;
+            $scan_data['bev_q'] = $scan_data['bev_a'] * 100 / ($scan_data['bev_g'] > 0 ? $scan_data['bev_g'] : 1);
+            $scan_data['bev_w'] = $kolo->iSexRate;
+
+            $scan_data['zufr']   = $kolo->fZufr;
+            $scan_data['zufr_w'] = $kolo->fZufrGrowing;
+
+            insert_data_2($scan_data);
+        }
+
+        echo "<div class='system_notification'>Lagerübersicht bei {$AccName} aktualisiert.</div>";
     }
-
-    $scan_data_total                    = array();
-    $scan_data_total['total_fp']        = $return->objResultData->iFPProduction;
-    $scan_data_total['total_credits_w'] = $return->objResultData->fCreditProduction;
-    $scan_data_total['total_alli']      = $return->objResultData->fCreditAlliance;
-    $scan_data_total['total_bev_a']     = $return->objResultData->iPeopleWithoutWork;
-    $scan_data_total['total_bev_g']     = $return->objResultData->iPeopleWithWork;
-    $scan_data_total['total_bev_q']     = $scan_data_total['total_bev_a'] * 100 / $scan_data_total['total_bev_g'];
-
-    insert_data_total_2($scan_data_total, $AccName);
-
-    foreach ($return->objResultData->aKolos as $kolo) {
-        $scan_data                  = array();
-        $scan_data['coords_gal']    = $kolo->aCoords["coords_gal"];
-        $scan_data['coords_sys']    = $kolo->aCoords["coords_sol"];
-        $scan_data['coords_planet'] = $kolo->aCoords["coords_pla"];
-
-        $scan_data['fp']      = $kolo->fFPProduction;
-        $scan_data['fp_b']    = $kolo->fFPProductionWithoutMods;
-        $scan_data['fp_m1']   = $kolo->fResearchModGlobal;
-        $scan_data['fp_m2']   = $kolo->fResearchModPlanet;
-        $scan_data['credits'] = $kolo->fCreditProduction;
-
-        $scan_data['bev_a'] = $kolo->iPeopleWithoutWork;
-        $scan_data['bev_g'] = $kolo->iPeopleWithWork;
-        $scan_data['bev_q'] = $scan_data['bev_a'] * 100 / ($scan_data['bev_g'] > 0 ? $scan_data['bev_g'] : 1);
-        $scan_data['bev_w'] = $kolo->iSexRate;
-
-        $scan_data['zufr']   = $kolo->fZufr;
-        $scan_data['zufr_w'] = $kolo->fZufrGrowing;
-
-        insert_data_2($scan_data);
-    }
-
-    echo "<div class='system_notification'>Lagerübersicht bei {$AccName} aktualisiert.</div>";
 }
 
 function insert_data_2($scan_data)

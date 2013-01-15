@@ -178,3 +178,6 @@ ALTER TABLE `prefix_user` ADD  `NewUniXmlTime` INT UNSIGNED NULL DEFAULT NULL CO
 
 -- masel: 14.01.2013
 ALTER TABLE `prefix_spieler` ADD `Hauptplanet` VARCHAR( 11 ) NULL DEFAULT NULL COMMENT 'Hauptplanet des Spielers', ADD INDEX ( `Hauptplanet` );
+
+-- masel: 15.01.2013 old parser removed
+DROP TABLE `prefix_parser`;

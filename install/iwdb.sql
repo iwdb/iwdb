@@ -679,19 +679,6 @@ CREATE TABLE IF NOT EXISTS `prefix_parsemenu` (
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `prefix_parser`
---
-
-CREATE TABLE IF NOT EXISTS `prefix_parser` (
-  `modulename` varchar(30) NOT NULL DEFAULT '',
-  `recognizer` varchar(200) NOT NULL DEFAULT '',
-  `message` varchar(200) NOT NULL DEFAULT '',
-  PRIMARY KEY (`modulename`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Parser-Phrasen und Zuordnungen zu Parsermodulen';
-
--- --------------------------------------------------------
-
---
 -- Tabellenstruktur für Tabelle `prefix_preset`
 --
 

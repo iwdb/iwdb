@@ -338,7 +338,6 @@ INSERT INTO `prefix_iwdbtabellen` (`name`) VALUES
 ('mails'),
 ('menu'),
 ('merkmale'),
-('parser'),
 ('preset'),
 ('punktelog'),
 ('raid'),
@@ -445,18 +444,6 @@ INSERT INTO `prefix_parsemenu` (`ersetze`, `durch`, `varorstr`) VALUES
 ('M~B', 'anznachrichten', 'var'),
 ('N~S', 'anznews', 'var'),
 ('#', 'anzauftrag', 'var');
-
--- --------------------------------------------------------
-
---
--- Daten für Tabelle `prefix_parser`
---
-
-INSERT INTO `prefix_parser` (`modulename`, `recognizer`, `message`) VALUES
-('raid', 'Kampf auf dem Planeten', 'Raid-Bericht'),
-('fehlscan', 'Sondierung fehlgeschlagen', 'Fehlgeschlagene Sondierung'),
-('highscore', 'Letzte Aktualisierung', 'Highscore'),
-('sbxml', 'http://www.icewars.de/portal/kb/de/sb.php', 'SB-XML');
 
 -- --------------------------------------------------------
 

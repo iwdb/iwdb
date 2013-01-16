@@ -967,12 +967,12 @@ if (empty($params['view'])) {
         $angriff_time = "";
         $angriff_from = "";
         if (!empty($db_tb_lieferung)) {
-            $sql_angriff = "SELECT * FROM " . $db_tb_lieferung . " WHERE ";
-            $sql_angriff .= $db_tb_lieferung . ".coords_to_gal=" . $row['coords_gal'];
-            $sql_angriff .= " AND " . $db_tb_lieferung . ".coords_to_sys=" . $row['coords_sys'];
-            $sql_angriff .= " AND " . $db_tb_lieferung . ".coords_to_planet=" . $row['coords_planet'];
-            $sql_angriff .= " AND (" . $db_tb_lieferung . ".art='Angriff' OR " . $db_tb_lieferung . ".art='Sondierung' OR " . $db_tb_lieferung . ".art='Sondierung (Schiffe/Def/Ress)' OR " . $db_tb_lieferung . ".art='Sondierung (Gebäude/Ress)')";
-            $sql_angriff .= " AND " . $db_tb_lieferung . ".time>" . (CURRENT_UNIX_TIME - 15 * MINUTE);
+            $sql_angriff = "SELECT art, user_from, time, schiffe FROM " . $db_tb_lieferung . " WHERE";
+            $sql_angriff .= " coords_to_gal=" . $row['coords_gal'] . " AND";
+            $sql_angriff .= " coords_to_sys=" . $row['coords_sys'] . " AND";
+            $sql_angriff .= " coords_to_planet=" . $row['coords_planet'] . " AND";
+            $sql_angriff .= " (art='Angriff' OR art='Sondierung' OR art='Sondierung (Schiffe/Def/Ress)' OR art='Sondierung (Gebäude/Ress)') AND";
+            $sql_angriff .= " time>" . (CURRENT_UNIX_TIME - 15 * MINUTE);
             $sql_angriff .= " ORDER BY time DESC";
             $result_angriff = $db->db_query($sql_angriff)
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -1128,10 +1128,10 @@ if (empty($params['view'])) {
             $deff_gesamt = $deff_pla + $deff_schiff;
         }
         // Verteidigungsfilter
-        if (is_null($deff_gesamt) OR (!empty($params['def_min']) AND $deff_gesamt < $params['def_min'])) {
+        if (!empty($params['def_min']) AND (is_null($deff_gesamt) OR ($deff_gesamt < $params['def_min']))) {
             continue;
         }
-        if (is_null($deff_gesamt) OR (!empty($params['def_max']) AND $deff_gesamt > $params['def_max'])) {
+        if (!empty($params['def_min']) AND (is_null($deff_gesamt) OR ($deff_gesamt > $params['def_min']))) {
             continue;
         }
         //ToDo: Ressgewichtung einstellbar machen
@@ -1149,10 +1149,10 @@ if (empty($params['view'])) {
             $rating = round($rating);
         }
         // Rating Filter
-        if (is_null($rating) OR (!empty($params['rating_min']) && $rating < $params['rating_min'])) {
+        if (!empty($params['rating_min']) AND (is_null($rating) OR ($rating < $params['rating_min']))) {
             continue;
         }
-        if (is_null($rating) OR (!empty($params['rating_max']) && $rating > $params['rating_max'])) {
+        if (!empty($params['rating_max']) AND (is_null($rating) OR ($rating > $params['rating_max']))) {
             continue;
         }
         // Hintergrund-Farbe festlegen

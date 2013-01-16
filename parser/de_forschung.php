@@ -117,4 +117,6 @@ function parse_de_forschung($return)
         $result = $db->db_query($sql)
             or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     }
+
+    doc_message('done');
 }

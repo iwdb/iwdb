@@ -1,57 +1,43 @@
 <?php
-/*****************************************************************************/
-/* m_lager.php                                                               */
-/*****************************************************************************/
-/* Iw DB: Icewars geoscan and sitter database                                */
-/* Open-Source Project started by Robert Riess (robert@riess.net)            */
-/* Software Version: Iw DB 1.00                                              */
-/* ========================================================================= */
-/* Software Distributed by:    http://lauscher.riess.net/iwdb/               */
-/* Support, News, Updates at:  http://lauscher.riess.net/iwdb/               */
-/* ========================================================================= */
-/* Copyright (c) 2004 Robert Riess - All Rights Reserved                     */
-/*****************************************************************************/
-/* This program is free software; you can redistribute it and/or modify it   */
-/* under the terms of the GNU General Public License as published by the     */
-/* Free Software Foundation; either version 2 of the License, or (at your    */
-/* option) any later version.                                                */
-/*                                                                           */
-/* This program is distributed in the hope that it will be useful, but       */
-/* WITHOUT ANY WARRANTY; without even the implied warranty of                */
-/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General */
-/* Public License for more details.                                          */
-/*                                                                           */
-/* The GNU GPL can be found in LICENSE in this directory                     */
-/*****************************************************************************/
+/*****************************************************************************
+ * m_lager.php                                                               *
+ *****************************************************************************
+ * Iw DB: Icewars geoscan and sitter database                                *
+ * Open-Source Project started by Robert Riess (robert@riess.net)            *
+ * ========================================================================= *
+ * Copyright (c) 2004 Robert Riess - All Rights Reserved                     *
+ *****************************************************************************
+ * This program is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU General Public License as published by the     *
+ * Free Software Foundation; either version 2 of the License, or (at your    *
+ * option) any later version.                                                *
+ *                                                                           *
+ * This program is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General *
+ * Public License for more details.                                          *
+ *                                                                           *
+ * The GNU GPL can be found in LICENSE in this directory                     *
+ *****************************************************************************
+ * Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  *
+ * IW-Spielern.                                                              *
+ *                                                                           *
+ * Autor: [GILDE]Thella (icewars@thella.de)                                  *
+ *                                                                           *
+ * Entwicklerforum/Repo:                                                     *
+ *                                                                           *
+ *        https://handels-gilde.org/?www/forum/index.php;board=1099.0        *
+ *                   https://github.com/iwdb/iwdb                            *
+ *                                                                           *
+ *****************************************************************************/
 
-/*****************************************************************************/
-/* Lagerübersicht                                                            */
-/* für die IWDB: Icewars geoscan and sitter database                         */
-/*---------------------------------------------------------------------------*/
-/* Author: [GILDE]Thella (mailto:icewars@thella.de)                          */
-/* Version: 0.1                                                              */
-/* Date: xx/xx/xxxx                                                          */
-/*---------------------------------------------------------------------------*/
-/* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  */
-/* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
-/* Entwicklerforum wenden:                                                   */
-/*                                                                           */
-/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
-/*                                                                           */
-/*****************************************************************************/
+if (!defined('IRA')) {
+    die('Hacking attempt...');
+}
 
 if (!defined('DEBUG_LEVEL')) {
     define('DEBUG_LEVEL', 0);
 }
-
-// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde. 
-//    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") {
-    echo "Hacking attempt...!!";
-    exit;
-}
-
 
 //****************************************************************************
 //
@@ -254,22 +240,22 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 
 // Parameter ermitteln
 $params = array(
-    'view' => getVar('view'),
-    'order' => getVar('order'),
-    'orderd' => getVar('orderd'),
-    'edit' => getVar('edit'),
-    'delete' => getVar('delete'),
-    'expand' => getVar('expand'),
-    'showwho' => getVar('showwho'),
-    'forecast' => getVar('forecast'),
+    'view'              => getVar('view'),
+    'order'             => getVar('order'),
+    'orderd'            => getVar('orderd'),
+    'edit'              => getVar('edit'),
+    'delete'            => getVar('delete'),
+    'expand'            => getVar('expand'),
+    'filter_who'        => getVar('filter_who'),
+    'forecast'          => getVar('forecast'),
     'advanced_forecast' => getVar('advanced_forecast'),
-    'basen' => getVar('basen'),
-    'ress' => getVar('ress'),
-    'rote_lager' => getVar('rote_lager'),
-    'minimal' => getVar('minimal'),
-    'maximal' => getVar('maximal'),
-    'galaxie_min' => getVar('galaxie_min'),
-    'galaxie_max' => getVar('galaxie_max'),
+    'basen'             => getVar('basen'),
+    'ress'              => getVar('ress'),
+    'rote_lager'        => getVar('rote_lager'),
+    'minimal'           => getVar('minimal'),
+    'maximal'           => getVar('maximal'),
+    'galaxie_min'       => getVar('galaxie_min'),
+    'galaxie_max'       => getVar('galaxie_max'),
 );
 
 // Parameter validieren
@@ -285,23 +271,23 @@ if ($params['orderd'] != 'asc' && $params['orderd'] != 'desc') {
 if (!empty($params['edit'])) {
     $params['expand'] = $params['edit'];
 }
-if (empty($params['showwho'])) {
+if (empty($params['filter_who'])) {
     if (!empty($user_buddlerfrom)) {
-        $params['showwho'] = '(Team) '.$user_buddlerfrom;
+        $params['filter_who'] = '(Team) ' . $user_buddlerfrom;
     } else {
-        $params['showwho'] = $user_sitterlogin;
+        $params['filter_who'] = $user_sitterlogin;
     }
 } else {
-    $params['showwho'] = $db->escape($params['showwho']);
+    $params['filter_who'] = $db->escape($params['filter_who']);
 }
 
 // Zum Spiel weiterleiten
-$universum = getVar('universum');
+$universum       = getVar('universum');
 $flotteversenden = getVar('flotteversenden');
 if (!empty($universum) || !empty($flotteversenden)) {
     $name = 'Automatische Zielliste vom ' . date("j.n.Y H:i:s", CURRENT_UNIX_TIME);
-    $sql = "DELETE FROM " . $db_tb_target .
-            " WHERE user='" . $user_sitterlogin . "' AND name LIKE 'Automatische Zielliste%'";
+
+    $sql = "DELETE FROM " . $db_tb_target . " WHERE user='" . $user_sitterlogin . "' AND name LIKE 'Automatische Zielliste%'";
     debug_var("sql", $sql);
     $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -320,7 +306,7 @@ if (!empty($universum) || !empty($flotteversenden)) {
         }
     } while (!empty($current));
     $results[] = "<div class='system_notification'>Zielliste gespeichert.</div><br>";
-    $redirect = 'game.php?sid=' . $sid . '&name=' . $name;
+    $redirect  = 'game.php?sid=' . $sid . '&name=' . $name;
     if (!empty($universum)) {
         $redirect .= '&view=universum';
     } else {
@@ -332,12 +318,13 @@ if (!empty($universum) || !empty($flotteversenden)) {
 $config = array();
 
 // Spieler und Teams abfragen
-$users = array();
-$config['showwho'] = array();
-$config['showwho']['(Alle)'] = '(Alle)';
-$config['showwho']['(Nur Fleeter)'] = '(Nur Fleeter)';
-$config['showwho']['(Nur Cash Cows)'] = '(Nur Cash Cows)';
-$config['showwho']['(Nur Buddler)'] = '(Nur Buddler)';
+$users                                   = array();
+$teams                                   = array();
+$config['filter_who']['(Alle)']          = '(Alle)';
+$config['filter_who']['(Nur Fleeter)']   = '(Nur Fleeter)';
+$config['filter_who']['(Nur Cash Cows)'] = '(Nur Cash Cows)';
+$config['filter_who']['(Nur Buddler)']   = '(Nur Buddler)';
+
 $sql = "SELECT * FROM " . $db_tb_user;
 if (!$user_fremdesitten) {
     $sql .= " WHERE allianz='" . $user_allianz . "'";
@@ -346,16 +333,13 @@ debug_var('sql', $sql);
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 while ($row = $db->db_fetch_array($result)) {
-    $users[] = $row['id'];
+    $users[$row['id']] = $row['id'];
     if (!empty($row['buddlerfrom'])) {
-        $config['showwho']['(Team) ' . $row['buddlerfrom']] = '(Team) ' . $row['buddlerfrom'];
+        $teams['(Team) ' . $row['buddlerfrom']] = '(Team) ' . $row['buddlerfrom'];
     }
 }
-//add users to selectarray
-foreach ($users as $user) {
-    $config['showwho'][$user] = $user;
-}
-
+//add teams and users to selectarray
+$config['filter_who'] = $config['filter_who'] + $teams + $users;
 
 // Planeten des Spielers abfragen
 $sql = "SELECT * FROM " . $db_tb_scans . " WHERE user='" . $user_sitterlogin . "'";
@@ -366,19 +350,16 @@ while ($row = $db->db_fetch_array($result)) {
     $planets['key'] = 'value';
 }
 
-// Timestamp
-$heute = getdate();
-
 // Ressourcen
 $resses_name = array('eisen' => 'Eisen', 'stahl' => 'Stahl', 'vv4a' => 'VV4A', 'chem' => 'Chemie', 'eis' => 'Eis', 'wasser' => 'Wasser', 'energie' => 'Energie');
-$resses = array('eisen', 'stahl', 'vv4a', 'chem', 'eis', 'wasser', 'energie');
+$resses      = array('eisen', 'stahl', 'vv4a', 'chem', 'eis', 'wasser', 'energie');
 
 // Delete-Schlüssel aufbauen
 $delete_keys_explode = explode(":", $params['delete']);
 if (count($delete_keys_explode) == 3) {
     $delete_keys = array(
-        'coords_gal' => $delete_keys_explode[0],
-        'coords_sys' => $delete_keys_explode[1],
+        'coords_gal'    => $delete_keys_explode[0],
+        'coords_sys'    => $delete_keys_explode[1],
         'coords_planet' => $delete_keys_explode[2],
     );
 }
@@ -394,26 +375,26 @@ if (isset($params['delete']) && $params['delete'] != '') {
     debug_var('sql', $sql);
     $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-    $results[] = "<div class='system_notification'>Datensatz gelöscht.</div><br>";
+    $results[]        = "<div class='system_notification'>Datensatz gelöscht.</div><br>";
     $params['delete'] = '';
-    $params['edit'] = '';
+    $params['edit']   = '';
 }
 
-debug_var('$params[\'showwho\']', $params['showwho']);
+debug_var('$params[\'filter_who\']', $params['filter_who']);
 
 // Filter festlegen
-if (!empty($params['showwho'])) {
-    $filters['showwho'] = $params['showwho'];
+if (!empty($params['filter_who'])) {
+    $filters['filter_who'] = $params['filter_who'];
 }
 
 // Button abfragen
 $button_edit = getVar("button_edit");
-$button_add = getVar("button_add");
+$button_add  = getVar("button_add");
 
 // Edit-Daten belegen
 if (!empty($button_edit) || !empty($button_add)) {
     foreach ($resses as $ress) {
-        $edit[$ress . '_soll'] = getVar($ress . '_soll');
+        $edit[$ress . '_soll'] = (int)filter_number(getVar($ress . '_soll'));
     }
     foreach ($resses as $ress) {
         $edit[$ress . '_sichtbar'] = getVar($ress . '_sichtbar');
@@ -431,8 +412,8 @@ if (!empty($button_edit) || !empty($button_add)) {
 $edit_keys_explode = explode(":", $params['edit']);
 if (count($edit_keys_explode) == 3) {
     $edit_keys = array(
-        'coords_gal' => $edit_keys_explode[0],
-        'coords_sys' => $edit_keys_explode[1],
+        'coords_gal'    => $edit_keys_explode[0],
+        'coords_sys'    => $edit_keys_explode[1],
         'coords_planet' => $edit_keys_explode[2],
     );
 }
@@ -480,7 +461,7 @@ if (!empty($params['edit'])) {
 
 // Tabellen-Daten abfragen
 $data = array();
-$sql = "SELECT ";
+$sql  = "SELECT ";
 $sql .= $db_tb_lager . ".user";
 $sql .= "," . $db_tb_lager . ".coords_gal";
 $sql .= "," . $db_tb_lager . ".coords_sys";
@@ -570,17 +551,17 @@ if (isset($params['basen']) && !empty($params['basen'])) {
     $sql .= " WHERE $db_tb_lager.kolo_typ='Kolonie'";
 }
 
-if (!empty($params['showwho'])) {
-    if ($params['showwho'] === '(Nur Fleeter)') {
+if (!empty($params['filter_who'])) {
+    if ($params['filter_who'] === '(Nur Fleeter)') {
         $sql .= " AND $db_tb_user.budflesol='Fleeter'";
-    } elseif ($params['showwho'] === '(Nur Cash Cows)') {
+    } elseif ($params['filter_who'] === '(Nur Cash Cows)') {
         $sql .= " AND $db_tb_user.budflesol='Cash Cow'";
-    } elseif ($params['showwho'] === '(Nur Buddler)') {
+    } elseif ($params['filter_who'] === '(Nur Buddler)') {
         $sql .= " AND $db_tb_user.budflesol='Buddler'";
-    } elseif (strpos($params['showwho'], '(Team) ') === 0) {                       //suchen nach einem Team
-        $sql .= " AND $db_tb_user.buddlerfrom='" . substr ($params['showwho'], 7) . "'";
-    } elseif ($params['showwho'] !== '(Alle)') {                                  //suchen nach einem einzelnen
-        $sql .= " AND $db_tb_user.id='" . $params['showwho'] . "'";
+    } elseif (strpos($params['filter_who'], '(Team) ') === 0) { //suchen nach einem Team
+        $sql .= " AND $db_tb_user.buddlerfrom='" . substr($params['filter_who'], 7) . "'";
+    } elseif ($params['filter_who'] !== '(Alle)') { //suchen nach einem einzelnen Spieler
+        $sql .= " AND $db_tb_user.id='" . $params['filter_who'] . "'";
     }
 }
 
@@ -656,230 +637,230 @@ $sql .= ",$db_tb_user.budflesol";
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 while ($row = $db->db_fetch_array($result)) {
-    $key = $row['coords_gal'] . ":" . $row['coords_sys'] . ":" . $row['coords_planet'];
-    $expanded = $params['expand'] == $key;
+    $key        = $row['coords_gal'] . ":" . $row['coords_sys'] . ":" . $row['coords_planet'];
+    $expanded   = $params['expand'] == $key;
     $data[$key] = array(
-        'user' => $row['user'],
-        'team' => $row['buddlerfrom'],
-        'typ' => $row['budflesol'] == "Fleeter" ? 1 : ($row['budflesol'] == "Cash Cow" ? 2 : ($row['budflesol'] == "Buddler" ? 3 : 4)),
-        'coords' => $row['coords_gal'] . ":" . $row['coords_sys'] . ":" . $row['coords_planet'],
-        'name' => $row['planetenname'],
-        'sortierung' => $row['sortierung'],
-        'objekttyp' => $row['kolo_typ'],
-        'eisen' => $row['eisen'],
-        'stahl' => $row['stahl'],
-        'vv4a' => $row['vv4a'],
-        'chem' => $row['chem'],
-        'eis' => $row['eis'],
-        'wasser' => $row['wasser'],
-        'energie' => $row['energie'],
-        'time' => $row['time'],
-        'eisen_soll' => $row['eisen_soll'],
-        'stahl_soll' => $row['stahl_soll'],
-        'vv4a_soll' => $row['vv4a_soll'],
-        'chem_soll' => $row['chem_soll'],
-        'eis_soll' => $row['eis_soll'],
-        'wasser_soll' => $row['wasser_soll'],
-        'energie_soll' => $row['energie_soll'],
-        'eisen_soll_diff' => $row['eisen_total'] - $row['eisen_soll'],
-        'stahl_soll_diff' => $row['stahl_total'] - $row['stahl_soll'],
-        'vv4a_soll_diff' => $row['vv4a_total'] - $row['vv4a_soll'],
-        'chem_soll_diff' => $row['chem_total'] - $row['chem_soll'],
-        'eis_soll_diff' => $row['eis_total'] - $row['eis_soll'],
-        'wasser_soll_diff' => $row['wasser_total'] - $row['wasser_soll'],
+        'user'              => $row['user'],
+        'team'              => $row['buddlerfrom'],
+        'typ'               => $row['budflesol'] == "Fleeter" ? 1 : ($row['budflesol'] == "Cash Cow" ? 2 : ($row['budflesol'] == "Buddler" ? 3 : 4)),
+        'coords'            => $row['coords_gal'] . ":" . $row['coords_sys'] . ":" . $row['coords_planet'],
+        'name'              => $row['planetenname'],
+        'sortierung'        => $row['sortierung'],
+        'objekttyp'         => $row['kolo_typ'],
+        'eisen'             => $row['eisen'],
+        'stahl'             => $row['stahl'],
+        'vv4a'              => $row['vv4a'],
+        'chem'              => $row['chem'],
+        'eis'               => $row['eis'],
+        'wasser'            => $row['wasser'],
+        'energie'           => $row['energie'],
+        'time'              => $row['time'],
+        'eisen_soll'        => $row['eisen_soll'],
+        'stahl_soll'        => $row['stahl_soll'],
+        'vv4a_soll'         => $row['vv4a_soll'],
+        'chem_soll'         => $row['chem_soll'],
+        'eis_soll'          => $row['eis_soll'],
+        'wasser_soll'       => $row['wasser_soll'],
+        'energie_soll'      => $row['energie_soll'],
+        'eisen_soll_diff'   => $row['eisen_total'] - $row['eisen_soll'],
+        'stahl_soll_diff'   => $row['stahl_total'] - $row['stahl_soll'],
+        'vv4a_soll_diff'    => $row['vv4a_total'] - $row['vv4a_soll'],
+        'chem_soll_diff'    => $row['chem_total'] - $row['chem_soll'],
+        'eis_soll_diff'     => $row['eis_total'] - $row['eis_soll'],
+        'wasser_soll_diff'  => $row['wasser_total'] - $row['wasser_soll'],
         'energie_soll_diff' => $row['energie_total'] - $row['energie_soll'],
-        'eisen_total' => $row['eisen_total'],
-        'stahl_total' => $row['stahl_total'],
-        'vv4a_total' => $row['vv4a_total'],
-        'chem_total' => $row['chem_total'],
-        'eis_total' => $row['eis_total'],
-        'wasser_total' => $row['wasser_total'],
-        'energie_total' => $row['energie_total'],
-        'user_style' => 'background-color: ' . getScanAgeColor($row['time']).';',
-        'eisen_style' => 'background-color: ' . make_color($row, 'eisen') . '; text-align: right;',
-        'stahl_style' => 'background-color: ' . make_color($row, 'stahl') . '; text-align: right;',
-        'vv4a_style' => 'background-color: ' . make_color($row, 'vv4a') . '; text-align: right;',
-        'chem_style' => 'background-color: ' . make_color($row, 'chem') . '; text-align: right;',
-        'eis_style' => 'background-color: ' . make_color($row, 'eis') . '; text-align: right;',
-        'wasser_style' => 'background-color: ' . make_color($row, 'wasser') . '; text-align: right;',
-        'energie_style' => 'background-color: ' . make_color($row, 'energie') . '; text-align: right;',
+        'eisen_total'       => $row['eisen_total'],
+        'stahl_total'       => $row['stahl_total'],
+        'vv4a_total'        => $row['vv4a_total'],
+        'chem_total'        => $row['chem_total'],
+        'eis_total'         => $row['eis_total'],
+        'wasser_total'      => $row['wasser_total'],
+        'energie_total'     => $row['energie_total'],
+        'user_style'        => 'background-color: ' . getScanAgeColor($row['time']) . ';',
+        'eisen_style'       => 'background-color: ' . make_color($row, 'eisen') . '; text-align: right;',
+        'stahl_style'       => 'background-color: ' . make_color($row, 'stahl') . '; text-align: right;',
+        'vv4a_style'        => 'background-color: ' . make_color($row, 'vv4a') . '; text-align: right;',
+        'chem_style'        => 'background-color: ' . make_color($row, 'chem') . '; text-align: right;',
+        'eis_style'         => 'background-color: ' . make_color($row, 'eis') . '; text-align: right;',
+        'wasser_style'      => 'background-color: ' . make_color($row, 'wasser') . '; text-align: right;',
+        'energie_style'     => 'background-color: ' . make_color($row, 'energie') . '; text-align: right;',
     );
     // Expand-Daten abfragen
     if ($expanded) {
-        $expand_data['transfer'] = array(
-            'coords' => $row['coords_gal'] . ":" . $row['coords_sys'] . ":" . $row['coords_planet'],
-            'user' => $row['user'],
-            'team' => $row['buddlerfrom'],
-            'name' => $row['planetenname'],
-            'art' => 'Lieferung',
-            'eisen' => $row['eisen_transfer'],
-            'stahl' => $row['stahl_transfer'],
-            'vv4a' => $row['vv4a_transfer'],
-            'chem' => $row['chem_transfer'],
-            'eis' => $row['eis_transfer'],
-            'wasser' => $row['wasser_transfer'],
-            'energie' => $row['energie_transfer'],
-            'user_style' => 'background-color: ' . getScanAgeColor($row['time']).';',
-            'eisen_style' => "text-align: right;",
-            'stahl_style' => "text-align: right;",
-            'vv4a_style' => "text-align: right;",
-            'chem_style' => "text-align: right;",
-            'eis_style' => "text-align: right;",
-            'wasser_style' => "text-align: right;",
+        $expand_data['transfer']   = array(
+            'coords'        => $row['coords_gal'] . ":" . $row['coords_sys'] . ":" . $row['coords_planet'],
+            'user'          => $row['user'],
+            'team'          => $row['buddlerfrom'],
+            'name'          => $row['planetenname'],
+            'art'           => 'Lieferung',
+            'eisen'         => $row['eisen_transfer'],
+            'stahl'         => $row['stahl_transfer'],
+            'vv4a'          => $row['vv4a_transfer'],
+            'chem'          => $row['chem_transfer'],
+            'eis'           => $row['eis_transfer'],
+            'wasser'        => $row['wasser_transfer'],
+            'energie'       => $row['energie_transfer'],
+            'user_style'    => 'background-color: ' . getScanAgeColor($row['time']) . ';',
+            'eisen_style'   => "text-align: right;",
+            'stahl_style'   => "text-align: right;",
+            'vv4a_style'    => "text-align: right;",
+            'chem_style'    => "text-align: right;",
+            'eis_style'     => "text-align: right;",
+            'wasser_style'  => "text-align: right;",
             'energie_style' => "text-align: right;",
         );
-        $expand_data['stat'] = array(
-            'coords' => $row['coords_gal'] . ":" . $row['coords_sys'] . ":" . $row['coords_planet'],
-            'user' => $row['user'],
-            'team' => $row['buddlerfrom'],
-            'name' => $row['planetenname'],
-            'art' => 'Stationieren',
-            'eisen' => $row['eisen_stat'],
-            'stahl' => $row['stahl_stat'],
-            'vv4a' => $row['vv4a_stat'],
-            'chem' => $row['chem_stat'],
-            'eis' => $row['eis_stat'],
-            'wasser' => $row['wasser_stat'],
-            'energie' => $row['energie_stat'],
-            'user_style' => 'background-color: ' . getScanAgeColor($row['time']),
-            'eisen_style' => "text-align: right;",
-            'stahl_style' => "text-align: right;",
-            'vv4a_style' => "text-align: right;",
-            'chem_style' => "text-align: right;",
-            'eis_style' => "text-align: right;",
-            'wasser_style' => "text-align: right;",
+        $expand_data['stat']       = array(
+            'coords'        => $row['coords_gal'] . ":" . $row['coords_sys'] . ":" . $row['coords_planet'],
+            'user'          => $row['user'],
+            'team'          => $row['buddlerfrom'],
+            'name'          => $row['planetenname'],
+            'art'           => 'Stationieren',
+            'eisen'         => $row['eisen_stat'],
+            'stahl'         => $row['stahl_stat'],
+            'vv4a'          => $row['vv4a_stat'],
+            'chem'          => $row['chem_stat'],
+            'eis'           => $row['eis_stat'],
+            'wasser'        => $row['wasser_stat'],
+            'energie'       => $row['energie_stat'],
+            'user_style'    => 'background-color: ' . getScanAgeColor($row['time']),
+            'eisen_style'   => "text-align: right;",
+            'stahl_style'   => "text-align: right;",
+            'vv4a_style'    => "text-align: right;",
+            'chem_style'    => "text-align: right;",
+            'eis_style'     => "text-align: right;",
+            'wasser_style'  => "text-align: right;",
             'energie_style' => "text-align: right;",
         );
-        $expand_data['total'] = array(
-            'coords' => $row['coords_gal'] . ":" . $row['coords_sys'] . ":" . $row['coords_planet'],
-            'user' => $row['user'],
-            'team' => $row['buddlerfrom'],
-            'name' => $row['planetenname'],
-            'art' => 'Gesamt',
-            'eisen' => $row['eisen_total'],
-            'stahl' => $row['stahl_total'],
-            'vv4a' => $row['vv4a_total'],
-            'chem' => $row['chem_total'],
-            'eis' => $row['eis_total'],
-            'wasser' => $row['wasser_total'],
-            'energie' => $row['energie_total'],
-            'user_style' => 'background-color: ' . getScanAgeColor($row['time']).';',
-            'eisen_style' => "text-align: right;",
-            'stahl_style' => "text-align: right;",
-            'vv4a_style' => "text-align: right;",
-            'chem_style' => "text-align: right;",
-            'eis_style' => "text-align: right;",
-            'wasser_style' => "text-align: right;",
+        $expand_data['total']      = array(
+            'coords'        => $row['coords_gal'] . ":" . $row['coords_sys'] . ":" . $row['coords_planet'],
+            'user'          => $row['user'],
+            'team'          => $row['buddlerfrom'],
+            'name'          => $row['planetenname'],
+            'art'           => 'Gesamt',
+            'eisen'         => $row['eisen_total'],
+            'stahl'         => $row['stahl_total'],
+            'vv4a'          => $row['vv4a_total'],
+            'chem'          => $row['chem_total'],
+            'eis'           => $row['eis_total'],
+            'wasser'        => $row['wasser_total'],
+            'energie'       => $row['energie_total'],
+            'user_style'    => 'background-color: ' . getScanAgeColor($row['time']) . ';',
+            'eisen_style'   => "text-align: right;",
+            'stahl_style'   => "text-align: right;",
+            'vv4a_style'    => "text-align: right;",
+            'chem_style'    => "text-align: right;",
+            'eis_style'     => "text-align: right;",
+            'wasser_style'  => "text-align: right;",
             'energie_style' => "text-align: right;",
         );
-        $expand_data['soll'] = array(
-            'coords' => $row['coords_gal'] . ":" . $row['coords_sys'] . ":" . $row['coords_planet'],
-            'user' => $row['user'],
-            'team' => $row['buddlerfrom'],
-            'name' => $row['planetenname'],
-            'art' => 'Soll',
-            'eisen' => $row['eisen_soll'],
-            'stahl' => $row['stahl_soll'],
-            'vv4a' => $row['vv4a_soll'],
-            'chem' => $row['chem_soll'],
-            'eis' => $row['eis_soll'],
-            'wasser' => $row['wasser_soll'],
-            'energie' => $row['energie_soll'],
-            'user_style' => 'background-color: ' . getScanAgeColor($row['time']).';',
-            'eisen_style' => "text-align: right;",
-            'stahl_style' => "text-align: right;",
-            'vv4a_style' => "text-align: right;",
-            'chem_style' => "text-align: right;",
-            'eis_style' => "text-align: right;",
-            'wasser_style' => "text-align: right;",
+        $expand_data['soll']       = array(
+            'coords'        => $row['coords_gal'] . ":" . $row['coords_sys'] . ":" . $row['coords_planet'],
+            'user'          => $row['user'],
+            'team'          => $row['buddlerfrom'],
+            'name'          => $row['planetenname'],
+            'art'           => 'Soll',
+            'eisen'         => $row['eisen_soll'],
+            'stahl'         => $row['stahl_soll'],
+            'vv4a'          => $row['vv4a_soll'],
+            'chem'          => $row['chem_soll'],
+            'eis'           => $row['eis_soll'],
+            'wasser'        => $row['wasser_soll'],
+            'energie'       => $row['energie_soll'],
+            'user_style'    => 'background-color: ' . getScanAgeColor($row['time']) . ';',
+            'eisen_style'   => "text-align: right;",
+            'stahl_style'   => "text-align: right;",
+            'vv4a_style'    => "text-align: right;",
+            'chem_style'    => "text-align: right;",
+            'eis_style'     => "text-align: right;",
+            'wasser_style'  => "text-align: right;",
             'energie_style' => "text-align: right;",
         );
-        $expand_data['soll_diff'] = array(
-            'coords' => $row['coords_gal'] . ":" . $row['coords_sys'] . ":" . $row['coords_planet'],
-            'user' => $row['user'],
-            'team' => $row['buddlerfrom'],
-            'name' => $row['planetenname'],
-            'art' => 'Differenz',
-            'eisen' => $row['eisen_soll'] != '' ? $data[$key]['eisen_soll_diff'] : '',
-            'stahl' => $row['stahl_soll'] != '' ? $data[$key]['stahl_soll_diff'] : '',
-            'vv4a' => $row['vv4a_soll'] != '' ? $data[$key]['vv4a_soll_diff'] : '',
-            'chem' => $row['chem_soll'] != '' ? $data[$key]['chem_soll_diff'] : '',
-            'eis' => $row['eis_soll'] != '' ? $data[$key]['eis_soll_diff'] : '',
-            'wasser' => $row['wasser_soll'] != '' ? $data[$key]['wasser_soll_diff'] : '',
-            'energie' => $row['energie_soll'] != '' ? $data[$key]['energie_soll_diff'] : '',
-            'user_style' => 'background-color: ' . getScanAgeColor($row['time']).';',
-            'eisen_style' => "color: " . ($data[$key]['eisen_soll_diff'] < 0 ? 'red' : 'green') . "; text-align: right;",
-            'stahl_style' => "color: " . ($data[$key]['stahl_soll_diff'] < 0 ? 'red' : 'green') . "; text-align: right;",
-            'vv4a_style' => "color: " . ($data[$key]['vv4a_soll_diff'] < 0 ? 'red' : 'green') . "; text-align: right;",
-            'chem_style' => "color: " . ($data[$key]['chem_soll_diff'] < 0 ? 'red' : 'green') . "; text-align: right;",
-            'eis_style' => "color: " . ($data[$key]['eis_soll_diff'] < 0 ? 'red' : 'green') . "; text-align: right;",
-            'wasser_style' => "color: " . ($data[$key]['wasser_soll_diff'] < 0 ? 'red' : 'green') . "; text-align: right;",
+        $expand_data['soll_diff']  = array(
+            'coords'        => $row['coords_gal'] . ":" . $row['coords_sys'] . ":" . $row['coords_planet'],
+            'user'          => $row['user'],
+            'team'          => $row['buddlerfrom'],
+            'name'          => $row['planetenname'],
+            'art'           => 'Differenz',
+            'eisen'         => $row['eisen_soll'] != '' ? $data[$key]['eisen_soll_diff'] : '',
+            'stahl'         => $row['stahl_soll'] != '' ? $data[$key]['stahl_soll_diff'] : '',
+            'vv4a'          => $row['vv4a_soll'] != '' ? $data[$key]['vv4a_soll_diff'] : '',
+            'chem'          => $row['chem_soll'] != '' ? $data[$key]['chem_soll_diff'] : '',
+            'eis'           => $row['eis_soll'] != '' ? $data[$key]['eis_soll_diff'] : '',
+            'wasser'        => $row['wasser_soll'] != '' ? $data[$key]['wasser_soll_diff'] : '',
+            'energie'       => $row['energie_soll'] != '' ? $data[$key]['energie_soll_diff'] : '',
+            'user_style'    => 'background-color: ' . getScanAgeColor($row['time']) . ';',
+            'eisen_style'   => "color: " . ($data[$key]['eisen_soll_diff'] < 0 ? 'red' : 'green') . "; text-align: right;",
+            'stahl_style'   => "color: " . ($data[$key]['stahl_soll_diff'] < 0 ? 'red' : 'green') . "; text-align: right;",
+            'vv4a_style'    => "color: " . ($data[$key]['vv4a_soll_diff'] < 0 ? 'red' : 'green') . "; text-align: right;",
+            'chem_style'    => "color: " . ($data[$key]['chem_soll_diff'] < 0 ? 'red' : 'green') . "; text-align: right;",
+            'eis_style'     => "color: " . ($data[$key]['eis_soll_diff'] < 0 ? 'red' : 'green') . "; text-align: right;",
+            'wasser_style'  => "color: " . ($data[$key]['wasser_soll_diff'] < 0 ? 'red' : 'green') . "; text-align: right;",
             'energie_style' => "color: " . ($data[$key]['energie_soll_diff'] < 0 ? 'red' : 'green') . "; text-align: right;",
         );
-        $expand_data['lager'] = array(
-            'coords' => $row['coords_gal'] . ":" . $row['coords_sys'] . ":" . $row['coords_planet'],
-            'user' => $row['user'],
-            'team' => $row['buddlerfrom'],
-            'name' => $row['planetenname'],
-            'art' => 'Lager',
-            'eisen' => '---',
-            'stahl' => '---',
-            'vv4a' => '---',
-            'chem' => $row['chem_lager'],
-            'eis' => $row['eis_lager'],
-            'wasser' => $row['wasser_lager'],
-            'energie' => $row['energie_lager'],
-            'user_style' => 'background-color: ' . getScanAgeColor($row['time']).';',
-            'eisen_style' => "text-align: right;",
-            'stahl_style' => "text-align: right;",
-            'vv4a_style' => "text-align: right;",
-            'chem_style' => "text-align: right;",
-            'eis_style' => "text-align: right;",
-            'wasser_style' => "text-align: right;",
+        $expand_data['lager']      = array(
+            'coords'        => $row['coords_gal'] . ":" . $row['coords_sys'] . ":" . $row['coords_planet'],
+            'user'          => $row['user'],
+            'team'          => $row['buddlerfrom'],
+            'name'          => $row['planetenname'],
+            'art'           => 'Lager',
+            'eisen'         => '---',
+            'stahl'         => '---',
+            'vv4a'          => '---',
+            'chem'          => $row['chem_lager'],
+            'eis'           => $row['eis_lager'],
+            'wasser'        => $row['wasser_lager'],
+            'energie'       => $row['energie_lager'],
+            'user_style'    => 'background-color: ' . getScanAgeColor($row['time']) . ';',
+            'eisen_style'   => "text-align: right;",
+            'stahl_style'   => "text-align: right;",
+            'vv4a_style'    => "text-align: right;",
+            'chem_style'    => "text-align: right;",
+            'eis_style'     => "text-align: right;",
+            'wasser_style'  => "text-align: right;",
             'energie_style' => "text-align: right;",
         );
-        $expand_data['prod'] = array(
-            'coords' => $row['coords_gal'] . ":" . $row['coords_sys'] . ":" . $row['coords_planet'],
-            'user' => $row['user'],
-            'team' => $row['buddlerfrom'],
-            'name' => $row['planetenname'],
-            'art' => 'Tagesproduktion',
-            'eisen' => $row['eisen_prod'] * 24,
-            'stahl' => $row['stahl_prod'] * 24,
-            'vv4a' => $row['vv4a_prod'] * 24,
-            'chem' => $row['chem_prod'] * 24,
-            'eis' => $row['eis_prod'] * 24,
-            'wasser' => $row['wasser_prod'] * 24,
-            'energie' => $row['energie_prod'] * 24,
-            'user_style' => 'background-color: ' . getScanAgeColor($row['time']).';',
-            'eisen_style' => "color: " . ($row['eisen_prod'] < 0 ? 'red' : 'green') . "; text-align: right;",
-            'stahl_style' => "color: " . ($row['stahl_prod'] < 0 ? 'red' : 'green') . "; text-align: right;",
-            'vv4a_style' => "color: " . ($row['vv4a_prod'] < 0 ? 'red' : 'green') . "; text-align: right;",
-            'chem_style' => "color: " . ($row['chem_prod'] < 0 ? 'red' : 'green') . "; text-align: right;",
-            'eis_style' => "color: " . ($row['eis_prod'] < 0 ? 'red' : 'green') . "; text-align: right;",
-            'wasser_style' => "color: " . ($row['wasser_prod'] < 0 ? 'red' : 'green') . "; text-align: right;",
+        $expand_data['prod']       = array(
+            'coords'        => $row['coords_gal'] . ":" . $row['coords_sys'] . ":" . $row['coords_planet'],
+            'user'          => $row['user'],
+            'team'          => $row['buddlerfrom'],
+            'name'          => $row['planetenname'],
+            'art'           => 'Tagesproduktion',
+            'eisen'         => $row['eisen_prod'] * 24,
+            'stahl'         => $row['stahl_prod'] * 24,
+            'vv4a'          => $row['vv4a_prod'] * 24,
+            'chem'          => $row['chem_prod'] * 24,
+            'eis'           => $row['eis_prod'] * 24,
+            'wasser'        => $row['wasser_prod'] * 24,
+            'energie'       => $row['energie_prod'] * 24,
+            'user_style'    => 'background-color: ' . getScanAgeColor($row['time']) . ';',
+            'eisen_style'   => "color: " . ($row['eisen_prod'] < 0 ? 'red' : 'green') . "; text-align: right;",
+            'stahl_style'   => "color: " . ($row['stahl_prod'] < 0 ? 'red' : 'green') . "; text-align: right;",
+            'vv4a_style'    => "color: " . ($row['vv4a_prod'] < 0 ? 'red' : 'green') . "; text-align: right;",
+            'chem_style'    => "color: " . ($row['chem_prod'] < 0 ? 'red' : 'green') . "; text-align: right;",
+            'eis_style'     => "color: " . ($row['eis_prod'] < 0 ? 'red' : 'green') . "; text-align: right;",
+            'wasser_style'  => "color: " . ($row['wasser_prod'] < 0 ? 'red' : 'green') . "; text-align: right;",
             'energie_style' => "color: " . ($row['energie_prod'] < 0 ? 'red' : 'green') . "; text-align: right;",
         );
         $expand_data['empty_prod'] = array(
-            'coords' => $row['coords_gal'] . ":" . $row['coords_sys'] . ":" . $row['coords_planet'],
-            'user' => $row['user'],
-            'team' => $row['buddlerfrom'],
-            'name' => $row['planetenname'],
-            'art' => 'Lager leer in h',
-            'eisen' => $row['eisen_prod'] < 0 ? (-($row['eisen_total'] - ($row['eisen_prod'] * ($params['forecast'] + $row['advanced_forecast']))) / $row['eisen_prod'] - $params['forecast']) : 0,
-            'stahl' => $row['stahl_prod'] < 0 ? (-($row['stahl_total'] + ($row['stahl_prod'] * ($params['forecast'] + $row['advanced_forecast']))) / $row['stahl_prod'] - $params['forecast']) : 0,
-            'vv4a' => $row['vv4a_prod'] < 0 ? (-($row['vv4a_total'] + ($row['vv4a_prod'] * ($params['forecast'] + $row['advanced_forecast']))) / $row['vv4a_prod'] - $params['forecast']) : 0,
-            'chem' => $row['chem_prod'] < 0 ? (-($row['chem_total'] + ($row['chem_prod'] * ($params['forecast'] + $row['advanced_forecast']))) / $row['chem_prod'] - $params['forecast']) : 0,
-            'eis' => $row['eis_prod'] < 0 ? (-($row['eis_total'] - ($row['eis_prod'] * ($params['forecast'] + $row['advanced_forecast']))) / $row['eis_prod'] - $params['forecast']) : 0,
-            'wasser' => $row['wasser_prod'] < 0 ? (-($row['wasser_total'] + ($row['wasser_prod'] * ($params['forecast'] + $row['advanced_forecast']))) / $row['wasser_prod'] - $params['forecast']) : 0,
-            'energie' => $row['energie_prod'] < 0 ? (-($row['energie_total'] + ($row['energie_prod'] * ($params['forecast'] + $row['advanced_forecast']))) / $row['energie_prod'] - $params['forecast']) : 0,
-            'user_style' => 'background-color: ' . getScanAgeColor($row['time']).';',
-            'eisen_style' => "text-align: right;",
-            'stahl_style' => "text-align: right;",
-            'vv4a_style' => "text-align: right;",
-            'chem_style' => "text-align: right;",
-            'eis_style' => "text-align: right;",
-            'wasser_style' => "text-align: right;",
+            'coords'        => $row['coords_gal'] . ":" . $row['coords_sys'] . ":" . $row['coords_planet'],
+            'user'          => $row['user'],
+            'team'          => $row['buddlerfrom'],
+            'name'          => $row['planetenname'],
+            'art'           => 'Lager leer in h',
+            'eisen'         => $row['eisen_prod'] < 0 ? (-($row['eisen_total'] - ($row['eisen_prod'] * ($params['forecast'] + $row['advanced_forecast']))) / $row['eisen_prod'] - $params['forecast']) : 0,
+            'stahl'         => $row['stahl_prod'] < 0 ? (-($row['stahl_total'] + ($row['stahl_prod'] * ($params['forecast'] + $row['advanced_forecast']))) / $row['stahl_prod'] - $params['forecast']) : 0,
+            'vv4a'          => $row['vv4a_prod'] < 0 ? (-($row['vv4a_total'] + ($row['vv4a_prod'] * ($params['forecast'] + $row['advanced_forecast']))) / $row['vv4a_prod'] - $params['forecast']) : 0,
+            'chem'          => $row['chem_prod'] < 0 ? (-($row['chem_total'] + ($row['chem_prod'] * ($params['forecast'] + $row['advanced_forecast']))) / $row['chem_prod'] - $params['forecast']) : 0,
+            'eis'           => $row['eis_prod'] < 0 ? (-($row['eis_total'] - ($row['eis_prod'] * ($params['forecast'] + $row['advanced_forecast']))) / $row['eis_prod'] - $params['forecast']) : 0,
+            'wasser'        => $row['wasser_prod'] < 0 ? (-($row['wasser_total'] + ($row['wasser_prod'] * ($params['forecast'] + $row['advanced_forecast']))) / $row['wasser_prod'] - $params['forecast']) : 0,
+            'energie'       => $row['energie_prod'] < 0 ? (-($row['energie_total'] + ($row['energie_prod'] * ($params['forecast'] + $row['advanced_forecast']))) / $row['energie_prod'] - $params['forecast']) : 0,
+            'user_style'    => 'background-color: ' . getScanAgeColor($row['time']) . ';',
+            'eisen_style'   => "text-align: right;",
+            'stahl_style'   => "text-align: right;",
+            'vv4a_style'    => "text-align: right;",
+            'chem_style'    => "text-align: right;",
+            'eis_style'     => "text-align: right;",
+            'wasser_style'  => "text-align: right;",
             'energie_style' => "text-align: right;",
         );
     }
@@ -888,27 +869,27 @@ while ($row = $db->db_fetch_array($result)) {
 // Ansichten definieren
 $views = array(
     'lager' => array(
-        'title' => 'Lager',
+        'title'   => 'Lager',
         'columns' => array(
-            'user' => 'Spieler',
-            'team' => 'Team',
-            'typ' => 'Typ',
-            'coords' => 'Koords',
-            'name' => 'Planet',
+            'user'      => 'Spieler',
+            'team'      => 'Team',
+            'typ'       => 'Typ',
+            'coords'    => 'Koords',
+            'name'      => 'Planet',
             'objekttyp' => 'Objekttyp',
-            'eisen' => 'Eisen',
-            'stahl' => 'Stahl',
-            'vv4a' => 'VV4A',
-            'chem' => 'Chemie',
-            'eis' => 'Eis',
-            'wasser' => 'Wasser',
-            'energie' => 'Energie',
+            'eisen'     => 'Eisen',
+            'stahl'     => 'Stahl',
+            'vv4a'      => 'VV4A',
+            'chem'      => 'Chemie',
+            'eis'       => 'Eis',
+            'wasser'    => 'Wasser',
+            'energie'   => 'Energie',
         ),
-        'key' => 'coords',
-        'group' => array(
+        'key'     => 'coords',
+        'group'   => array(
             'typ' => array(
                 'title' => 'Typ',
-                'sum' => array(
+                'sum'   => array(
                     'eisen',
                     'stahl',
                     'vv4a',
@@ -919,114 +900,114 @@ $views = array(
                 ),
             ),
         ),
-        'grow' => 'name',
-        'edit' => array(
-            'eisen_soll' => array(
+        'grow'    => 'name',
+        'edit'    => array(
+            'eisen_soll'       => array(
                 'title' => 'Eisen',
-                'desc' => 'Wieviel Eisen soll im Lager sein?',
-                'type' => 'text',
+                'desc'  => 'Wieviel Eisen soll im Lager sein?',
+                'type'  => 'text',
                 'value' => number_format((float)$edit['eisen_soll'], 0, ",", "."),
                 'style' => 'width: 10em;',
             ),
-            'stahl_soll' => array(
+            'stahl_soll'       => array(
                 'title' => 'Stahl',
-                'desc' => 'Wieviel Stahl soll im Lager sein?',
-                'type' => 'text',
+                'desc'  => 'Wieviel Stahl soll im Lager sein?',
+                'type'  => 'text',
                 'value' => number_format((float)$edit['stahl_soll'], 0, ",", "."),
                 'style' => 'width: 10em;',
             ),
-            'vv4a_soll' => array(
+            'vv4a_soll'        => array(
                 'title' => 'VV4A',
-                'desc' => 'Wieviel VV4A soll im Lager sein?',
-                'type' => 'text',
+                'desc'  => 'Wieviel VV4A soll im Lager sein?',
+                'type'  => 'text',
                 'value' => number_format((float)$edit['vv4a_soll'], 0, ",", "."),
                 'style' => 'width: 10em;',
             ),
-            'chem_soll' => array(
+            'chem_soll'        => array(
                 'title' => 'Chemie',
-                'desc' => 'Wieviel Chemie soll im Lager sein?',
-                'type' => 'text',
+                'desc'  => 'Wieviel Chemie soll im Lager sein?',
+                'type'  => 'text',
                 'value' => number_format((float)$edit['chem_soll'], 0, ",", "."),
                 'style' => 'width: 10em;',
             ),
-            'eis_soll' => array(
+            'eis_soll'         => array(
                 'title' => 'Eis',
-                'desc' => 'Wieviel Eis soll im Lager sein?',
-                'type' => 'text',
+                'desc'  => 'Wieviel Eis soll im Lager sein?',
+                'type'  => 'text',
                 'value' => number_format((float)$edit['eis_soll'], 0, ",", "."),
                 'style' => 'width: 10em;',
             ),
-            'wasser_soll' => array(
+            'wasser_soll'      => array(
                 'title' => 'Wasser',
-                'desc' => 'Wieviel Wasser soll im Lager sein?',
-                'type' => 'text',
+                'desc'  => 'Wieviel Wasser soll im Lager sein?',
+                'type'  => 'text',
                 'value' => number_format((float)$edit['wasser_soll'], 0, ",", "."),
                 'style' => 'width: 10em;',
             ),
-            'energie_soll' => array(
+            'energie_soll'     => array(
                 'title' => 'Energie',
-                'desc' => 'Wieviel Energie soll im Lager sein?',
-                'type' => 'text',
+                'desc'  => 'Wieviel Energie soll im Lager sein?',
+                'type'  => 'text',
                 'value' => number_format((float)$edit['energie_soll'], 0, ",", "."),
                 'style' => 'width: 10em;',
             ),
-            'eisen_sichtbar' => array(
+            'eisen_sichtbar'   => array(
                 'title' => 'Eisen sichtbar',
-                'desc' => 'Sollen andere Spieler den Bedarf liefern?',
-                'type' => 'checkbox',
+                'desc'  => 'Sollen andere Spieler den Bedarf liefern?',
+                'type'  => 'checkbox',
                 'value' => $edit['eisen_sichtbar'],
             ),
-            'stahl_sichtbar' => array(
+            'stahl_sichtbar'   => array(
                 'title' => 'Stahl sichtbar',
-                'desc' => 'Sollen andere Spieler den Bedarf liefern?',
-                'type' => 'checkbox',
+                'desc'  => 'Sollen andere Spieler den Bedarf liefern?',
+                'type'  => 'checkbox',
                 'value' => $edit['stahl_sichtbar'],
             ),
-            'vv4a_sichtbar' => array(
+            'vv4a_sichtbar'    => array(
                 'title' => 'VV4A sichtbar',
-                'desc' => 'Sollen andere Spieler den Bedarf liefern?',
-                'type' => 'checkbox',
+                'desc'  => 'Sollen andere Spieler den Bedarf liefern?',
+                'type'  => 'checkbox',
                 'value' => $edit['vv4a_sichtbar'],
             ),
-            'chem_sichtbar' => array(
+            'chem_sichtbar'    => array(
                 'title' => 'Chemie sichtbar',
-                'desc' => 'Sollen andere Spieler den Bedarf liefern?',
-                'type' => 'checkbox',
+                'desc'  => 'Sollen andere Spieler den Bedarf liefern?',
+                'type'  => 'checkbox',
                 'value' => $edit['chem_sichtbar'],
             ),
-            'eis_sichtbar' => array(
+            'eis_sichtbar'     => array(
                 'title' => 'Eis sichtbar',
-                'desc' => 'Sollen andere Spieler den Bedarf liefern?',
-                'type' => 'checkbox',
+                'desc'  => 'Sollen andere Spieler den Bedarf liefern?',
+                'type'  => 'checkbox',
                 'value' => $edit['eis_sichtbar'],
             ),
-            'wasser_sichtbar' => array(
+            'wasser_sichtbar'  => array(
                 'title' => 'Wasser sichtbar',
-                'desc' => 'Sollen andere Spieler den Bedarf liefern?',
-                'type' => 'checkbox',
+                'desc'  => 'Sollen andere Spieler den Bedarf liefern?',
+                'type'  => 'checkbox',
                 'value' => $edit['wasser_sichtbar'],
             ),
             'energie_sichtbar' => array(
                 'title' => 'Energie sichtbar',
-                'desc' => 'Sollen andere Spieler den Bedarf liefern?',
-                'type' => 'checkbox',
+                'desc'  => 'Sollen andere Spieler den Bedarf liefern?',
+                'type'  => 'checkbox',
                 'value' => $edit['energie_sichtbar'],
             ),
         ),
-        'expand' => array(
-            'title' => 'Details',
+        'expand'  => array(
+            'title'   => 'Details',
             'columns' => array(
-                'user' => 'Spieler',
-                'team' => 'Team',
-                'coords' => 'Koords',
-                'name' => 'Planet',
-                'art' => 'Art',
-                'eisen' => 'Eisen',
-                'stahl' => 'Stahl',
-                'vv4a' => 'VV4A',
-                'chem' => 'Chemie',
-                'eis' => 'Eis',
-                'wasser' => 'Wasser',
+                'user'    => 'Spieler',
+                'team'    => 'Team',
+                'coords'  => 'Koords',
+                'name'    => 'Planet',
+                'art'     => 'Art',
+                'eisen'   => 'Eisen',
+                'stahl'   => 'Stahl',
+                'vv4a'    => 'VV4A',
+                'chem'    => 'Chemie',
+                'eis'     => 'Eis',
+                'wasser'  => 'Wasser',
                 'energie' => 'Energie',
             ),
         ),
@@ -1034,7 +1015,7 @@ $views = array(
 );
 
 // Aktuelle Ansicht auswählen
-$view = $views[$params['view']];
+$view   = $views[$params['view']];
 $expand = $view['expand'];
 
 // Daten sortieren
@@ -1071,18 +1052,18 @@ if (isset($redirect)) {
 }
 
 // Team Dropdown
-$basen = $params['basen'];
-$rote_lager = $params['rote_lager'];
+$basen             = $params['basen'];
+$rote_lager        = $params['rote_lager'];
 $advanced_forecast = $params['advanced_forecast'];
 unset($params['basen']);
 unset($params['rote_lager']);
 unset($params['advanced_forecast']);
 echo "<form method='POST' action='" . makeurl(array()) . "' enctype='multipart/form-data'><p align='center'>";
-$params['basen'] = $basen;
-$params['rote_lager'] = $rote_lager;
+$params['basen']             = $basen;
+$params['rote_lager']        = $rote_lager;
 $params['advanced_forecast'] = $advanced_forecast;
 echo 'Auswahl: ';
-echo makefield(array("type" => 'select', "values" => $config['showwho'], "value" => $params['showwho']), 'showwho');
+echo makefield(array("type" => 'select', "values" => $config['filter_who'], "value" => $params['filter_who']), 'filter_who');
 echo ' Vorhersage: ';
 echo ' <input type="text" name="forecast" size="3" value="' . $params['forecast'] . '"/>';
 echo ' Stunden ';
@@ -1127,7 +1108,7 @@ foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
         }
         echo makelink(
             array(
-                'order' => $orderkey,
+                'order'  => $orderkey,
                 'orderd' => 'asc'
             ),
             "<img src='./bilder/asc.gif'>"
@@ -1135,7 +1116,7 @@ foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
         echo '<b>' . $viewcolumnname . '</b>';
         echo makelink(
             array(
-                'order' => $orderkey,
+                'order'  => $orderkey,
                 'orderd' => 'desc'
             ),
             "<img src='./bilder/desc.gif'>"
@@ -1149,15 +1130,15 @@ if (isset($view['edit'])) {
 next_cell("titlebg", "nowrap valign=top");
 
 //Initialisiere Summenzeilen
-$summe = array();
+$summe             = array();
 $summe_ueberschuss = array();
-$summe_bedarf = array();
-$summe_diff = array();
+$summe_bedarf      = array();
+$summe_diff        = array();
 foreach ($views['lager']['columns'] as $viewcolumnkey => $value) {
-    $summe[$viewcolumnkey] = '0';
+    $summe[$viewcolumnkey]             = '0';
     $summe_ueberschuss[$viewcolumnkey] = '0';
-    $summe_bedarf[$viewcolumnkey] = '0';
-    $summe_diff[$viewcolumnkey] = '0';
+    $summe_bedarf[$viewcolumnkey]      = '0';
+    $summe_diff[$viewcolumnkey]        = '0';
 }
 
 //Daten ausgeben
@@ -1165,7 +1146,7 @@ $targetindex = 0;
 foreach ($group_data as $groupkey => $group) {
     foreach ($group as $groupvalue => $grouprows) {
         $user_before = '';
-        $border = '';
+        $border      = '';
 
         //Gruppenüberschrift
         next_row('windowbg2', 'nowrap valign=top colspan=' . (count($view['columns']) + 2));
@@ -1173,7 +1154,7 @@ foreach ($group_data as $groupkey => $group) {
 
         //Zeilen
         foreach ($grouprows as $row) {
-            $key = $row[$view['key']];
+            $key      = $row[$view['key']];
             $expanded = $params['expand'] == $key;
             //Expand-Image
             if ($user_before !== $row['user'] AND ($params['order'] === 'user')) {
@@ -1184,7 +1165,7 @@ foreach ($group_data as $groupkey => $group) {
             } else {
                 $border = '';
             }
-            next_row('windowbg1', 'style="white-space: nowrap; vertical-align=middle;'.$border.'"');
+            next_row('windowbg1', 'style="white-space: nowrap; vertical-align=middle;' . $border . '"');
             echo makelink(
                 array('expand' => ($expanded ? '' : $key), 'edit' => ''),
                 '<img src="bilder/' . ($expanded ? 'point' : 'plus') . '.gif" alt="' . ($expanded ? 'zuklappen' : 'erweitern') . '">'
@@ -1214,7 +1195,7 @@ foreach ($group_data as $groupkey => $group) {
             }
             // Editbuttons ausgeben
             if (isset($view['edit'])) {
-                next_cell("windowbg1", 'style="white-space: nowrap; vertical-align=top;'.$border.'"');
+                next_cell("windowbg1", 'style="white-space: nowrap; vertical-align=top;' . $border . '"');
                 if (!isset($row['allow_edit']) || $row['allow_edit']) {
                     echo makelink(
                         array('edit' => $key),
@@ -1226,7 +1207,7 @@ foreach ($group_data as $groupkey => $group) {
                 }
             }
             //Markierung-Checkbox
-            next_cell('windowbg1', 'nowrap valign=center style="background-color: white;'.$border.'"');
+            next_cell('windowbg1', 'nowrap valign=center style="background-color: white;' . $border . '"');
             echo '<input type="hidden" name="target_' . $targetindex++ . '" value="' . $key . '">';
             echo '<input type="checkbox" name="mark_' . $key . '" value="1" checked>';
             // Expandbereich ausgeben
@@ -1424,11 +1405,11 @@ function make_color($row, $key)
             return 'white';
         }
     }
-    $ist = $row[$key];
+    $ist      = $row[$key];
     $transfer = $row[$key . '_transfer'];
 //	$transfer = $transfer + ($row[$key . "_prod"] * $params['forecast']);
-    $stat = $row[$key . '_stat'];
-    $soll = $row[$key . '_soll'];
+    $stat  = $row[$key . '_stat'];
+    $soll  = $row[$key . '_soll'];
     $lager = isset($row[$key . '_lager']) ? $row[$key . '_lager'] : 0;
 //	if ($ist + $transfer - ($row[$key . "_prod"] * $params['forecast'] && !empty($params['forecast'])) < 0) {
     if ($ist + $transfer < 0) {
@@ -1500,7 +1481,7 @@ function make_duration($time)
 
     return ($days > 1 ? $days . " Tage " : ($days > 0 ? $days . " Tag " : ""))
         . str_pad($hours, 2, '0', STR_PAD_LEFT)
-        . ":" . str_pad($mins, 2, '0', STR_PAD_LEFT).'h';
+        . ":" . str_pad($mins, 2, '0', STR_PAD_LEFT) . 'h';
 
 }
 
@@ -1509,7 +1490,7 @@ function sort_coords_cmp($a, $b)
 {
     $coordsA = explode(':', $a['coords']);
     $coordsB = explode(':', $b['coords']);
-    $result = 0;
+    $result  = 0;
     if ($coordsA[0] < $coordsB[0]) {
         $result = -1;
     } elseif ($coordsA[0] > $coordsB[0]) {
@@ -1581,7 +1562,7 @@ function makefield($field, $key)
             $html .= '>';
             break;
         case 'select':
-            //example: makefield(array("type" => 'select', "values" => $config['showwho'], "value" => $params['showwho']), 'showwho');
+            //example: makefield(array("type" => 'select', "values" => $config['filter_who'], "value" => $params['filter_who']), 'filter_who');
             $html = '<select name="' . $key . '">';
             foreach ($field['values'] as $key => $value) {
                 $html .= '<option value="' . $key . '"';
@@ -1608,6 +1589,7 @@ function makefield($field, $key)
             $html .= '>';
             break;
     }
+
     return $html;
 }
 
@@ -1636,5 +1618,6 @@ function makeurl($newparams)
     foreach ($mergeparams as $paramkey => $paramvalue) {
         $url .= '&' . $paramkey . '=' . $paramvalue;
     }
+
     return $url;
 }

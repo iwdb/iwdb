@@ -522,63 +522,62 @@ function filter_int($numberstring, $default_value = NULL, $min_value = NULL, $ma
  *
  * filtert beliebige Zahlen mit Tausendertrennzeichen ggf mit Exponenten oder Si-prefix Mega oder Kilo am Ende
  *
- * @param string $numberstring Zahl zum filtern
- * @param int $min_value Minimalwert
- * @param int $max_value Maximalwert
- * @param int $default_value Standardwert
+ * @param string   $numberstring  Zahlstring zum Filtern
+ * @param int|bool $default_value optional Standardwert
+ * @param int|bool $min_value     optional Minimalwert
+ * @param int|bool $max_value     optional Maximalwert
  *
- * @return int|float gefilterte Zahl
+ * @return mixed gefilterte Zahl
  *
  * @author masel
  */
-function filter_number($numberstring, $default_value = NULL, $min_value = NULL, $max_value = NULL) {
+function filter_number($numberstring, $default_value = false, $min_value = false, $max_value = false)
+{
 
-    if (preg_match ('~(-?)(\d.*?)(e([+-]?\d+))?(m|k)?$~i' , $numberstring , $numberpart)) {         //evl vorhandene Negativ-Vorzeichen und Exponenten sichern
+    $filtered_number = '';
 
-        if (preg_match ('~(.*?\d)\D(?=(\d{1,2}))(?!(\d{3}))~' , $numberpart[2] , $number) === 1) {          //float
+    $numberstring = trim($numberstring);
 
-            $vorkomma = preg_replace('~\D~', '', $number[1]);                     //alles außer Zahlen (tausendertrennzeichen) weg
-            if (($vorkomma==='') AND isset($default_value)) {            //falls nichts mehr nach dem Filtern übrigbleibt ggf gesetzten Standardwert zurückgeben
-                return $default_value;
+    if (preg_match('~^(?P<sign>-|\+|)\s?(?P<digit>\d{1,3}(?:(\D?)\d{3})?(?:\3\d{3})*)(?:\D(?P<part>\d{1,2}))?\s?(?P<si_prefix>m|M|k|K)?$~', $numberstring, $numberpart)) { //evl vorhandenes Negativ-Vorzeichen sichern
+
+        $filtered_number = preg_replace('~\D~', '', $numberpart['digit']);
+
+
+        if (isset($numberpart['part'])) { //Nachkommastellen vorhanden?
+            if (strlen($numberpart['part']) === 2) { //zwei Nachkommastellen
+                $filtered_number += $numberpart['part'] / 100;
+            } else { //eine Nachkommastelle
+                $filtered_number += $numberpart['part'] / 10;
             }
-
-            $filtered_number = $vorkomma . "." . $number[2];
-
-        } else {                                                                        //Integer -> alles außer den Zahlen weg
-            $filtered_number = preg_replace('~\D~', '', $numberpart[2]);
         }
 
-        if (!empty($numberpart[1])) {                        //if(!empty($numberpart[1]) ist ein Tick schneller als if($numberpart[1]='-') kann aber nach RegEx nur '-' sein
-            $filtered_number = -$filtered_number;            //negatives Vorzeichen wieder dazu
-        }
-
-        if (!empty($numberpart[4])) {                                                     //Exponent vorhanden?
-            $filtered_number=$filtered_number * pow(10, (float)$numberpart[4]);           //Exponent reinmultiplizieren
-        } elseif (!empty($numberpart[5])) {                                               // alternativ SI-Prefix vorhanden?
-
-            if ($numberpart[5] === 'm') {
-                $filtered_number = $filtered_number * 1000000;           //SI-prefix reinmultiplizieren
-            } elseif ($numberpart[5] === 'k'){
-                $filtered_number = $filtered_number * 1000;           //SI-prefix reinmultiplizieren
+        if (isset($numberpart['si_prefix'])) { //SI-Prefix vorhanden?
+            if (($numberpart['si_prefix'] === 'm') or ($numberpart['si_prefix'] === 'M')) {
+                $filtered_number = $filtered_number * 1000000; //mega-prefix reinmultiplizieren
+            } elseif (($numberpart['si_prefix'] === 'k') or ($numberpart['si_prefix'] === 'K')) {
+                $filtered_number = $filtered_number * 1000; //kilo-prefix reinmultiplizieren
             }
-
         }
 
-    } else {
+        if ($numberpart['sign'] === '-') {
+            $filtered_number = -$filtered_number; //negatives Vorzeichen wieder dazu
+        }
+
+        if (($min_value !== false) AND ($filtered_number < $min_value)) { //Limit-Check
+            return $min_value;
+        }
+        if (($max_value !== false) AND ($filtered_number > $max_value)) {
+            return $max_value;
+        }
+
+    } else if ($default_value !== false) {
         $filtered_number = $default_value;
     }
 
-    if (!is_null($min_value) AND ($filtered_number < $min_value)) {                 //Limit-Check
-        return $min_value;
-    }
-    if (!is_null($max_value) AND ($filtered_number > $max_value)) {
-        return $max_value;
-    }
-
-        return (float)$filtered_number;
-
+    return $filtered_number;
 
 }
+
 
 //******************************************************************************
 //

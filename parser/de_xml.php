@@ -172,13 +172,13 @@ function parse_sbxml($xmldata)
         if (isset($xml->gebaeude)) {
             foreach ($xml->gebaeude->gebaeude as $gebaeude) {
                 if (!isset($scan_data['geb'])) {
-                    $scan_data['geb'] = "<table class=\"scan_table\">\n";
+                    $scan_data['geb'] = "<table class='scan_table'>\n";
                 }
-                $scan_data['geb'] .= "<tr class=\"scan_row\">\n";
-                $scan_data['geb'] .= "\t<td class=\"scan_object\">\n";
+                $scan_data['geb'] .= "<tr class='scan_row'>\n";
+                $scan_data['geb'] .= "\t<td class='scan_object'>\n";
                 $scan_data['geb'] .= (string)$gebaeude->name;
                 $scan_data['geb'] .= "\n\t</td>\n";
-                $scan_data['geb'] .= "\t<td class=\"scan_value\">\n";
+                $scan_data['geb'] .= "\t<td class='scan_value'>\n";
                 $scan_data['geb'] .= (string)$gebaeude->anzahl;
                 $scan_data['geb'] .= "\n\t</td>\n</tr>\n";
             }
@@ -195,13 +195,13 @@ function parse_sbxml($xmldata)
                 foreach ($user->schiffe as $schiff) {
                     foreach ($schiff->schifftyp as $schifftyp) {
                         if (!isset($scan_data['plan'])) {
-                            $scan_data['plan'] = "<table class=\"scan_table\">\n";
+                            $scan_data['plan'] = "<table class='scan_table'>\n";
                         }
-                        $scan_data['plan'] .= "<tr class=\"scan_row\">\n";
-                        $scan_data['plan'] .= "\t<td class=\"scan_object\">\n";
+                        $scan_data['plan'] .= "<tr class='scan_row'>\n";
+                        $scan_data['plan'] .= "\t<td class='scan_object'>\n";
                         $scan_data['plan'] .= (string)$schifftyp->name;
                         $scan_data['plan'] .= "\n\t</td>\n";
-                        $scan_data['plan'] .= "\t<td class=\"scan_value\">\n";
+                        $scan_data['plan'] .= "\t<td class='scan_value'>\n";
                         $scan_data['plan'] .= (string)$schifftyp->anzahl;
                         $scan_data['plan'] .= "\n\t</td>\n</tr>\n";
                     }
@@ -209,13 +209,13 @@ function parse_sbxml($xmldata)
                 foreach ($user->defence as $defence) {
                     foreach ($defence->defencetyp as $defencetyp) {
                         if (!isset($scan_data['def'])) {
-                            $scan_data['def'] = "<table class=\"scan_table\">\n";
+                            $scan_data['def'] = "<table class='scan_table'>\n";
                         }
-                        $scan_data['def'] .= "<tr class=\"scan_row\">\n";
-                        $scan_data['def'] .= "\t<td class=\"scan_object\">\n";
+                        $scan_data['def'] .= "<tr class='scan_row'>\n";
+                        $scan_data['def'] .= "\t<td class='scan_object'>\n";
                         $scan_data['def'] .= (string)$defencetyp->name;
                         $scan_data['def'] .= "\n\t</td>\n";
-                        $scan_data['def'] .= "\t<td class=\"scan_value\">\n";
+                        $scan_data['def'] .= "\t<td class='scan_value'>\n";
                         $scan_data['def'] .= (string)$defencetyp->anzahl;
                         $scan_data['def'] .= "\n\t</td>\n</tr>\n";
                     }
@@ -235,21 +235,21 @@ function parse_sbxml($xmldata)
         foreach ($xml->flotten_def as $flotten_def) {
             foreach ($flotten_def->user as $user) {
                 if (!isset($scan_data['stat'])) {
-                    $scan_data['stat'] = "<table class=\"scan_table\">\n";
+                    $scan_data['stat'] = "<table class='scan_table'>\n";
                 }
-                $scan_data['stat'] .= "\t<tr class=\"scan_row\">\n";
-                $scan_data['stat'] .= "\t\t<td colspan=\"2\" class=\"scan_title\">";
+                $scan_data['stat'] .= "\t<tr class='scan_row'>\n";
+                $scan_data['stat'] .= "\t\t<td colspan='2' class='scan_title'>";
                 $scan_data['stat'] .= "Stationierte Flotte von ";
                 $scan_data['stat'] .= $user->name;
                 $scan_data['stat'] .= ":</td>\n";
                 $scan_data['stat'] .= "\t</tr>\n";
                 foreach ($user->schiffe as $schiffe) {
                     foreach ($schiffe->schifftyp as $schifftyp) {
-                        $scan_data['stat'] .= "<tr class=\"scan_row\">\n";
-                        $scan_data['stat'] .= "\t<td class=\"scan_object\">\n";
+                        $scan_data['stat'] .= "<tr class='scan_row'>\n";
+                        $scan_data['stat'] .= "\t<td class='scan_object'>\n";
                         $scan_data['stat'] .= (string)$schifftyp->name;
                         $scan_data['stat'] .= "\n\t</td>\n";
-                        $scan_data['stat'] .= "\t<td class=\"scan_value\">\n";
+                        $scan_data['stat'] .= "\t<td class='scan_value'>\n";
                         $scan_data['stat'] .= (string)$schifftyp->anzahl;
                         $scan_data['stat'] .= "\n\t</td>\n</tr>\n";
                     }
@@ -353,7 +353,7 @@ function save_sbxml($scan_data)
                 && $key != 'stat'
                 && $key != 'def'
             ) {
-                $value = htmlentities($value, ENT_QUOTES, 'UTF-8');
+                $value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
             }
             if (isset($next) && $next) {
                 $sql .= ",";
@@ -380,7 +380,7 @@ function save_sbxml($scan_data)
                 && $key != 'stat'
                 && $key != 'def'
             ) {
-                $value = htmlentities($value, ENT_QUOTES, 'UTF-8');
+                $value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
             }
             if (isset($next) && $next) {
                 $sql .= ",";

@@ -314,7 +314,7 @@ if (!empty($textinput)) {
 //			if ($key != 0)
 //				echo '
 //					<br />_______________________________________________________<br /><br />';
-//			echo htmlentities($value['Bericht']);
+//			echo htmlspecialchars($value['Bericht'], 'UTF-8');
 //		}
 //		echo '
 //				</tr>

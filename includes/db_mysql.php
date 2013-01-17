@@ -47,7 +47,7 @@ class db
 
         $this->query_count = 0;
         $this->db_version  = @mysql_get_server_info();
-        $this->db_queries = array();
+        $this->db_queries  = array();
         mysql_set_charset('utf8', $this->db_link_id);
 
         return ($this->db_link_id) ? (($this->db_select($database)) ? $this->db_link_id : false) : false;
@@ -67,7 +67,7 @@ class db
         }
     }
 
-    function db_select($database = 'iwdb')
+    function db_select($database)
     {
         return @mysql_select_db($database);
     }
@@ -95,93 +95,167 @@ class db
         }
     }
 
-    function db_update($table, $data, $add = '')
+    /**
+     * function db_insert
+     *
+     * Fügt die Daten des übergebenen Arrays in dir Datenbank ein.
+     *
+     * @param string $table Tabellenbezeichner
+     * @param array  $data  Daten
+     *
+     * @throws Exception
+     * @return bool|resource Queryhandle bei Erfolg, false bei Fehler
+     *
+     * @author masel
+     */
+    function db_insert($table, $data)
     {
         unset($this->query_result);
 
-        if (empty($table)) {
-            return false;
-        } else {
-            $query = "Update `" . $table . "` SET ";
-        }
-
-        if (empty($data)) {
+        if (empty($table) OR empty($data) OR !is_array($data)) {
             return false;
         }
 
-        if (is_array($data)) {
-            $updates = Array();
+        $query = "INSERT INTO `" . $table . "` (";
 
-            //sql-query zusammenbauen
-            foreach ($data as $key => $value) {
+        //sql-query zusammenbauen
+        foreach ($data as &$value) {
 
-                if ($value === null) {
-                    $value = "NULL";
-                } elseif (is_string($value)) { //Wert ist String? -> escapen!
-                    $value = mysql_real_escape_string($value, $this->db_link_id);
-                    if ($value === false) {
-                        return false;
-                    }
-                    $value = "'$value'";
-                }
-                $updates[] = "$key = $value";
+            //Spaltenbezeichner ($key) nicht behandeln weil kein Userinput
+
+            if (!is_scalar($value)) { //keine Werte vom Typ array, object und resource
+                throw new Exception('Invalid values!');
             }
-            $query .= implode(', ', $updates);
 
-        } else {
-            $query .= mysql_real_escape_string($data, $this->db_link_id);
+            if ($value === null) {
+                $value = "NULL";
+            } elseif ($value === false) { //boolean ist meist tinyint(1)
+                $value = "0";
+            } elseif ($value === true) {
+                $value = "1";
+            } elseif (is_string($value)) { //Wert ist String? -> escapen
+                $value = mysql_real_escape_string($value, $this->db_link_id);
+                if ($value === false) {
+                    throw new Exception('Value escaping failed!');
+                }
+                $value = "'$value'";
+            }
+
         }
 
-        if ($add !== '') {
-            $query .= ' ' . $add;
-        }
+        $query .= '`' . implode(array_keys($data), "`,`");
+        $query .= "`) VALUES (";
+        $query .= implode($data, ",");
+        $query .= ");";
 
-        $this->query_result = @mysql_query($query, $this->db_link_id);
+        $this->query_result = $this->db_query($query, $this->db_link_id);
 
         return $this->query_result;
 
     }
 
-    function db_num_rows($query_id = 0)
+    /**
+     * function db_update
+     *
+     * Aktualisiert DB-Eintrag mit den übergebenen Daten.
+     *
+     * @param string $table         Tabellenbezeichner
+     * @param array  $data          Daten
+     * @param string $additionalSQL Zusätzliche sql Anweisungen
+     *
+     * @throws Exception
+     * @return bool|resource Queryhandle bei Erfolg, false bei Fehler
+     *
+     * @author   masel
+     */
+    function db_update($table, $data, $additionalSQL = '')
     {
-        if (!$query_id) {
+        unset($this->query_result);
+
+        if (empty($table) OR empty($data) OR !is_array($data)) {
+            return false;
+        }
+
+        $query = "Update `" . $table . "` SET ";
+
+        $updates = Array();
+
+        //sql-query zusammenbauen
+        foreach ($data as $key => $value) {
+
+            //Spaltenbezeichner ($key) nicht behandeln, ist kein Userinput
+
+            if (!is_scalar($value)) { //keine Werte vom Typ array, object und resource
+                throw new Exception('Invalid values!');
+            }
+
+            if ($value === null) {
+                $value = "NULL";
+            } elseif ($value === false) { //boolean ist meist tinyint(1)
+                $value = "0";
+            } elseif ($value === true) {
+                $value = "1";
+            } elseif (is_string($value)) { //Wert ist String? -> escapen
+                $value = mysql_real_escape_string($value, $this->db_link_id);
+                if ($value === false) {
+                    throw new Exception('Value escaping failed!');
+                }
+                $value = "'$value'";
+            }
+            $updates[] = "`$key` = $value";
+        }
+        $query .= implode(', ', $updates);
+
+
+        if ($additionalSQL !== '') {
+            $query .= ' ' . $additionalSQL;
+        }
+
+        $this->query_result = $this->db_query($query, $this->db_link_id);
+
+        return $this->query_result;
+
+    }
+
+    function db_insert_id()
+    {
+        return mysql_insert_id($this->db_link_id);
+    }
+
+    function db_num_rows($query_id)
+    {
+        if (empty($query_id)) {
             $query_id = $this->query_result;
         }
 
         if ($query_id) {
-            $result = @mysql_num_rows($query_id);
-
-            return $result;
+            return @mysql_num_rows($query_id);
         } else {
             return false;
         }
     }
 
-    function db_fetch_row($query_id = 0)
+    function db_fetch_row($query_id)
     {
-        if (!$query_id) {
+        if (empty($query_id)) {
             $query_id = $this->query_result;
         }
 
         if ($query_id) {
-            $result = @mysql_fetch_row($query_id);
-
-            return $result;
+            return @mysql_fetch_row($query_id);
         } else {
             return false;
         }
     }
 
-    function db_fetch_array($query_id = 0)
+    function db_fetch_array($query_id)
     {
-        if (!$query_id) {
+        if (empty($query_id)) {
             $query_id = $this->query_result;
         }
 
         if ($query_id) {
-            $result = @mysql_fetch_array($query_id, MYSQL_ASSOC);
-
-            return $result;
+            return @mysql_fetch_array($query_id, MYSQL_ASSOC);
         } else {
             return false;
         }

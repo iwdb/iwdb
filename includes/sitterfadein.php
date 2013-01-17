@@ -165,7 +165,7 @@ if (!empty($user_id) AND ($user_id != 'guest') AND ($SitternoticeInModul)) {
                                 <audio autoplay="autoplay">
                                     <source src="<?php echo $soundfile;?>" type="audio/ogg">
                                 </audio>
-                                <?php
+                            <?php
                             }
                             ?>
                         </td>
@@ -177,27 +177,27 @@ if (!empty($user_id) AND ($user_id != 'guest') AND ($SitternoticeInModul)) {
                                 ?>
                                 <a href="index.php?sid=<?php echo $sid;?>&action=sitterliste"><span
                                         style="font-size: 1.8rem; color: Cyan;">Es ist ein Auftrag offen!</span></a>
-                                <?php
+                            <?php
                             }
                             if (($iSitterauftraege == 1) AND ($iForschungsauftraege == 1)) {
                                 ?>
                                 <a href="index.php?sid=<?php echo $sid;?>&action=sitterliste"><span
                                         style="font-size: 1.8rem; color: Cyan;">Es ist ein Forschungsauftrag offen!</span></a>
-                                <?php
+                            <?php
                             }
                             if (($iSitterauftraege > 1) AND ($iForschungsauftraege == 0)) {
                                 ?>
                                 <a href="index.php?sid=<?php echo $sid;?>&action=sitterliste"><span
                                         style="font-size: 1.8rem; color: Cyan;">Es sind <?php echo $iSitterauftraege;?>
                                         Aufträge offen!</span></a>
-                                <?php
+                            <?php
                             }
                             if (($iSitterauftraege > 1) AND ($iForschungsauftraege >= 1)) {
                                 ?>
                                 <a href="index.php?sid=<?php echo $sid;?>&action=sitterliste"><span
                                         style="font-size: 1.8rem; color: Cyan;">Es sind <?php echo $iSitterauftraege;?>
                                         Aufträge offen!</span></a>
-                                <?php
+                            <?php
                             }
                             ?>
                         </td>

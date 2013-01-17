@@ -549,7 +549,7 @@ a:hover        {
    border-width:1px; 
    border-style:solid; 
    border-color:#22282E; 
-   background-color:#FFFFFF; 
+   background-color:#FFFFFF;
    vertical-align:middle; 
  }
 
@@ -633,6 +633,13 @@ text-align:right;
 	background-color: #000000;
 }
 
+input:invalid{
+  border-color: #ee5f5b;
+  -webkit-box-shadow: 0 0 6px #f8b9b7;
+     -moz-box-shadow: 0 0 6px #f8b9b7;
+          box-shadow: 0 0 6px #f8b9b7;
+}
+
 /* für die members.php */
 
 td[abbr=newtask] {
@@ -674,13 +681,3 @@ td[abbr=both] {
 #smiliepickertable { border:2px ridge #ddd; margin:auto; background-color: #eee; }
 #smiliepickertable td { cursor:pointer; text-align:center; vertical-align:middle; }
 #smiliepickertable td:hover { background-color: #ddd; }
-
-
-
-
-
-
-
-
-
-

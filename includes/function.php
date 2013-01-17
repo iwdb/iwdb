@@ -786,7 +786,7 @@ function simplexml_load_file_ex($url)
 
     if (ini_get('allow_url_fopen') == true) {                  //allow_url_fopen ist an -> direkt simplexml_load_file zum laden und parsen der XML-Datei verwenden
         return @simplexml_load_file($url);                     //ToDo: Möglicher 404 Fehler bei nicht mehr vorhandener XML loggen aber keine doppelte Fehlermeldung.
-    } else if (function_exists('curl_init')) {                 //alternativ per curl laden
+    } else if (function_exists('curl_init')) {                 //alternativ per curl laden falls vorhanden
         if ($curl = curl_init($url)) {
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
             curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE);

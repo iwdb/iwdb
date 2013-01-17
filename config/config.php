@@ -47,6 +47,14 @@ define("MINUTE", 60);
 define("HOUR", 60 * MINUTE);
 define("DAY", 24 * HOUR);
 
+// veraltet
+$MINUTES = MINUTE;
+$HOURS   = HOUR;
+$DAYS    = DAY;
+
+// old for compatibility
+$config_date = CURRENT_UNIX_TIME;
+
 // nicht ändern
 define('SITTEN_DISABLED', 2);
 define('SITTEN_ONLY_NEWTASKS', 0);
@@ -63,43 +71,35 @@ if (!@include("./config/configally.php")) {
 //
 
 // Farben in der Karte der Allianzen (own - eigene Allianz/Wings, NAP, iNAP, VB, Krieg)
-$config_allianzstatus = array();
-$config_allianzstatus['own'] = "#C4F493";
-$config_allianzstatus['wing'] = "#E6F6A5";
-$config_allianzstatus['NAP'] = "#7C9CF1";
-$config_allianzstatus['iNAP'] = "#8DADF2";
-$config_allianzstatus['VB'] = "#4A71D5";
-$config_allianzstatus['Krieg'] = "#E84528";
+$config_allianzstatus           = array();
+$config_allianzstatus['own']    = "#C4F493";
+$config_allianzstatus['wing']   = "#E6F6A5";
+$config_allianzstatus['NAP']    = "#7C9CF1";
+$config_allianzstatus['iNAP']   = "#8DADF2";
+$config_allianzstatus['VB']     = "#4A71D5";
+$config_allianzstatus['Krieg']  = "#E84528";
 $config_allianzstatus['noraid'] = "#DD9911";
 
 // Farben von Stargates, Schwarze Loecher, reservierten Planeten
-$config_color = array();
-$config_color['Stargate'] = "#A0BFCD";
+$config_color                  = array();
+$config_color['Stargate']      = "#A0BFCD";
 $config_color['SchwarzesLoch'] = "#3F6778";
-$config_color['reserviert'] = "#CCDCE3";
-$config_color['first24h'] = "#00AACC";
-$config_color['last24'] = "#00AACC"; //old
-$config_color['unscanned'] = "#4B4B00";
-$config_color['scanoutdated'] = "#FF0000";
+$config_color['reserviert']    = "#CCDCE3";
+$config_color['first24h']      = "#00AACC";
+$config_color['last24']        = "#00AACC"; //old
+$config_color['unscanned']     = "#4B4B00";
+$config_color['scanoutdated']  = "#FF0000";
 
 // Tabellennamen - Definition des Einstiegsnamens
 $db_tb_iwdbtabellen = $db_prefix . "iwdbtabellen";
 
 // Die restlichen Tabellennamen werden aus der DB gelesen.
-$sql = "SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '$db_name' AND table_name LIKE '$db_prefix%'";
+$sql    = "SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '$db_name' AND table_name LIKE '$db_prefix%'";
 $result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
-    $tbname = "db_tb_" . mb_substr($row['table_name'], mb_strlen($db_prefix));
+    $tbname    = "db_tb_" . mb_substr($row['table_name'], mb_strlen($db_prefix));
     ${$tbname} = $row['table_name'];
 }
-
-// old for compatibility
-$MINUTES = MINUTE;
-$HOURS = HOUR;
-$DAYS = DAY;
-
-// old for compatibility
-$config_date = CURRENT_UNIX_TIME;
 
 // Zeit, wie lange die SID aktuell bleibt (in Sekunden)
 $config_sid_timeout = 1 * HOUR;

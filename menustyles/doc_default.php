@@ -234,12 +234,12 @@ function make_table($view, $data)
 
     // Spalten iterieren
     $col_index = 0;
-    foreach ($view["columns"] as $col_key => $value) {
+    foreach ($view["columns"] as $value) {
         // Zeile beginnen
         if (!$col_index++) {
             start_row_only();
             cell("titlebg");
-        } else {                    // Spalte beginnen
+        } else { // Spalte beginnen
             next_cell("titlebg");
         }
         // Wert ausgeben
@@ -251,7 +251,6 @@ function make_table($view, $data)
 
     if (isset($data)) {
         // Daten iterieren
-        $row_index = 0;
         foreach ($data as $row_key => $row) {
             // Zeilenattribute
             if (isset($row["attributes"]["row_class"])) {

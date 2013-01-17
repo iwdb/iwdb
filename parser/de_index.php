@@ -219,6 +219,8 @@ function parse_de_index($return)
             }
         }
     } //! for each container
+
+    doc_message('done');
 }
 
 function find_research_id($researchname)

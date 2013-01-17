@@ -29,11 +29,11 @@ if (basename($_SERVER['PHP_SELF']) != "index.php") {header('HTTP/1.1 404 not fou
 if (!defined('IRA')) {header('HTTP/1.1 404 not found');exit;};
 
 //****************************************************************************
-	
+
 $skins = array (
-   "2" => "Standard",
-   "1" => "Skin Version 1",
-   "3" => "Text only"
+    "6" => "Standard Skin",
+    "3" => "Text Skin",
+    "0" => "User Skin"
 );
 
 $spieltyp = array (
@@ -366,7 +366,7 @@ if ( $user_status == "admin" ) {
    <span style="font-style:italic;">An diese Adresse wird dein Passwort gesendet, wenn du es vergessen hast.</span>
   </td>
   <td class="windowbg1">
-   <input type="text" name="email" value="<?php echo $email;?>" style="width: 25em">
+   <input type="email" name="email" value="<?php echo $email;?>" style="width: 25em">
   </td>
  </tr>
  <tr>

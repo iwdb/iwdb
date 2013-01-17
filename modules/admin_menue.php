@@ -566,7 +566,7 @@ echo "</table>";
 
 // Durchsuchen aller vorhandener Module
 $installecho = "";
-$moduledir = APPLICATION_PATH.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR;
+$moduledir = APPLICATION_PATH_ABSOLUTE.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR;
 $moduledirhandle=opendir($moduledir);
 echo "<br><br> \n";
 echo "<br><div width='90%' class='windowbg2' style='padding:2px; width:90%; border-width:1px; border-style: solid; border-color:black'>Installierte Module:</div><br>";
@@ -574,7 +574,7 @@ while (false !== ($modulefile = readdir($moduledirhandle))) {
     if (is_file($moduledir.$modulefile) AND (substr($modulefile,0,2) == 'm_') AND (substr($modulefile,-4) == '.php')) {    //suche phpfiles mit Anfang 'm_' (= IWDB-Module)
         $moduleinfo = getmoduleinfo($moduledir.$modulefile);
         
-        if (file_exists(APPLICATION_PATH.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.$moduleinfo['name'].'.cfg.php')) {     //Moduleinstellungsdatei vorhanden (Modul installiert) -> Deinstallation anbieten
+        if (file_exists(APPLICATION_PATH_ABSOLUTE.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.$moduleinfo['name'].'.cfg.php')) {     //Moduleinstellungsdatei vorhanden (Modul installiert) -> Deinstallation anbieten
 
             echo "<form method='POST' action='index.php?action=".$moduleinfo['name']."&was=uninstall&sid=".$sid."'>\n";
             echo " <table class='bordercolor' width='90%' cellpadding='4' cellspacing='1'>\n";

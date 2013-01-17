@@ -22,6 +22,6 @@ if ($row['gesperrt'] == 1) {
 }
 
 if (empty($sid) || empty($user_sitterlogin) || !($user_adminsitten == SITTEN_BOTH || $user_adminsitten == SITTEN_ONLY_LOGINS) || $user_id == "guest") {
-    header("Location: " . APPLICATION_PATH);
+    header("Location: " . APPLICATION_PATH_RELATIVE);
     exit;
 }

@@ -1,6 +1,10 @@
 <?php
+
+error_reporting(E_ALL);
 define('IRA', TRUE);
-define('APPLICATION_PATH', dirname(__FILE__));
+define('APPLICATION_PATH_ABSOLUTE', dirname(__FILE__));
+define('APPLICATION_PATH_RELATIVE', dirname($_SERVER['SCRIPT_NAME']));
+define('APPLICATION_PATH_URL', dirname($_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']));
 
 date_default_timezone_set('Europe/Berlin');
 
@@ -18,6 +22,10 @@ $link_id = $db->db_connect($db_host, $db_user, $db_pass, $db_name)
 
 include_once('config/config.php');
 include_once('includes/function.php');
+$action = preg_replace('/[^a-zA-Z0-9_-]/', '', mb_substr(getVar('action'), 0, 100));      //get and filter actionstring (limited to 100 chars)
+if ( empty($action) ) {
+    $action = $config_default_action;
+}
 include_once('includes/sid.php');
 
 global $sid;
@@ -30,7 +38,7 @@ if ($row_g['gesperrt'] == 1)
 	die ('<div style="text-align:center;color:red">ihr Account ist gesperrt worden!</div>');
 
 if (empty($sid) || empty($user_sitterlogin) || !($user_adminsitten == SITTEN_BOTH || $user_adminsitten == SITTEN_ONLY_LOGINS) || $user_id == "guest") {
-	header("Location: " . APPLICATION_PATH);
+	header("Location: " . APPLICATION_PATH_RELATIVE);
 	exit;
 }
 

@@ -1,6 +1,9 @@
 <?php
+error_reporting(E_ALL);
 define('IRA', TRUE);
-define('APPLICATION_PATH', dirname(__FILE__));
+define('APPLICATION_PATH_ABSOLUTE', dirname(__FILE__));
+define('APPLICATION_PATH_RELATIVE', dirname($_SERVER['SCRIPT_NAME']));
+define('APPLICATION_PATH_URL', dirname($_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']));
 
 date_default_timezone_set('Europe/Berlin');
 include_once('includes/iwdb.php');
@@ -1376,4 +1379,3 @@ function formatDuration($time, $minYellow = 0) {
 	else
 		return $pre . ($minutes == 1 ? "1 Minute" : $minutes) . 'm' . $post;
 }
-?>

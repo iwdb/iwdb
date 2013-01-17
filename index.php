@@ -49,8 +49,9 @@ define('NEBULA', TRUE);
 define('SPECIALSEARCH', TRUE);
 define('ALLY_MEMBERS_ON_MAP', TRUE); 
 define('GENERAL_ERROR', 'GENERAL_ERROR');
-define('APPLICATION_FILE', basename(__FILE__));
-define('APPLICATION_PATH', dirname(__FILE__));
+define('APPLICATION_PATH_ABSOLUTE', dirname(__FILE__));
+define('APPLICATION_PATH_RELATIVE', dirname($_SERVER['SCRIPT_NAME']));
+define('APPLICATION_PATH_URL', dirname($_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']));
 define("MAX_INSERTS", 1000);
 define("DB_LOG", TRUE);
 

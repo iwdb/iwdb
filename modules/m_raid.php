@@ -329,6 +329,7 @@ while ($row = $db->db_fetch_array($result)) {
 
 // Allianzstatus abfragen
 $config['allistatus'] = array();
+$config['statusalli'] = array();
 
 $sql = "SELECT status,allianz FROM " . $db_tb_allianzstatus . " WHERE name='" . $user_allianz . "'";
 $result = $db->db_query($sql)

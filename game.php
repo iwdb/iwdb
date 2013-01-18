@@ -5,6 +5,7 @@ define('APPLICATION_PATH_RELATIVE', dirname($_SERVER['SCRIPT_NAME']));
 define('APPLICATION_PATH_URL', dirname($_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME']));
 
 require_once("includes/bootstrap.php");
+error_reporting(E_ALL & ~E_NOTICE);
 
 if (empty($sid) || empty($user_sitterlogin) || !($user_adminsitten == SITTEN_BOTH || $user_adminsitten == SITTEN_ONLY_LOGINS) || $user_id == "guest") {
     header("Location: " . APPLICATION_PATH_RELATIVE);
@@ -148,13 +149,6 @@ if (empty($data['targets_next_gal'])) {
     $data['targets_next_sys'] = $params['system'] + 1;
 }
 
-if (!isset($data['targets_prev_planet'])) {
-    $data['targets_prev_planet']=0;
-}
-if (!isset($data['targets_next_planet'])) {
-    $data['targets_next_planet']=0;
-}
-
 // Create url for links
 $data['url'] = array(
     'main'       => ($params['view'] == 'fleet_send'
@@ -164,8 +158,8 @@ $data['url'] = array(
     'right'      => $_SERVER["SCRIPT_NAME"] . '?sid=' . $sid . '&name=' . $params['name'] . '&mode=right&view=' . $params['view'] . '&galaxy=' . $params['galaxy'] . '&system=' . $params['system'],
     'prev'       => $_SERVER["SCRIPT_NAME"] . '?sid=' . $sid . '&name=' . $params['name'] . '&action=prev&view=' . $params['view'] . '&galaxy=' . $data['targets_prev_gal'] . '&system=' . $data['targets_prev_sys'],
     'next'       => $_SERVER["SCRIPT_NAME"] . '?sid=' . $sid . '&name=' . $params['name'] . '&action=next&view=' . $params['view'] . '&galaxy=' . $data['targets_next_gal'] . '&system=' . $data['targets_next_sys'],
-    'prevtarget' => $_SERVER["SCRIPT_NAME"] . '?sid=' . $sid . '&name=' . $params['name'] . '&view=fleet_send&galaxy=' . $data['targets_prev_gal'] . '&system=' . $data['targets_prev_sys'] . '&planet=' . $data['targets_prev_planet'],
-    'nexttarget' => $_SERVER["SCRIPT_NAME"] . '?sid=' . $sid . '&name=' . $params['name'] . '&view=fleet_send&galaxy=' . $data['targets_next_gal'] . '&system=' . $data['targets_next_sys'] . '&planet=' . $data['targets_next_planet'],
+    'prevtarget' => $_SERVER["SCRIPT_NAME"] . '?sid=' . $sid . '&name=' . $params['name'] . '&view=fleet_send&galaxy=' . $data['target_prev_gal'] . '&system=' . $data['target_prev_sys'] . '&planet=' . $data['target_prev_planet'],
+    'nexttarget' => $_SERVER["SCRIPT_NAME"] . '?sid=' . $sid . '&name=' . $params['name'] . '&view=fleet_send&galaxy=' . $data['target_next_gal'] . '&system=' . $data['target_next_sys'] . '&planet=' . $data['target_next_planet'],
     'uniview'    => $_SERVER["SCRIPT_NAME"] . '?sid=' . $sid . '&name=' . $params['name'] . '&view=universum&galaxy=' . $params['galaxy'] . '&system=' . $params['system'] . '&planet=' . $params['planet'],
     'universum'  => 'http://sandkasten.icewars.de/game/index.php?action=universum&gal=' . $params['galaxy'] . "&sol=" . $params['system'],
 );
@@ -368,7 +362,7 @@ while ($row = $db->db_fetch_array($result)) {
         );
     }
     // Link to simulator
-    $info['simulator'] = "http://sandkasten.icewars.de/game/index.php?action=simulator";
+    $info['simulator'] = "sandkasten.icewars.de/game/index.php?action=simulator";
     foreach ($objects as $key => $value) {
         if (isset($data['def'][$key])) {
             $info['simulator'] .= "&simu_def[" . $data['def'][$key]['id_iw'] . "]=" . $value;
@@ -462,7 +456,9 @@ if (!empty($params['planet'])) {
 switch ($params['mode']) {
     case 'index':
         if ($params['view'] == 'universum') {
-            ?><!DOCTYPE html>
+            ?>
+
+            <!DOCTYPE html>
             <html lang="de">
             <head>
                 <meta charset="utf-8">
@@ -478,8 +474,9 @@ switch ($params['mode']) {
             </noframes>
             </html>
 
-        <?php } elseif ($params['view'] == 'fleet_send') {
-            ?><!DOCTYPE html>
+        <?php } elseif ($params['view'] == 'fleet_send') { ?>
+
+            <!DOCTYPE html>
             <html lang="de">
             <head>
                 <meta charset="utf-8">
@@ -551,8 +548,7 @@ switch ($params['mode']) {
             <script>
                 function transCalcOnLoad() {
                     <?php	if (!empty($data['planet'])) {
-                            $planet = $data['planet'];
-                            if (strpos($params['autocalc'], 'eisen') !== false) { ?>
+                            $planet = $data['planet']; 		if (strpos($params['autocalc'], 'eisen') !== false) { ?>
                     transCalcSetRess('transCalcEisen', '<?php echo abs($planet['eisen']) ?>');
                     <?php		} 		if (strpos($params['autocalc'], 'stahl') !== false) { ?>
                     transCalcSetRess('transCalcStahl', '<?php echo abs($planet['stahl']) ?>');
@@ -627,12 +623,12 @@ switch ($params['mode']) {
         <input type="hidden" name="galaxy" value="<?php echo $params['galaxy'] ?>"/>
         <input type="hidden" name="system" value="<?php echo $params['system'] ?>"/>
         <input type="hidden" name="planet" value="<?php echo $params['planet'] ?>"/>
-        <input type="hidden" name="next_galaxy" value="<?php echo $data['targets_next_gal'] ?>"/>
-        <input type="hidden" name="next_system" value="<?php echo $data['targets_next_sys'] ?>"/>
-        <input type="hidden" name="next_planet" value="<?php echo $data['targets_next_planet'] ?>"/>
-        <input type="hidden" name="prev_galaxy" value="<?php echo $data['targets_prev_gal'] ?>"/>
-        <input type="hidden" name="prev_system" value="<?php echo $data['targets_prev_sys'] ?>"/>
-        <input type="hidden" name="prev_planet" value="<?php echo $data['targets_prev_planet'] ?>"/>
+        <input type="hidden" name="next_galaxy" value="<?php echo $data['target_next_gal'] ?>"/>
+        <input type="hidden" name="next_system" value="<?php echo $data['target_next_sys'] ?>"/>
+        <input type="hidden" name="next_planet" value="<?php echo $data['target_next_planet'] ?>"/>
+        <input type="hidden" name="prev_galaxy" value="<?php echo $data['target_prev_gal'] ?>"/>
+        <input type="hidden" name="prev_system" value="<?php echo $data['target_prev_sys'] ?>"/>
+        <input type="hidden" name="prev_planet" value="<?php echo $data['target_prev_planet'] ?>"/>
         <table width="100%">
         <tr>
         <td nowrap width="100%">
@@ -655,7 +651,8 @@ switch ($params['mode']) {
                     }
                 } ?>
             <td nowrap>
-                <?php echo $planet['coords_gal'] ?>:<?php echo $planet['coords_sys'] ?>:<?php echo $planet['coords_planet'] ?>
+                <?php echo $planet['coords_gal'] ?>:<?php echo $planet['coords_sys'] ?>
+                :<?php echo $planet['coords_planet'] ?>
             </td>
             <?php    if (hasAlliance($planet)) { ?>
                 <td nowrap>
@@ -1012,7 +1009,7 @@ switch ($params['mode']) {
                                 &lt;--</a> <?php echo $data['targets_prev_gal'] . ':' . $data['targets_prev_sys'] ?>
                         </td>
                         <td width="100%" align="center" nowrap>
-                            Ziele <?php echo $data['targets_position'] + 1 ?><?php echo $data['targets_count'] > 1 ? '-' . ($data['targets_position'] + $data['targets_count']) : '' ?>
+                            Ziele <?php echo $data['targets_position'] + 1;  echo $data['targets_count'] > 1 ? '-' . ($data['targets_position'] + $data['targets_count']) : '' ?>
                             von <?php echo count($data['targets']) ?>
                         </td>
                         <td align="right" nowrap>
@@ -1226,7 +1223,7 @@ switch ($params['mode']) {
                                 &lt;--</a> <?php echo $data['targets_prev_gal'] . ':' . $data['targets_prev_sys'] ?>
                         </td>
                         <td width="100%" valign="top" align="center" nowrap>
-                            Ziele <?php echo $data['targets_position'] + 1 ?><?php echo $data['targets_count'] > 1 ? '-' . ($data['targets_position'] + $data['targets_count']) : '' ?>
+                            Ziele <?php echo $data['targets_position'] + 1;  echo $data['targets_count'] > 1 ? '-' . ($data['targets_position'] + $data['targets_count']) : '' ?>
                             von <?php echo count($data['targets']) ?>
                         </td>
                         <td align="right" valign="top" nowrap>

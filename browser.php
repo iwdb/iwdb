@@ -218,15 +218,15 @@ switch ($mode) {
             <script>
                 var redirectURL = "<?php
 
-	if ($redirect == 'planiress')
-		{echo 'http://sandkasten.icewars.de/game/index.php?action=wirtschaft&typ=planiress';
-}
-	else if ($redirect == 'schiff_uebersicht')
-		{echo 'http://sandkasten.icewars.de/game/index.php?action=mil&typ=schiff_uebersicht';
-}
-	else if ($redirect == 'gebaeude_uebersicht')
-		{echo 'http://sandkasten.icewars.de/game/index.php?action=wirtschaft&typ=geb';
-}
+	if ($redirect == 'planiress') {
+	    echo 'http://sandkasten.icewars.de/game/index.php?action=wirtschaft&typ=planiress';
+    } else if ($redirect == 'schiff_uebersicht') {
+        echo 'http://sandkasten.icewars.de/game/index.php?action=mil&typ=schiff_uebersicht';
+    } else if ($redirect == 'gebaeude_uebersicht') {
+        echo 'http://sandkasten.icewars.de/game/index.php?action=wirtschaft&typ=geb';
+    } else if ($redirect == 'forschung_uebersicht') {
+        echo 'http://sandkasten.icewars.de/game/index.php?action=forschung&forschung_allshow=1';
+    }
 
 ?>";
                 function setRedirection(url) {

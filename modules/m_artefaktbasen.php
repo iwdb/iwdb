@@ -178,7 +178,7 @@ if (!@include("./config/".$modulname.".cfg.php")) {
 //****************************************************************************
 
 // Titelzeile
-echo "<div class='doc_title'>$modultitle</div>\n";
+doc_title('Artefaktbasen');
 
 // Stammdaten abfragen
 $config = array();

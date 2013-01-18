@@ -348,17 +348,6 @@ a:hover        {
  }
 
 
-/* !N .doc_title */
-/* !T Ueberschrift in Modulen */
-/* !I */
-
-  .doc_title {
-   color:#004466; 
-   font-size:23px; 
-   text-align:center; 
- }
-
-
 /* !N .doc_greeting */
 /* !T Begruessung */
 /* !I */
@@ -611,12 +600,39 @@ a:hover        {
    text-align:center;
  }
 
+/* !N h1 */
+/* !T überschrift in Modulen */
+/* !I */
+
+h1 {
+    color: #004466;
+    font-size: 2.0em;
+    text-align: center;
+    margin: 0.75em;
+    font-weight: bold;
+}
+
+/* !N h2 */
+/* !T Teilüberschrift in Modulen */
+/* !I */
+
+h2 {
+    color: #004466;
+    font-size: 1.6em;
+    text-align: center;
+    margin: 0.5em;
+    font-weight: bold;
+}
+
 
 /* !END */
 
 /* ab hier wird nicht mehr ausgelesen */
 
-img {
+img,
+.borderless,
+#gebtable,
+#gebtable td {
     border: 0;
 }
 
@@ -681,3 +697,17 @@ td[abbr=both] {
 #smiliepickertable { border:2px ridge #ddd; margin:auto; background-color: #eee; }
 #smiliepickertable td { cursor:pointer; text-align:center; vertical-align:middle; }
 #smiliepickertable td:hover { background-color: #ddd; }
+
+/* veraltet */
+
+/* !N .doc_title */
+/* !T Ueberschrift in Modulen */
+/* !I */
+
+.doc_title {
+    color: #004466;
+    font-size: 2.0em;
+    text-align: center;
+    margin: 0.75em;
+    font-weight: bold;
+}

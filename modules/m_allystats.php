@@ -193,15 +193,15 @@ function getColor($tuedel) {
     //Eingabeform für die Suche:
     echo "<br>\n";
     echo "<div class='doc_centered'>\n";
-    echo "<form name=\"frm\">\n";
-    echo "<input type=\"hidden\" name=\"sid\" value=\"$sid\">\n";
-    echo "<input type=\"hidden\" name=\"action\" value=\"$modulname\">\n";
+    echo "<form name='frm'>\n";
+    echo "<input type='hidden' name='sid' value='$sid'>\n";
+    echo "<input type='hidden' name='action' value='$modulname'>\n";
     echo "<p>";
-    echo "Allianztag: <input type=\"text\" name=\"allianz\" value=\"$allianz\" size=\"20\">&nbsp;\n";
+    echo "Allianztag: <input type='text' name='allianz' value='$allianz' size='20'>&nbsp;\n";
     echo "</p>\n<p>";
-    echo "Spieler mit dem <input type=\"text\" name=\"fschnitt\" value=\"$fleeterschnitt\" size=\"5\"> fachen des Allyschnitts für Fleeter halten\n";
+    echo "Spieler mit dem <input type='text' name='fschnitt' value='$fleeterschnitt' size='5'> fachen des Allyschnitts für Fleeter halten\n";
     echo "</p>\n<p>";
-    echo "<input type=\"submit\" value=\"suchen\">";
+    echo "<input type='submit' value='suchen'>";
     echo "</p>\n<br>";
     echo "</form>";
     echo "</div>";
@@ -305,7 +305,7 @@ function getColor($tuedel) {
 
 	if ($row['objekt'] == "Kolonie"){
 		$spezpla[$row['coords_gal']]['Eisplanet']['user'][] = $row['user'];
-		$spezpla[$row['coords_gal']]['Eisplanet']['coords'][] = " <a href=\"index.php?action=showplanet&coords=" . $row['coords'] . "&ansicht=auto&sid=" . $sid . "\">" . $row['coords'] . "</a>";
+		$spezpla[$row['coords_gal']]['Eisplanet']['coords'][] = " <a href='index.php?action=showplanet&coords=" . $row['coords'] . "&ansicht=auto&sid=" . $sid . "'>" . $row['coords'] . "</a>";
 		$spezpla[$row['coords_gal']]['Eisplanet']['pkte'][] = $row['punkte'];
 	}
 		break;
@@ -314,7 +314,7 @@ function getColor($tuedel) {
 
 	if ($row['objekt'] == "Kolonie"){
 		$spezpla[$row['coords_gal']]['Asteroid']['user'][] = $row['user'];
-		$spezpla[$row['coords_gal']]['Asteroid']['coords'][] = " <a href=\"index.php?action=showplanet&coords=" . $row['coords'] . "&ansicht=auto&sid=" . $sid . "\">" . $row['coords'] . "</a>";
+		$spezpla[$row['coords_gal']]['Asteroid']['coords'][] = " <a href='index.php?action=showplanet&coords=" . $row['coords'] . "&ansicht=auto&sid=" . $sid . "'>" . $row['coords'] . "</a>";
 		$spezpla[$row['coords_gal']]['Asteroid']['pkte'][] = $row['punkte'];
 	}
 		break;
@@ -323,7 +323,7 @@ function getColor($tuedel) {
 
 	if ($row['objekt'] == "Kolonie"){
 		$spezpla[$row['coords_gal']]['Gasgigant']['user'][] = $row['user'];
-		$spezpla[$row['coords_gal']]['Gasgigant']['coords'][] = " <a href=\"index.php?action=showplanet&coords=" . $row['coords'] . "&ansicht=auto&sid=" . $sid . "\">" . $row['coords'] . "</a>";
+		$spezpla[$row['coords_gal']]['Gasgigant']['coords'][] = " <a href='index.php?action=showplanet&coords=" . $row['coords'] . "&ansicht=auto&sid=" . $sid . "'>" . $row['coords'] . "</a>";
 		$spezpla[$row['coords_gal']]['Gasgigant']['pkte'][] = $row['punkte'];
 	}
 		break;
@@ -331,7 +331,7 @@ function getColor($tuedel) {
 	        $plannistring.="<span class='doc_black'>N";
 	}
 
-	$plannistring.= " <a href=\"index.php?action=showplanet&coords=" . $row['coords'] . "&ansicht=auto&sid=" . $sid . "\">" . $row['coords'] . "</a>";
+	$plannistring.= " <a href='index.php?action=showplanet&coords=" . $row['coords'] . "&ansicht=auto&sid=" . $sid . "'>" . $row['coords'] . "</a>";
 	if ($row['objekt'] == "Kolonie") {
 	       	$plannistring.= "</span>";
 		$points[$row['user']][] = number_format($row['punkte'], 0, ",", ".");
@@ -361,71 +361,71 @@ function getColor($tuedel) {
       //ausgabe
       //allgemeines
       start_table();
-      start_row("titlebg", "style=\"width:95%\" align=\"center\" colspan=\"4\"");
+      start_row("titlebg", "style='width:95%' align='center' colspan='4'");
       echo "<b>Allgemeine Informationen</b>";
-      next_row("windowbg2", "style=\"width:25%\" align=\"left\"");
+      next_row("windowbg2", "style='width:25%' align='left'");
       echo "Allianz";
-      next_cell("windowbg1", "style=\"width:25%\" align=\"left\"");
+      next_cell("windowbg1", "style='width:25%' align='left'");
       echo "<b>$allianz</b>";
-      next_cell("windowbg2", "style=\"width:25%\" align=\"left\"");
+      next_cell("windowbg2", "style='width:25%' align='left'");
       echo "Planetenpunkte";
-      next_cell("windowbg1", "style=\"width:25%\" align=\"left\"");
+      next_cell("windowbg1", "style='width:25%' align='left'");
       echo number_format($pkte, 0, ",", ".");
-      next_row("windowbg2", "style=\"width:25%\" align=\"left\"");
+      next_row("windowbg2", "style='width:25%' align='left'");
       echo "Mitgliederzahl";
-      next_cell("windowbg1", "style=\"width:25%\" align=\"left\"");
+      next_cell("windowbg1", "style='width:25%' align='left'");
       echo $usercount;
-      next_cell("windowbg2", "style=\"width:25%\" align=\"left\"");
+      next_cell("windowbg2", "style='width:25%' align='left'");
       echo "Punkte pro Mitglied";
-      next_cell("windowbg1", "style=\"width:25%\" align=\"left\"");
+      next_cell("windowbg1", "style='width:25%' align='left'");
       echo number_format($pktemem, 2, ",", ".");
-      next_row("windowbg2", "style=\"width:25%\" align=\"left\"");
+      next_row("windowbg2", "style='width:25%' align='left'");
       echo "Planeten pro Mitglied";
-      next_cell("windowbg1", "style=\"width:25%\" align=\"left\"");
+      next_cell("windowbg1", "style='width:25%' align='left'");
       echo number_format($plannimem, 2, ",", ".");
-      next_cell("windowbg2", "style=\"width:25%\" align=\"left\"");
+      next_cell("windowbg2", "style='width:25%' align='left'");
       echo "Punkte pro Planet";
-      next_cell("windowbg1", "style=\"width:25%\" align=\"left\"");
+      next_cell("windowbg1", "style='width:25%' align='left'");
       echo number_format($pkteplan, 2, ",", ".");
-      next_row("windowbg2", "style=\"width:25%\" align=\"left\"");
+      next_row("windowbg2", "style='width:25%' align='left'");
       echo "Kolonien";
-      next_cell("windowbg1", "style=\"width:25%\" align=\"left\"");
+      next_cell("windowbg1", "style='width:25%' align='left'");
       echo "$plancount";
-      next_cell("windowbg2", "style=\"width:25%\" align=\"left\"");
+      next_cell("windowbg2", "style='width:25%' align='left'");
       echo "Kolonisierte Asteroiden";
-      next_cell("windowbg1", "style=\"width:25%\" align=\"left\"");
+      next_cell("windowbg1", "style='width:25%' align='left'");
       echo "$astros";
-      next_row("windowbg2", "style=\"width:25%\" align=\"left\"");
+      next_row("windowbg2", "style='width:25%' align='left'");
       echo "Steinklumpen in Startgalas";
-      next_cell("windowbg1", "style=\"width:25%\" align=\"left\"");
+      next_cell("windowbg1", "style='width:25%' align='left'");
       echo "$steinis";
-      next_cell("windowbg2", "style=\"width:25%\" align=\"left\"");
+      next_cell("windowbg2", "style='width:25%' align='left'");
       echo "Kolonisierte Eisplaneten";
-      next_cell("windowbg1", "style=\"width:25%\" align=\"left\"");
+      next_cell("windowbg1", "style='width:25%' align='left'");
       echo "$eisis";
-      next_row("windowbg2", "style=\"width:25%\" align=\"left\"");
+      next_row("windowbg2", "style='width:25%' align='left'");
       echo "Steinklumpen in Chaosgalas";
-      next_cell("windowbg1", "style=\"width:25%\" align=\"left\"");
+      next_cell("windowbg1", "style='width:25%' align='left'");
       echo "$sgsteinis";
-      next_cell("windowbg2", "style=\"width:25%\" align=\"left\"");
+      next_cell("windowbg2", "style='width:25%' align='left'");
       echo "Kolonisierte Gasgiganten";
-      next_cell("windowbg1", "style=\"width:25%\" align=\"left\"");
+      next_cell("windowbg1", "style='width:25%' align='left'");
       echo "$gasis";
-      next_row("windowbg2", "style=\"width:25%\" align=\"left\"");
+      next_row("windowbg2", "style='width:25%' align='left'");
       echo "Sammelbasen";
-      next_cell("windowbg1", "style=\"width:25%\" align=\"left\"");
+      next_cell("windowbg1", "style='width:25%' align='left'");
       echo "$rb";
-      next_cell("windowbg2", "style=\"width:25%\" align=\"left\"");
+      next_cell("windowbg2", "style='width:25%' align='left'");
       echo "Kampfbasen";
-      next_cell("windowbg1", "style=\"width:25%\" align=\"left\"");
+      next_cell("windowbg1", "style='width:25%' align='left'");
       echo "$kb";
-	  next_row("windowbg2", "style=\"width:25%\" align=\"left\"");
+	  next_row("windowbg2", "style='width:25%' align='left'");
       echo "Artefaktbasen";
-      next_cell("windowbg1", "style=\"width:25%\" align=\"left\"");
+      next_cell("windowbg1", "style='width:25%' align='left'");
       echo "$ab";
-	  next_cell("windowbg2", "style=\"width:25%\" align=\"left\"");
+	  next_cell("windowbg2", "style='width:25%' align='left'");
       echo "";
-      next_cell("windowbg1", "style=\"width:25%\" align=\"left\"");
+      next_cell("windowbg1", "style='width:25%' align='left'");
       echo "";
       end_row();
       end_table();
@@ -433,23 +433,23 @@ function getColor($tuedel) {
 
       //Karte
       start_table();
-      start_row("titlebg", "style=\"width:95%\" align=\"center\" colspan=\"" . (ceil($maxplannis/$range) + 1) . "\"");
+      start_row("titlebg", "style='width:95%' align='center' colspan='" . (ceil($maxplannis/$range) + 1) . "'");
       echo "<b>Allianzkarte</b>";
-      next_row("windowbg2", "style=\"width:5%\" align=\"left\"");
+      next_row("windowbg2", "style='width:5%' align='left'");
       echo " ";
       $width= floor(95/($maxplannis/$range));
       for ($j = 1; $j<=ceil($maxplannis/$range)-1; $j++) {
-        next_cell("windowbg2", "style=\"width:$width%\" align=\"center\"");
+        next_cell("windowbg2", "style='width:$width%' align='center'");
         echo $j*$range-$range+1 . "-" . $j*$range;
       }
-      next_cell("windowbg2", "style=\"width:$width%\" align=\"center\"");
+      next_cell("windowbg2", "style='width:$width%' align='center'");
       echo ceil($maxplannis/$range) *$range-$range+1 . "-end";
       foreach ($plannicount as $gala => $pcount) {
-        next_row("windowbg2", "align=\"left\"");
+        next_row("windowbg2", "align='left'");
         echo "G $gala";
         foreach ($plannicount[$gala] as $inrange => $count) {
           $color = getColor($plannicount[$gala][$inrange]);
-          next_cell("windowbg1", "align=\"center\" style=\"background-color:" . $color . "\"");
+          next_cell("windowbg1", "align='center' style='background-color:" . $color . "'");
           echo $plannicount[$gala][$inrange]['Kolonie'] . "/" . $plannicount[$gala][$inrange]['Sammelbasis'] . "/" . $plannicount[$gala][$inrange]['Kampfbasis'] . "/" . $plannicount[$gala][$inrange]['Artefaktbasis'];
         }
       }
@@ -460,29 +460,29 @@ function getColor($tuedel) {
       //Planiliste
       echo "<br>";
       start_table();
-      start_row("titlebg", "style=\"width:95%\" align=\"center\" colspan=\"5\"");
+      start_row("titlebg", "style='width:95%' align='center' colspan='5'");
       echo "<b>Spieler mit hohem Punkteschnitt</b> (mögliche Fleeter)";
-      next_row("windowbg2", "style=\"width:22%\" align=\"center\"");
+      next_row("windowbg2", "style='width:22%' align='center'");
       echo "Username";
-      next_cell("windowbg2", "style=\"width:36%\" align=\"center\"");
+      next_cell("windowbg2", "style='width:36%' align='center'");
       echo "Kolonien";
-      next_cell("windowbg2", "style=\"width:21%\" align=\"center\"");
+      next_cell("windowbg2", "style='width:21%' align='center'");
       echo "Ressbasen";
-      next_cell("windowbg2", "style=\"width:21%\" align=\"center\"");
+      next_cell("windowbg2", "style='width:21%' align='center'");
       echo "Kampfbasen";
-	  next_cell("windowbg2", "style=\"width:21%\" align=\"center\"");
+	  next_cell("windowbg2", "style='width:21%' align='center'");
       echo "Artefaktbasen";
       if (isset($fleeter)) {
 		foreach ($fleeter as $username => $plannis) {
-			next_row("windowbg3", "style=\"width:22%\" align=\"center\"");
+			next_row("windowbg3", "style='width:22%' align='center'");
 			echo "<b>$username</b><br>" . $fleeters[$username] . " pkte";
-				next_cell("windowbg1", "style=\"width:36%\" align=\"left\"");
+				next_cell("windowbg1", "style='width:36%' align='left'");
 					if (isset($fleeter[$username]['Kolonie'])) {
 						start_table(100);
 							foreach ($fleeter[$username]['Kolonie'] as $key => $planni) {
-								start_row("windowbg1", "style=\"width:55%\" align=\"left\"");
+								start_row("windowbg1", "style='width:55%' align='left'");
 									echo "$planni";
-									next_cell("windowbg1", "style=\"width:45%\" align=\"right\"");
+									next_cell("windowbg1", "style='width:45%' align='right'");
 										echo $points[$username][$key] . " pkte";
 								end_row();
 								}
@@ -491,11 +491,11 @@ function getColor($tuedel) {
 					else {
 						echo "-";
 					}
-				next_cell("windowbg1", "style=\"width:21%\" align=\"left\"");
+				next_cell("windowbg1", "style='width:21%' align='left'");
 					if (isset($fleeter[$username]['Sammelbasis'])) {
 						start_table(100);
 							foreach ($fleeter[$username]['Sammelbasis'] as $planni)  {
-								start_row("windowbg1", "style=\"width:100%\" align=\"left\"");
+								start_row("windowbg1", "style='width:100%' align='left'");
 									echo "$planni<br>";
 								end_row();
 							}
@@ -504,11 +504,11 @@ function getColor($tuedel) {
 					else {
 						echo "-";
 					}
-				next_cell("windowbg1", "style=\"width:21%\" align=\"left\"");
+				next_cell("windowbg1", "style='width:21%' align='left'");
 					if (isset($fleeter[$username]['Kampfbasis'])) {
 						start_table(100);
 							foreach ($fleeter[$username]['Kampfbasis'] as $planni)  {
-								start_row("windowbg1", "style=\"width:100%\" align=\"left\"");
+								start_row("windowbg1", "style='width:100%' align='left'");
 									echo "$planni<br>";
 								end_row();
 							}
@@ -517,11 +517,11 @@ function getColor($tuedel) {
 					else {
 						echo "-";
 					}
-				next_cell("windowbg1", "style=\"width:21%\" align=\"left\"");
+				next_cell("windowbg1", "style='width:21%' align='left'");
 					if (isset($fleeter[$username]['Artefaktbasis'])) {
 						start_table(100);
 							foreach ($fleeter[$username]['Artefaktbasis'] as $planni)  {
-								start_row("windowbg1", "style=\"width:100%\" align=\"left\"");
+								start_row("windowbg1", "style='width:100%' align='left'");
 									echo "$planni<br>";
 								end_row();
 							}
@@ -533,59 +533,59 @@ function getColor($tuedel) {
 		}
 		end_row();
       }
-      start_row("titlebg", "style=\"width:95%\" align=\"center\" colspan=\"5\"");
+      start_row("titlebg", "style='width:95%' align='center' colspan='5'");
       echo "<b>weitere Spieler</b>";
-      next_row("windowbg2", "style=\"width:22%\" align=\"center\"");
+      next_row("windowbg2", "style='width:22%' align='center'");
       echo "Username";
-      next_cell("windowbg2", "style=\"width:36%\" lign=\"center\"");
+      next_cell("windowbg2", "style='width:36%' lign='center'");
       echo "Kolonien";
-      next_cell("windowbg2", "style=\"width:21%\" align=\"center\"");
+      next_cell("windowbg2", "style='width:21%' align='center'");
       echo "Ressbasen";
-      next_cell("windowbg2", "style=\"width:21%\" align=\"center\"");
+      next_cell("windowbg2", "style='width:21%' align='center'");
       echo "Kampfbasen";
-	  next_cell("windowbg2", "style=\"width:21%\" align=\"center\"");
+	  next_cell("windowbg2", "style='width:21%' align='center'");
       echo "Artefaktbasen";
       foreach ($buddler as $username => $plannis) {
-        next_row("windowbg3", "style=\"width:22%\" align=\"center\"");
+        next_row("windowbg3", "style='width:22%' align='center'");
         echo "<b>$username</b><br>" . $buddlers[$username] . " pkte";
-        next_cell("windowbg1", "style=\"width:36%\" align=\"left\"");
+        next_cell("windowbg1", "style='width:36%' align='left'");
 	if (isset($buddler[$username]['Kolonie'])) {
             start_table(100);
 	    foreach ($buddler[$username]['Kolonie'] as $key => $planni)  {
-	      start_row("windowbg1", "style=\"width:55%\" align=\"left\"");
+	      start_row("windowbg1", "style='width:55%' align='left'");
               echo "$planni";
-	      next_cell("windowbg1", "style=\"width:45%\" align=\"right\"");
+	      next_cell("windowbg1", "style='width:45%' align='right'");
 	      echo $points[$username][$key] . " pkte";
 	      end_row();
             }
 	    end_table();
 	} else {echo "-";}
-        next_cell("windowbg1", "style=\"width:21%\" align=\"left\"");
+        next_cell("windowbg1", "style='width:21%' align='left'");
 	if (isset($buddler[$username]['Sammelbasis'])) {
           start_table(100);
           foreach ($buddler[$username]['Sammelbasis'] as $planni)  {
-	    start_row("windowbg1", "style=\"width:100%\" align=\"left\"");
+	    start_row("windowbg1", "style='width:100%' align='left'");
             echo "$planni";
 	    end_row();
 	  }
 	  end_table();
 	} else {echo "-";}
-        next_cell("windowbg1", "style=\"width:21%\" align=\"left\"");
+        next_cell("windowbg1", "style='width:21%' align='left'");
 	if (isset($buddler[$username]['Kampfbasis'])) {
           start_table(100);
           foreach ($buddler[$username]['Kampfbasis'] as $planni)  {
-            start_row("windowbg1", "style=\"width:100%\" align=\"left\"");
+            start_row("windowbg1", "style='width:100%' align='left'");
             echo "$planni";
             end_row();
 	  }
           end_table();
 	
 	} else {echo "-";}
-        next_cell("windowbg1", "style=\"width:21%\" align=\"left\"");
+        next_cell("windowbg1", "style='width:21%' align='left'");
 	if (isset($buddler[$username]['Artefaktbasis'])) {
           start_table(100);
           foreach ($buddler[$username]['Artefaktbasis'] as $planni)  {
-            start_row("windowbg1", "style=\"width:100%\" align=\"left\"");
+            start_row("windowbg1", "style='width:100%' align='left'");
             echo "$planni";
             end_row();
 	  }
@@ -602,20 +602,20 @@ function getColor($tuedel) {
       //Spezialplanniübersicht
       if (isset($spezpla)) {
       start_table();
-      start_row("titlebg", "style=\"width:95%\" align=\"center\" colspan=\"10\"");
+      start_row("titlebg", "style='width:95%' align='center' colspan='10'");
       echo "<b>Spezialplanetenübersicht</b>";
-      next_row("windowbg2", "style=\"width:13%\" align=\"center\"");
+      next_row("windowbg2", "style='width:13%' align='center'");
       echo "Galaxie";
-      next_cell("windowbg2", "style=\"width:29%\" align=\"center\"");
+      next_cell("windowbg2", "style='width:29%' align='center'");
       echo "Gasgiganten";
-      next_cell("windowbg2", "style=\"width:29%\" align=\"center\"");
+      next_cell("windowbg2", "style='width:29%' align='center'");
       echo "Asteroiden";
-      next_cell("windowbg2", "style=\"width:29%\" align=\"center\"");
+      next_cell("windowbg2", "style='width:29%' align='center'");
       echo "Eisplaneten";
       foreach ($spezpla as $gala => $plaar) {
-        next_row("windowbg3", "style=\"width:13%\" align=\"center\"");
+        next_row("windowbg3", "style='width:13%' align='center'");
 	echo "Gala $gala";
-	next_cell("windowbg1", "style=\"width:29%\" align=\"left\"");
+	next_cell("windowbg1", "style='width:29%' align='left'");
 	if (isset($spezpla[$gala]['Gasgigant']))
 	{
 	foreach ($spezpla[$gala]['Gasgigant']['coords'] as $id => $pla)
@@ -623,7 +623,7 @@ function getColor($tuedel) {
            echo $spezpla[$gala]['Gasgigant']['coords'][$id] . " [" . $spezpla[$gala]['Gasgigant']['user'][$id] . "]<br>";
 	  }
 	}
-	next_cell("windowbg1", "style=\"width:29%\" align=\"left\"");
+	next_cell("windowbg1", "style='width:29%' align='left'");
 	if (isset($spezpla[$gala]['Asteroid']))
 	{
 	foreach ($spezpla[$gala]['Asteroid']['coords'] as $id => $pla)
@@ -631,7 +631,7 @@ function getColor($tuedel) {
            echo $spezpla[$gala]['Asteroid']['coords'][$id] . " [" . $spezpla[$gala]['Asteroid']['user'][$id] . "]<br>";
 	  }
 	}
-	next_cell("windowbg1", "style=\"width:29%\" align=\"left\"");
+	next_cell("windowbg1", "style='width:29%' align='left'");
 	if (isset($spezpla[$gala]['Eisplanet']))
 	{
         foreach ($spezpla[$gala]['Eisplanet']['coords'] as $id => $pla)
@@ -647,7 +647,7 @@ function getColor($tuedel) {
      {
        echo "Allianz dummerweise net gefunden<br>\n";
      }
-      echo "<a href=\"index.php?action=m_allystats&sid=" . $sid . "\">zurück zur Allianzliste</a>";
+      echo "<a href='index.php?action=m_allystats&sid=" . $sid . "'>zurück zur Allianzliste</a>";
 
     } else {
       start_table();
@@ -660,7 +660,7 @@ function getColor($tuedel) {
                 'Could not query config information.', '',
                 __FILE__, __LINE__, $sql);
       while( $row = $db->db_fetch_array($result)) {
-        cell("windowbg1", "style=\"width:$width%\"");
+        cell("windowbg1", "style='width:$width%'");
 	action("m_allystats&allianz=" . $row['allianz'], $row['allianz']);
 	end_cell();
 	if ($rownum % $n == 0) {

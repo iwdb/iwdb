@@ -148,7 +148,7 @@ if( !empty($_REQUEST['was'])) {
 //***************************hier gehts los***************************************
 global $db, $db_prefix;
 
-echo "<div class='doc_title'>Allianzwechsler</div><br>";
+doc_title("Allianzwechsler");
 echo "<div>Hier kann man sehen, welche Spieler in letzter Zeit die Ally gewechselt haben:</div><br>";
 
 //Daten von

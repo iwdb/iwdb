@@ -31,11 +31,9 @@ if (basename($_SERVER['PHP_SELF']) != "index.php") {
 }
 
 //****************************************************************************
-?>
 
-<div class='doc_title'>Login</div>
+doc_title("Login");
 
-<?php
 if ((isset($login_id)) && ($login_ok === false) && ($action != "memberlogout2")) {
     echo "<div class='doc_warning'>Falscher Benutzername oder Passwort!</div>\n";
 

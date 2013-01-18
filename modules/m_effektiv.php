@@ -154,7 +154,3 @@ if (!@include("./config/".$modulname.".cfg.php")) {
 // -> Und hier beginnt das eigentliche Modul
 
 echo '<img src="bilder/schiffeffektiv.jpg">';
-
-
-
-?>

@@ -174,34 +174,31 @@ if (!@include("./config/".$modulname.".cfg.php")) {
 //
 // -> Und hier beginnt das eigentliche Modul
 
+doc_title("Farbtabelle");
 
 $limit = getVar('limit');
-if( empty($limit) ) { 
-  $limit = 20;
+if (empty($limit)) {
+    $limit = 20;
 }
 
-echo "<div class='doc_big_black' style='text-align:center'>Nachfolgend alle Farbcodes, " .
-     "die Ihr für die Ordnung Eurer Links<br>und Planis ingame verwenden " .
-     "könnt.</div>\n";
-echo "<br>\n";
-echo "Einfach kopieren und an der gewüschten Stelle z.B. bei der ".
-     "Benennung von Planetennamen einfügen, das wars!<br><br>\n";
-echo "\n";
-echo "<SCRIPT LANGUAGE=\"JavaScript\">\n";
-echo "clr=new Array('00','20','40','60','80','a0','c0','ff');\n";
-echo "for (i=0;i<8;i++) {\n";
-echo "document.write(\"<table border=1 cellpadding=8>\");\n";
-echo "for (j=0;j<8;j++) {\n";
-echo "document.write(\"<tr>\");\n";
-echo "for (k=0;k<8;k++) {\n";
-echo "document.write('<td bgcolor=\"#'+clr[i]+clr[j]+clr[k]+'\">');\n";
-echo "document.write('<tt><font color=\"#'+clr[7-i]+clr[7-j]+clr[7-k]+'\">#');\n";
-echo "document.write(clr[i]+clr[j]+clr[k]+' </font></tt></td>'); }\n";
-echo "document.write(\"</tr>\"); }\n";
-echo "document.write(\"</table><br>\"); }\n";
-echo "// end -->\n";
-echo "</script>\n";
-echo "\n";
-echo "<!-- Script-Ende -->\n";
 
-?>
+echo "<div class='doc_big_black' style='text-align:center'>Nachfolgend alle Farbcodes, " .
+    "die Ihr für die Ordnung Eurer Links<br>und Planis ingame verwenden " .
+    "könnt.</div>\n";
+echo "<br>\n";
+echo "Einfach kopieren und an der gewüschten Stelle z.B. bei der " .
+    "Benennung von Planetennamen einfügen, das wars!<br><br>\n";
+
+$clr = Array('00', '20', '40', '60', '80', 'a0', 'c0', 'ff');
+for ($i = 0; $i < 8; $i++) {
+    echo "<table border=1 cellpadding=8>";
+    for ($j = 0; $j < 8; $j++) {
+        echo "<tr>";
+        for ($k = 0; $k < 8; $k++) {
+            echo "<td bgcolor='#" . $clr[$i] . $clr[$j] . $clr[$k] . "'>";
+            echo "<tt><font color='#'" . $clr[(7 - $i)] . $clr[7 - $j] . $clr[7 - $k] . "'>#" . $clr[$i] . $clr[$j] . $clr[$k] . ' </font></tt></td>';
+        }
+        echo '</tr>';
+    }
+    echo '</table><br>';
+}

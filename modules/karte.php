@@ -90,8 +90,7 @@ if ($showmembers) {
 	}
 }
 
-echo "<div class='doc_title'>Karte</div>\n";
-echo "<br />";
+doc_title('Karte');
 
 // Tooltip Auswahlbox zur Memberanzeige gelöscht -> bei Gelegenheit in die Profileinstellungen verschieben
 // masel

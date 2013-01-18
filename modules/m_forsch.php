@@ -192,13 +192,9 @@ if (!@include("./config/".$modulname.".cfg.php")) {
 
 $sql = "SELECT * FROM " . $db_tb_user_research . " ORDER BY date ASC";
 $result = $db->db_query($sql)
-	or error(GENERAL_ERROR, 
-	'Could not query config information.', '', 
-	__FILE__, __LINE__, $sql);
+	or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
 $data = array();
-//$akt=strftime("%d.%m.%y %H:%M:%S", CURRENT_UNIX_TIME);
-$akt=CURRENT_UNIX_TIME;
 
 start_table();
 	start_row("titlebg", "nowrap style=\"width:0%\" align=\"center\" ");
@@ -214,13 +210,11 @@ start_table();
 		
 		$sql = "SELECT name FROM " .$db_tb_research . " WHERE id ='" . $row['rId'] . "'";
 		$result_forsch = $db->db_query($sql)
-			or error(GENERAL_ERROR, 
-            'Could not query config information.', '', 
-            __FILE__, __LINE__, $sql);
+			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 		$row1 = $db->db_fetch_array($result_forsch);
 		
 		if ($row['date'] !='0') {
-			if (($row['date']>$row['time']) && ($row['date']>$akt)) {
+			if (($row['date']>$row['time']) && ($row['date']>CURRENT_UNIX_TIME)) {
 				$color = "#00FF00";
 			}
 			else {
@@ -245,14 +239,15 @@ start_table();
 	end_row();
 end_table();
 // Legende ausgeben
-echo '<br><table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="">';
-echo '<tr nowrap>';
-echo '<td style="width: 30; background-color: #00FF00;"></td>';
-echo '<td class="windowbg1">Status aktuell</td>';
-echo '<td style="width: 30; background-color: #FF0000;"></td>';
-echo '<td class="windowbg1">es wird nicht geforscht</td>';
-echo '<td style="width: 30; background-color: #FFA500;"></td>';
-echo '<td class="windowbg1">Startseite muss neu eingelesen werden</td>';
-echo '</tr>';
-echo '</table>';
 ?>
+<br>
+<table border="0" cellpadding="4" cellspacing="1" class="bordercolor">
+<tr style="white-space:nowrap">
+<td style="width: 3em; background-color: #00FF00;"></td>
+<td class="windowbg1">Status aktuell</td>
+<td style="width: 3em; background-color: #FF0000;"></td>
+<td class="windowbg1">es wird nicht geforscht</td>
+<td style="width: 3em; background-color: #FFA500;"></td>
+<td class="windowbg1">Startseite muss neu eingelesen werden</td>
+</tr>
+</table>

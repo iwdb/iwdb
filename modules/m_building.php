@@ -219,7 +219,7 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 //
 // -> Und hier beginnt das eigentliche Modul
 
-echo "<p>&nbsp;</p>";
+doc_title('Gebäude');
 
 global $db, $db_tb_gebaeude, $user_sitterlogin, $db_prefix, $show_building, $sid, $db_tb_research2user, $db_tb_gebaeude2user;
 

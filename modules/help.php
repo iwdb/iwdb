@@ -24,30 +24,35 @@
 /* The GNU GPL can be found in LICENSE in this directory                     */
 /*****************************************************************************/
 
-if (!defined('IRA'))
-	die('Hacking attempt...');
-?>
-<div class='doc_title'>Hilfe</div>
-<br>
-<table border="0" cellpadding="8" cellspacing="1" class="bordercolor" style="width: 70%;">
- <tr>
-  <td class="help">
-<p align="right"><a href="index.php?action=help&topic=index&sid=<?php echo $sid;?>">Index</a></p><hr><br>
-<?php
-$topic = getVar('topic');
-$topic = ( empty($topic) ) ? "index" : $topic;
-
-if (! preg_match('/^[a-zA-Z0-9_-]*$/', $topic)) {
-  error(GENERAL_ERROR, 'Malformed help topic string (' . $topic . ') .', '',
-        __FILE__, __LINE__);
-  exit(1);
+if (!defined('IRA')) {
+    die('Hacking attempt...');
 }
-
-if ( file_exists("help/" . $topic . ".htm") === TRUE ) include("help/" . $topic . ".htm");
-else include("help/default.htm");
+doc_title('Hilfe');
 ?>
-<br><hr>
-<p align="right"><a href="javascript:history.back();">zurück</a></p>
-  </td>
- </tr>
+<table border="0" cellpadding="8" cellspacing="1" class="bordercolor" style="width: 70%;">
+    <tr>
+        <td class="help">
+            <p align="right"><a href="index.php?action=help&topic=index&sid=<?php echo $sid;?>">Index</a></p>
+            <hr>
+            <br>
+            <?php
+            $topic = getVar('topic');
+            $topic = (empty($topic)) ? "index" : $topic;
+
+            if (!preg_match('/^[a-zA-Z0-9_-]*$/', $topic)) {
+                error(GENERAL_ERROR, 'Malformed help topic string (' . $topic . ') .', '',__FILE__, __LINE__);
+                exit;
+            }
+
+            if (file_exists("help/" . $topic . ".htm") === true) {
+                include("help/" . $topic . ".htm");
+            } else {
+                include("help/default.htm");
+            }
+            ?>
+            <br>
+            <hr>
+            <p align="right"><a href="javascript:history.back();">zurück</a></p>
+        </td>
+    </tr>
 </table>

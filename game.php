@@ -2,13 +2,17 @@
 
 define('APPLICATION_PATH_ABSOLUTE', dirname(__FILE__));
 define('APPLICATION_PATH_RELATIVE', dirname($_SERVER['SCRIPT_NAME']));
-define('APPLICATION_PATH_URL', dirname($_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']));
+define('APPLICATION_PATH_URL', dirname($_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME']));
 
 require_once("includes/bootstrap.php");
 
 if (empty($sid) || empty($user_sitterlogin) || !($user_adminsitten == SITTEN_BOTH || $user_adminsitten == SITTEN_ONLY_LOGINS) || $user_id == "guest") {
     header("Location: " . APPLICATION_PATH_RELATIVE);
     exit;
+}
+
+if (!defined('DEBUG_LEVEL')) {
+    define('DEBUG_LEVEL', 0);
 }
 
 // Get request parameter
@@ -93,6 +97,7 @@ while ($row = $db->db_fetch_array($result)) {
 
 // Retrieve target list
 $data['targets'] = array();
+
 $sql = 'SELECT *' .
     ' FROM ' . $db_tb_target .
     ' WHERE user="' . $user_sitterlogin . '"' .
@@ -143,6 +148,13 @@ if (empty($data['targets_next_gal'])) {
     $data['targets_next_sys'] = $params['system'] + 1;
 }
 
+if (!isset($data['targets_prev_planet'])) {
+    $data['targets_prev_planet']=0;
+}
+if (!isset($data['targets_next_planet'])) {
+    $data['targets_next_planet']=0;
+}
+
 // Create url for links
 $data['url'] = array(
     'main'       => ($params['view'] == 'fleet_send'
@@ -152,8 +164,8 @@ $data['url'] = array(
     'right'      => $_SERVER["SCRIPT_NAME"] . '?sid=' . $sid . '&name=' . $params['name'] . '&mode=right&view=' . $params['view'] . '&galaxy=' . $params['galaxy'] . '&system=' . $params['system'],
     'prev'       => $_SERVER["SCRIPT_NAME"] . '?sid=' . $sid . '&name=' . $params['name'] . '&action=prev&view=' . $params['view'] . '&galaxy=' . $data['targets_prev_gal'] . '&system=' . $data['targets_prev_sys'],
     'next'       => $_SERVER["SCRIPT_NAME"] . '?sid=' . $sid . '&name=' . $params['name'] . '&action=next&view=' . $params['view'] . '&galaxy=' . $data['targets_next_gal'] . '&system=' . $data['targets_next_sys'],
-    'prevtarget' => $_SERVER["SCRIPT_NAME"] . '?sid=' . $sid . '&name=' . $params['name'] . '&view=fleet_send&galaxy=' . $data['target_prev_gal'] . '&system=' . $data['target_prev_sys'] . '&planet=' . $data['target_prev_planet'],
-    'nexttarget' => $_SERVER["SCRIPT_NAME"] . '?sid=' . $sid . '&name=' . $params['name'] . '&view=fleet_send&galaxy=' . $data['target_next_gal'] . '&system=' . $data['target_next_sys'] . '&planet=' . $data['target_next_planet'],
+    'prevtarget' => $_SERVER["SCRIPT_NAME"] . '?sid=' . $sid . '&name=' . $params['name'] . '&view=fleet_send&galaxy=' . $data['targets_prev_gal'] . '&system=' . $data['targets_prev_sys'] . '&planet=' . $data['targets_prev_planet'],
+    'nexttarget' => $_SERVER["SCRIPT_NAME"] . '?sid=' . $sid . '&name=' . $params['name'] . '&view=fleet_send&galaxy=' . $data['targets_next_gal'] . '&system=' . $data['targets_next_sys'] . '&planet=' . $data['targets_next_planet'],
     'uniview'    => $_SERVER["SCRIPT_NAME"] . '?sid=' . $sid . '&name=' . $params['name'] . '&view=universum&galaxy=' . $params['galaxy'] . '&system=' . $params['system'] . '&planet=' . $params['planet'],
     'universum'  => 'http://sandkasten.icewars.de/game/index.php?action=universum&gal=' . $params['galaxy'] . "&sol=" . $params['system'],
 );
@@ -169,7 +181,6 @@ $data['info'] = array(
     'pulssat'  => array('caption' => 'Puls', 'title' => 'PulslaserSat'),
     'arak'     => array('caption' => 'Arak', 'title' => 'SDI Atomraketen'),
     'rak'      => array('caption' => 'Rak', 'title' => 'SDI Raketensystem'),
-    'pulssat'  => array('caption' => 'PuS', 'title' => 'PulslaserSat'),
     'lasersat' => array('caption' => 'LaS', 'title' => 'LaserSat'),
     'gauss'    => array('caption' => 'Gauss', 'title' => 'Gausskanonensatellit'),
     'raksat'   => array('caption' => 'RakS', 'title' => 'Raketensatellit'),
@@ -449,50 +460,46 @@ if (!empty($params['planet'])) {
 
 // Output pages
 switch ($params['mode']) {
-    ?>
-    <?php case 'index': ?>
+    case 'index':
+        if ($params['view'] == 'universum') {
+            ?><!DOCTYPE html>
+            <html lang="de">
+            <head>
+                <meta charset="utf-8">
+                <title>Universum <?php echo $params['galaxy'] . ':' . $params['system'] ?></title>
+            </head>
+            <frameset rows="*" cols="*,500" framespacing="0" frameborder="YES" border="0" scrolling="YES">
+                <frame src="<?php echo $data['url']['main'] ?>" name="main" id="main">
+                <frame src="<?php echo $data['url']['right'] ?>" name="right" id="right" scrolling="YES">
+            </frameset>
+            <noframes>
+                <body>
+                </body>
+            </noframes>
+            </html>
 
-    <?php if ($params['view'] == 'universum') { ?>
+        <?php } elseif ($params['view'] == 'fleet_send') {
+            ?><!DOCTYPE html>
+            <html lang="de">
+            <head>
+                <meta charset="utf-8">
+                <title>Flotte versenden</title>
+            </head>
+            <frameset rows="130,*" cols="*" framespacing="0" frameborder="NO" border="0">
+                <frame src="<?php echo $data['url']['top'] ?>" name="top" id="top" scrolling="NO">
+                <frame src="<?php echo $data['url']['main'] ?>" name="main" id="main" scrolling="YES">
+            </frameset>
+            <noframes>
+                <body>
+                </body>
+            </noframes>
+            </html>
 
-        <!DOCTYPE html>
-        <html lang="de">
-        <head>
-            <meta charset="utf-8">
-            <title>Universum <?php echo $params['galaxy'] . ':' . $params['system'] ?></title>
-        </head>
-        <frameset rows="*" cols="*,500" framespacing="0" frameborder="YES" border="0" scrolling="YES">
-            <frame src="<?php echo $data['url']['main'] ?>" name="main" id="main">
-            <frame src="<?php echo $data['url']['right'] ?>" name="right" id="right" scrolling="YES">
-        </frameset>
-        <noframes>
-            <body>
-            </body>
-        </noframes>
-        </html>
-
-    <?php } elseif ($params['view'] == 'fleet_send') { ?>
-
-        <!DOCTYPE html>
-        <html lang="de">
-        <head>
-            <meta charset="utf-8">
-            <title>Flotte versenden</title>
-        </head>
-        <frameset rows="130,*" cols="*" framespacing="0" frameborder="NO" border="0">
-            <frame src="<?php echo $data['url']['top'] ?>" name="top" id="top" scrolling="NO">
-            <frame src="<?php echo $data['url']['main'] ?>" name="main" id="main" scrolling="YES">
-        </frameset>
-        <noframes>
-            <body>
-            </body>
-        </noframes>
-        </html>
-
-    <?php } ?>
-    <?php break; ?>
-
-<?php
-    case 'top': ?>
+        <?php
+        }
+        break;
+    case 'top':
+        ?>
         <html>
         <head>
             <style type="text/css">
@@ -544,29 +551,22 @@ switch ($params['mode']) {
             <script>
                 function transCalcOnLoad() {
                     <?php	if (!empty($data['planet'])) {
-                            $planet = $data['planet']; ?>
-                    <?php		if (strpos($params['autocalc'], 'eisen') !== false) { ?>
+                            $planet = $data['planet'];
+                            if (strpos($params['autocalc'], 'eisen') !== false) { ?>
                     transCalcSetRess('transCalcEisen', '<?php echo abs($planet['eisen']) ?>');
-                    <?php		} ?>
-                    <?php		if (strpos($params['autocalc'], 'stahl') !== false) { ?>
+                    <?php		} 		if (strpos($params['autocalc'], 'stahl') !== false) { ?>
                     transCalcSetRess('transCalcStahl', '<?php echo abs($planet['stahl']) ?>');
-                    <?php		} ?>
-                    <?php		if (strpos($params['autocalc'], 'chemie') !== false) { ?>
+                    <?php		} 		if (strpos($params['autocalc'], 'chemie') !== false) { ?>
                     transCalcSetRess('transCalcChemie', '<?php echo abs($planet['chem']) ?>');
-                    <?php		} ?>
-                    <?php		if (strpos($params['autocalc'], 'vv4a') !== false) { ?>
+                    <?php		} 		if (strpos($params['autocalc'], 'vv4a') !== false) { ?>
                     transCalcSetRess('transCalcVV4A', '<?php echo abs($planet['vv4a']) ?>');
-                    <?php		} ?>
-                    <?php		if (strpos($params['autocalc'], 'eis') !== false) { ?>
+                    <?php		} 		if (strpos($params['autocalc'], 'eis') !== false) { ?>
                     transCalcSetRess('transCalcEis', '<?php echo abs($planet['eis']) ?>');
-                    <?php		} ?>
-                    <?php		if (strpos($params['autocalc'], 'wasser') !== false) { ?>
+                    <?php		} 		if (strpos($params['autocalc'], 'wasser') !== false) { ?>
                     transCalcSetRess('transCalcWasser', '<?php echo abs($planet['wasser']) ?>');
-                    <?php		} ?>
-                    <?php		if (strpos($params['autocalc'], 'energie') !== false) { ?>
+                    <?php		} 		if (strpos($params['autocalc'], 'energie') !== false) { ?>
                     transCalcSetRess('transCalcEnergie', '<?php echo abs($planet['energie']) ?>');
-                    <?php		} ?>
-                    <?php	} ?>
+                    <?php		} 	} ?>
                 }
                 function transCalcSetRess(id, amount) {
                     input = document.getElementById(id);
@@ -627,12 +627,12 @@ switch ($params['mode']) {
         <input type="hidden" name="galaxy" value="<?php echo $params['galaxy'] ?>"/>
         <input type="hidden" name="system" value="<?php echo $params['system'] ?>"/>
         <input type="hidden" name="planet" value="<?php echo $params['planet'] ?>"/>
-        <input type="hidden" name="next_galaxy" value="<?php echo $data['target_next_gal'] ?>"/>
-        <input type="hidden" name="next_system" value="<?php echo $data['target_next_sys'] ?>"/>
-        <input type="hidden" name="next_planet" value="<?php echo $data['target_next_planet'] ?>"/>
-        <input type="hidden" name="prev_galaxy" value="<?php echo $data['target_prev_gal'] ?>"/>
-        <input type="hidden" name="prev_system" value="<?php echo $data['target_prev_sys'] ?>"/>
-        <input type="hidden" name="prev_planet" value="<?php echo $data['target_prev_planet'] ?>"/>
+        <input type="hidden" name="next_galaxy" value="<?php echo $data['targets_next_gal'] ?>"/>
+        <input type="hidden" name="next_system" value="<?php echo $data['targets_next_sys'] ?>"/>
+        <input type="hidden" name="next_planet" value="<?php echo $data['targets_next_planet'] ?>"/>
+        <input type="hidden" name="prev_galaxy" value="<?php echo $data['targets_prev_gal'] ?>"/>
+        <input type="hidden" name="prev_system" value="<?php echo $data['targets_prev_sys'] ?>"/>
+        <input type="hidden" name="prev_planet" value="<?php echo $data['targets_prev_planet'] ?>"/>
         <table width="100%">
         <tr>
         <td nowrap width="100%">
@@ -640,23 +640,22 @@ switch ($params['mode']) {
         <tr>
             <td nowrap>
                 <?php    if (!empty($data['planet'])) {
-                    $planet = $data['planet']; ?>
-                    <?php if (isColony($planet)) { ?>
-                        <img src="bilder/kolo.png" title="Kolonie"/>
-                    <?php } ?>
-                    <?php if (isBattleBase($planet)) { ?>
-                        <img src="bilder/kampf_basis.png" title="Kampfbasis"/>
-                    <?php } ?>
-                    <?php if (isRessourceBase($planet)) { ?>
-                        <img src="bilder/ress_basis.png" title="Sammelbasis"/>
-                    <?php } ?>
-                    <?php if (isArtefactBase($planet)) { ?>
-                        <img src="bilder/artefakt_basis.png" title="Artefaktbasis"/>
-                    <?php } ?>
-                <?php } ?>
+                    $planet = $data['planet'];
+                    if (isColony($planet)) {
+                        echo "<img src='bilder/kolo.png' title='Kolonie'/>";
+                    }
+                    if (isBattleBase($planet)) {
+                        echo "<img src='bilder/kampf_basis.png' title='Kampfbasis'/>";
+                    }
+                    if (isRessourceBase($planet)) {
+                        echo "<img src='bilder/ress_basis.png' title='Sammelbasis'/>";
+                    }
+                    if (isArtefactBase($planet)) {
+                        echo "<img src='bilder/artefakt_basis.png' title='Artefaktbasis'/>";
+                    }
+                } ?>
             <td nowrap>
-                <?php echo $planet['coords_gal'] ?>:<?php echo $planet['coords_sys'] ?>
-                :<?php echo $planet['coords_planet'] ?>
+                <?php echo $planet['coords_gal'] ?>:<?php echo $planet['coords_sys'] ?>:<?php echo $planet['coords_planet'] ?>
             </td>
             <?php    if (hasAlliance($planet)) { ?>
                 <td nowrap>
@@ -669,9 +668,7 @@ switch ($params['mode']) {
             <td nowrap width="100%" align="left">
                 <?php    if (!empty($planet['transports'])) {
                     foreach ($planet['transports'] as $transport) {
-                        ?>
-                        <img src="bilder/raumschiff.png" title="<?php echo $transport['caption'] ?>"/>
-                    <?php
+                        echo "<img src='bilder/raumschiff.png' title='".$transport['caption']."' />";
                     }
                 } ?>
             </td>
@@ -711,11 +708,11 @@ switch ($params['mode']) {
                 <?php echo formatAmount($planet['energie']) ?>
             </div>
         </div>
-        <?php    if (!isset($planet['stock'])) { ?>
-            <?php foreach ($data['cat'] as $category) { ?>
+        <?php    if (!isset($planet['stock'])) {
+            foreach ($data['cat'] as $category) { ?>
                 <div style="float : left">
-                    <?php        foreach ($category as $key) { ?>
-                        <?php if (!empty($planet[$key])) { ?>
+                    <?php        foreach ($category as $key) {
+                        if (!empty($planet[$key])) { ?>
                             <div>
                                 <?php                if (empty($data['info'][$key])) { ?>
                                     <a href="javascript:void(0)"><?php echo $key ?></a>
@@ -723,20 +720,20 @@ switch ($params['mode']) {
                                     <a href="javascript:void(0)"><?php echo $data['info'][$key]['caption'] ?></a>
                                 <?php } ?>
                             </div>
-                        <?php } ?>
-                    <?php } ?>
+                        <?php }
+                    } ?>
                 </div>
                 <div style="float : left">
-                    <?php        foreach ($category as $key) { ?>
-                        <?php if (!empty($planet[$key])) { ?>
+                    <?php        foreach ($category as $key) {
+                        if (!empty($planet[$key])) { ?>
                             <div style="margin-left: 2px; margin-right: 10px">
                                 <?php echo $planet[$key] ?>
                             </div>
-                        <?php } ?>
-                    <?php } ?>
+                        <?php }
+                    } ?>
                 </div>
-            <?php } ?>
-        <?php } ?>
+            <?php }
+        } ?>
         <div style="float : left; width: 170px">
             <div style="height : 25px;">
                 <div style="float : left; width : 50px; line-height : 25px; vertical-align: middle">
@@ -893,8 +890,7 @@ switch ($params['mode']) {
                 <div style="margin-bottom: 5px">
                     <input type="submit" name="prev" value="&lt;&lt; Zur&uuml;ck"/>
                 </div>
-            <?php } ?>
-            <?php    if (isset($data['target_next_gal'])) { ?>
+            <?php }     if (isset($data['target_next_gal'])) { ?>
                 <div>
                     <input type="submit" name="next" value="Weiter &gt;&gt;"/>
                 </div>
@@ -909,10 +905,9 @@ switch ($params['mode']) {
         </form>
         </body>
         </html>
-        <?php break; ?>
-
-    <?php
-    case 'right': ?>
+        <?php break;
+    case 'right':
+        ?>
         <html>
         <head>
             <style type="text/css">
@@ -1021,8 +1016,8 @@ switch ($params['mode']) {
                             von <?php echo count($data['targets']) ?>
                         </td>
                         <td align="right" nowrap>
-                            <?php    if (!empty($data['targets_next_gal'])) { ?>
-                                <?php echo $data['targets_next_gal'] . ':' . $data['targets_next_sys'] ?>
+                            <?php    if (!empty($data['targets_next_gal'])) {
+                                echo $data['targets_next_gal'] . ':' . $data['targets_next_sys'] ?>
                                 <a href="<?php echo $data['url']['next'] ?>" target="_top">--&gt;</a>
                             <?php } ?>
                         </td>
@@ -1030,20 +1025,15 @@ switch ($params['mode']) {
                 </table>
             </td>
         </tr>
-        <?php    foreach ($data['planets'] as $planet) { ?>
-        <?php        if (isset($data['targets'][$planet['coords']])) { ?>
-        <?php            if ($user_uniprop) { ?>
+        <?php    foreach ($data['planets'] as $planet) {         if (isset($data['targets'][$planet['coords']])) {             if ($user_uniprop) { ?>
         <tr class="universum-row-selected" height="71px" valign="top">
             <?php            } else { ?>
         <tr class="universum-row-selected" valign="top">
-            <?php            } ?>
-            <?php        } else { ?>
-            <?php            if ($user_uniprop) { ?>
+            <?php            }         } else {             if ($user_uniprop) { ?>
         <tr class="universum-row<?php echo !empty($planet['allianzstatus']) ? '-' . $planet['allianzstatus'] : '' ?>" height="71px" valign="top">
             <?php            } else { ?>
         <tr class="universum-row<?php echo !empty($planet['allianzstatus']) ? '-' . $planet['allianzstatus'] : '' ?>" valign="top">
-            <?php            } ?>
-            <?php        } ?>
+            <?php            }         } ?>
             <td class="universum" width="20px" align="center" valign="center">
                 <?php echo $planet['coords_planet'] ?>
             </td>
@@ -1056,14 +1046,11 @@ switch ($params['mode']) {
                         <td nowrap>
                             <?php    if (isColony($planet)) { ?>
                                 <img src="bilder/kolo.png" title="Kolonie"/>
-                            <?php } ?>
-                            <?php    if (isBattleBase($planet)) { ?>
+                            <?php }     if (isBattleBase($planet)) { ?>
                                 <img src="bilder/kampf_basis.png" title="Kampfbasis"/>
-                            <?php } ?>
-                            <?php     if (isRessourceBase($planet)) { ?>
+                            <?php }      if (isRessourceBase($planet)) { ?>
                                 <img src="bilder/ress_basis.png" title="Sammelbasis"/>
-                            <?php } ?>
-                            <?php    if (isArtefactBase($planet)) { ?>
+                            <?php }     if (isArtefactBase($planet)) { ?>
                                 <img src="bilder/artefakt_basis.png" title="Artefaktbasis"/>
                             <?php } ?>
                         </td>
@@ -1086,13 +1073,13 @@ switch ($params['mode']) {
                                         <td><?php echo formatYield($planet["lebensbedingungen"]) ?></td>
                                     </tr>
                                 </table>
-                            <?php } else { ?>
-                                <?php if (isset($planet['fleet_send'])) { ?>
+                            <?php } else {
+                                if (isset($planet['fleet_send'])) { ?>
                                     <a href="<?php echo $planet['fleet_send'] ?>" target="_top"><?php echo $planet['user']; ?></a>
-                                <?php } else { ?>
-                                    <?php echo $planet['user']; ?>
-                                <?php } ?>
-                            <?php } ?>
+                                <?php } else {
+                                    echo $planet['user'];
+                                }
+                            } ?>
                         </td>
                         <td nowrap width="100%">
                             <?php    if (!empty($planet['transports'])) {
@@ -1110,31 +1097,27 @@ switch ($params['mode']) {
                             <td nowrap valign="center">
                                 <?php echo formatDuration($planet['raid_time'], 48 * 60) ?>
                             </td>
-                        <?php } ?>
-                        <?php    if (hasFailScan($planet)) { ?>
+                        <?php }     if (hasFailScan($planet)) { ?>
                             <td nowrap>
                             </td>
                             <td nowrap valign="center">
                                 <span style="color : #ff0000;" title="Fehlgeschlagene Sondierung"><?php echo formatDuration($planet['fehlscantime']) ?></span>
                             </td>
-                        <?php } ?>
-                        <?php    if (hasShipScan($planet)) { ?>
+                        <?php }     if (hasShipScan($planet)) { ?>
                             <td nowrap>
                                 <img src="bilder/scann_schiff.png" title="Schiffscan"/>
                             </td>
                             <td nowrap valign="center">
                                 <?php echo formatDuration($planet['schiffscantime'], 48 * 60) ?>
                             </td>
-                        <?php } ?>
-                        <?php    if (hasGebScan($planet)) { ?>
+                        <?php }     if (hasGebScan($planet)) { ?>
                             <td nowrap valign="top">
                                 <img src="bilder/scann_geb.png" title="Gebäudescan"/>
                             </td>
                             <td nowrap valign="center">
                                 4d
                             </td>
-                        <?php } ?>
-                        <?php    if (hasGeoScan($planet)) { ?>
+                        <?php }     if (hasGeoScan($planet)) { ?>
                             <td nowrap valign="top">
                                 <img src="bilder/scann_geo.png" title="Geoscan"/>
                             </td>
@@ -1247,8 +1230,8 @@ switch ($params['mode']) {
                             von <?php echo count($data['targets']) ?>
                         </td>
                         <td align="right" valign="top" nowrap>
-                            <?php    if (!empty($data['targets_next_gal'])) { ?>
-                                <?php echo $data['targets_next_gal'] . ':' . $data['targets_next_sys'] ?>
+                            <?php    if (!empty($data['targets_next_gal'])) {
+                                echo $data['targets_next_gal'] . ':' . $data['targets_next_sys'] ?>
                                 <a href="<?php echo $data['url']['next'] ?>" target="_top">--&gt;</a>
                             <?php } ?>
                         </td>
@@ -1261,11 +1244,8 @@ switch ($params['mode']) {
         </html>
         <?php
         break;
-
     default:
-        ?>
-            Fehler: Unbekannter Modus '"<?php echo $params['mode'] ?>"'.
-        <?php
+        echo 'Fehler: Unbekannter Modus '.$params['mode'];
 }
 
 /// Local functions
@@ -1413,8 +1393,8 @@ function formatDuration($time, $minYellow = 0)
         return '---';
     }
     $duration = time() - $time;
-    $hours    = round($duration / (60 * 60));
-    $minutes  = round($duration / 60);
+    $hours    = round($duration / HOUR);
+    $minutes  = round($duration / MINUTE);
     if (!empty($minYellow)) {
         $pre  = '<span style="color : ' . ($minutes >= $minRed ? '#ffff00' : '#00ff00') . '">';
         $post = '</span>';
@@ -1422,9 +1402,9 @@ function formatDuration($time, $minYellow = 0)
         $pre  = '';
         $post = '';
     }
-    if ($duration > 2 * 24 * 60 * 60) {
-        return $pre . round($duration / (24 * 60 * 60)) . 'd' . $post;
-    } elseif ($duration > 60 * 60) {
+    if ($duration > 2 * DAY) {
+        return $pre . round($duration / DAY) . 'd' . $post;
+    } elseif ($duration > HOUR) {
         return $pre . ($hours == 1 ? "1 Stunde" : $hours) . 'h' . $post;
     } else {
         return $pre . ($minutes == 1 ? "1 Minute" : $minutes) . 'm' . $post;

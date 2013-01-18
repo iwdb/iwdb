@@ -434,11 +434,11 @@ switch ($mode) {
                 <table>
                     <tr>
                         <td width="100%">
-                            <?php            if (count($user['attack']) > 0) { ?>
+                            <?php            if (!empty($user['attack']) AND count($user['attack']) > 0) { ?>
                                 <span class="attack">Angriff von <?php echo $user['attack'][0]['from'] ?>
                                     auf <?php echo $user['attack'][0]['coords'] ?></span><br>
                             <?php } ?>
-                            <?php            if (count($user['probe']) > 0) { ?>
+                            <?php            if (!empty($user['probe']) AND count($user['probe']) > 0) { ?>
                                 <span class="probe">Sondierung von <?php echo $user['probe'][0]['from'] ?>
                                     auf <?php echo $user['probe'][0]['coords'] ?></span><br>
                             <?php } ?>
@@ -457,15 +457,6 @@ switch ($mode) {
         <?php
         }
         ?>
-        </body>
-        </html>
-        <?php
-        break;
-    case 'register':
-        ?>
-        <html>
-        <body>
-        Diese Seite verwendet Frames.
         </body>
         </html>
         <?php

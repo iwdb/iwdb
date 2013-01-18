@@ -27,8 +27,8 @@
 // -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
 if (basename($_SERVER['PHP_SELF']) != "index.php") {
-	echo "Hacking attempt...!!"; 
-	exit; 
+    echo "Hacking attempt...!!";
+    exit;
 }
 
 include "./menustyles/doc_default.php";
@@ -36,52 +36,47 @@ include "./menustyles/doc_default.php";
 doc_title("Passwort vergessen");
 
 $username = getVar('username');
-if( ! empty($username)) {
-	$sql = "SELECT email FROM " . $db_tb_user . 
-         " WHERE id = '" . $username . "'";
-	$result = $db->db_query($sql)
-		or error(GENERAL_ERROR, 
-             'Could not query config information.', '', 
-             __FILE__, __LINE__, $sql);
-             
-	$row = $db->db_fetch_array($result);
-	if ( ! empty($row['email']) )	{
-		$newpass = randomstring($config_password_string, 7);
-		$sql = "UPDATE " . $db_tb_user . 
-           " SET password = '" . md5($newpass) . 
-           "' WHERE id = '" . $username . "'";
-           
-		$result_u = $db->db_query($sql)
-			or error(GENERAL_ERROR, 
-               'Could not query config information.', '', 
-               __FILE__, __LINE__, $sql);
+if (!empty($username)) {
+    $sql = "SELECT email FROM " . $db_tb_user .
+        " WHERE id = '" . $username . "'";
+    $result = $db->db_query($sql)
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
-		$empfaenger = $row['email'];
-		$betreff = "Neues Passwort";
-		$from = $config_mailname;
-		$text = "Ein neues Passwort für die Icewars-DB wurde angefordert \n" .
-			"Benutzername : " . $username . " \n" .
-			"Passwort : " . $newpass . "\n";
-		@mail($empfaenger, $betreff, $text, "From: $from ");
-	
-	}
+    $row = $db->db_fetch_array($result);
+    if (!empty($row['email'])) {
+        $newpass = randomstring($config_password_string, 7);
+        $sql     = "UPDATE " . $db_tb_user .
+            " SET password = '" . md5($newpass) .
+            "' WHERE id = '" . $username . "'";
 
-  doc_message("Passwort an gespeicherte EMail-Adresse versendet.");
+        $result_u = $db->db_query($sql)
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
+        $empfaenger = $row['email'];
+        $betreff    = "Neues Passwort";
+        $from       = $config_mailname;
+        $text       = "Ein neues Passwort für die Icewars-DB wurde angefordert \n" .
+            "Benutzername : " . $username . " \n" .
+            "Passwort : " . $newpass . "\n";
+        @mail($empfaenger, $betreff, $text, "From: $from ");
+
+    }
+
+    doc_message("Passwort an gespeicherte EMail-Adresse versendet.");
 } else {
-  start_form("password");
-  start_table(0);
-  start_row("windowbg2");
-  echo "Username:&nbsp;";
-  next_cell("windowbg1");
-  echo "<input style=\"width: 200\" type=\"text\" name=\"username\">\n";
-  next_row("titlebg", "align=\"center\"", 2);
-  echo "<input type=\"submit\" value=\"OK\" name=\"B1\" class=\"submit\">&nbsp;".
-       "<input type=\"reset\" value=\"reset\" name=\"B2\" class=\"submit\">";
-  end_row();
-  end_table();
-  end_form();
-	echo "<br>\n";
-	echo "<br>\n";
-	echo "<a href=\"index.php\">Zurück zur Startseite</a>";
+    ?>
+    <form method='POST' action='index.php?action=password' enctype='multipart/form-data'>
+        <table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style="margin: 0 auto;">
+            <tr>
+                <td class='windowbg2'>Username:&nbsp;</td>
+                <td class='windowbg1'><input style='width: 200px' type='text' name='username' required='required'></td>
+            </tr>
+            <tr>
+                <td class='titlebg' align='center' colspan='2'><input type='submit' value='OK' name='B1' class='submit'>
+                </td>
+            </tr>
+        </table>
+        <a href='index.php'>Zurück zur Startseite</a>
+    </form>
+<?php
 }
-?>

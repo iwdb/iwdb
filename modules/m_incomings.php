@@ -205,8 +205,7 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 global $db, $db_prefix, $db_tb_incomings, $db_tb_user;
 
 // Titelzeile
-echo "<div class='doc_title'>$modultitle</div>\n";
-echo " 	 <br />\n";
+doc_title('Incomings');
 echo "Anzeige der laufenden Sondierungen und Angriffe auf uns";
 echo " 	 <br />\n";
 echo " 	 <br />\n";

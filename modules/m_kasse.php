@@ -269,8 +269,6 @@ $result = $db->db_query($sql)
 $lastreport = "";
 
 if ($row = $db->db_fetch_array($result)) {
-
-
     $time1      = strtotime($row['TOI']);
     $lastreport = strftime("%d.%m.%y %H:%M", $time1);
     echo "zuletzt aktualisiert am : " . $lastreport;

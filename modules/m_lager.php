@@ -1035,7 +1035,7 @@ if (!isset($group_data)) {
 }
 
 // Titelzeile ausgeben
-echo "<div class='doc_title'>" . $view['title'] . "</div>\n";
+doc_title($view['title']);
 
 // Ergebnisse ausgeben
 if (isset($results)) {

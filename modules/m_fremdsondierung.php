@@ -132,7 +132,7 @@ function workInstallMenu() {
 function workInstallConfigString() {
 /*  global $config_gameversion;
   return
-    "\$v04 = \" <div class=\\\"doc_lightred\\\">(V " . $config_gameversion . ")</div>\";";
+    "\$v04 = ' <div class=\\'doc_lightred\\'>(V " . $config_gameversion . ")</div>';";
 */}
 
 //****************************************************************************
@@ -196,56 +196,53 @@ if (!@include("./config/".$modulname.".cfg.php")) {
 // -> Und hier beginnt das eigentliche Modul
 
 // Titelzeile
-echo "<div class='doc_title'>$modultitle</div>\n";
-echo " 	 <br />\n";
+doc_title('Fremdsondierung');
 echo "Anzeige der Sondierungen auf uns in den letzten 14 Tagen";
 echo " 	 <br />\n";
 echo " 	 <br />\n";
 
-$sql = "SELECT * FROM " . $db_tb_fremdsondierung . " WHERE timestamp >" . (CURRENT_UNIX_TIME-14*24*60*60) . " ORDER BY timestamp DESC";
+$sql = "SELECT * FROM " . $db_tb_fremdsondierung . " WHERE timestamp >" . (CURRENT_UNIX_TIME - 14*DAY) . " ORDER BY timestamp DESC";
 $result = $db->db_query($sql)
-	or error(GENERAL_ERROR, 
-	'Could not query config information.', '', 
-	__FILE__, __LINE__, $sql);
+	or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	
 $data = array();
 	
 start_table();
-	start_row("titlebg", "nowrap style=\"width:0%\" align=\"center\" ");
+	start_row("titlebg", "nowrap style='width:0%' align='center' ");
 		echo "<b>Wer wurde sondiert?</b>";
-		next_cell("titlebg", "nowrap style=\"width:0%\" align=\"center\"");
+		next_cell("titlebg", "nowrap style='width:0%' align='center'");
 		echo "<b>Zielplanet</b>";
-		next_cell("titlebg", "nowrap style=\"width:0%\" align=\"center\"");
+		next_cell("titlebg", "nowrap style='width:0%' align='center'");
 		echo "<b>Wer hat sondiert?</b>";
-		next_cell("titlebg", "nowrap style=\"width:0%\" align=\"center\"");
+		next_cell("titlebg", "nowrap style='width:0%' align='center'");
 		echo "<b>Von wo wurde sondiert?</b>";
-		next_cell("titlebg", "nowrap style=\"width:0%\" align=\"center\"");
+		next_cell("titlebg", "nowrap style='width:0%' align='center'");
 		echo "<b>Zeitpunkt</b>";
-		next_cell("titlebg", "nowrap style=\"width:0%\" align=\"center\"");
+		next_cell("titlebg", "nowrap style='width:0%' align='center'");
 		echo "<b>Art der Sondierung</b>";
-		next_cell("titlebg", "nowrap style=\"width:0%\" align=\"center\"");
+		next_cell("titlebg", "nowrap style='width:0%' align='center'");
 		echo "<b>Sondierung erfolgreich?</b>";
 	
 	while ($row = $db->db_fetch_array($result)) {
 		
-		next_row("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
+		next_row("windowbg1", "nowrap style='width:0%' align='left'");
 		echo $row['name_to'];
-		next_cell("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
+		next_cell("windowbg1", "nowrap style='width:0%' align='left'");
 		echo $row['koords_to'];
-		next_cell("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
+		next_cell("windowbg1", "nowrap style='width:0%' align='left'");
 		if (!empty($row['allianz_from'])) {
 			echo ($row['name_from'] . " [" . $row['allianz_from'] ."]");
 		}
 		else {
 			echo $row['name_from'];
 		}
-		next_cell("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
+		next_cell("windowbg1", "nowrap style='width:0%' align='left'");
 		echo $row['koords_from'];
-		next_cell("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
+		next_cell("windowbg1", "nowrap style='width:0%' align='left'");
 		echo strftime("%d.%m.%y %H:%M:%S", $row['timestamp']);
-		next_cell("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
+		next_cell("windowbg1", "nowrap style='width:0%' align='left'");
 		echo $row['sondierung_art'];
-		next_cell("windowbg1", "nowrap style=\"width:0%\" align=\"left\"");
+		next_cell("windowbg1", "nowrap style='width:0%' align='left'");
 		if ($row['erfolgreich']=='0') {
 			echo "nein";
 			}

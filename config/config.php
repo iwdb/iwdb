@@ -38,34 +38,6 @@ if (!defined('IRA')) {
     die('Hacking attempt...');
 }
 
-// Das aktuelle Datum wird pro Skriptaufruf nur einmal geholt, +-x kann
-// entsprechend hier geändert werden
-define("CURRENT_UNIX_TIME", time());
-
-// Basisdefinitionen für Zeiträume.
-define("MINUTE", 60);
-define("HOUR", 60 * MINUTE);
-define("DAY", 24 * HOUR);
-
-// veraltet
-$MINUTES = MINUTE;
-$HOURS   = HOUR;
-$DAYS    = DAY;
-
-// old for compatibility
-$config_date = CURRENT_UNIX_TIME;
-
-// nicht ändern
-define('SITTEN_DISABLED', 2);
-define('SITTEN_ONLY_NEWTASKS', 0);
-define('SITTEN_ONLY_LOGINS', 3);
-define('SITTEN_BOTH', 1);
-
-// Lade die Allianzdefinitionen. Wenn das nicht klappt, ist was falsch.
-if (!@include("./config/configally.php")) {
-    die("Error:<br><b>Allianz Konfiguration (configally.php) wurde nicht geladen!</b>");
-}
-
 // ***************************************************************************
 //  Ab hier sind Angaben die nicht unbedingt geändert werden muessen.
 //
@@ -89,17 +61,6 @@ $config_color['first24h']      = "#00AACC";
 $config_color['last24']        = "#00AACC"; //old
 $config_color['unscanned']     = "#4B4B00";
 $config_color['scanoutdated']  = "#FF0000";
-
-// Tabellennamen - Definition des Einstiegsnamens
-$db_tb_iwdbtabellen = $db_prefix . "iwdbtabellen";
-
-// Die restlichen Tabellennamen werden aus der DB gelesen.
-$sql    = "SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '$db_name' AND table_name LIKE '$db_prefix%'";
-$result = $db->db_query($sql);
-while ($row = $db->db_fetch_array($result)) {
-    $tbname    = "db_tb_" . mb_substr($row['table_name'], mb_strlen($db_prefix));
-    ${$tbname} = $row['table_name'];
-}
 
 // Zeit, wie lange die SID aktuell bleibt (in Sekunden)
 $config_sid_timeout = 1 * HOUR;

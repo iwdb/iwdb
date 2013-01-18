@@ -27,56 +27,11 @@
  *                                                                           *
  *****************************************************************************/
 
-error_reporting(E_ALL);
-
-//ist noch eine install.php vorhanden?
-if (file_exists('install.php')) {
-    die ('<div style="text-align:center;color:red">Eine install.php ist noch vorhanden!</div><div style="text-align:center">Du darfst den Admin slammen, da er vergessen hat, diese aus dem Rootordner zu löschen!</div>');
-}
-
-date_default_timezone_set('Europe/Berlin');
-mb_internal_encoding("UTF-8");                   //just to make sure we are talking the same language
-mb_http_output("UTF-8");
-header('Content-Type: text/html; charset=UTF-8');
-header('X-Frame-Options: DENY');
-header('X-XSS-Protection: 1; mode=block');
-
-// define's vor allen anderen Includes durchführen 
-define('DEBUG', TRUE);
-define('IRA', TRUE);
-
-define('NEBULA', TRUE);
-define('SPECIALSEARCH', TRUE);
-define('ALLY_MEMBERS_ON_MAP', TRUE); 
-define('GENERAL_ERROR', 'GENERAL_ERROR');
 define('APPLICATION_PATH_ABSOLUTE', dirname(__FILE__));
 define('APPLICATION_PATH_RELATIVE', dirname($_SERVER['SCRIPT_NAME']));
 define('APPLICATION_PATH_URL', dirname($_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']));
-define("MAX_INSERTS", 1000);
-define("DB_LOG", TRUE);
 
-global $db_host, $db_user, $db_pass, $db_name, $db_prefix;
-require_once("config/configsql.php");
-require_once("includes/debug.php");
-require_once("includes/function.php");
-require_once("includes/db_mysql.php");
-require_once('parser/parser_help.php');        //ausgelagerte Parserhilfsfunktionen
-
-$error = '';
-libxml_use_internal_errors(true);
-
-$db = new db();
-$link_id = $db->db_connect($db_host, $db_user, $db_pass, $db_name)
-    or error(GENERAL_ERROR, 'Could not connect to database.', '', __FILE__, __LINE__);
-
-require_once("config/config.php");
-
-$action = preg_replace('/[^a-zA-Z0-9_-]/', '', mb_substr(getVar('action'), 0, 100));      //get and filter actionstring (limited to 100 chars)
-if ( empty($action) ) {
-    $action = $config_default_action;
-}
-
-require_once("includes/sid.php");
+require_once("includes/bootstrap.php");
 global $sid;
 
 //Abkratzen sollte der User gesperrt sein
@@ -89,39 +44,27 @@ if ($row_g['gesperrt'] == 1 ) {
 }
 
 if (isset($user_status)) {
+    $sqlIA = "SELECT text,value FROM " . $db_prefix . "params WHERE name = 'gesperrt' ";
+        $resultIA = $db->db_query($sqlIA)
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlIA);
+        $rowIA = $db->db_fetch_array($resultIA);
+    $grund = $rowIA['text'];
+    $isornot = $rowIA['value'];
 
-global $db_prefix;
+    if ($isornot == 'true') {
+        if ($user_status <> 'admin') {
 
-$sqlIA = "SELECT text,value FROM " . $db_prefix . "params WHERE name = 'gesperrt' ";
-    $resultIA = $db->db_query($sqlIA)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlIA);
-    $rowIA = $db->db_fetch_array($resultIA);
-$grund = $rowIA['text'];
-$isornot = $rowIA['value'];
+            echo "<div style='text-align:center;color:red'>Die Datenbank ist zur Zeit gesperrt!</div>";
+            echo "<div style='text-align:center;color:red'>Grund: $grund</div>";
+            exit;
 
-if ($isornot == 1) {
+        } else {
 
-if ($user_status <> 'admin') {
+            echo "<div style='text-align:center'>Die Datenbank ist zur Zeit gesperrt!</div>";
+            echo "<div style='text-align:center'>Grund: $grund</div>";
 
-die ('
-<div style="text-align:center;color:red">Die Datenbank ist zur Zeit gesperrt!</div>
-<div style="text-align:center;color:red">Grund:</div>
-<div style="text-align:center;color:red"> ' . $grund . '</div>
-');
-
-} else {
-
-echo '
-<div style="text-align:center">Die Datenbank ist zur Zeit gesperrt!</div>
-<div style="text-align:center">Grund:</div>
-<div style="text-align:center"> ' . $grund . '</div>
-';
-
-}
-
-
-}
-
+        }
+    }
 }
 
 // Regeln akzeptieren //
@@ -366,4 +309,4 @@ Regeln akzeptieren? <input type="checkbox" name="rules" value="1"> <input type="
 </div>
 </body>
 </html>
-<?php	} ?>
+<?php	}?>

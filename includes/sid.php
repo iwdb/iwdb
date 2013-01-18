@@ -103,7 +103,7 @@ if (isset($row_sid['id'])) {
     }
 }
 
-if (($action == "memberlogin2") || ($action == "memberlogout2")) {
+if (!empty($action) AND (($action == "memberlogin2") OR ($action == "memberlogout2"))) {
     // check given userdata //
 
     // Erst mal den Benutzernamen so holen, wie er ?bergeben wird. Dann
@@ -206,7 +206,7 @@ IPs:<br>' . $ips . $client_ip . '</font>
 }
 
 //Cookie leeren wenn Logout
-if ($action == "memberlogout2") {
+if (!empty($action) AND ($action == "memberlogout2")) {
     setcookie($config_cookie_name, '', time() - 3600, '', '', 0);
 }
 

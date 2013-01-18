@@ -1022,7 +1022,7 @@ function input_unixml($xml)
                 $id                         = (int)($Plannie->koordinaten->gal) . ':' . (int)($Plannie->koordinaten->sol);
                 $systoinsert[$id]['objekt'] = 'Stargate';
 
-                if (count($systoinsert) >= MAX_INSERTS) { //eingestellte Maximalanzahl der Datensätze für die DB erreicht
+                if (count($systoinsert) >= DB_MAX_INSERTS) { //eingestellte Maximalanzahl der Datensätze für die DB erreicht
                     // -> sql String zusammenbauen und in die DB einfügen
                     foreach ($systoinsert as $id => $sys) {
                         $sql_sysscans .= "('{$id}', {$sys['gal']}, {$sys['sys']}, '{$sys['objekt']}', {$sys['date']}, '{$sys['nebula']}'),";
@@ -1043,7 +1043,7 @@ function input_unixml($xml)
             $sql_scan .= "('" . (string)$Plannie->koordinaten->string . "', " . (int)($Plannie->koordinaten->gal) . ", " . (int)($Plannie->koordinaten->sol) . ", " . $planienummer . ", '{$username}', {$aktualisierungszeit}, '" . (string)$Plannie->name . "', '" . (string)$Plannie->planet_typ . "', {$aktualisierungszeit}, '" . (string)$Plannie->objekt_typ . "', {$aktualisierungszeit}, '" . (isset($Plannie->nebel) ? (string)$Plannie->nebel : '') . "', " . (int)($Plannie->id) . ", {$aktualisierungszeit}),";
             ++$planet_inserts;
 
-            if ($planet_inserts >= MAX_INSERTS) { //eingestellte Maximalanzahl der Datensätze für die DB erreicht
+            if ($planet_inserts >= DB_MAX_INSERTS) { //eingestellte Maximalanzahl der Datensätze für die DB erreicht
                 // -> sql String zusammenbauen und in die DB einfügen
                 $sql_scan = mb_substr($sql_scan, 0, -1) . $sql_scan_end; //letztes "," des SQL-Queries entfernen und ON DUPLICATE KEY UPDATE - Teil anhängen
                 $result = $db->db_query($sql_scan)
@@ -1061,7 +1061,7 @@ function input_unixml($xml)
                     $spielertoinsert[$username] = (string)$Plannie->user->allianz_tag;
                     $spieler[$username]         = (string)$Plannie->user->allianz_tag;
 
-                    if (count($spielertoinsert) >= MAX_INSERTS) { //eingestellte Maximalanzahl der Datensätze für die DB erreicht
+                    if (count($spielertoinsert) >= DB_MAX_INSERTS) { //eingestellte Maximalanzahl der Datensätze für die DB erreicht
                         // -> sql String zusammenbauen und in die DB einfügen
                         foreach ($spielertoinsert as $name => $ally) {
                             $sql_spieler .= "('" . $name . "', '" . $ally . "', {$aktualisierungszeit}, {$aktualisierungszeit}),";

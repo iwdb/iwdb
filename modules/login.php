@@ -35,7 +35,9 @@ if (!defined('IRA')) {
 
 //****************************************************************************
 
-echo '<h1>Login</h1>';
+include "./menustyles/doc_default.php";
+
+doc_title('Login');
 
 if ((isset($login_id)) && ($login_ok === false) && ($action != "memberlogout2")) {
     echo "<div class='doc_warning'>Falscher Benutzername oder Passwort!</div>\n";

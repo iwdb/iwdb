@@ -1,47 +1,38 @@
 <?php
-/*****************************************************************************/
-/* m_ress.php                                                                */
-/*****************************************************************************/
-/* Iw DB: Icewars geoscan and sitter database                                */
-/* Open-Source Project started by Robert Riess (robert@riess.net)            */
-/* Software Version: Iw DB 1.00                                              */
-/* ========================================================================= */
-/* Software Distributed by:    http://lauscher.riess.net/iwdb/               */
-/* Support, News, Updates at:  http://lauscher.riess.net/iwdb/               */
-/* ========================================================================= */
-/* Copyright (c) 2004 Robert Riess - All Rights Reserved                     */
-/*****************************************************************************/
-/* This program is free software; you can redistribute it and/or modify it   */
-/* under the terms of the GNU General Public License as published by the     */
-/* Free Software Foundation; either version 2 of the License, or (at your    */
-/* option) any later version.                                                */
-/*                                                                           */
-/* This program is distributed in the hope that it will be useful, but       */
-/* WITHOUT ANY WARRANTY; without even the implied warranty of                */
-/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General */
-/* Public License for more details.                                          */
-/*                                                                           */
-/* The GNU GPL can be found in LICENSE in this directory                     */
-/*****************************************************************************/
+/*****************************************************************************
+ * m_ress.php                                                                *
+ *****************************************************************************
+ * Iw DB: Icewars geoscan and sitter database                                *
+ * Open-Source Project started by Robert Riess (robert@riess.net)            *
+ * ========================================================================= *
+ * Copyright (c) 2004 Robert Riess - All Rights Reserved                     *
+ *****************************************************************************
+ * This program is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU General Public License as published by the     *
+ * Free Software Foundation; either version 2 of the License, or (at your    *
+ * option) any later version.                                                *
+ *                                                                           *
+ * This program is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General *
+ * Public License for more details.                                          *
+ *                                                                           *
+ * The GNU GPL can be found in LICENSE in this directory                     *
+ *****************************************************************************
+ * Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  *
+ * IW-Spielern.                                                              *
+ *                                                                           *
+ * Entwicklerforum/Repo:                                                     *
+ *                                                                           *
+ *        https://handels-gilde.org/?www/forum/index.php;board=1099.0        *
+ *                   https://github.com/iwdb/iwdb                            *
+ *                                                                           *
+ *****************************************************************************/
 
-/*****************************************************************************/
-/* Dieses Modul dient als Vorlage zum Erstellen von eigenen Zusatzmodulen    */
-/* für die Iw DB: Icewars geoscan and sitter database                        */
-/*---------------------------------------------------------------------------*/
-/* Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  */
-/* IW-Spielern.                                                              */
-/* Bei Problemen kannst du dich an das eigens dafür eingerichtete            */
-/* Entwicklerforum wenden:                                                   */
-/*                                                                           */
-/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
-/*                                                                           */
-/*****************************************************************************/
-
-// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
-//    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") {
-	echo "Hacking attempt...!!";
-	exit;
+//direktes Aufrufen verhindern
+if (!defined('IRA')) {
+    header('HTTP/1.1 403 forbidden');
+    exit;
 }
 
 //****************************************************************************
@@ -51,7 +42,7 @@ if (basename($_SERVER['PHP_SELF']) != "index.php") {
 // -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung für
 //    eine Installation über das Menü
 //
-$modulname  = "m_ress";
+$modulname = "m_ress";
 
 //****************************************************************************
 //
@@ -73,9 +64,9 @@ $modulstatus = "";
 // -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
 //
 $moduldesc =
-  "Dieses Modul dient zur Anzeige der Ressproduktion der Spieler in der Allianz.".
-  " Dabei wird anhand der Kolo-/Ressübersicht der Tagesbedarf bzw. ".
-  " Tagesoutput errechnet.";
+    "Dieses Modul dient zur Anzeige der Ressproduktion der Spieler in der Allianz." .
+        " Dabei wird anhand der Kolo-/Ressübersicht der Tagesbedarf bzw. " .
+        " Tagesoutput errechnet.";
 
 
 //****************************************************************************
@@ -84,42 +75,42 @@ $moduldesc =
 // installing this module.
 //
 
-function workInstallDatabase() {
-  global $db, $db_prefix, $db_tb_iwdbtabellen, $db_tb_parser;
-/*
-  $sqlscript = array(
-    "CREATE TABLE " . $db_prefix . "ressuebersicht( " . 
-    "`user` varchar(50) NOT NULL default '', ".
-    "`datum` int(11) default NULL,  " .
-    "`eisen` float default NULL,  " .
-    "`stahl` float default NULL,  " .
-    "`vv4a` float default NULL,  ". 
-    "`chem` float default NULL, " . 
-    "`eis` float default NULL,  " . 
-    "`wasser` float default NULL,  " .
-    "`energie` float default NULL, " .
-    "`fp_ph` float default NULL, " .
-    "`credits` float default NULL, " .
-    "`bev_a` float default NULL, " .
-    "`bev_g` float default NULL, " .
-    "`bev_q` float default NULL, " .
-    "PRIMARY KEY  (`user`))",
+function workInstallDatabase()
+{
+    /*
+    global $db, $db_prefix, $db_tb_iwdbtabellen, $db_tb_parser;
 
-    "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-    " VALUES('ressuebersicht')",
+      $sqlscript = array(
+        "CREATE TABLE " . $db_prefix . "ressuebersicht( " .
+        "`user` varchar(50) NOT NULL default '', ".
+        "`datum` int(11) default NULL,  " .
+        "`eisen` float default NULL,  " .
+        "`stahl` float default NULL,  " .
+        "`vv4a` float default NULL,  ".
+        "`chem` float default NULL, " .
+        "`eis` float default NULL,  " .
+        "`wasser` float default NULL,  " .
+        "`energie` float default NULL, " .
+        "`fp_ph` float default NULL, " .
+        "`credits` float default NULL, " .
+        "`bev_a` float default NULL, " .
+        "`bev_g` float default NULL, " .
+        "`bev_q` float default NULL, " .
+        "PRIMARY KEY  (`user`))",
 
-    "INSERT INTO " . $db_tb_parser . "(modulename,recognizer,message) VALUES " .
-    "('production', 'Ressourcenkoloübersicht', 'Produktionsübersicht')"
-  );
-*/
-  foreach($sqlscript as $sql) {
-    $result = $db->db_query($sql)
-  	  or error(GENERAL_ERROR,
-               'Could not query config information.', '',
-               __FILE__, __LINE__, $sql);
-  }
- 
-  echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
+        "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
+        " VALUES('ressuebersicht')",
+
+        "INSERT INTO " . $db_tb_parser . "(modulename,recognizer,message) VALUES " .
+        "('production', 'Ressourcenkoloübersicht', 'Produktionsübersicht')"
+      );
+
+      foreach($sqlscript as $sql) {
+        $result = $db->db_query($sql);
+      }
+
+      doc_success('Installation: Datenbankänderungen = <b>OK</b>');
+      */
 }
 
 //****************************************************************************
@@ -128,16 +119,15 @@ function workInstallDatabase() {
 // installing this module. This function is called by the installation method
 // in the included file includes/menu_fn.php
 //
-function workInstallMenu() {
-    global $modultitle, $modulstatus, $_POST;
+function workInstallMenu()
+{
+    global $modultitle, $modulstatus;
+
+    $menu = getVar('menu');
+    $submenu = getVar('submenu');
 
     $actionparamters = "";
-  	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparamters );
-	  //
-	  // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
-	  //
-	  // 	insertMenuItem( $_POST['menu'], ($_POST['submenu']+1), "Titel2", "hc", "&weissichnichtwas=1" );
-	  //
+    insertMenuItem($menu, $submenu, $modultitle, $modulstatus, $actionparamters);
 }
 
 //****************************************************************************
@@ -145,8 +135,9 @@ function workInstallMenu() {
 // Function workInstallConfigString will return all the other contents needed
 // for the configuration file.
 //
-function workInstallConfigString() {
-  return "";
+function workInstallConfigString()
+{
+    return "";
 }
 
 //****************************************************************************
@@ -155,26 +146,25 @@ function workInstallConfigString() {
 // removing this module.
 //
 
-function workUninstallDatabase() {
-	global $db, $db_tb_ressuebersicht, $db_tb_parser;
-/*
-  $sqlscript = array(
-    "DROP TABLE " . $db_tb_ressuebersicht,
+function workUninstallDatabase()
+{
+    /*
+    global $db, $db_tb_ressuebersicht, $db_tb_parser;
 
-    "DELETE FROM " . $db_tb_iwdbtabellen . 
-    " WHERE `name`='ressuebersicht'",
+      $sqlscript = array(
+        "DROP TABLE " . $db_tb_ressuebersicht,
 
-    "DELETE FROM " . $db_tb_parser . " WHERE modulename='production'"
-  );*/
+        "DELETE FROM " . $db_tb_iwdbtabellen .
+        " WHERE `name`='ressuebersicht'",
 
-  foreach($sqlscript as $sql) {
-    $result = $db->db_query($sql)
-  	  or error(GENERAL_ERROR,
-               'Could not query config information.', '',
-               __FILE__, __LINE__, $sql);
-  }
- 
-  echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
+        "DELETE FROM " . $db_tb_parser . " WHERE modulename='production'"
+      );
+
+      foreach($sqlscript as $sql) {
+        $result = $db->db_query($sql);
+      }
+      doc_success('Deinstallation: Datenbankänderungen = <b>OK</b>');
+      */
 }
 
 //****************************************************************************
@@ -189,24 +179,22 @@ function workUninstallDatabase() {
 // Anstatt "Mein.Server" natürlich deinen Server angeben und default
 // durch den Dateinamen des Moduls ersetzen.
 //
-if( !empty($_REQUEST['was'])) {
-  //  -> Nur der Admin darf Module installieren. (Meistens weiss er was er tut)
-  if ( $user_status != "admin" )
-		die('Hacking attempt...');
+if (!empty($_REQUEST['was'])) {
+    //  -> Nur der Admin darf Module installieren. (Meistens weiss er was er tut)
+    if ($user_status != "admin") {
+        die('Hacking attempt...');
+    }
 
-  echo "<div class='system_notification'>Installationsarbeiten am Modul " . $modulname .
-	     " ("  . $_REQUEST['was'] . ")</div>\n";
+    echo "<h2>Installationsarbeiten am Modul " . $modulname . " (" . $_REQUEST['was'] . ")</h2>\n";
 
-  if (!@include("./includes/menu_fn.php"))
-	  die( "Cannot load menu functions" );
+    require_once './includes/menu_fn.php';
 
-  // Wenn ein Modul administriert wird, soll der Rest nicht mehr
-  // ausgeführt werden.
-  return;
+    // Wenn ein Modul administriert wird, soll der Rest nicht mehr ausgeführt werden.
+    return;
 }
 
-if (!@include("./config/".$modulname.".cfg.php")) {
-	die( "Error:<br><b>Cannot load ".$modulname." - configuration!</b>");
+if (!@include("./config/" . $modulname . ".cfg.php")) {
+    die("Error:<br><b>Cannot load " . $modulname . " - configuration!</b>");
 }
 
 //****************************************************************************
@@ -214,266 +202,234 @@ if (!@include("./config/".$modulname.".cfg.php")) {
 // -> Und hier beginnt das eigentliche Modul
 
 function make_link($order, $ordered) {
- global $sid;
- echo "<a href=\"index.php?action=m_ress&order=" . $order . "&ordered=" . $ordered .
-      "&sid=$sid\"> <img src=\"bilder/" . $ordered . ".gif\" border=\"0\" alt=\"" . $ordered . "\"> </a>";
+    global $sid;
+    echo "<a href='index.php?action=m_ress&order=" . $order . "&ordered=" . $ordered .
+        "&sid=$sid''> <img src='bilder/" . $ordered . ".gif' alt='" . $ordered . "'> </a>";
 }
 
 //bestehende zeit holen
 
-$sql = "SELECT
-		switch
-	FROM
-		$db_tb_user
-	WHERE
-           id = '$user_id'";
-
-$result = mysql_query($sql) OR die(mysql_error());
-
-$row = mysql_fetch_assoc($result);
+$sql = "SELECT switch FROM $db_tb_user WHERE id = '{$user_id}';";
+$result = $db->db_query($sql);
+$row = $db->db_fetch_array($result);
 
 $switch = $row['switch'];
 
 //zeit ändern?
-
-echo '
-<form action="index.php?action=m_ress&sid='.$sid.'" method="post">
+?>
+<form action="index.php?action=m_ress" method="post">
 	<p>Anzeigen der Produktion für <input type="text" name="switch" size="3"> Stunden <input type="submit" value="speichern" name="form" class="submit">
 	</p>
 </form>
-';
+<?php
 
-if(isset($_POST['switch'])) {
-$sql = "UPDATE
-		$db_tb_user
-	SET
-		switch = '$_POST[switch]'
-	WHERE
-		id = '$user_id'";
-mysql_query($sql) OR die(mysql_error());
+if (isset($_POST['switch'])) {
+    $switch = (int)$_POST['switch'];
+    $db->db_update($db_tb_user, array('switch' => $switch), 'WHERE id = '.$user_id);
 }
 
-//aktualisiere die Zeit
-
-$sql = "SELECT
-		switch
-	FROM
-		$db_tb_user
-	WHERE
-           id = '$user_id'";
-
-$result = mysql_query($sql) OR die(mysql_error());
-
-$row = mysql_fetch_assoc($result);
-
-$switch = $row['switch'];
-
-if (empty($switch) || $switch == 24) {
-	$switch = 24;
-	doc_title("Tagesproduktion/-Verbrauch");
-} else doc_title("Verbrauch in ".$switch." Stunde(n)");
+if (empty($switch) OR $switch<1) {
+    $switch = 24;
+}
+if ($switch === 24) {
+    doc_title("Tagesproduktion/-Verbrauch");
+} else {
+    doc_title("Verbrauch in " . $switch . " Stunde(n)");
+}
 doc_title("sowie Bevölkerungsdaten");
-
-echo "<br>";
 
 start_table();
 
-start_row("titlebg", "style=\"width:9%\" align=\"center\" nowrap=\"nowrap\"");
+start_row("titlebg", "style='width:9%' align='center' nowrap='nowrap'");
 make_link("user", "asc");
 echo "<b>User</b>";
 make_link("user", "desc");
 echo "<br>";
-           
-next_cell("titlebg", "style=\"width:9%\" align=\"center\" nowrap=\"nowrap\"");
+
+next_cell("titlebg", "style='width:9%' align='center' nowrap='nowrap'");
 make_link("datum", "asc");
 echo "<b>Einlesezeit</b>";
 make_link("datum", "desc");
 
-next_cell("titlebg", "style=\"width:9%\" align=\"center\"");
+next_cell("titlebg", "style='width:9%' align='center'");
 make_link("eisen", "asc");
 echo "<b>Eisen</b>";
 make_link("eisen", "desc");
 
-next_cell("titlebg", "style=\"width:9%\" align=\"center\"");
+next_cell("titlebg", "style='width:9%' align='center'");
 make_link("stahl", "asc");
 echo "<b>Stahl</b>";
 make_link("stahl", "desc");
 
-next_cell("titlebg", "style=\"width:9%\" align=\"center\"");
+next_cell("titlebg", "style='width:9%' align='center'");
 make_link("vv4a", "asc");
 echo "<b>VV4A</b>";
 make_link("vv4a", "desc");
 
-next_cell("titlebg", "style=\"width:9%\" align=\"center\"");
+next_cell("titlebg", "style='width:9%' align='center'");
 make_link("chem", "asc");
 echo "<b>Chemie</b>";
 make_link("chem", "desc");
 
-next_cell("titlebg", "style=\"width:9%\" align=\"center\"");
+next_cell("titlebg", "style='width:9%' align='center'");
 make_link("eis", "asc");
 echo "<b>Eis</b>";
 make_link("eis", "desc");
 
-next_cell("titlebg", "style=\"width:9%\" align=\"center\"");
+next_cell("titlebg", "style='width:9%' align='center'");
 make_link("wasser", "asc");
 echo "<b>Wasser</b>";
 make_link("wasser", "desc");
 
-next_cell("titlebg", "style=\"width:9%\" align=\"center\"");
+next_cell("titlebg", "style='width:9%' align='center'");
 make_link("energie", "asc");
 echo "<b>Energie</b>";
 make_link("energie", "desc");
 
-next_cell("titlebg", "style=\"width:9%\" align=\"center\"");
+next_cell("titlebg", "style='width:9%' align='center'");
 make_link("fp_ph", "asc");
 echo "<b>FP</b>";
 make_link("fp_ph", "desc");
 
-next_cell("titlebg", "style=\"width:9%\" align=\"center\"");
+next_cell("titlebg", "style='width:9%' align='center'");
 make_link("credits", "asc");
 echo "<b>Credits</b>";
 make_link("credits", "desc");
 
-next_cell("titlebg", "style=\"width:9%\" align=\"center\"");
+next_cell("titlebg", "style='width:9%' align='center'");
 make_link("bev_a", "asc");
 echo "<b>Hartz IV</b>";
 make_link("bev_a", "desc");
 
-next_cell("titlebg", "style=\"width:9%\" align=\"center\"");
+next_cell("titlebg", "style='width:9%' align='center'");
 make_link("bev_g", "asc");
 echo "<b>Volk</b>";
 make_link("bev_g", "desc");
 
-next_cell("titlebg", "style=\"width:3%\" align=\"center\"");
+next_cell("titlebg", "style='width:3%' align='center'");
 make_link("bev_q", "asc");
 echo "<b>Quote</b>";
 make_link("bev_q", "desc");
 
-$order  = getVar('order');
+$order = getVar('order');
 $ordered = getVar('ordered');
 
-if(empty($order)) 
-  $order='datum';
-  
-if(empty($ordered)) 
-  $ordered='asc';
+if (empty($order)) {
+    $order = 'datum';
+}
+
+if (empty($ordered)) {
+    $ordered = 'asc';
+}
 
 global $db, $db_tb_ressuebersicht, $config_sitter_timeformat;
-  
+
 // Anzeigen der Daten im Browser
 $sql = "SELECT `datum` , `user` , `eisen` , `stahl` , `vv4a` , `chem` , `eis` ," .
-       " `wasser` , `energie`, `fp_ph`, `credits`, `bev_a`, `bev_g`, `bev_q` FROM `" . $db_tb_ressuebersicht . "`";
-if (!$user_fremdesitten)
-{
-	$sql .= " WHERE (SELECT allianz FROM " . $db_tb_user . " WHERE id=" . $db_tb_ressuebersicht . ".user) = '" . $user_allianz . "'";
+    " `wasser` , `energie`, `fp_ph`, `credits`, `bev_a`, `bev_g`, `bev_q` FROM `" . $db_tb_ressuebersicht . "`";
+if (!$user_fremdesitten) {
+    $sql .= " WHERE (SELECT allianz FROM " . $db_tb_user . " WHERE id=" . $db_tb_ressuebersicht . ".user) = '" . $user_allianz . "'";
 }
 $sql .= " ORDER BY `" . $order . "` " . $ordered;
-$result = $db->db_query($sql)
-  or error(GENERAL_ERROR, 
-           'Could not query config information.', '', 
-           __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 
 
-while($row = $db->db_fetch_array($result)) {
-	$color = getScanAgeColor($row['datum']);
+while ($row = $db->db_fetch_array($result)) {
+    $color = getScanAgeColor($row['datum']);
 
-  next_row("windowbg1", " nowrap=\"nowrap\"");
-  echo $row['user'] . "<br>";
-    
-  next_cell("windowbg1", "style=\"background-color:" . $color . "\" nowrap=\"nowrap\"");
-  echo strftime("%d.%m.%y %H:%M:%S", $row['datum']);
-  
-  next_cell("windowbg1", "align=\"right\"");
-  echo number_format($row['eisen']*$switch, 0, ',', '.');
+    next_row("windowbg1", " nowrap='nowrap'");
+    echo $row['user'] . "<br>";
 
-  next_cell("windowbg1", "align=\"right\"");
-  echo number_format($row['stahl']*$switch, 0, ',', '.');
-  
-  next_cell("windowbg1", "align=\"right\"");
-  echo number_format($row['vv4a']*$switch, 0, ',', '.');
+    next_cell("windowbg1", "style='background-color:" . $color . "' nowrap='nowrap'");
+    echo strftime("%d.%m.%y %H:%M:%S", $row['datum']);
 
-  next_cell("windowbg1", "align=\"right\"");
-  echo number_format($row['chem']*$switch, 0, ',', '.');
+    next_cell("windowbg1", "align='right'");
+    echo number_format($row['eisen'] * $switch, 0, ',', '.');
 
-  next_cell("windowbg1", "align=\"right\"");
-  echo number_format($row['eis']*$switch, 0, ',', '.');
+    next_cell("windowbg1", "align='right'");
+    echo number_format($row['stahl'] * $switch, 0, ',', '.');
 
-  next_cell("windowbg1", "align=\"right\"");
-  echo number_format($row['wasser']*$switch, 0, ',', '.');
+    next_cell("windowbg1", "align='right'");
+    echo number_format($row['vv4a'] * $switch, 0, ',', '.');
 
-  next_cell("windowbg1", "align=\"right\"");
-  echo number_format($row['energie']*$switch, 0, ',', '.');
+    next_cell("windowbg1", "align='right'");
+    echo number_format($row['chem'] * $switch, 0, ',', '.');
 
-  next_cell("windowbg1", "align=\"right\"");
-  echo number_format($row['fp_ph']*$switch, 0, ',', '.');
+    next_cell("windowbg1", "align='right'");
+    echo number_format($row['eis'] * $switch, 0, ',', '.');
 
-  next_cell("windowbg1", "align=\"right\"");
-  echo number_format($row['credits']*$switch, 0, ',', '.');
+    next_cell("windowbg1", "align='right'");
+    echo number_format($row['wasser'] * $switch, 0, ',', '.');
 
-  next_cell("windowbg1", "align=\"right\"");
-  echo number_format($row['bev_a'], 0, ',', '.');
+    next_cell("windowbg1", "align='right'");
+    echo number_format($row['energie'] * $switch, 0, ',', '.');
 
-  next_cell("windowbg1", "align=\"right\"");
-  echo number_format($row['bev_g'], 0, ',', '.');
+    next_cell("windowbg1", "align='right'");
+    echo number_format($row['fp_ph'] * $switch, 0, ',', '.');
 
-  next_cell("windowbg1", "align=\"right\"");
-  echo number_format($row['bev_q'], 2, ',', '.');
+    next_cell("windowbg1", "align='right'");
+    echo number_format($row['credits'] * $switch, 0, ',', '.');
+
+    next_cell("windowbg1", "align='right'");
+    echo number_format($row['bev_a'], 0, ',', '.');
+
+    next_cell("windowbg1", "align='right'");
+    echo number_format($row['bev_g'], 0, ',', '.');
+
+    next_cell("windowbg1", "align='right'");
+    echo number_format($row['bev_q'], 2, ',', '.');
 }
 
 end_row();
 
 // Gesamtanzeige
-$sql = "SELECT sum(`eisen`) as eisen , sum(`stahl`) as stahl, sum(`vv4a`) as vv4a,".
-       " sum(`chem`) as chem, sum(`eis`) as eis, sum(`wasser`) as wasser,".
-       " sum(`energie`) as energie, sum(`fp_ph`) as fp_ph, sum(`credits`) as credits,".
-       " sum(`bev_a`) as bev_a, sum(`bev_g`) as bev_g, sum(`bev_q`)/count(`bev_a`) as bev_q".
-       " FROM " . $db_tb_ressuebersicht;
-$result = $db->db_query($sql)
-  or error(GENERAL_ERROR,
-           'Could not query config information.', '', 
-           __FILE__, __LINE__, $sql);
-while($row = $db->db_fetch_array($result)) {
-  next_row("titlebg", "align=\"center\" style=\"background-color:\$FFFFFF\" colspan=\"2\" nowrap=\"nowrap\"");
-  echo "Gesamt:";
-  
-  next_cell("windowbg1", "align=\"right\"");
-  echo number_format($row['eisen']*$switch, 0, ',', '.');
+$sql = "SELECT sum(`eisen`) as eisen , sum(`stahl`) as stahl, sum(`vv4a`) as vv4a," .
+    " sum(`chem`) as chem, sum(`eis`) as eis, sum(`wasser`) as wasser," .
+    " sum(`energie`) as energie, sum(`fp_ph`) as fp_ph, sum(`credits`) as credits," .
+    " sum(`bev_a`) as bev_a, sum(`bev_g`) as bev_g, sum(`bev_q`)/count(`bev_a`) as bev_q" .
+    " FROM " . $db_tb_ressuebersicht;
+$result = $db->db_query($sql);
+while ($row = $db->db_fetch_array($result)) {
+    next_row("titlebg", "align='center' style='background-color:\$FFFFFF' colspan='2' nowrap='nowrap'");
+    echo "Gesamt:";
 
-  next_cell("windowbg1", "align=\"right\"");
-  echo number_format($row['stahl']*$switch, 0, ',', '.');
-  
-  next_cell("windowbg1", "align=\"right\"");
-  echo number_format($row['vv4a']*$switch, 0, ',', '.');
+    next_cell("windowbg1", "align='right'");
+    echo number_format($row['eisen'] * $switch, 0, ',', '.');
 
-  next_cell("windowbg1", "align=\"right\"");
-  echo number_format($row['chem']*$switch, 0, ',', '.');
+    next_cell("windowbg1", "align='right'");
+    echo number_format($row['stahl'] * $switch, 0, ',', '.');
 
-  next_cell("windowbg1", "align=\"right\"");
-  echo number_format($row['eis']*$switch, 0, ',', '.');
+    next_cell("windowbg1", "align='right'");
+    echo number_format($row['vv4a'] * $switch, 0, ',', '.');
 
-  next_cell("windowbg1", "align=\"right\"");
-  echo number_format($row['wasser']*$switch, 0, ',', '.');
+    next_cell("windowbg1", "align='right'");
+    echo number_format($row['chem'] * $switch, 0, ',', '.');
 
-  next_cell("windowbg1", "align=\"right\"");
-  echo number_format($row['energie']*$switch, 0, ',', '.');
+    next_cell("windowbg1", "align='right'");
+    echo number_format($row['eis'] * $switch, 0, ',', '.');
 
-  next_cell("windowbg1", "align=\"right\"");
-  echo number_format($row['fp_ph']*$switch, 0, ',', '.');
+    next_cell("windowbg1", "align='right'");
+    echo number_format($row['wasser'] * $switch, 0, ',', '.');
 
-  next_cell("windowbg1", "align=\"right\"");
-  echo number_format($row['credits']*$switch, 0, ',', '.');
+    next_cell("windowbg1", "align='right'");
+    echo number_format($row['energie'] * $switch, 0, ',', '.');
 
-  next_cell("windowbg1", "align=\"right\"");
-  echo number_format($row['bev_a'], 0, ',', '.');
+    next_cell("windowbg1", "align='right'");
+    echo number_format($row['fp_ph'] * $switch, 0, ',', '.');
 
-  next_cell("windowbg1", "align=\"right\"");
-  echo number_format($row['bev_g'], 0, ',', '.');
+    next_cell("windowbg1", "align='right'");
+    echo number_format($row['credits'] * $switch, 0, ',', '.');
 
-  next_cell("windowbg1", "align=\"right\"");
-  echo "&Oslash;". number_format($row['bev_q'], 2, ',', '.');
+    next_cell("windowbg1", "align='right'");
+    echo number_format($row['bev_a'], 0, ',', '.');
+
+    next_cell("windowbg1", "align='right'");
+    echo number_format($row['bev_g'], 0, ',', '.');
+
+    next_cell("windowbg1", "align='right'");
+    echo "&Oslash;" . number_format($row['bev_q'], 2, ',', '.');
 }
 end_row();
-
 end_table();
 
 // 
@@ -485,30 +441,30 @@ global $db, $db_tb_ressuebersicht, $db_tb_user, $config_sitter_timeformat;
 $sql2 = "SELECT
             us.id, us.sitterlogin, us.budflesol
         FROM
-            ".$db_tb_user." as us
+            " . $db_tb_user . " as us
         WHERE
             us.budflesol = 'Fleeter'";
 
-$result2 = $db->db_query($sql2)
-  or error(GENERAL_ERROR, 
-           'Could not query config information.', '', 
-           __FILE__, __LINE__, $sql);
+$result2 = $db->db_query($sql2);
 
 $fleeterlist = array();
-    while ($row = mysql_fetch_assoc($result2)) {
-        $fleeterlist[] = $row;
-    };
+while ($row = $db->db_fetch_array($result2)) {
+    $fleeterlist[] = $row;
+}
 
-/* echo "<PRE>";
-print_r($fleeterlist);
-echo "</PRE>"; */
+function NumToStaatsform($num)
+{
+    if ($num == 1) {
+        return 'Diktator';
+    } else if ($num == 2) {
+        return 'Monarch';
+    } else if ($num == 3) {
+        return 'Demokrat';
+    } else if ($num == 4) {
+        return 'Kommunist';
+    }
 
-function NumToStaatsform($num) {
-    if ($num == 0) return '---';
-    if ($num == 1) return 'Diktator';
-    if ($num == 2) return 'Monarch';
-    if ($num == 3) return 'Demokrat';
-    if ($num == 4) return 'Kommunist';
+    return '---';
 }
 
 foreach ($fleeterlist as $key => $value) {
@@ -516,77 +472,77 @@ foreach ($fleeterlist as $key => $value) {
     $fleetername = $value['id'];
 
     echo "\n\n<br><br>\n\n";
-    
+
     start_table();
 
-    start_row("titlebg", "align=\"center\" colspan=\"13\"");
+    start_row("titlebg", "align='center' colspan='13'");
     if ($fleetername == $value['sitterlogin']) {
-        echo "<b>Fleeter: ".$fleetername."</b>";
+        echo "<b>Fleeter: " . $fleetername . "</b>";
     } else {
-        echo "<b>Fleeter: ".$fleetername."<br>(ingamenick &laquo;".$value['sitterlogin']."&raquo;)</b>";
+        echo "<b>Fleeter: " . $fleetername . "<br>(ingamenick &laquo;" . $value['sitterlogin'] . "&raquo;)</b>";
     }
     echo "<br>";
 
-    next_row("titlebg", "style=\"width:9%\" align=\"center\" nowrap=\"nowrap\"");
+    next_row("titlebg", "style='width:9%' align='center' nowrap='nowrap'");
     make_link("user", "asc");
     echo "<b>User</b>";
     make_link("user", "desc");
     echo "<br>";
-	
-	next_cell("titlebg", "style=\"width:9%\" align=\"center\" nowrap=\"nowrap\"");
+
+    next_cell("titlebg", "style='width:9%' align='center' nowrap='nowrap'");
     make_link("datum", "asc");
     echo "<b>Einlesezeit</b>";
     make_link("datum", "desc");
 
-    next_cell("titlebg", "style=\"width:9%\" align=\"center\"");
+    next_cell("titlebg", "style='width:9%' align='center'");
     make_link("eisen", "asc");
     echo "<b>Eisen</b>";
     make_link("eisen", "desc");
 
-    next_cell("titlebg", "style=\"width:9%\" align=\"center\"");
+    next_cell("titlebg", "style='width:9%' align='center'");
     make_link("stahl", "asc");
     echo "<b>Stahl</b>";
     make_link("stahl", "desc");
 
-    next_cell("titlebg", "style=\"width:9%\" align=\"center\"");
+    next_cell("titlebg", "style='width:9%' align='center'");
     make_link("vv4a", "asc");
     echo "<b>VV4A</b>";
     make_link("vv4a", "desc");
 
-    next_cell("titlebg", "style=\"width:9%\" align=\"center\"");
+    next_cell("titlebg", "style='width:9%' align='center'");
     make_link("chem", "asc");
     echo "<b>Chemie</b>";
     make_link("chem", "desc");
 
-    next_cell("titlebg", "style=\"width:9%\" align=\"center\"");
+    next_cell("titlebg", "style='width:9%' align='center'");
     make_link("eis", "asc");
     echo "<b>Eis</b>";
     make_link("eis", "desc");
 
-    next_cell("titlebg", "style=\"width:9%\" align=\"center\"");
+    next_cell("titlebg", "style='width:9%' align='center'");
     make_link("wasser", "asc");
     echo "<b>Wasser</b>";
     make_link("wasser", "desc");
 
-    next_cell("titlebg", "style=\"width:9%\" align=\"center\"");
+    next_cell("titlebg", "style='width:9%' align='center'");
     make_link("energie", "asc");
     echo "<b>Energie</b>";
     make_link("energie", "desc");
 
-    next_cell("titlebg", "style=\"width:9%\" align=\"center\"");
+    next_cell("titlebg", "style='width:9%' align='center'");
     make_link("fp_ph", "asc");
     echo "<b>FP</b>";
     make_link("fp_ph", "desc");
 
-    next_cell("titlebg", "style=\"width:9%\" align=\"center\"");
+    next_cell("titlebg", "style='width:9%' align='center'");
     make_link("credits", "asc");
     echo "<b>Credits</b>";
     make_link("credits", "desc");
 
-    next_cell("titlebg", "style=\"width:9%\" align=\"center\"");
+    next_cell("titlebg", "style='width:9%' align='center'");
     echo "<b>Spieltyp</b>";
-    
-    next_cell("titlebg", "style=\"width:9%\" align=\"center\"");
+
+    next_cell("titlebg", "style='width:9%' align='center'");
     echo "<b>Staatsform</b>";
 
     // Anzeigen der Daten im Browser
@@ -595,60 +551,59 @@ foreach ($fleeterlist as $key => $value) {
                 ro.energie, ro.fp_ph, ro.credits,
                 us.sitterlogin, us.buddlerfrom, us.budflesol, us.staatsform
             FROM
-                ".$db_tb_ressuebersicht." as ro, ".$db_tb_user." as us
+                " . $db_tb_ressuebersicht . " as ro, " . $db_tb_user . " as us
             WHERE
-                ro.user = us.sitterlogin AND us.buddlerfrom = '".$fleetername."'
+                ro.user = us.sitterlogin AND us.buddlerfrom = '" . $fleetername . "'
             ORDER BY
                 `" . $order . "` " . $ordered;
 
-    $result3 = $db->db_query($sql3)
-      or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result3 = $db->db_query($sql3);
 
-    while($row = $db->db_fetch_array($result3)) {
+    while ($row = $db->db_fetch_array($result3)) {
         $color = getScanAgeColor($row['datum']);
 
-      next_row("windowbg1", " nowrap=\"nowrap\"");
-      echo $row['user'] . "<br>";
-      
-	  next_cell("windowbg1", "style=\"background-color:" . $color . "\" nowrap=\"nowrap\"");
-	  echo strftime("%d.%m.%y<br>%H:%M:%S", $row['datum']);
-  
-      next_cell("windowbg1", "align=\"right\"");
-      echo number_format($row['eisen']*$switch, 0, '.', ',');
+        next_row("windowbg1", " nowrap='nowrap'");
+        echo $row['user'] . "<br>";
 
-      next_cell("windowbg1", "align=\"right\"");
-      echo number_format($row['stahl']*$switch, 0, '.', ',');
-  
-      next_cell("windowbg1", "align=\"right\"");
-      echo number_format($row['vv4a']*$switch, 0, '.', ',');
+        next_cell("windowbg1", "style='background-color:" . $color . "' nowrap='nowrap'");
+        echo strftime("%d.%m.%y<br>%H:%M:%S", $row['datum']);
 
-      next_cell("windowbg1", "align=\"right\"");
-      echo number_format($row['chem']*$switch, 0, '.', ',');
+        next_cell("windowbg1", "align='right'");
+        echo number_format($row['eisen'] * $switch, 0, '.', ',');
 
-      next_cell("windowbg1", "align=\"right\"");
-      echo number_format($row['eis']*$switch, 0, '.', ',');
+        next_cell("windowbg1", "align='right'");
+        echo number_format($row['stahl'] * $switch, 0, '.', ',');
 
-      next_cell("windowbg1", "align=\"right\"");
-      echo number_format($row['wasser']*$switch, 0, '.', ',');
+        next_cell("windowbg1", "align='right'");
+        echo number_format($row['vv4a'] * $switch, 0, '.', ',');
 
-      next_cell("windowbg1", "align=\"right\"");
-      echo number_format($row['energie']*$switch, 0, '.', ',');
-  
-      next_cell("windowbg1", "align=\"right\"");
-      echo number_format($row['fp_ph']*$switch, 0, '.', ',');
-  
-      next_cell("windowbg1", "align=\"right\"");
-      echo number_format($row['credits']*$switch, 0, '.', ',');
-  
-      next_cell("windowbg1", "align=\"right\"");
-      echo $row['budflesol'];
-      
-      next_cell("windowbg1", "align=\"right\"");
-      echo NumToStaatsform($row['staatsform']);
+        next_cell("windowbg1", "align='right'");
+        echo number_format($row['chem'] * $switch, 0, '.', ',');
+
+        next_cell("windowbg1", "align='right'");
+        echo number_format($row['eis'] * $switch, 0, '.', ',');
+
+        next_cell("windowbg1", "align='right'");
+        echo number_format($row['wasser'] * $switch, 0, '.', ',');
+
+        next_cell("windowbg1", "align='right'");
+        echo number_format($row['energie'] * $switch, 0, '.', ',');
+
+        next_cell("windowbg1", "align='right'");
+        echo number_format($row['fp_ph'] * $switch, 0, '.', ',');
+
+        next_cell("windowbg1", "align='right'");
+        echo number_format($row['credits'] * $switch, 0, '.', ',');
+
+        next_cell("windowbg1", "align='right'");
+        echo $row['budflesol'];
+
+        next_cell("windowbg1", "align='right'");
+        echo NumToStaatsform($row['staatsform']);
     }
 
     end_row();
-    
+
     // Gesamtanzeige
     $sql = "SELECT
                 sum(ro.eisen) as eisen, sum(ro.stahl) as stahl, sum(ro.vv4a) as vv4a,
@@ -656,57 +611,51 @@ foreach ($fleeterlist as $key => $value) {
                 sum(ro.energie) as energie, sum(ro.fp_ph) as fp_ph,
                 sum(ro.credits) as credits, ro.user, us.sitterlogin, us.buddlerfrom
             FROM
-                ".$db_tb_ressuebersicht." as ro, ".$db_tb_user." as us
+                " . $db_tb_ressuebersicht . " as ro, " . $db_tb_user . " as us
             WHERE
-                ro.user = us.sitterlogin AND us.buddlerfrom = '".$fleetername."'
+                ro.user = us.sitterlogin AND us.buddlerfrom = '" . $fleetername . "'
             GROUP BY
                 us.buddlerfrom";
-      
-      $result = $db->db_query($sql)
-      or error(GENERAL_ERROR,
-               'Could not query config information.', '', 
-               __FILE__, __LINE__, $sql);
-    
-    while($row = $db->db_fetch_array($result)) {
-      next_row("titlebg", "align=\"center\" style=\"background-color:\$FFFFFF\" colspan=\"2\ nowrap=\"nowrap\"");
-      echo "Gesamt";
-      
-	  
-	  
-      next_cell("windowbg1", "align=\"right\"");
-      echo number_format($row['eisen']*$switch, 0, '.', ',');
-    
-      next_cell("windowbg1", "align=\"right\"");
-      echo number_format($row['stahl']*$switch, 0, '.', ',');
-      
-      next_cell("windowbg1", "align=\"right\"");
-      echo number_format($row['vv4a']*$switch, 0, '.', ',');
-    
-      next_cell("windowbg1", "align=\"right\"");
-      echo number_format($row['chem']*$switch, 0, '.', ',');
-    
-      next_cell("windowbg1", "align=\"right\"");
-      echo number_format($row['eis']*$switch, 0, '.', ',');
-    
-      next_cell("windowbg1", "align=\"right\"");
-      echo number_format($row['wasser']*$switch, 0, '.', ',');
-    
-      next_cell("windowbg1", "align=\"right\"");
-      echo number_format($row['energie']*$switch, 0, '.', ',');
-      
-      next_cell("windowbg1", "align=\"right\"");
-      echo number_format($row['fp_ph']*$switch, 0, '.', ',');
-      
-      next_cell("windowbg1", "align=\"right\"");
-      echo number_format($row['credits']*$switch, 0, '.', ',');
-      
-      next_cell("titlebg", "align=\"center\" style=\"background-color:\$FFFFFF\" colspan=\"2\"");
-      echo "Gesamt";
+
+    $result = $db->db_query($sql);
+
+    while ($row = $db->db_fetch_array($result)) {
+        next_row("titlebg", "align='center' style='background-color:\$FFFFFF' colspan='2\ nowrap='nowrap'");
+        echo "Gesamt";
+
+
+        next_cell("windowbg1", "align='right'");
+        echo number_format($row['eisen'] * $switch, 0, '.', ',');
+
+        next_cell("windowbg1", "align='right'");
+        echo number_format($row['stahl'] * $switch, 0, '.', ',');
+
+        next_cell("windowbg1", "align='right'");
+        echo number_format($row['vv4a'] * $switch, 0, '.', ',');
+
+        next_cell("windowbg1", "align='right'");
+        echo number_format($row['chem'] * $switch, 0, '.', ',');
+
+        next_cell("windowbg1", "align='right'");
+        echo number_format($row['eis'] * $switch, 0, '.', ',');
+
+        next_cell("windowbg1", "align='right'");
+        echo number_format($row['wasser'] * $switch, 0, '.', ',');
+
+        next_cell("windowbg1", "align='right'");
+        echo number_format($row['energie'] * $switch, 0, '.', ',');
+
+        next_cell("windowbg1", "align='right'");
+        echo number_format($row['fp_ph'] * $switch, 0, '.', ',');
+
+        next_cell("windowbg1", "align='right'");
+        echo number_format($row['credits'] * $switch, 0, '.', ',');
+
+        next_cell("titlebg", "align='center' style='background-color:\$FFFFFF' colspan='2'");
+        echo "Gesamt";
     }
     end_row();
 
     end_table();
 
-}; //Ende vom foreach
-
-?>
+}

@@ -280,7 +280,7 @@ a:hover        {
 /* !I */
 
   .bigtext {
-   font-size:13pt; 
+   font-size:13pt;
  }
 
 
@@ -511,7 +511,7 @@ a:hover        {
 /* !I */
 
   .doc_big_black {
-   font-size:1.5em; 
+   font-size:2em;
    color:black; 
  }
 
@@ -606,7 +606,7 @@ a:hover        {
 
 h1 {
     color: #004466;
-    font-size: 2.0em;
+    font-size: 2.2em;
     text-align: center;
     margin: 0.75em;
     font-weight: bold;
@@ -706,7 +706,7 @@ td[abbr=both] {
 
 .doc_title {
     color: #004466;
-    font-size: 2.0em;
+    font-size: 2.2em;
     text-align: center;
     margin: 0.75em;
     font-weight: bold;

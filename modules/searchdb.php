@@ -27,9 +27,13 @@
  *                                                                           *
  *****************************************************************************/
 
+//direktes Aufrufen verhindern
 if (!defined('IRA')) {
-    die('Hacking attempt...');
+    header('HTTP/1.1 403 forbidden');
+    exit;
 }
+
+//****************************************************************************
 
 $orderprio = array(
     ""                  => "Koordinaten",
@@ -140,12 +144,10 @@ if (!empty($preset)) {
     }
 }
 
+doc_title('Planet suchen');
 ?>
-<div class='doc_title'>Planet suchen</div>
-<br>
 
-<table border="0" cellpadding="4" cellspacing="1"
-       class="bordercolor" style="width: 80%;">
+<table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 80%;">
 <tr>
     <td colspan="2" class="windowbg2" align="center"><br>
 
@@ -271,13 +273,15 @@ if (!empty($preset)) {
 </tr>
 <tr>
     <td class="windowbg2">Schiffkosten:</td>
-    <td class="windowbg1"><input type="text" name="ksmod" value="<?php echo ((isset($ksmod)) ? $ksmod : '')?>" style="width: 15em" maxlength="5">
+    <td class="windowbg1">
+        <input type="text" name="ksmod" value="<?php echo ((isset($ksmod)) ? $ksmod : '')?>" style="width: 15em" maxlength="5">
 
     </td>
 </tr>
 <tr>
     <td class="windowbg2">Schiffdauer:</td>
-    <td class="windowbg1"><input type="text" name="dsmod" value="<?php echo ((isset($dsmod)) ? $dsmod : '')?>" style="width: 15em" maxlength="5">
+    <td class="windowbg1">
+        <input type="text" name="dsmod" value="<?php echo ((isset($dsmod)) ? $dsmod : '')?>" style="width: 15em" maxlength="5">
 
     </td>
 </tr>
@@ -296,15 +300,21 @@ if (!empty($preset)) {
 </tr>
 <tr>
     <td class="windowbg2">Eisengehalt:</td>
-    <td class="windowbg1"><input type="text" name="eisengehalt" value="<?php echo ((isset($eisengehalt)) ? $eisengehalt : '')?>" style="width: 15em" maxlength="3"></td>
+    <td class="windowbg1">
+        <input type="text" name="eisengehalt" value="<?php echo ((isset($eisengehalt)) ? $eisengehalt : '')?>" style="width: 15em" maxlength="3">
+    </td>
 </tr>
 <tr>
     <td class="windowbg2">Chemievorkommen:</td>
-    <td class="windowbg1"><input type="text" name="chemievorkommen" value="<?php echo ((isset($chemievorkommen)) ? $chemievorkommen : '')?>" style="width: 15em" maxlength="3"></td>
+    <td class="windowbg1">
+        <input type="text" name="chemievorkommen" value="<?php echo ((isset($chemievorkommen)) ? $chemievorkommen : '')?>" style="width: 15em" maxlength="3">
+    </td>
 </tr>
 <tr>
     <td class="windowbg2">Eisdichte:</td>
-    <td class="windowbg1"><input type="text" name="eisdichte" value="<?php echo ((isset($eisdichte)) ? $eisdichte : '')?>" style="width: 15em" maxlength="3"></td>
+    <td class="windowbg1">
+        <input type="text" name="eisdichte" value="<?php echo ((isset($eisdichte)) ? $eisdichte : '')?>" style="width: 15em" maxlength="3">
+    </td>
 </tr>
 <tr>
     <td class="windowbg2">Techteams:</td>
@@ -319,7 +329,9 @@ if (!empty($preset)) {
 </tr>
 <tr>
     <td class="windowbg2">Lebensbedingungen:</td>
-    <td class="windowbg1"><input type="text" name="lebensbedingungen" value="<?php echo ((isset($lebensbedingungen)) ? $lebensbedingungen : '')?>" style="width: 15em" maxlength="3"></td>
+    <td class="windowbg1">
+        <input type="text" name="lebensbedingungen" value="<?php echo ((isset($lebensbedingungen)) ? $lebensbedingungen : '')?>" style="width: 15em" maxlength="3">
+    </td>
 </tr>
 <?php if (defined('SPECIALSEARCH') && SPECIALSEARCH === true) { ?>
     <tr>
@@ -335,7 +347,9 @@ if (!empty($preset)) {
     </tr>
     <tr>
         <td class="windowbg2">Rating:</td>
-        <td class="windowbg1"><input type="text" name="ratingmin" value="<?php echo ((isset($ratingmin)) ? $ratingmin : '')?>" style="width: 15em" maxlength="6"> <select name="ratingtyp" style="width: 20em">
+        <td class="windowbg1">
+            <input type="text" name="ratingmin" value="<?php echo ((isset($ratingmin)) ? $ratingmin : '')?>" style="width: 15em" maxlength="6">
+            <select name="ratingtyp" style="width: 20em">
                 <?php
                 $ratingtyp = (isset($ratingtyp)) ? $ratingtyp : '';
                 foreach ($ratingtypes as $key => $data) {
@@ -402,7 +416,8 @@ if (!empty($preset)) {
 </tr>
 <tr>
     <td class="windowbg1" colspan="2" align="center">maximale Ergebnisse:
-        <input type="text" name="max" value="<?php echo ((isset($max)) ? $max : '')?>" style="width: 15em" maxlength="6"></td>
+        <input type="text" name="max" value="<?php echo ((isset($max)) ? $max : '')?>" style="width: 15em" maxlength="6">
+    </td>
 </tr>
 <tr>
     <td class="windowbg1" colspan="2" align="center">Ansicht: <select name="ansicht">

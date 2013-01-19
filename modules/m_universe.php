@@ -9,19 +9,21 @@
  * bzw
  * im Github Repo ({@link https://github.com/iwdb/iwdb}) melden.
  *
- * @author Robert Riess ?
- * @author masel <masel789@googlemail.com>
- * @license GNU GPL version 2 or any later version
- * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @package iwdb
+ * @author     Robert Riess ?
+ * @author     masel <masel789@googlemail.com>
+ * @license    GNU GPL version 2 or any later version
+ * @license    http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @package    iwdb
  * @subpackage module
  */
 /*****************************************************************************/
+
 //direktes Aufrufen verhindern
 if (!defined('IRA')) {
     header('HTTP/1.1 403 Forbidden');
     exit;
 }
+
 /*****************************************************************************/
 //
 // -> Name des Moduls, ist notwendig für die Benennung der zugehörigen
@@ -144,33 +146,33 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 //****************************************************************************
 //some fallback for old installs
 if (!isset($grid_color)) {
-    $grid_color          = '#aaa';
+    $grid_color = '#aaa';
 }
 if (!isset($background_color)) {
-    $background_color    = '#000';
+    $background_color = '#000';
 }
 if (!isset($text_color)) {
-    $text_color          = '#fff';
+    $text_color = '#fff';
 }
 
 // -> Und hier beginnt das eigentliche Modul
-echo "<div class='doc_title'>Universumsübersicht</div><br>\n";
+doc_title('Universumsübersicht');
 
-$font_width = ImageFontWidth($config_font_to_use);
+$font_width  = ImageFontWidth($config_font_to_use);
 $font_height = ImageFontHeight($config_font_to_use);
 
 // Image dimensions (borders + inner part depending on linewidth and height)
 $imageheight = $config_bordertop + $config_borderbottom + ($config_map_galaxy_max * $config_lineheight);
-$imagewidth = $config_borderleft + $config_borderright + ($config_map_system_max * $config_linewidth);
+$imagewidth  = $config_borderleft + $config_borderright + ($config_map_system_max * $config_linewidth);
 
 // svg start
 $svg = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>';
 $svg .= '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="' . $imagewidth . 'px" height="' . $imageheight . 'px">' . "\n";
-$svg .= '<rect width="' . $imagewidth . '" height="' . $imageheight . '" fill="'.$background_color.'"/>' . "\n";
+$svg .= '<rect width="' . $imagewidth . '" height="' . $imageheight . '" fill="' . $background_color . '"/>' . "\n";
 $svg .= '<g transform="translate(0.5,0.5)">' . "\n";
 
 // Draw system numbers
-$svg .= '<g fill="'.$text_color.'" font-size="'.$font_height.'" id="Systemnumbers">' . "\n";
+$svg .= '<g fill="' . $text_color . '" font-size="' . $font_height . '" id="Systemnumbers">' . "\n";
 $svg .= '<text x="' . ($config_borderleft - 4 + (2 * $config_linewidth)) . '" y="' . ($config_bordertop - ($font_height)) . '">  1</text>' . "\n";
 for ($i = 51; $i <= $config_map_system_max + 1; $i += 50) {
     $svg .= '<text x="' . ($config_borderleft - 12 + ($i * $config_linewidth)) . '" y="' . ($config_bordertop - ($font_height)) . '">' . sprintf("%3u", ($i - 1)) . '</text>' . "\n";
@@ -178,43 +180,43 @@ for ($i = 51; $i <= $config_map_system_max + 1; $i += 50) {
 $svg .= '</g>' . "\n";
 
 // Draw galaxy numbers
-$svg .= '<g fill="'.$text_color.'" font-size="'.$font_height.'" id="Galaxynumbers">' . "\n";
+$svg .= '<g fill="' . $text_color . '" font-size="' . $font_height . '" id="Galaxynumbers">' . "\n";
 for ($i = 1; $i <= $config_map_galaxy_max; $i++) {
-        $svg .= '<text x="' . ($config_borderleft - (10 + (2 * $font_width))) . '" y="' . ($config_bordertop + 17 + (($i - 1) * $config_lineheight)) . '">' . sprintf("%2u", $i) . '</text>' . "\n";
+    $svg .= '<text x="' . ($config_borderleft - (10 + (2 * $font_width))) . '" y="' . ($config_bordertop + 17 + (($i - 1) * $config_lineheight)) . '">' . sprintf("%2u", $i) . '</text>' . "\n";
 }
 $svg .= '</g>' . "\n";
 
 //fill galaxyarea as unscanned
-$svg .= '<g fill="'.$config_color['unscanned'].'" id="unscanned area">' . "\n";
+$svg .= '<g fill="' . $config_color['unscanned'] . '" id="unscanned area">' . "\n";
 $existing_galas = array();
 for ($i = 1; $i <= $config_map_galaxy_max; $i++) {
-        $sql = "SELECT MAX(sys) AS maxextends FROM " . $db_tb_sysscans . " WHERE gal=" . $i;
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-        $row = $db->db_fetch_array($result);
+    $sql = "SELECT MAX(sys) AS maxextends FROM " . $db_tb_sysscans . " WHERE gal=" . $i;
+    $result = $db->db_query($sql)
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $row = $db->db_fetch_array($result);
 
-        $maxextends = $row['maxextends'];
-        $db->db_free_result($result);
+    $maxextends = $row['maxextends'];
+    $db->db_free_result($result);
 
-        if (!empty($maxextends)) {
+    if (!empty($maxextends)) {
 
-            $svg .= '<rect x="' . ($config_borderleft + 1 + ($config_linewidth)) . '" y="' . ($config_bordertop + (($i - 1) * $config_lineheight)) . '" width="' . ((($maxextends - 1) * $config_linewidth)) . '" height="' . ($config_lineheight) . '"/>' . "\n";
-            $existing_galas[] = $i;
+        $svg .= '<rect x="' . ($config_borderleft + 1 + ($config_linewidth)) . '" y="' . ($config_bordertop + (($i - 1) * $config_lineheight)) . '" width="' . ((($maxextends - 1) * $config_linewidth)) . '" height="' . ($config_lineheight) . '"/>' . "\n";
+        $existing_galas[] = $i;
 
-        }
+    }
 }
 $svg .= '</g>' . "\n";
 
 // Draw each sys found in the database
 $svg .= '<g id="systems">' . "\n";
 
-$gal = 0;
-$x_start = 0;
-$y_start = 0;
-$width = 0;
-$color = '';
-$old_color = '';
-$star_gates = Array();
+$gal         = 0;
+$x_start     = 0;
+$y_start     = 0;
+$width       = 0;
+$color       = '';
+$old_color   = '';
+$star_gates  = Array();
 $black_holes = Array();
 
 $sql = "SELECT gal, sys, objekt, date FROM " . $db_tb_sysscans . " ORDER BY gal,sys ASC";
@@ -225,41 +227,45 @@ while ($row = $db->db_fetch_array($result)) {
 
     if ($row['gal'] === $gal) {
         if ($row['objekt'] == "Stargate") {
-            $star_gates[] = array('x' => ($config_borderleft + (($row['sys']) * $config_linewidth)),
-                'y' => ($config_bordertop + (($row['gal'] - 1) * $config_lineheight)));
+            $star_gates[] = array(
+                'x' => ($config_borderleft + (($row['sys']) * $config_linewidth)),
+                'y' => ($config_bordertop + (($row['gal'] - 1) * $config_lineheight))
+            );
             $width += $config_linewidth;
         } elseif ($row['objekt'] == "schwarzes Loch") {
-            $black_holes[] = array('x' => ($config_borderleft + (($row['sys']) * $config_linewidth)),
-                'y' => ($config_bordertop + (($row['gal'] - 1) * $config_lineheight)));
+            $black_holes[] = array(
+                'x' => ($config_borderleft + (($row['sys']) * $config_linewidth)),
+                'y' => ($config_bordertop + (($row['gal'] - 1) * $config_lineheight))
+            );
             $width += $config_linewidth;
         } else {
             if ($color === $old_color) {
                 $width += $config_linewidth;
             } else {
-                $svg .= '<rect x="' . ($x_start) . '" y="' . ($y_start) . '" width="' . ($width) . '" height="' . ($config_lineheight) . '" fill="'.$old_color.'"/>' . "\n";
-                $gal = $row['gal'];
-                $x_start = $config_borderleft + (($row['sys']) * $config_linewidth);
-                $y_start = $config_bordertop + (($row['gal'] - 1) * $config_lineheight);
-                $width = $config_linewidth;
+                $svg .= '<rect x="' . ($x_start) . '" y="' . ($y_start) . '" width="' . ($width) . '" height="' . ($config_lineheight) . '" fill="' . $old_color . '"/>' . "\n";
+                $gal       = $row['gal'];
+                $x_start   = $config_borderleft + (($row['sys']) * $config_linewidth);
+                $y_start   = $config_bordertop + (($row['gal'] - 1) * $config_lineheight);
+                $width     = $config_linewidth;
                 $old_color = $color;
             }
         }
     } else {
         if ($gal > 0) {
-             $svg .= '<rect x="' . ($x_start) . '" y="' . ($y_start) . '" width="' . ($width) . '" height="' . ($config_lineheight) . '" fill="'.$old_color.'"/>' . "\n";
+            $svg .= '<rect x="' . ($x_start) . '" y="' . ($y_start) . '" width="' . ($width) . '" height="' . ($config_lineheight) . '" fill="' . $old_color . '"/>' . "\n";
         }
 
-        $gal = $row['gal'];
-        $x_start = $config_borderleft + (($row['sys']) * $config_linewidth);
-        $y_start = $config_bordertop + (($row['gal'] - 1) * $config_lineheight);
-        $width = $config_linewidth;
+        $gal       = $row['gal'];
+        $x_start   = $config_borderleft + (($row['sys']) * $config_linewidth);
+        $y_start   = $config_bordertop + (($row['gal'] - 1) * $config_lineheight);
+        $width     = $config_linewidth;
         $old_color = $color;
     }
 
 }
 $db->db_free_result($result);
 //draw the last sysarea
-$svg .= '<rect x="' . ($x_start) . '" y="' . ($y_start) . '" width="' . ($width) . '" height="' . ($config_lineheight) . '" fill="'.$color.'"/>' . "\n";
+$svg .= '<rect x="' . ($x_start) . '" y="' . ($y_start) . '" width="' . ($width) . '" height="' . ($config_lineheight) . '" fill="' . $color . '"/>' . "\n";
 $svg .= '</g>' . "\n";
 
 //draw the stargates / spacestations
@@ -277,7 +283,7 @@ foreach ($black_holes as $hole) {
 $svg .= '</g>' . "\n";
 
 // all systems have been painted, draw the grid lines over the map
-$svg .= '<g stroke="'.$grid_color.'" id="grid lines">' . "\n";
+$svg .= '<g stroke="' . $grid_color . '" id="grid lines">' . "\n";
 
 // horizontal lines
 for ($i = 0; $i <= $config_map_galaxy_max; $i++) {
@@ -294,7 +300,7 @@ $svg .= '</g>' . "\n";
 // now draw the invisible clickable areas on the map locating to the maps page
 $svg .= '<g fill-opacity="0" style="cursor:pointer;" id="clickable areas">' . "\n";
 foreach ($existing_galas as $gala) {
-    $svg .= '<rect x="' . ($config_borderleft + 1 + ($config_linewidth)) . '" y="' . ($config_bordertop + (($gala - 1) * $config_lineheight)) . '" width="' . ($config_map_system_max * $config_linewidth) . '" height="' . $config_lineheight . '" onclick="self.location.href=\'index.php?action=karte&galaxy='.$gala.'&sid='.$sid.'\';return false;"/>' . "\n";
+    $svg .= '<rect x="' . ($config_borderleft + 1 + ($config_linewidth)) . '" y="' . ($config_bordertop + (($gala - 1) * $config_lineheight)) . '" width="' . ($config_map_system_max * $config_linewidth) . '" height="' . $config_lineheight . '" onclick="self.location.href=\'index.php?action=karte&galaxy=' . $gala . '&sid=' . $sid . '\';return false;"/>' . "\n";
 }
 $svg .= '</g>' . "\n";
 

@@ -173,8 +173,7 @@ if (isset($config_banner))
             </td>
           </tr>
         </table>
-<?php	} ?>					
-<?php
+<?php	}
 if ( ( $user_id <> "guest" ) && ( $user_rules == "1" ) ) {
 
    if(getVar("action") == "profile") {

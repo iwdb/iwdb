@@ -17,23 +17,26 @@
  * Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  *
  * IW-Spielern.                                                              *
  *                                                                           *
- * Bei Problemen kannst du dich an das eigens dafür eingerichtete            *
- * Entwicklerforum wenden:                                                   *
- *                   https://www.handels-gilde.org                           *
+ * Entwicklerforum/Repo:                                                     *
+ *                                                                           *
+ *        https://handels-gilde.org/?www/forum/index.php;board=1099.0        *
  *                   https://github.com/iwdb/iwdb                            *
  *                                                                           *
  *****************************************************************************/
 
+//direktes Aufrufen verhindern
 if (!defined('IRA')) {
-    die('Hacking attempt...');
+    header('HTTP/1.1 403 forbidden');
+    exit;
 }
 
 if ($user_status != "admin" && $user_status != "hc") {
     die('Hacking attempt...');
 }
 
+//****************************************************************************
+
 doc_title("Admin Allianzstatus");
-echo "<br>\n";
 
 $editallianz = getVar('editallianz');
 if (!empty($editallianz)) {

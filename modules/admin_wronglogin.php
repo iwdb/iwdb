@@ -27,13 +27,17 @@
  *                                                                           *
  *****************************************************************************/
 
+//direktes Aufrufen verhindern
 if (!defined('IRA')) {
-    die('Hacking attempt...');
+    header('HTTP/1.1 403 forbidden');
+    exit;
 }
 
 if ($user_status != "admin" && $user_status != "hc") {
     die('Hacking attempt...');
 }
+
+//****************************************************************************
 
 doc_title("falsche Logins");
 

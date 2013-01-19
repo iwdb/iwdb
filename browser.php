@@ -246,7 +246,7 @@ switch ($mode) {
         <frameset rows="0,*" cols="*" frameborder="YES" border="0" framespacing="0">
             <frame src="?mode=top" name="topFrame" scrolling="NO" noresize>
             <frameset rows="*" cols="300,*" framespacing="0" frameborder="YES" border="0">
-                <frame src="?mode=left&redirect=<?php echo $redirect ?><?php echo !empty($login) ? "&login=$login" : "" ?><?php echo !empty($action) ? "&action=$action" : "" ?><?php echo !empty($allianz) ? "&allianz=$allianz" : "" ?>" name="left" id="left" scrolling="YES">
+                <frame src="?mode=left&redirect=<?php echo $redirect;  echo !empty($login) ? "&login=$login" : "";  echo !empty($action) ? "&action=$action" : "";  echo !empty($allianz) ? "&allianz=$allianz" : "" ?>" name="left" id="left" scrolling="YES">
                 <frame src="<?php echo $mainurl ?>" name="main" id="main" onload="redirect(this.id)">
             </frameset>
         </frameset>
@@ -331,7 +331,7 @@ switch ($mode) {
         <table>
             <tr>
                 <td>
-                    <select id="redirectPage" onchange="parent.document.getElementById('left').src = '?mode=index&redirect=' + options[selectedIndex].value + '&login=<?php echo $user['id'] ?><?php echo !empty($allianz) ? "&allianz=$allianz" : "" ?>';">
+                    <select id="redirectPage" onchange="parent.document.getElementById('left').src = '?mode=index&redirect=' + options[selectedIndex].value + '&login=<?php echo $user['id'];  echo !empty($allianz) ? "&allianz=$allianz" : "" ?>';">
                         <option value="">(Startseite)</option>
                         <option value="planiress"<?php echo $redirect == 'planiress' ? ' selected' : '' ?>>
                             Kolo-/Ressübersicht
@@ -364,10 +364,9 @@ switch ($mode) {
         if (isset($login_user)) {
             ?>
             <form target="_top">
-                <?php echo isset($login_user['alliance']) ? '[' . $login_user['alliance'] . ']' : '' ?><?php echo $login_user['id'] ?>
+                <?php echo isset($login_user['alliance']) ? '[' . $login_user['alliance'] . ']' : '';  echo $login_user['id'] ?>
                 <br>
-                <?php echo $login_user['typ'] ?>
-                <?php            if (!empty($login_user['group']) && $login_user['group'] != $login_user['id']) { ?>
+                <?php echo $login_user['typ'];             if (!empty($login_user['group']) && $login_user['group'] != $login_user['id']) { ?>
                     von <?php echo $login_user['group'] ?><br>
                     <?php            if (!empty($login_user['ikea'])) {
                         echo "<font color='yellow'>IKEA</font><br>";
@@ -383,8 +382,7 @@ switch ($mode) {
                 } else {
                     ?>
                     <br>
-                <?php } ?>
-                <?php        if (!empty($login_user['dauersitten'])) { ?>
+                <?php }         if (!empty($login_user['dauersitten'])) { ?>
                     <input type="submit" value="Erledigt" name="done" class="submit">
                 <?php } ?>
                 <input type="submit" value="Ausloggen" name="logout" class="submit">
@@ -414,7 +412,7 @@ switch ($mode) {
             <table>
                 <tr>
                     <td width="100%">
-                        <a href="?mode=index&redirect=<?php echo $redirect ?>&login=<?php echo $user['id'] ?><?php echo !empty($allianz) ? "&allianz=$allianz" : "" ?>" target="_top"><?php echo $user['id']; ?></a>
+                        <a href="?mode=index&redirect=<?php echo $redirect ?>&login=<?php echo $user['id'];  echo !empty($allianz) ? "&allianz=$allianz" : "" ?>" target="_top"><?php echo $user['id']; ?></a>
                     </td>
                     <?php        if (isset($user['next_date_text'])) { ?>
                         <td nowrap>
@@ -424,8 +422,7 @@ switch ($mode) {
                                 <span class="time_warning">
 <?php            } else { ?>
                                     <span class="time_normal">
-<?php            } ?>
-                                        <?php echo $user['next_date_text'] ?></span>
+<?php            }  echo $user['next_date_text'] ?></span>
                         </td>
                     <?php } ?>
                 </tr>
@@ -437,15 +434,12 @@ switch ($mode) {
                             <?php            if (!empty($user['attack']) AND count($user['attack']) > 0) { ?>
                                 <span class="attack">Angriff von <?php echo $user['attack'][0]['from'] ?>
                                     auf <?php echo $user['attack'][0]['coords'] ?></span><br>
-                            <?php } ?>
-                            <?php            if (!empty($user['probe']) AND count($user['probe']) > 0) { ?>
+                            <?php }             if (!empty($user['probe']) AND count($user['probe']) > 0) { ?>
                                 <span class="probe">Sondierung von <?php echo $user['probe'][0]['from'] ?>
                                     auf <?php echo $user['probe'][0]['coords'] ?></span><br>
-                            <?php } ?>
-                            <?php            if ($user['lastsitterloggedin']) { ?>
+                            <?php }             if ($user['lastsitterloggedin']) { ?>
                                 <span class="loggedin"><?php echo $user['lastsitteruser'] ?> ist eingeloggt</span><br>
-                            <?php } ?>
-                            <?php            if ($user['dauersittendue']) { ?>
+                            <?php }             if ($user['dauersittendue']) { ?>
                                 <span class="dursitting_due"><?php echo $user['dauersittentext'] ?></span><br>
                             <?php } ?>
                         </td>
@@ -453,8 +447,7 @@ switch ($mode) {
                         </td>
                     </tr>
                 </table>
-            <?php } ?>
-        <?php
+            <?php }
         }
         ?>
         </body>

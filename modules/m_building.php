@@ -1,6 +1,6 @@
 <?php
 /*****************************************************************************
- * m_building.php                                                          *
+ * m_building.php                                                            *
  *****************************************************************************
  * Iw DB: Icewars geoscan and sitter database                                *
  * Open-Source Project started by Robert Riess (robert@riess.net)            *
@@ -29,10 +29,10 @@
  *                                                                           *
  *****************************************************************************/
 
-// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
-//    Kann unberechtigte Systemzugriffe verhindern.
+//direktes Aufrufen verhindern
 if (!defined('IRA')) {
-    die('Hacking attempt...');
+    header('HTTP/1.1 403 forbidden');
+    exit;
 }
 
 //****************************************************************************
@@ -415,8 +415,7 @@ if (empty($id)) {
                 <?php echo $build['kolotyp'];?>
             </td>
         </tr>
-    <?php } ?>
-    <?php if (!empty($build['planityp'])) { ?>
+    <?php }  if (!empty($build['planityp'])) { ?>
         <tr>
             <td class="windowbg2" style="width: 20%;" valign="top">
                 <div class="doc_blue">benötigter Kolotyp:</div>

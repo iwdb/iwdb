@@ -1,60 +1,64 @@
 <?php
-/*****************************************************************************/
-/* admin_gebaeude.php                                                        */
-/*****************************************************************************/
-/* Iw DB: Icewars geoscan and sitter database                                */
-/* Open-Source Project started by Robert Riess (robert@riess.net)            */
-/* Software Version: Iw DB 1.00                                              */
-/* ========================================================================= */
-/* Software Distributed by:    http://lauscher.riess.net/iwdb/               */
-/* Support, News, Updates at:  http://lauscher.riess.net/iwdb/               */
-/* ========================================================================= */
-/* Copyright (c) 2004 Robert Riess - All Rights Reserved                     */
-/*****************************************************************************/
-/* This program is free software; you can redistribute it and/or modify it   */
-/* under the terms of the GNU General Public License as published by the     */
-/* Free Software Foundation; either version 2 of the License, or (at your    */
-/* option) any later version.                                                */
-/*                                                                           */
-/* This program is distributed in the hope that it will be useful, but       */
-/* WITHOUT ANY WARRANTY; without even the implied warranty of                */
-/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General */
-/* Public License for more details.                                          */
-/*                                                                           */
-/* The GNU GPL can be found in LICENSE in this directory                     */
-/*****************************************************************************/
+/*****************************************************************************
+ * admin_gebaeude.php                                                        *
+ *****************************************************************************
+ * Iw DB: Icewars geoscan and sitter database                                *
+ * Open-Source Project started by Robert Riess (robert@riess.net)            *
+ * ========================================================================= *
+ * Copyright (c) 2004 Robert Riess - All Rights Reserved                     *
+ *****************************************************************************
+ * This program is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU General Public License as published by the     *
+ * Free Software Foundation; either version 2 of the License, or (at your    *
+ * option) any later version.                                                *
+ *                                                                           *
+ * This program is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General *
+ * Public License for more details.                                          *
+ *                                                                           *
+ * The GNU GPL can be found in LICENSE in this directory                     *
+ *****************************************************************************
+ *                                                                           *
+ * Entwicklerforum/Repo:                                                     *
+ *                                                                           *
+ *        https://handels-gilde.org/?www/forum/index.php;board=1099.0        *
+ *                   https://github.com/iwdb/iwdb                            *
+ *                                                                           *
+ *****************************************************************************/
 
-// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
-//    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") {
-    exit("Hacking attempt...!!");
+//direktes Aufrufen verhindern
+if (!defined('IRA')) {
+    header('HTTP/1.1 403 forbidden');
+    exit;
 }
 
-if ( $user_status != "admin" ) {
+if ($user_status != "admin") {
     die('Hacking attempt...');
 }
+
+//****************************************************************************
 
 function dauer($zeit)
 {
     $return['d'] = floor($zeit / DAY);
     $return['h'] = floor(($zeit - $return['d'] * DAY) / HOUR);
     $return['m'] = ($zeit - $return['d'] * DAY - $return['h'] * HOUR) / MINUTE;
+
     return $return;
 }
 
 //******************************************************************************
 
-echo "<div class='doc_title'>Admin Gebäude</div>\n";
+doc_title('Admin Gebäude');
 
-$gebpictures = array();
+$gebpictures     = array();
 $gebpictures[''] = "keins";
 
 $handle = opendir('bilder/gebs/');
-while (false !== ($datei = readdir($handle)))
-{
-    if (strpos($datei, ".jpg") !== FALSE)
-    {
-        $id = str_replace(".jpg", "", $datei);
+while (false !== ($datei = readdir($handle))) {
+    if (strpos($datei, ".jpg") !== false) {
+        $id               = str_replace(".jpg", "", $datei);
         $gebpictures[$id] = $id;
     }
 }
@@ -66,35 +70,33 @@ $editgebaeude = getVar('newgebaude');
 
 $sql = "SELECT id FROM " . $db_tb_gebaeude . " ORDER BY id ASC";
 $result_gebaeude = $db->db_query($sql)
-    or error(GENERAL_ERROR,
-    'Could not query config information.', '',
-    __FILE__, __LINE__, $sql);
+    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
-while($row_gebaeude = $db->db_fetch_array($result_gebaeude)) {
-    if ( ! empty($editgebaeude) )	{
+while ($row_gebaeude = $db->db_fetch_array($result_gebaeude)) {
+    if (!empty($editgebaeude)) {
 
         $temp_name = getVar(($row_gebaeude['id'] . '_name'));
         if (!empty($temp_name)) {
 
-            $geb_name   = $db->escape(getVar($row_gebaeude['id'] . '_name',true));
-            $geb_cat    = $db->escape(getVar($row_gebaeude['id'] . '_category', true));
-            $geb_idcat  = (int)getVar($row_gebaeude['id'] . '_idcat');
-            $geb_inact  = getVar($row_gebaeude['id'] . '_inactive');
-            $geb_bild   = $db->escape(getVar($row_gebaeude['id'] . '_bild'));
-            $id_iw      = (int)getVar($row_gebaeude['id'] . '_id_iw');
+            $geb_name  = $db->escape(getVar($row_gebaeude['id'] . '_name', true));
+            $geb_cat   = $db->escape(getVar($row_gebaeude['id'] . '_category', true));
+            $geb_idcat = (int)getVar($row_gebaeude['id'] . '_idcat');
+            $geb_inact = getVar($row_gebaeude['id'] . '_inactive');
+            $geb_bild  = $db->escape(getVar($row_gebaeude['id'] . '_bild'));
+            $id_iw     = (int)getVar($row_gebaeude['id'] . '_id_iw');
 
-            $dauer_d   = (int)getVar($row_gebaeude['id'] . '_dauer_d');
-            $dauer_h   = (int)getVar($row_gebaeude['id'] . '_dauer_h');
-            $dauer_m   = (int)getVar($row_gebaeude['id'] . '_dauer_m');
+            $dauer_d = (int)getVar($row_gebaeude['id'] . '_dauer_d');
+            $dauer_h = (int)getVar($row_gebaeude['id'] . '_dauer_h');
+            $dauer_m = (int)getVar($row_gebaeude['id'] . '_dauer_m');
 
-            $delete    = getVar(($row_gebaeude['id'] . '_delete'));
+            $delete = getVar(($row_gebaeude['id'] . '_delete'));
 
-            $dauer     = ($dauer_d * DAY) + ($dauer_h * HOUR) + ($dauer_m * MINUTE);
+            $dauer = ($dauer_d * DAY) + ($dauer_h * HOUR) + ($dauer_m * MINUTE);
 
             if (empty($delete)) {
 
                 $sql = "UPDATE " . $db_tb_gebaeude .
-                    " SET name='" . $geb_name.
+                    " SET name='" . $geb_name .
                     "', category='" . $geb_cat .
                     "', idcat='" . $geb_idcat .
                     "', inactive='" . $geb_inact .
@@ -106,7 +108,7 @@ while($row_gebaeude = $db->db_fetch_array($result_gebaeude)) {
             } else {
 
                 $sql = "DELETE FROM " . $db_tb_gebaeude .
-                    " WHERE name='" . $geb_name.
+                    " WHERE name='" . $geb_name .
                     "'AND category='" . $geb_cat .
                     "'AND idcat='" . $geb_idcat .
                     "'AND id = '" . $row_gebaeude['id'] . "'";
@@ -124,9 +126,9 @@ while($row_gebaeude = $db->db_fetch_array($result_gebaeude)) {
 
 }
 
-$lastid_name  = getVar((($lastid + 1) . '_name'));
+$lastid_name = getVar((($lastid + 1) . '_name'));
 
-if((!empty($lastid_name)) && (empty($editgebaeude))) {
+if ((!empty($lastid_name)) && (empty($editgebaeude))) {
     $geb_name  = $db->escape(getVar((($lastid + 1) . '_name'), true));
     $geb_cat   = $db->escape(getVar((($lastid + 1) . '_category'), true));
     $geb_idcat = (int)getVar((($lastid + 1) . '_idcat'));
@@ -134,12 +136,12 @@ if((!empty($lastid_name)) && (empty($editgebaeude))) {
     $geb_bild  = $db->escape(getVar((($lastid + 1) . '_bild')));
     $id_iw     = (int)getVar((($lastid + 1) . '_id_iw'));
 
-    $dauer_d   = (int)getVar((($lastid + 1) . '_dauer_d'));
-    $dauer_h   = (int)getVar((($lastid + 1) . '_dauer_h'));
-    $dauer_m   = (int)getVar((($lastid + 1) . '_dauer_m'));
+    $dauer_d = (int)getVar((($lastid + 1) . '_dauer_d'));
+    $dauer_h = (int)getVar((($lastid + 1) . '_dauer_h'));
+    $dauer_m = (int)getVar((($lastid + 1) . '_dauer_m'));
 
-    $dauer     = ($dauer_d * DAY) + ($dauer_h * HOUR) + ($dauer_m * MINUTE);
-    $sql = "INSERT INTO " . $db_tb_gebaeude .
+    $dauer = ($dauer_d * DAY) + ($dauer_h * HOUR) + ($dauer_m * MINUTE);
+    $sql   = "INSERT INTO " . $db_tb_gebaeude .
         " (name, category, idcat, inactive, dauer, bild, id_iw) " .
         " VALUES ('" . $geb_name .
         "', '" . $geb_cat .
@@ -149,16 +151,14 @@ if((!empty($lastid_name)) && (empty($editgebaeude))) {
         "', '" . $geb_bild .
         "', '" . $id_iw . "')";
     $result = $db->db_query($sql)
-        or error(GENERAL_ERROR,
-        'Could not query config information.', '',
-        __FILE__, __LINE__, $sql);
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
     $lastid++;
 
     echo "<div class='system_notification'>Gebäude $lastid_name hinzugefügt.</div>";
 }
 
-if($editgebaeude) {
+if ($editgebaeude) {
     echo "<div class='system_notification'>Gebäude aktualisiert.</div>";
 }
 
@@ -225,18 +225,15 @@ echo "<br>\n";
 $sql = "SELECT DISTINCT category FROM " . $db_tb_gebaeude .
     " ORDER BY category asc";
 $result = $db->db_query($sql)
-    or error(GENERAL_ERROR,
-    'Could not query config information.', '',
-    __FILE__, __LINE__, $sql);
+    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
-while($row = $db->db_fetch_array($result))
-{
+while ($row = $db->db_fetch_array($result)) {
     echo "<form method='POST' action='index.php?action=admin&uaction=gebaeude&sid=" . $sid . "' enctype='multipart/form-data'>\n";
     echo "<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 90%;'>\n";
     echo "<thead>\n";
     echo " <tr>\n";
     echo "  <td class='titlebg' style='text-align:center !important' colspan='7'>\n";
-    echo "    <b>" . ( empty($row['category']) ? "Sonstige" : $row['category'] ). "</b>\n";
+    echo "    <b>" . (empty($row['category']) ? "Sonstige" : $row['category']) . "</b>\n";
     echo "  </td>\n";
     echo " </tr>\n";
     echo " <tr>\n";
@@ -250,42 +247,37 @@ while($row = $db->db_fetch_array($result))
     echo " </tr>\n";
     echo "</thead>\n";
 
-    $sql = "SELECT * FROM " . $db_tb_gebaeude .
-        " WHERE category='" . $row['category'] .
-        "' ORDER BY idcat ASC";
+    $sql = "SELECT * FROM " . $db_tb_gebaeude . " WHERE category='" . $row['category'] . "' ORDER BY idcat ASC";
     $result_gebaeude = $db->db_query($sql)
-        or error(GENERAL_ERROR,
-        'Could not query config information.', '',
-        __FILE__, __LINE__, $sql);
-    while($row_gebaeude = $db->db_fetch_array($result_gebaeude)) {
-        $dauer = dauer($row_gebaeude['dauer']);
-        $bild_url = "bilder/gebs/" .
-            (( empty($row_gebaeude['bild'])) ? "blank.gif"
-                : $row_gebaeude['bild'] . ".jpg");
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
+    while ($row_gebaeude = $db->db_fetch_array($result_gebaeude)) {
+        $dauer    = dauer($row_gebaeude['dauer']);
+        $bild_url = "bilder/gebs/" . ((empty($row_gebaeude['bild'])) ? "blank.gif" : $row_gebaeude['bild'] . ".jpg");
 
         echo "<tbody>\n";
         echo " <tr>\n";
         echo "  <td class='windowbg1' style='text-align:center !important'>\n";
-        echo "  Ausblenden:  <input type='checkbox' name='" . $row_gebaeude['id'] . "_inactive' value='1'" . (($row_gebaeude['inactive']) ?  " checked": "") . ">\n";
+        echo "  Ausblenden:  <input type='checkbox' name='" . $row_gebaeude['id'] . "_inactive' value='1'" . (($row_gebaeude['inactive']) ? " checked" : "") . ">\n";
         echo "  Löschen:  <input type='checkbox' name='" . $row_gebaeude['id'] . "_delete' onclick='return confirmlink(this, 'Möchten sie dieses Gebäude wirklich löschen?')' value='1'>\n";
         echo "  </td>\n";
 
         echo "  <td class='windowbg1'>\n";
-        echo "    <input type='text' name='" . $row_gebaeude['id'] . "_name' value='" . $row_gebaeude['name']. "' required maxlength='100' size='33'>\n";
+        echo "    <input type='text' name='" . $row_gebaeude['id'] . "_name' value='" . $row_gebaeude['name'] . "' required maxlength='100' size='33'>\n";
         echo "  </td>\n";
 
         echo "  <td class='windowbg1'>\n";
-        echo "   <input type='text' name='" . $row_gebaeude['id'] . "_category' value='" . $row_gebaeude['category']. "' maxlength='50' size='22'>\n";
+        echo "   <input type='text' name='" . $row_gebaeude['id'] . "_category' value='" . $row_gebaeude['category'] . "' maxlength='50' size='22'>\n";
         echo "  </td>\n";
 
         echo "  <td class='windowbg1' style='text-align:center !important;'>\n";
-        echo "    <input type='number' name='" . $row_gebaeude['id'] . "_idcat' value='" . $row_gebaeude['idcat']. "' min='0' maxlength='5' style='width:50px; text-align:right;'>\n";
+        echo "    <input type='number' name='" . $row_gebaeude['id'] . "_idcat' value='" . $row_gebaeude['idcat'] . "' min='0' maxlength='5' style='width:50px; text-align:right;'>\n";
         echo "  </td>\n";
 
         echo "  <td class='windowbg1' style='text-align:left !important;'>\n";
         echo "    <input type='number' name='" . $row_gebaeude['id'] . "_dauer_d' value='" . $dauer['d'] . "' min='0' maxlength='2' style='width:50px; text-align:right;'> Tage<br>\n";
         echo "    <input type='number' name='" . $row_gebaeude['id'] . "_dauer_h' value='" . $dauer['h'] . "' min='0' maxlength='2' style='width:50px; text-align:right;'> h\n";
-        echo "    <input type='number' name='" . $row_gebaeude['id'] . "_dauer_m' value='"  . $dauer['m'] . "' min='0' maxlength='2' style='width:50px; text-align:right;'> min\n";
+        echo "    <input type='number' name='" . $row_gebaeude['id'] . "_dauer_m' value='" . $dauer['m'] . "' min='0' maxlength='2' style='width:50px; text-align:right;'> min\n";
         echo "  </td>\n";
 
         echo "  <td class='windowbg1' style='text-align:center !important;'>\n";
@@ -297,7 +289,7 @@ while($row = $db->db_fetch_array($result))
         echo "    <select name='" . $row_gebaeude['id'] . "_bild'>\n";
         foreach ($gebpictures as $key => $data) {
             echo "      <option value='" . $key . "'";
-            if($row_gebaeude['bild'] == $key) {
+            if ($row_gebaeude['bild'] == $key) {
                 echo  " selected";
             }
             echo ">" . $data . "</option>\n";
@@ -321,4 +313,3 @@ while($row = $db->db_fetch_array($result))
 }
 
 echo "<br>\n";
-?>

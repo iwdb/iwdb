@@ -27,10 +27,6 @@
  *                                                                           *
  *****************************************************************************/
 
-if (basename($_SERVER['PHP_SELF']) != "index.php") {
-    die('Hacking attempt...!!');
-}
-
 if (!defined('IRA')) {
     die('Hacking attempt...');
 }
@@ -99,7 +95,7 @@ if ($selectedusername === false) {
     $selectedusername = $user_sitterlogin;
 }
 
-echo "<div class='doc_title'>Neuer Bericht</div>\n";
+doc_title('Neuer Bericht');
 echo "<form method='POST' action='index.php?action=newscan&sid=" . $sid . "' enctype='multipart/form-data'>\n";
 echo "<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 90%;'>\n";
 echo " <tr>\n";
@@ -185,8 +181,8 @@ if (!empty($textinput)) {
     $count = 0;
 
     require_once ('plib/ParserFactoryConfigC.php');
-    $availParsers   = new ParserFactoryConfigC();
-    $aParserIds     = $availParsers->getParserIdsFor($textinput);
+    $availParsers = new ParserFactoryConfigC();
+    $aParserIds   = $availParsers->getParserIdsFor($textinput);
 
     if (count($aParserIds)) {
         foreach ($aParserIds as $selectedParserId) {

@@ -35,9 +35,11 @@ if (!defined('DEBUG_LEVEL')) {
     define('DEBUG_LEVEL', 0);
 }
 
+//****************************************************************************
+
 function parse_de_index($return)
 {
-    global $db, $db_tb_scans, $db_tb_user_research, $selectedusername, $scan_datas;
+    global $db, $db_tb_scans, $db_tb_user_research, $selectedusername, $scan_datas, $db_tb_params, $db_tb_bestellung;
 
     if ($return->objResultData->bOngoingResearch == false) { // keine laufende Forschung
 
@@ -180,9 +182,102 @@ function parse_de_index($return)
                         continue;
                     }
                 }
-            } //! index_fleet
-            else if (($aContainer->bSuccessfullyParsed) && ($aContainer->strIdentifier == "de_index_ressourcen")) {
+                //! ende index_fleet
+            } else if (($aContainer->bSuccessfullyParsed) && ($aContainer->strIdentifier == "de_index_ressourcen")) {
                 //! Mac: @todo: Ressourcen auf dem aktuellen Planeten auswerten
+
+                //automatische Creditsbestellung
+                if (isset($db_tb_bestellung)) { //Bestellmodul vorhanden
+
+                    //Status der automatischen Credsbestellung aus der DB holen
+                    $sth = $db->db_query("SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'automatic_creds_order';");
+                    $row = $db->db_fetch_array($sth);
+
+                    if (!empty($row) AND ($row['value'] === 'true')) { //Eintrag für automatische Bestellung vorhanden und aktiv
+
+                        $sth = $db->db_query("SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'automatic_creds_order_minvalue';"); //Credits Minimalwert holen
+                        $row = $db->db_fetch_array($sth);
+                        $automatic_creds_order_minvalue = $row['value'];
+
+                        $sth = $db->db_query("SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'automatic_creds_order_minpayout';"); //Wert der kleinsten Creditsauszahlungemenge holen
+                        $row = $db->db_fetch_array($sth);
+                        $automatic_creds_order_minpayout = $row['value'];
+
+                        if (($automatic_creds_order_minvalue > 0)) { //Bestelldaten ok
+
+                            foreach ($aContainer->objResultData->aData as $ParsedRess) {
+                                if ($ParsedRess->strResourceName == 'Credits') {
+                                    if (((int)$ParsedRess->iResourceVorrat < $automatic_creds_order_minvalue)) { //weniger als MinimalCredits vorhanden
+
+                                        //Menge der fehlenden Credits berechnen
+                                        $insufficient_creds = $automatic_creds_order_minvalue - (int)$ParsedRess->iResourceVorrat;
+
+                                        //bestehende Creditsbestellungen holen
+                                        $creds_order         = Array();
+                                        $creds_ordered_value = 0;
+
+                                        $sth = $db->db_query("SELECT `id`, `credits`, `offen_credits` FROM `{$db_tb_bestellung}` WHERE `user` = '" . $selectedusername . "' ORDER BY `credits` ASC;");
+                                        while ($row = $db->db_fetch_array($sth)) {
+                                            $creds_order[$row['id']] = Array('credits' => $row['credits'], 'offen_credits' => $row['offen_credits']);
+                                            $creds_ordered_value = $creds_ordered_value + $row['offen_credits'];
+                                        }
+
+                                        //Menge der noch zusätzlich zu bestellenden Credits berechnen
+                                        $insufficient_creds = $insufficient_creds - $creds_ordered_value;
+
+                                        if ($insufficient_creds > 0) {
+                                            $creds_order_value = (int)(($automatic_creds_order_minvalue * 1.3) - (int)$ParsedRess->iResourceVorrat); //gewisser Zielbereich vermeidet 'krumme' Bestellungen
+                                            $creds_order_value = floor($creds_order_value / ($automatic_creds_order_minvalue / 5)) * ($automatic_creds_order_minvalue / 5);
+
+                                            //minimale Auszahlungsmenge ist eingestellt und fehlende Menge ist kleiner als diese -> minimale Auszahlungsmenge
+                                            if (!empty($automatic_creds_order_minpayout) AND ($creds_order_value < $automatic_creds_order_minpayout)) {
+                                                $creds_order_value = $automatic_creds_order_minpayout;
+                                            }
+
+                                            //keine vorliegenden Creditsbestellungen -> eine einfügen
+                                            if (count($creds_order) === 0) {
+                                                $sql = "INSERT INTO `" . $db_tb_bestellung . "` (`user`, `coords_gal`, `coords_sys`, `coords_planet`, `project`, `text`, `time`, `eisen`, `stahl`, `chemie`, `vv4a`, `eis`, `wasser`, `energie`, `credits`, `volk`, `offen_eisen`, `offen_stahl`, `offen_chemie`, `offen_vv4a`, `offen_eis`, `offen_wasser`, `offen_energie`, `offen_credits`, `schiff`, `anzahl`, `prio`, `taeglich`, `time_created`, `erledigt`) VALUES
+                                                ('" . $selectedusername . "', 0, 0, 0, '(Keins)', '', " . CURRENT_UNIX_TIME . ", 0, 0, 0, 0, 0, 0, 0, " . $creds_order_value . ", 0, 0, 0, 0, 0, 0, 0, 0, " . $creds_order_value . ", '', 0, 1, b'0', " . CURRENT_UNIX_TIME . ", 0);";
+                                                $db->db_query($sql);
+
+                                                doc_message('weniger als ' . number_format((float)$automatic_creds_order_minvalue, 0, ',', '.') . ' Credits bei ' . $selectedusername . ' -> ' . number_format((float)$creds_order_value, 0, ',', '.') . ' Credits automatisch bestellt');
+
+                                            } else {
+                                                //vorliegende Creditsbestellungen zu gering -> aktuellste modifizieren
+                                                if ($creds_ordered_value > 0) {
+                                                    reset($creds_order);
+                                                    $order_id = key($creds_order);
+
+                                                    $data = array(
+                                                        'credits'       => $creds_order_value,
+                                                        'offen_credits' => $creds_order_value
+                                                    );
+                                                    $db->db_update($db_tb_bestellung, $data, "WHERE `id` = " . $order_id);
+
+                                                    if (count($creds_order) > 1) {
+                                                        //Creditsbestellungen aus anderen Bestellungen streichen
+
+                                                        while (next($creds_order)) {
+                                                            $order_id = key($creds_order);
+                                                            $data     = array(
+                                                                'credits'       => 0,
+                                                                'offen_credits' => 0
+                                                            );
+                                                            $db->db_update($db_tb_bestellung, $data, "WHERE `id` = " . $order_id);
+                                                        }
+                                                    }
+
+                                                    doc_message('weniger als ' . number_format((float)$automatic_creds_order_minvalue, 0, ',', '.') . ' Credits bei ' . $selectedusername . ' -> Creditsbestellung auf ' . number_format((float)$creds_order_value, 0, ',', '.') . ' erhöht');
+
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             } else if ($aContainer->strIdentifier == "de_index_research") {
                 $sql = "DELETE FROM " . $db_tb_user_research .
                     " WHERE user='" . $selectedusername . "'";
@@ -354,7 +449,7 @@ function display_de_index()
     if (is_array($scan_datas)) {
         echo "<br>";
         start_table();
-        start_row("titlebg", "colspan='6'");
+        start_row("titlebg", "colspan='4'");
         echo "<span style='font-weight:bold;'>Anfliegende Lieferungen</span>";
         next_row("windowbg2", "");
         echo "Ziel";

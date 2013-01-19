@@ -35,9 +35,10 @@ if (!defined('DEBUG_LEVEL')) {
     define('DEBUG_LEVEL', 0);
 }
 
-function parse_de_info_geb ( $return )
+function parse_de_info_geb($return)
 {
-	/* do some database stuff here */
+    /* do some database stuff here */
     echo "InfoGeb Parser noch nicht vollständig implementiert<br />";
-	return true;
+
+    return true;
 }

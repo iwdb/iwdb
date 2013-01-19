@@ -470,7 +470,7 @@ function finish_de_info_forschung()
 
     while (($research_data = $db->db_fetch_array($result)) !== false) {
         $sql = "SELECT distinct rNew FROM " . $db_tb_research2research .
-               " WHERE rNew=" . $research_data['rid'];
+            " WHERE rNew=" . $research_data['rid'];
 
         $result2 = $db->db_query($sql)
             or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);

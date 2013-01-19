@@ -41,7 +41,7 @@ function parse_de_wirtschaft_geb($return)
     $count = 0;
 
     $AccName = getAccNameFromKolos($return->objResultData->aKolos);
-    if ($AccName === false) {                     //kein Eintrag gefunden -> ausgewählten Accname verwenden
+    if ($AccName === false) { //kein Eintrag gefunden -> ausgewählten Accname verwenden
         $AccName = $selectedusername;
     }
 
@@ -51,9 +51,9 @@ function parse_de_wirtschaft_geb($return)
 
     foreach ($return->objResultData->aAreas as $area) {
         foreach ($area->aBuildings as $building) {
-            $sql = "REPLACE INTO $db_tb_gebaeude_spieler (";
-            $sql .= "coords_gal,coords_sys,coords_planet,kolo_typ,user,category,building,count,time";
-            $sql .= ") VALUES ";
+            $sql = "REPLACE INTO $db_tb_gebaeude_spieler ("
+                 . "coords_gal,coords_sys,coords_planet,kolo_typ,user,category,building,count,time"
+                 . ") VALUES ";
 
             foreach ($building->aCounts as $coords => $count) {
                 $aCoords = explode(":", $coords);

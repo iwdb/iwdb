@@ -77,7 +77,7 @@ function updateIncoming($user, $amount, $ally)
 
     $amount = $amount - $sum_old;
 
-    $sql = "REPLACE INTO $db_tb_kasse_incoming (user, amount, time_of_insert, allianz)".
+    $sql = "REPLACE INTO $db_tb_kasse_incoming (user, amount, time_of_insert, allianz)" .
            " VALUES ('$user', $amount, '" . strftime('%Y-%m-%d %H:%M:00', CURRENT_UNIX_TIME) . "', '$ally')";
     $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not update member cash incomming!', '', __FILE__, __LINE__, $sql);

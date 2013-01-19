@@ -40,7 +40,7 @@ function parse_de_mil_schiff_uebersicht($return)
     global $db, $db_tb_schiffstyp, $db_tb_schiffe, $db_tb_user, $selectedusername;
 
     $AccName = getAccNameFromKolos($return->objResultData->aKolos);
-    if ($AccName === false) {                     //kein Eintrag gefunden -> ausgewählten Accname verwenden
+    if ($AccName === false) { //kein Eintrag gefunden -> ausgewählten Accname verwenden
         $AccName = $selectedusername;
     }
 
@@ -53,12 +53,12 @@ function parse_de_mil_schiff_uebersicht($return)
         // Setze Zeitpunkt des letzten Schiffsimportes 
         $sql = "DELETE FROM " . $db_tb_schiffe . " WHERE user='" . $AccName . "'";
         $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '',__FILE__, __LINE__, $sql);
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
         $sql = "UPDATE " . $db_tb_user . " SET lastshipscan='" . CURRENT_UNIX_TIME .
             "' WHERE sitterlogin='" . $AccName . "'";
         $result = $db->db_query($sql)
-            or error(GENERAL_ERROR,'Could not query config information.', '',__FILE__, __LINE__, $sql);
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
         foreach ($return->objResultData->aSchiffe as $aschiff) {
             if (empty($aschiff->strSchiffName)) {

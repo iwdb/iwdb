@@ -42,7 +42,7 @@ function parse_de_info_user($return)
 
         global $db, $db_tb_spieler;
 
-        $playerinfo = $return->objResultData;
+        $playerinfo              = $return->objResultData;
         $playerinfo->strUserName = $db->escape($playerinfo->strUserName);
 
         $sql = "SELECT name, allianz FROM `{$db_tb_spieler}` WHERE name='" . $playerinfo->strUserName . "';";

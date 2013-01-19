@@ -159,13 +159,13 @@ Achja bei dem ganzen Chaos kamen 142 Leute ums Leben.
                 " AND buddler='" . $buddler . "' AND fleeter='" . $fleeter . "'";
         }
         $result = $db->db_query($sql)
-            or error(GENERAL_ERROR,'Could not query config information.', '',__FILE__, __LINE__, $sql);
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
         // Aktualisierungszeit für Transportberichte setzen
         $sql = "UPDATE " . $db_tb_user . " SET lasttransport='" . CURRENT_UNIX_TIME .
             "' WHERE sitterlogin='" . $buddler . "'";
         $result = $db->db_query($sql)
-            or error(GENERAL_ERROR,'Could not query config information.', '',__FILE__, __LINE__, $sql);
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
         ++$transp_succ;
 

@@ -197,10 +197,12 @@ function parse_de_index($return)
 
                         $sth = $db->db_query("SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'automatic_creds_order_minvalue';"); //Credits Minimalwert holen
                         $row = $db->db_fetch_array($sth);
+
                         $automatic_creds_order_minvalue = $row['value'];
 
                         $sth = $db->db_query("SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'automatic_creds_order_minpayout';"); //Wert der kleinsten Creditsauszahlungemenge holen
                         $row = $db->db_fetch_array($sth);
+
                         $automatic_creds_order_minpayout = $row['value'];
 
                         if (($automatic_creds_order_minvalue > 0)) { //Bestelldaten ok
@@ -219,7 +221,7 @@ function parse_de_index($return)
                                         $sth = $db->db_query("SELECT `id`, `credits`, `offen_credits` FROM `{$db_tb_bestellung}` WHERE `user` = '" . $selectedusername . "' ORDER BY `credits` ASC;");
                                         while ($row = $db->db_fetch_array($sth)) {
                                             $creds_order[$row['id']] = Array('credits' => $row['credits'], 'offen_credits' => $row['offen_credits']);
-                                            $creds_ordered_value = $creds_ordered_value + $row['offen_credits'];
+                                            $creds_ordered_value     = $creds_ordered_value + $row['offen_credits'];
                                         }
 
                                         //Menge der noch zusätzlich zu bestellenden Credits berechnen

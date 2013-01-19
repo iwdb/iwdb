@@ -428,8 +428,7 @@ INSERT INTO `prefix_params` (`name`, `value`, `text`) VALUES
 ('sound_standart', '1', ''),
 ('sound_global', '4', ''),
 ('bericht_fuer_sitter', '1', ''),
-('bericht_fuer_rang', 'all', ''),
-('aktuellnews', '0', '');
+('bericht_fuer_rang', 'all', '');
 
 -- --------------------------------------------------------
 

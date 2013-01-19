@@ -179,5 +179,9 @@ ALTER TABLE `prefix_user` ADD  `NewUniXmlTime` INT UNSIGNED NULL DEFAULT NULL CO
 -- masel: 14.01.2013
 ALTER TABLE `prefix_spieler` ADD `Hauptplanet` VARCHAR( 11 ) NULL DEFAULT NULL COMMENT 'Hauptplanet des Spielers', ADD INDEX ( `Hauptplanet` );
 
--- masel: 15.01.2013 old parser removed
+-- masel: 16.01.2013 old parser removed
 DROP TABLE `prefix_parser`;
+
+-- masel: missing Index and removing double aktuellnews entry (here because order is important);
+DELETE FROM `prefix_params` WHERE `name` = 'aktuellnews' LIMIT 1;
+ALTER TABLE `prefix_params` ADD PRIMARY KEY ( `name` );

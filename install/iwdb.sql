@@ -661,7 +661,8 @@ CREATE TABLE IF NOT EXISTS `prefix_order_comment` (
 CREATE TABLE IF NOT EXISTS `prefix_params` (
   `name` varchar(80) NOT NULL DEFAULT '',
   `value` varchar(80) NOT NULL DEFAULT '',
-  `text` text NOT NULL
+  `text` text NOT NULL,
+  PRIMARY KEY (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

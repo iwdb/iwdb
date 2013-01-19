@@ -179,7 +179,6 @@ if (!empty($rowP['value'])) {
     </table>
 </form>
 <br>
-
 <?php
 
 $be = GetVar('BE');
@@ -302,13 +301,23 @@ if (isset($db_tb_bestellung)) {
     if (GetVar('automatic_creds_order_change')) {
 
         $automatic_creds_order           = GetVar('automatic_creds_order');
-        $automatic_creds_order_minvalue  = filter_number(GetVar('automatic_creds_order_minvalue'), false, 0); //no default, Minimum 0
-        $automatic_creds_order_minpayout = filter_number(GetVar('automatic_creds_order_minpayout'), false, 0); //no default, Minimum 0
+        $automatic_creds_order_minvalue  = filter_int(GetVar('automatic_creds_order_minvalue'), false, 0); //no default, Minimum 0
+        $automatic_creds_order_minpayout = filter_int(GetVar('automatic_creds_order_minpayout'), '', 0); //default '', Minimum 0
+
         if (($automatic_creds_order === 'true') AND (!empty($automatic_creds_order_minvalue))) {
 
-            $db->db_query("INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('automatic_creds_order', 'true') ON DUPLICATE KEY UPDATE `value`='true';");
-            $db->db_query("INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('automatic_creds_order_minvalue', '" . $automatic_creds_order_minvalue . "') ON DUPLICATE KEY UPDATE `value`='" . $automatic_creds_order_minvalue . "';");
-            $db->db_query("INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('automatic_creds_order_minpayout', '" . $automatic_creds_order_minpayout . "') ON DUPLICATE KEY UPDATE `value`='" . $automatic_creds_order_minpayout . "';");
+            $sql = "INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('automatic_creds_order', 'true') ON DUPLICATE KEY UPDATE `value`='true';";
+            $db->db_query($sql)
+                or error(GENERAL_ERROR, 'Could not update automatic_creds_order information.', '', __FILE__, __LINE__, $sql);
+
+            $sql = "INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('automatic_creds_order_minvalue', '" . $automatic_creds_order_minvalue . "') ON DUPLICATE KEY UPDATE `value`='" . $automatic_creds_order_minvalue . "';";
+            $db->db_query($sql)
+                or error(GENERAL_ERROR, 'Could not update automatic_creds_order_minvalue information.', '', __FILE__, __LINE__, $sql);
+
+            $sql = "INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('automatic_creds_order_minpayout', '" . $automatic_creds_order_minpayout . "') ON DUPLICATE KEY UPDATE `value`='" . $automatic_creds_order_minpayout . "';";
+            $db->db_query($sql)
+                or error(GENERAL_ERROR, 'Could not update automatic_creds_order_minpayout information.', '', __FILE__, __LINE__, $sql);
+
 
         } else {
 
@@ -330,12 +339,20 @@ if (isset($db_tb_bestellung)) {
             $sel_automatic_creds_order = 'checked="checked"';
         }
 
-        $sth                            = $db->db_query("SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'automatic_creds_order_minvalue';");
-        $row                            = $db->db_fetch_array($sth);
+        $sql = "SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'automatic_creds_order_minvalue';";
+        $sth = $db->db_query($sql)
+            or error(GENERAL_ERROR, 'Could not get automatic_creds_order_minvalue information.', '', __FILE__, __LINE__, $sql);
+
+        $row = $db->db_fetch_array($sth);
+
         $automatic_creds_order_minvalue = number_format((float)$row['value'], 0, ',', '.');
 
-        $sth                             = $db->db_query("SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'automatic_creds_order_minpayout';");
-        $row                             = $db->db_fetch_array($sth);
+        $sql = "SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'automatic_creds_order_minpayout';";
+        $sth = $db->db_query($sql)
+            or error(GENERAL_ERROR, 'Could not get automatic_creds_order_minpayout information.', '', __FILE__, __LINE__, $sql);
+
+        $row = $db->db_fetch_array($sth);
+
         $automatic_creds_order_minpayout = number_format((float)$row['value'], 0, ',', '.');
     }
 

@@ -89,68 +89,69 @@ function parse_sbxml($xmldata)
         return false;
     }
 
-    debug_var("scan_data['coords_gal']", $scan_data['coords_gal'] = (int)$xml->plani_data->koordinaten->gal);
-    debug_var("scan_data['coords_sys']", $scan_data['coords_sys'] = (int)$xml->plani_data->koordinaten->sol);
-    debug_var("scan_data['coords_planet']", $scan_data['coords_planet'] = (int)$xml->plani_data->koordinaten->pla);
-    debug_var("scan_data['coords']", $scan_data['coords'] = $scan_data['coords_gal'] . ":" . $scan_data['coords_sys'] . ":" . $scan_data['coords_planet']);
-    debug_var("scan_data['user']", $scan_data['user'] = (string)$xml->plani_data->user->name);
-    debug_var("scan_data['allianz']", $scan_data['allianz'] = (string)$xml->plani_data->user->allianz_tag);
-    debug_var("scan_data['typ']", $scan_data['typ'] = (string)$xml->plani_data->planeten_typ->name);
-    debug_var("scan_data['objekt']", $scan_data['objekt'] = (string)$xml->plani_data->objekt_typ->name);
-    debug_var("scan_data['time']", $scan_data['time'] = (int)$xml->timestamp);
-    debug_var("scan_data['vollstaendig']", $scan_data['vollstaendig'] = (int)$xml->informationen->vollstaendig);
-    debug_var("scan_typ", $scan_typ = (string)$xml->scann_typ->id);
+    $scan_data['coords_gal'] = (int)$xml->plani_data->koordinaten->gal;
+    $scan_data['coords_sys'] = (int)$xml->plani_data->koordinaten->sol;
+    $scan_data['coords_planet'] = (int)$xml->plani_data->koordinaten->pla;
+    $scan_data['coords'] = $scan_data['coords_gal'] . ":" . $scan_data['coords_sys'] . ":" . $scan_data['coords_planet'];
+    $scan_data['user'] = (string)$xml->plani_data->user->name;
+    $scan_data['allianz'] = (string)$xml->plani_data->user->allianz_tag;
+    $scan_data['typ'] = (string)$xml->plani_data->planeten_typ->name;
+    $scan_data['objekt'] = (string)$xml->plani_data->objekt_typ->name;
+    $scan_data['time'] = (int)$xml->timestamp;
+    $scan_data['vollstaendig'] = (int)$xml->informationen->vollstaendig;
+    $scan_typ = (string)$xml->scann_typ->id;
+
     // Geo
     if ($scan_typ == 1) {
         debug_var("scan_data['geoscantime']", $scan_data['time']);
         $scan_data['geoscantime'] = (int)$xml->timestamp;
         $ressourcen               = $xml->plani_data->ressourcen_vorkommen->ressource;
         foreach ($ressourcen as $ressource) {
-            $wert = ((string)$ressource->wert[0] * 100);
+            $wert = $wert = ((int)$ressource->wert[0] * 100);
             switch ((int)$ressource->id) {
                 case 1:
-                    debug_var("scan_data['eisengehalt']", $scan_data['eisengehalt'] = $wert);
+                    $scan_data['eisengehalt'] = $wert;
                     break;
                 case 4:
-                    debug_var("scan_data['eisdichte']", $scan_data['eisdichte'] = $wert);
+                    $scan_data['eisdichte'] = $wert;
                     break;
                 case 5:
-                    debug_var("scan_data['chemievorkommen']", $scan_data['chemievorkommen'] = $wert);
+                    $scan_data['chemievorkommen'] = $wert;
             }
         }
         $ressourcen_tech_team = $xml->plani_data->ressourcen_vorkommen->ressource_tech_team;
         foreach ($ressourcen_tech_team as $ressource_tech_team) {
-            $wert = ((string)$ressource_tech_team->wert[0] * 100);
+            $wert = ((int)$ressource_tech_team->wert[0] * 100);
             switch ((int)$ressource_tech_team->id) {
                 case 1:
-                    debug_var("scan_data['tteisen']", $scan_data['tteisen'] = $wert);
+                    $scan_data['tteisen'] = $wert;
                     break;
                 case 4:
-                    debug_var("scan_data['tteis']", $scan_data['tteis'] = $wert);
+                    $scan_data['tteis'] = $wert;
                     break;
                 case 5:
-                    debug_var("scan_data['ttchemie']", $scan_data['ttchemie'] = $wert);
+                    $scan_data['ttchemie'] = $wert;
                     break;
             }
         }
-        debug_var("scan_data['gravitation']", $scan_data['gravitation'] = (string)$xml->plani_data->gravitation);
-        debug_var("scan_data['lebensbedingungen']", $scan_data['lebensbedingungen'] = ((string)$xml->plani_data->lebensbedingungen * 100));
-        debug_var("scan_data['bevoelkerungsanzahl']", $scan_data['bevoelkerungsanzahl'] = (string)$xml->plani_data->bev_max);
-        debug_var("scan_data['fmod']", $scan_data['fmod'] = ((string)$xml->plani_data->modifikatoren->forschung * 100));
+        $scan_data['gravitation'] = (float)$xml->plani_data->gravitation;
+        $scan_data['lebensbedingungen'] = (int)((float)$xml->plani_data->lebensbedingungen * 100);
+        $scan_data['bevoelkerungsanzahl'] = (float)$xml->plani_data->bev_max;
+        $scan_data['fmod'] = (int)((float)$xml->plani_data->modifikatoren->forschung * 100);
         if (isset($xml->plani_data->modifikatoren->gebaeude_bau)) {
-            debug_var("scan_data['kgmod']", $scan_data['kgmod'] = (string)$xml->plani_data->modifikatoren->gebaeude_bau->kosten);
-            debug_var("scan_data['dgmod']", $scan_data['dgmod'] = (string)$xml->plani_data->modifikatoren->gebaeude_bau->dauer);
+            $scan_data['kgmod'] = (float)$xml->plani_data->modifikatoren->gebaeude_bau->kosten;
+            $scan_data['dgmod'] = (float)$xml->plani_data->modifikatoren->gebaeude_bau->dauer;
         } else {
-            debug_var("scan_data['kgmod']", $scan_data['kgmod'] = "0");
-            debug_var("scan_data['dgmod']", $scan_data['dgmod'] = "0");
+            $scan_data['kgmod'] = null;
+            $scan_data['dgmod'] = null;
         }
 
         if (isset($xml->plani_data->modifikatoren->schiff_bau)) {
-            debug_var("scan_data['ksmod']", $scan_data['ksmod'] = (string)$xml->plani_data->modifikatoren->schiff_bau->kosten);
-            debug_var("scan_data['dsmod']", $scan_data['dsmod'] = (string)$xml->plani_data->modifikatoren->schiff_bau->dauer);
+            $scan_data['ksmod'] = (float)$xml->plani_data->modifikatoren->schiff_bau->kosten;
+            $scan_data['dsmod'] = (string)$xml->plani_data->modifikatoren->schiff_bau->dauer;
         } else {
-            debug_var("scan_data['ksmod']", $scan_data['ksmod'] = "0");
-            debug_var("scan_data['dsmod']", $scan_data['dsmod'] = "0");
+            $scan_data['ksmod'] = null;
+            $scan_data['dsmod'] = null;
         }
         $scan_data['besonderheiten'] = "";
         foreach ($xml->plani_data->besonderheiten->besonderheit as $besonderheit) {
@@ -164,127 +165,134 @@ function parse_sbxml($xmldata)
             }
         }
         debug_var("scan_data['besonderheiten']", $scan_data['besonderheiten']);
-        debug_var("scan_data['reset_timestamp']", $scan_data['reset_timestamp'] = (int)$xml->plani_data->reset_timestamp);
+
+        $scan_data['reset_timestamp'] = (int)$xml->plani_data->reset_timestamp;
         // Gebäude/Ress
     } else if ($scan_typ == 2) {
-        debug_var("scan_data['gebscantime']", $scan_data['gebscantime'] = $scan_data['time']);
         $scan_data['gebscantime'] = (int)$xml->timestamp;
         if (isset($xml->gebaeude)) {
             foreach ($xml->gebaeude->gebaeude as $gebaeude) {
                 if (!isset($scan_data['geb'])) {
                     $scan_data['geb'] = "<table class='scan_table'>\n";
                 }
-                $scan_data['geb'] .= "<tr class=\'scan_row\'>\n";
-                $scan_data['geb'] .= "\t<td class=\'scan_object\'>\n";
+                $scan_data['geb'] .= "<tr class='scan_row'>\n";
+                $scan_data['geb'] .= "\t<td class='scan_object'>\n";
                 $scan_data['geb'] .= (string)$gebaeude->name;
                 $scan_data['geb'] .= "\n\t</td>\n";
-                $scan_data['geb'] .= "\t<td class=\'scan_value\'>\n";
-                $scan_data['geb'] .= (string)$gebaeude->anzahl;
+                $scan_data['geb'] .= "\t<td class='scan_value'>\n";
+                $scan_data['geb'] .= (int)$gebaeude->anzahl;
                 $scan_data['geb'] .= "\n\t</td>\n</tr>\n";
             }
         }
         if (isset($scan_data['geb'])) {
-            debug_var("scan_data['geb']", $scan_data['geb'] .= "</table>\n");
+            $scan_data['geb'] .= "</table>\n";
+            debug_var("scan_data['geb']", $scan_data['geb']);
         }
         // Schiffe/Ress
     } else if ($scan_typ == 3) {
-        debug_var("scan_data['schiffscantime']", $scan_data['schiffscantime'] = $scan_data['time']);
         $scan_data['schiffscantime'] = (int)$xml->timestamp;
         foreach ($xml->pla_def as $pla_def) {
             foreach ($pla_def->user as $user) {
                 foreach ($user->schiffe as $schiff) {
                     foreach ($schiff->schifftyp as $schifftyp) {
                         if (!isset($scan_data['plan'])) {
-                            $scan_data['plan'] = "<table class=\'scan_table\'>\n";
+                            $scan_data['plan'] = "<table class='scan_table'>\n";
                         }
-                        $scan_data['plan'] .= "<tr class=\'scan_row\'>\n";
-                        $scan_data['plan'] .= "\t<td class=\'scan_object\'>\n";
+                        $scan_data['plan'] .= "<tr class='scan_row'>\n";
+                        $scan_data['plan'] .= "\t<td class='scan_object'>\n";
                         $scan_data['plan'] .= (string)$schifftyp->name;
                         $scan_data['plan'] .= "\n\t</td>\n";
-                        $scan_data['plan'] .= "\t<td class=\'scan_value\'>\n";
-                        $scan_data['plan'] .= (string)$schifftyp->anzahl;
+                        $scan_data['plan'] .= "\t<td class='scan_value'>\n";
+                        $scan_data['plan'] .= (int)$schifftyp->anzahl;
                         $scan_data['plan'] .= "\n\t</td>\n</tr>\n";
                     }
                 }
                 foreach ($user->defence as $defence) {
                     foreach ($defence->defencetyp as $defencetyp) {
                         if (!isset($scan_data['def'])) {
-                            $scan_data['def'] = "<table class=\'scan_table'>\n";
+                            $scan_data['def'] = "<table class='scan_table'>\n";
                         }
-                        $scan_data['def'] .= "<tr class=\'scan_row\'>\n";
-                        $scan_data['def'] .= "\t<td class=\'scan_object\'>\n";
+                        $scan_data['def'] .= "<tr class='scan_row'>\n";
+                        $scan_data['def'] .= "\t<td class='scan_object'>\n";
                         $scan_data['def'] .= (string)$defencetyp->name;
                         $scan_data['def'] .= "\n\t</td>\n";
-                        $scan_data['def'] .= "\t<td class=\'scan_value\'>\n";
-                        $scan_data['def'] .= (string)$defencetyp->anzahl;
+                        $scan_data['def'] .= "\t<td class='scan_value'>\n";
+                        $scan_data['def'] .= (int)$defencetyp->anzahl;
                         $scan_data['def'] .= "\n\t</td>\n</tr>\n";
                     }
                 }
             }
         }
         if (isset($scan_data['plan'])) {
-            debug_var("scan_data['plan']", $scan_data['plan'] .= "</table>\n");
+            $scan_data['plan'] .= "</table>\n";
         } else {
-            debug_var("scan_data['plan']", $scan_data['plan'] = "");
+            $scan_data['plan'] = "";
         }
+        debug_var("scan_data['plan']", $scan_data['plan']);
+
         if (isset($scan_data['def'])) {
-            debug_var("scan_data['def']", $scan_data['def'] .= "</table>\n");
+            $scan_data['def'] .= "</table>\n";
         } else {
-            debug_var("scan_data['def']", $scan_data['def'] = "");
+            $scan_data['def'] = "";
         }
+        debug_var("scan_data['def']", $scan_data['def']);
+
         foreach ($xml->flotten_def as $flotten_def) {
             foreach ($flotten_def->user as $user) {
                 if (!isset($scan_data['stat'])) {
                     $scan_data['stat'] = "<table class='scan_table'>\n";
                 }
-                $scan_data['stat'] .= "\t<tr class=\'scan_row\'>\n";
-                $scan_data['stat'] .= "\t\t<td colspan=\'2\' class=\'scan_title\'>";
+                $scan_data['stat'] .= "\t<tr class='scan_row'>\n";
+                $scan_data['stat'] .= "\t\t<td colspan='2' class='scan_title'>";
                 $scan_data['stat'] .= "Stationierte Flotte von ";
-                $scan_data['stat'] .= $user->name;
+                $scan_data['stat'] .= (string)$user->name;
                 $scan_data['stat'] .= ":</td>\n";
                 $scan_data['stat'] .= "\t</tr>\n";
                 foreach ($user->schiffe as $schiffe) {
                     foreach ($schiffe->schifftyp as $schifftyp) {
-                        $scan_data['stat'] .= "<tr class=\'scan_row\'>\n";
-                        $scan_data['stat'] .= "\t<td class=\'scan_object\'>\n";
+                        $scan_data['stat'] .= "<tr class='scan_row'>\n";
+                        $scan_data['stat'] .= "\t<td class='scan_object'>\n";
                         $scan_data['stat'] .= (string)$schifftyp->name;
                         $scan_data['stat'] .= "\n\t</td>\n";
-                        $scan_data['stat'] .= "\t<td class=\'scan_value\'>\n";
-                        $scan_data['stat'] .= (string)$schifftyp->anzahl;
+                        $scan_data['stat'] .= "\t<td class='scan_value'>\n";
+                        $scan_data['stat'] .= (int)$schifftyp->anzahl;
                         $scan_data['stat'] .= "\n\t</td>\n</tr>\n";
                     }
                 }
             }
         }
         if (isset($scan_data['stat'])) {
-            debug_var("scan_data['stat']", $scan_data['stat'] .= "</table>\n");
+            $scan_data['stat'] .= "</table>\n";
         } else {
-            debug_var("scan_data['stat']", $scan_data['stat'] = "");
+            $scan_data['stat'] = "";
         }
+        debug_var("scan_data['stat']", $scan_data['stat']);
+
     }
     // Gebäude oder Schiffe/Ress
     if ($scan_typ == 2 || $scan_typ == 3) {
         foreach ($xml->ressourcen as $ressourcen) {
             foreach ($ressourcen->ressource as $ressource) {
                 if ($ressource->id == 1) {
-                    debug_var("scan_data['eisen']", $scan_data['eisen'] = $ressource->anzahl);
+                    debug_var("scan_data['eisen']", $scan_data['eisen'] = (int)$ressource->anzahl);
                 } else if ($ressource->id == 2) {
-                    debug_var("scan_data['stahl']", $scan_data['stahl'] = $ressource->anzahl);
+                    debug_var("scan_data['stahl']", $scan_data['stahl'] = (int)$ressource->anzahl);
                 } else if ($ressource->id == 3) {
-                    debug_var("scan_data['vv4a']", $scan_data['vv4a'] = $ressource->anzahl);
+                    debug_var("scan_data['vv4a']", $scan_data['vv4a'] = (int)$ressource->anzahl);
                 } else if ($ressource->id == 4) {
-                    debug_var("scan_data['eis']", $scan_data['eis'] = $ressource->anzahl);
+                    debug_var("scan_data['eis']", $scan_data['eis'] = (int)$ressource->anzahl);
                 } else if ($ressource->id == 5) {
-                    debug_var("scan_data['chemie']", $scan_data['chemie'] = $ressource->anzahl);
+                    debug_var("scan_data['chemie']", $scan_data['chemie'] = (int)$ressource->anzahl);
                 } else if ($ressource->id == 6) {
-                    debug_var("scan_data['wasser']", $scan_data['wasser'] = $ressource->anzahl);
+                    debug_var("scan_data['wasser']", $scan_data['wasser'] = (int)$ressource->anzahl);
                 } else if ($ressource->id == 7) {
-                    debug_var("scan_data['energie']", $scan_data['energie'] = $ressource->anzahl);
+                    debug_var("scan_data['energie']", $scan_data['energie'] = (int)$ressource->anzahl);
                 }
             }
         }
     }
-    debug_var("save_sbxml", $results = save_sbxml($scan_data));
+    $results = save_sbxml($scan_data);
+    debug_var("save_sbxml", $results);
     foreach ($results as $result) {
         echo "<div class='system_notification'>" . $result . "</div>";
     }
@@ -343,50 +351,16 @@ function save_sbxml($scan_data)
     }
     // INSERT
     if (empty($row)) {
-        $sql  = "INSERT INTO $db_tb_scans (" . implode(array_keys($scan_data), ",") . ") VALUES (";
-        $next = false;
-        foreach ($scan_data as $key => $value) {
-            if ($key != 'geb'
-                && $key != 'plan'
-                && $key != 'stat'
-                && $key != 'def'
-            ) {
-                $value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
-            }
-            if (isset($next) && $next) {
-                $sql .= ",";
-            }
-            $sql .= "'$value'";
-            $next = true;
-        }
-        $sql .= ")";
-        debug_var("sql", $sql);
-        $db->db_query($sql)
+        $db->db_insert($db_tb_scans, $scan_data)
             or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
         $results[] = "Scan " . $scan_data['coords'] . " hinzugefügt.";
 
     } else {  // UPDATE
-        $sql  = "UPDATE $db_tb_scans SET ";
-        $next = false;
-        foreach ($scan_data as $key => $value) {
-            if ($key != 'geb'
-                && $key != 'plan'
-                && $key != 'stat'
-                && $key != 'def'
-            ) {
-                $value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
-            }
-            if (isset($next) && $next) {
-                $sql .= ",";
-            }
-            $sql .= "$key='$value'";
-            $next = true;
-        }
-        $sql .= " WHERE coords_gal=" . $scan_data['coords_gal'] . " AND coords_sys=" . $scan_data['coords_sys'] . " AND coords_planet=" . $scan_data['coords_planet'];
-        debug_var("sql", $sql);
-        $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
+        $where = " WHERE coords_gal=" . $scan_data['coords_gal'] . " AND coords_sys=" . $scan_data['coords_sys'] . " AND coords_planet=" . $scan_data['coords_planet'];
+        $db->db_update($db_tb_scans, $scan_data, $where)
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
 
         $results[] = "Scan " . $scan_data['coords'] . " aktualisiert.";
 
@@ -404,7 +378,8 @@ function save_sbxml($scan_data)
 
 function parse_kbxml($xmldata)
 {
-    global $db_prefix, $db, $anzahl_kb_neu, $ausgabe;
+    global $db, $db_tb_kb, $db_tb_kb_def, $db_tb_kb_verluste, $db_tb_kb_pluenderung, $db_tb_kb_bomb,
+           $db_tb_kb_bomb_geb, $db_tb_kb_flotten, $db_tb_kb_flotten_schiffe, $anzahl_kb_neu, $ausgabe;
 
     $id   = $xmldata->iId;
     $hash = $xmldata->strHash;
@@ -412,11 +387,7 @@ function parse_kbxml($xmldata)
     $link = str_replace("&typ=xml", "", $xmldata->strUrl); //! damit BBCode nachher funktioniert
 
     // Überprüfen, ob KB schon in Datenbank
-    $sql = "
-		SELECT ID_KB
-		FROM {$db_prefix}kb
-		WHERE
-			ID_KB = '$id'";
+    $sql = "SELECT ID_KB FROM {$db_tb_kb} WHERE ID_KB = '$id'";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
@@ -432,12 +403,11 @@ function parse_kbxml($xmldata)
 
         ++$anzahl_kb_neu;
 
-        $kb_id   = $id;
-        $kb_hash = $hash;
-        $kb_time = (int)$xml->timestamp['value'];
-
         // Allgemein
         $kb = array(
+            'id'               => $id,
+            'hash'             => $hash,
+            'time'             => (int)$xml->timestamp['value'],
             'verteidiger'      => (string)$xml->plani_data->user->name['value'],
             'verteidiger_ally' => (string)$xml->plani_data->user->allianz_tag['value'],
             'planet_name'      => (string)$xml->plani_data->plani_name['value'],
@@ -612,46 +582,50 @@ function parse_kbxml($xmldata)
 
 
         // Eintrag
-        $sql = "
-			INSERT INTO {$db_prefix}kb
-				(ID_KB, hash, TIME, verteidiger, verteidiger_ally, planet_name, koords_gal, koords_sol, koords_pla, typ, resultat)
-			VALUES
-				('$kb_id', '$kb_hash', '$kb_time', '$kb[verteidiger]', '$kb[verteidiger_ally]', '$kb[planet_name]', '$kb[koords_gal]', 
-				'$kb[koords_sol]', '$kb[koords_pla]', '$kb[typ]', '$kb[resultat]')";
-        $result = $db->db_query($sql)
+        $sqldata = array(
+            'ID_KB'            => $kb['id'],
+            'hash'             => $kb['hash'],
+            'TIME'             => $kb['time'],
+            'verteidiger'      => $kb['verteidiger'],
+            'verteidiger_ally' => $kb['verteidiger_ally'],
+            'planet_name'      => $kb['planet_name'],
+            'koords_gal'       => $kb['koords_gal'],
+            'koords_sol'       => $kb['koords_sol'],
+            'koords_pla'       => $kb['koords_pla'],
+            'typ'              => $kb['typ'],
+            'resultat'         => $kb['resultat']
+        );
+        $result = $db->db_insert($db_tb_kb, $sqldata)
             or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
         // Def
         if (isset($kb['def'])) {
             $sql = "
-				INSERT INTO {$db_prefix}kb_def
-					(ID_KB, ID_IW_DEF, anz_start, anz_verlust)
+				INSERT INTO {$db_tb_kb_def} (ID_KB, ID_IW_DEF, anz_start, anz_verlust)
 				VALUES";
             foreach ($kb['def'] as $key => $value) {
                 if ($key == 0) {
-                    $sql .= "
-					('$kb_id', '$value[id]', '$value[start]', '$value[verlust]')";
+                    $sql .= "('$kb[id]', '$value[id]', '$value[start]', '$value[verlust]')";
                 } else {
-                    $sql .= ",
-					('$kb_id', '$value[id]', '$value[start]', '$value[verlust]')";
+                    $sql .= ", ('$kb[id]', '$value[id]', '$value[start]', '$value[verlust]')";
                 }
             }
             $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                or error(GENERAL_ERROR, 'Could not update kb deff information.', '', __FILE__, __LINE__, $sql);
         }
         // Verluste
         if (isset($kb['verluste'])) {
             $sql = "
-				INSERT INTO {$db_prefix}kb_verluste
+				INSERT INTO {$db_tb_kb_verluste}
 					(ID_KB, ID_IW_RESS, seite, anzahl)
 				VALUES";
             foreach ($kb['verluste'] as $key => $value) {
                 if ($key == 0) {
                     $sql .= "
-					('$kb_id', '$value[id]', '$value[seite]', '$value[anzahl]')";
+					('$kb[id]', '$value[id]', '$value[seite]', '$value[anzahl]')";
                 } else {
                     $sql .= ",
-					('$kb_id', '$value[id]', '$value[seite]', '$value[anzahl]')";
+					('$kb[id]', '$value[id]', '$value[seite]', '$value[anzahl]')";
                 }
             }
             $result = $db->db_query($sql)
@@ -661,16 +635,16 @@ function parse_kbxml($xmldata)
         // Plünderung
         if (isset($kb['pluenderung'])) {
             $sql = "
-				INSERT INTO {$db_prefix}kb_pluenderung
+				INSERT INTO {$db_tb_kb_pluenderung}
 					(ID_KB, ID_IW_RESS, anzahl)
 				VALUES";
             foreach ($kb['pluenderung'] as $key => $value) {
                 if ($key == 0) {
                     $sql .= "
-					('$kb_id', '$value[id]', '$value[anzahl]')";
+					('$kb[id]', '$value[id]', '$value[anzahl]')";
                 } else {
                     $sql .= ",
-					('$kb_id', '$value[id]', '$value[anzahl]')";
+					('$kb[id]', '$value[id]', '$value[anzahl]')";
                 }
             }
             $result = $db->db_query($sql)
@@ -680,11 +654,11 @@ function parse_kbxml($xmldata)
         // Bomb
         if (isset($kb['bomb'])) {
             $sql    = "
-				INSERT INTO {$db_prefix}kb_bomb
+				INSERT INTO {$db_tb_kb_bomb}
 					(ID_KB, TIME";
             $values = "
 				VALUES
-					('$kb_id', '$kb_time'";
+					('$kb[id]', '$kb_time'";
             foreach ($kb['bomb'] as $key => $value) {
                 if ($key != 'geb') {
                     $sql .= ", $key";
@@ -698,16 +672,16 @@ function parse_kbxml($xmldata)
             // Gebäude
             if (!empty($kb['bomb']['geb'])) {
                 $sql = "
-                    INSERT INTO {$db_prefix}kb_bomb_geb
+                    INSERT INTO {$db_tb_kb_bomb_geb}
                         (ID_KB, ID_IW_GEB, anzahl)
                     VALUES";
                 foreach ($kb['bomb']['geb'] as $key => $value) {
                     if ($key == 0) {
                         $sql .= "
-                            ('$kb_id', '$value[id]', '$value[anzahl]')";
+                            ('$kb[id]', '$value[id]', '$value[anzahl]')";
                     } else {
                         $sql .= ",
-                            ('$kb_id', '$value[id]', '$value[anzahl]')";
+                            ('$kb[id]', '$value[id]', '$value[anzahl]')";
                     }
                 }
                 $result = $db->db_query($sql)
@@ -717,28 +691,28 @@ function parse_kbxml($xmldata)
         // Eintrag Flotte
         if (isset($kb['flotte'])) {
             $sql = "
-				INSERT INTO {$db_prefix}kb_flotten
+				INSERT INTO {$db_tb_kb_flotten}
 					(ID_KB, TIME, art, NAME, ally)
 				VALUES";
             foreach ($kb['flotte'] as $value) {
                 if ($value['art'] == 3) {
                     $sql = "
-						INSERT INTO {$db_prefix}kb_flotten
+						INSERT INTO {$db_tb_kb_flotten}
 							(ID_KB, TIME, art, NAME, ally, planet_name, koords_string)
 						VALUES
-							('$kb_id', '$kb_time', '$value[art]', '$value[name]', '$value[ally]', '$value[planet_name]', '$value[koords_string]')";
+							('$kb[id]', '$kb[time]', '$value[art]', '$value[name]', '$value[ally]', '$value[planet_name]', '$value[koords_string]')";
                 } else {
                     $sql = "
-						INSERT INTO {$db_prefix}kb_flotten
+						INSERT INTO {$db_tb_kb_flotten}
 							(ID_KB, TIME, art, NAME, ally)
 						VALUES
-							('$kb_id', '$kb_time', '$value[art]', '$value[name]', '$value[ally]')";
+							('$kb[id]', '$kb[time]', '$value[art]', '$value[name]', '$value[ally]')";
                 }
                 $result = $db->db_query($sql)
                     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
                 $ID_FLOTTE = @mysql_insert_id();
                 $sql       = "
-					INSERT INTO {$db_prefix}kb_flotten_schiffe
+					INSERT INTO {$db_tb_kb_flotten_schiffe}
 						(ID_FLOTTE, ID_IW_SCHIFF, anz_start, anz_verlust)
 					VALUES";
                 foreach ($value['schiffe'] as $key2 => $value2) {
@@ -756,7 +730,7 @@ function parse_kbxml($xmldata)
         }
 
         //! ########### HACK fuer raidmodul/raidview  #############################
-        //! Mac: Eintrag Daten fuer raidview Tabelle (voellig überholt. Raidmodul sollte einfach auf die KB tabellen umgeschrieben werden)
+        //! ToDo: Mac: Eintrag Daten fuer raidview Tabelle (voellig überholt. Raidmodul sollte einfach auf die KB tabellen umgeschrieben werden)
         global $db_tb_raidview, $selectedusername;
 
         // links sammeln die bereits in der db drinnen sind
@@ -800,7 +774,7 @@ function parse_kbxml($xmldata)
             }
 
             $plani    = $kb["koords_string"];
-            $zeit     = $kb_time;
+            $zeit     = $kb['time'];
             $geraidet = $kb["verteidiger"];
             if (isset($kb['pluenderung'])) {
                 foreach ($kb['pluenderung'] as $value) {
@@ -872,7 +846,7 @@ function parse_kbxml($xmldata)
         $bbcode   = str_replace($suchen, $ersetzen, $bbcode);
 
         $ausgabe['KBs'][] = array(
-            'Zeit'    => $kb_time,
+            'Zeit'    => $kb['time'],
             'Bericht' => $bbcode,
             'Link'    => $link,
         );
@@ -954,7 +928,7 @@ function parse_unixml($xmldata)
  */
 function input_unixml($xml)
 {
-    global $db_prefix, $db;
+    global $db, $db_tb_scans, $db_tb_spieler, $db_tb_sysscans;
 
     if (empty($xml)) {
         echo "<div class='system_error'>XML-Fehler</div>\n";
@@ -969,7 +943,7 @@ function input_unixml($xml)
         return false;
     }
 
-    $sql_scan_begin = "INSERT INTO `{$db_prefix}scans` (`coords`, `coords_gal`, `coords_sys`, `coords_planet`, `USER`, `userchange_time`, `planetenname`, `typ`, `typchange_time`, `objekt`, `objektchange_time`, `nebel`, `plaid`, `TIME`) VALUES ";
+    $sql_scan_begin = "INSERT INTO `{$db_tb_scans}` (`coords`, `coords_gal`, `coords_sys`, `coords_planet`, `USER`, `userchange_time`, `planetenname`, `typ`, `typchange_time`, `objekt`, `objektchange_time`, `nebel`, `plaid`, `TIME`) VALUES ";
 
     //bei schon vorhandenem Planten in der DB werden einige Einträge selektiv ersetzt (Hinweis: Die Werte werden in Reihenfolge innerhalb des Queries nacheinander zugewiesen NICHT erst beim ende des kompletten Queries)
     $sql_scan_end = " ON DUPLICATE KEY UPDATE";
@@ -983,7 +957,7 @@ function input_unixml($xml)
     //$sql_scan_end .= " `nebel` = IF(STRCMP(VALUES(`nebel`), `nebel`), VALUES(`nebel`), `nebel`)";                //Nebel aktualisieren sollten sich nicht ändern deswegen mal auskommentiert
     $sql_scan_end .= ";";
 
-    $sql_spieler_begin = "INSERT INTO `{$db_prefix}spieler` (`NAME`, `allianz`, `dabeiseit`, `playerupdate_time`) VALUES ";
+    $sql_spieler_begin = "INSERT INTO `{$db_tb_spieler}` (`NAME`, `allianz`, `dabeiseit`, `playerupdate_time`) VALUES ";
     //bei schon vorhandenem Spieler in der DB prüfen auf Allianzänderung
     $sql_spieler_end = " ON DUPLICATE KEY UPDATE";
     $sql_spieler_end .= " `allychange_time` = IF((STRCMP(VALUES(`allianz`), `allianz`) AND ((`allychange_time` IS NULL) OR ({$aktualisierungszeit} > `allychange_time`))), {$aktualisierungszeit}, `allychange_time`),"; //Allianzänderungszeit auf die des Scans setzen (wenn sie neuer bzw nicht vorhanden ist und sich die Allianz geändert hat), nachfolgende Abfragen können sich dann darauf beziehen
@@ -992,7 +966,7 @@ function input_unixml($xml)
     $sql_spieler_end .= " `allianz` =     IF(((`allychange_time` = {$aktualisierungszeit}) AND (`playerupdate_time` < {$aktualisierungszeit})), VALUES(`allianz`), `allianz`),"; //neue Allianz schreiben
     $sql_spieler_end .= " `playerupdate_time` = IF((`playerupdate_time` < {$aktualisierungszeit}), {$aktualisierungszeit}, `playerupdate_time`);"; //Angabe des Updates der Spielerinformationen aktualisieren
 
-    $sql_sysscans_begin = "INSERT INTO `{$db_prefix}sysscans` (`id`, `gal`, `sys`, `objekt`, `DATE`, `nebula`) VALUES ";
+    $sql_sysscans_begin = "INSERT INTO `{$db_tb_sysscans}` (`id`, `gal`, `sys`, `objekt`, `DATE`, `nebula`) VALUES ";
     $sql_sysscans_end   = " ON DUPLICATE KEY UPDATE";
     //andere Daten sollten sich nicht ändern deshalb nur die Aktualisierung des Scandatums   
     $sql_sysscans_end .= " `date` = IF(({$aktualisierungszeit} > `date`), {$aktualisierungszeit}, `date`);";

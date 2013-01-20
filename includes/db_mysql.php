@@ -123,10 +123,6 @@ class db
 
             //Spaltenbezeichner ($key) nicht behandeln weil kein Userinput
 
-            if (!is_scalar($value)) { //keine Werte vom Typ array, object und resource
-                throw new Exception('Invalid values!');
-            }
-
             if ($value === null) {
                 $value = "NULL";
             } elseif ($value === false) { //boolean ist meist tinyint(1)
@@ -139,6 +135,8 @@ class db
                     throw new Exception('Value escaping failed!');
                 }
                 $value = "'$value'";
+            } elseif (!is_int($value) AND !is_float($value)){
+                throw new Exception('Invalid values!');
             }
 
         }
@@ -178,7 +176,7 @@ class db
 
         $query = "Update `" . $table . "` SET ";
 
-        $updates = Array();
+        $datapairs = Array();
 
         //sql-query zusammenbauen
         foreach ($data as $key => $value) {
@@ -200,9 +198,9 @@ class db
             } elseif (!is_int($value) AND !is_float($value)){
                 throw new Exception('Invalid values!');
             }
-            $updates[] = "`$key` = $value";
+            $datapairs[] = "`$key` = $value";
         }
-        $query .= implode(', ', $updates);
+        $query .= implode(', ', $datapairs);
 
 
         if ($additionalSQL !== '') {

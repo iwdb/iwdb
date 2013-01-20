@@ -71,8 +71,7 @@ if (!empty($delid)) {
     // Ausgabe der Presets und Loeschlink //
     if (($user_status == "admin") && ($sitterlogin == $user_sitterlogin)) {
         $sql = "SELECT id, name, fromuser FROM " . $db_tb_preset . " WHERE (fromuser = '" . $sitterlogin . "' OR fromuser = '') ORDER BY fromuser, name";
-    }
-    else {
+    } else {
         $sql = "SELECT id, name, fromuser FROM " . $db_tb_preset . " WHERE fromuser = '" . $sitterlogin . "'";
     }
 

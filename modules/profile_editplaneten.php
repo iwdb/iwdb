@@ -51,7 +51,8 @@ if (!empty($editplaneten)) {
 }
 ?>
 <br>
-<form method="POST" action="index.php?action=profile&uaction=editplaneten&sid=<?php echo $sid;?>" enctype="multipart/form-data">
+<form method="POST" action="index.php?action=profile&uaction=editplaneten&sid=<?php echo $sid;?>"
+      enctype="multipart/form-data">
     <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 80%;">
         <tr>
             <td class="windowbg2" style="width:10%;">
@@ -116,16 +117,20 @@ if (!empty($editplaneten)) {
                     <?php echo $row['objekt'];?>
                 </td>
                 <td class="windowbg1">
-                    <input type="text" name="<?php echo $row['coords'];?>_dsmod" value="<?php echo $row['dsmod'];?>" style="width: 15em">
+                    <input type="text" name="<?php echo $row['coords'];?>_dsmod" value="<?php echo $row['dsmod'];?>"
+                           style="width: 15em">
                 </td>
                 <td class="windowbg1">
-                    <input type="text" name="<?php echo $row['coords'];?>_dgmod" value="<?php echo $row['dgmod'];?>" style="width: 15em">
+                    <input type="text" name="<?php echo $row['coords'];?>_dgmod" value="<?php echo $row['dgmod'];?>"
+                           style="width: 15em">
                 </td>
                 <td class="windowbg1">
-                    <input type="text" name="<?php echo $row['coords'];?>_planet_farbe" value="<?php echo $row['planet_farbe'];?>" style="width: 5em">
+                    <input type="text" name="<?php echo $row['coords'];?>_planet_farbe"
+                           value="<?php echo $row['planet_farbe'];?>" style="width: 5em">
                 </td>
                 <td class="windowbg1">
-                    <input type="text" name="<?php echo $row['coords'];?>_sortierung" value="<?php echo $row['sortierung'];?>" style="width: 5em">
+                    <input type="text" name="<?php echo $row['coords'];?>_sortierung"
+                           value="<?php echo $row['sortierung'];?>" style="width: 5em">
                 </td>
             </tr>
         <?php
@@ -133,7 +138,10 @@ if (!empty($editplaneten)) {
         ?>
         <tr>
             <td colspan="7" class="titlebg" align="center">
-                <input type="hidden" name="sitterlogin" value="<?php echo $sitterlogin;?>"><input type="hidden" name="editplaneten" value="true"><input type="submit" value="speichern" name="B1" class="submit">
+                <input type="hidden" name="sitterlogin" value="<?php echo $sitterlogin;?>"><input type="hidden"
+                                                                                                  name="editplaneten"
+                                                                                                  value="true"><input
+                    type="submit" value="speichern" name="B1" class="submit">
             </td>
         </tr>
     </table>

@@ -34,7 +34,7 @@ if ($user_status != "admin" && $user_status != "hc") {
 
 //****************************************************************************
 
-if ( $user_status == "admin" ) { 
+if ($user_status == "admin") {
     echo "<br>\n";
     start_table(0, 0, 0, 1);
     start_row("menutop", "style='text-align: center;'");
@@ -57,30 +57,29 @@ if ( $user_status == "admin" ) {
 }
 
 $uaction = getVar('uaction');
-switch ( $uaction )
-{
-	case "schiffstypen":
+switch ($uaction) {
+    case "schiffstypen":
         include("./modules/admin_schiffstypen.php");
         break;
-	case "gebaeude":      
+    case "gebaeude":
         include("./modules/admin_gebaeude.php");
         break;
-	case "allianzstatus": 
+    case "allianzstatus":
         include("./modules/admin_allianzstatus.php");
         break;
-	case "lastlogin": 
+    case "lastlogin":
         include("./modules/admin_lastlogin.php");
         break;
-	case "wronglogin": 
+    case "wronglogin":
         include("./modules/admin_wronglogin.php");
         break;
-	case "style": 
+    case "style":
         include("./modules/admin_style.php");
         break;
-	case "einstellungen": 
+    case "einstellungen":
         include("./modules/admin_einstellungen.php");
         break;
-	default: 
+    default:
         include("./modules/admin_schiffstypen.php");
         break;
 }

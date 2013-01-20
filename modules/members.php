@@ -110,42 +110,71 @@ if (!empty($graph)) {
         </td>
     <?php } ?>
     <td class="titlebg" style="width:23%;" align="center">
-        <a href="index.php?action=members&order=sitterlogin&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a>
+        <a href="index.php?action=members&order=sitterlogin&ordered=asc&sid=<?php echo $sid;?>"><img
+                src="bilder/asc.gif" border="0" alt="asc"></a>
         <b>Username</b>
-        <a href="index.php?action=members&order=sitterlogin&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a><br>
-        <a href="index.php?action=members&order=budflesol&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a>
+        <a href="index.php?action=members&order=sitterlogin&ordered=desc&sid=<?php echo $sid;?>"><img
+                src="bilder/desc.gif" border="0" alt="desc"></a><br>
+        <a href="index.php?action=members&order=budflesol&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif"
+                                                                                                   border="0" alt="asc"></a>
         <b>Spielart</b>
-        <a href="index.php?action=members&order=budflesol&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a>
+        <a href="index.php?action=members&order=budflesol&ordered=desc&sid=<?php echo $sid;?>"><img
+                src="bilder/desc.gif" border="0" alt="desc"></a>
     </td>
     <td class="titlebg" style="width:4%;" align="center">
-        <a href="index.php?action=members&order=allianz&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a><br><b>Alli</b><br><a href="index.php?action=members&order=allianz&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a>
+        <a href="index.php?action=members&order=allianz&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif"
+                                                                                                  border="0" alt="desc"></a><br><b>Alli</b><br><a
+            href="index.php?action=members&order=allianz&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif"
+                                                                                                  border="0" alt="asc"></a>
     </td>
     <td class="titlebg" style="width:8%;" align="center">
-        <a href="index.php?action=members&order=rang&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a><br><b>Rang</b><br><a href="index.php?action=members&order=rang&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a>
+        <a href="index.php?action=members&order=rang&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif"
+                                                                                               border="0"
+                                                                                               alt="desc"></a><br><b>Rang</b><br><a
+            href="index.php?action=members&order=rang&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif"
+                                                                                               border="0" alt="asc"></a>
     </td>
     <td class="titlebg" style="width:8%;" align="center">
-        <a href="index.php?action=members&order=gebp&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a><br><b>GebP</b><br><a href="index.php?action=members&order=gebp&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a>
+        <a href="index.php?action=members&order=gebp&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif"
+                                                                                               border="0"
+                                                                                               alt="desc"></a><br><b>GebP</b><br><a
+            href="index.php?action=members&order=gebp&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif"
+                                                                                               border="0" alt="asc"></a>
     </td>
     <td class="titlebg" style="width:8%;" align="center">
-        <a href="index.php?action=members&order=fp&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a><br><b>FP</b><br><a href="index.php?action=members&order=fp&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a>
+        <a href="index.php?action=members&order=fp&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif"
+                                                                                             border="0"
+                                                                                             alt="desc"></a><br><b>FP</b><br><a
+            href="index.php?action=members&order=fp&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif"
+                                                                                             border="0" alt="asc"></a>
     </td>
     <td class="titlebg" style="width:9%;" align="center">
-        <a href="index.php?action=members&order=gesamtp&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a><br><b>GesamtP</b><br><a href="index.php?action=members&order=gesamtp&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a>
+        <a href="index.php?action=members&order=gesamtp&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif"
+                                                                                                  border="0" alt="desc"></a><br><b>GesamtP</b><br><a
+            href="index.php?action=members&order=gesamtp&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif"
+                                                                                                  border="0" alt="asc"></a>
     </td>
     <td class="titlebg" style="width:8%;" align="center">
-        <a href="index.php?action=members&order=ptag&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a><br><b>P/Tag</b><br><a href="index.php?action=members&order=ptag&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a>
+        <a href="index.php?action=members&order=ptag&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif"
+                                                                                               border="0"
+                                                                                               alt="desc"></a><br><b>P/Tag</b><br><a
+            href="index.php?action=members&order=ptag&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif"
+                                                                                               border="0" alt="asc"></a>
     </td>
     <td class="titlebg" style="width:10%;" align="center">
-        <a href="index.php?action=members&order=dabei&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a><br><b>dabei
-            s.</b><br><a href="index.php?action=members&order=dabei&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a>
+        <a href="index.php?action=members&order=dabei&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif"
+                                                                                                border="0"
+                                                                                                alt="desc"></a><br><b>dabei
+            s.</b><br><a href="index.php?action=members&order=dabei&ordered=asc&sid=<?php echo $sid;?>"><img
+                src="bilder/asc.gif" border="0" alt="asc"></a>
     </td>
     <td class="titlebg" style="width:20%;" align="center">
         <?php
         if ($user_status == "admin") {
-            echo '<a href="index.php?action=members&order=adminsitten&ordered=desc&sid=' . $sid . '"><img src="bilder/desc.gif" border="0" alt="desc"></a> <b>Sitterrechte</b> <a href="index.php?action=members&order=adminsitten&ordered=asc&sid=' . $sid . '"><img src="bilder/asc.gif" border="0" alt="asc"></a>';
-            echo '<br><a href="index.php?action=members&order=status&ordered=desc&sid=' . $sid . '"><img src="bilder/desc.gif" border="0" alt="desc"></a> <b>Status</b> <a href="index.php?action=members&order=status&ordered=asc&sid=' . $sid . '"><img src="bilder/asc.gif" border="0" alt="asc"></a>';
+            echo '<a href="index.php?action=members&order=adminsitten&ordered=desc&sid=' . $sid . '"><img src="bilder/desc.gif" alt="desc"></a> <b>Sitterrechte</b> <a href="index.php?action=members&order=adminsitten&ordered=asc&sid=' . $sid . '"><img src="bilder/asc.gif" alt="asc"></a>';
+            echo '<br><a href="index.php?action=members&order=status&ordered=desc&sid=' . $sid . '"><img src="bilder/desc.gif" alt="desc"></a> <b>Status</b> <a href="index.php?action=members&order=status&ordered=asc&sid=' . $sid . '"><img src="bilder/asc.gif" alt="asc"></a>';
         } else {
-            echo '<a href="index.php?action=members&order=titel&ordered=desc&sid=' . $sid . '"><img src="bilder/desc.gif" border="0" alt="desc"></a><br><b>Titel</b><br><a href="index.php?action=members&order=titel&ordered=asc&sid=' . $sid . '"><img src="bilder/asc.gif" border="0" alt="asc"></a>';
+            echo '<a href="index.php?action=members&order=titel&ordered=desc&sid=' . $sid . '"><img src="bilder/desc.gif" alt="desc"></a><br><b>Titel</b><br><a href="index.php?action=members&order=titel&ordered=asc&sid=' . $sid . '"><img src="bilder/asc.gif" alt="asc"></a>';
         }
         ?>
     </td>
@@ -220,10 +249,10 @@ while ($row = $db->db_fetch_array($result)) {
         <?php     if ($user_status == "admin") { ?>
             <td class="windowbg<?php echo $num;?>" valign="top">
                 <a href="index.php?action=profile&sitterlogin=<?php echo  $sitterlogin; ?>&sid=<?php echo $sid;?>">
-                    <img border="0" src="bilder/user-profil.gif" alt="P" title="Profil">
+                    <img src="bilder/user-profil.gif" alt="P" title="Profil">
                 </a>
                 <a href="index.php?action=sitterlogins&sitterlogin=<?php echo  $sitterlogin; ?>&sid=<?php echo $sid;?>">
-                    <img border="0" src="bilder/user-login.gif" alt="L" title="Einloggen">
+                    <img src="bilder/user-login.gif" alt="L" title="Einloggen">
                 </a>
             </td>
         <?php } ?>
@@ -235,7 +264,8 @@ while ($row = $db->db_fetch_array($result)) {
                 echo $row['sitterlogin'];
             }
             ?>
-            <br><font size="1"><i style="color:<?php echo $color;?>">[<?php echo $row['budflesol']; echo ($row['buddlerfrom']) ? " v. " . $row['buddlerfrom'] : "";?>
+            <br><font size="1"><i
+                    style="color:<?php echo $color;?>">[<?php echo $row['budflesol']; echo ($row['buddlerfrom']) ? " v. " . $row['buddlerfrom'] : "";?>
                     ]</i></font>
         </td>
         <td class="windowbg<?php echo $num;?>" valign="top">
@@ -300,7 +330,8 @@ while ($row = $db->db_fetch_array($result)) {
             $tempname = 'graph_' . str_replace(".", "%99", rawurlencode($row['sitterlogin']));
             $graphname = getVar($tempname);
             ?>
-            <input type="checkbox" name="<?php echo $tempname?>" value="true"<?php echo ($select_none) ? "" : (($select_all) ? " checked" : (($graphname) ? " checked" : ""));?>>
+            <input type="checkbox" name="<?php echo $tempname?>"
+                   value="true"<?php echo ($select_none) ? "" : (($select_all) ? " checked" : (($graphname) ? " checked" : ""));?>>
         </td>
     </tr>
 <?php

@@ -139,7 +139,6 @@ function workInstallDatabase()
 }
 
 
-
 //****************************************************************************
 //
 // Function workUninstallDatabase is creating all menu entries needed for
@@ -284,14 +283,14 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 
 global $sid, $db, $db_tb_transferliste;
 
-$order = getVar('order');
-$ordered = getVar('ordered');
-$graph = getVar('graph');
+$order      = getVar('order');
+$ordered    = getVar('ordered');
+$graph      = getVar('graph');
 $graph_user = getVar('graph_user', true);
 
 doc_title("Transfer-Statistik");
 
-$selbuddler = getVar('selbuddler');
+$selbuddler     = getVar('selbuddler');
 $seltransferday = getVar('seltransferday');
 if (empty($selbuddler)) {
     showallfleeters();
@@ -316,10 +315,10 @@ function make_link_transferday($styleclass, $order, $ordered, $buddler, $transfe
     make_link(
         "&lt;&lt; " . strftime($config_sitter_dateformat, $zeitmarke),
         array(
-            "selbuddler=" . $buddler,
-            "seltransferday=" . $zeitmarke,
-            "order=" . $order,
-            "ordered=" . $ordered
+             "selbuddler=" . $buddler,
+             "seltransferday=" . $zeitmarke,
+             "order=" . $order,
+             "ordered=" . $ordered
         )
     );
     echo "  </b></td>\n";
@@ -328,16 +327,17 @@ function make_link_transferday($styleclass, $order, $ordered, $buddler, $transfe
     make_link(
         strftime($config_sitter_dateformat, $zeitmarke) . " &gt;&gt;",
         array(
-            "selbuddler=" . $buddler,
-            "seltransferday=" . $zeitmarke,
-            "order=" . $order,
-            "ordered=" . $ordered
+             "selbuddler=" . $buddler,
+             "seltransferday=" . $zeitmarke,
+             "order=" . $order,
+             "ordered=" . $ordered
         )
     );
     echo "  </b></td>\n";
     echo "</tr>\n";
     echo "</table>\n";
 }
+
 // ****************************************************************************
 //
 function make_order_link($order, $ordered, $parameters = array())
@@ -351,10 +351,11 @@ function make_order_link($order, $ordered, $parameters = array())
         $link .= "&" . $parameter;
     }
     $link .= "'> ";
-    $link .= "  <img src='bilder/" . $ordered . ".gif' border='0' alt='" . $ordered . "'> ";
+    $link .= "  <img src='bilder/" . $ordered . ".gif' alt='" . $ordered . "'> ";
     $link .= "</a>";
     echo $link;
 }
+
 // ****************************************************************************
 //
 function make_link($name, $parameters)
@@ -369,6 +370,7 @@ function make_link($name, $parameters)
     $link .= $name . "</a>";
     echo $link;
 }
+
 // ****************************************************************************
 //
 function build_graph_transfer($users, $fitthis, $date_min, $date_max, $typ)
@@ -487,12 +489,12 @@ function build_graph_transfer($users, $fitthis, $date_min, $date_max, $typ)
     ImageFilledPolygon(
         $graph,
         array(
-            $graph_xsize - $config_borderright,
-            $graph_ysize - $config_borderbottom + 1,
-            $graph_xsize - $config_borderright - 5,
-            $graph_ysize - $config_borderbottom - 2,
-            $graph_xsize - $config_borderright - 5,
-            $graph_ysize - $config_borderbottom + 4
+             $graph_xsize - $config_borderright,
+             $graph_ysize - $config_borderbottom + 1,
+             $graph_xsize - $config_borderright - 5,
+             $graph_ysize - $config_borderbottom - 2,
+             $graph_xsize - $config_borderright - 5,
+             $graph_ysize - $config_borderbottom + 4
         ),
         3,
         $text_color
@@ -560,12 +562,12 @@ function build_graph_transfer($users, $fitthis, $date_min, $date_max, $typ)
     ImageFilledPolygon(
         $graph,
         array(
-            $config_borderleft - 1,
-            $config_bordertop,
-            $config_borderleft - 4,
-            $config_bordertop + 5,
-            $config_borderleft + 2,
-            $config_bordertop + 5
+             $config_borderleft - 1,
+             $config_bordertop,
+             $config_borderleft - 4,
+             $config_bordertop + 5,
+             $config_borderleft + 2,
+             $config_bordertop + 5
         ),
         3,
         $text_color
@@ -738,13 +740,13 @@ function build_graph_transfer($users, $fitthis, $date_min, $date_max, $typ)
 
         if (ImageTypes() & IMG_GIF) {
             ImageGif($graph, "graph_transport.gif");
-            echo "<img src='graph_transport.gif' border='0' alt='Graph'>";
+            echo "<img src='graph_transport.gif' alt='Graph'>";
         } elseif (ImageTypes() & IMG_JPG) {
             ImageJpeg($graph, "graph_transport.jpg");
-            echo "<img src='graph_transport.jpg' border='0' alt='Graph'>";
+            echo "<img src='graph_transport.jpg' alt='Graph'>";
         } elseif (ImageTypes() & IMG_PNG) {
             ImagePng($graph, "graph_transport.png");
-            echo "<img src='graph_transport.png' border='0' alt='Graph'>";
+            echo "<img src='graph_transport.png' alt='Graph'>";
         } else {
             echo "Keine Grafik-Unterstützung vorhanden";
         }
@@ -757,6 +759,7 @@ function build_graph_transfer($users, $fitthis, $date_min, $date_max, $typ)
     }
     ImageDestroy($graph);
 }
+
 // ****************************************************************************
 //
 function showbuddlertransfers($buddler, $transferday)
@@ -1091,8 +1094,8 @@ function showbuddler($buddler)
         make_link(
             strftime($config_sitter_dateformat, $row['zeitmarke']),
             array(
-                "selbuddler=" . $buddler,
-                "seltransferday=" . $row['zeitmarke']
+                 "selbuddler=" . $buddler,
+                 "seltransferday=" . $row['zeitmarke']
             )
         );
         next_cell("windowbg1", "style='width:10%' align='right'");

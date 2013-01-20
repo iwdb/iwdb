@@ -330,7 +330,7 @@ foreach ($categories as $category => $value) {
             $id    = 0;
         }
         echo "<a href='index.php?action=m_building&show_building=" . $id . "'>";
-        echo "<img src='bilder/gebs/" . $image . ".jpg' border='0' width='50' height='50' alt='" . $building . "'>";
+        echo "<img src='bilder/gebs/" . $image . ".jpg' width='50' height='50' alt='" . $building . "'>";
         echo "</a>";
     }
     foreach ($data[$category] as $coords => $planet_buildings) {

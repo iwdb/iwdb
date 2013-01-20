@@ -39,9 +39,9 @@
 
 // -> Abfrage ob dieses Modul über die index.php aufgerufen wurde. 
 //    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") { 
-	echo "Hacking attempt...!!"; 
-	exit; 
+if (basename($_SERVER['PHP_SELF']) != "index.php") {
+    echo "Hacking attempt...!!";
+    exit;
 }
 
 //****************************************************************************
@@ -51,7 +51,7 @@ if (basename($_SERVER['PHP_SELF']) != "index.php") {
 // -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung für 
 //    eine Installation über das Menü
 //
-$modulname  = "m_kbparser";
+$modulname = "m_kbparser";
 
 //****************************************************************************
 //
@@ -79,27 +79,28 @@ $moduldesc = "Ausgabe der Kampfberichte im BBCode";
 // Function workInstallDatabase is creating all database entries needed for
 // installing this module. 
 //
-function workInstallDatabase() {
-/*
-    global $db, $db_prefix, $db_tb_iwdbtabellen;
+function workInstallDatabase()
+{
+    /*
+        global $db, $db_prefix, $db_tb_iwdbtabellen;
 
-    $sqlscript = array(
-    "CREATE TABLE " . $db_prefix . "forum
-    (
-		);",
+        $sqlscript = array(
+        "CREATE TABLE " . $db_prefix . "forum
+        (
+            );",
 
-    "INSERT INTO " . $db_tb_iwdbtabellen . "(`kbparsertable`)" .
-    " VALUES('kbparser')"
-  );
+        "INSERT INTO " . $db_tb_iwdbtabellen . "(`kbparsertable`)" .
+        " VALUES('kbparser')"
+      );
 
-  foreach($sqlscript as $sql) {
-    $result = $db->db_query($sql)
-  	  or error(GENERAL_ERROR,
-               'Could not query config information.', '',
-               __FILE__, __LINE__, $sql);
-  }
-  echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
-*/
+      foreach($sqlscript as $sql) {
+        $result = $db->db_query($sql)
+            or error(GENERAL_ERROR,
+                   'Could not query config information.', '',
+                   __FILE__, __LINE__, $sql);
+      }
+      echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
+    */
 }
 
 //****************************************************************************
@@ -108,19 +109,20 @@ function workInstallDatabase() {
 // installing this module. This function is called by the installation method
 // in the included file includes/menu_fn.php
 //
-function workInstallMenu() {
+function workInstallMenu()
+{
     global $modultitle, $modulstatus;
 
     $menu    = getVar('menu');
     $submenu = getVar('submenu');
 
-	$actionparamters = "";
-  	insertMenuItem( $menu, $submenu, $modultitle, $modulstatus, $actionparamters );
-	  //
-	  // Weitere Wiederholungen für weitere Menue-Eintraege, z.B.
-	  //
-	  // 	insertMenuItem( $menu+1, ($submenu+1), "Titel2", "hc", "&weissichnichtwas=1" );
-	  //
+    $actionparamters = "";
+    insertMenuItem($menu, $submenu, $modultitle, $modulstatus, $actionparamters);
+    //
+    // Weitere Wiederholungen für weitere Menue-Eintraege, z.B.
+    //
+    // 	insertMenuItem( $menu+1, ($submenu+1), "Titel2", "hc", "&weissichnichtwas=1" );
+    //
 }
 
 //****************************************************************************
@@ -128,34 +130,37 @@ function workInstallMenu() {
 // Function workInstallConfigString will return all the other contents needed 
 // for the configuration file
 //
-function workInstallConfigString() {
-/*  global $config_gameversion;
-  return
-    "\$v04 = \" <div class=\\\"doc_lightred\\\">(V " . $config_gameversion . ")</div>\";";
-*/}
+function workInstallConfigString()
+{
+    /*  global $config_gameversion;
+      return
+        "\$v04 = \" <div class=\\\"doc_lightred\\\">(V " . $config_gameversion . ")</div>\";";
+    */
+}
 
 //****************************************************************************
 //
 // Function workUninstallDatabase is creating all database entries needed for
 // removing this module. 
 //
-function workUninstallDatabase() {
-/*
-  global $db, $db_tb_iwdbtabellen, $db_tb_neuername;
+function workUninstallDatabase()
+{
+    /*
+      global $db, $db_tb_iwdbtabellen, $db_tb_neuername;
 
-  $sqlscript = array(
-    "DROP TABLE " . $db_tb_neuername . ";",
-    "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='neuername';"
-  );
+      $sqlscript = array(
+        "DROP TABLE " . $db_tb_neuername . ";",
+        "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='neuername';"
+      );
 
-  foreach($sqlscript as $sql) {
-    $result = $db->db_query($sql)
-  	  or error(GENERAL_ERROR,
-               'Could not query config information.', '',
-               __FILE__, __LINE__, $sql);
-  }
-  echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
-*/
+      foreach($sqlscript as $sql) {
+        $result = $db->db_query($sql)
+            or error(GENERAL_ERROR,
+                   'Could not query config information.', '',
+                   __FILE__, __LINE__, $sql);
+      }
+      echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
+    */
 }
 
 //****************************************************************************
@@ -170,24 +175,26 @@ function workUninstallDatabase() {
 // Anstatt "Mein.Server" natürlich deinen Server angeben und default 
 // durch den Dateinamen des Moduls ersetzen.
 //
-if( !empty($_REQUEST['was'])) {
-  //  -> Nur der Admin darf Module installieren. (Meistens weiss er was er tut)
-  if ( $user_status != "admin" ) 
-		die('Hacking attempt...');
+if (!empty($_REQUEST['was'])) {
+    //  -> Nur der Admin darf Module installieren. (Meistens weiss er was er tut)
+    if ($user_status != "admin") {
+        die('Hacking attempt...');
+    }
 
-  echo "<div class='system_notification'>Installationsarbeiten am Modul " . $modulname . 
-	     " ("  . $_REQUEST['was'] . ")</div>\n";
+    echo "<div class='system_notification'>Installationsarbeiten am Modul " . $modulname .
+        " (" . $_REQUEST['was'] . ")</div>\n";
 
-  if (!@include("./includes/menu_fn.php")) 
-	  die( "Cannot load menu functions" );
+    if (!@include("./includes/menu_fn.php")) {
+        die("Cannot load menu functions");
+    }
 
-  // Wenn ein Modul administriert wird, soll der Rest nicht mehr 
-  // ausgefuehrt werden.
-  return;
+    // Wenn ein Modul administriert wird, soll der Rest nicht mehr
+    // ausgefuehrt werden.
+    return;
 }
 
-if (!@include("./config/".$modulname.".cfg.php")) { 
-	die( "Error:<br><b>Cannot load ".$modulname." - configuration!</b>");
+if (!@include("./config/" . $modulname . ".cfg.php")) {
+    die("Error:<br><b>Cannot load " . $modulname . " - configuration!</b>");
 }
 
 //****************************************************************************
@@ -199,17 +206,17 @@ if (!@include("./config/".$modulname.".cfg.php")) {
 <html>
 
 <head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8">
-	<meta name="author" content="Johannes">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="author" content="Johannes">
 
-	<title>KB-Parser</title>
+    <title>KB-Parser</title>
 </head>
 
 <body>
 
 <form action="index.php?action=kbp" method="post">
-	<textarea name="Eingabe" cols="80" rows="5" ></textarea><br />
-	<input type="submit" value="KB haben will!">
+    <textarea name="Eingabe" cols="80" rows="5"></textarea><br/>
+    <input type="submit" value="KB haben will!">
 </form>
 
 </body>

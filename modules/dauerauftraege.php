@@ -145,8 +145,7 @@ if (!empty($anz)) {
         foreach ($users_sitterlogin as $key => $data) {
             if (CURRENT_UNIX_TIME - $config_dauer_timeout < $users_lastlogin[$key]) {
                 $num = 1;
-            }
-            else {
+            } else {
                 $num = 2;
             }
             ?>
@@ -155,8 +154,7 @@ if (!empty($anz)) {
                     <?php
                     if ($user_status == "admin") {
                         echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($data) . "&sid=" . $sid . "'>" . $data . "</a>";
-                    }
-                    else {
+                    } else {
                         echo $data;
                     }
                     echo $users_sitterpunkte_anz[$key]; echo ($users_sitterpunkte[$key] > (3 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star1.gif' alt='star1' style='border:0;vertical-align:middle;'>" : (($users_sitterpunkte[$key] > (2 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star2.gif' alt='star2' style='border:0;vertical-align:middle;'>" : (($users_sitterpunkte[$key] > round($row_avg['AVG(sitterpunkte)'])) ? "<img src='bilder/star3.gif' alt='star3' style='border:0;vertical-align:middle;'>" : ""));?>
@@ -172,7 +170,7 @@ if (!empty($anz)) {
                         echo "<a href='index.php?action=sitterlogins&sitterlogin=" . urlencode($data) . "&sid=" . $sid . "' target='_blank'>[einloggen]</a>";
                     }
                     ?>
-                    <br><a href="javascript:Collapse('d<?php echo $key;?>');"><img src="bilder/plus.gif" alt="" border="0" id="collapse_d<?php echo $key;?>"></a>
+                    <br><a href="javascript:Collapse('d<?php echo $key;?>');"><img src="bilder/plus.gif" alt="" id="collapse_d<?php echo $key;?>"></a>
                 </td>
                 <td class='windowbg<?php echo $num;?>' valign='top'>
                     <?php echo (empty($users_lastlogin_user[$key])) ? "" : strftime($config_sitter_timeformat, $users_lastlogin[$key]) . " - " . $users_lastlogin_user[$key];?>
@@ -180,7 +178,8 @@ if (!empty($anz)) {
             </tr>
             <tr id='row_d<?php echo $key;?>' style='display: none;'>
                 <td colspan='4' class='windowbg1' valign='top' align='center' style='width: 100%;'>
-                    <form method='POST' action='index.php?action=sitterliste&sid=<?php echo $sid;?>' enctype='multipart/form-data'>
+                    <form method='POST' action='index.php?action=sitterliste&sid=<?php echo $sid;?>'
+                          enctype='multipart/form-data'>
                         <table border='0' cellpadding='4' cellspacing='0' class='bordercolor'>
                             <tr>
                                 <td colspan='2' class='windowbg1' align='center'>
@@ -200,7 +199,10 @@ if (!empty($anz)) {
                             </tr>
                             <tr>
                                 <td colspan='2' class='windowbg1' align='center'>
-                                    <input type="hidden" name="newlog" value="true"><input type="hidden" name="sitterlogin" value="<?php echo $data;?>"><input type="submit" value="speichern" name="B1" class="submit">
+                                    <input type="hidden" name="newlog" value="true"><input type="hidden"
+                                                                                           name="sitterlogin"
+                                                                                           value="<?php echo $data;?>"><input
+                                        type="submit" value="speichern" name="B1" class="submit">
                                 </td>
                             </tr>
                         </table>

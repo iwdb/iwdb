@@ -184,9 +184,11 @@ echo "</form>\n";
         <th class='windowbg2'>LB</th>
         <th class='windowbg2'>Gebäude-<br>dauer</th>
         <th class='windowbg2'>
-            <a href="index.php?action=m_sprengung&amp;ordered=asc&amp;sid=<?php echo $sid; ?>"><img src="bilder/desc.gif" border="0" alt="a"></a>
+            <a href="index.php?action=m_sprengung&amp;ordered=asc&amp;sid=<?php echo $sid; ?>"><img
+                    src="bilder/desc.gif" border="0" alt="a"></a>
             Sprengung
-            <a href="index.php?action=m_sprengung&amp;ordered=desc&amp;sid=<?php echo $sid; ?>"><img src="bilder/asc.gif" border="0" alt="d"></a>
+            <a href="index.php?action=m_sprengung&amp;ordered=desc&amp;sid=<?php echo $sid; ?>"><img
+                    src="bilder/asc.gif" border="0" alt="d"></a>
             <br><span style="font-size:x-small">frühestens</span>
         </th>
 
@@ -270,7 +272,7 @@ echo "</form>\n";
         echo "    </td>\n";
         echo "    <td class='windowbg1' style='text-align:center;'>\n";
 
-        echo '<a href="index.php?action=m_sprengung&amp;ordered=asc&amp;sid=' . $sid . '><img src="bilder/asc.gif" border="0" alt="asc"></a>';
+        echo '<a href="index.php?action=m_sprengung&amp;ordered=asc&amp;sid=' . $sid . '><img src="bilder/asc.gif" alt="asc"></a>';
         $reset_timestamp_first = ($row['reset_timestamp_2'] - DAY); //vorverlegen des Sprengdatums wegen +-24h
         if ($reset_timestamp_first > CURRENT_UNIX_TIME) {
             echo makeduration2(CURRENT_UNIX_TIME, $reset_timestamp_first) . " \n";

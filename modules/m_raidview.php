@@ -219,7 +219,7 @@ function make_link($order, $ordered)
 {
     global $sid;
     echo "<a href='index.php?action=m_raidview&order=" . $order . "&ordered=" . $ordered .
-        "&sid=$sid'> <img src='bilder/" . $ordered . ".gif' border='0' alt='" . $ordered . "'> </a>";
+        "&sid=$sid'> <img src='bilder/" . $ordered . ".gif' alt='" . $ordered . "'> </a>";
 }
 
 // user aus Tabelle holen und gruppieren
@@ -464,13 +464,13 @@ while ($row = $db->db_fetch_array($result2)) {
             // addieren der Resswerte für Gesamtsumme und schreiben der Zeilen
             while ($row = $db->db_fetch_array($result3)) {
                 $count++;
-            #	$eisen   += $row['eisen'];
-            #	$stahl   += $row['stahl'];
-            #  	$vv4a    += $row['vv4a'];
-            #  	$chem    += $row['chemie'];
-            #  	$eis     += $row['eis'];
-            #  	$wasser  += $row['wasser'];
-            #  	$energie += $row['energie'];
+                #	$eisen   += $row['eisen'];
+                #	$stahl   += $row['stahl'];
+                #  	$vv4a    += $row['vv4a'];
+                #  	$chem    += $row['chemie'];
+                #  	$eis     += $row['eis'];
+                #  	$wasser  += $row['wasser'];
+                #  	$energie += $row['energie'];
                 $row['link'] = str_replace('&', '&', $row['link']);
                 $ruser       = $row['user'];
                 $geraided    = trim($row['geraided']);
@@ -478,7 +478,7 @@ while ($row = $db->db_fetch_array($result2)) {
                 $guser       = trim($guser);
                 if (strnatcasecmp($ruser, $geraided)) {
                     next_row("windowbg1", "style='width:1%' align='left'");
-                    echo "<a title='Link zum externen Kampfbericht' href='" . $row['link'] . "'><img border='0' src='bilder/point.gif'/></a>";
+                    echo "<a title='Link zum externen Kampfbericht' href='" . $row['link'] . "'><img src='bilder/point.gif'/></a>";
                     next_cell("windowbg1", "style='width:12%' align='left'");
                     echo Date("H:i d.m.y", $row['date']);
                     next_cell("windowbg1", "style='width:10%' align='center'");
@@ -504,7 +504,7 @@ while ($row = $db->db_fetch_array($result2)) {
                 } else {
                     echo "<font color=red>";
                     next_row("windowbg1", "style='width:1%' align='left'");
-                    echo "<a title='Link zum externen Kampfbericht' href='" . $row['link'] . "'><img border='0' src='bilder/point.gif'/></a>";
+                    echo "<a title='Link zum externen Kampfbericht' href='" . $row['link'] . "'><img src='bilder/point.gif'/></a>";
                     next_cell("windowbg1", "style='width:12%' align='left'");
                     echo Date("H:i d.m.y", $row['date']);
                     next_cell("windowbg1", "style='width:10%' align='center'");

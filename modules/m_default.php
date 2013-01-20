@@ -1,6 +1,6 @@
 <?php
 /*****************************************************************************
- * m_colors.php                                                              *
+ * m_default.php                                                             *
  *****************************************************************************
  * Iw DB: Icewars geoscan and sitter database                                *
  * Open-Source Project started by Robert Riess (robert@riess.net)            *
@@ -44,7 +44,7 @@ if (!defined('IRA')) {
 // -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung für
 //    eine Installation über das Menü
 //
-$modulname  = "m_default";
+$modulname = "m_default";
 
 //****************************************************************************
 //
@@ -65,31 +65,32 @@ $modulstatus = "admin";
 //
 // -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
 //
-$moduldesc = 
-  "Das Default-Modul dient als Vorlage für die anderen Module und hat keine Funktion";
+$moduldesc = "Das Default-Modul dient als Vorlage für die anderen Module und hat keine Funktion";
 
 //****************************************************************************
 //
 // Function workInstallDatabase is creating all database entries needed for
 // installing this module. 
 //
-function workInstallDatabase() {
-/*	global $db, $db_prefix, $db_tb_iwdbtabellen;
+function workInstallDatabase()
+{
+    /*	global $db, $db_prefix, $db_tb_iwdbtabellen;
 
-  $sqlscript = array(
-    "CREATE TABLE " . $db_prefix . "neuername
-    (
-		);",
+      $sqlscript = array(
+        "CREATE TABLE " . $db_prefix . "neuername
+        (
+            );",
 
-    "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-    " VALUES('neuername')"
-  );
-  foreach($sqlscript as $sql) {
-    $result = $db->db_query($sql)
-  	  or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-  }
-  echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
-*/}
+        "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
+        " VALUES('neuername')"
+      );
+      foreach($sqlscript as $sql) {
+        $result = $db->db_query($sql)
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+      }
+      echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
+    */
+}
 
 //****************************************************************************
 //
@@ -97,19 +98,20 @@ function workInstallDatabase() {
 // installing this module. This function is called by the installation method
 // in the included file includes/menu_fn.php
 //
-function workInstallMenu() {
+function workInstallMenu()
+{
     global $modultitle, $modulstatus;
 
     $menu    = getVar('menu');
     $submenu = getVar('submenu');
 
-		$actionparamters = "";
-  	insertMenuItem( $menu, $submenu, $modultitle, $modulstatus, $actionparamters );
-	  //
-	  // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
-	  //
-	  // 	insertMenuItem( $menu+1, ($submenu+1), "Titel2", "hc", "&weissichnichtwas=1" );
-	  //
+    $actionparamters = "";
+    insertMenuItem($menu, $submenu, $modultitle, $modulstatus, $actionparamters);
+    //
+    // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
+    //
+    // 	insertMenuItem( $menu+1, ($submenu+1), "Titel2", "hc", "&weissichnichtwas=1" );
+    //
 }
 
 //****************************************************************************
@@ -117,31 +119,35 @@ function workInstallMenu() {
 // Function workInstallConfigString will return all the other contents needed 
 // for the configuration file
 //
-function workInstallConfigString() {
-/*  global $config_gameversion;
-  return
-    "\$v04 = \" <div class=\\\"doc_lightred\\\">(V " . $config_gameversion . ")</div>\";";
-*/}
+function workInstallConfigString()
+{
+    /*  global $config_gameversion;
+      return
+        "\$v04 = \" <div class=\\\"doc_lightred\\\">(V " . $config_gameversion . ")</div>\";";
+    */
+}
 
 //****************************************************************************
 //
 // Function workUninstallDatabase is creating all database entries needed for
 // removing this module. 
 //
-function workUninstallDatabase() {
-/*  global $db, $db_tb_iwdbtabellen, $db_tb_neuername;
+function workUninstallDatabase()
+{
+    /*  global $db, $db_tb_iwdbtabellen, $db_tb_neuername;
 
-  $sqlscript = array(
-    "DROP TABLE " . $db_tb_neuername . ";",
-    "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='neuername';"
-  );
+      $sqlscript = array(
+        "DROP TABLE " . $db_tb_neuername . ";",
+        "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='neuername';"
+      );
 
-  foreach($sqlscript as $sql) {
-    $result = $db->db_query($sql)
-  	  or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-  }
-  echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
-*/}
+      foreach($sqlscript as $sql) {
+        $result = $db->db_query($sql)
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+      }
+      echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
+    */
+}
 
 //****************************************************************************
 //
@@ -155,24 +161,26 @@ function workUninstallDatabase() {
 // Anstatt "Mein.Server" natürlich deinen Server angeben und default
 // durch den Dateinamen des Moduls ersetzen.
 //
-if( !empty($_REQUEST['was'])) {
-  //  -> Nur der Admin darf Module installieren. (Meistens weiss er was er tut)
-  if ( $user_status != "admin" ) 
-		die('Hacking attempt...');
+if (!empty($_REQUEST['was'])) {
+    //  -> Nur der Admin darf Module installieren. (Meistens weiss er was er tut)
+    if ($user_status != "admin") {
+        die('Hacking attempt...');
+    }
 
-  echo "<div class='system_notification'>Installationsarbeiten am Modul " . $modulname . 
-	     " ("  . $_REQUEST['was'] . ")</div>\n";
+    echo "<div class='system_notification'>Installationsarbeiten am Modul " . $modulname .
+        " (" . $_REQUEST['was'] . ")</div>\n";
 
-  if (!@include("./includes/menu_fn.php")) 
-	  die( "Cannot load menu functions" );
+    if (!@include("./includes/menu_fn.php")) {
+        die("Cannot load menu functions");
+    }
 
-  // Wenn ein Modul administriert wird, soll der Rest nicht mehr 
-  // ausgefuehrt werden.
-  return;
+    // Wenn ein Modul administriert wird, soll der Rest nicht mehr
+    // ausgefuehrt werden.
+    return;
 }
 
-if (!@include("./config/".$modulname.".cfg.php")) { 
-	die( "Error:<br><b>Cannot load ".$modulname." - configuration!</b>");
+if (!@include("./config/" . $modulname . ".cfg.php")) {
+    die("Error:<br><b>Cannot load " . $modulname . " - configuration!</b>");
 }
 
 //****************************************************************************

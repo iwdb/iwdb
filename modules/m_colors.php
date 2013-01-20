@@ -42,7 +42,7 @@ if (!defined('IRA')) {
 // -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung für
 //    eine Installation über das Menü
 //
-$modulname  = "m_colors";
+$modulname = "m_colors";
 
 //****************************************************************************
 //
@@ -64,25 +64,18 @@ $modulstatus = "";
 // -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
 //
 $moduldesc =
-  "Das Colors-Modul bietet eine Anzeige sämtlicher in Icewars für " .
-  "die farbige Markierung von Links wie den Planetennamen relevanten " . 
-  "Hexadezimal-Farbcodes aus der man diese einfach rauskopieren kann.";
+    "Das Colors-Modul bietet eine Anzeige sämtlicher in Icewars für " .
+        "die farbige Markierung von Links wie den Planetennamen relevanten " .
+        "Hexadezimal-Farbcodes aus der man diese einfach rauskopieren kann.";
 
 //****************************************************************************
 //
 // Function workInstallDatabase is creating all database entries needed for
 // installing this module.
 //
-function workInstallDatabase() {
-//	global $db, $db_tb_user;
-//
-//  $sql ="ALTER TABLE `" . $db_tb_user . "`" .
-//	  " ADD `notice` text NOT NULL AFTER `titel`;";
-//
-//  $result = $db->db_query($sql)
-//	  or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-
-  echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
+function workInstallDatabase()
+{
+    //nothing here
 }
 
 //****************************************************************************
@@ -91,16 +84,17 @@ function workInstallDatabase() {
 // installing this module. This function is called by the installation method
 // in the included file includes/menu_fn.php
 //
-function workInstallMenu() {
+function workInstallMenu()
+{
     global $modultitle, $modulstatus, $_POST;
 
-		$actionparamters = "";
-  	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparamters );
-	  //
-	  // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
-	  //
-	  // 	insertMenuItem( $_POST['menu'], ($_POST['submenu']+1), "Titel2", "hc", "&weissichnichtwas=1" );
-	  //
+    $actionparamters = "";
+    insertMenuItem($_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparamters);
+    //
+    // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
+    //
+    // 	insertMenuItem( $_POST['menu'], ($_POST['submenu']+1), "Titel2", "hc", "&weissichnichtwas=1" );
+    //
 }
 
 //****************************************************************************
@@ -108,8 +102,9 @@ function workInstallMenu() {
 // Function workInstallConfigString will return all the other contents needed
 // for the configuration file.
 //
-function workInstallConfigString() {
-  return "";
+function workInstallConfigString()
+{
+    return "";
 }
 
 //****************************************************************************
@@ -117,16 +112,9 @@ function workInstallConfigString() {
 // Function workUninstallDatabase is creating all database entries needed for
 // removing this module.
 //
-function workUninstallDatabase() {
-//	global $db, $db_tb_user;
-//
-//  $sql ="ALTER TABLE `" . $db_tb_user . "`" .
-//	  " DROP COLUMN `notice`;";
-//
-//  $result = $db->db_query($sql)
-//    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-
-    echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
+function workUninstallDatabase()
+{
+    //nothing here
 }
 
 //****************************************************************************
@@ -141,24 +129,26 @@ function workUninstallDatabase() {
 // Anstatt "Mein.Server" natürlich deinen Server angeben und default
 // durch den Dateinamen des Moduls ersetzen.
 //
-if( !empty($_REQUEST['was'])) {
-  //  -> Nur der Admin darf Module installieren. (Meistens weiss er was er tut)
-  if ( $user_status != "admin" )
-		die('Hacking attempt...');
+if (!empty($_REQUEST['was'])) {
+    //  -> Nur der Admin darf Module installieren. (Meistens weiss er was er tut)
+    if ($user_status != "admin") {
+        die('Hacking attempt...');
+    }
 
-  echo "<div class='system_notification'>Installationsarbeiten am Modul " . $modulname .
-	     " ("  . $_REQUEST['was'] . ")</div>\n";
+    echo "<div class='system_notification'>Installationsarbeiten am Modul " . $modulname .
+        " (" . $_REQUEST['was'] . ")</div>\n";
 
-  if (!@include("./includes/menu_fn.php"))
-	  die( "Cannot load menu functions" );
+    if (!@include("./includes/menu_fn.php")) {
+        die("Cannot load menu functions");
+    }
 
-  // Wenn ein Modul administriert wird, soll der Rest nicht mehr
-  // ausgeführt werden.
-  return;
+    // Wenn ein Modul administriert wird, soll der Rest nicht mehr
+    // ausgeführt werden.
+    return;
 }
 
-if (!@include("./config/".$modulname.".cfg.php")) {
-	die( "Error:<br><b>Cannot load ".$modulname." - configuration!</b>");
+if (!@include("./config/" . $modulname . ".cfg.php")) {
+    die("Error:<br><b>Cannot load " . $modulname . " - configuration!</b>");
 }
 
 //****************************************************************************

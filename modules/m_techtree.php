@@ -172,7 +172,7 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 if (file_exists("./config/m_research.cfg.php")) {
 
     // Array aller Evos ggf. anpassen
-    $evoArray = array();
+    $evoArray    = array();
     $evoArray[0] = array('img' => 'blobtree-evo0.png');
     $evoArray[1] = array('img' => 'blobtree-evo1.png', 'keyResearch' => 'Race into Space');
     $evoArray[2] = array('img' => 'blobtree-evo2.png', 'keyResearch' => 'Interstellares Vordringen');
@@ -184,7 +184,7 @@ if (file_exists("./config/m_research.cfg.php")) {
     $selectEvo = null;
 
     if (isset($_GET['selectEvo'])) {
-        $selectEvo = (int)$_GET['selectEvo'];
+        $selectEvo    = (int)$_GET['selectEvo'];
         $selectEvoImg = '';
         if (array_key_exists($selectEvo, $evoArray)) {
             $selectEvoImg = $evoArray[$selectEvo]['img'];
@@ -195,13 +195,13 @@ if (file_exists("./config/m_research.cfg.php")) {
 
     if (is_null($selectEvo)) {
 
-        $selectEvo = 0;
+        $selectEvo    = 0;
         $selectEvoImg = '';
 
         foreach ($evoArray as $evoNumber => $evoData) {
             // -> Nach der ID für die Schlüsselforschungen suchen.
             if (!isset($evoData['keyResearch'])) {
-                $selectEvo = $evoNumber;
+                $selectEvo    = $evoNumber;
                 $selectEvoImg = $evoData['img'];
                 continue;
             }
@@ -209,8 +209,8 @@ if (file_exists("./config/m_research.cfg.php")) {
             $sql = "SELECT ID FROM " . $db_tb_research . " WHERE name='" . $evoData['keyResearch'] . "';";
             $result = $db->db_query($sql)
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-            $result1 = $db->db_fetch_array($result);
-            $researchID  = $result1["ID"];
+            $result1    = $db->db_fetch_array($result);
+            $researchID = $result1["ID"];
 
             // Wenn vorhanden, nachsehen ob der User diese Forschung schon hat.
             if (!empty($researchID)) {
@@ -219,7 +219,7 @@ if (file_exists("./config/m_research.cfg.php")) {
                     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
                 $result2 = $db->db_fetch_array($result);
                 if (!empty($result2["rid"])) {
-                    $selectEvo = $evoNumber;
+                    $selectEvo    = $evoNumber;
                     $selectEvoImg = $evoData['img'];
                 }
             }
@@ -236,7 +236,7 @@ if (file_exists("./config/m_research.cfg.php")) {
 
     for ($evo = 0; $evo <= 7; $evo++) {
 
-        if (array_key_exists($evo, $evoArray)) {        //gibt es die Evo überhaupt?
+        if (array_key_exists($evo, $evoArray)) { //gibt es die Evo überhaupt?
             echo "<a href='index.php?action=m_techtree&selectEvo=" . $evo . "&sid=" . $sid . "'>";
             if ($evo === $selectEvo) {
                 echo "<b>[" . $evo . "]</b>";

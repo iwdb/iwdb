@@ -218,7 +218,8 @@ doc_title('Planet suchen');
     <td class="windowbg1">von <input type="text" name="grav_von"
                                      value="<?php echo ((isset($grav_von)) ? $grav_von : '')?>" style="width: 5em"
                                      maxlength="3"> bis <input type="text" name="grav_bis"
-                                                               value="<?php echo ((isset($grav_bis)) ? $grav_bis : '')?>" style="width: 5em"
+                                                               value="<?php echo ((isset($grav_bis)) ? $grav_bis : '')?>"
+                                                               style="width: 5em"
                                                                maxlength="3">
         <?php
         $grav_von = str_replace(",", ".", $grav_von);
@@ -274,14 +275,16 @@ doc_title('Planet suchen');
 <tr>
     <td class="windowbg2">Schiffkosten:</td>
     <td class="windowbg1">
-        <input type="text" name="ksmod" value="<?php echo ((isset($ksmod)) ? $ksmod : '')?>" style="width: 15em" maxlength="5">
+        <input type="text" name="ksmod" value="<?php echo ((isset($ksmod)) ? $ksmod : '')?>" style="width: 15em"
+               maxlength="5">
 
     </td>
 </tr>
 <tr>
     <td class="windowbg2">Schiffdauer:</td>
     <td class="windowbg1">
-        <input type="text" name="dsmod" value="<?php echo ((isset($dsmod)) ? $dsmod : '')?>" style="width: 15em" maxlength="5">
+        <input type="text" name="dsmod" value="<?php echo ((isset($dsmod)) ? $dsmod : '')?>" style="width: 15em"
+               maxlength="5">
 
     </td>
 </tr>
@@ -301,19 +304,23 @@ doc_title('Planet suchen');
 <tr>
     <td class="windowbg2">Eisengehalt:</td>
     <td class="windowbg1">
-        <input type="text" name="eisengehalt" value="<?php echo ((isset($eisengehalt)) ? $eisengehalt : '')?>" style="width: 15em" maxlength="3">
+        <input type="text" name="eisengehalt" value="<?php echo ((isset($eisengehalt)) ? $eisengehalt : '')?>"
+               style="width: 15em" maxlength="3">
     </td>
 </tr>
 <tr>
     <td class="windowbg2">Chemievorkommen:</td>
     <td class="windowbg1">
-        <input type="text" name="chemievorkommen" value="<?php echo ((isset($chemievorkommen)) ? $chemievorkommen : '')?>" style="width: 15em" maxlength="3">
+        <input type="text" name="chemievorkommen"
+               value="<?php echo ((isset($chemievorkommen)) ? $chemievorkommen : '')?>" style="width: 15em"
+               maxlength="3">
     </td>
 </tr>
 <tr>
     <td class="windowbg2">Eisdichte:</td>
     <td class="windowbg1">
-        <input type="text" name="eisdichte" value="<?php echo ((isset($eisdichte)) ? $eisdichte : '')?>" style="width: 15em" maxlength="3">
+        <input type="text" name="eisdichte" value="<?php echo ((isset($eisdichte)) ? $eisdichte : '')?>"
+               style="width: 15em" maxlength="3">
     </td>
 </tr>
 <tr>
@@ -330,7 +337,9 @@ doc_title('Planet suchen');
 <tr>
     <td class="windowbg2">Lebensbedingungen:</td>
     <td class="windowbg1">
-        <input type="text" name="lebensbedingungen" value="<?php echo ((isset($lebensbedingungen)) ? $lebensbedingungen : '')?>" style="width: 15em" maxlength="3">
+        <input type="text" name="lebensbedingungen"
+               value="<?php echo ((isset($lebensbedingungen)) ? $lebensbedingungen : '')?>" style="width: 15em"
+               maxlength="3">
     </td>
 </tr>
 <?php if (defined('SPECIALSEARCH') && SPECIALSEARCH === true) { ?>
@@ -348,7 +357,8 @@ doc_title('Planet suchen');
     <tr>
         <td class="windowbg2">Rating:</td>
         <td class="windowbg1">
-            <input type="text" name="ratingmin" value="<?php echo ((isset($ratingmin)) ? $ratingmin : '')?>" style="width: 15em" maxlength="6">
+            <input type="text" name="ratingmin" value="<?php echo ((isset($ratingmin)) ? $ratingmin : '')?>"
+                   style="width: 15em" maxlength="6">
             <select name="ratingtyp" style="width: 20em">
                 <?php
                 $ratingtyp = (isset($ratingtyp)) ? $ratingtyp : '';
@@ -416,7 +426,8 @@ doc_title('Planet suchen');
 </tr>
 <tr>
     <td class="windowbg1" colspan="2" align="center">maximale Ergebnisse:
-        <input type="text" name="max" value="<?php echo ((isset($max)) ? $max : '')?>" style="width: 15em" maxlength="6">
+        <input type="text" name="max" value="<?php echo ((isset($max)) ? $max : '')?>" style="width: 15em"
+               maxlength="6">
     </td>
 </tr>
 <tr>

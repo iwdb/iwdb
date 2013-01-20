@@ -248,8 +248,9 @@ debug_var("params", $params);
 $config = array();
 
 // Spieler und Teams abfragen
-$users                          = array();
-$teams                          = array();
+$users = array();
+$teams = array();
+
 $config['filter_who']['(Alle)'] = '(Alle)';
 
 $sql = "SELECT * FROM " . $db_tb_user;
@@ -271,6 +272,7 @@ $config['filter_who'] = $config['filter_who'] + $teams + $users;
 
 // Planeten des Spielers abfragen
 $config['planeten'] = array();
+
 $sql = "SELECT coords, planetenname FROM " . $db_tb_scans . " WHERE user='" . $user_sitterlogin . "' ORDER BY sortierung";
 debug_var('sql', $sql);
 $result = $db->db_query($sql)
@@ -292,7 +294,8 @@ while ($row = $db->db_fetch_array($result)) {
 
 // Schiffstypen abfragen
 $schiffstypen = array();
-$sql          = "SELECT * FROM " . $db_tb_schiffstyp . " WHERE bestellbar=1 ORDER BY typ, abk";
+
+$sql = "SELECT * FROM " . $db_tb_schiffstyp . " WHERE bestellbar=1 ORDER BY typ, abk";
 debug_var('sql', $sql);
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -307,14 +310,14 @@ $config['schiffstypen'] = $schiffstypen;
 
 // Daten löschen
 if (isset($params['delete']) && $params['delete'] != '') {
-    debug_var('sql', $sql = "DELETE FROM " . $db_tb_bestellung_schiffe_pos . " WHERE bestellung_id=" . $params['delete']);
+    debug_var('sql', $sql = "DELETE FROM `" . $db_tb_bestellung_schiffe_pos . "` WHERE `bestellung_id`=" . $params['delete']);
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     $sql = "DELETE FROM " . $db_tb_bestellung_schiffe . " WHERE id=" . $params['delete'];
     debug_var('sql', $sql);
     $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-    $results[]        = "<div class='system_notification'>Datensatz gel&ouml;scht.</div><br>";
+    $results[]        = "<div class='system_notification'>Datensatz gelöscht.</div><br>";
     $params['delete'] = '';
     $params['edit']   = '';
 }
@@ -327,30 +330,30 @@ $button_add  = getVar("button_add");
 if (!empty($button_edit) || !empty($button_add)) {
     debug_var(
         "edit", $edit = array(
-            'user'          => getVar('user'),
-            'planet'        => getVar('planet'),
-            'coords_gal'    => getVar('coords_gal'),
-            'coords_sys'    => getVar('coords_sys'),
-            'coords_planet' => getVar('coords_planet'),
-            'team'          => getVar('team'),
-            'project'       => getVar('project'),
-            'text'          => getVar('text'),
-            'time'          => parsetime(getVar('time')),
-        )
+                  'user'          => getVar('user'),
+                  'planet'        => getVar('planet'),
+                  'coords_gal'    => getVar('coords_gal'),
+                  'coords_sys'    => getVar('coords_sys'),
+                  'coords_planet' => getVar('coords_planet'),
+                  'team'          => getVar('team'),
+                  'project'       => getVar('project'),
+                  'text'          => getVar('text'),
+                  'time'          => parsetime(getVar('time')),
+              )
     );
 } else {
     debug_var(
         "edit", $edit = array(
-            'user'          => $user_sitterlogin,
-            'planet'        => '',
-            'coords_gal'    => '',
-            'coords_sys'    => '',
-            'coords_planet' => '',
-            'team'          => '(Alle)',
-            'project'       => '(Keins)',
-            'text'          => '',
-            'time'          => CURRENT_UNIX_TIME,
-        )
+                  'user'          => $user_sitterlogin,
+                  'planet'        => '',
+                  'coords_gal'    => '',
+                  'coords_sys'    => '',
+                  'coords_planet' => '',
+                  'team'          => '(Alle)',
+                  'project'       => '(Keins)',
+                  'text'          => '',
+                  'time'          => CURRENT_UNIX_TIME,
+              )
     );
 }
 foreach ($config['schiffstypen'] as $schiffstyp) {
@@ -381,7 +384,7 @@ unset($fields['planet']);
 
 // Edit-Daten modifizieren
 if (!empty($button_edit)) {
-    $db->db_update($db_tb_bestellung_schiffe, $fields, " WHERE ID=" . $params['edit'])
+    $db->db_update($db_tb_bestellung_schiffe, $fields, "WHERE `id`=" . $params['edit'])
         or error(GENERAL_ERROR, 'Could not update ship order.', '', __FILE__, __LINE__, $sql);
 
     $results[] = "<div class='system_notification'>Datensatz aktualisiert.</div><br>";
@@ -415,10 +418,8 @@ if ((!empty($button_add) || !empty($button_edit)) && $doppelbelegung != "true") 
     foreach ($config['schiffstypen'] as $schiffstyp) {
         $menge = $edit['schiff_' . $schiffstyp['id']];
         if (!empty($menge)) {
-            debug_var(
-                'sql', $sql = "INSERT INTO " . $db_tb_bestellung_schiffe_pos . " (bestellung_id,schiffstyp_id,menge) VALUES (" .
-                    $params['edit'] . "," . $schiffstyp['id'] . "," . $menge . ")"
-            );
+            $sql = "INSERT INTO " . $db_tb_bestellung_schiffe_pos . " (bestellung_id,schiffstyp_id,menge) VALUES (" . $params['edit'] . "," . $schiffstyp['id'] . "," . $menge . ")";
+            debug_var('sql', $sql);
             $result = $db->db_query($sql)
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
         }
@@ -449,7 +450,7 @@ $data = array();
 
 // Bestellungen abfragen
 $sql = "SELECT *,
-            (SELECT $db_tb_bestellung_projekt.`prio` FROM $db_tb_bestellung_projekt WHERE $db_tb_bestellung_projekt.`name`=$db_tb_bestellung_schiffe.`project` AND $db_tb_bestellung_projekt.`schiff`=1) AS prio FROM $db_tb_bestellung_schiffe";
+            (SELECT `$db_tb_bestellung_projekt`.`prio` FROM `$db_tb_bestellung_projekt` WHERE `$db_tb_bestellung_projekt`.`name`=`$db_tb_bestellung_schiffe`.`project` AND `$db_tb_bestellung_projekt`.`schiff`=1) AS prio FROM `$db_tb_bestellung_schiffe`";
 if (isset($params['filter_who']) && $params['filter_who'] != '(Alle)') {
     if (strpos($params['filter_who'], '(Team) ') === 0) { //suchen nach einem Team
         $sql .= " WHERE (" . $db_tb_bestellung_schiffe . ".team='" . $params['filter_who'] . "' OR " . $db_tb_bestellung_schiffe . ".team IS NULL" . " OR " . $db_tb_bestellung_schiffe . ".team='(Alle)')";
@@ -574,8 +575,8 @@ foreach ($data as $id_bestellung => $bestellung) {
                     }
                     debug_var(
                         "sql", $sql = "UPDATE `{$db_tb_bestellung_schiffe_pos}` SET offen=" . $offen .
-                            " WHERE `bestellung_id`=" . $id_bestellung .
-                            "   AND `schiffstyp_id`=(SELECT `id` FROM $db_tb_schiffstyp WHERE schiff='" . $key . "')"
+                                 " WHERE `bestellung_id`=" . $id_bestellung .
+                                 "   AND `schiffstyp_id`=(SELECT `id` FROM $db_tb_schiffstyp WHERE schiff='" . $key . "')"
                     );
                     $db->db_query($sql)
                         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -761,7 +762,11 @@ if (isset($results)) {
 // Team Dropdown
 echo '<form method="POST" action="' . makeurl(array()) . '" enctype="multipart/form-data"><p align="center">';
 echo 'Filter: ';
-echo makefield(array("type" => 'select', "values" => $config['filter_who'], "value" => $params['filter_who']), 'filter_who');
+echo makefield(array("type"  => 'select',
+                    "values" => $config['filter_who'],
+                    "value"  => $params['filter_who']
+               ), 'filter_who'
+);
 echo ' <input type="submit" name="submit" value="anzeigen"/>';
 echo "</form><br><br>\n";
 
@@ -777,18 +782,18 @@ foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
     }
     echo makelink(
         array(
-            'order'  => $orderkey,
-            'orderd' => 'asc'
+             'order'  => $orderkey,
+             'orderd' => 'asc'
         ),
-        "<img src='./bilder/asc.gif' border='0'>"
+        "<img src='./bilder/asc.gif'>"
     );
     echo '<b>' . $viewcolumnname . '</b>';
     echo makelink(
         array(
-            'order'  => $orderkey,
-            'orderd' => 'desc'
+             'order'  => $orderkey,
+             'orderd' => 'desc'
         ),
-        "<img src='./bilder/desc.gif' border='0'>"
+        "<img src='./bilder/desc.gif'>"
     );
 }
 if (isset($view['edit'])) {
@@ -803,7 +808,7 @@ foreach ($data as $row) {
     next_row('windowbg1', 'nowrap valign=top style="background-color: white;"');
     echo makelink(
         array('expand' => ($expanded ? '' : $key)),
-        '<img src="bilder/' . ($expanded ? 'point' : 'plus') . '.gif" border="0" alt="' . ($expanded ? 'zuklappen' : 'erweitern') . '">'
+        '<img src="bilder/' . ($expanded ? 'point' : 'plus') . '.gif" alt="' . ($expanded ? 'zuklappen' : 'erweitern') . '">'
     );
     foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
         if ($viewcolumnkey == "text") {
@@ -819,13 +824,13 @@ foreach ($data as $row) {
         if (!isset($row['allow_edit']) || $row['allow_edit']) {
             echo makelink(
                 array('edit' => $key),
-                "<img src='./bilder/file_edit_s.gif' border='0' alt='bearbeiten'>"
+                "<img src='./bilder/file_edit_s.gif' alt='bearbeiten'>"
             );
         }
         if (!isset($row['allow_delete']) || $row['can_delete']) {
             echo makelink(
                 array('delete' => $key),
-                "<img src='./bilder/file_delete_s.gif' border='0' onclick=\"return confirmlink(this, 'Datensatz wirklich löschen?')\" alt='löschen'>"
+                "<img src='./bilder/file_delete_s.gif' onclick=\"return confirmlink(this, 'Datensatz wirklich löschen?')\" alt='löschen'>"
             );
         }
     }
@@ -915,7 +920,7 @@ next_row('titlebg', 'align=center colspan=2');
 if (isset($params['edit']) && is_numeric($params['edit'])) {
     echo '<input type="submit" value="speichern" name="button_edit" class="submit"> ';
 }
-echo '<input type="submit" value="hinzuf&uuml;gen" name="button_add" class="submit">';
+echo '<input type="submit" value="hinzufügen" name="button_add" class="submit">';
 end_table();
 echo '</form>';
 

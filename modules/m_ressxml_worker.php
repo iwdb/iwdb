@@ -406,7 +406,7 @@ function make_link($order, $ordered)
 {
     global $sid, $modulname;
     echo "<a href='index.php?action=" . $modulname . "&order=" . $order . "&ordered=" . $ordered .
-        "&sid=$sid'> <img src='bilder/" . $ordered . ".gif' border='0' alt='" . $ordered . "'> </a>";
+        "&sid=$sid'> <img src='bilder/" . $ordered . ".gif' alt='" . $ordered . "'> </a>";
 }
 
 if (isset($_GET['xmlrun'])) {

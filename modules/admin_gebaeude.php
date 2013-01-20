@@ -285,7 +285,7 @@ while ($row = $db->db_fetch_array($result)) {
         echo "  </td>\n";
 
         echo "  <td class='windowbg1' style='text-align:middle !important;'>\n";
-        echo "    <img src='" . $bild_url . "' border='0' width='50' height='50'>\n";
+        echo "    <img src='" . $bild_url . "' width='50' height='50'>\n";
         echo "    <select name='" . $row_gebaeude['id'] . "_bild'>\n";
         foreach ($gebpictures as $key => $data) {
             echo "      <option value='" . $key . "'";

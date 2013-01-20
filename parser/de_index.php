@@ -254,7 +254,7 @@ function parse_de_index($return)
                                                         'credits'       => $creds_order_value,
                                                         'offen_credits' => $creds_order_value
                                                     );
-                                                    $db->db_update($db_tb_bestellung, $data, "WHERE `id` = " . $order_id);
+                                                    $db->db_update($db_tb_bestellung, $data, "WHERE `id`=" . $order_id);
 
                                                     if (count($creds_order) > 1) {
                                                         //Creditsbestellungen aus anderen Bestellungen streichen
@@ -265,7 +265,7 @@ function parse_de_index($return)
                                                                 'credits'       => 0,
                                                                 'offen_credits' => 0
                                                             );
-                                                            $db->db_update($db_tb_bestellung, $data, "WHERE `id` = " . $order_id);
+                                                            $db->db_update($db_tb_bestellung, $data, "WHERE `id`=" . $order_id);
                                                         }
                                                     }
 

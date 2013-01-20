@@ -42,7 +42,7 @@ if (!defined('IRA')) {
 // -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung für
 //    eine Installation über das Menü
 //
-$modulname  = "m_effektiv";
+$modulname = "m_effektiv";
 
 //****************************************************************************
 //
@@ -63,16 +63,16 @@ $modulstatus = "";
 //
 // -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
 //
-$moduldesc = 
-  "Modul zum anzeigen der Schiffsklasseneffektivitäten, beruhend auf der Schiffklasseneffektivität ingame";
+$moduldesc = "Modul zum anzeigen der Schiffsklasseneffektivitäten, beruhend auf der Schiffklasseneffektivität ingame";
 
 //****************************************************************************
 //
 // Function workInstallDatabase is creating all database entries needed for
 // installing this module. 
 //
-function workInstallDatabase() {
-  echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
+function workInstallDatabase()
+{
+    echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
 }
 
 //****************************************************************************
@@ -81,11 +81,12 @@ function workInstallDatabase() {
 // installing this module. This function is called by the installation method
 // in the included file includes/menu_fn.php
 //
-function workInstallMenu() {
+function workInstallMenu()
+{
     global $modulstatus, $_POST;
-		
-	$actionparamters = "";
-  	insertMenuItem( $_POST['menu'], $_POST['submenu'], "Schiffklassen", $modulstatus, $actionparamters );
+
+    $actionparamters = "";
+    insertMenuItem($_POST['menu'], $_POST['submenu'], "Schiffklassen", $modulstatus, $actionparamters);
 
 }
 
@@ -94,8 +95,9 @@ function workInstallMenu() {
 // Function workInstallConfigString will return all the other contents needed 
 // for the configuration file.
 //
-function workInstallConfigString() {
-  return "";
+function workInstallConfigString()
+{
+    return "";
 }
 
 //****************************************************************************
@@ -103,7 +105,8 @@ function workInstallConfigString() {
 // Function workUninstallDatabase is creating all database entries needed for
 // removing this module. 
 //
-function workUninstallDatabase() {
+function workUninstallDatabase()
+{
 
     echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
 }
@@ -120,24 +123,26 @@ function workUninstallDatabase() {
 // Anstatt "Mein.Server" natürlich deinen Server angeben und default
 // durch den Dateinamen des Moduls ersetzen.
 //
-if( !empty($_REQUEST['was'])) {
-  //  -> Nur der Admin darf Module installieren. (Meistens weiss er was er tut)
-  if ( $user_status != "admin" ) 
-		die('Hacking attempt...');
+if (!empty($_REQUEST['was'])) {
+    //  -> Nur der Admin darf Module installieren. (Meistens weiss er was er tut)
+    if ($user_status != "admin") {
+        die('Hacking attempt...');
+    }
 
-  echo "<div class='system_notification'>Installationsarbeiten am Modul " . $modulname . 
-	     " ("  . $_REQUEST['was'] . ")</div>\n";
+    echo "<div class='system_notification'>Installationsarbeiten am Modul " . $modulname .
+        " (" . $_REQUEST['was'] . ")</div>\n";
 
-  if (!@include("./includes/menu_fn.php")) 
-	  die( "Cannot load menu functions" );
+    if (!@include("./includes/menu_fn.php")) {
+        die("Cannot load menu functions");
+    }
 
-  // Wenn ein Modul administriert wird, soll der Rest nicht mehr 
-  // ausgeführt werden.
-  return;
+    // Wenn ein Modul administriert wird, soll der Rest nicht mehr
+    // ausgeführt werden.
+    return;
 }
 
-if (!@include("./config/".$modulname.".cfg.php")) { 
-	die( "Error:<br><b>Cannot load ".$modulname." - configuration!</b>");
+if (!@include("./config/" . $modulname . ".cfg.php")) {
+    die("Error:<br><b>Cannot load " . $modulname . " - configuration!</b>");
 }
 
 //****************************************************************************

@@ -72,14 +72,18 @@ doc_title('Sitterlogins');
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 95%;">
     <tr>
         <td class="titlebg" style="width:25%;">
-            <a href="index.php?action=sitterlogins&order=sitterlogin&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a>
+            <a href="index.php?action=sitterlogins&order=sitterlogin&ordered=asc&sid=<?php echo $sid;?>"><img
+                    src="bilder/asc.gif" alt="asc"></a>
             <b>Username</b>
-            <a href="index.php?action=sitterlogins&order=sitterlogin&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a>
+            <a href="index.php?action=sitterlogins&order=sitterlogin&ordered=desc&sid=<?php echo $sid;?>"><img
+                    src="bilder/desc.gif" alt="desc"></a>
         </td>
         <td class="titlebg" style="width:15%;">
-            <a href="index.php?action=sitterlogins&order=sitterpunkte&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a>
+            <a href="index.php?action=sitterlogins&order=sitterpunkte&ordered=asc&sid=<?php echo $sid;?>"><img
+                    src="bilder/asc.gif" alt="asc"></a>
             <b>Aktivität</b>
-            <a href="index.php?action=sitterlogins&order=sitterpunkte&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif" border="0" alt="asc"></a>
+            <a href="index.php?action=sitterlogins&order=sitterpunkte&ordered=desc&sid=<?php echo $sid;?>"><img
+                    src="bilder/desc.gif" alt="asc"></a>
         </td>
         <td class="titlebg" style="width:30%;">
             <b>Sitterlogin</b>
@@ -88,9 +92,11 @@ doc_title('Sitterlogins');
             <b>Besonderheiten</b>
         </td>
         <td class="titlebg" style="width:30%;">
-            <a href="index.php?action=sitterlogins&order=lastlogin&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a>
+            <a href="index.php?action=sitterlogins&order=lastlogin&ordered=asc&sid=<?php echo $sid;?>"><img
+                    src="bilder/asc.gif" alt="asc"></a>
             <b>letzter Login</b>
-            <a href="index.php?action=sitterlogins&order=lastlogin&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a>
+            <a href="index.php?action=sitterlogins&order=lastlogin&ordered=desc&sid=<?php echo $sid;?>"><img
+                    src="bilder/desc.gif" alt="desc"></a>
         </td>
     </tr>
     <?php
@@ -207,10 +213,10 @@ doc_title('Sitterlogins');
                             "'Dieser User hat das Sitten deaktiviert. Trotzdem einloggen?'" .
                             ")'>[sitten deaktiviert - einloggen]</a> " .
                             "<a href='index.php?action=sitterauftrag&sitterid=" .
-                            urlencode($data) . "&sid=" . $sid . "'><img src='bilder/file_new_s.gif' border='0' " .
+                            urlencode($data) . "&sid=" . $sid . "'><img src='bilder/file_new_s.gif' " .
                             "alt='Sitterauftrag erstellen' title='Sitterauftrag erstellen'></a>" .
                             " <a href='index.php?action=sitterhistory&selecteduser=" .
-                            urlencode($data) . "&sid=" . $sid . "'><img src='bilder/file_history.gif' border='0' " .
+                            urlencode($data) . "&sid=" . $sid . "'><img src='bilder/file_history.gif' " .
                             "alt='Sitterhistorie anschauen' title='Sitterhistorie anschauen'></a>" .
                             "<td class='windowbg" . $num . "' valign='top'>" .
                             (($users_sitterpeitschen[$key] == "1") ? " <i>Meister d. Peitschen<br/></i>" : "") .
@@ -223,10 +229,10 @@ doc_title('Sitterlogins');
                         echo "<a href='index.php?action=sitterlogins&sitterlogin=" . urlencode($data) .
                             "&sid=" . $sid . "' target='_blank'>[jetzt einloggen]</a>&nbsp;" .
                             "<a href='index.php?action=sitterauftrag&sitterid=" . urlencode($data) .
-                            "&sid=" . $sid . "'><img src='bilder/file_new_s.gif' border='0' " .
+                            "&sid=" . $sid . "'><img src='bilder/file_new_s.gif' " .
                             "alt='Sitterauftrag erstellen' title='Sitterauftrag erstellen'></a>" .
                             " <a href='index.php?action=sitterhistory&selecteduser=" .
-                            urlencode($data) . "&sid=" . $sid . "'><img src='bilder/file_history.gif' border='0' " .
+                            urlencode($data) . "&sid=" . $sid . "'><img src='bilder/file_history.gif' " .
                             "alt='Sitterhistorie anschauen' title='Sitterhistorie anschauen'></a>" .
                             "<td class='windowbg" . $num . "' valign='top'>" .
                             (($users_sitterpeitschen[$key] == "1") ? " <i>Meister d. Peitschen<br/></i>" : "") .

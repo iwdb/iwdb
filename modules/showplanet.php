@@ -285,7 +285,8 @@ if (((($ansicht == "auto")) || ($ansicht == "geologisch") || ($ansicht == "beide
         <td colspan="2" class="titlebg"><b>Besonderheiten:</b></td>
     </tr>
     <tr>
-        <td colspan="2" class="windowbg2"><?php echo  !empty($row['besonderheiten']) ? str_replace(", ", "<br>", $row['besonderheiten']) : "keine *moep*";?>
+        <td colspan="2"
+            class="windowbg2"><?php echo  !empty($row['besonderheiten']) ? str_replace(", ", "<br>", $row['besonderheiten']) : "keine *moep*";?>
         </td>
     </tr>
     <tr>

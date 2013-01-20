@@ -61,7 +61,7 @@ function ResetGeodata($updatetime)
     );
 
     //Query um ungültige Geodaten zu löschen (nach Änderung Planettyp zur angegebenen Zeit)
-    $db->db_update("{$db_prefix}scans", $data, "WHERE typchange_time = {$updatetime};")
+    $db->db_update("{$db_prefix}scans", $data, "WHERE `typchange_time`={$updatetime};")
         or error(GENERAL_ERROR, 'DB ResetGeodata Fehler!', '', __FILE__, __LINE__, '');
 
     //Zuweisen neuer Planiebilder

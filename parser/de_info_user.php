@@ -59,7 +59,7 @@ function parse_de_info_user($return)
                     'allianz'         => $playerinfo->strUserAllianceTag,
                     'allychange_time' => CURRENT_UNIX_TIME,
                 );
-                $result = $db->db_update($db_tb_spieler, $data, " WHERE name='" . $playerinfo->strUserName . "'")
+                $result = $db->db_update($db_tb_spieler, $data, "WHERE `name`='" . $playerinfo->strUserName . "'")
                     or error(GENERAL_ERROR, 'Could not update player alliance information.', '', __FILE__, __LINE__, $sql);
 
                 AddAllychangetoHistory(CURRENT_UNIX_TIME);
@@ -75,7 +75,7 @@ function parse_de_info_user($return)
                 'pktupdate_time'    => CURRENT_UNIX_TIME,
                 'Hauptplanet'       => $playerinfo->strCoords,
             );
-            $result = $db->db_update($db_tb_spieler, $data, " WHERE name='" . $playerinfo->strUserName . "'")
+            $result = $db->db_update($db_tb_spieler, $data, "WHERE `name`='" . $playerinfo->strUserName . "'")
                 or error(GENERAL_ERROR, 'Could not update player information.', '', __FILE__, __LINE__, $sql);
 
             doc_message("Spieler " . $playerinfo->strUserName . " aktualisiert");

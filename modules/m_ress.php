@@ -123,7 +123,7 @@ function workInstallMenu()
 {
     global $modultitle, $modulstatus;
 
-    $menu = getVar('menu');
+    $menu    = getVar('menu');
     $submenu = getVar('submenu');
 
     $actionparamters = "";
@@ -201,7 +201,8 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 //
 // -> Und hier beginnt das eigentliche Modul
 
-function make_link($order, $ordered) {
+function make_link($order, $ordered)
+{
     global $sid;
     echo "<a href='index.php?action=m_ress&order=" . $order . "&ordered=" . $ordered .
         "&sid=$sid''> <img src='bilder/" . $ordered . ".gif' alt='" . $ordered . "'> </a>";
@@ -217,18 +218,21 @@ $switch = $row['switch'];
 
 //zeit ändern?
 ?>
-<form action="index.php?action=m_ress" method="post">
-	<p>Anzeigen der Produktion für <input type="text" name="switch" size="3"> Stunden <input type="submit" value="speichern" name="form" class="submit">
-	</p>
-</form>
+    <form action="index.php?action=m_ress" method="post">
+        <p>Anzeigen der Produktion für <input type="text" name="switch" size="3"> Stunden <input type="submit"
+                                                                                                 value="speichern"
+                                                                                                 name="form"
+                                                                                                 class="submit">
+        </p>
+    </form>
 <?php
 
 if (isset($_POST['switch'])) {
     $switch = (int)$_POST['switch'];
-    $db->db_update($db_tb_user, array('switch' => $switch), 'WHERE id = '.$user_id);
+    $db->db_update($db_tb_user, array('switch' => $switch), 'WHERE `id`=' . $user_id);
 }
 
-if (empty($switch) OR $switch<1) {
+if (empty($switch) OR $switch < 1) {
     $switch = 24;
 }
 if ($switch === 24) {
@@ -311,7 +315,7 @@ make_link("bev_q", "asc");
 echo "<b>Quote</b>";
 make_link("bev_q", "desc");
 
-$order = getVar('order');
+$order   = getVar('order');
 $ordered = getVar('ordered');
 
 if (empty($order)) {
@@ -383,7 +387,7 @@ while ($row = $db->db_fetch_array($result)) {
 end_row();
 
 // Gesamtanzeige
-$sql = "SELECT sum(`eisen`) as eisen , sum(`stahl`) as stahl, sum(`vv4a`) as vv4a," .
+$sql    = "SELECT sum(`eisen`) as eisen , sum(`stahl`) as stahl, sum(`vv4a`) as vv4a," .
     " sum(`chem`) as chem, sum(`eis`) as eis, sum(`wasser`) as wasser," .
     " sum(`energie`) as energie, sum(`fp_ph`) as fp_ph, sum(`credits`) as credits," .
     " sum(`bev_a`) as bev_a, sum(`bev_g`) as bev_g, sum(`bev_q`)/count(`bev_a`) as bev_q" .

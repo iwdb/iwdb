@@ -431,22 +431,22 @@ while ($row = $db->db_fetch_array($result)) {
     echo "<td width='50%' class='" . $cl . "' >&nbsp;" . $row['title'] . "&nbsp;</td>";
     echo "<td width='50%' class='" . $cl . "' align='right'>";
     if ($row['submenu'] == 0) {
-        echo "<a href='index.php?action=admin_menue&sid=" . $sid . "&delid=" . $row['id'] . "' target='_self'><img src='./bilder/delete.gif' align='absmiddle' border='0' title='Menütitel Löschen' alt='Menütitel Löschen' onclick='return confirmLink(this, \"" . $row['id'] . "\")'></a>";
+        echo "<a href='index.php?action=admin_menue&sid=" . $sid . "&delid=" . $row['id'] . "' target='_self'><img src='./bilder/delete.gif' align='absmiddle' title='Menütitel Löschen' alt='Menütitel Löschen' onclick='return confirmLink(this, \"" . $row['id'] . "\")'></a>";
     }
     if ($row['id'] == $hid) {
-        echo "<img src='./bilder/sort_up2.gif' align='absmiddle' border='0' title='Sortieren: Up' alt='Sortieren: Up'>";
+        echo "<img src='./bilder/sort_up2.gif' align='absmiddle' title='Sortieren: Up' alt='Sortieren: Up'>";
     } else {
-        echo "<a href='index.php?action=admin_menue&sid=" . $sid . "&sort=up&id=" . $row['id'] . "' target='_self'><img src='./bilder/sort_up.gif' align='absmiddle' border='0' title='Sortieren: Up' alt='Sortieren: Up'></a>";
+        echo "<a href='index.php?action=admin_menue&sid=" . $sid . "&sort=up&id=" . $row['id'] . "' target='_self'><img src='./bilder/sort_up.gif' align='absmiddle' title='Sortieren: Up' alt='Sortieren: Up'></a>";
     }
     if ($row['id'] == $lid) {
-        echo "<img src='./bilder/sort_down2.gif' align='absmiddle' border='0' title='Sortieren: Down' alt='Sortieren: Down'>";
+        echo "<img src='./bilder/sort_down2.gif' align='absmiddle' title='Sortieren: Down' alt='Sortieren: Down'>";
     } else {
-        echo "<a href='index.php?action=admin_menue&sid=" . $sid . "&sort=down&id=" . $row['id'] . "' target='_self'><img src='./bilder/sort_down.gif' align='absmiddle' border='0' title='Sortieren: Down' alt='Sortieren: Down'></a>";
+        echo "<a href='index.php?action=admin_menue&sid=" . $sid . "&sort=down&id=" . $row['id'] . "' target='_self'><img src='./bilder/sort_down.gif' align='absmiddle' title='Sortieren: Down' alt='Sortieren: Down'></a>";
     }
     if (!empty($grtext)) {
-        echo "<a href='index.php?action=admin_menue&sid=" . $sid . "&eid=" . $row['id'] . "' target='_self'><img src='./bilder/edit_" . $grart . ".gif' align='absmiddle' border='0' title='" . $grtext . "' alt='" . $grtext . "'></a>";
+        echo "<a href='index.php?action=admin_menue&sid=" . $sid . "&eid=" . $row['id'] . "' target='_self'><img src='./bilder/edit_" . $grart . ".gif' align='absmiddle' title='" . $grtext . "' alt='" . $grtext . "'></a>";
     } else {
-        echo "<a href='index.php?action=admin_menue&sid=" . $sid . "' target='_self'><img src='./bilder/edit_" . $grart . ".gif' align='absmiddle' border='0' title='" . $grtext . "' alt='" . $grtext . "'></a>";
+        echo "<a href='index.php?action=admin_menue&sid=" . $sid . "' target='_self'><img src='./bilder/edit_" . $grart . ".gif' align='absmiddle' title='" . $grtext . "' alt='" . $grtext . "'></a>";
     }
     echo "</td>";
     echo "</tr>";

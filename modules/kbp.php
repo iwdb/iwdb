@@ -1,5 +1,11 @@
 <?php
 
+//direktes Aufrufen verhindern
+if (!defined('IRA')) {
+    header('HTTP/1.1 403 forbidden');
+    exit;
+}
+
 define('IWParser', 1);
 
 global $daten;
@@ -19,10 +25,9 @@ if (isset($_POST['Eingabe'])) {
 
             if (!empty($kblink)) {
                 if ($handle = fopen("http://" . $kblink . "&typ=bbcode", "r")) {
-                    while (!@feof($handle))
-                            {
-                                $temp_daten .= @fread($handle, 512);
-                            }
+                    while (!@feof($handle)) {
+                        $temp_daten .= @fread($handle, 512);
+                    }
                     @fclose($handle);
                 }
 
@@ -44,7 +49,7 @@ if (isset($_POST['Eingabe'])) {
                 // $temp_daten = str_replace($suchen, $ersetzen, $temp_daten);
 
                 // Zeit aus xml rauspicken
-                $xml = simplexml_load_file('http://' . $kblink . '&typ=xml');
+                $xml = simplexml_load_file_ex('http://' . $kblink . '&typ=xml');
 
 
                 $daten['KBs'][] = array(

@@ -117,10 +117,10 @@ while ($row = $db->db_fetch_array($result)) {
     echo " <tr>\n";
     echo "  <td class='windowbg2' valign='bottom' style='width:15%'>\n";
     echo "   <a href='index.php?action=schiffe&ordered=asc&sid=" . $sid . "'>" .
-        "<img src='bilder/asc.gif' border='0'></a>" .
+        "<img src='bilder/asc.gif'></a>" .
         "  Username  " .
         "<a href='index.php?action=schiffe&ordered=desc&sid=" . $sid . "'>" .
-        "<img src='bilder/desc.gif' border='0'></a>\n";
+        "<img src='bilder/desc.gif'></a>\n";
     echo "  </td>\n";
 
     while ($row_schiffe = $db->db_fetch_array($result_schiffe)) {
@@ -129,10 +129,10 @@ while ($row = $db->db_fetch_array($result)) {
         echo "  <td class='windowbg2' align='center' " .
             "valign='bottom' style='width:" . (85 / $schiffsanz) . "%'>\n";
         echo "    <a href='index.php?action=schiffe&order=" . $row_schiffe['id'] .
-            "&ordered=asc&sid=" . $sid . "'><img src='bilder/asc.gif' border='0'></a>\n";
+            "&ordered=asc&sid=" . $sid . "'><img src='bilder/asc.gif'></a>\n";
         echo $row_schiffe['abk'];
         echo "    <a href='index.php?action=schiffe&order=" . $row_schiffe['id'] .
-            "&ordered=desc&sid=" . $sid . "'><img src='bilder/desc.gif' border='0'></a>\n";
+            "&ordered=desc&sid=" . $sid . "'><img src='bilder/desc.gif'></a>\n";
         echo "  </td>\n";
     }
     echo " </tr>\n";

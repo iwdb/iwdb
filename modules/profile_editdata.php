@@ -697,13 +697,15 @@ if ($ikea == 'M') {
         <span style="font-style:italic;">Nächster Zeitpunkt des UniXml Scans.</span>
     </td>
     <td class="windowbg1">
-        <input type='text' name='NewUniXmlTime' value='<?php echo ($NewUniXmlTime ? date("d.m.Y H:i", $NewUniXmlTime) : ''); ?>' style='width: 15em;'>
+        <input type='text' name='NewUniXmlTime'
+               value='<?php echo ($NewUniXmlTime ? date("d.m.Y H:i", $NewUniXmlTime) : ''); ?>' style='width: 15em;'>
     </td>
 </tr>
 <tr>
     <td class="windowbg2">
         Planetenbilder anzeigen?:<br>
-        <span style="font-style:italic;">Sollen Bilder, den Planetentypen entsprechend in der Karte angezeigt werden?</span>
+        <span
+            style="font-style:italic;">Sollen Bilder, den Planetentypen entsprechend in der Karte angezeigt werden?</span>
     </td>
     <td class="windowbg1">
         <input type="checkbox" name="planibilder" value="1"<?php echo ($planibilder) ? " checked" : "";?>>
@@ -821,7 +823,8 @@ if ($user_status == "admin") {
 <tr>
     <td class="windowbg2">
         Proportionale Universumsansicht?:<br>
-        <span style="font-style:italic;">Sollen alle Zeilenhöhen der Planeten in der Universumsansicht gleich hoch sein?</span>
+        <span
+            style="font-style:italic;">Sollen alle Zeilenhöhen der Planeten in der Universumsansicht gleich hoch sein?</span>
     </td>
     <td class="windowbg1">
         <input type="checkbox" name="uniprop" value="1"<?php echo ($uniprop) ? " checked" : "";?>>
@@ -840,7 +843,8 @@ if (($user_status == "admin") && ($sitterlogin != $user_sitterlogin)) {
     <br><br>
     <div class='doc_centered_blue'>Account löschen</div>
     <br>
-    <a href="index.php?action=deluser&sitterlogin=<?php echo urlencode($sitterlogin);?>&sid=<?php echo $sid;?>" onclick="return confirmlink(this, 'Account wirklich loeschen?')">[jetzt
+    <a href="index.php?action=deluser&sitterlogin=<?php echo urlencode($sitterlogin);?>&sid=<?php echo $sid;?>"
+       onclick="return confirmlink(this, 'Account wirklich loeschen?')">[jetzt
         löschen]</a>
 <?php
 }

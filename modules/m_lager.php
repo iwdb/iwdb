@@ -353,7 +353,14 @@ while ($row = $db->db_fetch_array($result)) {
 }
 
 // Ressourcen
-$resses_name = array('eisen' => 'Eisen', 'stahl' => 'Stahl', 'vv4a' => 'VV4A', 'chem' => 'Chemie', 'eis' => 'Eis', 'wasser' => 'Wasser', 'energie' => 'Energie');
+$resses_name = array('eisen'   => 'Eisen',
+                     'stahl'   => 'Stahl',
+                     'vv4a'    => 'VV4A',
+                     'chem'    => 'Chemie',
+                     'eis'     => 'Eis',
+                     'wasser'  => 'Wasser',
+                     'energie' => 'Energie'
+);
 $resses      = array('eisen', 'stahl', 'vv4a', 'chem', 'eis', 'wasser', 'energie');
 
 // Delete-Schlüssel aufbauen
@@ -1065,7 +1072,11 @@ $params['basen']             = $basen;
 $params['rote_lager']        = $rote_lager;
 $params['advanced_forecast'] = $advanced_forecast;
 echo 'Auswahl: ';
-echo makefield(array("type" => 'select', "values" => $config['filter_who'], "value" => $params['filter_who']), 'filter_who');
+echo makefield(array("type"  => 'select',
+                    "values" => $config['filter_who'],
+                    "value"  => $params['filter_who']
+               ), 'filter_who'
+);
 echo ' Vorhersage: ';
 echo ' <input type="text" name="forecast" size="3" value="' . $params['forecast'] . '"/>';
 echo ' Stunden ';
@@ -1110,16 +1121,16 @@ foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
         }
         echo makelink(
             array(
-                'order'  => $orderkey,
-                'orderd' => 'asc'
+                 'order'  => $orderkey,
+                 'orderd' => 'asc'
             ),
             "<img src='./bilder/asc.gif'>"
         );
         echo '<b>' . $viewcolumnname . '</b>';
         echo makelink(
             array(
-                'order'  => $orderkey,
-                'orderd' => 'desc'
+                 'order'  => $orderkey,
+                 'orderd' => 'desc'
             ),
             "<img src='./bilder/desc.gif'>"
         );

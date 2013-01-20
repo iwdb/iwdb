@@ -74,8 +74,8 @@ function workInstallDatabase()
 {
     global $db, $db_prefix, $db_tb_iwdbtabellen;
 
-      $sqlscript = array(
-        "CREATE TABLE IF NOT EXISTS `prefix_incomings` (
+    $sqlscript = array(
+        "CREATE TABLE IF NOT EXISTS `{$db_prefix}incomings` (
         `koords_to` varchar(11) NOT NULL,
         `name_to` varchar(50) NOT NULL,
         `allianz_to` varchar(50) NOT NULL,
@@ -87,15 +87,13 @@ function workInstallDatabase()
         PRIMARY KEY (`timestamp`,`koords_to`, `koords_from` , `art`)
         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Tabelle für Incomings';
         ",
-
-        "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-        " VALUES('incomings')"
-      );
-      foreach($sqlscript as $sql) {
+        "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" . " VALUES('incomings')"
+    );
+    foreach ($sqlscript as $sql) {
         $result = $db->db_query($sql)
             or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-      }
-      echo "<div class='system_success'>Installation: Datenbankänderungen = <b>OK</b></div>";
+    }
+    echo "<div class='system_success'>Installation: Datenbankänderungen = <b>OK</b></div>";
 
 }
 
@@ -109,9 +107,9 @@ function workInstallMenu()
 {
     global $modulstatus;
 
-    $menu = getVar('menu');
-    $submenu = getVar('submenu');
-    $menuetitel = "Incomings #incomings";    // -> Menütitel in der Navigation, #incomings wird gegen die Anzahl ersetzt
+    $menu             = getVar('menu');
+    $submenu          = getVar('submenu');
+    $menuetitel       = "Incomings #incomings"; // -> Menütitel in der Navigation, #incomings wird gegen die Anzahl ersetzt
     $actionparameters = "";
 
     insertMenuItem($menu, $submenu, $menuetitel, $modulstatus, $actionparameters);
@@ -171,10 +169,11 @@ function workUninstallDatabase()
 //
 if (!empty($_REQUEST['was'])) {
     //  -> Nur der Admin darf Module installieren. (Meistens weiss er was er tut)
-    if ($user_status != "admin")
+    if ($user_status != "admin") {
         die('Hacking attempt...');
+    }
 
-    echo "<h2>Installationsarbeiten am Modul " . $modulname . " ("  . $_REQUEST['was'] . ")</h2>\n";
+    echo "<h2>Installationsarbeiten am Modul " . $modulname . " (" . $_REQUEST['was'] . ")</h2>\n";
 
     include("./includes/menu_fn.php");
 

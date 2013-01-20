@@ -161,45 +161,45 @@ $params  = array();
 // Seitenparameter definieren
 debug_var(
     "defaults", $defaults = array(
-        'view'                 => 'overview',
-        'gal_start'            => $user_gal_start,
-        'gal_end'              => $user_gal_end,
-        'sys_start'            => $user_sys_start,
-        'sys_end'              => $user_sys_end,
-        'order'                => 'coords',
-        'orderd'               => 'asc',
-        'edit'                 => '',
-        'delete'               => '',
-        'expand'               => '',
-        'objekt'               => 'Alle',
-        'user'                 => '',
-        'alli'                 => '',
-        'scans'                => 'Alle',
-        'no_noob'              => '1',
-        'inaktiv'              => '',
-        'def_min'              => '',
-        'def_max'              => '',
-        'scan_schiff_age_min'  => '',
-        'scan_schiff_age_max'  => '',
-        'scan_geb_age_min'     => '',
-        'scan_geb_age_max'     => '',
-        'scan_failure_age_min' => '',
-        'scan_failure_age_max' => '',
-        'allistatus'           => '',
-        'angriff'              => '',
-        'no_angriff'           => '',
-        'sondierung'           => '',
-        'no_sondierung'        => '',
-        'no_reservierung'      => '',
-        'reservierung_user'    => '',
-        'reservierung_foreign' => '',
-        'rating_min'           => '',
-        'rating_max'           => '',
-        'ressource'            => 'Alle',
-        'ress_min'             => '',
-        'sg_start'             => '',
-        'sg_end'               => ''
-    )
+                  'view'                 => 'overview',
+                  'gal_start'            => $user_gal_start,
+                  'gal_end'              => $user_gal_end,
+                  'sys_start'            => $user_sys_start,
+                  'sys_end'              => $user_sys_end,
+                  'order'                => 'coords',
+                  'orderd'               => 'asc',
+                  'edit'                 => '',
+                  'delete'               => '',
+                  'expand'               => '',
+                  'objekt'               => 'Alle',
+                  'user'                 => '',
+                  'alli'                 => '',
+                  'scans'                => 'Alle',
+                  'no_noob'              => '1',
+                  'inaktiv'              => '',
+                  'def_min'              => '',
+                  'def_max'              => '',
+                  'scan_schiff_age_min'  => '',
+                  'scan_schiff_age_max'  => '',
+                  'scan_geb_age_min'     => '',
+                  'scan_geb_age_max'     => '',
+                  'scan_failure_age_min' => '',
+                  'scan_failure_age_max' => '',
+                  'allistatus'           => '',
+                  'angriff'              => '',
+                  'no_angriff'           => '',
+                  'sondierung'           => '',
+                  'no_sondierung'        => '',
+                  'no_reservierung'      => '',
+                  'reservierung_user'    => '',
+                  'reservierung_foreign' => '',
+                  'rating_min'           => '',
+                  'rating_max'           => '',
+                  'ressource'            => 'Alle',
+                  'ress_min'             => '',
+                  'sg_start'             => '',
+                  'sg_end'               => ''
+              )
 );
 
 // Seitenparameter ermitteln
@@ -1278,16 +1278,16 @@ if (empty($params['view'])) {
             }
             echo makelink(
                 array(
-                    'order'  => $orderkey,
-                    'orderd' => 'asc'
+                     'order'  => $orderkey,
+                     'orderd' => 'asc'
                 ),
                 "<img src='./bilder/asc.gif'>"
             );
             echo '<b>' . $viewcolumnname . '</b>';
             echo makelink(
                 array(
-                    'order'  => $orderkey,
-                    'orderd' => 'desc'
+                     'order'  => $orderkey,
+                     'orderd' => 'desc'
                 ),
                 "<img src='./bilder/desc.gif'>"
             );
@@ -1300,7 +1300,7 @@ if (empty($params['view'])) {
     next_cell("titlebg", 'nowrap valign=top');
     echo '&nbsp;';
     echo '<form method="POST">';
-    $index = 1;
+    $index           = 1;
     $to_much_results = false;
     foreach ($data as $row) {
 
@@ -1589,9 +1589,9 @@ function format_value($row, $name, $value)
         case 'user':
             return makelink(
                 array(
-                    "view" => $params['view'],
-                    "user" => $value,
-                    "sid"  => $sid,
+                     "view" => $params['view'],
+                     "user" => $value,
+                     "sid"  => $sid,
                 ), $value, true
             );
         case 'coords':

@@ -337,8 +337,7 @@ if (!empty($erledigt)) {
             $nextid  = $row_act['refid'];
             if (empty($nextid)) {
                 $count = 0;
-            }
-            else {
+            } else {
                 $count = 1;
             }
 
@@ -414,7 +413,8 @@ if (!empty($erledigt)) {
                 Den Auftrag, den du eben erledigt hast, hat Folgeaufträge eingetragen.<br>
                 Bitte aktualisiere für diese die Zeit, indem du folgendes Formular ausfüllst.<br>
                 Danach wird der Auftrag als erledigt markiert. Danke.<br><br>
-                <form method="POST" action="index.php?action=sitterliste&sid=<?php echo $sid;?>" enctype="multipart/form-data">
+                <form method="POST" action="index.php?action=sitterliste&sid=<?php echo $sid;?>"
+                      enctype="multipart/form-data">
                     <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 60%;">
                         <?php
                         if ($count > 1) {
@@ -424,7 +424,8 @@ if (!empty($erledigt)) {
                                     Zeit frühstens 2:
                                 </td>
                                 <td class="windowbg1">
-                                    <input type="text" name="date_b2" id="date_b2_<?php echo $row['id'];?>" value="" style="width: 200;">
+                                    <input type="text" name="date_b2" id="date_b2_<?php echo $row['id'];?>" value=""
+                                           style="width: 200;">
                                 </td>
                             </tr>
                         <?php
@@ -436,8 +437,10 @@ if (!empty($erledigt)) {
                                     Zeit frühstens 1:
                                 </td>
                                 <td class="windowbg1">
-                                    <input type="text" name="date_b1" id="date_b1_<?php echo $row['id'];?>" value="" style="width: 120;">
-                                    <input type="button" name="kopieren" value="kopieren" onclick="kopiere_zeit('<?php echo $row['id'];?>');">
+                                    <input type="text" name="date_b1" id="date_b1_<?php echo $row['id'];?>" value=""
+                                           style="width: 120;">
+                                    <input type="button" name="kopieren" value="kopieren"
+                                           onclick="kopiere_zeit('<?php echo $row['id'];?>');">
                                 </td>
                             </tr>
                         <?php
@@ -449,7 +452,8 @@ if (!empty($erledigt)) {
                                 <i>Zeit, zu der alle Bauschleifenaufträge auslaufen.</i>
                             </td>
                             <td class="windowbg1">
-                                <input type="text" name="date" id="date_<?php echo $row['id'];?>" value="" style="width: 200;">
+                                <input type="text" name="date" id="date_<?php echo $row['id'];?>" value=""
+                                       style="width: 200;">
                             </td>
                         </tr>
                         <tr>
@@ -463,7 +467,8 @@ if (!empty($erledigt)) {
                         </tr>
                         <tr>
                             <td colspan="2" class="titlebg" align="center">
-                                <input type="hidden" name="erledigt" value="<?php echo $erledigt;?>"><input type="submit" value="speichern" name="B1" class="submit">
+                                <input type="hidden" name="erledigt" value="<?php echo $erledigt;?>"><input
+                                    type="submit" value="speichern" name="B1" class="submit">
                             </td>
                         </tr>
                 </form>
@@ -658,8 +663,7 @@ if (isset($row_lastlogin)) {
         <?php
         if ($user_status == "admin") {
             echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($row['user']) . "&sid=" . $sid . "'>" . $row['user'] . "</a>";
-        }
-        else {
+        } else {
             echo $row['user'];
         }
         ?>
@@ -701,7 +705,7 @@ if (isset($row_lastlogin)) {
             echo $users_logged_in . " ist eingeloggt";
         }
 
-        echo "<br><a href='javascript:Collapse(" . $row['id'] . ");'><img src='bilder/plus.gif' alt='' border='0' id='collapse_" . $row['id'] . "'></a>";
+        echo "<br><a href='javascript:Collapse(" . $row['id'] . ");'><img src='bilder/plus.gif' alt='' id='collapse_" . $row['id'] . "'></a>";
 
         ?>
 
@@ -747,7 +751,9 @@ if (isset($row_lastlogin)) {
                             Zeit frühstens 2:
                         </td>
                         <td class="windowbg1">
-                            <input type="text" name="date_b2" id="date_b2_<?php echo $row['id'];?>" value="<?php echo strftime($config_sitter_timeformat, $row['date_b2']);?>" style="width: 200;">
+                            <input type="text" name="date_b2" id="date_b2_<?php echo $row['id'];?>"
+                                   value="<?php echo strftime($config_sitter_timeformat, $row['date_b2']);?>"
+                                   style="width: 200;">
                         </td>
                     </tr>
                 <?php
@@ -760,8 +766,11 @@ if (isset($row_lastlogin)) {
                             Zeit frühstens 1:
                         </td>
                         <td class="windowbg1">
-                            <input type="text" name="date_b1" id="date_b1_<?php echo $row['id'];?>" value="<?php echo strftime($config_sitter_timeformat, $row['date_b1']);?>" style="width: 120;">
-                            <input type="button" name="kopieren" value="kopieren" onclick="kopiere_zeit('<?php echo $row['id'];?>');">
+                            <input type="text" name="date_b1" id="date_b1_<?php echo $row['id'];?>"
+                                   value="<?php echo strftime($config_sitter_timeformat, $row['date_b1']);?>"
+                                   style="width: 120;">
+                            <input type="button" name="kopieren" value="kopieren"
+                                   onclick="kopiere_zeit('<?php echo $row['id'];?>');">
                         </td>
                     </tr>
                 <?php
@@ -773,7 +782,9 @@ if (isset($row_lastlogin)) {
                         <i>Zeit, zu der alle Bauschleifenaufträge auslaufen.</i>
                     </td>
                     <td class="windowbg1">
-                        <input type="text" name="date" id="date_<?php echo $row['id'];?>" value="<?php echo strftime($config_sitter_timeformat, $row['date']);?>" style="width: 200;">
+                        <input type="text" name="date" id="date_<?php echo $row['id'];?>"
+                               value="<?php echo strftime($config_sitter_timeformat, $row['date']);?>"
+                               style="width: 200;">
                     </td>
                 </tr>
 
@@ -837,7 +848,10 @@ if (isset($row_lastlogin)) {
                 ?>
                 <tr>
                     <td colspan="2" class="windowbg1" align="center">
-                        <input type="hidden" name="auftragid" value="<?php echo $row['id'];?>"><input type="hidden" name="edit" value="1"><input type="submit" value="speichern" name="B1" class="submit">
+                        <input type="hidden" name="auftragid" value="<?php echo $row['id'];?>"><input type="hidden"
+                                                                                                      name="edit"
+                                                                                                      value="1"><input
+                            type="submit" value="speichern" name="B1" class="submit">
                     </td>
                 </tr>
         </form>
@@ -908,8 +922,7 @@ if (isset($row_lastlogin)) {
                 <?php
                 if ($user_status == "admin") {
                     echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($row['user']) . "&sid=" . $sid . "'>" . $row['user'] . "</a>";
-                }
-                else {
+                } else {
                     echo $row['user'];
                 }
                 if (!empty($row['ByUser']) && ($row['user'] != $row['ByUser'])) {

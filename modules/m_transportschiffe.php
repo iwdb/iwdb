@@ -685,7 +685,13 @@ if (isset($results)) {
 // Team Dropdown
 echo "<form method='POST' action='" . makeurl(array()) . "' enctype='multipart/form-data'><p align='center'>";
 echo 'Team: ';
-echo makefield(array("type" => 'select', "values" => $config['teams'], "value" => $params['filter_team']), 'filter_team');
+echo makefield(
+    array(
+         "type"   => 'select',
+         "values" => $config['teams'],
+         "value"  => $params['filter_team']
+    ), 'filter_team'
+);
 echo '<input type="hidden" name="soll" value="0"/>';
 echo '<input type="submit" name="submit" value="anzeigen"/>';
 echo "</form>\n";
@@ -707,14 +713,26 @@ echo '<td>';
 echo ' Klasse 1: ';
 echo '</td>';
 echo '<td>';
-echo makefield(array("type" => 'text', "value" => $params['heimatgalaxy_abdeckung_system_klasse1'], "size" => 3), 'heimatgalaxy_abdeckung_system_klasse1');
+echo makefield(
+    array(
+         "type"  => 'text',
+         "value" => $params['heimatgalaxy_abdeckung_system_klasse1'],
+         "size"  => 3
+    ), 'heimatgalaxy_abdeckung_system_klasse1'
+);
 echo '%';
 echo '</td>';
 echo '<td>';
 echo ' Klasse 2: ';
 echo '</td>';
 echo '<td>';
-echo makefield(array("type" => 'text', "value" => $params['heimatgalaxy_abdeckung_system_klasse2'], "size" => 3), 'heimatgalaxy_abdeckung_system_klasse2');
+echo makefield(
+    array(
+         "type"  => 'text',
+         "value" => $params['heimatgalaxy_abdeckung_system_klasse2'],
+         "size"  => 3
+    ), 'heimatgalaxy_abdeckung_system_klasse2'
+);
 echo '%';
 echo '</td>';
 echo '<td>';
@@ -735,14 +753,26 @@ echo '<td>';
 echo ' Klasse 1: ';
 echo '</td>';
 echo '<td>';
-echo makefield(array("type" => 'text', "value" => $params['heimatgalaxy_abdeckung_hyperraum_klasse1'], "size" => 3), 'heimatgalaxy_abdeckung_hyperraum_klasse1');
+echo makefield(
+    array(
+         "type"  => 'text',
+         "value" => $params['heimatgalaxy_abdeckung_hyperraum_klasse1'],
+         "size"  => 3
+    ), 'heimatgalaxy_abdeckung_hyperraum_klasse1'
+);
 echo '%';
 echo '</td>';
 echo '<td>';
 echo ' Klasse 2: ';
 echo '</td>';
 echo '<td>';
-echo makefield(array("type" => 'text', "value" => $params['heimatgalaxy_abdeckung_hyperraum_klasse2'], "size" => 3), 'heimatgalaxy_abdeckung_hyperraum_klasse2');
+echo makefield(
+    array(
+         "type"  => 'text',
+         "value" => $params['heimatgalaxy_abdeckung_hyperraum_klasse2'],
+         "size"  => 3
+    ), 'heimatgalaxy_abdeckung_hyperraum_klasse2'
+);
 echo '%';
 echo '</td>';
 echo '<td>';
@@ -763,14 +793,26 @@ echo '<td>';
 echo ' Klasse 1: ';
 echo '</td>';
 echo '<td>';
-echo makefield(array("type" => 'text', "value" => $params['sonstige_abdeckung_system_klasse1'], "size" => 3), 'sonstige_abdeckung_system_klasse1');
+echo makefield(
+    array(
+         "type"  => 'text',
+         "value" => $params['sonstige_abdeckung_system_klasse1'],
+         "size"  => 3
+    ), 'sonstige_abdeckung_system_klasse1'
+);
 echo '%';
 echo '</td>';
 echo '<td>';
 echo ' Klasse 2: ';
 echo '</td>';
 echo '<td>';
-echo makefield(array("type" => 'text', "value" => $params['sonstige_abdeckung_system_klasse2'], "size" => 3), 'sonstige_abdeckung_system_klasse2');
+echo makefield(
+    array(
+         "type"  => 'text',
+         "value" => $params['sonstige_abdeckung_system_klasse2'],
+         "size"  => 3
+    ), 'sonstige_abdeckung_system_klasse2'
+);
 echo '%';
 echo '</td>';
 echo '<td>';
@@ -791,14 +833,26 @@ echo '<td>';
 echo ' Klasse 1: ';
 echo '</td>';
 echo '<td>';
-echo makefield(array("type" => 'text', "value" => $params['sonstige_abdeckung_hyperraum_klasse1'], "size" => 3), 'sonstige_abdeckung_hyperraum_klasse1');
+echo makefield(
+    array(
+         "type"  => 'text',
+         "value" => $params['sonstige_abdeckung_hyperraum_klasse1'],
+         "size"  => 3
+    ), 'sonstige_abdeckung_hyperraum_klasse1'
+);
 echo '%';
 echo '</td>';
 echo '<td>';
 echo ' Klasse 2: ';
 echo '</td>';
 echo '<td>';
-echo makefield(array("type" => 'text', "value" => $params['sonstige_abdeckung_hyperraum_klasse2'], "size" => 3), 'sonstige_abdeckung_hyperraum_klasse2');
+echo makefield(
+    array(
+         "type"  => 'text',
+         "value" => $params['sonstige_abdeckung_hyperraum_klasse2'],
+         "size"  => 3
+    ), 'sonstige_abdeckung_hyperraum_klasse2'
+);
 echo '%';
 echo '</td>';
 echo '<td>';
@@ -831,16 +885,16 @@ foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
     }
     echo makelink(
         array(
-            'order'  => $orderkey,
-            'orderd' => 'asc'
+             'order'  => $orderkey,
+             'orderd' => 'asc'
         ),
         "<img src='./bilder/asc.gif'>"
     );
     echo $viewcolumnname;
     echo makelink(
         array(
-            'order'  => $orderkey,
-            'orderd' => 'desc'
+             'order'  => $orderkey,
+             'orderd' => 'desc'
         ),
         "<img src='./bilder/desc.gif'>"
     );

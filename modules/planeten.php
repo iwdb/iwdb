@@ -40,24 +40,32 @@ doc_title('Planetenliste');
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">
     <tr>
         <td class="titlebg" style="width:15%;">
-            <a href="index.php?action=planeten&order=coords&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a>
+            <a href="index.php?action=planeten&order=coords&ordered=asc&sid=<?php echo $sid;?>"><img
+                    src="bilder/asc.gif" border="0" alt="asc"></a>
             <b>Koordinaten</b>
-            <a href="index.php?action=planeten&order=coords&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a>
+            <a href="index.php?action=planeten&order=coords&ordered=desc&sid=<?php echo $sid;?>"><img
+                    src="bilder/desc.gif" border="0" alt="desc"></a>
         </td>
         <td class="titlebg" style="width:20%;">
-            <a href="index.php?action=planeten&order=t2.sitterlogin&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a>
+            <a href="index.php?action=planeten&order=t2.sitterlogin&ordered=asc&sid=<?php echo $sid;?>"><img
+                    src="bilder/asc.gif" border="0" alt="asc"></a>
             <b>Username</b>
-            <a href="index.php?action=planeten&order=t2.sitterlogin&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a>
+            <a href="index.php?action=planeten&order=t2.sitterlogin&ordered=desc&sid=<?php echo $sid;?>"><img
+                    src="bilder/desc.gif" border="0" alt="desc"></a>
         </td>
         <td class="titlebg" style="width:40%;">
-            <a href="index.php?action=planeten&order=t1.planetenname&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a>
+            <a href="index.php?action=planeten&order=t1.planetenname&ordered=asc&sid=<?php echo $sid;?>"><img
+                    src="bilder/asc.gif" border="0" alt="asc"></a>
             <b>Planetenname</b>
-            <a href="index.php?action=planeten&order=t1.planetenname&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a>
+            <a href="index.php?action=planeten&order=t1.planetenname&ordered=desc&sid=<?php echo $sid;?>"><img
+                    src="bilder/desc.gif" border="0" alt="desc"></a>
         </td>
         <td class="titlebg" style="width:25%;">
-            <a href="index.php?action=planeten&order=t2.budflesol&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif" border="0" alt="asc"></a>
+            <a href="index.php?action=planeten&order=t2.budflesol&ordered=asc&sid=<?php echo $sid;?>"><img
+                    src="bilder/asc.gif" border="0" alt="asc"></a>
             <b>Spielart</b>
-            <a href="index.php?action=planeten&order=t2.budflesol&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif" border="0" alt="desc"></a>
+            <a href="index.php?action=planeten&order=t2.budflesol&ordered=desc&sid=<?php echo $sid;?>"><img
+                    src="bilder/desc.gif" border="0" alt="desc"></a>
         </td>
     </tr>
     <?php

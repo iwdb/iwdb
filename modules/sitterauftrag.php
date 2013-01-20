@@ -318,7 +318,8 @@ if ($id == $user_sitterlogin) {
 echo (empty($alert)) ? "" : $alert;
 ?>
 <br>
-<form method="POST" action="index.php?action=sitterauftrag&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>" enctype="multipart/form-data">
+<form method="POST" action="index.php?action=sitterauftrag&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>"
+      enctype="multipart/form-data">
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">
     <tr>
         <td class="titlebg" colspan="4" align="center">
@@ -345,13 +346,16 @@ echo (empty($alert)) ? "" : $alert;
             <input type="checkbox" name="bauschleife" value="1"<?php echo ($user_peitschen) ? " checked" : "";?>>
         </td>
         <td class="windowbg1" style="width:15%;">
-            <textarea name='auftrag' id='auftrag' rows='2' cols='25' placeholder='Auftrag' required='required' style='width: 200px;'></textarea>
+            <textarea name='auftrag' id='auftrag' rows='2' cols='25' placeholder='Auftrag' required='required'
+                      style='width: 200px;'></textarea>
             <?php echo bbcode_buttons('auftrag'); ?>
         </td>
     </tr>
     <tr>
         <td class="titlebg" colspan="4" align="center">
-            <input type="hidden" name="typ" value="Sonstiges"><input type="hidden" name="editauftrag" value="true"><input type="submit" value="speichern" name="B1" class="submit">
+            <input type="hidden" name="typ" value="Sonstiges"><input type="hidden" name="editauftrag"
+                                                                     value="true"><input type="submit" value="speichern"
+                                                                                         name="B1" class="submit">
         </td>
     </tr>
 </table>
@@ -366,20 +370,20 @@ echo (empty($alert)) ? "" : $alert;
             <?php
             echo makelink(
                 array(
-                    'order'  => 'planet',
-                    'orderd' => 'asc'
+                     'order'  => 'planet',
+                     'orderd' => 'asc'
                 ),
-                "<img src='./bilder/asc.gif' border='0' alt=''>"
+                "<img src='./bilder/asc.gif' alt=''>"
             );
             ?>
             <b>Planet</b>
             <?php
             echo makelink(
                 array(
-                    'order'  => 'planet',
-                    'orderd' => 'desc'
+                     'order'  => 'planet',
+                     'orderd' => 'desc'
                 ),
-                "<img src='./bilder/desc.gif' border='0' alt=''>"
+                "<img src='./bilder/desc.gif' alt=''>"
             );
 
             ?>
@@ -388,20 +392,20 @@ echo (empty($alert)) ? "" : $alert;
             <?php
             echo makelink(
                 array(
-                    'order'  => 'date',
-                    'orderd' => 'asc'
+                     'order'  => 'date',
+                     'orderd' => 'asc'
                 ),
-                "<img src='./bilder/asc.gif' border='0' alt=''>"
+                "<img src='./bilder/asc.gif' alt=''>"
             );
             ?>
             <b>Zeit</b>
             <?php
             echo makelink(
                 array(
-                    'order'  => 'date',
-                    'orderd' => 'desc'
+                     'order'  => 'date',
+                     'orderd' => 'desc'
                 ),
-                "<img src='./bilder/desc.gif' border='0' alt=''>"
+                "<img src='./bilder/desc.gif' alt=''>"
             );
             ?>
         </td>
@@ -471,11 +475,11 @@ echo (empty($alert)) ? "" : $alert;
                 if (!$differentid || (($user_status == "admin") OR ($user_status == "SV")) || ($user_sitterlogin == $row['ByUser'])) {
                     echo (empty($row_bev['id']))
                         ?
-                        "<img src='bilder/point.gif' border='0' alt=''>"
+                        "<img src='bilder/point.gif' alt=''>"
                         :
-                        "<a href='index.php?action=sitterauftrag&delserie=" . $row['id'] . "&sid=" . $sid . "'><img src='bilder/plus.gif' border='0'></a>";
+                        "<a href='index.php?action=sitterauftrag&delserie=" . $row['id'] . "&sid=" . $sid . "'><img src='bilder/plus.gif'></a>";
                 } else {
-                    echo "<img src='bilder/point.gif' border='0' alt=''>";
+                    echo "<img src='bilder/point.gif' alt=''>";
                 }
                 ?>
             </td>
@@ -510,17 +514,21 @@ echo (empty($alert)) ? "" : $alert;
                 <?php
                 if (!$differentid || (($user_status == "admin") OR ($user_status == "SV")) || ($user_sitterlogin == $row['ByUser'])) {
                     ?>
-                    <a href="index.php?action=sitterauftrag&typ=<?php echo $row['typ'];?>&auftragid=<?php echo $row['id'];?>&umenu=1&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>"><img src="bilder/file_edit_s.gif" border="0" alt="editieren"></a>
+                    <a href="index.php?action=sitterauftrag&typ=<?php echo $row['typ'];?>&auftragid=<?php echo $row['id'];?>&umenu=1&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>"><img
+                            src="bilder/file_edit_s.gif" border="0" alt="editieren"></a>
                 <?php
                 }
                 if ($row['typ'] == "Gebaeude") {
                     ?>
-                    <a href="index.php?action=sitterauftrag&umenu=1&parentid=<?php echo $row['id'];?>&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>"><img src="bilder/file_new_s.gif" border="0" alt="anhängen"></a>
+                    <a href="index.php?action=sitterauftrag&umenu=1&parentid=<?php echo $row['id'];?>&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>"><img
+                            src="bilder/file_new_s.gif" border="0" alt="anhängen"></a>
                 <?php
                 }
                 if (!$differentid || (($user_status == "admin") OR ($user_status == "SV")) || ($user_sitterlogin == $row['ByUser'])) {
                     ?>
-                    <a href="index.php?action=sitterauftrag&parentid=<?php echo $row['id'];?>&delid=<?php echo $row['id'];?>&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>" onclick="return confirmlink(this, 'Auftrag wirklich löschen?')"><img src="bilder/file_delete_s.gif" border="0" alt="löschen"></a>
+                    <a href="index.php?action=sitterauftrag&parentid=<?php echo $row['id'];?>&delid=<?php echo $row['id'];?>&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>"
+                       onclick="return confirmlink(this, 'Auftrag wirklich löschen?')"><img
+                            src="bilder/file_delete_s.gif" border="0" alt="löschen"></a>
                 <?php
                 }
                 ?>
@@ -611,7 +619,9 @@ if (!empty($umenu)) {
     echo (empty($alert)) ? "" : $alert;
     ?>
     <br>
-    <form method="POST" action="index.php?action=sitterauftrag&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>" enctype="multipart/form-data">
+    <form method="POST"
+          action="index.php?action=sitterauftrag&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>"
+          enctype="multipart/form-data">
     <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 60%;">
     <tr>
         <td class="windowbg2" style="width: 30%;">
@@ -652,7 +662,8 @@ if (!empty($umenu)) {
                         echo "<input type='hidden' name='date_b2' value='" . (isset($date_b2) ? $date_b2 : "") . "'>" . (isset($date_b2) ? $date_b2 : "");
                     } else {
                         ?>
-                        <input type="text" name="date_b2" value="<?php echo (isset($date_b2) ? $date_b2 : "");?>" style="width: 200px;">
+                        <input type="text" name="date_b2" value="<?php echo (isset($date_b2) ? $date_b2 : "");?>"
+                               style="width: 200px;">
                     <?php
                     }
                     ?>  </td>
@@ -671,7 +682,8 @@ if (!empty($umenu)) {
                     echo "<input type='hidden' name='date_b1' value='" . (isset($date_b1) ? $date_b1 : "") . "'>" . (isset($date_b1) ? $date_b1 : "");
                 } else {
                     ?>
-                    <input type="text" name="date_b1" value="<?php echo (isset($date_b1) ? $date_b1 : "");?>" style="width: 200px;">
+                    <input type="text" name="date_b1" value="<?php echo (isset($date_b1) ? $date_b1 : "");?>"
+                           style="width: 200px;">
                 <?php
                 }
                 ?>  </td>
@@ -754,7 +766,8 @@ if (!empty($umenu)) {
                 Notizen:<?php echo ($typ == "Sonstiges") ? "" : "<br><i>(optional)</i>";?>
             </td>
             <td class="windowbg1">
-                <textarea name='auftrag' id='auftrag' rows='4' cols='25' style='width: 200px;'><?php echo $auftrag;?></textarea>
+                <textarea name='auftrag' id='auftrag' rows='4' cols='25'
+                          style='width: 200px;'><?php echo $auftrag;?></textarea>
                 <?php echo bbcode_buttons('auftrag'); ?>
             </td>
         <?php
@@ -787,7 +800,8 @@ if (!empty($umenu)) {
                     ?>
                 </select>
                 Anzahl:
-                <input type="text" name="schiffanz" value="<?php echo (isset($schiffanz) ? $schiffanz : "");?>" style="width: 100px;">
+                <input type="text" name="schiffanz" value="<?php echo (isset($schiffanz) ? $schiffanz : "");?>"
+                       style="width: 100px;">
             </td>
         </tr>
     <?php
@@ -889,7 +903,7 @@ if (!empty($umenu)) {
 
                             if ($user_gebbilder == "1") {
                                 $bild_url = (empty($row['bild'])) ? "bilder/gebs/blank.jpg" : "bilder/gebs/" . $row['bild'] . ".jpg";
-                                echo "</td><td><img src='" . $bild_url . "' title='" . $altname . "' border='0' width='50' height='50' style='vertical-align:middle;'></td><td>";
+                                echo "</td><td><img src='" . $bild_url . "' title='" . $altname . "' width='50' height='50' style='vertical-align:middle;'></td><td>";
                             }
                             echo $resRowName . " [" . dauer($row['dauer'] * $user_gengebmod * $modmaurer) . "]";
                             if ($user_gebbilder == "1") {
@@ -928,7 +942,13 @@ if (!empty($umenu)) {
     ?>
     <tr>
         <td colspan="2" class="titlebg" align="center">
-            <input type="hidden" name="parentid" value="<?php echo $thisid;?>"><input type="hidden" name="typ" value="<?php echo $typ;?>"><input type="hidden" name="auftragid" value="<?php echo $auftragid;?>"><input type="hidden" name="editauftrag" value="true"><input type="submit" value="speichern" name="B1" class="submit">
+            <input type="hidden" name="parentid" value="<?php echo $thisid;?>"><input type="hidden" name="typ"
+                                                                                      value="<?php echo $typ;?>"><input
+                type="hidden" name="auftragid" value="<?php echo $auftragid;?>"><input type="hidden" name="editauftrag"
+                                                                                       value="true"><input type="submit"
+                                                                                                           value="speichern"
+                                                                                                           name="B1"
+                                                                                                           class="submit">
         </td>
     </tr>
     </table>

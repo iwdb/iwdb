@@ -49,15 +49,15 @@ if (!empty($submit) AND !empty($daction) AND ($daction == 'send')) {
     $fp = @fopen("style2.css", "w") or die ("Kann style2.css nicht öffnen.");
 
     //Standartzeug am Anfang in die Datei schreiben
-    $newlines = array();
-    $newlines[0] = '/* style.css */';
-    $newlines[1] = '';
-    $newlines[2] = '/* Diese Style-CSS ist in 2 Teile aufgeteilt */';
-    $newlines[3] = '/* der erste Teil kann durch ein Modul ausgelesen werden */';
-    $newlines[4] = '/* deswegen dort nichts ändern! */';
-    $newlines[5] = '';
-    $newlines[6] = '/* Diese Teil wurde automatsich erstellt */';
-    $newlines[7] = '/* Zeitcode: ' . date("l dS of F Y h:i:s A") . ' */';
+    $newlines     = array();
+    $newlines[0]  = '/* style.css */';
+    $newlines[1]  = '';
+    $newlines[2]  = '/* Diese Style-CSS ist in 2 Teile aufgeteilt */';
+    $newlines[3]  = '/* der erste Teil kann durch ein Modul ausgelesen werden */';
+    $newlines[4]  = '/* deswegen dort nichts ändern! */';
+    $newlines[5]  = '';
+    $newlines[6]  = '/* Diese Teil wurde automatsich erstellt */';
+    $newlines[7]  = '/* Zeitcode: ' . date("l dS of F Y h:i:s A") . ' */';
     $newlines[12] = '';
     foreach ($newlines as $newline) {
         fwrite($fp, $newline . "\r\n");
@@ -66,12 +66,12 @@ if (!empty($submit) AND !empty($daction) AND ($daction == 'send')) {
 
     //Anzahl der Eigenschaften
     $rowcount = GetVar('row_count');
-    $i = 1;
+    $i        = 1;
     //jede Eigenschaft durchgehen
     for ($i = 1; $i <= $rowcount; $i++) {
 
         //header für die Eigenschaft schreiben
-        $newlines = array();
+        $newlines    = array();
         $newlines[0] = '';
         $newlines[1] = '/* !N ' . trim(htmlspecialchars(GetVar('row_' . $i . '_name', true), ENT_NOQUOTES, 'UTF-8')) . ' */';
         $newlines[2] = '/* !T ' . trim(htmlspecialchars(GetVar('row_' . $i . '_title', true), ENT_NOQUOTES, 'UTF-8')) . ' */';
@@ -91,12 +91,12 @@ if (!empty($submit) AND !empty($daction) AND ($daction == 'send')) {
         } else if ($conf == '!I') {
             //i
             //start reinschreiben
-            $newlines = array();
+            $newlines    = array();
             $newlines[0] = trim(htmlspecialchars(GetVar('row_' . $i . '_start', true), ENT_NOQUOTES, 'UTF-8'));
 
             //nun die Menge der Werte auslesen
             $numwerte = trim(htmlspecialchars(GetVar('row_' . $i . '_werte', true), ENT_NOQUOTES, 'UTF-8'));
-            $j = 1;
+            $j        = 1;
             for ($j = 1; $j <= $numwerte; $j++) {
                 $newlines[$j] = '    ' . trim(htmlspecialchars(GetVar('cell_k_' . $i . '_' . $j, true), ENT_NOQUOTES, 'UTF-8')) . ':' . trim(htmlspecialchars(GetVar('cell_v_' . $i . '_' . $j, true), ENT_NOQUOTES, 'UTF-8')) . '; ';
             }
@@ -118,7 +118,7 @@ if (!empty($submit) AND !empty($daction) AND ($daction == 'send')) {
     }
 
     //nun noch das Ende reinschrieben
-    $newlines = array();
+    $newlines    = array();
     $newlines[0] = '';
     $newlines[1] = '/* !END */';
     $newlines[2] = '';
@@ -146,11 +146,11 @@ if ($action == 'default') {
 
     //Tabelle beginnen
     ?>
-<form action='index.php?sid=<?php echo $sid;?>&action=admin&uaction=style&daction=send' method='post'>
-<table width="100%">
-<tr>
-    <td colspan="4">&nbsp;</td>
-</tr>
+    <form action='index.php?sid=<?php echo $sid;?>&action=admin&uaction=style&daction=send' method='post'>
+    <table width="100%">
+    <tr>
+        <td colspan="4">&nbsp;</td>
+    </tr>
 
     <?php
     // Datei öffnen
@@ -301,7 +301,7 @@ if ($action == 'default') {
 
             echo "<input type='hidden' name='row_" . $num_eigenschaft . "_start' value='" . $line . "'>";
 
-            $where = 100;
+            $where    = 100;
             $num_wert = 0;
 
             continue;
@@ -325,12 +325,12 @@ if ($action == 'default') {
 
             $num_wert++;
 
-            $temp = explode(":", $line);
+            $temp    = explode(":", $line);
             $temp[0] = trim($temp[0]);
             $temp[1] = trim($temp[1]);
             $temp[1] = str_replace(';', '', $temp[1]);
 
-            $key = $temp[0];
+            $key   = $temp[0];
             $value = $temp[1];
 
             echo "<tr> ";
@@ -353,15 +353,16 @@ if ($action == 'default') {
     // Datei schliessen
     fclose($fp);
 
-echo '
+    echo '
 </textarea>
 </td>
 </tr>';
-?>
+    ?>
 
-</table>
-<div class='doc_centered'><input type='submit' name='submit' value='Änderungen speichern und CSS Datei erstellen'></div>
-</form>
+    </table>
+    <div class='doc_centered'><input type='submit' name='submit' value='Änderungen speichern und CSS Datei erstellen'>
+    </div>
+    </form>
 
 <?php
 }

@@ -615,7 +615,7 @@ if (empty($params['view'])) {
     next_row("windowbg2");
     echo "Noobschutz:<br>\n";
     next_cell("windowbg1");
-    echo "<input type='checkbox' name='no_noob' value='1' checked> Kein Noobschutz";
+    echo "<input type='checkbox' name='no_noob' value='1' checked='checked'> Kein Noobschutz";
 
     next_row("windowbg2");
     echo "Inaktivität:<br>\n";
@@ -758,7 +758,7 @@ if (empty($params['view'])) {
             array_push($where, $db_tb_scans . ".objekt='Kolonie'");
             break;
         case 'Steinklumpen':
-            array_push($where, $db_tb_scans . ".objekt='Kolonie'");
+            //array_push($where, $db_tb_scans . ".objekt='Kolonie'");
             array_push($where, $db_tb_scans . ".typ='Steinklumpen'");
             break;
         case 'Asteroid':
@@ -775,7 +775,7 @@ if (empty($params['view'])) {
             break;
         case 'Spezialplanet':
             //array_push($where, $db_tb_scans . ".objekt='Kolonie'");
-            array_push($where, "(" . $db_tb_scans . ".typ='Gasgigant' OR " . $db_tb_scans . ".typ='Eisplanet')");
+            array_push($where, "(" . $db_tb_scans . ".typ='Asteroid' OR " . $db_tb_scans . ".typ='Gasgigant' OR " . $db_tb_scans . ".typ='Eisplanet')");
             break;
         case 'Basen':
             array_push($where, "(" . $db_tb_scans . ".objekt='Kampfbasis' OR " . $db_tb_scans . ".objekt='Sammelbasis' OR " . $db_tb_scans . ".objekt='Artefaktbasis')");
@@ -933,8 +933,10 @@ if (empty($params['view'])) {
     // SQL ausführen
     $count = 0;
     $sql   = $sql_select . $sql_from . $sql_where . $sql_order;
+    debug_var("sql", $sql);
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    debug_var("Ergebnisse in der DB", $db->db_num_rows($result));
     while ($row = $db->db_fetch_array($result)) {
         unset($sd_01);
         unset($sd_02);
@@ -1247,6 +1249,8 @@ if (empty($params['view'])) {
             'row_style'         => $text_color,
         );
     }
+    debug_var("Ergebnisse nach Filterung", count($data));
+
     usort($data, "sort_data_cmp");
     // Daten ausgeben
     echo '
@@ -1300,9 +1304,13 @@ if (empty($params['view'])) {
     next_cell("titlebg", 'nowrap valign=top');
     echo '&nbsp;';
     echo '<form method="POST">';
-    $index           = 1;
+    $index           = 0;
     $to_much_results = false;
     foreach ($data as $row) {
+
+        $key      = $row[$view['key']];
+        $expanded = $params['expand'] == $key;
+        $index++;
 
         //ToDo: besser lösen (Limit der von der DB gelieferten Ergebnisse)
         if ($index > $max_results) {
@@ -1310,9 +1318,7 @@ if (empty($params['view'])) {
             break;
         }
 
-        $key      = $row[$view['key']];
-        $expanded = $params['expand'] == $key;
-        echo '<input type="hidden" name="target_' . $index++ . '" value="' . $key . '"/>';
+        echo '<input type="hidden" name="target_' . $index . '" value="' . $key . '"/>';
         if (isset($row['row_style'])) {
             next_row("windowbg1", 'nowrap valign=center style="' . $row['row_style'] . '"');
         } else {
@@ -1453,6 +1459,7 @@ if (empty($params['view'])) {
         echo "</tr>";
     }
     end_table();
+    debug_var("Ausgaben", $index-1);
 
     if ($to_much_results) {
         echo "<br><div class='system_notification'>Es wurden nur die ersten {$max_results} Ergebnisse angezeigt. Bitte die Suche weiter einschränken.</div><br>";

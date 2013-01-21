@@ -237,8 +237,8 @@ doc_title('Sitterlogins');
                             "<td class='windowbg" . $num . "' valign='top'>" .
                             (($users_sitterpeitschen[$key] == "1") ? " <i>Meister d. Peitschen<br/></i>" : "") .
                             ((!empty($users_sitterstaatsform[$key])) ? " <i>Staatsform: " . NumToStaatsform($users_sitterstaatsform[$key]) . "</i><br/>" : "") .
-                            (($users_sitterikea[$key] == "M") ? " <i>Meister d. Ikea</i><br/>" : "") .
-                            (($users_sitterikea[$key] == "L") ? " <i>Lehrling d. Ikea</i><br/>" : "") .
+                            (($users_sitterikea[$key] == "M") ? " <i>Meister des Ikea</i><br/>" : "") .
+                            (($users_sitterikea[$key] == "L") ? " <i>Lehrling des Ikea</i><br/>" : "") .
                             (($users_sitteriwsa[$key] == "1") ? " <i>IWSA/IWBP-Account<br/></i>" : "") .
                             "</td>";
                     }
@@ -252,12 +252,7 @@ doc_title('Sitterlogins');
         <?php
         }
     } else { // $count == 0
-        ?>
-        <tr>
-            <td class="windowbg1" valign="center" colspan="4" align="center" height="80">Keine Sitterdaten gefunden!
-            </td>
-        </tr>
-    <?php
+        doc_message('Keine Sitterdaten gefunden!');
     }
     ?>
 </table>

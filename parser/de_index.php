@@ -223,7 +223,7 @@ function parse_de_index($return)
                                         $creds_order         = Array();
                                         $creds_ordered_value = 0;
 
-                                        $sth = $db->db_query("SELECT `id`, `credits`, `offen_credits` FROM `{$db_tb_bestellung}` WHERE `user` = '" . $selectedusername . "' ORDER BY `offen_credits` DESC;");
+                                        $sth = $db->db_query("SELECT `id`, `credits`, `offen_credits` FROM `{$db_tb_bestellung}` WHERE `user` = '" . $selectedusername . "' ORDER BY `time` ASC;");
                                         while ($row = $db->db_fetch_array($sth)) {
                                             $creds_order[$row['id']] = Array('credits' => $row['credits'], 'offen_credits' => $row['offen_credits']);
                                             $creds_ordered_value     = $creds_ordered_value + $row['offen_credits'];

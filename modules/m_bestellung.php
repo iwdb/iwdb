@@ -462,10 +462,10 @@ if (isset($params['filter_who']) && $params['filter_who'] != '(Alle)') {
         $sql .= " WHERE " . $db_tb_bestellung . ".user='" . $params['filter_who'] . "'";
     }
     if (!$user_fremdesitten) {
-        $sql .= " AND (SELECT allianz FROM " . $db_tb_user . " WHERE " . $db_tb_user . ".id=" . $db_tb_bestellung . ".user) = '" . $user_allianz . "'";
+        $sql .= " AND (SELECT `allianz` FROM `" . $db_tb_user . "` WHERE `" . $db_tb_user . "`.`id`=`" . $db_tb_bestellung . "`.`user`) = '" . $user_allianz . "'";
     }
 } elseif (!$user_fremdesitten) {
-    $sql .= " WHERE (SELECT allianz FROM " . $db_tb_user . " WHERE " . $db_tb_user . ".id=" . $db_tb_bestellung . ".user) = '" . $user_allianz . "'";
+    $sql .= " WHERE (SELECT `allianz` FROM `" . $db_tb_user . "` WHERE `" . $db_tb_user . "`.`id`=`" . $db_tb_bestellung . "`.`user`) = '" . $user_allianz . "'";
 }
 $sql .= " ORDER BY `prio` DESC, `$db_tb_bestellung`.`time` DESC, `$db_tb_bestellung`.`user` ASC, `$db_tb_bestellung`.`coords_gal` ASC, `$db_tb_bestellung`.`coords_sys` ASC, `$db_tb_bestellung`.`coords_planet` ASC;";
 
@@ -787,7 +787,7 @@ if (isset($results)) {
 
 // Team Dropdown
 echo "<form method='POST' action='" . makeurl(array()) . "' enctype='multipart/form-data'><p align='center'>";
-echo 'Filter: ';
+echo 'Lieferant: ';
 echo makefield(array("type"  => 'select',
                     "values" => $config['filter_who'],
                     "value"  => $params['filter_who']

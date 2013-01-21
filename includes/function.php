@@ -232,7 +232,7 @@ function auftrag($typ, $bauschleife, $bauid, $text, $schiffanz, $planetenmod, $s
 
 			$dauer = round($row_gebaeude['dauer'] * $user_gengebmod * $modmaurer * $planetenmod * $bauschleifenmod);
 
-			$return = "<img src=\"" . $bild_url . "\" border=\"0\" width=\"50\" height=\"50\" style=\"vertical-align:middle; padding-top: 3px;\"> " . $row_gebaeude['name'] . " [" . dauer($dauer) . "]" . (( empty($bauschleife) ) ? "" : " [Bauschleife]" ) . "\n" . (( empty($text) ) ? "" : "<br><br>" . nl2br($text) );
+			$return = "<img src='" . $bild_url . "' border='0' width='50' height='50' style='vertical-align:middle; padding-top: 3px;'> " . $row_gebaeude['name'] . " [" . dauer($dauer) . "]" . (( empty($bauschleife) ) ? "" : " [Bauschleife]" ) . "\n" . (( empty($text) ) ? "" : "<br><br>" . nl2br($text) );
 			break;
 		case "Schiffe":
 			$sql = "SELECT abk FROM " . $db_tb_schiffstyp . " WHERE id = '" . $bauid . "'";
@@ -735,7 +735,7 @@ function rating ( $scan_data , $coords = '0:0:0' )
 	  $color = "yellow";	
 	}
 	
-	return "<span class=\"ranking_" . $color . "\">" . $rating . "</span>";
+	return "<span class='ranking_" . $color . "'>" . $rating . "</span>";
 }
 
 function makeduration2($time1, $time2=NULL) {

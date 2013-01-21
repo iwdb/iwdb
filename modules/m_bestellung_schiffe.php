@@ -761,7 +761,7 @@ if (isset($results)) {
 
 // Team Dropdown
 echo '<form method="POST" action="' . makeurl(array()) . '" enctype="multipart/form-data"><p align="center">';
-echo 'Filter: ';
+echo 'Lieferant: ';
 echo makefield(array("type"  => 'select',
                     "values" => $config['filter_who'],
                     "value"  => $params['filter_who']

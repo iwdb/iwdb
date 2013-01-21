@@ -22,6 +22,8 @@
  * Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  *
  * IW-Spielern.                                                              *
  *                                                                           *
+ * rewritten by masel                                                        *
+ *                                                                           *
  * Entwicklerforum/Repo:                                                     *
  *                                                                           *
  *        https://handels-gilde.org/?www/forum/index.php;board=1099.0        *
@@ -147,64 +149,44 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 //
 // -> Und hier beginnt das eigentliche Modul
 
-$sondendeff = array(
-    "sd01" => "SD01 Gatling",
-    "sd02" => "SD02 Pulslaser"
-);
-
-foreach ($sondendeff as $key => $value) {
-    $temp   = getVar($key);
-    ${$key} = empty($temp) ? 0 : $temp;
-}
-
-$anz1 = ceil($sd01 + ($sd02 * 2.5) + 20);
-$anz2 = ceil(($sd01 / 1.2) + ($sd02 * 2.5 / 1.2) + 10);
-$anz3 = ceil(($sd01 / 2) + ($sd02 * 2.5 / 2) + 8);
-
-$sonden = array(
-    "X11"      => $anz1,
-    "Terminus" => $anz2,
-    "X13"      => $anz3
-);
-
 doc_title('Sondenkalkulator');
-echo "<form method='POST' action='index.php?action=" . $modulname .
-    "&sid=" . $sid . "' enctype='multipart/form-data'>\n";
-
-echo " <table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 40%;'>\n";
-echo "  <tr>\n";
-echo "   <td colspan='2' class='titlebg'><b>Eingabe:</b></td>\n";
-echo "  </tr>\n";
-
-foreach ($sondendeff as $key => $title) {
-    echo "  <tr>\n";
-    echo "   <td class='windowbg2' style='width: 200px;'>" . $title . ":</td>\n";
-    echo "   <td class='windowbg1'><input type='text' size='17' name='" . $key .
-        "' value='" . ${$key} . "'></td>\n";
-    echo "  </tr>\n";
-}
-
-echo "  <tr>\n";
-echo "   <td colspan='2' class='windowbg2' align='center'><input type='submit' style='width: 120px;' value='Berechnen'></td>\n";
-echo "  </tr>\n";
-echo " </table>\n";
-echo "</form>\n";
-echo "<br>\n";
-
-
-echo "<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 40%;'>\n";
-echo " <tr>\n";
-echo "  <td colspan='3' class='titlebg'><b>Benötigte Anzahl Sonden</b></td>\n";
-echo " </tr>\n";
-
-$t1 = "Entweder";
-foreach ($sonden as $name => $divisor) {
-    echo " <tr>\n";
-    echo "  <td class='windowbg2'>" . $t1 . "</td>\n";
-    echo "  <td class='windowbg1'>" . ceil($divisor) . "</td>\n";
-    echo "  <td class='windowbg2'>" . $name . "</td>\n";
-    echo " </tr>\n";
-    $t1 = "Oder";
-}
-
-echo "</table>\n";
+?>
+<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 30%;'>
+    <tr>
+        <th colspan='2' class='titlebg'><b>Eingabe der Sondendeff:</b></th>
+    </tr>
+    <tr>
+        <td class='windowbg2' style='width: 100px;'>SD01:</td>
+        <td class='windowbg1'>
+            <input type='number' min='0' max='9999' id='SD01' value='0' style='text-align:right;' oninput="SondenRechnen()">
+        </td>
+    </tr>
+    <tr>
+        <td class='windowbg2' style='width: 100px;'>SD02:</td>
+        <td class='windowbg1'>
+            <input type='number' min='0' max='9999' id='SD02' value='0' style='text-align:right;' oninput="SondenRechnen()">
+        </td>
+    </tr>
+</table>
+<br>
+<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 30%;'>
+    <tr>
+        <th colspan='3' class='titlebg'><b>benötigte Anzahl Sonden</b></th>
+    </tr>
+    <tr>
+        <td class='windowbg2'>Entweder</td>
+        <td class='windowbg1' id='X11' style="width:80px; text-align:right;">20</td>
+        <td class='windowbg2'>X11</td>
+    </tr>
+    <tr>
+        <td class='windowbg2'>Oder</td>
+        <td class='windowbg1' id='Terminus' style="width:80px; text-align:right;">10</td>
+        <td class='windowbg2'>Terminus</td>
+    </tr>
+    <tr>
+        <td class='windowbg2'>Oder</td>
+        <td class='windowbg1' id='X13' style="width:80px; text-align:right;">8</td>
+        <td class='windowbg2'>X13</td>
+    </tr>
+</table>
+<script type="text/javascript" src="javascript/sc.js"></script>

@@ -190,14 +190,9 @@ if (($sitterlogin <> "") && ($edit == "true") && (($sitterlogin == $user_sitterl
         echo "<br><div class='system_notification'>Sitterpasswörter gelöscht.</div>";
     }
 
-    foreach ($userd as $key => $data) {
-        $update = (empty($update)) ? $key . "='" . $data . "'" : $update . ", " . $key . (is_null($data) ? "=NULL" : "='" . $data . "'");
-    }
-
-    $sql = "UPDATE " . $db_tb_user . " SET " . $update . " WHERE sitterlogin='" . $sitterlogin . "'";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-    echo "<br><div class='system_notification'>Userdaten aktualisiert.</div>";
+    $result = $db->db_update($db_tb_user, $userd, "WHERE sitterlogin='" . $sitterlogin . "'")
+        or error(GENERAL_ERROR, 'Could not update user information.', '', __FILE__, __LINE__);
+    echo "<div class='system_notification'>Userdaten aktualisiert.</div>";
 
     $sql = "SELECT t1.* FROM " . $db_tb_sitterauftrag . " as t1 LEFT JOIN " . $db_tb_sitterauftrag . " as t2 ON t1.id = t2.refid WHERE t2.refid is null AND t1.user='" . $sitterlogin . "'";
     $result = $db->db_query($sql)
@@ -263,62 +258,44 @@ if (!empty($sitterpwd)) {
 
 //auslesen aller Memebr
 $alluser = array();
-$sqlM = "SELECT id FROM " . $db_prefix . "user";
+$sqlM = "SELECT id FROM " . $db_tb_user;
 $resultM = $db->db_query($sqlM)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
 while ($rowM = $db->db_fetch_array($resultM)) {
     $alluser[] = $rowM['id'];
 }
 
-//auslesen der maximal zur Vefügung stehenden Sittersounds:
-$sqlP = "SELECT value FROM " . $db_prefix . "params WHERE name = 'sound_global' ";
-$resultP = $db->db_query($sqlP)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
-$rowP = $db->db_fetch_array($resultP);
-
 $sel0 = '';
 $sel1 = '';
 $sel2 = '';
 $sel3 = '';
 $sel4 = '';
-$sel5 = '';
 
-switch ($rowP['value']) {
+$asound = array();
+$asound[0] = 'ausgeschaltet';
+$asound[1] = 'fenster';
+$asound[2] = 'fenster mit sound';
+$asound[3] = 'fenster (blinkend)';
+$asound[4] = 'fenster (blinkend) mit sound';
+
+switch ($sound) {
     case '4':
-        $asound[4] = 'fenster (blinkend) mit sound';
-        if ($sound == 4) {
-            $sel4 = 'selected="selected"';
-        }
+        $sel4 = 'selected="selected"';
         break;
     case '3':
-        $asound[3] = 'fenster (blinkend)';
-        if ($sound == 3) {
-            $sel3 = 'selected="selected"';
-        }
+        $sel3 = 'selected="selected"';
         break;
     case '2':
-        $asound[2] = 'fenster mit sound';
-        if ($sound == 2) {
-            $sel2 = 'selected="selected"';
-        }
+        $sel2 = 'selected="selected"';
         break;
     case '1':
-        $asound[1] = 'fenster';
-        if ($sound == 1) {
-            $sel1 = 'selected="selected"';
-        }
+        $sel1 = 'selected="selected"';
         break;
     case '0':
-        $asound[0] = 'ausgeschaltet';
-        if ($sound == 0) {
-            $sel0 = 'selected="selected"';
-        }
+        $sel0 = 'selected="selected"';
         break;
     default:
-        $asound[0] = 'ausgeschaltet';
-        if ($sound == 0) {
-            $sel0 = 'selected="selected"';
-        }
+        $sel0 = 'selected="selected"';
 }
 
 ?>
@@ -566,9 +543,11 @@ switch ($rowP['value']) {
     </td>
     <td class="windowbg1">
         <select name="sound" size="1">
-            <?php foreach ($asound as $key => $menu): ?>
-                <option <?php echo ${'sel' . $key};?> value="<?php echo $key;?>"><?php echo $asound[$key];?></option>
-            <?php endforeach; ?>
+            <?php
+            foreach ($asound as $key => $menu) {
+                echo "<option value='$key' " . ${'sel' . $key} . ">" . $asound[$key] . "</option>";
+            }
+            ?>
         </select>
     </td>
 </tr>

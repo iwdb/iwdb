@@ -247,8 +247,8 @@ function parse_de_index($return)
 
                                             //keine vorliegenden Creditsbestellungen -> eine einfügen
                                             if (count($creds_order) === 0) {
-                                                $sql = "INSERT INTO `" . $db_tb_bestellung . "` (`user`, `coords_gal`, `coords_sys`, `coords_planet`, `project`, `text`, `time`, `eisen`, `stahl`, `chemie`, `vv4a`, `eis`, `wasser`, `energie`, `credits`, `volk`, `offen_eisen`, `offen_stahl`, `offen_chemie`, `offen_vv4a`, `offen_eis`, `offen_wasser`, `offen_energie`, `offen_credits`, `schiff`, `anzahl`, `prio`, `taeglich`, `time_created`, `erledigt`) VALUES
-                                                ('" . $selectedusername . "', 0, 0, 0, '(Keins)', '', " . CURRENT_UNIX_TIME . ", 0, 0, 0, 0, 0, 0, 0, " . $creds_order_value . ", 0, 0, 0, 0, 0, 0, 0, 0, " . $creds_order_value . ", '', 0, 1, b'0', " . CURRENT_UNIX_TIME . ", 0);";
+                                                $sql = "INSERT INTO `" . $db_tb_bestellung . "` (`user`, `team`, `coords_gal`, `coords_sys`, `coords_planet`, `project`, `text`, `time`, `eisen`, `stahl`, `chemie`, `vv4a`, `eis`, `wasser`, `energie`, `credits`, `volk`, `offen_eisen`, `offen_stahl`, `offen_chemie`, `offen_vv4a`, `offen_eis`, `offen_wasser`, `offen_energie`, `offen_credits`, `schiff`, `anzahl`, `prio`, `taeglich`, `time_created`, `erledigt`) VALUES
+                                                ('" . $selectedusername . "', '(Alle)', 0, 0, 0, 'Automatische Creditsbestellung', '', " . CURRENT_UNIX_TIME . ", 0, 0, 0, 0, 0, 0, 0, " . $creds_order_value . ", 0, 0, 0, 0, 0, 0, 0, 0, " . $creds_order_value . ", '', 0, 1, b'0', " . CURRENT_UNIX_TIME . ", 0);";
                                                 $db->db_query($sql)
                                                     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 

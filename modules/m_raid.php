@@ -38,7 +38,7 @@ if (!defined('IRA')) {
 }
 
 if (!defined('DEBUG_LEVEL')) {
-    define('DEBUG_LEVEL', 0);
+    define('DEBUG_LEVEL', 2);
 }
 
 //****************************************************************************
@@ -159,47 +159,45 @@ $results = array();
 $params  = array();
 
 // Seitenparameter definieren
-debug_var(
-    "defaults", $defaults = array(
-                  'view'                 => 'overview',
-                  'gal_start'            => $user_gal_start,
-                  'gal_end'              => $user_gal_end,
-                  'sys_start'            => $user_sys_start,
-                  'sys_end'              => $user_sys_end,
-                  'order'                => 'coords',
-                  'orderd'               => 'asc',
-                  'edit'                 => '',
-                  'delete'               => '',
-                  'expand'               => '',
-                  'objekt'               => 'Alle',
-                  'user'                 => '',
-                  'alli'                 => '',
-                  'scans'                => 'Alle',
-                  'no_noob'              => '1',
-                  'inaktiv'              => '',
-                  'def_min'              => '',
-                  'def_max'              => '',
-                  'scan_schiff_age_min'  => '',
-                  'scan_schiff_age_max'  => '',
-                  'scan_geb_age_min'     => '',
-                  'scan_geb_age_max'     => '',
-                  'scan_failure_age_min' => '',
-                  'scan_failure_age_max' => '',
-                  'allistatus'           => '',
-                  'angriff'              => '',
-                  'no_angriff'           => '',
-                  'sondierung'           => '',
-                  'no_sondierung'        => '',
-                  'no_reservierung'      => '',
-                  'reservierung_user'    => '',
-                  'reservierung_foreign' => '',
-                  'rating_min'           => '',
-                  'rating_max'           => '',
-                  'ressource'            => 'Alle',
-                  'ress_min'             => '',
-                  'sg_start'             => '',
-                  'sg_end'               => ''
-              )
+$defaults = array(
+    'view'                 => 'overview',
+    'gal_start'            => $user_gal_start,
+    'gal_end'              => $user_gal_end,
+    'sys_start'            => $user_sys_start,
+    'sys_end'              => $user_sys_end,
+    'order'                => 'coords',
+    'orderd'               => 'asc',
+    'edit'                 => '',
+    'delete'               => '',
+    'expand'               => '',
+    'objekt'               => 'Alle',
+    'user'                 => '',
+    'alli'                 => '',
+    'scans'                => 'Alle',
+    'no_noob'              => '1',
+    'inaktiv'              => '',
+    'def_min'              => '',
+    'def_max'              => '',
+    'scan_schiff_age_min'  => '',
+    'scan_schiff_age_max'  => '',
+    'scan_geb_age_min'     => '',
+    'scan_geb_age_max'     => '',
+    'scan_failure_age_min' => '',
+    'scan_failure_age_max' => '',
+    'allistatus'           => '',
+    'angriff'              => '',
+    'no_angriff'           => '',
+    'sondierung'           => '',
+    'no_sondierung'        => '',
+    'no_reservierung'      => '',
+    'reservierung_user'    => '',
+    'reservierung_foreign' => '',
+    'rating_min'           => '',
+    'rating_max'           => '',
+    'ressource'            => 'Alle',
+    'ress_min'             => '',
+    'sg_start'             => '',
+    'sg_end'               => ''
 );
 
 // Seitenparameter ermitteln
@@ -235,6 +233,7 @@ if (empty($params['objekt'])) {
 if (empty($params['allistatus'])) {
     $params['allistatus'] = $defaults['allistatus'];
 }
+debug_var("Parameter", $params);
 
 // Zum Spiel weiterleiten
 $universum       = getVar('universum');
@@ -1308,15 +1307,15 @@ if (empty($params['view'])) {
     $to_much_results = false;
     foreach ($data as $row) {
 
-        $key      = $row[$view['key']];
-        $expanded = $params['expand'] == $key;
-        $index++;
-
         //ToDo: besser lösen (Limit der von der DB gelieferten Ergebnisse)
-        if ($index > $max_results) {
+        if ($index >= $max_results) {
             $to_much_results = true;
             break;
         }
+
+        $key      = $row[$view['key']];
+        $expanded = $params['expand'] == $key;
+        $index++;
 
         echo '<input type="hidden" name="target_' . $index . '" value="' . $key . '"/>';
         if (isset($row['row_style'])) {
@@ -1459,7 +1458,7 @@ if (empty($params['view'])) {
         echo "</tr>";
     }
     end_table();
-    debug_var("Ausgaben", $index-1);
+    debug_var("Ausgaben", $index);
 
     if ($to_much_results) {
         echo "<br><div class='system_notification'>Es wurden nur die ersten {$max_results} Ergebnisse angezeigt. Bitte die Suche weiter einschränken.</div><br>";

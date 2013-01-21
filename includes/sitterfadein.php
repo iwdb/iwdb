@@ -36,10 +36,10 @@
 $soundfile_normal = 'audio/auftrag.oga';
 $soundfile_wichtig = 'audio/auftrag.oga';
 
-global $sid, $db, $db_prefix, $db_tb_sitterauftrag;
+global $sid, $db, $db_tb_sitterauftrag;
 
 //auslesen ob das Modul Sound haben darf
-$sqlM = "SELECT sound FROM " . $db_prefix . "menu WHERE action = '" . $action . "';";
+$sqlM = "SELECT sound FROM " . $db_tb_menu . " WHERE action = '" . $action . "';";
 $resultM = $db->db_query($sqlM)
     or error(GENERAL_ERROR, 'Could not query sound setting.', '', __FILE__, __LINE__, $sqlM);
 $rowM = $db->db_fetch_array($resultM);
@@ -51,7 +51,7 @@ if (!empty($rowM['sound'])) {
 
 if (empty($action) OR $action === 'memberlogin2') {
     //beim Login soll da abgespielt werden?
-    $sqlP = "SELECT value FROM " . $db_prefix . "params WHERE name = 'sound_login' ";
+    $sqlP = "SELECT value FROM " . $db_tb_params . " WHERE name = 'sound_login' ";
     $resultP = $db->db_query($sqlP)
         or error(GENERAL_ERROR, 'Could not query sound setting.', '', __FILE__, __LINE__, $sqlP);
     $rowP = $db->db_fetch_array($resultP);
@@ -62,7 +62,7 @@ if (empty($action) OR $action === 'memberlogin2') {
 
 if (!empty($user_id) AND ($user_id != 'guest') AND ($SitternoticeInModul)) {
     //was soll abgespielt werden?
-    $sqlS = "SELECT sound FROM " . $db_prefix . "user WHERE id = '" . $user_id . "' ";
+    $sqlS = "SELECT sound FROM " . $db_tb_user . " WHERE id = '" . $user_id . "' ";
     $resultS = $db->db_query($sqlS)
         or error(GENERAL_ERROR, 'Could not query sound setting.', '', __FILE__, __LINE__, $sqlS);
     $rowS = $db->db_fetch_array($resultS);

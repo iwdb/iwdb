@@ -1195,3 +1195,7 @@ UPDATE `prefix_gebaeude` SET  `name` =  'Orbitales Habitat' WHERE  `prefix_gebae
 
 -- masel 15.01.
 DELETE FROM `prefix_parser` WHERE `modulename` = 'researchoverview';
+
+-- masel 22.01.
+DELETE FROM `prefix_params` WHERE `name` = 'sound_global';
+

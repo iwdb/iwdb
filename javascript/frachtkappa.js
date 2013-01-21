@@ -2,11 +2,9 @@
     für m_frachtkappa.php
  */
 
-"use strict";
-
-var aktiv = window.setInterval("FrachtkappaRechnen()", 500);
-
+window.setInterval("FrachtkappaRechnen()", 500);
 function FrachtkappaRechnen() {
+    "use strict";
     var class1kappa_benoetigt, class1kappa_vorhanden, class1kappa_nochbenoetigt, class2kappa_benoetigt, class2kappa_vorhanden, class2kappa_nochbenoetigt;
 
     class1kappa_benoetigt = (document.getElementById('eisen').value)

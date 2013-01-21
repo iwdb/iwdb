@@ -340,8 +340,11 @@ switch ($mode) {
                             Schiffübersicht
                         </option>
                         <option value="gebaeude_uebersicht"<?php echo $redirect == 'gebaeude_uebersicht' ? ' selected' : '' ?>>
-                            Geb&auml;udeübersicht
+                            Gebüudeübersicht
                         </option>
+							<option value="forschung_uebersicht"<?php echo $redirect == 'forschung_uebersicht' ? ' selected' : '' ?>>
+								Forschungsübersicht
+							</option>
                     </select>
                 </td>
             <tr>

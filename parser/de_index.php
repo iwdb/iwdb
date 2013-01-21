@@ -188,22 +188,26 @@ function parse_de_index($return)
 
                 //automatische Creditsbestellung
                 if (isset($db_tb_bestellung)) { //Bestellmodul vorhanden
+                    debug_var('Bestelltabelle', 'vorhanden');
 
                     //Status der automatischen Credsbestellung aus der DB holen
                     $sth = $db->db_query("SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'automatic_creds_order';");
                     $row = $db->db_fetch_array($sth);
 
                     if (!empty($row) AND ($row['value'] === 'true')) { //Eintrag für automatische Bestellung vorhanden und aktiv
+                        debug_var('automatisches Creditsbestellen', 'aktiv');
 
                         $sth = $db->db_query("SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'automatic_creds_order_minvalue';"); //Credits Minimalwert holen
                         $row = $db->db_fetch_array($sth);
 
                         $automatic_creds_order_minvalue = $row['value'];
+                        debug_var('Mindestwert', $automatic_creds_order_minvalue);
 
                         $sth = $db->db_query("SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'automatic_creds_order_minpayout';"); //Wert der kleinsten Creditsauszahlungemenge holen
                         $row = $db->db_fetch_array($sth);
 
                         $automatic_creds_order_minpayout = $row['value'];
+                        debug_var('Mindestauszahlungsmenge', $automatic_creds_order_minpayout);
 
                         if (($automatic_creds_order_minvalue > 0)) { //Bestelldaten ok
 
@@ -213,19 +217,22 @@ function parse_de_index($return)
 
                                         //Menge der fehlenden Credits berechnen
                                         $insufficient_creds = $automatic_creds_order_minvalue - (int)$ParsedRess->iResourceVorrat;
+                                        debug_var('Credits zu wenig', $insufficient_creds);
 
                                         //bestehende Creditsbestellungen holen
                                         $creds_order         = Array();
                                         $creds_ordered_value = 0;
 
-                                        $sth = $db->db_query("SELECT `id`, `credits`, `offen_credits` FROM `{$db_tb_bestellung}` WHERE `user` = '" . $selectedusername . "' ORDER BY `credits` ASC;");
+                                        $sth = $db->db_query("SELECT `id`, `credits`, `offen_credits` FROM `{$db_tb_bestellung}` WHERE `user` = '" . $selectedusername . "' ORDER BY `offen_credits` DESC;");
                                         while ($row = $db->db_fetch_array($sth)) {
                                             $creds_order[$row['id']] = Array('credits' => $row['credits'], 'offen_credits' => $row['offen_credits']);
                                             $creds_ordered_value     = $creds_ordered_value + $row['offen_credits'];
                                         }
+                                        debug_var('vorhandene Bestellungen', $creds_order);
 
                                         //Menge der noch zusätzlich zu bestellenden Credits berechnen
                                         $insufficient_creds = $insufficient_creds - $creds_ordered_value;
+                                        debug_var('noch zu bestellenden Credits', $insufficient_creds);
 
                                         if ($insufficient_creds > 0) {
                                             $creds_order_value = (int)(($automatic_creds_order_minvalue * 1.3) - (int)$ParsedRess->iResourceVorrat); //gewisser Zielbereich vermeidet 'krumme' Bestellungen
@@ -236,11 +243,14 @@ function parse_de_index($return)
                                                 $creds_order_value = $automatic_creds_order_minpayout;
                                             }
 
+                                            debug_var('Anzahl gerundet', $creds_order_value);
+
                                             //keine vorliegenden Creditsbestellungen -> eine einfügen
                                             if (count($creds_order) === 0) {
                                                 $sql = "INSERT INTO `" . $db_tb_bestellung . "` (`user`, `coords_gal`, `coords_sys`, `coords_planet`, `project`, `text`, `time`, `eisen`, `stahl`, `chemie`, `vv4a`, `eis`, `wasser`, `energie`, `credits`, `volk`, `offen_eisen`, `offen_stahl`, `offen_chemie`, `offen_vv4a`, `offen_eis`, `offen_wasser`, `offen_energie`, `offen_credits`, `schiff`, `anzahl`, `prio`, `taeglich`, `time_created`, `erledigt`) VALUES
                                                 ('" . $selectedusername . "', 0, 0, 0, '(Keins)', '', " . CURRENT_UNIX_TIME . ", 0, 0, 0, 0, 0, 0, 0, " . $creds_order_value . ", 0, 0, 0, 0, 0, 0, 0, 0, " . $creds_order_value . ", '', 0, 1, b'0', " . CURRENT_UNIX_TIME . ", 0);";
-                                                $db->db_query($sql);
+                                                $db->db_query($sql)
+                                                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
                                                 doc_message('weniger als ' . number_format((float)$automatic_creds_order_minvalue, 0, ',', '.') . ' Credits bei ' . $selectedusername . ' -> ' . number_format((float)$creds_order_value, 0, ',', '.') . ' Credits automatisch bestellt');
 
@@ -254,7 +264,8 @@ function parse_de_index($return)
                                                         'credits'       => $creds_order_value,
                                                         'offen_credits' => $creds_order_value
                                                     );
-                                                    $db->db_update($db_tb_bestellung, $data, "WHERE `id`=" . $order_id);
+                                                    $db->db_update($db_tb_bestellung, $data, "WHERE `id`=" . $order_id)
+                                                        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
 
                                                     if (count($creds_order) > 1) {
                                                         //Creditsbestellungen aus anderen Bestellungen streichen
@@ -265,7 +276,8 @@ function parse_de_index($return)
                                                                 'credits'       => 0,
                                                                 'offen_credits' => 0
                                                             );
-                                                            $db->db_update($db_tb_bestellung, $data, "WHERE `id`=" . $order_id);
+                                                            $db->db_update($db_tb_bestellung, $data, "WHERE `id`=" . $order_id)
+                                                                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
                                                         }
                                                     }
 

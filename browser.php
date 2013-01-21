@@ -2,12 +2,12 @@
 
 define('APPLICATION_PATH_ABSOLUTE', dirname(__FILE__));
 define('APPLICATION_PATH_RELATIVE', dirname($_SERVER['SCRIPT_NAME']));
-define('APPLICATION_PATH_URL', dirname($_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']));
+define('APPLICATION_PATH_URL', dirname($_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME']));
 
 require_once("includes/bootstrap.php");
 
 if (empty($sid) || empty($user_sitterlogin) || !($user_adminsitten == SITTEN_BOTH || $user_adminsitten == SITTEN_ONLY_LOGINS) || $user_id == "guest") {
-    header("Location: ".APPLICATION_PATH_RELATIVE);
+    header("Location: " . APPLICATION_PATH_RELATIVE);
     exit;
 }
 
@@ -175,7 +175,8 @@ if ($done == 'Erledigt') {
     foreach ($users as $user) {
         if ($user['lastsitteruser'] == $user_sitterlogin) {
             $user['lastsitterloggedin'] = 0;
-            $sql                        = "UPDATE " . $db_tb_user . " SET lastsitterloggedin=0,dauersittenlast=" . CURRENT_UNIX_TIME . " WHERE id='" . $user['id'] . "'";
+
+            $sql = "UPDATE " . $db_tb_user . " SET lastsitterloggedin=0,dauersittenlast=" . CURRENT_UNIX_TIME . " WHERE id='" . $user['id'] . "'";
             $result = $db->db_query($sql)
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
         }
@@ -195,12 +196,15 @@ if (empty($login)) {
     $login_user['lastsitterlogin']    = CURRENT_UNIX_TIME;
     $login_user['lastsitteruser']     = $user_sitterlogin;
     $login_user['lastsitterloggedin'] = 1;
-    $sql                              = "UPDATE " . $db_tb_user . " SET lastsitterloggedin=0 WHERE lastsitteruser='" . $user_sitterlogin . "'";
+
+    $sql = "UPDATE " . $db_tb_user . " SET lastsitterloggedin=0 WHERE lastsitteruser='" . $user_sitterlogin . "'";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
     $sql = "UPDATE " . $db_tb_user . " SET lastsitterlogin=" . $login_user['lastsitterlogin'] . ",lastsitteruser='" . $login_user['lastsitteruser'] . "',lastsitterloggedin=1 WHERE id='" . $login_user['id'] . "'";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
     $sql = "INSERT INTO " . $db_tb_sitterlog . " (sitterlogin,fromuser,date,action) VALUES ('" . $login_user['id'] . "', '" . $user_sitterlogin . "', '" . $config_date . "', 'login')";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -263,14 +267,13 @@ switch ($mode) {
         <head>
             <style type="text/css">
                 * {
-                    font-family: verdana;
+                    font-family: verdana, serif;
                     font-size: 11px;
                 }
 
                 body {
                     color: #ffffff;
-                    background-color: #111111;
-                    background-image: url(bilder/bg_space3.png);
+                    background: #111111 url(bilder/bg_space3.png);
                 }
 
                 a:link {
@@ -282,8 +285,8 @@ switch ($mode) {
                 }
 
                 body, table, tr, td, form {
-                    margin: 0 0 0 0;
-                    padding: 0 0 0 0;
+                    margin: 0;
+                    padding: 0;
                 }
 
                 .attack {
@@ -340,21 +343,21 @@ switch ($mode) {
                             Schiffübersicht
                         </option>
                         <option value="gebaeude_uebersicht"<?php echo $redirect == 'gebaeude_uebersicht' ? ' selected' : '' ?>>
-                            Gebüudeübersicht
+                            Gebäudeübersicht
                         </option>
-							<option value="forschung_uebersicht"<?php echo $redirect == 'forschung_uebersicht' ? ' selected' : '' ?>>
-								Forschungsübersicht
-							</option>
+                        <option value="forschung_uebersicht"<?php echo $redirect == 'forschung_uebersicht' ? ' selected' : '' ?>>
+                            Forschungsübersicht
+                        </option>
                     </select>
                 </td>
-            <tr>
+                <!--<tr>
                 <td nowrap width="100%">
-                    <!--<a href="?action=own<?php echo !empty($allianz) ? "&allianz=$allianz" : "" ?>" target="_top">Eigener Spieler</a><br>
-					<a href="http://176.9.109.187/" target="main">Icewars-Notlogin</a>-->
+                    <a href="?action=own<?php echo !empty($allianz) ? "&allianz=$allianz" : "" ?>" target="_top">Eigener Spieler</a><br>
+					<a href="http://176.9.109.187/" target="main">Icewars-Notlogin</a>
                 </td>
                 <td nowrap>
                 </td>
-            </tr>
+            --></tr>
             <tr>
                 <td>
                 </td>
@@ -367,27 +370,31 @@ switch ($mode) {
         if (isset($login_user)) {
             ?>
             <form target="_top">
-                <?php echo isset($login_user['alliance']) ? '[' . $login_user['alliance'] . ']' : '';  echo $login_user['id'] ?>
-                <br>
-                <?php echo $login_user['typ'];             if (!empty($login_user['group']) && $login_user['group'] != $login_user['id']) { ?>
-                    von <?php echo $login_user['group'] ?><br>
-                    <?php            if (!empty($login_user['ikea'])) {
-                        echo "<font color='yellow'>IKEA</font><br>";
+                <?php
+                echo isset($login_user['alliance']) ? '[' . $login_user['alliance'] . ']' : '';
+                echo $login_user['id'];
+                echo '<br>';
+
+                echo $login_user['typ'];
+                if (!empty($login_user['group']) && $login_user['group'] != $login_user['id']) {
+                    echo 'von ' . $login_user['group'] . '<br>';
+
+                    if (!empty($login_user['ikea'])) {
+                        echo "<div style='color:yellow'>IKEA</div>";
                     } else if (!empty($login_user['peitschen'])) {
-                        echo "<font color='pink'>MdP</font><br>";
-                    } else if (!empty($login_user['ikea']) && !empty($login_user['peitschen'])) {
-                        echo "<font color='#FF00FF'><b>Rausschmeissen!</b></font><br>";
+                        echo "<div style='color:pink'>MdP</div>";
                     }
                     if (!empty($login_user['dauersitten'])) {
                         echo "<span class='dursitting'>" . $login_user['dauersittentext'] . "</span>";
-                        echo " <span class='dursitting_time'>(alle " . ($login_user['dauersitten'] / MINUTE) . " Minuten)</span><br>";
+                        echo "<span class='dursitting_time'>(alle " . ($login_user['dauersitten'] / MINUTE) . " Minuten)</span><br>";
                     }
                 } else {
-                    ?>
-                    <br>
-                <?php }         if (!empty($login_user['dauersitten'])) { ?>
-                    <input type="submit" value="Erledigt" name="done" class="submit">
-                <?php } ?>
+                    echo '<br>';
+                }
+                if (!empty($login_user['dauersitten'])) {
+                    echo "<input type='submit' value='Erledigt' name='done' class='submit'>";
+                }
+                ?>
                 <input type="submit" value="Ausloggen" name="logout" class="submit">
             </form>
             <br>
@@ -417,40 +424,48 @@ switch ($mode) {
                     <td width="100%">
                         <a href="?mode=index&redirect=<?php echo $redirect ?>&login=<?php echo $user['id'];  echo !empty($allianz) ? "&allianz=$allianz" : "" ?>" target="_top"><?php echo $user['id']; ?></a>
                     </td>
-                    <?php        if (isset($user['next_date_text'])) { ?>
-                        <td nowrap>
-                            <?php            if ($user['next_status'] == $status['attack'] && $user['next_date'] <= CURRENT_UNIX_TIME) { ?>
-                            <span class="time_critical">
-<?php            } elseif ($user['next_status'] == $status['attack'] && $user['next_date'] > CURRENT_UNIX_TIME) { ?>
-                                <span class="time_warning">
-<?php            } else { ?>
-                                    <span class="time_normal">
-<?php            }  echo $user['next_date_text'] ?></span>
-                        </td>
-                    <?php } ?>
+                    <?php
+                    if (isset($user['next_date_text'])) {
+                        echo '<td nowrap>';
+                        if ($user['next_status'] == $status['attack'] && $user['next_date'] <= CURRENT_UNIX_TIME) {
+                            echo "<span class='time_critical'>";
+                        } elseif ($user['next_status'] == $status['attack'] && $user['next_date'] > CURRENT_UNIX_TIME) {
+                            echo "<span class='time_warning'>";
+                        } else {
+                            echo "<span class='time_normal'>";
+                        }
+
+                        echo $user['next_date_text'];
+                        echo '</span>';
+                        echo '</td>';
+                    } ?>
                 </tr>
             </table>
-            <?php if ($user['lastsitterloggedin'] || (!empty($user['attack']) AND count($user['attack'] > 0)) || (!empty($user['probe']) AND count($user['probe']) > 0)) { ?>
+            <?php if ($user['lastsitterloggedin'] OR (!empty($user['attack']) AND count($user['attack']) > 0) OR (!empty($user['probe']) AND count($user['probe']) > 0)) { ?>
                 <table>
                     <tr>
                         <td width="100%">
-                            <?php            if (!empty($user['attack']) AND count($user['attack']) > 0) { ?>
-                                <span class="attack">Angriff von <?php echo $user['attack'][0]['from'] ?>
-                                    auf <?php echo $user['attack'][0]['coords'] ?></span><br>
-                            <?php }             if (!empty($user['probe']) AND count($user['probe']) > 0) { ?>
-                                <span class="probe">Sondierung von <?php echo $user['probe'][0]['from'] ?>
-                                    auf <?php echo $user['probe'][0]['coords'] ?></span><br>
-                            <?php }             if ($user['lastsitterloggedin']) { ?>
-                                <span class="loggedin"><?php echo $user['lastsitteruser'] ?> ist eingeloggt</span><br>
-                            <?php }             if ($user['dauersittendue']) { ?>
-                                <span class="dursitting_due"><?php echo $user['dauersittentext'] ?></span><br>
-                            <?php } ?>
+                            <?php
+                            if (!empty($user['attack']) AND count($user['attack']) > 0) {
+                                echo "<div class='attack'>Angriff von " . $user['attack'][0]['from'] . " auf " . $user['attack'][0]['coords'] . "</div>";
+                            }
+                            if (!empty($user['probe']) AND count($user['probe']) > 0) {
+                                echo "<div class='probe'>Sondierung von " . $user['probe'][0]['from'] . " auf " . $user['probe'][0]['coords'] . "</div>";
+                            }
+                            if ($user['lastsitterloggedin']) {
+                                echo "<div class='loggedin'>" . $user['lastsitteruser'] . " ist eingeloggt</div>";
+                            }
+                            if ($user['dauersittendue']) {
+                                echo "<div class='dursitting_due'>" . $user['dauersittentext'] . "</div>";
+                            }
+                            ?>
                         </td>
                         <td>
                         </td>
                     </tr>
                 </table>
-            <?php }
+            <?php
+            }
         }
         ?>
         </body>
@@ -458,8 +473,6 @@ switch ($mode) {
         <?php
         break;
     default:
-        ?>
-            Fehler: Unbekannter Modus '"<?php echo $mode ?>"'.
-        <?php
+        doc_message("Fehler: Unbekannter Modus '" . $mode . "'");
 }
 ?>

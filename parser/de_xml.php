@@ -345,9 +345,8 @@ function save_sbxml($scan_data)
     }
     // Nebel vorhanden
     if (isset($scan_data['nebula'])) {
-        $sql = "INSERT INTO `{$db_tb_sysscans}` SET `nebula`='".$scan_data['nebula']."' WHERE `gal`=".$scan_data['coords_gal'] . " AND `sys`=" . $scan_data['coords_sys']." ON DUPLICATE KEY UPDATE `nebula`='".$scan_data['nebula'] . "';";
-        $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not update nebula information.', '', __FILE__, __LINE__, $sql);
+        //Nebel in sysscanstabelle wird von Systemscans aktualisert
+
         unset($scan_data['nebula']);
     }
     // INSERT

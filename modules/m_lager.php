@@ -608,7 +608,7 @@ if (isset($params['ress']) && $params['rote_lager']) {
         $sql .= ")";
     }
     $sql .= ") * 100) ";
-    $sql .= " / ($db_tb_lager." . $params['ress'] . "_soll ) < 80";
+    $sql .= " / ($db_tb_lager." . $params['ress'] . "_soll ) < 90";
 }
 
 //Galaxie filtern
@@ -1438,9 +1438,9 @@ function make_color($row, $key)
     } else {
         $x = ($ist + $transfer + $stat) * 100 / $soll;
     }
-    if ($x < 80) {
+    if ($x < 90) {
         return 'red';
-    } elseif ($x >= 80 && $x <= 120) {
+    } elseif ($x >= 90 && $x <= 120) {
         return 'lime';
     } else {
         return 'yellow';

@@ -12,20 +12,6 @@
  * @subpackage Bootstrap
  */
 
-//ToDo: checkinstall
-if (version_compare(PHP_VERSION, '5.3', '<')) {
-    echo "Die Serversoftware php in der Version " . PHP_VERSION . " wird leider nicht mehr unterstützt.<br>\n";
-    echo "Benötigt wird mindestens die Version 5.3<br>\n";
-    exit;
-}
-
-//test the bcrypt hashing, should work php >5.3.7 and backported versions
-$hash = '$2y$04$usesomesillystringfore7hnbRJHxXVLeakoG8K30oukPsA.ztMG';
-$test = crypt("password", $hash);
-if ($test !== $hash) {
-    exit ('bcrypt is not working properly!');
-}
-
 //all errors on
 error_reporting(E_ALL | E_STRICT);
 ini_set("display_errors", '1');

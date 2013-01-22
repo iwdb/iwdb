@@ -561,23 +561,26 @@ switch ($sound) {
     </td>
 </tr>
 <?php
+$nchecked = 'checked="checked"';
 $lchecked = '';
 $mchecked = '';
 if ($ikea == 'L') {
+    $nchecked = '';
     $lchecked = 'checked="checked"';
-}
-if ($ikea == 'M') {
+} elseif ($ikea == 'M') {
+    $nchecked = '';
     $mchecked = 'checked="checked"';
 }
 ?>
 <tr>
     <td class="windowbg2">
         Ikea?:<br>
-        <span style="font-style:italic;">Wenn du die Genetikoption hast, bitte Haken setzen.</span>
+        <span style="font-style:italic;">Wenn du die Genetikoption hast, bitte auswählen setzen.</span>
     </td>
     <td class="windowbg1">
-        <input type="checkbox" name="ikea" value="L" <?php echo $lchecked;?>>Lehrling
-        <input type="checkbox" name="ikea" value="M" <?php echo $mchecked;?>>Meister
+        <input type="radio" name="ikea" value="" <?php echo $nchecked;?>>kein Ikea&nbsp;
+        <input type="radio" name="ikea" value="L" <?php echo $lchecked;?>>Lehrling&nbsp;
+        <input type="radio" name="ikea" value="M" <?php echo $mchecked;?>>Meister&nbsp;
     </td>
 </tr>
 <tr>

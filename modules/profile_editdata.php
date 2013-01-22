@@ -575,7 +575,7 @@ if ($ikea == 'L') {
 <tr>
     <td class="windowbg2">
         Ikea?:<br>
-        <span style="font-style:italic;">Wenn du die Genetikoption hast, bitte auswählen setzen.</span>
+        <span style="font-style:italic;">Wenn du die Genetikoption hast, bitte auswählen.</span>
     </td>
     <td class="windowbg1">
         <input type="radio" name="ikea" value="" <?php echo $nchecked;?>>kein Ikea&nbsp;

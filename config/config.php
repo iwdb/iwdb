@@ -101,8 +101,6 @@ define("CONFIG_DATEFORMAT", "%d.%m.%Y");
 // Datumszeitformat
 define("CONFIG_DATETIMEFORMAT", "%d.%m.%Y %H:%M:%S");
 
-// DatumZeitformat
-$config_datetimeformat = "%d.%m.%Y %H:%M:%S";
 // Zeitformat der Memberregistrierung in Icewars
 $config_members_timeformat = "%d.%m.%y";
 // Zeit, wie oft Sitterseiten neu geladen werden sollen in Sekunden

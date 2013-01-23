@@ -177,7 +177,6 @@ echo "</form>\n";
 echo "<br>";
 
 $textinput = getVar('text', true); // ungefilterten Bericht holen
-var_dump($textinput);
 if (!empty($textinput)) {
     $count = 0;
 

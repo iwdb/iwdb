@@ -58,7 +58,7 @@ $config_color['Stargate']      = "#A0BFCD";
 $config_color['SchwarzesLoch'] = "#3F6778";
 $config_color['reserviert']    = "#CCDCE3";
 $config_color['first24h']      = "#00AACC";
-$config_color['last24']        = "#00AACC"; //old
+$config_color['last24']        = "#00AACC"; //veraltet
 $config_color['unscanned']     = "#4B4B00";
 $config_color['scanoutdated']  = "#FF0000";
 

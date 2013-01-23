@@ -152,7 +152,7 @@ while ($row = $db->db_fetch_array($result)) {
     } elseif ($row['objekt'] === "schwarzes Loch") {
         $sys[$row['sys']] = $config_color['SchwarzesLoch'];
     } elseif ((CURRENT_UNIX_TIME - $row['date']) < DAY) {
-        $sys[$row['sys']] = $config_color['last24'];
+        $sys[$row['sys']] = $config_color['first24h'];
     } else {
         $sys[$row['sys']] = getScanAgeColor($row['date']);
     }
@@ -252,7 +252,7 @@ echo "  <td style='width: 4%; background-color: " . $config_color['Stargate'] . 
 echo "  <td style='width: 10%;'>Stargate</td>\n";
 echo "  <td style='width: 4%; background-color: " . $config_color['SchwarzesLoch'] . "'></td>\n";
 echo "  <td style='width: 14%;'>Schwarzes Loch</td>\n";
-echo "  <td style='width: 4%; background-color: " . $config_color['last24'] . "'></td>\n";
+echo "  <td style='width: 4%; background-color: " . $config_color['first24h'] . "'></td>\n";
 echo "  <td style='width: 14%;'>jünger 24 Stunden</td>\n";
 echo "  <td style='width: 4%; background-color: #00FF00'></td>\n";
 echo "  <td style='width: 14%;'>älter 24 Stunden</td>\n";

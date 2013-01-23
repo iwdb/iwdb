@@ -679,8 +679,7 @@ if ($ikea == 'L') {
         <span style="font-style:italic;">Nächster Zeitpunkt des UniXml Scans.</span>
     </td>
     <td class="windowbg1">
-        <input type='text' name='NewUniXmlTime'
-               value='<?php echo ($NewUniXmlTime ? date("d.m.Y H:i", $NewUniXmlTime) : ''); ?>' style='width: 15em;'>
+        <input type='text' name='NewUniXmlTime' value='<?php echo ($NewUniXmlTime ? strftime(CONFIG_DATETIMEFORMAT, $NewUniXmlTime) : ''); ?>' style='width: 15em;'>
     </td>
 </tr>
 <tr>

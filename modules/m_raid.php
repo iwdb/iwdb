@@ -239,7 +239,7 @@ debug_var("Parameter", $params);
 $universum       = getVar('universum');
 $flotteversenden = getVar('flotteversenden');
 if (!empty($universum) || !empty($flotteversenden)) {
-    $name = 'Automatische Zielliste vom ' . date("j.n.Y H:i:s", CURRENT_UNIX_TIME);
+    $name = 'Automatische Zielliste vom ' . strftime(CONFIG_DATETIMEFORMAT, CURRENT_UNIX_TIME);
 
     $sql = "DELETE FROM " . $db_tb_target . " WHERE user='" . $user_sitterlogin . "' AND name LIKE 'Automatische Zielliste%'";
     debug_var("sql", $sql);
@@ -962,7 +962,7 @@ if (empty($params['view'])) {
         }
         // Reservierter Raid
         if ($row['reserveraid'] > CURRENT_UNIX_TIME) {
-            $comment .= "<div style='color: #808080'>Reserviert von " . $row['reserveraiduser'] . " bis " . date("j.n.Y H:i:s", $row['reserveraid']) . "</div>";
+            $comment .= "<div style='color: #808080'>Reserviert von " . $row['reserveraiduser'] . " bis " . strftime(CONFIG_DATETIMEFORMAT, $row['reserveraid']) . "</div>";
             $text_color = "color: #808080;";
         } else {
             $text_color = "";
@@ -982,10 +982,10 @@ if (empty($params['view'])) {
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
             while ($row_angriff = $db->db_fetch_array($result_angriff)) {
                 if ($row_angriff['art'] == 'Angriff') {
-                    $comment .= "<div style='color: red'>Angriff von " . $row_angriff['user_from'] . " bis " . date("j.n.Y H:i:s", $row_angriff['time']) . "</div>";
+                    $comment .= "<div style='color: red'>Angriff von " . $row_angriff['user_from'] . " bis " . strftime(CONFIG_DATETIMEFORMAT, $row_angriff['time']) . "</div>";
                     $text_color = "color: red;";
                 } else {
-                    $comment .= "<div style='color: #CC6600'>Sondierung von " . $row_angriff['user_from'] . " bis " . date("j.n.Y H:i:s", $row_angriff['time']) . " mit " . $row_angriff['schiffe'] . "</div>";
+                    $comment .= "<div style='color: #CC6600'>Sondierung von " . $row_angriff['user_from'] . " bis " . strftime(CONFIG_DATETIMEFORMAT, $row_angriff['time']) . " mit " . $row_angriff['schiffe'] . "</div>";
                     if (empty($text_color) || $text_color = "color: #808080;") {
                         $text_color = "color: #CC6600";
                     }

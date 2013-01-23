@@ -68,7 +68,7 @@ function updateIncoming($user, $amount, $ally)
 {
     global $db, $db_tb_kasse_incoming;
     $sum_old = 0.0;
-    $sql     = "SELECT sum(amount) FROM $db_tb_kasse_incoming WHERE user like '" . $user . "' AND allianz like '" . $ally . "' AND time_of_insert != CURRENT_DATE()";
+    $sql     = "SELECT sum(amount) FROM $db_tb_kasse_incoming WHERE user like '" . $user . "' AND allianz like '" . $ally . "' AND time_of_insert != ".CURRENT_UNIX_TIME;
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not get member cash incomming!', '', __FILE__, __LINE__, $sql);
     while ($row = $db->db_fetch_array($result)) {

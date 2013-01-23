@@ -57,11 +57,10 @@ while ($row = $db->db_fetch_array($result)) {
     $nopassword    = (empty($row['password'])) ? " kein Passwort gesetzt" : "";
     $logindate     = $row['logindate'];
     $lastlogindate = (empty($logindate)) ? "noch nie"
-        : strftime($config_timeformat, $logindate);
+        : strftime(CONFIG_DATETIMEFORMAT, $logindate);
     $lastloggedon  = (empty($logindate))
         ? ""
-        : floor((CURRENT_UNIX_TIME - $logindate) / DAY) .
-            " Tage her";
+        : floor((CURRENT_UNIX_TIME - $logindate) / DAY) . " Tage her";
 
     start_row("windowbg1");
     echo "<a href='index.php?action=profile&sitterlogin=" .

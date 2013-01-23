@@ -178,7 +178,7 @@ if (!empty($action) AND (($action == "memberlogin2") OR ($action == "memberlogou
 <body>
 <font face=verdana,arial size=2><b>Login Error at ' . APPLICATION_PATH_ABSOLUTE . '</b><br><br>
 Username: ' . $login_id . '<br>
-Date: ' . date("d.m.Y H:i") . '<br>
+Date: ' . strftime(CONFIG_DATETIMEFORMAT, CURRENT_UNIX_TIME) . '<br>
 IPs:<br>' . $ips . $client_ip . '</font>
 </table>
 </body>

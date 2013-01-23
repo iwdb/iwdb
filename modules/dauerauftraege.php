@@ -173,7 +173,7 @@ if (!empty($anz)) {
                     <br><a href="javascript:Collapse('d<?php echo $key;?>');"><img src="bilder/plus.gif" alt="" id="collapse_d<?php echo $key;?>"></a>
                 </td>
                 <td class='windowbg<?php echo $num;?>' valign='top'>
-                    <?php echo (empty($users_lastlogin_user[$key])) ? "" : strftime($config_sitter_timeformat, $users_lastlogin[$key]) . " - " . $users_lastlogin_user[$key];?>
+                    <?php echo (empty($users_lastlogin_user[$key])) ? "" : strftime(CONFIG_DATETIMEFORMAT, $users_lastlogin[$key]) . " - " . $users_lastlogin_user[$key];?>
                 </td>
             </tr>
             <tr id='row_d<?php echo $key;?>' style='display: none;'>

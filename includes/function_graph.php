@@ -32,8 +32,6 @@ function build_graph($users, $table, $user_col, $date_col, $value_col, $fitthis)
 	$config_borderright = 150;
 	$config_bordertop = 20;
 	$config_borderbottom = 35;
-	$config_timeformat = "%d.%m.%Y";
-
 
 	$where = "";
 	if ( ( ! empty($fitthis) ) && ( count($users) > 0 ) )
@@ -87,9 +85,9 @@ function build_graph($users, $table, $user_col, $date_col, $value_col, $fitthis)
 		// Pfeilspitze
 	ImageFilledPolygon( $graph, array($config_xsize - $config_borderright, $config_ysize - $config_borderbottom + 1, $config_xsize - $config_borderright - 5, $config_ysize - $config_borderbottom - 2, $config_xsize - $config_borderright - 5, $config_ysize - $config_borderbottom + 4), 3, $text_color);
 		// Beschriftung
-	$zeit = strftime($config_timeformat, $date_min); ImageString( $graph, 2, $config_borderleft , $config_ysize - $config_borderbottom + 6, $zeit, $text_color );
-	$zeit = strftime($config_timeformat, $date_max); ImageString( $graph, 2, $config_xsize - $config_borderright - strlen($zeit) * $font_width - 5, $config_ysize - $config_borderbottom + 6, $zeit, $text_color );
-	$zeit = strftime($config_timeformat, ($date_max - $date_min) / 2 + $date_min); ImageString( $graph, 2, ($config_xsize + $config_borderleft - $config_borderright - strlen($zeit) * $font_width) / 2, $config_ysize - $config_borderbottom + 6, $zeit, $text_color );
+	$zeit = strftime(CONFIG_DATEFORMAT, $date_min); ImageString( $graph, 2, $config_borderleft , $config_ysize - $config_borderbottom + 6, $zeit, $text_color );
+	$zeit = strftime(CONFIG_DATEFORMAT, $date_max); ImageString( $graph, 2, $config_xsize - $config_borderright - strlen($zeit) * $font_width - 5, $config_ysize - $config_borderbottom + 6, $zeit, $text_color );
+	$zeit = strftime(CONFIG_DATEFORMAT, ($date_max - $date_min) / 2 + $date_min); ImageString( $graph, 2, ($config_xsize + $config_borderleft - $config_borderright - strlen($zeit) * $font_width) / 2, $config_ysize - $config_borderbottom + 6, $zeit, $text_color );
 	ImageLine( $graph, ($config_xsize + $config_borderleft - $config_borderright) / 2, $config_ysize - $config_borderbottom + 1, ($config_xsize + $config_borderleft - $config_borderright) / 2, $config_ysize - $config_borderbottom - 4, $text_color );
 
 

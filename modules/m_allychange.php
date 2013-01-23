@@ -171,7 +171,7 @@ $playerupdatetime = $playerdata['updated'];
 if (empty($playerdata)) {
     exit('<div class="textsmall">keine Daten vorhanden</div>');
 }
-echo '<div class="textsmall">Daten von ' . date("d.m.Y H:i", $playerupdatetime) . '</div><br>';
+echo '<div class="textsmall">Daten von ' . strftime(CONFIG_DATETIMEFORMAT, $playerupdatetime) . '</div><br>';
 ?>
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 80%;">
     <tr>
@@ -200,7 +200,7 @@ echo '<div class="textsmall">Daten von ' . date("d.m.Y H:i", $playerupdatetime) 
         echo "<a href='index.php?action=m_allystats&allianz=" . $row['toally'] . "'>" . $row['toally'] . "</a>";
         echo "</td>\n";
         echo "<td class='windowbg1' style='text-align: center;'>";
-        echo date('d.m.Y H:i', $row['time']);
+        echo strftime(CONFIG_DATETIMEFORMAT, $row['time']);
         echo "</td>\n";
         echo "</tr>\n";
     }

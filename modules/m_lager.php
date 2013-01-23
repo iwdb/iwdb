@@ -287,7 +287,7 @@ if (empty($params['filter_who'])) {
 $universum       = getVar('universum');
 $flotteversenden = getVar('flotteversenden');
 if (!empty($universum) || !empty($flotteversenden)) {
-    $name = 'Automatische Zielliste vom ' . date("j.n.Y H:i:s", CURRENT_UNIX_TIME);
+    $name = 'Automatische Zielliste vom ' . strftime(CONFIG_DATETIMEFORMAT, CURRENT_UNIX_TIME);
 
     $sql = "DELETE FROM " . $db_tb_target . " WHERE user='" . $user_sitterlogin . "' AND name LIKE 'Automatische Zielliste%'";
     debug_var("sql", $sql);

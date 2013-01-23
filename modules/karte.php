@@ -151,7 +151,7 @@ while ($row = $db->db_fetch_array($result)) {
         $sys[$row['sys']] = $config_color['Stargate'];
     } elseif ($row['objekt'] === "schwarzes Loch") {
         $sys[$row['sys']] = $config_color['SchwarzesLoch'];
-    } elseif ((CURRENT_UNIX_TIME - $row['date']) < 24 * 60 * 60) {
+    } elseif ((CURRENT_UNIX_TIME - $row['date']) < DAY) {
         $sys[$row['sys']] = $config_color['last24'];
     } else {
         $sys[$row['sys']] = getScanAgeColor($row['date']);

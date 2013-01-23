@@ -203,7 +203,7 @@ $params = array(
 debug_var("params", $params);
 
 // Timestamp
-$heute = getdate();
+$heute = getdate(CURRENT_UNIX_TIME);
 
 // Daten löschen
 if (isset($params['delete']) && $params['delete'] != '') {

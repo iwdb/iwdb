@@ -207,7 +207,6 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 global $db, $db_tb_raidview;
 
 doc_title("Plünderungen");
-echo "<br>\n";
 
 $hauser = "dsjktvafkwefj vofjeriofjegiodfsghsd";
 if (isset($_GET['user'])) {
@@ -367,7 +366,7 @@ while ($row = $db->db_fetch_array($result2)) {
         $ordered = 'asc';
     }
 
-    global $db, $db_tb_ressuebersicht, $config_sitter_timeformat;
+    global $db, $db_tb_ressuebersicht;
 
 //Tabelle mit Inhalten aus der Datenbank füttern
     next_row("windowbg1", "colspan='3'");
@@ -480,7 +479,7 @@ while ($row = $db->db_fetch_array($result2)) {
                     next_row("windowbg1", "style='width:1%' align='left'");
                     echo "<a title='Link zum externen Kampfbericht' href='" . $row['link'] . "'><img src='bilder/point.gif'/></a>";
                     next_cell("windowbg1", "style='width:12%' align='left'");
-                    echo Date("H:i d.m.y", $row['date']);
+                    echo strftime(CONFIG_DATETIMEFORMAT, $row['date']);
                     next_cell("windowbg1", "style='width:10%' align='center'");
                     echo "<a href='index.php?action=showgalaxy&user=" . $guser . "&sid=" . $sid . "'>" . $row['geraided'] . "</a>";
                     next_cell("windowbg1", "style='width:9%' align='right'");
@@ -506,7 +505,7 @@ while ($row = $db->db_fetch_array($result2)) {
                     next_row("windowbg1", "style='width:1%' align='left'");
                     echo "<a title='Link zum externen Kampfbericht' href='" . $row['link'] . "'><img src='bilder/point.gif'/></a>";
                     next_cell("windowbg1", "style='width:12%' align='left'");
-                    echo Date("H:i d.m.y", $row['date']);
+                    echo strftime(CONFIG_DATETIMEFORMAT, $row['date']);
                     next_cell("windowbg1", "style='width:10%' align='center'");
                     echo "<a href='index.php?action=showgalaxy&user=" . $guser . "&sid=" . $sid . "'>" . $row['geraided'] . "</a>";
                     next_cell("windowbg1", "style='width:9%' align='right'");

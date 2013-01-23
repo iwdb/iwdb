@@ -326,7 +326,7 @@ if (empty($ordered)) {
     $ordered = 'asc';
 }
 
-global $db, $db_tb_ressuebersicht, $config_sitter_timeformat;
+global $db, $db_tb_ressuebersicht;
 
 // Anzeigen der Daten im Browser
 $sql = "SELECT `datum` , `user` , `eisen` , `stahl` , `vv4a` , `chem` , `eis` ," .
@@ -440,7 +440,7 @@ end_table();
 // Erweiterung für Zusatz-Tabellen; sortiert nach Usern, die einem Fleeter zugeordnet sind
 // 
 
-global $db, $db_tb_ressuebersicht, $db_tb_user, $config_sitter_timeformat;
+global $db, $db_tb_ressuebersicht, $db_tb_user;
 
 $sql2 = "SELECT
             us.id, us.sitterlogin, us.budflesol

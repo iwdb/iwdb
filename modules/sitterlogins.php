@@ -246,7 +246,7 @@ doc_title('Sitterlogins');
 
                 </td>
                 <td class="windowbg<?php echo $num;?>" valign="top" style="white-space:nowrap;">
-                    <?php echo (empty($users_lastlogin_user[$key])) ? "" : strftime($config_sitter_timeformat, $users_lastlogin[$key]) . "<br> von: " . $users_lastlogin_user[$key];?>
+                    <?php echo (empty($users_lastlogin_user[$key])) ? "" : strftime(CONFIG_DATETIMEFORMAT, $users_lastlogin[$key]) . "<br> von: " . $users_lastlogin_user[$key];?>
                 </td>
             </tr>
         <?php

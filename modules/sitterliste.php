@@ -152,7 +152,7 @@ if (!empty($edit)) {
 
         //Schieben auf alle Zeiten anwenden
         if ($plus_stunden > 0 || $plus_minuten > 0) {
-            $schiebe_zeit = $plus_stunden * 60 * 60 + $plus_minuten * 60;
+            $schiebe_zeit = $plus_stunden * HOUR + $plus_minuten * MINUTE;
             $date         = CURRENT_UNIX_TIME + $schiebe_zeit;
             $date_b1      = CURRENT_UNIX_TIME + $schiebe_zeit;
             $date_b2      = CURRENT_UNIX_TIME + $schiebe_zeit;
@@ -214,7 +214,7 @@ if (!empty($edit)) {
         $verschoben_text = "";
     }
     if ($del != "1") {
-        $logtext = $db->escape("Zeit geändert auf " . strftime($config_sitter_timeformat, $date) . $verschoben_text . "<br>" . $row_planet['planetenname'] . " [" . $row['planet'] . "]<br>" . auftrag($row['typ'], $row['bauschleife'], $row['bauid'], $row['auftrag'], $row['schiffanz'], $row_planet['dgmod'], $row['user'], $bauschleifenmod));
+        $logtext = $db->escape("Zeit geändert auf " . strftime(CONFIG_DATETIMEFORMAT, $date) . $verschoben_text . "<br>" . $row_planet['planetenname'] . " [" . $row['planet'] . "]<br>" . auftrag($row['typ'], $row['bauschleife'], $row['bauid'], $row['auftrag'], $row['schiffanz'], $row_planet['dgmod'], $row['user'], $bauschleifenmod));
     }
 
     $sql = "INSERT INTO " . $db_tb_sitterlog . " (sitterlogin, fromuser, date, action) VALUES ('" . $row['user'] . "', '" . $user_sitterlogin . "', '" . CURRENT_UNIX_TIME . "', '" . $logtext . "')";
@@ -675,7 +675,7 @@ if (isset($row_lastlogin)) {
         ?>
     </td>
     <td class="windowbg<?php echo $num;?>">
-        <?php echo (empty($row['date_b2']) || empty($row['bauschleife']) || $row['date_b2'] == $row['date_b1']) ? "" : strftime($config_sitter_timeformat, $row['date_b2']) . "<br>"; echo (empty($row['date_b1']) || empty($row['bauschleife']) || $row['date_b1'] == $row['date']) ? "" : strftime($config_sitter_timeformat, $row['date_b1']) . "<br>"; echo strftime($config_sitter_timeformat, $row['date']);?>
+        <?php echo (empty($row['date_b2']) || empty($row['bauschleife']) || $row['date_b2'] == $row['date_b1']) ? "" : strftime(CONFIG_DATETIMEFORMAT, $row['date_b2']) . "<br>"; echo (empty($row['date_b1']) || empty($row['bauschleife']) || $row['date_b1'] == $row['date']) ? "" : strftime(CONFIG_DATETIMEFORMAT, $row['date_b1']) . "<br>"; echo strftime(CONFIG_DATETIMEFORMAT, $row['date']);?>
     </td>
     <td class="windowbg<?php echo $num;?>">
         <?php echo $row_planet['planetenname'];?> [<?php echo $row['planet'];?>]
@@ -711,7 +711,7 @@ if (isset($row_lastlogin)) {
 
     </td>
     <td class="windowbg<?php echo $num;?>">
-        <?php echo (empty($users_lastlogin_user)) ? "" : strftime($config_sitter_timeformat, $users_lastlogin) . " - " . $users_lastlogin_user;?>
+        <?php echo (empty($users_lastlogin_user)) ? "" : strftime(CONFIG_DATETIMEFORMAT, $users_lastlogin) . " - " . $users_lastlogin_user;?>
     </td>
 </tr>
 <tr id="row_<?php echo $row['id'];?>" style="display: none;">
@@ -752,7 +752,7 @@ if (isset($row_lastlogin)) {
                         </td>
                         <td class="windowbg1">
                             <input type="text" name="date_b2" id="date_b2_<?php echo $row['id'];?>"
-                                   value="<?php echo strftime($config_sitter_timeformat, $row['date_b2']);?>"
+                                   value="<?php echo strftime(CONFIG_DATETIMEFORMAT, $row['date_b2']);?>"
                                    style="width: 200;">
                         </td>
                     </tr>
@@ -767,7 +767,7 @@ if (isset($row_lastlogin)) {
                         </td>
                         <td class="windowbg1">
                             <input type="text" name="date_b1" id="date_b1_<?php echo $row['id'];?>"
-                                   value="<?php echo strftime($config_sitter_timeformat, $row['date_b1']);?>"
+                                   value="<?php echo strftime(CONFIG_DATETIMEFORMAT, $row['date_b1']);?>"
                                    style="width: 120;">
                             <input type="button" name="kopieren" value="kopieren"
                                    onclick="kopiere_zeit('<?php echo $row['id'];?>');">
@@ -783,7 +783,7 @@ if (isset($row_lastlogin)) {
                     </td>
                     <td class="windowbg1">
                         <input type="text" name="date" id="date_<?php echo $row['id'];?>"
-                               value="<?php echo strftime($config_sitter_timeformat, $row['date']);?>"
+                               value="<?php echo strftime(CONFIG_DATETIMEFORMAT, $row['date']);?>"
                                style="width: 200;">
                     </td>
                 </tr>
@@ -931,7 +931,7 @@ if (isset($row_lastlogin)) {
                 ?>
             </td>
             <td class="windowbg1">
-                <?php echo (empty($row['date_b2']) || empty($row['bauschleife']) || $row['date_b2'] == $row['date_b1']) ? "" : strftime($config_sitter_timeformat, $row['date_b2']) . "<br>"; echo (empty($row['date_b1']) || empty($row['bauschleife']) || $row['date_b1'] == $row['date']) ? "" : strftime($config_sitter_timeformat, $row['date_b1']) . "<br>"; echo strftime($config_sitter_timeformat, $row['date']);?>
+                <?php echo (empty($row['date_b2']) || empty($row['bauschleife']) || $row['date_b2'] == $row['date_b1']) ? "" : strftime(CONFIG_DATETIMEFORMAT, $row['date_b2']) . "<br>"; echo (empty($row['date_b1']) || empty($row['bauschleife']) || $row['date_b1'] == $row['date']) ? "" : strftime(CONFIG_DATETIMEFORMAT, $row['date_b1']) . "<br>"; echo strftime(CONFIG_DATETIMEFORMAT, $row['date']);?>
             </td>
             <td class="windowbg1">
                 <?php echo $row_planet['planetenname'];?> [<?php echo $row['planet'];?>]

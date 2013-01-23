@@ -30,7 +30,7 @@
 /* Bei Problemen kannst du dich an das eigens dafuer eingerichtete           */
 /* Entwicklerforum wenden:                                                   */
 /*                                                                           */
-/*        httpd://handels-gilde.org/?www/forum/index.php;board=1099.0        */
+/*        https://handels-gilde.org/?www/forum/index.php;board=1099.0        */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -90,7 +90,19 @@ $config_wronglogin_timeout = 6 * HOUR;
 $config_wronglogins = 5;
 
 // Zeitformat
-$config_timeformat = "%d.%m.%Y %H:%M";
+$config_timeformat = "%d.%m.%Y %H:%M";  //veraltet
+// Zeitformat im Sittertool
+$config_sitter_timeformat = "%d.%m.%y %H:%M"; //veraltet
+
+// Zeitformat
+define("CONFIG_TIMEFORMAT", "%H:%M");
+// Datumsformat
+define("CONFIG_DATEFORMAT", "%d.%m.%Y");
+// Datumszeitformat
+define("CONFIG_DATETIMEFORMAT", "%d.%m.%Y %H:%M:%S");
+
+// DatumZeitformat
+$config_datetimeformat = "%d.%m.%Y %H:%M:%S";
 // Zeitformat der Memberregistrierung in Icewars
 $config_members_timeformat = "%d.%m.%y";
 // Zeit, wie oft Sitterseiten neu geladen werden sollen in Sekunden
@@ -127,6 +139,3 @@ $config_sitterauftrag_timeout = 2 * DAY;
 
 // Zeit in Sekunden, bei Daueraufträgen, wie lange ein Auftrag nach Login als "erledigt" markiert werden soll
 $config_dauer_timeout = 3 * HOUR;
-
-// Zeitformat im Sittertool
-$config_sitter_timeformat = "%d.%m.%y %H:%M";

@@ -502,7 +502,7 @@ echo (empty($alert)) ? "" : $alert;
                 ?>
             </td>
             <td class="windowbg<?php echo $num;?>">
-                <?php echo (empty($row['date_b2']) || empty($row['bauschleife']) || $row['date_b2'] == $row['date_b1']) ? "" : strftime($config_sitter_timeformat, $row['date_b2']) . "<br>"; echo (empty($row['date_b1']) || empty($row['bauschleife']) || $row['date_b1'] == $row['date']) ? "" : strftime($config_sitter_timeformat, $row['date_b1']) . "<br>"; echo strftime($config_sitter_timeformat, $row['date']);?>
+                <?php echo (empty($row['date_b2']) || empty($row['bauschleife']) || $row['date_b2'] == $row['date_b1']) ? "" : strftime(CONFIG_DATETIMEFORMAT, $row['date_b2']) . "<br>"; echo (empty($row['date_b1']) || empty($row['bauschleife']) || $row['date_b1'] == $row['date']) ? "" : strftime(CONFIG_DATETIMEFORMAT, $row['date_b1']) . "<br>"; echo strftime(CONFIG_DATETIMEFORMAT, $row['date']);?>
             </td>
             <td class="windowbg<?php echo $num;?>">
                 <?php echo $row['typ'];?>
@@ -554,9 +554,9 @@ if (!empty($umenu)) {
         $row = $db->db_fetch_array($result);
 
         $planet      = $row['planet'];
-        $date        = strftime($config_sitter_timeformat, $row['date']);
-        $date_b1     = strftime($config_sitter_timeformat, $row['date_b1']);
-        $date_b2     = strftime($config_sitter_timeformat, $row['date_b2']);
+        $date        = strftime(CONFIG_DATETIMEFORMAT, $row['date']);
+        $date_b1     = strftime(CONFIG_DATETIMEFORMAT, $row['date_b1']);
+        $date_b2     = strftime(CONFIG_DATETIMEFORMAT, $row['date_b2']);
         $auftrag     = $row['auftrag'];
         $schiff      = $row['bauid'];
         $schiffanz   = $row['schiffanz'];
@@ -608,9 +608,9 @@ if (!empty($umenu)) {
             $date_b1 = $date;
             $date    = $date + $row_geb['dauer'] * $planetmod * $user_gengebmod * $modmaurer;
 
-            $date    = strftime($config_sitter_timeformat, $date);
-            $date_b1 = strftime($config_sitter_timeformat, $date_b1);
-            $date_b2 = strftime($config_sitter_timeformat, $date_b2);
+            $date    = strftime(CONFIG_DATETIMEFORMAT, $date);
+            $date_b1 = strftime(CONFIG_DATETIMEFORMAT, $date_b1);
+            $date_b2 = strftime(CONFIG_DATETIMEFORMAT, $date_b2);
         }
     }
     ?>

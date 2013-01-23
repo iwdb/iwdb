@@ -53,7 +53,7 @@ if (!empty($coords)) {
                     Datum:
                 </td>
                 <td class="windowbg1">
-                    <?php echo strftime($config_timeformat, $row['date']);?>
+                    <?php echo strftime(CONFIG_DATETIMEFORMAT, $row['date']);?>
                 </td>
             </tr>
             <tr>

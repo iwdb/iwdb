@@ -240,7 +240,7 @@ if (getVar('today') && getVar('toyear') && getVar('tomonth')) {
     $toyear  = sprintf('%02d', getVar('toyear'));
     $todate  = $toyear . "-" . $tomonth . "-" . $today;
 } else {
-    $heute   = getdate();
+    $heute   = getdate(CURRENT_UNIX_TIME);
     $today   = sprintf('%02d', $heute['mday']);
     $tomonth = sprintf('%02d', $heute['mon']);
     $toyear  = $heute['year'];

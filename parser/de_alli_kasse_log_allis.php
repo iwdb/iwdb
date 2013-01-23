@@ -61,7 +61,7 @@ function parse_de_alli_kasse_log_allis($return)
 		(!isset($out) || empty($out)) ? $out = "<p><u>Auszahlungen der letzten drei Wochen:</u><p>" : $out = ' ';
         echo $out;
 
-        echo "{" . date("d.m.Y H:i", $log->iDateTime)
+        echo "{" . strftime(CONFIG_DATETIMEFORMAT, $log->iDateTime)
                 . "} Allizahlung [$allianz] von " . $log->strFromUser . " an " . $log->strAlliTag
                 . " mit " . $log->iCredits . " Credits erkannt." . "<br />\n"; */
     }

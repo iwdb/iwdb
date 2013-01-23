@@ -305,15 +305,13 @@ if (empty($selbuddler)) {
 //
 function make_link_transferday($styleclass, $order, $ordered, $buddler, $transferday)
 {
-    global $config_sitter_dateformat;
-
     # Links 1 Tag vor & zurück
     echo "<table border='0' width='100%'>\n";
     echo "<tr>\n";
     $zeitmarke = $transferday - DAY;
     echo "  <td align='left' class='" . $styleclass . "'><b>\n";
     make_link(
-        "&lt;&lt; " . strftime($config_sitter_dateformat, $zeitmarke),
+        "&lt;&lt; " . strftime(CONFIG_DATEFORMAT, $zeitmarke),
         array(
              "selbuddler=" . $buddler,
              "seltransferday=" . $zeitmarke,
@@ -325,7 +323,7 @@ function make_link_transferday($styleclass, $order, $ordered, $buddler, $transfe
     echo "  <td align='right' class='" . $styleclass . "'><b>\n";
     $zeitmarke = $transferday + DAY;
     make_link(
-        strftime($config_sitter_dateformat, $zeitmarke) . " &gt;&gt;",
+        strftime(CONFIG_DATEFORMAT, $zeitmarke) . " &gt;&gt;",
         array(
              "selbuddler=" . $buddler,
              "seltransferday=" . $zeitmarke,
@@ -389,7 +387,6 @@ function build_graph_transfer($users, $fitthis, $date_min, $date_max, $typ)
            $fakt_volk,
            $default_buddler_order,
            $default_buddler_ordered,
-           $config_sitter_dateformat,
            $graph_xsize,
            $graph_ysize,
            $config_borderleft,
@@ -397,7 +394,6 @@ function build_graph_transfer($users, $fitthis, $date_min, $date_max, $typ)
            $config_bordertop,
            $config_borderbottom,
            $config_borderright_legende,
-           $config_sitter_dateformat,
            $db_tb_transferliste;
 
 
@@ -465,7 +461,7 @@ function build_graph_transfer($users, $fitthis, $date_min, $date_max, $typ)
 
     $graph = @imagecreatetruecolor($graph_xsize, $graph_ysize);
     if ($graph === false) {
-        error(GENERAL_ERROR, 'Could not create new GD image.', '', __FILE__, __LINE__, $sql);
+        error(GENERAL_ERROR, 'Could not create new GD image.', '', __FILE__, __LINE__);
     }
 
     $font_width  = ImageFontWidth(2);
@@ -533,7 +529,7 @@ function build_graph_transfer($users, $fitthis, $date_min, $date_max, $typ)
         }
 
         // Beschriftung - Linie
-        $zeit = strftime($config_sitter_dateformat, $date);
+        $zeit = strftime(CONFIG_DATETIMEFORMAT, $date);
         if ($i % $div == 0) {
             ImageString(
                 $graph,
@@ -546,7 +542,7 @@ function build_graph_transfer($users, $fitthis, $date_min, $date_max, $typ)
         }
 
         $i++;
-        $date += 24 * 3600;
+        $date += DAY;
     }
 
     // y-line
@@ -778,10 +774,6 @@ function showbuddlertransfers($buddler, $transferday)
            $fakt_volk,
            $default_buddler_order,
            $default_buddler_ordered,
-           $config_sitter_timeformat,
-           $config_sitter_dateformat,
-           $show_buddler_graph,
-           $buddler_graph_typ,
            $db_tb_transferliste;
 
     if (empty($order)) {
@@ -898,7 +890,7 @@ function showbuddlertransfers($buddler, $transferday)
         $punkte += $row['punkte'];
 
         next_row("windowbg1", "style='width:12%' align='left'");
-        echo strftime($config_sitter_timeformat, $row['zeitmarke']);
+        echo strftime(CONFIG_DATETIMEFORMAT, $row['zeitmarke']);
         echo '<br>' . $row['fleeter'];
         next_cell("windowbg1", "style='width:10%' align='right'");
         echo number_format($row['eisen'], 0, ',', '.');
@@ -965,7 +957,6 @@ function showbuddler($buddler)
            $fakt_volk,
            $default_buddler_order,
            $default_buddler_ordered,
-           $config_sitter_dateformat,
            $show_buddler_graph,
            $buddler_graph_typ,
            $db_tb_transferliste;
@@ -1092,7 +1083,7 @@ function showbuddler($buddler)
 
         next_row("windowbg1", "style='width:12%' align='left'");
         make_link(
-            strftime($config_sitter_dateformat, $row['zeitmarke']),
+            strftime(CONFIG_DATEFORMAT, $row['zeitmarke']),
             array(
                  "selbuddler=" . $buddler,
                  "seltransferday=" . $row['zeitmarke']

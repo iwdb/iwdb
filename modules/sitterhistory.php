@@ -95,7 +95,7 @@ end_form();
                 ?>
             </td>
             <td class="windowbg1">
-                <?php echo strftime($config_sitter_timeformat, $row['date']);?>
+                <?php echo strftime(CONFIG_DATETIMEFORMAT, $row['date']);?>
             </td>
             <td class="windowbg1">
                 <?php echo convert_bbcode($row['action']);?>
@@ -143,7 +143,7 @@ end_form();
                 ?>
             </td>
             <td class="windowbg1">
-                <?php echo strftime($config_sitter_timeformat, $row['date']);?>
+                <?php echo strftime(CONFIG_DATETIMEFORMAT, $row['date']);?>
             </td>
             <td class="windowbg1">
                 <?php echo convert_bbcode($row['action']);?>

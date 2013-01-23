@@ -117,7 +117,7 @@ while ($row = $db->db_fetch_array($result)) {
     }
 
     if ($user['next_date'] > 0) {
-        $user['next_date_text'] = strftime($config_sitter_timeformat, $user['next_date']);
+        $user['next_date_text'] = strftime(CONFIG_DATETIMEFORMAT, $user['next_date']);
     }
 
     $users[$row['id']]                                             = $user;
@@ -414,7 +414,7 @@ switch ($mode) {
                     <span class="time">Uhrzeit</span>
                 </td>
                 <td nowrap>
-                    <span class="time"><?php echo strftime($config_sitter_timeformat, CURRENT_UNIX_TIME); ?></span>
+                    <span class="time"><?php echo strftime(CONFIG_DATETIMEFORMAT, CURRENT_UNIX_TIME); ?></span>
                 </td>
             </tr>
         </table>

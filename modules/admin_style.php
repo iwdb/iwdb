@@ -57,7 +57,7 @@ if (!empty($submit) AND !empty($daction) AND ($daction == 'send')) {
     $newlines[4]  = '/* deswegen dort nichts ändern! */';
     $newlines[5]  = '';
     $newlines[6]  = '/* Diese Teil wurde automatsich erstellt */';
-    $newlines[7]  = '/* Zeitcode: ' . date("l dS of F Y h:i:s A") . ' */';
+    $newlines[7]  = '/* Zeitcode: ' . strftime(CONFIG_DATETIMEFORMAT, CURRENT_UNIX_TIME) . ' */';
     $newlines[12] = '';
     foreach ($newlines as $newline) {
         fwrite($fp, $newline . "\r\n");

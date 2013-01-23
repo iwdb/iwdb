@@ -35,7 +35,7 @@ function error($err_code, $err_msg = '', $err_title = '', $err_file = '', $err_l
 	$error_return = "";
 
 	// timestamp for the error entry
-	$err_dt = date("Y-m-d H:i:s (T)");
+	$err_dt = strftime(CONFIG_DATETIMEFORMAT, CURRENT_UNIX_TIME);
 
 	switch ( $err_code )
 	{
@@ -358,10 +358,10 @@ function getServerVar($varname, $default) {
 //
 // Function for fetching a get/post variable.
 //
-function getVar($varname, $noentities = false) {
+function getVar($varname, $keephtmlspecialchars = false) {
 	global $_GET, $_POST;
 	if( isset($_POST[$varname])) {
-		if(!$noentities) {
+		if($keephtmlspecialchars === false) {
 			if (is_array($_POST[$varname])) {
 				$returnary = array();
 				foreach($_POST[$varname] as $key => $value) $returnary[$key] = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
@@ -374,7 +374,7 @@ function getVar($varname, $noentities = false) {
 		}
 	}
 	if( isset($_GET[$varname])) {
-		if(!$noentities) {
+		if($keephtmlspecialchars === false) {
 			if (is_array($_GET[$varname])) {
 				$returnary = array();
 				foreach($_GET[$varname] as $key => $value) $returnary[$key] = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');

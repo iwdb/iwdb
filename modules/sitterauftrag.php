@@ -1044,27 +1044,6 @@ function fill_selection($selected_id)
 // ****************************************************************************
 //
 //
-function find_research_id($researchname)
-{
-    global $db, $db_tb_research;
-
-    // Find first research identifier
-    $sql = "SELECT ID FROM " . $db_tb_research . " WHERE name='" . $researchname . "'";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-    $row = $db->db_fetch_array($result);
-
-    // Not found, return base
-    if (empty($row)) {
-        return 1;
-    }
-
-    return $row['ID'];
-}
-
-// ****************************************************************************
-//
-//
 function find_research_name($researchid)
 {
     global $db, $db_tb_research;

@@ -39,13 +39,13 @@ if (!defined('DEBUG_LEVEL')) {
 
 function parse_de_index($return)
 {
-    global $db, $db_tb_scans, $db_tb_user_research, $selectedusername, $scan_datas, $db_tb_params, $db_tb_bestellung;
+    global $db, $db_tb_scans, $db_tb_user_research, $selectedusername, $scan_datas, $db_tb_params, $db_tb_bestellung, $db_tb_sitterauftrag;
 
     if ($return->objResultData->bOngoingResearch == false) { // keine laufende Forschung
 
         $sql = "INSERT INTO `$db_tb_user_research` "
-            . "(`rId`, `date`, `time`, `user`) VALUES "
-            . "(0, '', " . CURRENT_UNIX_TIME . ", '" . $selectedusername . "') "
+            . "(`user`, `rId`, `date`, `time`) VALUES "
+            . "('{$selectedusername}', 0, '', " . CURRENT_UNIX_TIME . ") "
             . " ON DUPLICATE KEY UPDATE "
             . "`rId` = 0, "
             . "`date` = '', "
@@ -53,6 +53,23 @@ function parse_de_index($return)
 
         $result = $db->db_query($sql)
             or error(GENERAL_ERROR, 'Could not update researchtime.', '', __FILE__, __LINE__, $sql);
+
+        //# alle Forschungsaufträge des Spielers anpassen
+
+        //aktuellsten Forschungsauftrag holen
+        $result = $db->db_query("SELECT `date`, `date_b1`, `date_b2`, `resid` FROM `{$db_tb_sitterauftrag}` WHERE `user` = '{$selectedusername}' AND `typ` = 'Forschung' ORDER BY `date` ASC LIMIT 1;");
+        if ($row = $db->db_fetch_array($result)) {
+            $res_order_time_diff = $row['date'] - CURRENT_UNIX_TIME;
+
+            if ($res_order_time_diff > 0) { //alle Forschungsaufträge liegen in der Zukunft -> alle vorziehen
+
+                $sql = "UPDATE `{$db_tb_sitterauftrag}` SET `date` = `date`-{$res_order_time_diff}, `date_b1` = `date_b1`-{$res_order_time_diff}, `date_b2` = `date_b2`-{$res_order_time_diff} WHERE `user` = '{$selectedusername}' AND `typ` = 'Forschung';";
+                $db->db_query($sql)
+                    or error(GENERAL_ERROR, 'Could not update researchtime.', '', __FILE__, __LINE__, $sql);
+                debug_var("Forschungsanpassung", "Zeiten der Forschungsaufträge bei {$selectedusername} angepasst");
+
+            }
+        }
 
         echo "<div class='system_warning'>Es läuft keine Forschung bei {$selectedusername}!</div>";
     }
@@ -293,21 +310,62 @@ function parse_de_index($return)
                     }
                 }
             } else if ($aContainer->strIdentifier == "de_index_research") {
-                $sql = "DELETE FROM " . $db_tb_user_research .
-                    " WHERE user='" . $selectedusername . "'";
-                $result = $db->db_query($sql)
-                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
-                foreach ($aContainer->objResultData->aResearch as $msg) {
-                    $rid = find_research_id($msg->strResearchName);
-                    if ($rid != 0) {
-                        $sql = "INSERT INTO " . $db_tb_user_research .
-                            " SET user='" . $selectedusername . "', rId='" . $rid . "', date=" . $msg->iResearchEnd . ", time=" . CURRENT_UNIX_TIME;
-                        $result = $db->db_query($sql)
-                            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                //aktuell laufende Forschung aktualisieren
+                //ToDo: sobald IWacc Tabelle vorhanden Einträge dahin verschieben
+
+                $research_id = find_research_id($aContainer->objResultData->aResearch[0]->strResearchName);
+
+                $sql = "INSERT INTO `$db_tb_user_research` "
+                    . "(`user`, `rId`, `date`, `time`) VALUES "
+                    . "('{$selectedusername}', {$research_id}, {$aContainer->objResultData->aResearch[0]->iResearchEnd}, " . CURRENT_UNIX_TIME . ") "
+                    . " ON DUPLICATE KEY UPDATE "
+                    . "`rId` = {$research_id}, "
+                    . "`date` = {$aContainer->objResultData->aResearch[0]->iResearchEnd}, "
+                    . "`time` = " . CURRENT_UNIX_TIME . ";";
+
+                $result = $db->db_query($sql)
+                    or error(GENERAL_ERROR, 'Could not update research.', '', __FILE__, __LINE__, $sql);
+                debug_var("Forschungsanpassung", "Forschung bei {$selectedusername} aktualisiert");
+
+                //Zeitanpassung der nächsten Forschungssitteraufträge
+
+                //nächsten Forschungsauftrag holen
+                $sql = "SELECT `id`, `resid` FROM `{$db_tb_sitterauftrag}` WHERE `user` = '{$selectedusername}' AND `typ` = 'Forschung' ORDER BY `date` ASC LIMIT 1;";
+                $result = $db->db_query($sql)
+                    or error(GENERAL_ERROR, 'Could not get research information.', '', __FILE__, __LINE__, $sql);
+
+                if ($row = $db->db_fetch_array($result)) {
+                    if ($row['resid'] == $research_id) { //nächster Forschungssitterauftrag läuft bereits -> Sitterauftrag löschen
+                        $sql = "DELETE FROM `{$db_tb_sitterauftrag}` WHERE `id`='{$row['id']}'";
+                        $db->db_query($sql)
+                            or error(GENERAL_ERROR, 'Could not delete sitterorder.', '', __FILE__, __LINE__, $sql);
+                    }
+
+                    //nochmal nächsten Forschungsauftrag holen
+                    $sql = "SELECT `date` FROM `{$db_tb_sitterauftrag}` WHERE `user` = '{$selectedusername}' AND `typ` = 'Forschung' ORDER BY `date` ASC LIMIT 1;";
+                    $result = $db->db_query($sql)
+                        or error(GENERAL_ERROR, 'Could not get next sitterorder.', '', __FILE__, __LINE__, $sql);
+
+                    if ($row = $db->db_fetch_array($result)) {
+
+                        $last_runing_research = end($aContainer->objResultData->aResearch);
+                        $res_order_time_diff = $row['date'] - $last_runing_research->iResearchEnd;
+
+                        if ($res_order_time_diff > 0) { //folgenden Forschungsaufträge liegen zu weit in der Zukunft -> alle vorziehen
+
+                            $sql = "UPDATE `{$db_tb_sitterauftrag}` SET `date` = `date`-".$res_order_time_diff.", `date_b1` = `date_b1`-".$res_order_time_diff.", `date_b2` = `date_b2`-".$res_order_time_diff." WHERE `user` = '{$selectedusername}' AND `typ` = 'Forschung';";
+                            $db->db_query($sql)
+                                or error(GENERAL_ERROR, 'Could not modify sitterorder.', '', __FILE__, __LINE__, $sql);
+
+                            debug_var("Forschungsanpassung", "Zeiten der Forschungsaufträge bei {$selectedusername} angepasst");
+
+                        }
                     }
                 }
+
             } else if ($aContainer->strIdentifier == "de_index_geb") {
+
                 if (!isset($aContainer->objResultData->aGeb)) {
                     continue;
                 }
@@ -329,25 +387,6 @@ function parse_de_index($return)
         }
     } //! for each container
 
-    doc_message('done');
-}
-
-function find_research_id($researchname)
-{
-    global $db, $db_tb_research;
-
-    // Find first research identifier
-    $sql = "SELECT ID FROM " . $db_tb_research . " WHERE name='" . $researchname . "'";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query research id information.', '', __FILE__, __LINE__, $sql);
-    $row = $db->db_fetch_array($result);
-
-    // Not found, so insert new
-    if (empty($row)) {
-        return 0;
-    } else {
-        return $row['ID'];
-    }
 }
 
 function save_data($scan_data)

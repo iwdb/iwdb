@@ -880,3 +880,30 @@ function getAccNameFromKolos($aKolos) {
     //nichts gefunden (nicht eingetragen)
     return false;
 }
+
+function find_research_id($researchname, $hidenew = false)
+{
+    global $db, $db_tb_research, $user_id;
+
+    // Find first research identifier
+    $sql = "SELECT `ID` FROM `{$db_tb_research}` WHERE `name`='{$researchname}'";
+    $result = $db->db_query($sql)
+        or error(GENERAL_ERROR, 'Could not query research information.', '', __FILE__, __LINE__, $sql);
+    $row = $db->db_fetch_array($result);
+
+    // Not found, so insert new
+    if (empty($row)) {
+        $sql2 = "INSERT INTO `{$db_tb_research}` (`name`,`reingestellt`) VALUES('{$researchname}','{$user_id}')";
+        $result = $db->db_query($sql2)
+            or error(GENERAL_ERROR, 'Could not add research information.', '', __FILE__, __LINE__, $sql);
+
+        if ($hidenew === false) {
+            doc_message("Neue Forschung: " . $researchname . " hinzugefügt.");
+        }
+
+        return $db->db_insert_id();
+
+    } else {
+        return $row['ID'];
+    }
+}

@@ -265,37 +265,6 @@ function update_research($scan_data)
 // ****************************************************************************
 //
 //
-function find_research_id($researchname, $hidenew)
-{
-    global $db, $db_tb_research, $user_id;
-
-    // Find first research identifier
-    $sql = "SELECT ID FROM " . $db_tb_research . " WHERE name='" . $researchname . "'";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-    $row = $db->db_fetch_array($result);
-
-    // Not found, so insert new
-    if (empty($row)) {
-        $sql2 = "INSERT INTO " . $db_tb_research . "(name,reingestellt) VALUES('" . $researchname . "','" . $user_id . "')";
-        $result = $db->db_query($sql2)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-        $row = $db->db_fetch_array($result);
-
-        if ($hidenew === false) {
-            echo "<div class='doc_blue'>Neue Forschung: " . $researchname . "</div>\n";
-        }
-    }
-
-    return $row['ID'];
-}
-
-// ****************************************************************************
-//
-//
 function find_building_id($name)
 {
     global $db, $db_tb_gebaeude;

@@ -942,13 +942,11 @@ if (!empty($umenu)) {
     ?>
     <tr>
         <td colspan="2" class="titlebg" align="center">
-            <input type="hidden" name="parentid" value="<?php echo $thisid;?>"><input type="hidden" name="typ"
-                                                                                      value="<?php echo $typ;?>"><input
-                type="hidden" name="auftragid" value="<?php echo $auftragid;?>"><input type="hidden" name="editauftrag"
-                                                                                       value="true"><input type="submit"
-                                                                                                           value="speichern"
-                                                                                                           name="B1"
-                                                                                                           class="submit">
+            <input type="hidden" name="parentid" value="<?php echo $thisid;?>">
+            <input type="hidden" name="typ" value="<?php echo $typ;?>">
+            <input type="hidden" name="auftragid" value="<?php echo $auftragid;?>">
+            <input type="hidden" name="editauftrag" value="true">
+            <input type="submit" value="speichern" name="B1" class="submit">
         </td>
     </tr>
     </table>
@@ -963,64 +961,32 @@ function fill_selection($selected_id)
     global $db, $db_tb_research, $db_tb_researchfield, $id, $db_tb_research2user;
 
     $fields = array();
-    $sql    = "SELECT id, name FROM " . $db_tb_researchfield . " ORDER BY id";
-    $result = $db->db_query($sql)
-        or error(
-        GENERAL_ERROR,
-        'Could not query config information.', '',
-        __FILE__, __LINE__, $sql
-    );
+    $sql = "SELECT id, name FROM " . $db_tb_researchfield . " ORDER BY id";
+    $result = $db->db_query($sql);
 
     while (($research_data = $db->db_fetch_array($result)) !== false) {
-        $resid          = $research_data['id'];
+        $resid = $research_data['id'];
         $fields[$resid] = $research_data['name'];
     }
     $db->db_free_result($result);
 
-    $where  = "";
+    $where = "";
     $idlist = "";
 
     if (!empty($id)) {
-        // MySQL < Version 4.3 is incompatible with a subselect query. Statement was:
-        //
-        // $where = " WHERE NOT ID IN" .
-        //          " (SELECT rID FROM research2user where userid='" . $id ."')";
-
-        $sql = "SELECT rID FROM " . $db_tb_research2user . " where userid='" . $id . "'";
-        $result = $db->db_query($sql)
-            or error(
-            GENERAL_ERROR,
-            'Could not query config information.', '',
-            __FILE__, __LINE__, $sql
-        );
-        while (($row = $db->db_fetch_array($result)) !== false) {
-            if (!empty($idlist)) {
-                $idlist .= ", ";
-            }
-
-            $idlist .= $row['rID'];
-        }
-        $db->db_free_result($result);
-
-        if (!empty($idlist)) {
-            $where = " WHERE NOT ( ID IN (" . $idlist . ") )";
-        }
+        $where = " WHERE NOT ID IN" .
+            " (SELECT rID FROM research2user where userid='" . $id . "')";
     }
 
     $sql = "SELECT ID, name, gebiet FROM " . $db_tb_research . $where .
         " ORDER BY gebiet ASC, name ASC";
-    $result = $db->db_query($sql)
-        or error(
-        GENERAL_ERROR,
-        'Could not query config information.', '',
-        __FILE__, __LINE__, $sql
-    );
+    $result = $db->db_query($sql);
 
     $gebietalt = 0;
-    $retVal    = "";
+    $retVal = "";
     while (($research_data = $db->db_fetch_array($result)) !== false) {
-        $resid    = $research_data['ID'];
-        $resname  = $research_data['name'];
+        $resid = $research_data['ID'];
+        $resname = $research_data['name'];
         $resfield = $research_data['gebiet'];
 
         if ($gebietalt != $resfield) {

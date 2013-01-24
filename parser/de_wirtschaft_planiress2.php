@@ -44,7 +44,7 @@ function parse_de_wirtschaft_planiress2($return)
         if ($AccName === false) { //kein Eintrag gefunden -> ausgewählten Accname verwenden
             $AccName = $selectedusername;
         }
-        debug_var('wirtschaft_planiress2', $selectedusername);
+        debug_var('wirtschaft_planiress2', $AccName);
 
         if (!empty($db_tb_ressuebersicht)) {
 

@@ -98,7 +98,7 @@ class db
     /**
      * function db_insert
      *
-     * Fügt die Daten des übergebenen Arrays in dir Datenbank ein.
+     * Fügt die Daten des übergebenen Arrays in die Datenbank ein.
      *
      * @param string $table Tabellenbezeichner
      * @param array  $data  Daten
@@ -119,22 +119,22 @@ class db
         $query = "INSERT INTO `" . $table . "` (";
 
         //sql-query zusammenbauen
-        foreach ($data as &$value) {
+        foreach ($data as $key => $value) {
 
             //Spaltenbezeichner ($key) nicht behandeln weil kein Userinput
 
             if ($value === null) {
-                $value = "NULL";
+                $data[$key] = "NULL";
             } elseif ($value === false) { //boolean ist meist tinyint(1)
-                $value = "0";
+                $data[$key] = "0";
             } elseif ($value === true) {
-                $value = "1";
+                $data[$key] = "1";
             } elseif (is_string($value)) { //Wert ist String? -> escapen
                 $value = mysql_real_escape_string($value, $this->db_link_id);
                 if ($value === false) {
                     throw new Exception('Value escaping failed!');
                 }
-                $value = "'$value'";
+                $data[$key] = "'$value'";
             } elseif (!is_int($value) AND !is_float($value)){
                 throw new Exception('Invalid values!');
             }
@@ -206,6 +206,77 @@ class db
         if ($additionalSQL !== '') {
             $query .= ' ' . $additionalSQL;
         }
+
+        $this->query_result = $this->db_query($query, $this->db_link_id);
+
+        return $this->query_result;
+
+    }
+
+    /**
+     * function db_insertupdate
+     *
+     * Fügt die Daten des übergebenen Arrays in die Datenbank ein
+     * oder updatet sie falls vorhanden und mit einzigartigem Index versehen
+     *
+     * @param string $table Tabellenbezeichner
+     * @param array  $data  Daten
+     *
+     * @throws Exception
+     * @return bool|resource Queryhandle bei Erfolg, false bei Fehler
+     *
+     * @author masel
+     */
+    function db_insertupdate($table, $data)
+    {
+        unset($this->query_result);
+
+        if (empty($table) OR empty($data) OR !is_array($data)) {
+            return false;
+        }
+
+        $query = "INSERT INTO `" . $table . "` (";
+
+        //INSERT-Teil zusammenbauen
+        foreach ($data as $key => $value) {
+
+            //Spaltenbezeichner ($key) nicht behandeln weil kein Userinput
+
+            if ($value === null) {
+                $data[$key] = "NULL";
+            } elseif ($value === false) { //boolean ist meist tinyint(1)
+                $data[$key] = "0";
+            } elseif ($value === true) {
+                $data[$key] = "1";
+            } elseif (is_string($value)) { //Wert ist String? -> escapen
+                $value = mysql_real_escape_string($value, $this->db_link_id);
+                if ($value === false) {
+                    throw new Exception('Value escaping failed!');
+                }
+                $data[$key] = "'$value'";
+            } elseif (!is_int($value) AND !is_float($value)){
+                throw new Exception('Invalid values!');
+            }
+
+        }
+
+        $query .= '`' . implode(array_keys($data), "`,`");
+        $query .= "`) VALUES (";
+        $query .= implode($data, ",");
+        $query .= ") ON DUPLICATE KEY UPDATE ";
+
+        $datapairs = Array();
+
+        //UPDATE-Teil zusammenbauen
+        foreach ($data as $key => $value) {
+
+            //daten sind bereits escaped
+
+            $datapairs[] = "`$key` = $value";
+        }
+
+        $query .= implode(', ', $datapairs);
+        $query .= ';';
 
         $this->query_result = $this->db_query($query, $this->db_link_id);
 

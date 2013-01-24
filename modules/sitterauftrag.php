@@ -752,7 +752,7 @@ if (!empty($umenu)) {
                 <?php if (defined('RESEARCH') && (RESEARCH === true)) { ?>
                     <select name="researchid" style="width: 400px;">
                         <!--  	 <optgroup label="Unbekannt" title="Unbekannt"></optgroup> -->
-                        <?php echo  fill_selection($resid); ?>
+                        <?php echo fill_selection($resid); ?>
                     </select><br>
                     Sollte eine Forschung noch nicht aufgeführt sein, bitte die Forschungsinfo ingame in den Parser einfügen.
                 <?php } else { ?>
@@ -958,28 +958,25 @@ if (!empty($umenu)) {
 //
 function fill_selection($selected_id)
 {
-    global $db, $db_tb_research, $db_tb_researchfield, $id, $db_tb_research2user;
+    global $db, $db_tb_research, $db_tb_researchfield, $user_sitterlogin;
 
     $fields = array();
     $sql = "SELECT id, name FROM " . $db_tb_researchfield . " ORDER BY id";
-    $result = $db->db_query($sql);
+    $result = $db->db_query($sql)
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
     while (($research_data = $db->db_fetch_array($result)) !== false) {
         $resid = $research_data['id'];
         $fields[$resid] = $research_data['name'];
     }
-    $db->db_free_result($result);
 
     $where = "";
-    $idlist = "";
 
     if (!empty($id)) {
-        $where = " WHERE NOT ID IN" .
-            " (SELECT rID FROM research2user where userid='" . $id . "')";
+        $where = " WHERE NOT ID IN (SELECT rID FROM research2user where userid='" . $user_sitterlogin . "')";
     }
 
-    $sql = "SELECT ID, name, gebiet FROM " . $db_tb_research . $where .
-        " ORDER BY gebiet ASC, name ASC";
+    $sql = "SELECT ID, name, gebiet FROM " . $db_tb_research . $where . " ORDER BY gebiet ASC, name ASC";
     $result = $db->db_query($sql);
 
     $gebietalt = 0;

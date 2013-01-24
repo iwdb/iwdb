@@ -81,7 +81,7 @@ function display_de_info_forschung()
 function update_research($scan_data)
 {
     global $db, $db_tb_research, $db_tb_research2prototype, $researchid, $db_tb_researchfield,
-           $db_tb_research2research, $db_tb_research2building, $config_gameversion;
+           $db_tb_research2research, $db_tb_research2building, $config_gameversion, $user_id;
 
     // Anpassung des Forschungstitels
     $scan_data['research'] = str_replace(
@@ -198,28 +198,28 @@ function update_research($scan_data)
         }
     }
 
-    $highscore = empty($scan_data['highscore']) ? 0
-        : $scan_data['highscore'];
-
+    $highscore = empty($scan_data['highscore']) ? 0 : $scan_data['highscore'];
     $fp = empty($scan_data['FP']) ? 0 : $scan_data['FP'];
 
     // So, wir haben jetzt alles zusammen und können die Daten eintragen.
-    $sql = "UPDATE " . $db_tb_research . " SET " .
-        "gameversion='" . $config_gameversion . "', " .
-        "Gebiet=" . $gebiet . "," .
-        "description='" . $scan_data['description'] . "', " .
-        "FP=" . $fp . ", " .
-        "highscore=" . $highscore . ", " .
-        "addcost='" . $scan_data['addcost'] . "', " .
-        "declarations='" . $declares . "', " .
-        "objects='" . $objects . "', " .
-        "defense='" . $defense . "', " .
-        "genetics='" . $genetics . "', " .
-        "geblevels='" . $bldlvl . "' " .
-        "WHERE ID=" . $rid;
+    $data = array(
+        'description'  => $scan_data['description'],
+        'FP'           => $fp,
+        'Gebiet'       => $gebiet,
+        'highscore'    => $highscore,
+        'addcost'      => $scan_data['addcost'],
+        'geblevels'    => $bldlvl,
+        'declarations' => $declares,
+        'defense'      => $defense,
+        'objects'      => $objects,
+        'genetics'     => $genetics,
+        'gameversion'  => $config_gameversion,
+        'reingestellt' => $user_id,
+        'time'         => CURRENT_UNIX_TIME
+    );
 
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_update($db_tb_research, $data, "WHERE ID=" . $rid)
+        or error(GENERAL_ERROR, 'Could not update research information.', '', __FILE__, __LINE__);
 
     // Check if the prototype is in the database and set the research/ship pair.
     if (!empty($scan_data['Prototyp'])) {

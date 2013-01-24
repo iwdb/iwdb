@@ -17,8 +17,8 @@
 // -> Abfrage ob dieses Modul über die index.php aufgerufen wurde.
 //    Kann unberechtigte Systemzugriffe verhindern.
 if (basename($_SERVER['PHP_SELF']) != "index.php") {
-	echo "Hacking attempt...!!"; 
-	exit; 
+    echo "Hacking attempt...!!";
+    exit;
 }
 
 //****************************************************************************
@@ -28,7 +28,7 @@ if (basename($_SERVER['PHP_SELF']) != "index.php") {
 // -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung für 
 //    eine Installation über das Menü
 //
-$modulname  = "research_overview";
+$modulname = "research_overview";
 
 //****************************************************************************
 //
@@ -56,19 +56,9 @@ $moduldesc = "Zeigt die aktuellen Forschungen in der Allianz, inkl. evtl. Folgef
 // Function workInstallDatabase is creating all database entries needed for
 // installing this module. 
 //
-function workInstallDatabase() {
-	global $db, $db_prefix, $db_tb_iwdbtabellen;
-
-	$sqlscript = array(
-	);
-
-	foreach ($sqlscript as $sql) {
-		echo "<br>" . $sql;
-		$result = $db->db_query($sql)
-			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-	}
-
-	echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
+function workInstallDatabase()
+{
+    //nothing here
 }
 
 //****************************************************************************
@@ -77,16 +67,17 @@ function workInstallDatabase() {
 // installing this module. This function is called by the installation method
 // in the included file includes/menu_fn.php
 //
-function workInstallMenu() {
+function workInstallMenu()
+{
     global $modultitle, $modulstatus, $_POST;
-		
-		$actionparamters = "";
-  	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparameters );
-	  //
-	  // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
-	  //
-	  // 	insertMenuItem( $_POST['menu'], ($_POST['submenu']+1), "Titel2", "hc", "&weissichnichtwas=1" ); 
-	  //
+
+    $actionparameters = "";
+    insertMenuItem($_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparameters);
+    //
+    // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
+    //
+    // 	insertMenuItem( $_POST['menu'], ($_POST['submenu']+1), "Titel2", "hc", "&weissichnichtwas=1" );
+    //
 }
 
 //****************************************************************************
@@ -94,7 +85,8 @@ function workInstallMenu() {
 // Function workInstallConfigString will return all the other contents needed 
 // for the configuration file.
 //
-function workInstallConfigString() {
+function workInstallConfigString()
+{
 }
 
 //****************************************************************************
@@ -102,18 +94,9 @@ function workInstallConfigString() {
 // Function workUninstallDatabase is creating all database entries needed for
 // removing this module. 
 //
-function workUninstallDatabase() {
-	global $db, $db_tb_gebaeude_spieler, $db_tb_iwdbtabellen;
-
-	$sqlscript = array(
-	);
-
-	foreach ($sqlscript as $sql) {
-		$result = $db->db_query($sql)
-			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-	}
-
-	echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
+function workUninstallDatabase()
+{
+    //nothing here
 }
 
 //****************************************************************************
@@ -128,20 +111,22 @@ function workUninstallDatabase() {
 // Anstatt "Mein.Server" natürlich deinen Server angeben und default 
 // durch den Dateinamen des Moduls ersetzen.
 //
-if( !empty($_REQUEST['was'])) {
-  //  -> Nur der Admin darf Module installieren. (Meistens weiss er was er tut)
-  if ( $user_status != "admin" ) 
-		die('Hacking attempt...');
+if (!empty($_REQUEST['was'])) {
+    //  -> Nur der Admin darf Module installieren. (Meistens weiss er was er tut)
+    if ($user_status != "admin") {
+        die('Hacking attempt...');
+    }
 
-  echo "<div class='system_notification'>Installationsarbeiten am Modul " . $modulname . 
-	     " ("  . $_REQUEST['was'] . ")</div>\n";
+    echo "<div class='system_notification'>Installationsarbeiten am Modul " . $modulname .
+        " (" . $_REQUEST['was'] . ")</div>\n";
 
-  if (!@include("./includes/menu_fn.php")) 
-	  die( "Cannot load menu functions" );
+    if (!@include("./includes/menu_fn.php")) {
+        die("Cannot load menu functions");
+    }
 
-  // Wenn ein Modul administriert wird, soll der Rest nicht mehr 
-  // ausgeführt werden. 
-  return;
+    // Wenn ein Modul administriert wird, soll der Rest nicht mehr
+    // ausgeführt werden.
+    return;
 }
 
 
@@ -165,41 +150,43 @@ VALUES (
 
 $users = obResearchGetOverview();
 
+doc_title('Forschungsübersicht - laufende Forschungen');
 ?>
-<h1><center><font color='black'>Forschungs&uuml;bersicht - laufende Forschungen</font></center></h1>
-<table style="width: 90%;" align="center">
-    <thead>
-    <tr class="titlebg">
-        <th style="width: 15%; text-align: center;">Spieler</th>
-        <th style="width: 50%; text-align: center;">Forschung</th>
-        <th style="width: 15%; text-align: center;">bis</th>
-        <th style="width: 20%; text-align: center;">Folgeauftrag</th>
-    </tr>
-    </thead>
-    <tbody>
-    <?php foreach ($users as $user) { ?>
-    <tr class="windowbg" style="text-align: center;">
-        <td><a target="_blank" href="?{domain}/iwlogin.mdl;mode=sitt;user_id=<?php echo $user["user_id"];?>"><font color="blue"><?php echo $user["user_name"];?></font></a></td>
-        <td><?php echo $user["research_name"];?></td>
-        <td><?php echo $user["research_time"];?></td>
-        <td><?php echo $user["next_research_name"];?></td>
-    </tr>
-   <?php } ?>
-    </tbody>
-</table>
+    <table style="width: 90%;" align="center">
+        <thead>
+        <tr class="titlebg">
+            <th style="width: 15%; text-align: center;">Spieler</th>
+            <th style="width: 50%; text-align: center;">Forschung</th>
+            <th style="width: 15%; text-align: center;">bis</th>
+            <th style="width: 20%; text-align: center;">Folgeauftrag</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($users as $user) { ?>
+            <tr class="windowbg" style="text-align: center;">
+                <td>
+                    <a target="_blank" href="?{domain}/iwlogin.mdl;mode=sitt;user_id=<?php echo $user["user_id"];?>"><span style='color:blue'><?php echo $user["user_name"];?></span></a>
+                </td>
+                <td><?php echo $user["research_name"];?></td>
+                <td><?php echo $user["research_time"];?></td>
+                <td><?php echo $user["next_research_name"];?></td>
+            </tr>
+        <?php } ?>
+        </tbody>
+    </table>
 
 <?php
 
 /**
  * @desc Ermittelt alle laufenden Forschungen von Spielern in der angegeben Allianz/Team oder der Meta des aktiven Benutzers
  * @author Mac (MacXY@herr-der-mails.de)
- * @global $db_tb_user, $db_tb_research, $db_tb_user_research, $db_tb_sitterauftrag
+ * @global $db, $db_tb_user, $db_tb_research, $db_tb_user_research, $db_tb_sitterauftrag
  * @return array
  */
 function obResearchGetOverview()
 {
-    global $db_tb_user, $db_tb_research, $db_tb_user_research, $db_tb_sitterauftrag;
-        
+    global $db, $db_tb_user, $db_tb_research, $db_tb_user_research, $db_tb_sitterauftrag;
+
     //! Mac: @todo: keine Subquery verwenden, sondern nur einmal pro User die Forschung ermitteln
     $sql = "SELECT
                 $db_tb_user.id as user_name, $db_tb_user_research.rid as research_id, $db_tb_research.name as research_name, $db_tb_user_research.date as finished_time ";
@@ -220,38 +207,40 @@ function obResearchGetOverview()
 
     $sql .= "	ORDER BY finished_time ASC";
 
-    $result = db_query($sql,__FILE__,__LINE__);
-    
-    $users=array();
-    while($row = db_fetch_array($result)) {
+    $result = $db->db_query($sql);
+
+    $users = array();
+    while ($row = $db->db_fetch_array($result)) {
 
         if ($row["finished_time"] > 0 && $row["finished_time"] <= CURRENT_UNIX_TIME) {
             $sql = "DELETE FROM 
                         $db_tb_user_research
                     WHERE 
                         user = " . $row["user_name"] . " AND rid = " . $row["research_id"];
-            db_query($sql,__FILE__,__LINE__);
+            $db->db_query($sql);
             $row["finished_time"] = 0;
             $row["research_name"] = "";
         }
-        
-        if ($row["finished_time"] > 0)
-            $row["research_time"] = strftime("%d.%m.%Y %H:%M:%S",$row["finished_time"]);
-        else
-            $row["research_time"] = "---";
 
-        if (empty($row["research_name"])) {
-            $row["research_name"] = "<font style=\"background-color: red;\">Forschungsleerlauf!</font>";
+        if ($row["finished_time"] > 0) {
+            $row["research_time"] = strftime(CONFIG_DATETIMEFORMAT, $row["finished_time"]);
+        } else {
+            $row["research_time"] = "---";
         }
 
-        if (obResearchGetNameById($row["next_research_id"]) !== OB_FAILED)
+        if (empty($row["research_name"])) {
+            $row["research_name"] = "<span style='background-color: red;'>Forschungsleerlauf!</span>";
+        }
+
+        if (obResearchGetNameById($row["next_research_id"]) !== OB_FAILED) {
             $row["next_research_name"] = obResearchGetNameById($row["next_research_id"]);
-        else
+        } else {
             $row["next_research_name"] = '---';
+        }
 
         $users[$row["user_id"]] = $row;
     }
-    
+
     return $users;
 }
 

@@ -188,3 +188,6 @@ ALTER TABLE `prefix_params` ADD PRIMARY KEY ( `name` );
 
 -- masel: 24.01. fehlender Eintrag für noch offene Bevölkerung
 ALTER TABLE  `prefix_bestellung` ADD  `offen_volk` INT NOT NULL AFTER  `offen_energie`;
+
+-- masel 24.01 nicht länger benötigt, Tabellen werden automatisch gesucht
+DROP TABLE prefix_iwdbtabellen;

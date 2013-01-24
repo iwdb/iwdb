@@ -58,11 +58,11 @@ function parse_de_wirtschaft_planiress($return)
         foreach ($return->objResultData->aKolos as $Kolo) {
             $scan_data                  = array();
             $scan_data['user']          = $AccName;
-
             $scan_data['coords_gal']    = $Kolo->aCoords["coords_gal"];
             $scan_data['coords_sys']    = $Kolo->aCoords["coords_sol"];
             $scan_data['coords_planet'] = $Kolo->aCoords["coords_pla"];
             $scan_data['kolo_typ']      = $Kolo->strObjectType;
+            $scan_data['time']          = CURRENT_UNIX_TIME;
 
             foreach ($Kolo->aData as $resource) {
                 $resource_name = $resource->strResourceName;
@@ -83,8 +83,6 @@ function parse_de_wirtschaft_planiress($return)
                 }
                 $scan_data_total[$resource_name] += $resource->fResourceProduction;
             }
-
-            $scan_data['time']          = CURRENT_UNIX_TIME;
 
             debug_var('wirtschaft_planiress', $scan_data);
             $db->db_insertupdate($db_tb_lager, $scan_data)

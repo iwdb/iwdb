@@ -46,22 +46,44 @@ if (!isset($coords)) {
 $order = getVar('order');
 
 if (!empty($coords)) {
+    //alle Planieinformationen holen
     $sql = "SELECT * FROM " . $db_tb_scans . " WHERE coords='" . $coords . "' " . $order;
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     $row = $db->db_fetch_array($result);
 
-    $editplanet  = getVar('editplanet');
-    $reservieren = getVar('reservieren');
+    //Planetenreservierung
+    $editplanet  = getVar('reserveplanie');
+    if ((!empty($editplanet)) AND ( empty($row['reserviert']) OR ($row['reserviert'] == $user_sitterlogin) OR ($user_status == "admin") )) {
+        $reservieren = getVar('reservieren');
+        $reservieren = (empty($reservieren)) ? "" : $user_sitterlogin;
 
-    if ((!empty($editplanet)) && (empty($row['reserviert']) || $row['reserviert'] == $user_sitterlogin || $user_status == "admin")) {
-        $row['reserviert'] = (empty($reservieren)) ? "" : $user_sitterlogin;
-        $sql               = "UPDATE " . $db_tb_scans . " SET reserviert='" . $row['reserviert'] . "' WHERE coords = '" . $coords . "'";
-        $result_planetedit = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-        echo "<div class='system_notification'>Planetenreservierung geändert.</div>";
+        if ($reservieren !== $row['reserviert']) {
+            $result = $db->db_update($db_tb_scans, array('reserviert' => $reservieren), "WHERE coords='" . $coords . "'")
+                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+
+            echo "<div class='system_notification'>Planetenreservierung geändert.</div>";
+            $row['reserviert'] = $reservieren;
+        }
     }
 
+    //Notizen eintragen
+    $submitnotice = getVar('submitnotice');
+    if (!empty($submitnotice)) {
+        $notice = getVar('notice');
+
+        $result = $db->db_update($db_tb_scans, array('rnb' => $notice), "WHERE coords='" . $coords . "'")
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+    } else {
+        //Notizen aufrufen
+        $sql = "SELECT rnb FROM " . $db_tb_scans . " WHERE coords='" . $coords . "'";
+        $result = $db->db_query($sql)
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result = $db->db_fetch_array($result);
+        $notice = $result["rnb"];
+    }
+
+    //Allianzstatus holen
     $sql = "SELECT status FROM " . $db_tb_allianzstatus . " WHERE allianz LIKE '" . $row['allianz'] . "'";
     $result_status = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -73,15 +95,14 @@ if (!empty($coords)) {
     }
 
     $rating = rating($row);
-    //	print_r($row);
 
-    if ($row['dgmod'] == 0) {
-        $eisen_effektiv    = 0;
-        $chemie_effektiv   = 0;
-        $eis_effektiv      = 0;
-        $ttchemie_effektiv = 0;
-        $tteisen_effektiv  = 0;
-        $tteis_effektiv    = 0;
+    if (empty($row['dgmod'])) {
+        $eisen_effektiv    = null;
+        $chemie_effektiv   = null;
+        $eis_effektiv      = null;
+        $ttchemie_effektiv = null;
+        $tteisen_effektiv  = null;
+        $tteis_effektiv    = null;
     } else {
         $eisen_effektiv    = $row['eisengehalt'] / $row['dgmod'];
         $tteisen_effektiv  = $row['tteisen'] / $row['dgmod'];
@@ -140,9 +161,7 @@ if ($user_planibilder == "1") {
 </tr>
 <tr>
     <td class="windowbg2">letztes Update:</td>
-    <td class="windowbg1"><?php
-        echo (empty($row['time'])) ? "/" : round((CURRENT_UNIX_TIME - $row['time']) / DAY) . " Tage";
-        ?></td>
+    <td class="windowbg1"><?php echo (empty($row['time'])) ? "/" : round((CURRENT_UNIX_TIME - $row['time']) / DAY) . " Tage"; ?></td>
 </tr>
 <?php
 if ((($ansicht == "auto") && ($row['objekt'] != "---")) || ($ansicht == "taktisch") || ($ansicht == "beide")) {
@@ -181,44 +200,27 @@ if ((($ansicht == "auto") && ($row['objekt'] != "---")) || ($ansicht == "taktisc
 <tr>
     <td class="windowbg2"><i>Hier bitte jegliche Informationen über diesen Planeten, sei es Raids, Uhrzeiten,
             Absprachen, Tipps für Raider eingeben.</i></td>
-    <td class="windowbg1"><?php
-        $notice = getVar('notice');
-        $submitnotice = getVar('submitnotice');
+    <td class="windowbg1">
 
-        //Notizen eintragen
-        if ($submitnotice == "Speichern") {
-            $sql = "UPDATE " . $db_tb_scans . " SET rnb='" . $notice . "' WHERE coords='" . $coords . "'";
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-        }
-
-        //Notizen aufrufen
-        $sql = "SELECT rnb FROM " . $db_tb_scans . " WHERE coords='" . $coords . "'";
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-        $result = $db->db_fetch_array($result);
-        $notice = $result["rnb"];
-
-        echo "<form method='POST' action='index.php?action=showplanet&coords=" . $coords . "&sid=" . $sid . "&ansicht=auto' enctype='multipart/form-data'>";
-        echo "  <table border='0' cellpadding='5' cellspacing='0' class='bordercolor' style='width: 80%;' align='center'>";
-        echo "    <tr>";
-        echo "      <td class='windowbg2' align='center'>";
-        echo "          <textarea name='notice' rows='10' cols='80'>" . $notice . "</textarea>";
-        echo "      </td>";
-        echo "    </tr>";
-        echo "    <tr>";
-        echo "      <td class='titlebg' align='center'>";
-        echo "        <input type='submit' name='submitnotice' value='Speichern' class='submit'>";
-        echo "        &nbsp;&nbsp;";
-        echo "        <input type='reset' class='submit'>";
-        echo "      </td>";
-        echo "    </tr>";
-        echo "  </table>";
-        echo "</form>";
-        ?></td>
+        <form method='POST' action='index.php?action=showplanet&coords=<?php echo $coords; ?>&sid=<?php echo $sid; ?>&ansicht=auto' enctype='multipart/form-data'>
+        <table border='0' cellpadding='5' cellspacing='0' class='bordercolor' style='width: 80%;' align='center'>
+            <tr>
+                <td class='windowbg2' align='center'>
+                    <textarea name='notice' rows='10' cols='80'><?php echo $notice; ?></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td class='titlebg' align='center'>
+                    <input type='submit' name='submitnotice' value='Speichern' class='submit'>
+                    &nbsp;&nbsp;
+                    <input type='reset' class='submit'>
+                </td>
+            </tr>
+        </table>
+        </form>
+    </td>
 </tr>
 <?php
-
 if (((($ansicht == "auto")) || ($ansicht == "geologisch") || ($ansicht == "beide")) AND !empty($row['geoscantime'])) {
     ?>
     <tr>
@@ -230,28 +232,23 @@ if (((($ansicht == "auto")) || ($ansicht == "geologisch") || ($ansicht == "beide
     </tr>
     <tr>
         <td class="windowbg2">Forschungsmod.:</td>
-        <td class="windowbg1"><?php echo ($row['fmod'] < 100) ? "<div class='doc_red'>" . $row['fmod'] . " %</div>" : $row['fmod'] . ' %';?>
-        </td>
+        <td class="windowbg1"><?php echo ($row['fmod'] < 100) ? "<div class='doc_red'>" . $row['fmod'] . " %</div>" : $row['fmod'] . ' %';?></td>
     </tr>
     <tr>
         <td class="windowbg2">Gebäudekostenmod.:</td>
-        <td class="windowbg1"><?php echo ($row['kgmod'] > 1) ? "<div class='doc_red'>" . $row['kgmod'] . "</div>" : $row['kgmod'];?>
-        </td>
+        <td class="windowbg1"><?php echo ($row['kgmod'] > 1) ? "<div class='doc_red'>" . $row['kgmod'] . "</div>" : $row['kgmod'];?></td>
     </tr>
     <tr>
         <td class="windowbg2">Gebäudedauermod.:</td>
-        <td class="windowbg1"><?php echo ($row['dgmod'] > 1) ? "<div class='doc_red'>" . $row['dgmod'] . "</div>" : $row['dgmod'];?>
-        </td>
+        <td class="windowbg1"><?php echo ($row['dgmod'] > 1) ? "<div class='doc_red'>" . $row['dgmod'] . "</div>" : $row['dgmod'];?></td>
     </tr>
     <tr>
         <td class="windowbg2">Schiffskostenmod.:</td>
-        <td class="windowbg1"><?php echo ($row['ksmod'] > 1) ? "<div class='doc_red'>" . $row['ksmod'] . "</div>" : $row['ksmod'];?>
-        </td>
+        <td class="windowbg1"><?php echo ($row['ksmod'] > 1) ? "<div class='doc_red'>" . $row['ksmod'] . "</div>" : $row['ksmod'];?></td>
     </tr>
     <tr>
         <td class="windowbg2">Schiffsdauermod.:</td>
-        <td class="windowbg1"><?php echo ($row['dsmod'] > 1) ? "<div class='doc_red'>" . $row['dsmod'] . "</div>" : $row['dsmod'];?>
-        </td>
+        <td class="windowbg1"><?php echo ($row['dsmod'] > 1) ? "<div class='doc_red'>" . $row['dsmod'] . "</div>" : $row['dsmod'];?></td>
     </tr>
     <tr>
         <td class="windowbg2">Planetengröße:</td>
@@ -262,32 +259,25 @@ if (((($ansicht == "auto")) || ($ansicht == "geologisch") || ($ansicht == "beide
     </tr>
     <tr>
         <td class="windowbg2">Eisengehalt:</td>
-        <td class="windowbg1"><?php echo ($row['eisengehalt'] > 100) ? "<b>" . $row['eisengehalt'] . " %</b>" : $row['eisengehalt'] . ' %'; echo  "mit TechTeam: ";  echo ($row['tteisen'] > 130) ? "<b>" . $row['tteisen'] . "%</b>" : $row['tteisen'] . "%"; echo  "=> effektiv Eisen: ";  echo ($eisen_effektiv) ? "<b>" . round($eisen_effektiv, 1) . "%</b>" : round($eisen_effektiv, 1) . "%"; echo  "mit TechTeam: ";  echo ($tteisen_effektiv) ? "<b>" . round($tteisen_effektiv, 1) . "%</b>" : round($tteisen_effektiv, 1) . "%";?>
-        </td>
-
+        <td class="windowbg1"><?php echo ($row['eisengehalt'] > 100) ? "<b>" . $row['eisengehalt'] . " %</b>" : $row['eisengehalt'] . ' %'; echo  " (effektiv ";  echo ($eisen_effektiv) ? "<b>" . round($eisen_effektiv, 1) . "%</b>)" : round($eisen_effektiv, 1) . "%)"; echo  ", mit TechTeam ";  echo ($row['tteisen'] > 100) ? "<b>" . $row['tteisen'] . "%</b>" : $row['tteisen'] . "%"; echo  " (effektiv ";  echo ($tteisen_effektiv) ? "<b>" . round($tteisen_effektiv, 1) . "%</b>)" : round($tteisen_effektiv, 1) . "%)";?></td>
     </tr>
     <tr>
         <td class="windowbg2">Chemievorkommen:</td>
-        <td class="windowbg1"><?php echo ($row['chemievorkommen'] > 100) ? "<b>" . $row['chemievorkommen'] . " %</b>" : $row['chemievorkommen'] . ' %'; echo  "mit TechTeam: ";  echo ($row['ttchemie'] > 130) ? "<b>" . $row['ttchemie'] . "%</b>" : $row['ttchemie'] . "%"; echo  "=> effektiv Chemie: ";  echo ($chemie_effektiv) ? "<b>" . round($chemie_effektiv, 1) . "%</b>" : round($chemie_effektiv, 1) . "%"; echo  "mit TechTeam: ";  echo ($ttchemie_effektiv) ? "<b>" . round($ttchemie_effektiv, 1) . "%</b>" : round($ttchemie_effektiv, 1) . "%";?>
-        </td>
+        <td class="windowbg1"><?php echo ($row['chemievorkommen'] > 100) ? "<b>" . $row['chemievorkommen'] . " %</b>" : $row['chemievorkommen'] . ' %'; echo  " (effektiv ";  echo ($chemie_effektiv) ? "<b>" . round($chemie_effektiv, 1) . "%</b>)" : round($chemie_effektiv, 1) . "%)"; echo  ", mit TechTeam ";  echo ($row['ttchemie'] > 100) ? "<b>" . $row['ttchemie'] . "%</b>" : $row['ttchemie'] . "%"; echo  " (effektiv ";  echo ($ttchemie_effektiv) ? "<b>" . round($ttchemie_effektiv, 1) . "%</b>)" : round($ttchemie_effektiv, 1) . "%)";?></td>
     </tr>
     <tr>
         <td class="windowbg2">Eisdichte:</td>
-        <td class="windowbg1"><?php echo ($row['eisdichte'] > 30) ? "<b>" . $row['eisdichte'] . " %</b>" : $row['eisdichte'] . ' %'; echo  "mit TechTeam: ";  echo ($row['tteis'] > 30) ? "<b>" . $row['tteis'] . "%</b>" : $row['tteis'] . "%"; echo  "=> effektiv Eis: ";  echo ($eis_effektiv) ? "<b>" . round($eis_effektiv, 1) . "%</b>" : round($eis_effektiv, 1) . "%"; echo  "mit TechTeam: ";  echo ($tteis_effektiv) ? "<b>" . round($tteis_effektiv, 1) . "%</b>" : round($tteis_effektiv, 1) . "%";?>
-        </td>
+        <td class="windowbg1"><?php echo ($row['eisdichte'] > 30) ? "<b>" . $row['eisdichte'] . " %</b>" : $row['eisdichte'] . ' %'; echo  " (effektiv ";  echo ($eis_effektiv) ? "<b>" . round($eis_effektiv, 1) . "%</b>)" : round($eis_effektiv, 1) . "%)"; echo  ", mit TechTeam ";  echo ($row['tteis'] > 30) ? "<b>" . $row['tteis'] . "%</b>" : $row['tteis'] . "%"; echo  " (effektiv ";  echo ($tteis_effektiv) ? "<b>" . round($tteis_effektiv, 1) . "%</b>)" : round($tteis_effektiv, 1) . "%)";?></td>
     </tr>
     <tr>
         <td class="windowbg2">Lebensbedingungen:</td>
-        <td class="windowbg1"><?php echo ($row['lebensbedingungen'] > 100) ? "<b>" . $row['lebensbedingungen'] . " %</b>" : $row['lebensbedingungen'] . ' %';?>
-        </td>
+        <td class="windowbg1"><?php echo ($row['lebensbedingungen'] > 100) ? "<b>" . $row['lebensbedingungen'] . " %</b>" : $row['lebensbedingungen'] . ' %';?></td>
     </tr>
     <tr>
         <td colspan="2" class="titlebg"><b>Besonderheiten:</b></td>
     </tr>
     <tr>
-        <td colspan="2"
-            class="windowbg2"><?php echo  !empty($row['besonderheiten']) ? str_replace(", ", "<br>", $row['besonderheiten']) : "keine *moep*";?>
-        </td>
+        <td colspan="2" class="windowbg2"><?php echo  !empty($row['besonderheiten']) ? str_replace(", ", "<br>", $row['besonderheiten']) : "keine *moep*";?></td>
     </tr>
     <tr>
         <td colspan="2" class="titlebg"><b>Sprengung:</b></td>
@@ -324,20 +314,23 @@ if ($row['objekt'] == "---") {
     </tr>
     <tr>
         <td colspan="2" class="windowbg2" align="center">
-            <form method="POST"
-                  action="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&sid=<?php echo $sid;?>"
-                  enctype="multipart/form-data"><?php
+            <form method="POST" action="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&sid=<?php echo $sid;?>" enctype="multipart/form-data">
+                <?php
                 if (empty($row['reserviert'])) {
-                    echo "Diesen Planeten für dich reservieren? <input type='checkbox' name='reservieren'><input type='hidden' name='editplanet' value='true'> <input type='submit' value='speichern' name='B1' class='submit'>";
-                } elseif ((isset($user_sitterlogin)) && ($row['reserviert'] == $user_sitterlogin)) {
-                    echo "Diesen Planeten für dich reservieren? <input type='checkbox' name='reservieren' class='checkbox' checked><input type='hidden' name='editplanet' value='true'> <input type='submit' value='speichern' name='B1' class='submit'>";
+                    echo "Diesen Planeten für dich reservieren? <input type='checkbox' name='reservieren'>
+                    <input type='submit' value='speichern' name='reserveplanie' class='submit'>";
+                } elseif ((isset($user_sitterlogin)) AND ($row['reserviert'] === $user_sitterlogin)) {
+                    echo "Diesen Planeten für dich reservieren? <input type='checkbox' name='reservieren' checked>
+                    <input type='submit' value='speichern' name='reserveplanie' class='submit'>";
                 } else {
                     echo "Dieser Planet ist für " . $row['reserviert'] . " reserviert. Bitte besiedel ihn nicht.";
                     if ((isset($user_status)) && ($user_status == "admin")) {
-                        echo "<br>Ändern? <input type='checkbox' name='reservieren' class='checkbox' checked><input type='hidden' name='editplanet' value='true'> <input type='submit' value='speichern' name='B1' class='submit'>";
+                        echo "<br>Ändern? <input type='checkbox' name='reservieren' checked>
+                        <input type='submit' value='speichern' name='reserveplanie' class='submit'>";
                     }
                 }
-                ?></form>
+                ?>
+            </form>
         </td>
     </tr>
 <?php

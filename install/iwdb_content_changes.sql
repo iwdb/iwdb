@@ -1117,21 +1117,6 @@ INSERT INTO `prefix_research2research` (`rOld`, `rNew`) VALUES
 (270, 232);
 
 --
--- Daten für Tabelle `prefix_parser`
---
-
-DELETE FROM `prefix_parser`;
-
-INSERT INTO `prefix_parser` (`modulename`, `recognizer`, `message`) VALUES
-('unixml', '?xml ', 'UniXML'),
-('researchoverview', 'Erforschte Forschungen', 'Forschungsliste'),
-('highscore', 'Letzte Aktualisierung', 'Highscore');
-
-DELETE FROM `prefix_iwdbtabellen` WHERE `name`=`spielerinfo`;
-DELETE FROM `prefix_iwdbtabellen` WHERE `name`=`bestellen`;
-DELETE FROM `prefix_iwdbtabellen` WHERE `name`=`versand_auftrag`;
-
---
 -- Daten für Tabelle `prefix_bbcodes`
 --
 
@@ -1183,18 +1168,8 @@ INSERT INTO `prefix_bbcodes` (`isregex`, `bbcode`, `htmlcode`) VALUES
 (0, ' :wall:', ' <img src="bilder/smilies/wall.gif" />'),
 (0, ' :wtf:', ' <img src="bilder/smilies/wtf.gif" />');
 
-DELETE FROM `prefix_parser` WHERE `modulename` = 'unixml';
-
--- Mac: fuer Fremdsondierungsparser
-INSERT INTO `prefix_iwdbtabellen` (`name`) VALUES ('fremdsondierung');
-
-INSERT INTO `prefix_iwdbtabellen` (`name`) VALUES ('incomings');
-
 -- masel: fix #114
 UPDATE `prefix_gebaeude` SET  `name` =  'Orbitales Habitat' WHERE  `prefix_gebaeude`.`id` =126;
-
--- masel 15.01.
-DELETE FROM `prefix_parser` WHERE `modulename` = 'researchoverview';
 
 -- masel 22.01.
 DELETE FROM `prefix_params` WHERE `name` = 'sound_global';

@@ -335,17 +335,6 @@ CREATE TABLE IF NOT EXISTS `prefix_highscore` (
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `prefix_iwdbtabellen`
---
-
-CREATE TABLE IF NOT EXISTS `prefix_iwdbtabellen` (
-  `name` varchar(40) NOT NULL DEFAULT '',
-  UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Tabellennamen, die in der DB verwendet werden.';
-
--- --------------------------------------------------------
-
---
 -- Tabellenstruktur für Tabelle `prefix_kasse_content`
 --
 

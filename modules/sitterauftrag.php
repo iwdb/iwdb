@@ -307,19 +307,14 @@ if (empty($umenu))
 <br>
 <?php
 if ($id == $user_sitterlogin) {
-    ?>
-    <font style="font-size: 22px; color: #004466">meine Sitteraufträge</font><br>
-<?php
+    echo "<div style='font-size: 22px; color: #004466'>meine Sitteraufträge</div>";
 } else {
-    ?>
-    <font style="font-size: 22px; color: #004466">Sitteraufträge von <?php echo $id;?></font><br>
-<?php
+    echo "<div style='font-size: 22px; color: #004466'>Sitteraufträge von $id</div>";
 }
 echo (empty($alert)) ? "" : $alert;
 ?>
 <br>
-<form method="POST" action="index.php?action=sitterauftrag&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>"
-      enctype="multipart/form-data">
+<form method="POST" action="index.php?action=sitterauftrag&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>" enctype="multipart/form-data">
 <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">
     <tr>
         <td class="titlebg" colspan="4" align="center">
@@ -540,7 +535,6 @@ echo (empty($alert)) ? "" : $alert;
     ?>
 </table>
 <br>
-
 <?php
 }
 // neuer Auftrag //
@@ -613,15 +607,11 @@ if (!empty($umenu)) {
             $date_b2 = strftime(CONFIG_DATETIMEFORMAT, $date_b2);
         }
     }
-    ?>
-    <font style="font-size: 22px; color: #004466">Sitterauftrag</font><br>
-    <?php
+    doc_title('neuer Sitterauftrag');
     echo (empty($alert)) ? "" : $alert;
     ?>
     <br>
-    <form method="POST"
-          action="index.php?action=sitterauftrag&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>"
-          enctype="multipart/form-data">
+    <form method="POST" action="index.php?action=sitterauftrag&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>" enctype="multipart/form-data">
     <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 60%;">
     <tr>
         <td class="windowbg2" style="width: 30%;">
@@ -961,29 +951,31 @@ function fill_selection($selected_id)
     global $db, $db_tb_research, $db_tb_researchfield, $user_sitterlogin;
 
     $fields = array();
+
     $sql = "SELECT id, name FROM " . $db_tb_researchfield . " ORDER BY id";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
     while (($research_data = $db->db_fetch_array($result)) !== false) {
-        $resid = $research_data['id'];
+        $resid          = $research_data['id'];
         $fields[$resid] = $research_data['name'];
     }
 
     $where = "";
 
-    if (!empty($id)) {
+    if (!empty($user_sitterlogin)) {
         $where = " WHERE NOT ID IN (SELECT rID FROM research2user where userid='" . $user_sitterlogin . "')";
     }
 
-    $sql = "SELECT ID, name, gebiet FROM " . $db_tb_research . $where . " ORDER BY gebiet ASC, name ASC";
-    $result = $db->db_query($sql);
+    $sql    = "SELECT ID, name, gebiet FROM " . $db_tb_research . $where . " ORDER BY gebiet ASC, name ASC";
+    $result = $db->db_query($sql)
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
     $gebietalt = 0;
-    $retVal = "";
+    $retVal    = "";
     while (($research_data = $db->db_fetch_array($result)) !== false) {
-        $resid = $research_data['ID'];
-        $resname = $research_data['name'];
+        $resid    = $research_data['ID'];
+        $resname  = $research_data['name'];
         $resfield = $research_data['gebiet'];
 
         if ($gebietalt != $resfield) {
@@ -1026,12 +1018,6 @@ function find_research_name($researchid)
     return $row['name'];
 }
 
-/**
- * Find the researchId of the building with the given building identifier.
- * return 0 if the building was not found (which usually happens for the
- * buildings at the start of the game).
- */
-
 // ****************************************************************************
 //
 // Erzeugt einen Modul-Link.
@@ -1060,6 +1046,11 @@ function makeurl($newparams)
     return $url;
 }
 
+/**
+ * Find the researchId of the building with the given building identifier.
+ * return 0 if the building was not found (which usually happens for the
+ * buildings at the start of the game).
+ */
 function find_research_for_building($bid, $level = 0)
 {
     global $db, $db_tb_research2building;

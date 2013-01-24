@@ -38,28 +38,40 @@ if (!defined('DEBUG_LEVEL')) {
 function parse_de_wirtschaft_planiress2($return)
 {
     if ($return->bSuccessfullyParsed) {
-        global $selectedusername;
+        global $selectedusername, $db, $db_tb_ressuebersicht, $db_tb_lager;
 
         $AccName = getAccNameFromKolos($return->objResultData->aKolos);
         if ($AccName === false) { //kein Eintrag gefunden -> ausgewählten Accname verwenden
             $AccName = $selectedusername;
         }
+        debug_var('wirtschaft_planiress2', $selectedusername);
 
-        $scan_data_total                    = array();
-        $scan_data_total['total_fp']        = $return->objResultData->iFPProduction;
-        $scan_data_total['total_credits_w'] = $return->objResultData->fCreditProduction;
-        $scan_data_total['total_alli']      = $return->objResultData->fCreditAlliance;
-        $scan_data_total['total_bev_a']     = $return->objResultData->iPeopleWithoutWork;
-        $scan_data_total['total_bev_g']     = $return->objResultData->iPeopleWithWork;
-        $scan_data_total['total_bev_q']     = $scan_data_total['total_bev_a'] * 100 / $scan_data_total['total_bev_g'];
+        if (!empty($db_tb_ressuebersicht)) {
 
-        insert_data_total_2($scan_data_total, $AccName);
+            $scan_data_total            = array();
+            $scan_data_total['user']    = $AccName;
+            $scan_data_total['fp_ph']   = $return->objResultData->iFPProduction;
+            $scan_data_total['credits'] = ($return->objResultData->fCreditAlliance + $return->objResultData->fCreditProduction);
+            $scan_data_total['bev_a']   = $return->objResultData->iPeopleWithoutWork;
+            $scan_data_total['bev_g']   = $return->objResultData->iPeopleWithWork;
+            $scan_data_total['bev_q']   = 0;
+            if (!empty($scan_data_total['bev_g'])) {
+                $scan_data_total['bev_q'] = $scan_data_total['bev_a'] * 100 / $scan_data_total['bev_g'];
+            }
+            $scan_data_total['datum'] = CURRENT_UNIX_TIME;
+            debug_var('wirtschaft_planiress2', $scan_data_total);
+
+            $db->db_insertupdate($db_tb_ressuebersicht, $scan_data_total)
+                or error(GENERAL_ERROR, 'Could not update total ress information.', '', __FILE__, __LINE__);
+
+        }
 
         foreach ($return->objResultData->aKolos as $kolo) {
             $scan_data                  = array();
-            $scan_data['coords_gal']    = $kolo->aCoords["coords_gal"];
-            $scan_data['coords_sys']    = $kolo->aCoords["coords_sol"];
-            $scan_data['coords_planet'] = $kolo->aCoords["coords_pla"];
+            $scan_data['user']          = $AccName;
+            $scan_data['coords_gal']    = $kolo->aCoords['coords_gal'];
+            $scan_data['coords_sys']    = $kolo->aCoords['coords_sol'];
+            $scan_data['coords_planet'] = $kolo->aCoords['coords_pla'];
 
             $scan_data['fp']      = $kolo->fFPProduction;
             $scan_data['fp_b']    = $kolo->fFPProductionWithoutMods;
@@ -69,67 +81,21 @@ function parse_de_wirtschaft_planiress2($return)
 
             $scan_data['bev_a'] = $kolo->iPeopleWithoutWork;
             $scan_data['bev_g'] = $kolo->iPeopleWithWork;
-            $scan_data['bev_q'] = $scan_data['bev_a'] * 100 / ($scan_data['bev_g'] > 0 ? $scan_data['bev_g'] : 1);
+            $scan_data['bev_q'] = 0;
+            if (!empty($scan_data['bev_g'])) {
+                $scan_data['bev_q'] = $scan_data['bev_a'] * 100 / $scan_data['bev_g'];
+            }
             $scan_data['bev_w'] = $kolo->iSexRate;
 
             $scan_data['zufr']   = $kolo->fZufr;
             $scan_data['zufr_w'] = $kolo->fZufrGrowing;
+            $scan_data['time']   = CURRENT_UNIX_TIME;
+            debug_var('wirtschaft_planiress2', $scan_data);
 
-            insert_data_2($scan_data);
+            $db->db_insertupdate($db_tb_lager, $scan_data)
+                or error(GENERAL_ERROR, 'Could not update ress information.', '', __FILE__, __LINE__);
         }
 
         echo "<div class='system_notification'>Lagerübersicht bei {$AccName} aktualisiert.</div>";
     }
-}
-
-function insert_data_2($scan_data)
-{
-    global $db, $db_tb_lager;
-
-    $sql = "UPDATE " . $db_tb_lager;
-    $sql .= " SET fp=" . $scan_data['fp'];
-    $sql .= ",fp_b=" . $scan_data['fp_b'];
-    $sql .= ",fp_m1=" . $scan_data['fp_m1'];
-    $sql .= ",fp_m2=" . $scan_data['fp_m2'];
-    $sql .= ",credits=" . $scan_data['credits'];
-    $sql .= ",bev_a=" . $scan_data['bev_a'];
-    $sql .= ",bev_g=" . $scan_data['bev_g'];
-    if (!empty($scan_data['bev_q'])) {
-        $sql .= ",bev_q=" . $scan_data['bev_q'];
-    }
-    $sql .= ",bev_w=" . $scan_data['bev_w'];
-    if (!empty($scan_data['zufr'])) {
-        $sql .= ",zufr=" . $scan_data['zufr'];
-    }
-    if (!empty($scan_data['zufr_w'])) {
-        $sql .= ",zufr_w=" . $scan_data['zufr_w'];
-    }
-    $sql .= ",time=" . CURRENT_UNIX_TIME;
-    $sql .= " WHERE coords_gal=" . $scan_data['coords_gal'];
-    $sql .= " AND coords_sys=" . $scan_data['coords_sys'];
-    $sql .= " AND coords_planet=" . $scan_data['coords_planet'];
-    $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-}
-
-function insert_data_total_2($scan_data, $AccName)
-{
-    global $db, $db_tb_ressuebersicht;
-
-    if (empty($db_tb_ressuebersicht)) {
-        return;
-    }
-
-    $sql = "UPDATE " . $db_tb_ressuebersicht;
-    $sql .= " SET fp_ph=" . $scan_data['total_fp'];
-#	$sql .= ",credits=" . $scan_data['total_credits_w'];
-    $total_credits = $scan_data['total_alli'] + $scan_data['total_credits_w'];
-    $sql .= ",credits=" . $total_credits;
-    $sql .= ",bev_a=" . $scan_data['total_bev_a'];
-    $sql .= ",bev_g=" . $scan_data['total_bev_g'];
-    $sql .= ",bev_q=" . $scan_data['total_bev_q'];
-    $sql .= ",datum=" . CURRENT_UNIX_TIME;
-    $sql .= " WHERE user='" . $AccName . "'";
-    $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 }

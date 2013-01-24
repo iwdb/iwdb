@@ -78,6 +78,7 @@ CREATE TABLE IF NOT EXISTS `prefix_bestellung` (
   `offen_eis` int(11) NOT NULL,
   `offen_wasser` int(11) NOT NULL,
   `offen_energie` int(11) NOT NULL,
+  `offen_volk` int(11) NOT NULL,
   `offen_credits` int(11) NOT NULL,
   `schiff` varchar(50) DEFAULT NULL,
   `anzahl` int(7) DEFAULT '1',

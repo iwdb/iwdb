@@ -185,3 +185,6 @@ DROP TABLE `prefix_parser`;
 -- masel: missing Index and removing double aktuellnews entry (here because order is important);
 DELETE FROM `prefix_params` WHERE `name` = 'aktuellnews' LIMIT 1;
 ALTER TABLE `prefix_params` ADD PRIMARY KEY ( `name` );
+
+-- masel: 24.01. fehlender Eintrag für noch offene Bevölkerung
+ALTER TABLE  `prefix_bestellung` ADD  `offen_volk` INT NOT NULL AFTER  `offen_energie`;

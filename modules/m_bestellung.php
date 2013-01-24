@@ -262,6 +262,7 @@ $config['ress'] = array("eisen"   => "Eisen",
                         "eis"     => "Eis",
                         "wasser"  => "Wasser",
                         "energie" => "Energie",
+                        "volk"    => "Bevölkerung",
                         "credits" => "Credits"
 );
 
@@ -360,8 +361,8 @@ if (!empty($button_edit) || !empty($button_add)) {
                   'eis'           => getVar('eis'),
                   'wasser'        => getVar('wasser'),
                   'energie'       => getVar('energie'),
-                  'credits'       => getVar('credits'),
                   'volk'          => getVar('volk'),
+                  'credits'       => getVar('credits'),
                   'schiff'        => getVar('schiff'),
                   'anzahl'        => getVar('anzahl'),
               )
@@ -385,6 +386,7 @@ if (!empty($button_edit) || !empty($button_add)) {
                   'eis'           => '',
                   'wasser'        => '',
                   'energie'       => '',
+                  'volk'          => '',
                   'credits'       => '',
               )
     );
@@ -591,6 +593,7 @@ foreach ($data as $id_bestellung => $bestellung) {
         'offen_eis'     => $data[$id_bestellung]['offen']['eis'],
         'offen_wasser'  => $data[$id_bestellung]['offen']['wasser'],
         'offen_energie' => $data[$id_bestellung]['offen']['energie'],
+        'offen_volk'    => $data[$id_bestellung]['offen']['volk'],
         'offen_credits' => $data[$id_bestellung]['offen']['credits'],
     );
 
@@ -745,6 +748,13 @@ $views = array(
                 'desc'  => 'Auf Lager achten!',
                 'type'  => 'text',
                 'value' => $edit['energie'],
+                'style' => 'width: 10em;',
+            ),
+            'volk' => array(
+                'title' => 'Bevölkerung',
+                'desc'  => '',
+                'type'  => 'text',
+                'value' => $edit['volk'],
                 'style' => 'width: 10em;',
             ),
             'credits' => array(
@@ -955,6 +965,7 @@ function makeresstable($row, $prefix_out = '', $prefix_cmp = '', $nocolor = fals
     $html .= makeresscol($row, $prefix_out, $prefix_cmp, $nocolor, 'eis', 'Eis');
     $html .= makeresscol($row, $prefix_out, $prefix_cmp, $nocolor, 'wasser', 'Wasser');
     $html .= makeresscol($row, $prefix_out, $prefix_cmp, $nocolor, 'energie', 'Energie');
+    $html .= makeresscol($row, $prefix_out, $prefix_cmp, $nocolor, 'volk', 'Bevölkerung');
     $html .= makeresscol($row, $prefix_out, $prefix_cmp, $nocolor, 'credits', 'Credits');
     $html .= "</table>";
 

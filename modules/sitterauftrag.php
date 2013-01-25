@@ -777,7 +777,7 @@ if (!empty($umenu)) {
                     <?php
                     $typprev = '';
                     $schiff = '';
-                    $sql = "SELECT typ, id, abk FROM " . $db_tb_schiffstyp . " typ ORDER BY typ asc";
+                    $sql = "SELECT `typ`, `id`, `abk` FROM `{$db_tb_schiffstyp}` ORDER BY `typ` asc";
                     $result_schiff = $db->db_query($sql)
                         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
                     while ($row_schiff = $db->db_fetch_array($result_schiff)) {
@@ -948,11 +948,11 @@ if (!empty($umenu)) {
 //
 function fill_selection($selected_id)
 {
-    global $db, $db_tb_research, $db_tb_researchfield, $user_sitterlogin;
+    global $db, $db_tb_research, $db_tb_researchfield, $user_sitterlogin, $db_tb_research2user;
 
     $fields = array();
 
-    $sql = "SELECT id, name FROM " . $db_tb_researchfield . " ORDER BY id";
+    $sql = "SELECT `id`, `name` FROM `{$db_tb_researchfield}` ORDER BY `id`;";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
@@ -964,10 +964,10 @@ function fill_selection($selected_id)
     $where = "";
 
     if (!empty($user_sitterlogin)) {
-        $where = " WHERE NOT ID IN (SELECT rID FROM research2user where userid='" . $user_sitterlogin . "')";
+        $where = " WHERE NOT ID IN (SELECT `rID` FROM `{$db_tb_research2user}` WHERE `userid`='" . $user_sitterlogin . "')";
     }
 
-    $sql    = "SELECT ID, name, gebiet FROM " . $db_tb_research . $where . " ORDER BY gebiet ASC, name ASC";
+    $sql    = "SELECT `ID`, `name`, `gebiet` FROM " . $db_tb_research . $where . " ORDER BY `gebiet` ASC, `name` ASC;";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 

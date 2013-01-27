@@ -1174,3 +1174,47 @@ UPDATE `prefix_gebaeude` SET  `name` =  'Orbitales Habitat' WHERE  `prefix_gebae
 -- masel 22.01.
 DELETE FROM `prefix_params` WHERE `name` = 'sound_global';
 
+-- masel 27.01.
+UPDATE `prefix_schiffstyp` SET `typ` = REPLACE(`typ`, '&auml;', 'ä');
+UPDATE `prefix_schiffstyp` SET `typ` = REPLACE(`typ`, '&ouml;', 'ö');
+UPDATE `prefix_schiffstyp` SET `typ` = REPLACE(`typ`, '&amp;', '&');
+
+UPDATE `prefix_schiffstyp` SET `abk` = REPLACE(`abk`, '&auml;', 'ä');
+UPDATE `prefix_schiffstyp` SET `id_iw` = '13' WHERE `id` = 1;
+UPDATE `prefix_schiffstyp` SET `id_iw` = '24' WHERE `id` = 2;
+UPDATE `prefix_schiffstyp` SET `id_iw` = '40' WHERE `id` = 9;
+UPDATE `prefix_schiffstyp` SET `id_iw` = '41' WHERE `id` = 10;
+UPDATE `prefix_schiffstyp` SET `id_iw` = '44' WHERE `id` = 12;
+UPDATE `prefix_schiffstyp` SET `id_iw` =  '8' WHERE `id` = 14;
+UPDATE `prefix_schiffstyp` SET `id_iw` = '10' WHERE `id` = 16;
+UPDATE `prefix_schiffstyp` SET  `id_iw` = '55' WHERE `id` = 18;
+UPDATE `prefix_schiffstyp` SET  `id_iw` = '27' WHERE `id` = 63;
+UPDATE `prefix_schiffstyp` SET  `id_iw` = '18' WHERE `id` = 66;
+UPDATE `prefix_schiffstyp` SET  `id_iw` = '16' WHERE `id` = 68;
+UPDATE `prefix_schiffstyp` SET  `id_iw` = '14' WHERE `id` = 75;
+UPDATE `prefix_schiffstyp` SET  `id_iw` = '64' WHERE `id` = 78;
+UPDATE `prefix_schiffstyp` SET  `id_iw` = '37' WHERE `id` = 79;
+UPDATE `prefix_schiffstyp` SET  `id_iw` = '25' WHERE `id` = 81;
+UPDATE `prefix_schiffstyp` SET  `id_iw` = '43' WHERE `id` = 83;
+UPDATE `prefix_schiffstyp` SET  `id_iw` = '28' WHERE `id` = 86;
+UPDATE `prefix_schiffstyp` SET  `id_iw` = '45' WHERE `id` = 88;
+UPDATE `prefix_schiffstyp` SET  `id_iw` = '70' WHERE `id` = 92;
+UPDATE `prefix_schiffstyp` SET  `id_iw` = '71' WHERE `id` = 99;
+UPDATE `prefix_schiffstyp` SET  `id_iw` = '67' WHERE `id` = 100;
+UPDATE `prefix_schiffstyp` SET  `id_iw` = '42' WHERE `id` = 101;
+UPDATE `prefix_schiffstyp` SET  `id_iw` = '57' WHERE `id` = 102;
+UPDATE `prefix_schiffstyp` SET  `id_iw` = '38' WHERE `id` = 103;
+UPDATE `prefix_schiffstyp` SET  `id_iw` = '12' WHERE `id` = 158;
+UPDATE `prefix_schiffstyp` SET  `id_iw` = '72' WHERE `id` = 159;
+UPDATE `prefix_schiffstyp` SET  `schiff` = 'Raketentransporter (mit Plutoniumdrachenantrieb)', `id_iw` = '69' WHERE `id` = 161;
+UPDATE `prefix_schiffstyp` SET  `id_iw` = '63' WHERE `id` = 169;
+UPDATE `prefix_schiffstyp` SET  `id_iw` = '76' WHERE `id` = 237;
+UPDATE `prefix_schiffstyp` SET  `id_iw` = '73' WHERE `id` = 300;
+INSERT INTO `prefix_schiffstyp` (`id`, `schiff`, `abk`, `typ`, `bild`, `id_iw`, `kosten_eisen`, `kosten_stahl`, `kosten_vv4a`, `kosten_chemie`, `kosten_eis`, `kosten_wasser`, `kosten_energie`, `angriff`, `waffenklasse`, `verteidigung`, `panzerung_kinetisch`, `panzerung_elektrisch`, `panzerung_gravimetrisch`, `dauer`, `bestellbar`, `klasse1`, `klasse2`) VALUES
+(301, 'Rosa-Plüschhasen-Spezialschiff', 'Rosa-Plüschhasen-Spezialschiff', 'admin', '', 26, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
+(302, 'Nimbus BP-1729', 'Nimbus BP-1729', 'admin', '', 29, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
+(303, 'Sirius XPi', 'Sirius XPi', '', '', 47, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
+(304, 'Quasal', 'Quasal', 'admin', '', 50, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
+(305, 'Tempest', 'Tempest', 'admin', '', 52, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
+(306, 'TAG Vario Kreuzer', 'TAG Vario Kreuzer', 'admin', '', 58, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
+(307, 'Kampfhuhn', 'Kampfhuhn', '', '', 77, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0);

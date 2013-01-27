@@ -189,5 +189,15 @@ ALTER TABLE `prefix_params` ADD PRIMARY KEY ( `name` );
 -- masel: 24.01. fehlender Eintrag für noch offene Bevölkerung
 ALTER TABLE  `prefix_bestellung` ADD  `offen_volk` INT NOT NULL AFTER  `offen_energie`;
 
--- masel 24.01 nicht länger benötigt, Tabellen werden automatisch gesucht
+-- masel: 24.01 nicht länger benötigt, Tabellen werden automatisch gesucht
 DROP TABLE prefix_iwdbtabellen;
+
+-- masel: 27.01.
+ALTER TABLE `prefix_lieferung` CHANGE `eisen`  `eisen` INT UNSIGNED NULL DEFAULT '0';
+ALTER TABLE `prefix_lieferung` CHANGE `stahl`  `stahl` INT UNSIGNED NULL DEFAULT '0';
+ALTER TABLE `prefix_lieferung` CHANGE `vv4a`  `vv4a` INT UNSIGNED NULL DEFAULT '0';
+ALTER TABLE `prefix_lieferung` CHANGE `chem`  `chem` INT UNSIGNED NULL DEFAULT '0';
+ALTER TABLE `prefix_lieferung` CHANGE `eis`  `eis` INT UNSIGNED NULL DEFAULT '0';
+ALTER TABLE `prefix_lieferung` CHANGE `wasser`  `wasser` INT UNSIGNED NULL DEFAULT '0';
+ALTER TABLE `prefix_lieferung` CHANGE `energie` `energie` INT UNSIGNED NULL DEFAULT  '0';
+ALTER TABLE `prefix_lieferung` ADD `volk` INT UNSIGNED NOT NULL DEFAULT '0' AFTER `energie`;

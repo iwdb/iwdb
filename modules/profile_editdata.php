@@ -190,7 +190,7 @@ if (($sitterlogin <> "") && ($edit == "true") && (($sitterlogin == $user_sitterl
         echo "<br><div class='system_notification'>Sitterpasswörter gelöscht.</div>";
     }
 
-    $result = $db->db_update($db_tb_user, $userd, "WHERE sitterlogin='" . $sitterlogin . "'")
+    $result = $db->db_update($db_tb_user, $userd, "WHERE `id`='{$user_id}';")
         or error(GENERAL_ERROR, 'Could not update user information.', '', __FILE__, __LINE__);
     echo "<div class='system_notification'>Userdaten aktualisiert.</div>";
 
@@ -233,7 +233,7 @@ if ($edit == true && $user_status == "admin") {
         }
     }
 } else {
-    $sql = "SELECT * FROM $db_tb_group_user WHERE $db_tb_group_user.`user_id`='" . $sitterlogin . "'";
+    $sql = "SELECT * FROM `{$db_tb_group_user}` WHERE `{$db_tb_group_user}`.`user_id`='{$sitterlogin}';";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     while ($row = $db->db_fetch_array($result)) {
@@ -241,7 +241,7 @@ if ($edit == true && $user_status == "admin") {
     }
 }
 
-$sql = "SELECT * FROM " . $db_tb_user . " WHERE sitterlogin = '" . $sitterlogin . "'";
+$sql = "SELECT * FROM `{$db_tb_user}` WHERE `id` = '{$user_id}';";
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row = $db->db_fetch_array($result);
@@ -256,9 +256,9 @@ if (!empty($sitterpwd)) {
     $sitterpwdsp = '';
 }
 
-//auslesen aller Memebr
+//auslesen aller Member
 $alluser = array();
-$sqlM = "SELECT id FROM " . $db_tb_user;
+$sqlM = "SELECT `id` FROM `{$db_tb_user}`;";
 $resultM = $db->db_query($sqlM)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
 while ($rowM = $db->db_fetch_array($resultM)) {
@@ -379,8 +379,8 @@ switch ($sound) {
         <span style="font-style:italic;">Trage hier den Bereich der Gravitation ein, die du besiedeln kannst.</span>
     </td>
     <td class="windowbg1">
-        von <input type="text" name="grav_von" value="<?php echo $grav_von;?>" style="width: 5em" maxlength="3"> bis
-        <input type="text" name="grav_bis" value="<?php echo $grav_bis;?>" style="width: 5em" maxlength="3">
+        von <input type="number" min="0" max="5" step="0.1" name="grav_von" value="<?php echo $grav_von;?>" style="width: 5em" maxlength="3"> bis
+        <input type="number" min="0" max="5" step="0.1" name="grav_bis" value="<?php echo $grav_bis;?>" style="width: 5em" maxlength="3">
     </td>
 </tr>
 <tr>
@@ -389,8 +389,8 @@ switch ($sound) {
         <span style="font-style:italic;">Trage hier den Bereich der Galaxien ein, die du sehen kannst.</span>
     </td>
     <td class="windowbg1">
-        von <input type="text" name="gal_start" value="<?php echo $gal_start;?>" style="width: 5em"> bis
-        <input type="text" name="gal_end" value="<?php echo $gal_end;?>" style="width: 5em">
+        von <input type="number" min="<?php echo $config_map_galaxy_min;?>" max="<?php echo $config_map_galaxy_max;?>" name="gal_start" value="<?php echo $gal_start;?>" style="width: 5em"> bis
+        <input type="number" min="<?php echo $config_map_galaxy_min;?>" max="<?php echo $config_map_galaxy_max;?>" name="gal_end" value="<?php echo $gal_end;?>" style="width: 5em">
     </td>
 </tr>
 <tr>
@@ -399,8 +399,8 @@ switch ($sound) {
         <span style="font-style:italic;">Trage hier den Bereich der Systeme ein, die du sehen kannst.</span>
     </td>
     <td class="windowbg1">
-        von <input type="text" name="sys_start" value="<?php echo $sys_start;?>" style="width: 5em"> bis
-        <input type="text" name="sys_end" value="<?php echo $sys_end;?>" style="width: 5em">
+        von <input type="number" min="<?php echo $config_map_system_min;?>" max="<?php echo $config_map_system_max;?>" name="sys_start" value="<?php echo $sys_start;?>" style="width: 5em"> bis
+        <input type="number" min="<?php echo $config_map_system_min;?>" max="<?php echo $config_map_system_max;?>" name="sys_end" value="<?php echo $sys_end;?>" style="width: 5em">
     </td>
 </tr>
 <tr>
@@ -470,7 +470,7 @@ switch ($sound) {
     </td>
     <td class="windowbg1">
         <input type="password" name="sitterpwd" value="<?php echo $sitterpwdsp;?>" style="width: 25em">
-        Null:
+        löschen?
         <input type="checkbox" name="deleteSitterpass" value="1">
     </td>
 </tr>
@@ -480,7 +480,7 @@ switch ($sound) {
     </td>
     <td class="windowbg1">
         <input type="password" name="sitterpwdwdhl" value="<?php echo $sitterpwdsp;?>" style="width: 25em">
-        Null:
+        löschen?
         <input type="checkbox" name="deleteSitterpasswdh" value="1">
     </td>
 </tr>
@@ -497,27 +497,6 @@ switch ($sound) {
             }
             ?>
         </select>
-    </td>
-</tr>
-<tr>
-    <td class="windowbg2" style="width:30%;">
-        Sitterpunkte:<br>
-        <span style="font-style:italic;">So viele Punkte hast du schon fürs Sitten erhalten.</span>
-    </td>
-    <td class="windowbg1">
-        <?php
-        if ($user_status == "admin") {
-            echo "<input type='text' name='sitterpunkte' value='$sitterpunkte' style='width: 5em'>\n";
-        } else {
-            echo $sitterpunkte;
-        }
-        $sql = "SELECT AVG(sitterpunkte) FROM " . $db_tb_user . " WHERE sitterpunkte <> 0";
-        $result_avg = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-        $row_avg = $db->db_fetch_array($result_avg);
-
-        echo "Durchschnitt: " . round($row_avg['AVG(sitterpunkte)']);
-        ?>
     </td>
 </tr>
 <tr>
@@ -607,7 +586,7 @@ if ($ikea == 'L') {
         <span style="font-style:italic;">Stelle hier deinen Gebäudebaudauermodifikator ein (Standard 1).</span>
     </td>
     <td class="windowbg1">
-        <input type="text" name="gengebmod" value="<?php echo $gengebmod;?>" style="width: 5em">
+        <input type="number" min="0.9" max="1.1" step="0.05" name="gengebmod" value="<?php echo $gengebmod;?>" style="width: 5em">
     </td>
 </tr>
 <tr>
@@ -655,7 +634,7 @@ if ($ikea == 'L') {
         <span style="font-style:italic;">Sollest du Fleeter sein, trage hier eine Farbe für deine Buddler ein (Format: #RRGGBB)</span>
     </td>
     <td class="windowbg1">
-        <input type="text" name="color" size="8" maxlength="7" value="<?php echo $color;?>">
+        <input type="text" name="color" pattern="#?[0-9a-fA-F]{0,6}" size="8" maxlength="7" value="<?php echo $color;?>">
     </td>
 </tr>
 <tr>
@@ -703,13 +682,34 @@ if ($ikea == 'L') {
 </tr>
 <tr>
     <td class="windowbg2" style="width:30%;">
+        Sitterpunkte:<br>
+        <span style="font-style:italic;">So viele Punkte hast du schon fürs Sitten erhalten.</span>
+    </td>
+    <td class="windowbg1">
+        <?php
+        if ($user_status == "admin") {
+            echo "<input type='text' pattern='[0-9]*' name='sitterpunkte' value='$sitterpunkte' style='width: 5em'>\n";
+        } else {
+            echo $sitterpunkte;
+        }
+        $sql = "SELECT AVG(sitterpunkte) FROM " . $db_tb_user . " WHERE sitterpunkte <> 0";
+        $result_avg = $db->db_query($sql)
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $row_avg = $db->db_fetch_array($result_avg);
+
+        echo "Durchschnitt: " . round($row_avg['AVG(sitterpunkte)']);
+        ?>
+    </td>
+</tr>
+<tr>
+    <td class="windowbg2" style="width:30%;">
         Geoscanpunkte:<br>
         <span style="font-style:italic;">So viele GeoScans hast du schon eingestellt.</span>
     </td>
     <td class="windowbg1">
         <?php
         if ($user_status == "admin") {
-            echo "<input type='text' name='geopunkte' value='$geopunkte' style='width: 5em;'>\n";
+            echo "<input type='text' pattern='[0-9]*' name='geopunkte' value='$geopunkte' style='width: 5em;'>\n";
         } else {
             echo $geopunkte;
         }
@@ -724,7 +724,7 @@ if ($ikea == 'L') {
     <td class="windowbg1">
         <?php
         if ($user_status == "admin") {
-            echo "<input type='text' name='syspunkte' value='$syspunkte' style='width: 5em;'>\n";
+            echo "<input type='text' pattern='[0-9]*' name='syspunkte' value='$syspunkte' style='width: 5em;'>\n";
         } else {
             echo $syspunkte;
         }

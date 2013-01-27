@@ -39,7 +39,7 @@ if (!defined('IRA')) {
 
 // Nachfolgendes define auf FALSE setzen, wenn in der Liste der Hall of Shame
 // nur negative Werte vorkommen dürfen.
-define('SHOWNEGATIVE', true);
+define('SHOW_ONLY_NEGATIVE', true);
 
 $ressu = (isset($db_tb_ressuebersicht) && !empty($db_tb_ressuebersicht)) ? true : false;
 
@@ -60,7 +60,7 @@ echo '<br>
 <form action="index.php" method="post"><p>
 <input type="hidden" name="action" value="showhighscore">
 <input type="hidden" name="sid" value="' . $sid . '">
-Top/Flop <input type="text" name="to" value="' . $hs_places . '" size="2">
+Top/Flop <input type="number" min="1" max="999" name="to" value="' . $hs_places . '" size="3">
 <input type="submit" value="zeigen" name="B1" class="submit">
 </p></form>
 ';
@@ -237,7 +237,7 @@ function createRessieTable($ressie, $direction, $altress = "", $decimals = 2, $a
             echo $count + 1;
         }
         next_cell("windowbg1");
-        if ((SHOWNEGATIVE === true)
+        if ((SHOW_ONLY_NEGATIVE === true)
             || ($direction == "DESC" && $row['ressie'] > 0)
             || ($direction == "ASC" && $row['ressie'] <= 0)
         ) {
@@ -246,7 +246,7 @@ function createRessieTable($ressie, $direction, $altress = "", $decimals = 2, $a
             echo "&nbsp;";
         }
         next_cell("windowbg1", "align=\"right\"");
-        if ((SHOWNEGATIVE === true)
+        if ((SHOW_ONLY_NEGATIVE === true)
             || ($direction == "DESC" && $row['ressie'] > 0)
             || ($direction == "ASC" && $row['ressie'] <= 0)
         ) {

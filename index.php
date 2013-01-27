@@ -134,7 +134,7 @@ if (( ( $user_adminsitten == SITTEN_BOTH ) || ( $user_adminsitten == SITTEN_ONLY
     }
     ?>
     <link href="style.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="javascript/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="javascript/jquery-1.9.0.min.js"></script>
     <script type="text/javascript" src="javascript/misc.js"></script>
     <script type="text/javascript">
     function confirmlink(link, text)

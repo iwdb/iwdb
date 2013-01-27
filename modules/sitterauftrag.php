@@ -47,12 +47,12 @@ if (@include("./config/m_research.cfg.php")) {
     }
 }
 
-function dauer($zeit)
+function dauer($dauer)
 {
-    $tage    = floor($zeit / DAY);
+    $tage    = floor($dauer / DAY);
     $return  = ($tage > 0) ? $tage . " Tage, " : "";
-    $stunden = floor(($zeit - $tage * DAY) / HOUR);
-    $minuten = ($zeit - $tage * DAY - $stunden * HOUR) / MINUTE;
+    $stunden = floor(($dauer - $tage * DAY) / HOUR);
+    $minuten = ($dauer - $tage * DAY - $stunden * HOUR) / MINUTE;
     $return .= str_pad($stunden, 2, "0", STR_PAD_LEFT) . ":" . str_pad($minuten, 2, "0", STR_PAD_LEFT);
 
     return $return;
@@ -618,6 +618,7 @@ if (!empty($umenu)) {
         </td>
         <td class="windowbg1" style="width: 70%;">
             <?php
+
             if ((!empty($serie)) || (!empty($auftragid) && !empty($thisid))) {
                 if (!empty($planet) && isset($planets[$planet])) {
                     echo "<input type='hidden' name='planet' value='" . $planet . "'>[" . $planet . "] " . $planets[$planet];
@@ -626,9 +627,12 @@ if (!empty($umenu)) {
                 ?>
                 <select name="planet" style="width: 200px;">
                     <?php
-                    foreach ($planets as $key => $data) {
-                        echo ($planet == $key) ? " <option value='" . $key . "' selected>[" . $key . "] " . $data . "</option>\n" : " <option value='" . $key . "'>[" . $key . "] " . $data . "</option>\n";
-                    }
+                    //if (!empty($planet) && isset($planets[$planet])) {
+
+                        foreach ($planets as $key => $data) {
+                            echo ($planet == $key) ? " <option value='" . $key . "' selected>[" . $key . "] " . $data . "</option>\n" : " <option value='" . $key . "'>[" . $key . "] " . $data . "</option>\n";
+                        }
+                    //}
                     ?>
                 </select>
             <?php
@@ -776,7 +780,7 @@ if (!empty($umenu)) {
                     <?php
                     $typprev = '';
                     $schiff = '';
-                    $sql = "SELECT `typ`, `id`, `abk` FROM `{$db_tb_schiffstyp}` ORDER BY `typ` asc";
+                    $sql = "SELECT `typ`, `id`, `abk` FROM `{$db_tb_schiffstyp}` ORDER BY `typ` ASC";
                     $result_schiff = $db->db_query($sql)
                         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
                     while ($row_schiff = $db->db_fetch_array($result_schiff)) {
@@ -964,7 +968,7 @@ function fill_selection($selected_id)
         $where = " WHERE NOT `ID` IN (SELECT `rID` FROM `{$db_tb_research2user}` WHERE `userid`='" . $user_sitterlogin . "')";
     }
 
-    $sql    = "SELECT `ID`, `name`, `gebiet` FROM " . $db_tb_research . $where . " ORDER BY `gebiet` ASC, `name` ASC;";
+    $sql = "SELECT `ID`, `name`, `gebiet` FROM " . $db_tb_research . $where . " ORDER BY `gebiet` ASC, `name` ASC;";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 

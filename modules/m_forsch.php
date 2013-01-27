@@ -73,24 +73,7 @@ $moduldesc =
 //
 function workInstallDatabase()
 {
-    /*	global $db, $db_prefix, $db_tb_iwdbtabellen;
-
-      $sqlscript = array(
-        "CREATE TABLE " . $db_prefix . "neuername
-        (
-            );",
-
-        "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-        " VALUES('neuername')"
-      );
-      foreach($sqlscript as $sql) {
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR,
-                   'Could not query config information.', '',
-                   __FILE__, __LINE__, $sql);
-      }
-      echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
-    */
+    //nothing here
 }
 
 //****************************************************************************
@@ -101,55 +84,34 @@ function workInstallDatabase()
 //
 function workInstallMenu()
 {
-    global $modultitle, $modulstatus;
+    global $modultitle, $modulstatus, $_POST;
 
-    $menu    = getVar('menu');
-    $submenu = getVar('submenu');
-
-    $actionparamters = "";
-    insertMenuItem($menu, $submenu, $modultitle, $modulstatus, $actionparamters);
+    $actionparameters = "";
+    insertMenuItem($_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparameters);
     //
     // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
     //
-    // 	insertMenuItem( $menu+1, ($submenu+1), "Titel2", "hc", "&weissichnichtwas=1" );
+    // 	insertMenuItem( $_POST['menu'], ($_POST['submenu']+1), "Titel2", "hc", "&weissichnichtwas=1" );
     //
 }
 
 //****************************************************************************
 //
 // Function workInstallConfigString will return all the other contents needed 
-// for the configuration file
+// for the configuration file.
 //
 function workInstallConfigString()
 {
-    /*  global $config_gameversion;
-      return
-        "\$v04 = \" <div class=\\\"doc_lightred\\\">(V " . $config_gameversion . ")</div>\";";
-    */
 }
 
 //****************************************************************************
 //
 // Function workUninstallDatabase is creating all database entries needed for
-// removing this module. 
+// removing this module.
 //
 function workUninstallDatabase()
 {
-    /*  global $db, $db_tb_iwdbtabellen, $db_tb_neuername;
-
-      $sqlscript = array(
-        "DROP TABLE " . $db_tb_neuername . ";",
-        "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='neuername';"
-      );
-
-      foreach($sqlscript as $sql) {
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR,
-                   'Could not query config information.', '',
-                   __FILE__, __LINE__, $sql);
-      }
-      echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
-    */
+    //nothing here
 }
 
 //****************************************************************************

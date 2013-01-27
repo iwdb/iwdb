@@ -1396,11 +1396,12 @@ INSERT INTO `prefix_schiffstyp` (`id`, `schiff`, `abk`, `typ`, `bild`, `id_iw`, 
 (161, 'Raketentransporter (mit Plutoniumdrachenantrieb)', 'Raketen-Transe', '1. Frachter', '', 69, 0, 0, 0, 0, 0, 0, 0, 0, 'keine', 10000, 200, 200, 200, 0, 0, 250000, 250000),
 (301, 'Rosa-Plüschhasen-Spezialschiff', 'Rosa-Plüschhasen-Spezialschiff', 'admin', '', 26, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
 (302, 'Nimbus BP-1729', 'Nimbus BP-1729', 'admin', '', 29, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(303, 'Sirius XPi', 'Sirius XPi', '', '', 47, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
+(303, 'Sirius XPi', 'Sirius XPi', 'admin', '', 47, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
 (304, 'Quasal', 'Quasal', 'admin', '', 50, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
 (305, 'Tempest', 'Tempest', 'admin', '', 52, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
 (306, 'TAG Vario Kreuzer', 'TAG Vario Kreuzer', 'admin', '', 58, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(307, 'Kampfhuhn', 'Kampfhuhn', '', '', 77, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0);
+(307, 'Kampfhuhn', 'Kampfhuhn', '', '', 77, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
+(308, 'Todesstern', 'Todesstern', 'admin', '', 83, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 

@@ -1213,8 +1213,9 @@ UPDATE `prefix_schiffstyp` SET  `id_iw` = '73' WHERE `id` = 300;
 INSERT INTO `prefix_schiffstyp` (`id`, `schiff`, `abk`, `typ`, `bild`, `id_iw`, `kosten_eisen`, `kosten_stahl`, `kosten_vv4a`, `kosten_chemie`, `kosten_eis`, `kosten_wasser`, `kosten_energie`, `angriff`, `waffenklasse`, `verteidigung`, `panzerung_kinetisch`, `panzerung_elektrisch`, `panzerung_gravimetrisch`, `dauer`, `bestellbar`, `klasse1`, `klasse2`) VALUES
 (301, 'Rosa-Plüschhasen-Spezialschiff', 'Rosa-Plüschhasen-Spezialschiff', 'admin', '', 26, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
 (302, 'Nimbus BP-1729', 'Nimbus BP-1729', 'admin', '', 29, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(303, 'Sirius XPi', 'Sirius XPi', '', '', 47, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
+(303, 'Sirius XPi', 'Sirius XPi', 'admin', '', 47, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
 (304, 'Quasal', 'Quasal', 'admin', '', 50, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
 (305, 'Tempest', 'Tempest', 'admin', '', 52, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
 (306, 'TAG Vario Kreuzer', 'TAG Vario Kreuzer', 'admin', '', 58, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
-(307, 'Kampfhuhn', 'Kampfhuhn', '', '', 77, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0);
+(307, 'Kampfhuhn', 'Kampfhuhn', '', '', 77, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0),
+(308, 'Todesstern', 'Todesstern', 'admin', '', 83, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0);

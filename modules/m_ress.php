@@ -78,7 +78,7 @@ $moduldesc =
 function workInstallDatabase()
 {
     /*
-    global $db, $db_prefix, $db_tb_iwdbtabellen, $db_tb_parser;
+    global $db, $db_prefix;
 
       $sqlscript = array(
         "CREATE TABLE " . $db_prefix . "ressuebersicht( " .
@@ -98,11 +98,6 @@ function workInstallDatabase()
         "`bev_q` float default NULL, " .
         "PRIMARY KEY  (`user`))",
 
-        "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-        " VALUES('ressuebersicht')",
-
-        "INSERT INTO " . $db_tb_parser . "(modulename,recognizer,message) VALUES " .
-        "('production', 'Ressourcenkoloübersicht', 'Produktionsübersicht')"
       );
 
       foreach($sqlscript as $sql) {
@@ -149,15 +144,10 @@ function workInstallConfigString()
 function workUninstallDatabase()
 {
     /*
-    global $db, $db_tb_ressuebersicht, $db_tb_parser;
+    global $db, $db_tb_ressuebersicht;
 
       $sqlscript = array(
         "DROP TABLE " . $db_tb_ressuebersicht,
-
-        "DELETE FROM " . $db_tb_iwdbtabellen .
-        " WHERE `name`='ressuebersicht'",
-
-        "DELETE FROM " . $db_tb_parser . " WHERE modulename='production'"
       );
 
       foreach($sqlscript as $sql) {

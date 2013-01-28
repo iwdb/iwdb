@@ -292,4 +292,4 @@ doc_title('Frachtkapazitätenberechnung');
     </tr>
 </table>
 
-<script type="text/javascript" src="javascript/frachtkappa.js"></script>
+<script src="javascript/frachtkappa.js"></script>

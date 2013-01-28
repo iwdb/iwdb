@@ -457,7 +457,7 @@ while ($row = $db->db_fetch_array($result)) {
         );
     }
     // Abfragen anfliegender übergaben
-    $sql_detail = "SELECT * FROM $db_tb_lieferung WHERE user_to<>user_from AND user_to='" . $row['user'] . "' AND time > " . time() . " AND art='&Uuml;bergabe'";
+    $sql_detail = "SELECT * FROM $db_tb_lieferung WHERE user_to<>user_from AND user_to='" . $row['user'] . "' AND time > " . CURRENT_UNIX_TIME . " AND art='Übergabe'";
     $result_detail = $db->db_query($sql_detail)
         or error(GENERAL_ERROR, 'Could not query scans_historie information.', '', __FILE__, __LINE__, $sql_detail);
     while ($row_detail = $db->db_fetch_array($result_detail)) {
@@ -505,7 +505,7 @@ while ($row = $db->db_fetch_array($result)) {
     $diff_hyperraum_klasse2 = $row['transporter_hyperraum_klasse2'] - ($produktion_system_klasse2 * ($params['heimatgalaxy_abdeckung_hyperraum_klasse2'] / 100)) - ($produktion_hyperraum_klasse2 * ($params['sonstige_abdeckung_hyperraum_klasse2'] / 100));
     // Scan-Alter berechnen
     $scanage      = min($row['datum'], $row['lastshipscan']);
-    $scanagehours = (time() - $scanage) / (60 * 60);
+    $scanagehours = (CURRENT_UNIX_TIME - $scanage) / HOUR;
     if ($scanagehours < 24) {
         $agecolor = "#00FF00";
     } else if ($scanagehours < 96) {
@@ -1008,7 +1008,7 @@ end_table();
 // Legende ausgeben
 echo '<br><table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="">';
 echo '<tr nowrap>';
-echo '<td style="background-color: white;" nowrap>Ress/Kolo- oder Schiffs&uuml;bersicht</td>';
+echo '<td style="background-color: white;" nowrap>Ress/Kolo- oder Schiffsübersicht</td>';
 echo '<td style="width: 30; background-color: #00FF00;"></td>';
 echo '<td class="windowbg1">von heute</td>';
 echo '<td style="width: 30; background-color: yellow;"></td>';
@@ -1022,11 +1022,11 @@ echo '<td class="windowbg1">Lurch</td>';
 echo '<td style="width: 10; background-color: white;" align="center">G</td>';
 echo '<td class="windowbg1">Gorgol</td>';
 echo '<td style="width: 10; background-color: white;" align="center">E</td>';
-echo '<td class="windowbg1">Eisb&auml;r</td>';
+echo '<td class="windowbg1">Eisbär</td>';
 echo '<td style="width: 10; background-color: white;" align="center">K</td>';
 echo '<td class="windowbg1">Kamel</td>';
 echo '<td style="width: 10; background-color: white;" align="center">W</td>';
-echo '<td class="windowbg1">Waschb&auml;r</td>';
+echo '<td class="windowbg1">Waschbär</td>';
 echo '<td style="width: 10; background-color: white;" align="center">F</td>';
 echo '<td class="windowbg1">Flughund</td>';
 echo '<td style="width: 10; background-color: white;" align="center">S</td>';

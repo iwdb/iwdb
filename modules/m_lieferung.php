@@ -78,17 +78,7 @@ $moduldesc = "Zeigt Informationen zu anfliegenden Lieferungen an";
 //
 function workInstallDatabase()
 {
-    global $db, $db_prefix, $db_tb_iwdbtabellen;
-
-    $sqlscript = array();
-
-    foreach ($sqlscript as $sql) {
-        echo "<br>" . $sql;
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-    }
-
-    echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
+    //nothing here
 }
 
 //****************************************************************************
@@ -126,16 +116,7 @@ function workInstallConfigString()
 //
 function workUninstallDatabase()
 {
-    global $db, $db_tb_gebaeude_spieler, $db_tb_iwdbtabellen;
-
-    $sqlscript = array();
-
-    foreach ($sqlscript as $sql) {
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-    }
-
-    echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
+    //nothing here
 }
 
 //****************************************************************************

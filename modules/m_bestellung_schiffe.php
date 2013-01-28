@@ -79,7 +79,7 @@ $moduldesc = "Bestellsystem zur Koordination von Logistikaufträgen im Buddler-F
 function workInstallDatabase()
 {
     /*
-      global $db, $db_prefix, $db_tb_iwdbtabellen;
+      global $db, $db_prefix;
 
       $sqlscript = array(
           "CREATE TABLE IF NOT EXISTS `" . $db_prefix . "bestellung_schiffe` (
@@ -96,7 +96,6 @@ function workInstallDatabase()
               `erledigt` int(1) NOT NULL DEFAULT '0',
               PRIMARY KEY (`id`)
               ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Bestellsystem' AUTO_INCREMENT=1",
-          "INSERT INTO " . $db_tb_iwdbtabellen . " (`name`) VALUES ('bestellung_schiffe')",
           "CREATE TABLE IF NOT EXISTS `" . $db_prefix . "bestellung_schiffe_pos` (
               `bestellung_id` int(11) NOT NULL,
               `schiffstyp_id` int(11) NOT NULL,
@@ -104,7 +103,6 @@ function workInstallDatabase()
               `offen` int(11) NOT NULL,
               PRIMARY KEY (`bestellung_id`,`schiffstyp_id`)
               ) ENGINE=MyISAM DEFAULT CHARSET=utf8;",
-          "INSERT INTO " . $db_tb_iwdbtabellen . " (`name`) VALUES ('bestellung_schiffe_pos')",
       );
 
       foreach ($sqlscript as $sql) {
@@ -159,13 +157,11 @@ function workInstallConfigString()
 function workUninstallDatabase()
 {
     /*
-         global $db, $db_tb_bestellung, $db_tb_iwdbtabellen;
+         global $db, $db_tb_bestellung;
 
         $sqlscript = array(
           "DROP TABLE " . $db_tb_bestellung,
-          "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE `name`='bestellung_schiffe'",
           "DROP TABLE " . $db_tb_bestellung_pos,
-          "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE `name`='bestellung_schiffe_pos'",
         );
 
         foreach ($sqlscript as $sql) {
@@ -445,15 +441,15 @@ if (empty($edit['planet'])) {
     if ((($edit['coords_gal']) !== '') AND ($edit['coords_sys'] !== '') AND ($edit['coords_planet']) !== '') {
         //Koordinatenauswahlfelder gefüllt
 
-        if (isset($config['planeten'][$edit['coords_gal'].':'.$edit['coords_sys'].':'.$edit['coords_planet']])) {
+        if (isset($config['planeten'][$edit['coords_gal'] . ':' . $edit['coords_sys'] . ':' . $edit['coords_planet']])) {
             //Planet als Planet des Spielers bekannt -> diesen einstellen
-            $edit['planet'] = $config['planeten'][$edit['coords_gal'].':'.$edit['coords_sys'].':'.$edit['coords_planet']];
+            $edit['planet'] = $config['planeten'][$edit['coords_gal'] . ':' . $edit['coords_sys'] . ':' . $edit['coords_planet']];
         } else {
-            //sonst 'anderer'
+            //sonst '(anderer)'
             $edit['planet'] = '(anderer)';
         }
     } else {
-        //sonst erster Planet des Spielers
+        //Koordinatenauswahlfelder nicht gefüllt -> erster Planet des Spielers
         reset($config['planeten']);
         $edit['planet'] = key($config['planeten']);
     }
@@ -776,10 +772,12 @@ if (isset($results)) {
 // Team Dropdown
 echo '<form method="POST" action="' . makeurl(array()) . '" enctype="multipart/form-data"><p align="center">';
 echo 'Lieferant: ';
-echo makefield(array("type"  => 'select',
-                    "values" => $config['filter_who'],
-                    "value"  => $params['filter_who']
-               ), 'filter_who'
+echo makefield(
+    array(
+         "type"   => 'select',
+         "values" => $config['filter_who'],
+         "value"  => $params['filter_who']
+    ), 'filter_who'
 );
 echo ' <input type="submit" name="submit" value="anzeigen"/>';
 echo "</form><br><br>\n";
@@ -901,7 +899,7 @@ if (isset($params['edit']) && is_numeric($params['edit'])) {
     echo '<input type="hidden" name="edit" value="' . $params['edit'] . '">' . "\n";
     // echo '<input type="hidden" name="list_team" value="'.$list_team.'" />' . "\n";
 } else {
-    echo " hinzuf&uuml;gen";
+    echo " hinzufügen";
 }
 echo "</b>";
 foreach ($view['edit'] as $key => $field) {

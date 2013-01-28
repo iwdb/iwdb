@@ -478,33 +478,8 @@ if (!empty($erledigt)) {
         }
     }
 }
-?>
-<script language="JavaScript" type="text/javascript"><!--
-    function Collapse(what) {
-        var collapseImage = document.getElementById("collapse_" + what);
-        var collapseRow = document.getElementById("row_" + what);
 
-        if (!collapseImage)
-            return;
-
-        if (collapseRow.style.display == "") {
-            collapseRow.style.display = "none";
-            collapseImage.src = "bilder/plus.gif";
-        }
-        else {
-            collapseRow.style.display = "";
-            collapseImage.src = "bilder/minus.gif";
-        }
-    }
-
-    function kopiere_zeit(id) {
-        document.getElementById("date_" + id).value = document.getElementById("date_b1_" + id).value;
-        document.getElementById("date_b2_" + id).value = document.getElementById("date_b1_" + id).value;
-    }
-    // --></script>
-
-<font style="font-size: 22px; color: #004466">Sitteraufträge</font><br>
-<?php
+doc_title('Sitteraufträge');
 echo (empty($alert)) ? "" : $alert;
 
 // Start Dauerauftraege //

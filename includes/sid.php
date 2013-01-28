@@ -207,7 +207,7 @@ IPs:<br>' . $ips . $client_ip . '</font>
 
 //Cookie leeren wenn Logout
 if (!empty($action) AND ($action == "memberlogout2")) {
-    setcookie($config_cookie_name, '', time() - 3600, '', '', 0);
+    setcookie($config_cookie_name, '', CURRENT_UNIX_TIME - 3600, '', '', 0);
 }
 
 // not yet logged in //

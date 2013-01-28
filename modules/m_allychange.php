@@ -71,7 +71,7 @@ $moduldesc = "zeigt Allianzwechsel der Spieler";
 //
 function workInstallDatabase()
 {
-    global $db, $db_prefix, $db_tb_iwdbtabellen;
+    global $db, $db_prefix;
 
     /*	foreach ($sqlscript as $sql) {
             echo "<br>" . $sql;
@@ -79,7 +79,7 @@ function workInstallDatabase()
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
         }
 
-      echo "<div class='system_notification'>Installation: Datenbank&auml;nderungen = <b>OK</b></div>";*/
+      echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";*/
 }
 
 //****************************************************************************
@@ -117,14 +117,7 @@ function workInstallConfigString()
 //
 function workUninstallDatabase()
 {
-    global $db, $db_tb_scans_historie, $db_tb_iwdbtabellen;
-
-    /*	foreach ($sqlscript as $sql) {
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-        }
-
-        echo "<div class='system_notification'>Deinstallation: Datenbank&auml;nderungen = <b>OK</b></div>";*/
+    //nothing here
 }
 
 //****************************************************************************

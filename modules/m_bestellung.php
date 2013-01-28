@@ -81,7 +81,7 @@ $moduldesc = "Bestellsystem zur Koordination von Logistikaufträgen im Buddler-F
 function workInstallDatabase()
 {
     /*
-         global $db, $db_prefix, $db_tb_iwdbtabellen;
+         global $db, $db_prefix;
 
         $sqlscript = array(
             "CREATE TABLE `" . $db_prefix . "bestellung` (" .
@@ -108,7 +108,6 @@ function workInstallDatabase()
             "`taeglich` bit NOT NULL default 0," .
             "PRIMARY KEY  (`id`)" .
             ") COMMENT='Bestellsystem' AUTO_INCREMENT=1",
-            "INSERT INTO " . $db_tb_iwdbtabellen . " (`name`) VALUES ('bestellung')",
         );
 
         foreach ($sqlscript as $sql) {
@@ -163,11 +162,10 @@ function workInstallConfigString()
 function workUninstallDatabase()
 {
     /*
-     global $db, $db_tb_bestellung, $db_tb_iwdbtabellen;
+     global $db, $db_tb_bestellung;
 
      $sqlscript = array(
        "DROP TABLE " . $db_tb_bestellung,
-       "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE `name`='bestellung'",
      );
 
 
@@ -255,15 +253,16 @@ debug_var("params", $params);
 $config = array();
 
 // Ressourcen
-$config['ress'] = array("eisen"   => "Eisen",
-                        "stahl"   => "Stahl",
-                        "vv4a"    => "VV4A",
-                        "chemie"  => "Chemie",
-                        "eis"     => "Eis",
-                        "wasser"  => "Wasser",
-                        "energie" => "Energie",
-                        "volk"    => "Bevölkerung",
-                        "credits" => "Credits"
+$config['ress'] = array(
+    "eisen"   => "Eisen",
+    "stahl"   => "Stahl",
+    "vv4a"    => "VV4A",
+    "chemie"  => "Chemie",
+    "eis"     => "Eis",
+    "wasser"  => "Wasser",
+    "energie" => "Energie",
+    "volk"    => "Bevölkerung",
+    "credits" => "Credits"
 );
 
 // Spieler und Teams abfragen
@@ -415,9 +414,9 @@ if (!empty($button_edit)) {
 
 // Edit-Daten hinzufügen
 if (!empty($button_add)) {
-    $sql = "SELECT * FROM " . $db_tb_bestellung . " WHERE coords_gal=" . $fields['coords_gal'] . " AND coords_planet=" . $fields['coords_planet'] . " AND coords_sys=" . $fields['coords_sys'];
+    $sql = "SELECT count(*) FROM `{$db_tb_bestellung}` WHERE `coords_gal`=" . $fields['coords_gal'] . " AND `coords_planet`=" . $fields['coords_planet'] . " AND `coords_sys`=" . $fields['coords_sys'];
     $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        or error(GENERAL_ERROR, 'Could not query order information.', '', __FILE__, __LINE__, $sql);
     if ($row = $db->db_fetch_array($result)) {
         $results[] = "<div class='system_notification'>Pro Planet kann nur eine Bestellung hinzugefügt werden.</div>";
     } else {
@@ -432,9 +431,10 @@ if (!empty($button_add)) {
     }
 }
 
-// Edit-Daten abfragen
-if (empty($button_edit) && empty($button_add) && is_numeric($params['edit'])) {
-    $sql = "SELECT * FROM `" . $db_tb_bestellung . "` WHERE `id`=" . $params['edit'];
+// Daten der Bestellung zum editieren abrufen
+if (empty($button_edit) AND empty($button_add) AND (!empty($params['edit']))) {
+    var_dump($params['edit']);
+    $sql = "SELECT * FROM `{$db_tb_bestellung}` WHERE `id`=" . $params['edit'];
     debug_var('sql', $sql);
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -451,15 +451,15 @@ if (empty($edit['planet'])) {
     if ((($edit['coords_gal']) !== '') AND ($edit['coords_sys'] !== '') AND ($edit['coords_planet']) !== '') {
         //Koordinatenauswahlfelder gefüllt
 
-        if (isset($config['planeten'][$edit['coords_gal'].':'.$edit['coords_sys'].':'.$edit['coords_planet']])) {
+        if (isset($config['planeten'][$edit['coords_gal'] . ':' . $edit['coords_sys'] . ':' . $edit['coords_planet']])) {
             //Planet als Planet des Spielers bekannt -> diesen einstellen
-            $edit['planet'] = $config['planeten'][$edit['coords_gal'].':'.$edit['coords_sys'].':'.$edit['coords_planet']];
+            $edit['planet'] = $config['planeten'][$edit['coords_gal'] . ':' . $edit['coords_sys'] . ':' . $edit['coords_planet']];
         } else {
-            //sonst 'anderer'
+            //sonst '(anderer)'
             $edit['planet'] = '(anderer)';
         }
     } else {
-        //sonst erster Planet des Spielers
+        //Koordinatenauswahlfelder nicht gefüllt -> erster Planet des Spielers
         reset($config['planeten']);
         $edit['planet'] = key($config['planeten']);
     }
@@ -474,15 +474,15 @@ $sql = "SELECT *,
 	 FROM $db_tb_bestellung";
 if (isset($params['filter_who']) && $params['filter_who'] != '(Alle)') {
     if (strpos($params['filter_who'], '(Team) ') === 0) { //suchen nach einem Team
-        $sql .= " WHERE (" . $db_tb_bestellung . ".team='" . $params['filter_who'] . "' OR " . $db_tb_bestellung . ".team IS NULL" . " OR " . $db_tb_bestellung . ".team='(Alle)')";
+        $sql .= " WHERE (`{$db_tb_bestellung}`.`team`='" . $params['filter_who'] . "' OR `{$db_tb_bestellung}`.`team` IS NULL OR `{$db_tb_bestellung}`.`team`='(Alle)')";
     } else { //suchen nach einem einzelnen Spieler
-        $sql .= " WHERE " . $db_tb_bestellung . ".user='" . $params['filter_who'] . "'";
+        $sql .= " WHERE `{$db_tb_bestellung}`.`user`='" . $params['filter_who'] . "'";
     }
     if (!$user_fremdesitten) {
-        $sql .= " AND (SELECT `allianz` FROM `" . $db_tb_user . "` WHERE `" . $db_tb_user . "`.`id`=`" . $db_tb_bestellung . "`.`user`) = '" . $user_allianz . "'";
+        $sql .= " AND (SELECT `allianz` FROM `{$db_tb_user}` WHERE `{$db_tb_user}`.`id`=`{$db_tb_bestellung}`.`user`) = '" . $user_allianz . "'";
     }
 } elseif (!$user_fremdesitten) {
-    $sql .= " WHERE (SELECT `allianz` FROM `" . $db_tb_user . "` WHERE `" . $db_tb_user . "`.`id`=`" . $db_tb_bestellung . "`.`user`) = '" . $user_allianz . "'";
+    $sql .= " WHERE (SELECT `allianz` FROM `{$db_tb_user}` WHERE `{$db_tb_user}`.`id`=`{$db_tb_bestellung}`.`user`) = '" . $user_allianz . "'";
 }
 $sql .= " ORDER BY `prio` DESC, `$db_tb_bestellung`.`time` DESC, `$db_tb_bestellung`.`user` ASC, `$db_tb_bestellung`.`coords_gal` ASC, `$db_tb_bestellung`.`coords_sys` ASC, `$db_tb_bestellung`.`coords_planet` ASC;";
 
@@ -521,9 +521,8 @@ while ($row = $db->db_fetch_array($result)) {
 
     // Lieferungen abfragen
     if (!isset($lieferungen[$coords])) {
-        debug_var(
-            "sql_lieferung", $sql_lieferung =
-                               "SELECT *,
+        $sql_lieferung =
+            "SELECT *,
 				(SELECT $db_tb_user.`buddlerfrom` FROM $db_tb_user WHERE $db_tb_user.`id`=$db_tb_lieferung.`user_from`) AS team
 			FROM $db_tb_lieferung
 			WHERE $db_tb_lieferung.`coords_to_gal`=" . $row['coords_gal'] . "
@@ -532,22 +531,22 @@ while ($row = $db->db_fetch_array($result)) {
 			AND $db_tb_lieferung.`art`='Transport'
 			AND $db_tb_lieferung.`time`>" . $row['time_created'] . "
 			AND $db_tb_lieferung.`user_from`<>$db_tb_lieferung.`user_to`
-			ORDER BY $db_tb_lieferung.`time`"
-        );
+			ORDER BY $db_tb_lieferung.`time`";
+        debug_var("sql_lieferung", $sql_lieferung);
         $result_lieferung = $db->db_query($sql_lieferung)
             or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
         while ($row_lieferung = $db->db_fetch_array($result_lieferung)) {
-            $coords_from = $row_lieferung['coords_from_gal'] . ":" . $row_lieferung['coords_from_sys'] . ":" . $row_lieferung['coords_from_planet'];
-            $key         = $coords_from . "-" . $row_lieferung['time'];
-            debug_var(
-                "lieferungen[$coords][$key]", $lieferungen[$coords][$key] = array(
-                                                'user'   => $row_lieferung['user_from'],
-                                                'coords' => $coords_from,
-                                                'team'   => $row_lieferung['team'],
-                                                'art'    => $row_lieferung['art'],
-                                                'time'   => strftime("%d.%m.%Y %H:%M", $row_lieferung['time']),
-                                            )
+            $coords_from                = $row_lieferung['coords_from_gal'] . ":" . $row_lieferung['coords_from_sys'] . ":" . $row_lieferung['coords_from_planet'];
+            $key                        = $coords_from . "-" . $row_lieferung['time'];
+            $lieferungen[$coords][$key] = array(
+                'user'   => $row_lieferung['user_from'],
+                'coords' => $coords_from,
+                'team'   => $row_lieferung['team'],
+                'art'    => $row_lieferung['art'],
+                'time'   => strftime("%d.%m.%Y %H:%M", $row_lieferung['time'])
             );
+            debug_var("lieferungen[$coords][$key]", $lieferungen[$coords][$key]);
+
             foreach ($config['ress'] as $ress => $caption) {
                 if ($ress == "credits") {
                     $lieferungen[$coords][$key][$ress]           = 0;
@@ -765,7 +764,7 @@ $views = array(
                 'value' => $edit['energie'],
                 'style' => 'width: 10em;',
             ),
-            'volk' => array(
+            'volk'    => array(
                 'title' => 'Bevölkerung',
                 'desc'  => '',
                 'type'  => 'text',
@@ -813,10 +812,12 @@ if (isset($results)) {
 // Team Dropdown
 echo "<form method='POST' action='" . makeurl(array()) . "' enctype='multipart/form-data'><p align='center'>";
 echo 'Lieferant: ';
-echo makefield(array("type"  => 'select',
-                    "values" => $config['filter_who'],
-                    "value"  => $params['filter_who']
-               ), 'filter_who'
+echo makefield(
+    array(
+         "type"   => 'select',
+         "values" => $config['filter_who'],
+         "value"  => $params['filter_who']
+    ), 'filter_who'
 );
 echo "<input type='submit' name='submit' value='anzeigen'/>";
 echo "</form><br><br>\n";
@@ -881,7 +882,7 @@ foreach ($data as $row) {
         if (!isset($row['allow_delete']) || $row['can_delete']) {
             echo makelink(
                 array('delete' => $key),
-                "<img src='bilder/file_delete_s.gif' onclick=\"return confirmlink(this, 'Datensatz wirklich l&ouml;schen?')\" alt='löschen'>"
+                "<img src='bilder/file_delete_s.gif' onclick=\"return confirmlink(this, 'Datensatz wirklich löschen?')\" alt='löschen'>"
             );
         }
     }

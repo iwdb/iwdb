@@ -41,7 +41,7 @@ if ($user_status != "admin") {
 //****************************************************************************
 
 ?>
-    <script type="text/javascript" language="javascript">
+    <script>
         var confirmMsg = 'Menütitel wirklich löschen?';
         function confirmLink(theLink, theSqlQuery) {
             if (confirmMsg == '') {

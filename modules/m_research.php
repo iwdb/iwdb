@@ -78,8 +78,7 @@ $moduldesc =
 function workInstallDatabase()
 {
     /*
-        global $db, $db_prefix, $db_tb_iwdbtabellen, $db_tb_parser,
-             $db_tb_sitterauftrag, $config_gameversion;
+        global $db, $db_prefix, $db_tb_sitterauftrag, $config_gameversion;
 
       $sqlscript = array(
         "CREATE TABLE " . $db_prefix . "building2building (" .
@@ -88,17 +87,11 @@ function workInstallDatabase()
         "  PRIMARY KEY (bOld,bNew)" .
         ") COMMENT='Gebaeude bOld ermöglicht Gebaeude bNew'",
 
-        "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-        " VALUES('building2building')",
-
         "CREATE TABLE " . $db_prefix . "building2research (" .
         "  bId int(10) unsigned NOT NULL default '0'," .
         "  rId int(10) unsigned NOT NULL default '0'," .
         "  PRIMARY KEY  (bId,rId)" .
         ") COMMENT='Gebaeude bId ermöglicht Forschung rId'",
-
-        "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-        " VALUES('building2research')",
 
         "CREATE TABLE " . $db_prefix . "research (" .
         "  ID int(10) unsigned NOT NULL auto_increment," .
@@ -119,9 +112,6 @@ function workInstallDatabase()
         "  UNIQUE KEY `name` (`name`)" .
         ") COMMENT='Forschungsinformation fuer Forschung Id'",
 
-        "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-        " VALUES('research')",
-
         "CREATE TABLE " . $db_prefix . "research2building (" .
         "  rId int(10) unsigned NOT NULL default '0'," .
         "  bId int(10) unsigned NOT NULL default '0'," .
@@ -129,17 +119,11 @@ function workInstallDatabase()
         "  PRIMARY KEY  (rId,bId,lvl)" .
         ") COMMENT='Forschung rId ermöglicht Gebaeude(stufe) bId'",
 
-        "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-        " VALUES('research2building')",
-
         "CREATE TABLE " . $db_prefix . "research2prototype (" .
         "  rid int(10) unsigned NOT NULL default '0'," .
         "  pid int(10) unsigned NOT NULL default '0'," .
         "  PRIMARY KEY  (rid,pid)" .
         ") COMMENT='Forschung rId ermöglicht Prototyp pId'",
-
-        "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-        " VALUES('research2prototype')",
 
         "CREATE TABLE " . $db_prefix . "research2research (" .
         "  rOld int(10) unsigned NOT NULL default '0'," .
@@ -147,26 +131,17 @@ function workInstallDatabase()
         "  PRIMARY KEY  (rOld,rNew)" .
         ") COMMENT='Forschung rOld ermöglicht Forschung rNew'",
 
-        "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-        " VALUES('research2research')",
-
         "CREATE TABLE " . $db_prefix . "research2user (" .
         "  rid int(10) unsigned NOT NULL default '0'," .
         "  userid varchar(30) NOT NULL default '0'," .
         "  PRIMARY KEY  (rid,userid)" .
         ") COMMENT='bereits erforschte Forschungen des Benutzers'",
 
-        "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-        " VALUES('research2user')",
-
         "CREATE TABLE " . $db_prefix . "researchfield (" .
         "  id int(10) unsigned NOT NULL auto_increment," .
         "  `name` varchar(50) NOT NULL default ''," .
         "  PRIMARY KEY  (id)" .
         ") COMMENT='Forschungsfelder'",
-
-        "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-        " VALUES('researchfield')",
 
         "INSERT INTO " . $db_prefix . "researchfield (id, name) VALUES " .
         "(0,'noch unbekannt')," .
@@ -199,10 +174,6 @@ function workInstallDatabase()
         "(1, " . find_the_building_id("kleines Haus") . ", 0)," .
         "(1, " . find_the_building_id("kleines Stahlwerk") . ", 0)," .
         "(1, " . find_the_building_id("Zelt") . ", 0)",
-
-        "INSERT INTO " . $db_tb_parser . "(modulename,recognizer,message) VALUES " .
-        "('research', 'Forschungsinfo: ', 'Forschungsbericht')," .
-        "('researchoverview', 'Erforschte Forschungen', 'Forschungsliste')",
 
         "ALTER TABLE " . $db_tb_sitterauftrag . " ADD resid INT DEFAULT '0' NOT NULL"
       );
@@ -263,7 +234,7 @@ function workInstallConfigString()
 function workUninstallDatabase()
 {
     /*
-      global $db, $db_tb_iwdbtabellen, $db_tb_parser, $db_tb_sitterauftrag,
+      global $db, $db_tb_sitterauftrag,
              $db_tb_building2building, $db_tb_building2research,
              $db_tb_research2research, $db_tb_research2building,
              $db_tb_research2prototype, $db_tb_research,
@@ -271,40 +242,19 @@ function workUninstallDatabase()
 
       $sqlscript = array(
         "DROP TABLE " . $db_tb_building2building,
-        "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='building2building'",
-
         "DROP TABLE " . $db_tb_building2research,
-        "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='building2research'",
-
         "DROP TABLE " . $db_tb_research,
-        "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='research'",
-
         "DROP TABLE " . $db_tb_research2building,
-        "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='research2building'",
-
         "DROP TABLE " . $db_tb_research2prototype,
-        "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='research2prototype'",
-
         "DROP TABLE " . $db_tb_research2research,
-        "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='research2research'",
-
         "DROP TABLE " . $db_tb_research2user,
-        "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='research2user'",
-
         "DROP TABLE " . $db_tb_researchfield,
-        "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='researchfield'",
-
-        "DELETE FROM " . $db_tb_parser . " WHERE modulename='research'" .
-        " OR modulename='researchoverview'",
-
         "ALTER TABLE " . $db_tb_sitterauftrag . " DROP COLUMN resid"
       );
 
       foreach($sqlscript as $sql) {
         $result = $db->db_query($sql)
-            or error(GENERAL_ERROR,
-                   'Could not query config information.', '',
-                   __FILE__, __LINE__, $sql);
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
       }
 
       echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";

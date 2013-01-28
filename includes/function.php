@@ -833,7 +833,7 @@ function bbcode_buttons($id) {
     //ToDo: implement some caching
 
     $smilies = array();
-    $bbscriptcode = "<script type='text/javascript'>\n";
+    $bbscriptcode = "<script>\n";
     $bbscriptcode .= "var smilies = new Array();\n";
 
     $sql = "SELECT bbcode, htmlcode FROM {$db_prefix}bbcodes WHERE htmlcode LIKE '%<img src=%' GROUP BY htmlcode";        //Smiliebilder holen

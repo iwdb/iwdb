@@ -85,15 +85,12 @@ $moduldesc =
 function workInstallDatabase()
 {
     /*
-        global $db, $db_prefix, $db_tb_iwdbtabellen;
+        global $db, $db_prefix;
 
       $sqlscript = array(
         "CREATE TABLE " . $db_prefix . "neuername
         (
             );",
-
-        "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-        " VALUES('neuername')"
       );
 
       foreach($sqlscript as $sql) {
@@ -149,11 +146,10 @@ function workInstallConfigString()
 function workUninstallDatabase()
 {
     /*
-        global $db, $db_tb_iwdbtabellen, $db_tb_neuername;
+        global $db, $db_tb_neuername;
 
       $sqlscript = array(
         "DROP TABLE " . $db_tb_neuername . ";",
-        "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='neuername';"
       );
 
       foreach($sqlscript as $sql) {

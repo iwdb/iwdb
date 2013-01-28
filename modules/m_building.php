@@ -75,7 +75,7 @@ $moduldesc =
 function workInstallDatabase()
 {
     /*
-        global $db, $db_prefix, $db_tb_iwdbtabellen;
+        global $db, $db_prefix;
 
         $sqlscript = array(
             "ALTER TABLE `" . $db_prefix . "gebaeude` ADD `info` TEXT NOT NULL ," .
@@ -95,13 +95,6 @@ function workInstallDatabase()
             "ADD `MaximaleAnzahl` INT( 3 ) NOT NULL ," .
             "ADD `typ` VARCHAR( 5 ) NOT NULL ",
 
-        "INSERT INTO " . $db_tb_parser . "(modulename,recognizer,message) VALUES " .
-        "('building', 'Gebäudeinfo: ', 'Gebäude')"
-
-            /*"UPDATE `gebaeude` SET `name` = 'Kraftwerk (Solar) (orbital)' WHERE `id` =23 LIMIT 1 ",
-
-        "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-        " VALUES('neuername')"
       );
 
         foreach($sqlscript as $sql) {
@@ -156,21 +149,11 @@ function workInstallConfigString()
 function workUninstallDatabase()
 {
     /*
-    global $db, $db_prefix, $db_tb_iwdbtabellen;
+    global $db, $db_prefix;
 
-        $sqlscript = array(
-            "ALTER TABLE `" . $db_prefix . "gebaeude` " .
-            "CHANGE `category` `category` VARCHAR( 50 ) NOT NULL DEFAULT '' ",
-
-            "DELETE FROM " . $db_tb_parser . " WHERE modulename='building' "
-
-            /*  global $db, $db_tb_iwdbtabellen, $db_tb_neuername;
-            $sqlscript = array(
-            "DROP TABLE " . $db_tb_neuername . ";",
-            "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='neuername';"
-            );
-
-      );
+    $sqlscript = array(
+        "ALTER TABLE `" . $db_prefix . "gebaeude`  CHANGE `category` `category` VARCHAR( 50 ) NOT NULL DEFAULT '' ",
+    );
 
     foreach ($sqlscript as $sql) {
         $result = $db->db_query($sql)

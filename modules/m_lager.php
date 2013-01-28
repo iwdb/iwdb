@@ -79,7 +79,7 @@ $moduldesc = "Lagerübersicht zur Koordination von Logistikaufträgen im Buddler
 function workInstallDatabase()
 {
     /*
-        global $db, $db_prefix, $db_tb_iwdbtabellen, $db_tb_parser;
+        global $db, $db_prefix;
 
         $sqlscript = array(
             "CREATE TABLE `" . $db_prefix . "lager` (" .
@@ -133,9 +133,6 @@ function workInstallDatabase()
             "`time` int(11) NOT NULL," .
             "PRIMARY KEY (`coords_gal`,`coords_sys`,`coords_planet`)" .
             ") COMMENT='Lagerübersicht'",
-            "INSERT INTO " . $db_tb_iwdbtabellen . " (`name`) VALUES ('lager')",
-            "DELETE FROM " . $db_tb_parser . " WHERE recognizer='Ressourcenkolo&uuml;bersicht'",
-            "INSERT INTO " . $db_tb_parser . " (`modulename`,`recognizer`,`message`) VALUES ('resskolo','Ressourcenkolo&uuml;bersicht','Ressourcenkolo&uuml;bersicht')",
         );
 
         foreach ($sqlscript as $sql) {
@@ -185,12 +182,10 @@ function workInstallConfigString()
 function workUninstallDatabase()
 {
     /*
-        global $db, $db_tb_lager, $db_tb_iwdbtabellen;
+        global $db, $db_tb_lager;
 
         $sqlscript = array(
           "DROP TABLE " . $db_tb_lager,
-          "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE `name`='lager'",
-          "DELETE FROM " . $db_tb_parser . " WHERE `modulename`='resskolo'",
         );
 
         foreach ($sqlscript as $sql) {

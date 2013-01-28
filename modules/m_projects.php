@@ -79,15 +79,15 @@ $moduldesc = "Verwaltung von Projekten im Bestellsystem";
 //
 function workInstallDatabase()
 {
-    global $db, $db_prefix, $db_tb_iwdbtabellen;
     /*
+    global $db, $db_prefix;
+
         $sqlscript = array(
             "CREATE TABLE `" . $db_prefix . "bestellung_projekt" (" .
               "`name` varchar(30) NOT NULL," .
               "`prio` int(11) NOT NULL," .
             "PRIMARY KEY  (`name`)" .
             "),
-            "INSERT INTO " . $db_tb_iwdbtabellen . " (`name`) VALUES ('bestellung_projekt')",
         );
 
         foreach ($sqlscript as $sql) {
@@ -95,8 +95,9 @@ function workInstallDatabase()
             $result = $db->db_query($sql)
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
         }
-    */
+
     echo "<br>Installation: Datenbankänderungen = <b>OK</b><br>";
+    */
 }
 
 //****************************************************************************
@@ -135,20 +136,19 @@ function workInstallConfigString()
 //
 function workUninstallDatabase()
 {
-    global $db, $db_tb_bestellung_projekt, $db_tb_iwdbtabellen;
+    /*
+    global $db, $db_tb_bestellung_projekt;
 
     $sqlscript = array(
         "DROP TABLE " . $db_tb_bestellung_projekt,
-        "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE `name`='bestellung_projekt'",
     );
 
-    /*
-        foreach ($sqlscript as $sql) {
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-        }
+    foreach ($sqlscript as $sql) {
+        $result = $db->db_query($sql)
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    }
 
-        echo "<br>Deinstallation: Datenbank&auml;nderungen = <b>OK</b><br>";
+    echo "<br>Deinstallation: Datenbankänderungen = <b>OK</b><br>";
     */
 }
 
@@ -375,13 +375,13 @@ foreach ($data as $row) {
         if ((!isset($row['allow_edit']) || $row['allow_edit']) && $key != "(Keins)") {
             echo makelink(
                 array('edit' => $key),
-                "<img src=\"bilder/file_edit_s.gif\" border=\"0\" alt=\"bearbeiten\">"
+                "<img src='bilder/file_edit_s.gif' border='0' alt='bearbeiten'>"
             );
         }
         if ((!isset($row['allow_delete']) || $row['can_delete']) && $key != "(Keins)") {
             echo makelink(
                 array('delete' => $key),
-                "<img src=\"bilder/file_delete_s.gif\" border=\"0\" onclick=\"return confirmlink(this, 'Datensatz wirklich löschen?')\" alt=\"löschen\">"
+                "<img src='bilder/file_delete_s.gif' border='0' onclick=\"return confirmlink(this, 'Datensatz wirklich löschen?')\" alt='löschen'>"
             );
         }
     }
@@ -397,7 +397,6 @@ echo "<b>Projekt";
 if (isset($params['edit']) && $params['edit']) {
     echo " bearbeiten/hinzufügen";
     echo '<input type="hidden" name="edit" value="' . $params['edit'] . '">' . "\n";
-    // echo '<input type="hidden" name="list_team" value="'.$list_team.'" />' . "\n";
 } else {
     echo " hinzufügen";
 }
@@ -507,5 +506,3 @@ function makeurl($newparams)
 
     return $url;
 }
-
-?>

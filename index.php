@@ -134,14 +134,9 @@ if (( ( $user_adminsitten == SITTEN_BOTH ) || ( $user_adminsitten == SITTEN_ONLY
     }
     ?>
     <link href="style.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="javascript/jquery-1.9.0.min.js"></script>
-    <script type="text/javascript" src="javascript/misc.js"></script>
-    <script type="text/javascript">
-    function confirmlink(link, text)
-    {
-        return is_confirmed = confirm(text);
-    }
-    </script>
+    <script src="javascript/jquery-1.9.0.min.js"></script>
+    <script src="javascript/jquery-migrate-1.0.0.js"></script>
+    <script src="javascript/misc.js"></script>
 </head>
 <?php	if (!getVar("nobody")) { ?>
 <body class="body">
@@ -159,8 +154,6 @@ include ('includes/sitterfadein.php');
 </p>
         <table width="100%" border="0" cellpadding="0" cellspacing="1" class="bordercolor">
           <tr> 
-			
-			
 			<td class="titlebg" style="background-color: #000000; text-align: center;">
 <?php
 if (isset($config_banner))
@@ -264,7 +257,6 @@ if ( ( $user_id <> "guest" ) && ( $user_rules == "1" ) ) {
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
 ?>
-
 <br><br>
 <div class='doc_title'>Account löschen</div>
 <br>

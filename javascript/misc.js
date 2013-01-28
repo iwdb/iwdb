@@ -210,3 +210,29 @@ function number_format(number, decimals, dec_point, thousands_sep) {
     }
     return s.join(dec);
 }
+
+function kopiere_zeit(id) {
+    document.getElementById("date_" + id).value = document.getElementById("date_b1_" + id).value;
+    document.getElementById("date_b2_" + id).value = document.getElementById("date_b1_" + id).value;
+}
+
+function Collapse(what) {
+    var collapseImage = document.getElementById("collapse_" + what);
+    var collapseRow = document.getElementById("row_" + what);
+
+    if (!collapseImage) {
+        return;
+    }
+    if (collapseRow.style.display === '') {
+        collapseRow.style.display = "none";
+        collapseImage.src = "../bilder/plus.gif";
+    } else {
+        collapseRow.style.display = "";
+        collapseImage.src = "../bilder/minus.gif";
+    }
+}
+
+function confirmlink(link, text) {
+    var is_confirmed = confirm(text);
+    return is_confirmed;
+}

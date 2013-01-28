@@ -1252,24 +1252,6 @@ if (empty($params['view'])) {
 
     usort($data, "sort_data_cmp");
     // Daten ausgeben
-    echo '
-        <script language="JavaScript" type="text/javascript"><!--
-        function Collapse(what) {
-            var collapseImage = document.getElementById("collapse_" + what);
-            var collapseRow = document.getElementById("row_" + what);
-            if (!collapseImage)
-                return;
-            if (collapseRow.style.display == "") {
-                collapseRow.style.display = "none";
-                collapseImage.src = "bilder/plus.gif";
-            } else {
-                collapseRow.style.display = "";
-                collapseImage.src = "bilder/minus.gif";
-            }
-        }
-        // --></script>
-            ';
-
     start_table();
     start_row("titlebg", "nowrap valign=top");
     foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {

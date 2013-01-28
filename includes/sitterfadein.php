@@ -73,8 +73,7 @@ if (!empty($user_id) AND ($user_id != 'guest') AND ($SitternoticeInModul)) {
     if (!empty($sitternotice_setting)) {
         if ($sitternotice_setting === 3 OR $sitternotice_setting === 4) { //blinkendes Fenster
             ?>
-            <script type="text/javascript">
-                <!--
+            <script>
                 function changebgcolor(color) {
                     if (document.getElementById("fadein1")) {
                         document.getElementById("fadein1").style.backgroundColor = color;
@@ -97,8 +96,6 @@ if (!empty($user_id) AND ($user_id != 'guest') AND ($SitternoticeInModul)) {
                     window.setTimeout(nerv_mich, 1000);
                 }
                 window.setTimeout(nerv_mich, 500);
-
-                //-->
             </script>
         <?php
         }

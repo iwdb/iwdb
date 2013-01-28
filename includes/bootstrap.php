@@ -34,7 +34,7 @@ define("MINUTE", 60);
 define("HOUR", 60 * MINUTE);
 define("DAY", 24 * HOUR);
 
-// veraltet
+// veraltetete Zeitdefinitionen
 $config_date = CURRENT_UNIX_TIME;
 $MINUTES = MINUTE;
 $HOURS = HOUR;

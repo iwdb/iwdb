@@ -379,8 +379,8 @@ switch ($sound) {
         <span style="font-style:italic;">Trage hier den Bereich der Gravitation ein, die du besiedeln kannst.</span>
     </td>
     <td class="windowbg1">
-        von <input type="number" min="0" max="5" step="0.1" name="grav_von" value="<?php echo $grav_von;?>" style="width: 5em" maxlength="3"> bis
-        <input type="number" min="0" max="5" step="0.1" name="grav_bis" value="<?php echo $grav_bis;?>" style="width: 5em" maxlength="3">
+        von <input type="number" min="0" max="12" step="0.1" name="grav_von" value="<?php echo $grav_von;?>" style="width: 5em" maxlength="3"> bis
+        <input type="number" min="0" max="12" step="0.1" name="grav_bis" value="<?php echo $grav_bis;?>" style="width: 5em" maxlength="3">
     </td>
 </tr>
 <tr>

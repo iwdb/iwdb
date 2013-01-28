@@ -75,7 +75,7 @@ $moduldesc =
 function workInstallDatabase()
 {
     /*
-      global $db, $db_prefix, $db_tb_iwdbtabellen, $db_tb_parser;
+      global $db, $db_prefix;
 
       $sqlscript = array(
         "CREATE TABLE " . $db_prefix . "kasse_content
@@ -99,14 +99,6 @@ function workInstallDatabase()
          `allianz` varchar( 50 ) NOT NULL,
           UNIQUE KEY ( `payedfrom`,  `payedto`, `amount`, `time_of_pay`)
             );",
-        "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-        " VALUES('kasse_incoming')",
-        "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-        " VALUES('kasse_content')",
-        "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-        " VALUES('kasse_outgoing')",
-        "INSERT INTO " . $db_tb_parser . "(`modulename`, `recognizer`,`message`)" .
-        " VALUES('kasse', 'Standardbeitrag', 'Allianzkasse')"
       );
 
       foreach($sqlscript as $sql) {
@@ -159,16 +151,12 @@ function workInstallConfigString()
 //
 /*
 function workUninstallDatabase() {
-  global $db, $db_tb_iwdbtabellen, $db_tb_kasse_content, $db_tb_kasse_incoming, $db_tb_kasse_outgoing, $db_tb_parser;
+  global $db, $db_tb_kasse_content, $db_tb_kasse_incoming, $db_tb_kasse_outgoing;
 
   $sqlscript = array(
     "DROP TABLE " . $db_tb_kasse_content . ";",
-    "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='kasse_content';",
     "DROP TABLE " . $db_tb_kasse_incoming . ";",
-    "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='kasse_incoming';",
     "DROP TABLE " . $db_tb_kasse_outgoing . ";",
-    "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='kasse_outgoing';",
-    "DELETE FROM " . $db_tb_parser . " WHERE modulename='kasse';"
   );
 
   foreach($sqlscript as $sql) {

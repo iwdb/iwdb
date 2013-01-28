@@ -75,7 +75,7 @@ $moduldesc =
 function workInstallDatabase()
 {
     /*
-    global $db, $db_prefix, $db_tb_parser, $db_tb_iwdbtabellen;
+    global $db, $db_prefix;
 
       $sqlscript = array(
             "CREATE TABLE IF NOT EXISTS " . $db_prefix . "raidview ( " .
@@ -95,9 +95,6 @@ function workInstallDatabase()
           " PRIMARY KEY  (`id`), " .
           " UNIQUE KEY `coords` (`coords`,`date`)" .
             " ) COMMENT='Raidberichte';",
-
-        "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-        " VALUES('raidview');",
       );
 
     foreach ($sqlscript as $sql) {
@@ -151,19 +148,7 @@ function workInstallConfigString()
 
 function workUninstallDatabase()
 {
-    /*
-    global $db, $db_tb_iwdbtabellen, $db_tb_parser, $db_tb_raidview;
-
-      $sqlscript = array(
-        "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='raidview';"
-      );
-
-    foreach ($sqlscript as $sql) {
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-    }
-    echo "<br>Deinstallation: Datenbankänderungen = <b>OK</b><br>";
-    */
+    //nothing here
 }
 
 //****************************************************************************

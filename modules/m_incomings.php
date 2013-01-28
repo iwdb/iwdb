@@ -72,7 +72,7 @@ $moduldesc = "Anzeige der Incomings (Sondierung/Angriff) auf die eigene Allianz"
 //
 function workInstallDatabase()
 {
-    global $db, $db_prefix, $db_tb_iwdbtabellen;
+    global $db, $db_prefix;
 
     $sqlscript = array(
         "CREATE TABLE IF NOT EXISTS `{$db_prefix}incomings` (
@@ -87,7 +87,6 @@ function workInstallDatabase()
         PRIMARY KEY (`timestamp`,`koords_to`, `koords_from` , `art`)
         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Tabelle für Incomings';
         ",
-        "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" . " VALUES('incomings')"
     );
     foreach ($sqlscript as $sql) {
         $result = $db->db_query($sql)
@@ -140,11 +139,10 @@ function workInstallConfigString()
 //
 function workUninstallDatabase()
 {
-    global $db, $db_tb_iwdbtabellen, $db_tb_incomings;
+    global $db, $db_tb_incomings;
 
     $sqlscript = array(
         "DROP TABLE " . $db_tb_incomings . ";",
-        "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='incomings';"
     );
 
     foreach ($sqlscript as $sql) {

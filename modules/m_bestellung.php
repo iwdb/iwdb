@@ -223,7 +223,7 @@ $params = array(
     'view'       => getVar('view'),
     'order'      => getVar('order'),
     'orderd'     => getVar('orderd'),
-    'edit'       => getVar('edit'),
+    'edit'       => (int)getVar('edit'),
     'delete'     => getVar('delete'),
     'expand'     => getVar('expand'),
     'filter_who' => getVar('filter_who'),
@@ -332,7 +332,7 @@ if (isset($params['delete']) && $params['delete'] != '') {
     debug_var('sql', $sql);
     $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-    $results[]        = "<div class='system_notification'>Datensatz gelöscht.</div><br>";
+    $results[]        = "<div class='system_notification'>Datensatz gelöscht.</div>";
     $params['delete'] = '';
     $params['edit']   = '';
 }
@@ -347,24 +347,24 @@ if (!empty($button_edit) || !empty($button_add)) {
         "edit", $edit = array(
                   'user'          => getVar('user'),
                   'planet'        => getVar('planet'),
-                  'coords_gal'    => getVar('coords_gal'),
-                  'coords_sys'    => getVar('coords_sys'),
-                  'coords_planet' => getVar('coords_planet'),
+                  'coords_gal'    => (int)getVar('coords_gal'),
+                  'coords_sys'    => (int)getVar('coords_sys'),
+                  'coords_planet' => (int)getVar('coords_planet'),
                   'team'          => getVar('team'),
                   'project'       => getVar('project'),
                   'text'          => getVar('text'),
                   'time'          => parsetime(getVar('time')),
-                  'eisen'         => getVar('eisen'),
-                  'stahl'         => getVar('stahl'),
-                  'chemie'        => getVar('chemie'),
-                  'vv4a'          => getVar('vv4a'),
-                  'eis'           => getVar('eis'),
-                  'wasser'        => getVar('wasser'),
-                  'energie'       => getVar('energie'),
-                  'volk'          => getVar('volk'),
-                  'credits'       => getVar('credits'),
-                  'schiff'        => getVar('schiff'),
-                  'anzahl'        => getVar('anzahl'),
+                  'eisen'         => (int)getVar('eisen'),
+                  'stahl'         => (int)getVar('stahl'),
+                  'chemie'        => (int)getVar('chemie'),
+                  'vv4a'          => (int)getVar('vv4a'),
+                  'eis'           => (int)getVar('eis'),
+                  'wasser'        => (int)getVar('wasser'),
+                  'energie'       => (int)getVar('energie'),
+                  'volk'          => (int)getVar('volk'),
+                  'credits'       => (int)getVar('credits'),
+                  'schiff'        => (int)getVar('schiff'),
+                  'anzahl'        => (int)getVar('anzahl'),
               )
     );
 } else {
@@ -392,17 +392,13 @@ if (!empty($button_edit) || !empty($button_add)) {
     );
 }
 
-// Planet suchen
-if (!empty($edit['planet'])) {
+// Planetenkoordinatenfelder ergänzen wenn leer
+if (empty($edit['coords_gal']) AND empty($edit['coords_sys']) AND empty($edit['coords_planet']) AND !empty($edit['planet'])) {
     $coords_tokens         = explode(":", $edit['planet']);
-    $edit['coords_gal']    = $coords_tokens[0];
-    $edit['coords_sys']    = $coords_tokens[1];
-    $edit['coords_planet'] = $coords_tokens[2];
-}
-
-if (!isset($edit['planet']) OR $edit['planet'] === '') {
-    reset($config['planeten']);
-    $edit['planet'] = key($config['planeten']);
+    $edit['coords_gal']    = (int)$coords_tokens[0];
+    $edit['coords_sys']    = (int)$coords_tokens[1];
+    $edit['coords_planet'] = (int)$coords_tokens[2];
+    unset($coords_tokens);
 }
 
 // Felder belegen
@@ -414,7 +410,7 @@ if (!empty($button_edit)) {
     $db->db_update($db_tb_bestellung, $fields, "WHERE `id`=" . $params['edit'])
         or error(GENERAL_ERROR, 'Could not update ress order.', '', __FILE__, __LINE__, $sql);
 
-    $results[] = "<div class='system_notification'>Datensatz aktualisiert.</div><br>";
+    $results[] = "<div class='system_notification'>Datensatz aktualisiert.</div>";
 }
 
 // Edit-Daten hinzufügen
@@ -423,7 +419,7 @@ if (!empty($button_add)) {
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     if ($row = $db->db_fetch_array($result)) {
-        $results[] = "<div class='system_notification'>Pro Planet kann nur eine Bestellung hinzugefügt werden.</div><br>";
+        $results[] = "<div class='system_notification'>Pro Planet kann nur eine Bestellung hinzugefügt werden.</div>";
     } else {
         $fields['time_created'] = CURRENT_UNIX_TIME;
 
@@ -432,7 +428,7 @@ if (!empty($button_add)) {
 
         $params['edit'] = $db->db_insert_id();
 
-        $results[] = "<div class='system_notification'>Datensatz hinzugefügt.</div><br>";
+        $results[] = "<div class='system_notification'>Datensatz hinzugefügt.</div>";
     }
 }
 
@@ -449,6 +445,25 @@ if (empty($button_edit) && empty($button_add) && is_numeric($params['edit'])) {
     }
 }
 $edit['time'] = strftime("%d.%m.%Y %H:%M", $edit['time']);
+
+//Planetenauswahlbox einstellen
+if (empty($edit['planet'])) {
+    if ((($edit['coords_gal']) !== '') AND ($edit['coords_sys'] !== '') AND ($edit['coords_planet']) !== '') {
+        //Koordinatenauswahlfelder gefüllt
+
+        if (isset($config['planeten'][$edit['coords_gal'].':'.$edit['coords_sys'].':'.$edit['coords_planet']])) {
+            //Planet als Planet des Spielers bekannt -> diesen einstellen
+            $edit['planet'] = $config['planeten'][$edit['coords_gal'].':'.$edit['coords_sys'].':'.$edit['coords_planet']];
+        } else {
+            //sonst 'anderer'
+            $edit['planet'] = '(anderer)';
+        }
+    } else {
+        //sonst erster Planet des Spielers
+        reset($config['planeten']);
+        $edit['planet'] = key($config['planeten']);
+    }
+}
 
 // Tabellen-Daten abfragen
 $data = array();
@@ -919,11 +934,10 @@ start_table();
 next_row("titlebg", 'nowrap valign=top colspan=2');
 echo "<b>" . $view['title'];
 if (isset($params['edit']) && is_numeric($params['edit'])) {
-    echo " bearbeiten/hinzuf&uuml;gen";
+    echo " bearbeiten/hinzufügen";
     echo '<input type="hidden" name="edit" value="' . $params['edit'] . '">' . "\n";
-    // echo '<input type="hidden" name="list_team" value="'.$list_team.'" />' . "\n";
 } else {
-    echo " hinzuf&uuml;gen";
+    echo " hinzufügen";
 }
 echo "</b>";
 foreach ($view['edit'] as $key => $field) {

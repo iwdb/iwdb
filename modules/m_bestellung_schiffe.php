@@ -332,9 +332,9 @@ if (!empty($button_edit) || !empty($button_add)) {
         "edit", $edit = array(
                   'user'          => getVar('user'),
                   'planet'        => getVar('planet'),
-                  'coords_gal'    => getVar('coords_gal'),
-                  'coords_sys'    => getVar('coords_sys'),
-                  'coords_planet' => getVar('coords_planet'),
+                  'coords_gal'    => (int)getVar('coords_gal'),
+                  'coords_sys'    => (int)getVar('coords_sys'),
+                  'coords_planet' => (int)getVar('coords_planet'),
                   'team'          => getVar('team'),
                   'project'       => getVar('project'),
                   'text'          => getVar('text'),
@@ -361,17 +361,12 @@ foreach ($config['schiffstypen'] as $schiffstyp) {
     debug_var("edit[schiff_" . $schiffstyp['id'] . "]", $edit['schiff_' . $schiffstyp['id']]);
 }
 
-// Planet suchen
-if (!empty($edit['planet'])) {
+// Planetenkoordinatenfelder ergänzen
+if (!empty($edit['planet']) AND empty($edit['coords_gal']) AND empty($edit['coords_gal']) AND empty($edit['coords_gal'])) {
     $coords_tokens         = explode(":", $edit['planet']);
-    $edit['coords_gal']    = $coords_tokens[0];
-    $edit['coords_sys']    = $coords_tokens[1];
-    $edit['coords_planet'] = $coords_tokens[2];
-}
-
-if (!isset($edit['planet']) OR $edit['planet'] === '') {
-    reset($config['planeten']);
-    $edit['planet'] = key($config['planeten']);
+    $edit['coords_gal']    = (int)$coords_tokens[0];
+    $edit['coords_sys']    = (int)$coords_tokens[1];
+    $edit['coords_planet'] = (int)$coords_tokens[2];
 }
 
 // Felder belegen
@@ -444,6 +439,25 @@ if (empty($button_edit) && empty($button_add) && is_numeric($params['edit'])) {
     }
 }
 $edit['time'] = strftime("%d.%m.%Y %H:%M", $edit['time']);
+
+//Planetenauswahlbox einstellen
+if (empty($edit['planet'])) {
+    if ((($edit['coords_gal']) !== '') AND ($edit['coords_sys'] !== '') AND ($edit['coords_planet']) !== '') {
+        //Koordinatenauswahlfelder gefüllt
+
+        if (isset($config['planeten'][$edit['coords_gal'].':'.$edit['coords_sys'].':'.$edit['coords_planet']])) {
+            //Planet als Planet des Spielers bekannt -> diesen einstellen
+            $edit['planet'] = $config['planeten'][$edit['coords_gal'].':'.$edit['coords_sys'].':'.$edit['coords_planet']];
+        } else {
+            //sonst 'anderer'
+            $edit['planet'] = '(anderer)';
+        }
+    } else {
+        //sonst erster Planet des Spielers
+        reset($config['planeten']);
+        $edit['planet'] = key($config['planeten']);
+    }
+}
 
 // Tabellen-Daten abfragen
 $data = array();

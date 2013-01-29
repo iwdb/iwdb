@@ -6,6 +6,8 @@ define('APPLICATION_PATH_URL', dirname($_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_
 
 require_once("includes/bootstrap.php");
 
+define('SORT_ONLY_BY_TIME', false);
+
 if (empty($sid) || empty($user_sitterlogin) || !($user_adminsitten == SITTEN_BOTH || $user_adminsitten == SITTEN_ONLY_LOGINS) || $user_id == "guest") {
     header("Location: " . APPLICATION_PATH_RELATIVE);
     exit;
@@ -94,22 +96,26 @@ while ($row = $db->db_fetch_array($result)) {
                 $user['sitterorder']['text'] = 'Sitten';
         }
     */
-    $sql = "SELECT * FROM " . $db_tb_lieferung . " WHERE user_to='" . $row['id'] . "' AND art IN ('Angriff','Sondierung','Sondierung (Schiffe/Def/Ress)','Sondierung (Gebäude/Ress)') AND time>" . (CURRENT_UNIX_TIME - (15 * MINUTE)) . " ORDER BY time DESC";
-    $result_angriff = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-    while ($row_angriff = $db->db_fetch_array($result_angriff)) {
-        if ($row_angriff['time'] > (CURRENT_UNIX_TIME - ($row_angriff['art'] == 'Angriff' ? (15 * MINUTE) : (5 * MINUTE)))) {
-            $key          = $row_angriff['art'] == 'Angriff' ? 'attack' : 'probe';
-            $user[$key][] = array(
-                'coords' => $row_angriff['coords_to_gal'] . ':' . $row_angriff['coords_to_sys'] . ':' . $row_angriff['coords_to_planet'],
-                'time'   => $row_angriff['time'],
-                'from'   => $row_angriff['user_from'],
-            );
-            if (!isset($user['next_date']) || $user['next_date'] > ($row_angriff['time'] + (15 * MINUTE))) {
-                $user['next_date'] = $row_angriff['time'];
-            }
-            if ($user['next_status'] > $status[$key]) {
-                $user['next_status'] = $status[$key];
+    if (!defined('SORT_ONLY_BY_TIME') OR SORT_ONLY_BY_TIME !== true) {
+
+        $sql = "SELECT * FROM " . $db_tb_lieferung . " WHERE user_to='" . $row['id'] . "' AND art IN ('Angriff','Sondierung','Sondierung (Schiffe/Def/Ress)','Sondierung (Gebäude/Ress)') AND time>" . (CURRENT_UNIX_TIME - (15 * MINUTE)) . " ORDER BY time DESC";
+        $result_angriff = $db->db_query($sql)
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        while ($row_angriff = $db->db_fetch_array($result_angriff)) {
+            if ($row_angriff['time'] > (CURRENT_UNIX_TIME - ($row_angriff['art'] == 'Angriff' ? (15 * MINUTE) : (5 * MINUTE)))) {
+                $key = $row_angriff['art'] == 'Angriff' ? 'attack' : 'probe';
+
+                $user[$key][] = array(
+                    'coords' => $row_angriff['coords_to_gal'] . ':' . $row_angriff['coords_to_sys'] . ':' . $row_angriff['coords_to_planet'],
+                    'time'   => $row_angriff['time'],
+                    'from'   => $row_angriff['user_from'],
+                );
+                if (!isset($user['next_date']) || $user['next_date'] > ($row_angriff['time'] + (15 * MINUTE))) {
+                    $user['next_date'] = $row_angriff['time'];
+                }
+                if ($user['next_status'] > $status[$key]) {
+                    $user['next_status'] = $status[$key];
+                }
             }
         }
     }

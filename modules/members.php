@@ -200,8 +200,10 @@ while ($row = $db->db_fetch_array($result)) {
         $count++;
     }
 
-    $id = urlencode($row['id']);
-    $sitterlogin = urlencode($row['sitterlogin']);
+    $id = $row['id'];
+    $id_encoded = urlencode($id);
+    $sitterlogin = $row['sitterlogin'];
+    $sitterlogin_encoded = urlencode($sitterlogin);
 
     if ($row['budflesol'] != 'Fleeter') {
         if (!empty($row['buddlerfrom'])) {
@@ -218,7 +220,7 @@ while ($row = $db->db_fetch_array($result)) {
             $color = "#000000";
         }
     } else {
-        $color = $fletocolo[$sitterlogin];
+        $color = $fletocolo[$sitterlogin_encoded];
     }
     ?>
     <tr>
@@ -226,12 +228,12 @@ while ($row = $db->db_fetch_array($result)) {
         if ($user_status == "admin") {
             ?>
             <td class="windowbg<?php echo $num;?>" valign="top">
-                <a href="index.php?action=profile&id=<?php echo $id; ?>&sitterlogin=<?php echo urlencode($sitterlogin);?>&sid=<?php echo $sid;?>">
+                <a href="index.php?action=profile&id=<?php echo $id_encoded; ?>&sitterlogin=<?php echo $sitterlogin_encoded; ?>&sid=<?php echo $sid;?>">
                     <img src="bilder/user-profil.gif" alt="P" title="Profil">
                 </a>
                 <?php
                 if (!empty($sitterlogin)) {
-                    echo "<a href='index.php?action=sitterlogins&sitterlogin={$sitterlogin}&sid={$sid}'><img src='bilder/user-login.gif' alt='L' title='Einloggen'></a>";
+                    echo "<a href='index.php?action=sitterlogins&sitterlogin={$sitterlogin_encoded}&sid={$sid}'><img src='bilder/user-login.gif' alt='L' title='Einloggen'></a>";
                 }
                 ?>
             </td>
@@ -241,7 +243,7 @@ while ($row = $db->db_fetch_array($result)) {
         <td class="windowbg<?php echo $num;?>">
             <?php
             if ($user_status === "admin") {
-                echo "<a href='index.php?action=profile&id=" . $id . "&sid=" . $sid . "'>" . $id . "</a>";
+                echo "<a href='index.php?action=profile&id={$id_encoded}&sid=" . $sid . "'>" . $id . "</a>";
             } else {
                 echo $id;
             }

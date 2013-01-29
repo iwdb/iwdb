@@ -100,7 +100,7 @@ if (!empty($editprofile) AND (($id === $user_id) OR ($user_status === "admin")))
     $userd['ikea']           = getVar('ikea');
     $userd['genbauschleife'] = getVar('genbauschleife');
     $userd['genmaurer']      = getVar('genmaurer');
-    $userd['gengebmod']      = (float)str_replace(",", ".", getVar('gengebmod'));
+    $userd['gengebmod']      = (float)getVar('gengebmod');
     $userd['iwsa']           = getVar('iwsa');
     //sonstiges
     $userd['budflesol']     = getVar('budflesol');
@@ -440,7 +440,10 @@ switch ($sound) {
         <span style="font-style:italic;">Sollen andere deinen Account sitten können? (Aufträge kannst du auch wenn deaktiviert erstellen.)</span>
     </td>
     <td class="windowbg1">
-        <input type="checkbox" name="sitten" value="1"<?php echo ($sitten) ? " checked" : "";?>>
+        <select name="sitten">
+            <option value="" <?php echo ($sitten) ? '' : 'selected';?>>nein</option>
+            <option value="1" <?php echo ($sitten) ? 'selected' : '';?>>ja</option>
+        </select>
     </td>
 </tr>
 <tr>
@@ -510,7 +513,7 @@ switch ($sound) {
         <span style="font-style:italic;">Wie möchtest du bei Sitteraufträgen zusätzlich benachrichtigt werden?</span>
     </td>
     <td class="windowbg1">
-        <select name="sound" size="1">
+        <select name="sound">
             <?php
             foreach ($asound as $key => $menu) {
                 echo "<option value='$key' " . ${'sel' . $key} . ">" . $asound[$key] . "</option>";
@@ -522,60 +525,65 @@ switch ($sound) {
 <tr>
     <td class="windowbg2">
         Meister der Peitschen?:<br>
-        <span style="font-style:italic;">Wenn du die Genetikoption hast, bitte Haken setzen.</span>
+        <span style="font-style:italic;">Wenn du die Genetikoption hast, bitte auswählen.</span>
     </td>
     <td class="windowbg1">
-        <input type="checkbox" name="peitschen" value="1"<?php echo ($peitschen) ? " checked" : "";?>>
+        <select name="peitschen">
+            <option value="" <?php echo ($peitschen) ? '' : 'selected';?>>nein</option>
+            <option value="1" <?php echo ($peitschen) ? 'selected' : '';?>>ja</option>
+        </select>
     </td>
 </tr>
-<?php
-$nchecked = 'checked="checked"';
-$lchecked = '';
-$mchecked = '';
-if ($ikea == 'L') {
-    $nchecked = '';
-    $lchecked = 'checked="checked"';
-} elseif ($ikea == 'M') {
-    $nchecked = '';
-    $mchecked = 'checked="checked"';
-}
-?>
 <tr>
     <td class="windowbg2">
         Ikea?:<br>
         <span style="font-style:italic;">Wenn du die Genetikoption hast, bitte auswählen.</span>
     </td>
     <td class="windowbg1">
-        <input type="radio" name="ikea" value="" <?php echo $nchecked;?>>kein Ikea&nbsp;
-        <input type="radio" name="ikea" value="L" <?php echo $lchecked;?>>Lehrling&nbsp;
-        <input type="radio" name="ikea" value="M" <?php echo $mchecked;?>>Meister&nbsp;
+        <select name="ikea">
+            <option value="" <?php echo ($ikea === '') ? 'selected' : '';?>>kein Ikea</option>
+            <option value="L" <?php echo ($ikea === 'L') ? 'selected' : '';?>>Lehrling des IKEA</option>
+            <option value="M" <?php echo ($ikea === 'M') ? 'selected' : '';?>>Meister des IKEA</option>
+        </select>
     </td>
 </tr>
 <tr>
     <td class="windowbg2">
         Ich will mehr Zeit?:<br>
-        <span style="font-style:italic;">Wenn du die Genetikoption hast, bitte Haken setzen.</span>
+        <span style="font-style:italic;">Wenn du die Genetikoption hast, bitte auswählen.</span>
     </td>
     <td class="windowbg1">
-        <input type="checkbox" name="genbauschleife" value="1"<?php echo ($genbauschleife) ? " checked" : "";?>>
+        <select name="genbauschleife">
+            <option value="" <?php echo ($genbauschleife) ? '' : 'selected';?>>nein</option>
+            <option value="1" <?php echo ($genbauschleife) ? 'selected' : '';?>>ja</option>
+        </select>
     </td>
 </tr>
 <tr>
     <td class="windowbg2">
         Der Einmaurer?:<br>
-        <span style="font-style:italic;">Wenn du die Genetikoption hast, bitte Haken setzen.</span>
+        <span style="font-style:italic;">Wenn du die Genetikoption hast, bitte auswählen.</span>
     </td>
     <td class="windowbg1">
-        <input type="checkbox" name="genmaurer" value="1"<?php echo ($genmaurer) ? " checked" : "";?>>
+        <select name="genmaurer">
+            <option value="" <?php echo ($genmaurer) ? '' : 'selected';?>>nein</option>
+            <option value="1" <?php echo ($genmaurer) ? 'selected' : '';?>>ja</option>
+        </select>
     </td>
 </tr>
 <tr>
     <td class="windowbg2">
         Bau auf Bau auf Bau auf Bau auf?:<br>
-        <span style="font-style:italic;">Stelle hier deinen Gebäudebaudauermodifikator ein (Standard 1).</span>
+        <span style="font-style:italic;">Stelle hier deinen Gebäudebaudauermodifikator ein (Standard +-0%).</span>
     </td>
     <td class="windowbg1">
-        <input type="number" min="0.9" max="1.1" step="0.05" name="gengebmod" value="<?php echo $gengebmod;?>" style="width: 5em">
+        <select name="gengebmod">
+            <option value="0.90" <?php echo ($gengebmod == 0.90) ? 'selected' : '';?>>-10%</option>
+            <option value="0.95" <?php echo ($gengebmod == 0.95) ? 'selected' : '';?>>-5%</option>
+            <option value="1.00" <?php echo ($gengebmod == 1.00) ? 'selected' : '';?>>+-0%</option>
+            <option value="1.05" <?php echo ($gengebmod == 1.05) ? 'selected' : '';?>>+5%</option>
+            <option value="1.10" <?php echo ($gengebmod == 1.10) ? 'selected' : '';?>>+10%</option>
+        </select>
     </td>
 </tr>
 <tr>
@@ -585,7 +593,10 @@ if ($ikea == 'L') {
      Wichtig wegen FP!</span>
     </td>
     <td class="windowbg1">
-        <input type="checkbox" name="iwsa" value="1" <?php echo ($iwsa) ? " checked" : "";?>>
+        <select name="iwsa">
+            <option value="" <?php echo ($sitten) ? '' : 'selected';?>>nein</option>
+            <option value="1" <?php echo ($sitten) ? 'selected' : '';?>>ja</option>
+        </select>
     </td>
 </tr>
 <tr>

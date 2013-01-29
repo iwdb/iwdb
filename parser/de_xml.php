@@ -658,7 +658,7 @@ function parse_kbxml($xmldata)
 					(ID_KB, TIME";
             $values = "
 				VALUES
-					('$kb[id]', '$kb_time'";
+					('$kb[id]', '$kb[time]";
             foreach ($kb['bomb'] as $key => $value) {
                 if ($key != 'geb') {
                     $sql .= ", $key";

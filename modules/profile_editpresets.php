@@ -35,22 +35,20 @@ if (!defined('IRA')) {
 
 //****************************************************************************
 
-doc_title('eigene Presets');
+doc_title('Presets');
 
-$delid = getVar('delid');
+$delid = (int)getVar('delid');
 if (!empty($delid)) {
     $sql = "SELECT fromuser, name FROM " . $db_tb_preset . " WHERE id LIKE '" . $delid . "'";
     $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        or error(GENERAL_ERROR, 'Could not query preset information.', '', __FILE__, __LINE__, $sql);
     $row = $db->db_fetch_array($result);
 
-    if (($row['fromuser'] == $user_sitterlogin) || ($user_status == "admin")) {
+    if (($row['fromuser'] === $user_sitterlogin) OR ($user_status === "admin")) {
         $sql = "DELETE FROM " . $db_tb_preset . " WHERE id = '" . $delid . "'";
         $result = $db->db_query($sql)
             or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-        echo "<div class='system_notification'>Preset '" . $row['name'] . " (" . $row['fromuser'] . ")' geloescht.</div>";
-    } else {
-        echo "<div class='system_notification'>Hack Attempt.</div>";
+        echo "<div class='system_notification'>Preset '" . $row['name'] . " von '" . $row['fromuser'] . "' gelöscht.</div>";
     }
 }
 ?>
@@ -68,15 +66,14 @@ if (!empty($delid)) {
         </td>
     </tr>
     <?php
-    // Ausgabe der Presets und Loeschlink //
-    if (($user_status == "admin") && ($sitterlogin == $user_sitterlogin)) {
-        $sql = "SELECT id, name, fromuser FROM " . $db_tb_preset . " WHERE (fromuser = '" . $sitterlogin . "' OR fromuser = '') ORDER BY fromuser, name";
+    // Ausgabe der Presets und Löschlink //
+    if ($user_status === "admin") { //admin kann die globalen Presets löschen
+        $sql = "SELECT id, name, fromuser FROM " . $db_tb_preset . " WHERE (fromuser = '" . $id . "' OR fromuser = '') ORDER BY fromuser, name";
     } else {
-        $sql = "SELECT id, name, fromuser FROM " . $db_tb_preset . " WHERE fromuser = '" . $sitterlogin . "'";
+        $sql = "SELECT id, name, fromuser FROM " . $db_tb_preset . " WHERE fromuser = '" . $id . "'";
     }
-
     $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        or error(GENERAL_ERROR, 'Could not query preset information.', '', __FILE__, __LINE__, $sql);
 
     while ($row = $db->db_fetch_array($result)) {
         ?>
@@ -88,7 +85,7 @@ if (!empty($delid)) {
                 <?php echo (empty($row['fromuser'])) ? "<b>global</b>" : $row['fromuser'];?>
             </td>
             <td class="windowbg1">
-                <a href="index.php?action=profile&uaction=editpresets&delid=<?php echo $row['id'];?>&sitterlogin=<?php echo urlencode($sitterlogin);?>&sid=<?php echo $sid;?>"">loeschen</a>
+                <a href="index.php?action=profile&uaction=editpresets&delid=<?php echo $row['id'];?>&sitterlogin=<?php echo urlencode($sitterlogin);?>&sid=<?php echo $sid;?>"">löschen</a>
             </td>
         </tr>
     <?php

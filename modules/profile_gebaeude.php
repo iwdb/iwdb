@@ -34,8 +34,7 @@ if (!defined('IRA')) {
 }
 
 //****************************************************************************
-
-doc_title('Gebäude ausblenden');
+doc_title('Gebäude ausblenden von ' . $id);
 
 function dauer($zeit)
 {
@@ -50,20 +49,25 @@ function dauer($zeit)
 
 $editgebaeude = getVar('editgebaeude');
 if (!empty($editgebaeude)) {
-    echo "<div class='system_notification'>Gebäude aktualisiert.</div>";
+    $sql = "UPDATE " . $db_tb_user . " SET gebaeude='" . $inactive . "' WHERE id = '" . $id . "'";
+    $result = $db->db_query($sql)
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    echo "<div class='system_notification'>Gebäudeeinstellung aktualisiert.</div>";
 }
 ?>
 <br>
-<form method="POST" action="index.php?action=profile&uaction=gebaeude&sid=<?php echo $sid;?>"
-      enctype="multipart/form-data">
+<form method="POST" action="index.php?action=profile&uaction=gebaeude&sid=<?php echo $sid;?>" enctype="multipart/form-data">
     <?php
-    $inactive = (empty($editgebaeude)) ? $user_gebaeude : "";
-
-    $sql = "SELECT gengebmod, genmaurer FROM " . $db_tb_user . " WHERE sitterlogin = '" . $sitterlogin . "'";
+    $sql = "SELECT gengebmod, genmaurer, gebaeude FROM " . $db_tb_user . " WHERE id = '" . $id . "'";
     $result_user = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     $row_user = $db->db_fetch_array($result_user);
 
+    if (empty($editgebaeude)) {
+        $inactive = $row_user['gebaeude'];
+    } else {
+        $inactive = '';
+    }
     $sql = "SELECT category FROM " . $db_tb_gebaeude . " GROUP BY category ORDER BY category asc";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -79,13 +83,13 @@ if (!empty($editgebaeude)) {
                 <td class="windowbg2" style="width:5%;">
                     ausblenden
                 </td>
-                <td class="windowbg2" style="width:10%;" align="center">
+                <td class="windowbg2" style="width:5%;" align="center">
                     &nbsp;
                 </td>
-                <td class="windowbg2" style="width:20%;">
+                <td class="windowbg2" style="width:40%;">
                     Name
                 </td>
-                <td class="windowbg2" style="width:65%;">
+                <td class="windowbg2" style="width:45%;">
                     Baudauer
                 </td>
             </tr>
@@ -113,8 +117,7 @@ if (!empty($editgebaeude)) {
                         if ($user_gebbilder == "1") {
                             $bild_url = (empty($row_gebaeude['bild'])) ? "bilder/gebs/blank.jpg" : "bilder/gebs/" . $row_gebaeude['bild'] . ".jpg";
                             ?>
-                            <img src="<?php echo $bild_url;?>" width="50" height="50"
-                                 style="vertical-align:middle;">
+                            <img src="<?php echo $bild_url;?>" width="50" height="50" style="vertical-align:middle;">
                         <?php
                         }
                         ?>
@@ -144,21 +147,14 @@ if (!empty($editgebaeude)) {
         </table>
         <br>
     <?php
-
-    }
-    if (!empty($editgebaeude)) {
-        $sql = "UPDATE " . $db_tb_user . " SET gebaeude='" . $inactive . "' WHERE sitterlogin = '" . $sitterlogin . "'";
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     }
     ?>
     <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">
         <tr>
             <td class="titlebg" align="center">
-                <input type="hidden" name="sitterlogin" value="<?php echo $sitterlogin;?>"><input type="hidden"
-                                                                                                  name="editgebaeude"
-                                                                                                  value="true"><input
-                    type="submit" value="speichern" name="B1" class="submit">
+                <input type="hidden" name="id" value="<?php echo $id;?>">
+                <input type="hidden" name="sitterlogin" value="<?php echo $sitterlogin;?>">
+                <input type="submit" value="speichern" name="editgebaeude" class="submit">
             </td>
         </tr>
     </table>

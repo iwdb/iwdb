@@ -190,7 +190,7 @@ if (($sitterlogin <> "") && ($edit == "true") && (($sitterlogin == $user_sitterl
         echo "<br><div class='system_notification'>Sitterpasswörter gelöscht.</div>";
     }
 
-    $result = $db->db_update($db_tb_user, $userd, "WHERE `id`='{$user_id}';")
+    $result = $db->db_update($db_tb_user, $userd, "WHERE `sitterlogin`='{$sitterlogin}';")
         or error(GENERAL_ERROR, 'Could not update user information.', '', __FILE__, __LINE__);
     echo "<div class='system_notification'>Userdaten aktualisiert.</div>";
 
@@ -241,7 +241,7 @@ if ($edit == true && $user_status == "admin") {
     }
 }
 
-$sql = "SELECT * FROM `{$db_tb_user}` WHERE `id` = '{$user_id}';";
+$sql = "SELECT * FROM `{$db_tb_user}` WHERE `sitterlogin` = '{$sitterlogin}';";
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row = $db->db_fetch_array($result);

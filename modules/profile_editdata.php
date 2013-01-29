@@ -205,7 +205,7 @@ if (isset($selectedgroups) && is_array($selectedgroups)) {
         $groups[$selectedgroup]["selected"] = true;
     }
 }
-if ($edit == true && $user_status === "admin") {
+if (!empty($editprofile) && $user_status === "admin") {
     $sql = "DELETE FROM $db_tb_group_user WHERE $db_tb_group_user.`user_id`='" . $id . "'";
     $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);

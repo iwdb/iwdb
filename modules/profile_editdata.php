@@ -81,8 +81,8 @@ if (!empty($editprofile) AND (($id === $user_id) OR ($user_status === "admin")))
     $userd['email']        = getVar('email');
     $userd['allianz']      = getVar('allianz');
     $userd['squad']        = getVar('squad');
-    $userd['grav_von']     = (float)str_replace(",", ".", $userd['grav_von']);
-    $userd['grav_bis']     = (float)str_replace(",", ".", $userd['grav_bis']);
+    $userd['grav_von']     = (float)str_replace(",", ".", getVar('grav_von'));
+    $userd['grav_bis']     = (float)str_replace(",", ".", getVar('grav_bis'));
     $userd['gal_start']    = (int)getVar('gal_start');
     $userd['gal_end']      = (int)getVar('gal_end');
     $userd['sys_start']    = (int)getVar('sys_start');
@@ -100,7 +100,7 @@ if (!empty($editprofile) AND (($id === $user_id) OR ($user_status === "admin")))
     $userd['ikea']           = getVar('ikea');
     $userd['genbauschleife'] = getVar('genbauschleife');
     $userd['genmaurer']      = getVar('genmaurer');
-    $userd['gengebmod']      = (float)str_replace(",", ".", $userd['gengebmod']);
+    $userd['gengebmod']      = (float)str_replace(",", ".", getVar('gengebmod'));
     $userd['iwsa']           = getVar('iwsa');
     //sonstiges
     $userd['budflesol']     = getVar('budflesol');

@@ -65,7 +65,7 @@ function parse_de_xml($return)
     }
 
     if (isset($anzahl_kb) && $anzahl_kb > 0) {
-        doc_message($anzahl_kb . ' KB-' . (($anzahl_kb == 1) ? 'Link' : 'Links') . ' geparsed (' . $anzahl_kb_neu . ' ' . ($anzahl_kb_neu == 1) ? 'neuer' : 'neue)');
+        doc_message($anzahl_kb . ' KB-' . (($anzahl_kb == 1) ? 'Link' : 'Links') . ' geparsed (' . $anzahl_kb_neu . ' ' . (($anzahl_kb_neu == 1) ? 'neuer' : 'neue').')');
     }
     if (isset($anzahl_sb) && $anzahl_sb > 0) {
         doc_message($anzahl_sb . ' SB-'. (($anzahl_sb == 1) ? 'Link' : 'Links') . ' geparsed');

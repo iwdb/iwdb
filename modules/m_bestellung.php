@@ -414,16 +414,18 @@ if (!empty($button_edit)) {
 
 // Edit-Daten hinzufügen
 if (!empty($button_add)) {
-    $sql = "SELECT count(*) FROM `{$db_tb_bestellung}` WHERE `coords_gal`=" . $fields['coords_gal'] . " AND `coords_planet`=" . $fields['coords_planet'] . " AND `coords_sys`=" . $fields['coords_sys'];
+    $sql = "SELECT count(*) AS Anzahl FROM `{$db_tb_bestellung}` WHERE `coords_gal`=" . $fields['coords_gal'] . " AND `coords_planet`=" . $fields['coords_planet'] . " AND `coords_sys`=" . $fields['coords_sys'];
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query order information.', '', __FILE__, __LINE__, $sql);
-    if ($row = $db->db_fetch_array($result)) {
+    $row = $db->db_fetch_array($result);
+
+    if ($row['Anzahl']>0) {
         $results[] = "<div class='system_notification'>Pro Planet kann nur eine Bestellung hinzugefügt werden.</div>";
     } else {
         $fields['time_created'] = CURRENT_UNIX_TIME;
 
         $db->db_insert($db_tb_bestellung, $fields)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
 
         $params['edit'] = $db->db_insert_id();
 
@@ -433,7 +435,6 @@ if (!empty($button_add)) {
 
 // Daten der Bestellung zum editieren abrufen
 if (empty($button_edit) AND empty($button_add) AND (!empty($params['edit']))) {
-    var_dump($params['edit']);
     $sql = "SELECT * FROM `{$db_tb_bestellung}` WHERE `id`=" . $params['edit'];
     debug_var('sql', $sql);
     $result = $db->db_query($sql)

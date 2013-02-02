@@ -465,6 +465,10 @@ if (empty($edit['planet'])) {
         $edit['planet'] = key($config['planeten']);
     }
 }
+//Planetenkoordinaten füllen
+if (($edit['planet'] !== '(anderer)') AND ((($edit['coords_gal']) === '') OR ($edit['coords_sys'] === '') OR ($edit['coords_planet']) === '')) {
+    list($edit['coords_gal'], $edit['coords_sys'], $edit['coords_planet']) = explode(':', $edit['planet']);
+}
 
 // Tabellen-Daten abfragen
 $data = array();
@@ -658,17 +662,20 @@ $views = array(
                 'value'  => $edit['user'],
             ),
             'planet'  => array(
-                'title'  => 'Planet',
-                'desc'   => 'Welcher Planet soll beliefert werden?',
-                'type'   => 'select',
-                'values' => $config['planeten'],
-                'value'  => $edit['planet'],
+                'id'       => 'planetcoords_select',
+                'title'    => 'Planet',
+                'desc'     => 'Welcher Planet soll beliefert werden?',
+                'type'     => 'select',
+                'values'   => $config['planeten'],
+                'value'    => $edit['planet'],
+                'onchange' => 'updateCoords()'
             ),
             'coords'  => array(
                 'title' => 'Koordinaten',
                 'desc'  => 'Falls anderer Planet.',
                 'type'  => array(
                     'coords_gal'    => array(
+                        'id'    => 'coords_gal_input',
                         'type'  => 'number',
                         'min'   => $config_map_galaxy_min,
                         'max'   => $config_map_galaxy_max,
@@ -676,6 +683,7 @@ $views = array(
                         'value' => $edit['coords_gal'],
                     ),
                     'coords_sys'    => array(
+                        'id'    => 'coords_sys_input',
                         'type'  => 'number',
                         'min'   => $config_map_system_min,
                         'max'   => $config_map_system_max,
@@ -683,6 +691,7 @@ $views = array(
                         'value' => $edit['coords_sys'],
                     ),
                     'coords_planet' => array(
+                        'id'    => 'coords_planet_input',
                         'type'  => 'number',
                         'min'   => '1',
                         'style' => 'width: 5em',
@@ -964,12 +973,15 @@ foreach ($view['edit'] as $key => $field) {
 }
 
 next_row('titlebg', 'align=center colspan=2');
-if (isset($params['edit']) && is_numeric($params['edit'])) {
-    echo '<input type="submit" value="speichern" name="button_edit" class="submit"> ';
+if (!empty($params['edit'])) {
+    echo '<input type="submit" value="ändern" name="button_edit" class="submit"> ';
 }
 echo '<input type="submit" value="hinzufügen" name="button_add" class="submit">';
 end_table();
 echo '</form>';
+?>
+<script type="text/javascript" src="javascript/bestellung.js"></script>
+<?php
 
 function makeresstable($row, $prefix_out = '', $prefix_cmp = '', $nocolor = false)
 {
@@ -1087,7 +1099,13 @@ function makefield($field, $key)
             $html .= '>';
             break;
         case 'number':
-            $html = '<input type="number" name="' . $key . '" value="' . $field['value'] . '"';
+            $html = '<input type="number" name="' . $key . '"';
+            if (isset($field['value'])) {
+                $html .= ' value="' . $field['value'] . '"';
+            }
+            if (isset($field['id'])) {
+                $html .= ' id="' . $field['id'] . '"';
+            }
             if (isset($field['min'])) {
                 $html .= ' min="' . $field['min'] . '"';
             }
@@ -1100,7 +1118,14 @@ function makefield($field, $key)
             $html .= '>';
             break;
         case 'select':
-            $html = '<select name="' . $key . '">';
+            $html = '<select name="' . $key . '"';
+            if (isset($field['id'])) {
+                $html .= ' id="' . $field['id'] . '"';
+            }
+            if (isset($field['onchange'])) {
+                $html .= ' onchange="' . $field['onchange'] . '"';
+            }
+            $html .= '>';
             foreach ($field['values'] as $key => $value) {
                 $html .= '<option value="' . $key . '"';
                 if (isset($field['value']) && $field['value'] == $key) {

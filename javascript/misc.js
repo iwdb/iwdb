@@ -225,10 +225,10 @@ function Collapse(what) {
     }
     if (collapseRow.style.display === '') {
         collapseRow.style.display = "none";
-        collapseImage.src = "../bilder/plus.gif";
+        collapseImage.src = "./bilder/plus.gif";
     } else {
         collapseRow.style.display = "";
-        collapseImage.src = "../bilder/minus.gif";
+        collapseImage.src = "./bilder/minus.gif";
     }
 }
 

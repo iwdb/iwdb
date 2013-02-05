@@ -193,7 +193,7 @@ echo "<input type='hidden' name='action' value='$modulname'>\n";
 echo "<p>";
 echo "Allianztag: <input type='text' name='allianz' value='$allianz' size='20'>&nbsp;\n";
 echo "</p>\n<p>";
-echo "Spieler mit dem <input type='text' name='fschnitt' value='$fleeterschnitt' size='5'> fachen des Allyschnitts für Fleeter halten\n";
+echo "Spieler mit dem <input type='text' name='fschnitt' value='$fleeterschnitt' size='5'> fachen Punkteschnitt der Allianz für Fleeter halten\n";
 echo "</p>\n<p>";
 echo "<input type='submit' value='suchen'>";
 echo "</p>\n<br>";

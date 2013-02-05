@@ -399,7 +399,7 @@ if ($newpreset == 1) {
             <p align="center"><?php
                 if ($sys_start > 1) {
                     ?>
-                    <a href="index.php?action=showgalaxy&sys_end=<?php echo ($sys_end - 1);?>&sys_start=<?php echo ($sys_end - 1);?>&gal_end=<?php echo $gal_end;?>&gal_start=<?php echo $gal_start;?>&sid=<?php echo $sid;?>"><b><<</b></a>
+                    <a href="index.php?action=showgalaxy&sys_end=<?php echo ($sys_end - 1);?>&sys_start=<?php echo ($sys_end - 1);?>&gal_end=<?php echo $gal_end;?>&gal_start=<?php echo $gal_start;?>&sid=<?php echo $sid;?>"><b>&laquo;</b></a>
                 <?php
                 }
                 ?> Galaxie:
@@ -409,7 +409,7 @@ if ($newpreset == 1) {
                 <input type="number" name="sys" min="<?php echo $config_map_system_min;?>"
                        max="<?php echo $config_map_system_max;?>" value="<?php echo $sys_start;?>" style="width: 5em">
                 <input type="submit" value="los" name="B1" class="submit">
-                <a href="index.php?action=showgalaxy&sys_end=<?php echo ($sys_end + 1);?>&sys_start=<?php echo ($sys_end + 1);?>&gal_end=<?php echo $gal_end;?>&gal_start=<?php echo $gal_start;?>&sid=<?php echo $sid;?>"><b>>></b></a>
+                <a href="index.php?action=showgalaxy&sys_end=<?php echo ($sys_end + 1);?>&sys_start=<?php echo ($sys_end + 1);?>&gal_end=<?php echo $gal_end;?>&gal_start=<?php echo $gal_start;?>&sid=<?php echo $sid;?>"><b>&raquo;</b></a>
             </p>
         </form>
     <?php
@@ -432,7 +432,7 @@ if ($newpreset == 1) {
             <p align="center">
 
 
-            <table border="0" cellpadding="3" cellspacing="0">
+            <table class='table_format_showgalaxy'>
                 <tr>
                     <td>Galaxie von:
                         <input type="number" name="gal_start" min="<?php echo $config_map_galaxy_min;?>"
@@ -474,7 +474,7 @@ if ($newpreset == 1) {
                     <td align="center"><input type="submit" value="los" name="B1" class="submit"></td>
                 </tr>
             </table>
-            </p>
+            
         </form>
     <?php
     }
@@ -558,8 +558,7 @@ if ($newpreset == 1) {
         }
 
         ?>
-        <table border="0" cellpadding="4" cellspacing="1" class="bordercolor"
-               style="width: 90%;">
+        <table class="table_format" style="width: 90%;">
         <tr>
             <?php
             if ($user_planibilder == "1") {
@@ -726,7 +725,7 @@ if ($newpreset == 1) {
                 ?>
                 </table>
                 <br>
-                <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">
+                <table class="table_format" style="width: 90%;">
                 <?php
                 $sys_bev = $row['coords_sys'];
             }

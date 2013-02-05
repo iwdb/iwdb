@@ -315,8 +315,7 @@ if (empty($id)) {
         $img = '<img src="bilder/gebs/' . $rowB['bild'] . '.jpg" alt="">';
     }
     ?>
-    <table class="bordercolor" style="width: 60%;" border="0"
-           cellpadding="4" cellspacing="1">
+    <table class='table_format' style='width: 60%;'>
     <tbody>
     <tr>
 

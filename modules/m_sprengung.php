@@ -174,7 +174,7 @@ echo "</form>\n";
 ?>
 <br>
 
-<table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 80%;">
+<table class='table_format' style='width: 80%;'>
     <tr>
         <th class='windowbg2'>Koords</th>
         <th class='windowbg2'>Planetentyp</th>
@@ -287,4 +287,3 @@ echo "</form>\n";
     echo "</table>";
 
     ?>
-    <br>

@@ -1,26 +1,11 @@
-<b>Forschung / Wozu dient der Tech-Tree?</b><br>
-Eigentlich sollte klar sein, wozu der Tech-Tree dient, denn forschen müssen ja
-alle, damit sie weiter kommen. Um es den anderen Mitgliedern, die noch nicht so
-weit sind, etwas einfacher zu machen, was das Erreichen von Forschungszielen 
-anbetrifft, kann in der Forschungsübersicht die gewünschte Forschung
-selektiert werden. Durch betätigen der Schaltfläche <b>Anzeigen</b> wird
-dann die Forschung dargestellt.<br><br>
-Ähnlich wie in Icewars werden die Forschungsdetails ausgegeben, was sie in
-Ressourcen und Forschungspunkten kosten, wovon sie abhängig sind, was die
-Forschung ermöglicht und welche Gebäude damit baubar werden.<br><br>
-Anschließend wird noch die Frage geklärt, wie man zu dieser Forschung
-letztlich kommt. Dazu wird eine Liste nur mit den benötigten Forschungen
-ausgegeben, jede einzelne Forschung ist selektierbar. Und darunter kann man dann
-noch die zwingend benötigten Gebäude sehen, ohne die man diese Forschung
-nicht erreichen kann.<br><br>
-Nun haben einige Forschungen noch ein <font color="#ff4466">(V 0.4)</font> hinter
-dem Namen stehen. Das soll bedeuten, dass die Forschung noch aus dem alten 
-Tech-Tree der Vorversion stammt. Forschungen in <font color="red">roter</font> 
-Farbe sind zwar im Forschungsbaum dem Namen nach sichtbar, jedoch wurden zu 
-dieser Forschung noch keine Details eingespeist.<br>
-Die neuen und unbekannten Forschungen kann man übrigens wie die anderen
-Berichte auch durch schlichtes kopieren und einfügen als neuen Bericht
-hinzufügen.
-<br><br>
-<center><small>&copy; 2006 by Einfallslos</small></center>
+<p><span style="font-weight: bold; font-size: 150%">Dynamischer Techtree</span></p><br>
 
+<p><span style="font-weight: bold; font-size: 100%">Wozu braucht man den dynamischen Techtree?</span><br>
+Ich muss weiterkommen mit der Forschung, kenne aber nicht den Weg, nur das Ziel. Gut, prima, das kriegen wir hin, einfach das Forschungsziel (Gebäude, Schiff oder Teil des Forschungsnamens) eingeben und wenn die Datenbank die nötige Forschung eingelesen hat, so bekommt man den Weg aufgezeichnet, wie man zum Ziel kommt.<br></p>
+
+<p><span style="font-weight: bold; font-size: 100%">Welche Daten müssen eingelesen werden?</span><br>
+Damit dieses Modul funktioniert, müssen die Forschungsübersichten eingelesen werden. Optimalerweise hat man diese noch aus der Vorrunde, damit man einen Grundstock hat, der nur noch aktualisiert werden muss.<br>
+Die Forschungsinfos bekommt man durch Klicken auf die Forschungen, sei es bereits erforschte Forschungen oder aber aktuell noch zu forschende.<br>
+Erscheint eine Forschung mit einer Klammer, in der ein V und eine Zahl drin steht, so handelt es sich um eine Forschung, die die aktuelle Runde noch nicht aktualisiert wurde. Hier könnte man also die Forschungsinfo einlesen ;)<br>
+Damit das Tool weiß, welche Forschungen schon geforscht wurden (ich habe die ja schließlich schon, zweimal forschen kann ich nicht :) ), muss die Forschungsübersicht eingelesen werden:<br>
+Forschung &rarr; Copy&amp;Paste der Forschungsseite ("alle Forschungen anzeigen" muss aufgeklappt sein)</p>

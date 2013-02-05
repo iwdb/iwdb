@@ -57,7 +57,7 @@ echo "maximal: <input type='text' name='limit' value='" . $limit . "' style='wid
 echo "<input type='submit' value='anzeigen' name='B1' class='submit'>\n";
 end_form();
 ?>
-<table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">
+<table class="table_format" style="width: 90%;">
     <tr>
         <td class="titlebg" colspan="4" align="center">
             <b>Was andere bei <?php echo $selecteduser;?> gemacht haben:</b>
@@ -107,7 +107,7 @@ end_form();
 </table>
 <br>
 <br>
-<table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">
+<table class="table_format" style="width: 90%;">
     <tr>
         <td class="titlebg" colspan="4" align="center">
             <b>Was <?php echo $selecteduser;?> bei anderen gemacht hat</b>

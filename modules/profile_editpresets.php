@@ -53,7 +53,7 @@ if (!empty($delid)) {
 }
 ?>
 <br>
-<table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 80%;">
+<table class="table_format" style="width: 80%;">
     <tr>
         <td class="windowbg2" style="width:20%;">
             Preset
@@ -85,7 +85,7 @@ if (!empty($delid)) {
                 <?php echo (empty($row['fromuser'])) ? "<b>global</b>" : $row['fromuser'];?>
             </td>
             <td class="windowbg1">
-                <a href="index.php?action=profile&uaction=editpresets&delid=<?php echo $row['id'];?>&sitterlogin=<?php echo urlencode($sitterlogin);?>&sid=<?php echo $sid;?>"">löschen</a>
+                <a href="index.php?action=profile&uaction=editpresets&delid=<?php echo $row['id'];?>&sitterlogin=<?php echo urlencode($sitterlogin);?>&sid=<?php echo $sid;?>">löschen</a>
             </td>
         </tr>
     <?php

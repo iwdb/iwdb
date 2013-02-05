@@ -73,7 +73,7 @@ if (!empty($editgebaeude)) {
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     while ($row = $db->db_fetch_array($result)) {
         ?>
-        <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">
+        <table class="table_format" style="width: 90%;">
             <tr>
                 <td class="titlebg" align="center" colspan="4">
                     <b><?php echo (empty($row['category'])) ? "Sonstige" : $row['category'];?></b>
@@ -149,7 +149,7 @@ if (!empty($editgebaeude)) {
     <?php
     }
     ?>
-    <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">
+    <table class="table_format" style="width: 90%;">
         <tr>
             <td class="titlebg" align="center">
                 <input type="hidden" name="id" value="<?php echo $id;?>">

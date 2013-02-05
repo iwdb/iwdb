@@ -37,7 +37,7 @@ if (!defined('IRA')) {
 
 doc_title('Hilfe');
 ?>
-<table border="0" cellpadding="8" cellspacing="1" class="bordercolor" style="width: 70%;">
+<table class="table_format_help" style="width: 70%;">
     <tr>
         <td class="help">
             <p align="right"><a href="index.php?action=help&topic=index&sid=<?php echo $sid;?>">Index</a></p>

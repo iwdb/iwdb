@@ -415,7 +415,7 @@ if (!empty($erledigt)) {
                 Danach wird der Auftrag als erledigt markiert. Danke.<br><br>
                 <form method="POST" action="index.php?action=sitterliste&sid=<?php echo $sid;?>"
                       enctype="multipart/form-data">
-                    <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 60%;">
+                    <table class="table_format" style="width: 60%;">
                         <?php
                         if ($count > 1) {
                             ?>
@@ -488,7 +488,7 @@ include("dauerauftraege.php");
 
 ?>
 <br>
-<table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">
+<table class="table_format" style="width: 90%;">
 <tr>
     <td class="titlebg" colspan="6" align="center">
         <b>aktuelle Sitteraufträge</b>
@@ -692,7 +692,7 @@ if (isset($row_lastlogin)) {
 <tr id="row_<?php echo $row['id'];?>" style="display: none;">
     <td colspan="6" class="windowbg1" valign="top" align="center" style="width: 100%;">
         <form method="POST" action="index.php?action=sitterliste&sid=<?php echo $sid;?>" enctype="multipart/form-data">
-            <table border="0" cellpadding="4" cellspacing="0" class="bordercolor">
+            <table class="table_format">
                 <tr>
                     <td colspan="2" class="windowbg1" align="center">
                         <b>Kommentar hinzufügen</b>
@@ -839,7 +839,7 @@ if (isset($row_lastlogin)) {
 </table>
 <br>
 <br>
-<table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">
+<table class="table_format" style="width: 90%;">
     <tr>
         <td class="titlebg" colspan="4" align="center">
             <b>Sitteraufträge der nächsten <?php echo (round($config_sitterliste_timeout / 60 / 60));?> Stunden</b>

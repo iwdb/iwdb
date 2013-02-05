@@ -91,7 +91,7 @@ if (!empty($graph)) {
 }
 ?>
 <br>
-<table border="0" cellpadding="2" cellspacing="1" class="bordercolor" style="width: 90%;">
+<table class="table_format" style="width: 90%;">
 <tr>
     <?php
     if ($user_status == "admin") {
@@ -307,7 +307,7 @@ while ($row = $db->db_fetch_array($result)) {
         }
         echo $output;
         ?>
-        </td>
+        
         <td class="windowbg<?php echo $num;?>" valign="top">
             <?php
             $tempname = 'graph_' . str_replace(".", "%99", rawurlencode($row['sitterlogin']));
@@ -321,11 +321,11 @@ while ($row = $db->db_fetch_array($result)) {
 }
 ?>
 </table>
-<table border="0" cellpadding="2" cellspacing="1" style="width: 90%;">
+<table class='table_format_members' style='width: 90%;'>
     <tr>
         <td align="right">
             <a href="index.php?action=members&order=<?php echo $order;?>&ordered=<?php echo $ordered;?>&select_all=true&graph=<?php echo $graph;?>&graph_typ=<?php echo $graph_typ;?>&fitthis=<?php echo $fitthis;?>&sid=<?php echo $sid;?>">Alle
-                auswaehlen</a> /
+                auswählen</a> /
             <a href="index.php?action=members&order=<?php echo $order;?>&ordered=<?php echo $ordered;?>&select_none=true&graph=<?php echo $graph;?>&graph_typ=<?php echo $graph_typ;?>&fitthis=<?php echo $fitthis;?>&sid=<?php echo $sid;?>">Auswahl
                 entfernen</a>
         </td>

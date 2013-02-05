@@ -147,7 +147,7 @@ if (!empty($preset)) {
 doc_title('Planet suchen');
 ?>
 
-<table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 80%;">
+<table class="table_format" style="width: 80%;">
 <tr>
     <td colspan="2" class="windowbg2" align="center"><br>
 

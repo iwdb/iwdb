@@ -37,7 +37,7 @@ if (!defined('IRA')) {
 
 doc_title('Planetenliste');
 ?>
-<table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">
+<table class="table_format" style="width: 90%;">
     <tr>
         <td class="titlebg" style="width:15%;">
             <a href="index.php?action=planeten&order=coords&ordered=asc&sid=<?php echo $sid;?>"><img

@@ -284,7 +284,7 @@ switch ($sound) {
 ?>
 <br>
 <form method="POST" action="index.php?action=profile&sid=<?php echo $sid;?>" enctype="multipart/form-data">
-<table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 80%;">
+<table class="table_format" style="width: 80%;">
 <tr>
     <td colspan="2" class="titlebg">
         <b>Daten:</b>

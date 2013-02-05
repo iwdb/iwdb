@@ -1,16 +1,41 @@
-<b>Wozu braucht man den Adminbereich?</b><br>
-Im Adminbereich kann man die Schiffsübersicht verändern, Bündnisse mit Allianzen editieren und die letzte Loginzeit eines jeden Users anschauen. Zudem kann man die IWDB farblich anpassen sowie einen möglichen Sittersound einstellen, wenn Aufträge anstehen.<br>
-<br>
-<b>Schiffsübersicht verändern</b><br>
-Neue Schiffstypen werden automatisch in die Liste übernommen. Allerdings kann das Programm nicht deren Abkürzung und Typ ermitteln.<br>
-Dies kann man nun manuell im Adminbereich für jedes Schiff eintragen.<br>
-Die Abkürzung wird dazu verwendet, die Tabellen übersichtlich zu halten.<br>
-Die Typen unterteilen die Schiffe in verschiedene Gruppen.<br>
-Um die Eigenschaften eines Schiffstyps zu ändern, tragt einfach Abkürzung und Typ in die jeweiligen Felder ein und drückt "speichern" unter der Tabelle.<br>
-<br>
-<b>Bündnisse / Kriege editieren</b><br>
-Um bestehende Bündnisse / Kriege zu verändern, einfach deren Allianztag bzw. Status editieren und anschliessend "speichern" unter der Tabelle drücken.<br>
-Um neue Bündnisse / Kriege hinzuzufügen, schreibt dies einfach in die letzte leere Zeile und drückt "speichern".<br>
-Um Bündnisse / Kriege zu löschen, einfach den Allianztag der jeweiligen Zeile löschen und "speichern" drücken.<br>
-<br>
-Der Status für own (für Allianzen, die der eigenen Allianz angehören), NAP, VB, iNAP und Krieg wird mit einer anderen Farbe in der Karte gekennzeichnet.
+<p><span style="font-weight: bold; font-size: 150%">Adminbereich</span></p><br>
+
+<p><span style="font-weight: bold; font-size: 100%">Wozu braucht man den Admin-Bereich?</span><br>
+Im Adminbereich werden toolspezifische Einstellungen vorgenommen, die nicht jeder einzelne User verändern soll/darf. Weiter werden hier einige Einstellungen vorgenommen, die für die ganze Allianz gelten.</p><br>
+Die einzelnen Bereiche im Kurzüberblick:<br>
+
+<p><span style="font-style: italic; font-size: 100%">Schiffstypen</span><br>
+Hier können die in der Datenbank erkannten Schiffe bearbeitet werden. Im speziellen sind das der Name der Abkürzung (zur besseren und kürzeren Darstellung der langen Schiffsnamen), die Kategorie, unter der das Schiff in der Datenbank zu finden sein soll (zB für das Modul Schiffsübersicht) sowie bei installiertem Modul Schiffbestellungen, ob das jeweilige Schiff in der Datenbank bestellbar sein soll.</p>
+
+<p><span style="font-style: italic; font-size: 100%">Gebäude</span><br>
+Hier können sowohl neue Gebäude angelegt als auch bearbeitet werden.<br>
+Der Name des Gebäudes sollte mit dem Ingame-Namen übereinstimmen, da nur dann das Gebäude beim Parsen erkannt und dann auch in der Gebäudeübersicht aufgezählt wird. Die Kategorie bestimmt, unter welchem Punkt das Gebäude in der Gebäudeübersicht auftaucht (ebenso die Reihenfolge innerhalb dieser Kategorie). Die Baudauer ist wichtig, damit die Datenbank bei Folgebauaufträgen auch die richtige Zeit des nachfolgenden Auftrages berechnet.</p>
+
+<p><span style="font-style: italic; font-size: 100%">Allianzstatus</span><br>
+In diesem Bereich wird die eigene Allianz definiert sowie der Status zu anderen Allianzen (Krieg, Verteidigungsbündnis, Nicht-Angriffspakt, nicht raiden). Etliche Module greifen auf diese Daten zurück, wie zB die politische karte, die aufgrund dieser Auswahl gefärbt wird. Sehr wichtig ist auch, dass das Raidmodul (Ziele suchen) hier zB auch filtert, ob eine Allianz geraidet werden darf. In einem Kriegsfall kann man mit dem Allianzstatus Krieg auch ganz schnell den Kriegsgegner filtern.</p>
+
+<p><span style="font-style: italic; font-size: 100%">letzte Logins</span><br>
+Hier kann man schnell sehen, welches Toolmitglied sich wann zum letzten Mal eingeloggt hat.</p>
+
+<p><span style="font-style: italic; font-size: 100%">falsche Logins</span><br>
+Loggt sich jemand falsch in die Datenbank ein (bzw versucht es), so wird das hier protokolliert</p>
+
+<p><span style="font-style: italic; font-size: 100%">Style</span><br>
+Die Datenbank könnte ein wenig Farbe vertragen? Dann ist hier genau der richtige Menüpunkt, ihr könnt das Stylesheet der Datenbank euren Wünschen gemäß anpassen :) </p>
+
+<p><span style="font-style: italic; font-size: 100%">Einstellungen</span><br>
+Hier werden diverse Einstellungen vorgenommen:<br>
+<ul>
+	<li>Sitterbenachrichtigung<br>
+	Hier kann eingestellt werden, in welchem Modul der Datenbank eine Sitterbenachrichtigung (Fadein) erscheinen soll, sollte ein Auftrag offen sein
+	</li>
+	<li>Bericht einfügen für<br>
+	Hier wird festgesetzt, welchen Status ein Toolmember haben muss, um für andere member Berichte einlesen zu dürfen
+	</li>
+	<li>Automatische Creditsbestellung<br>
+	Soll beim Einlesen der Startseite erkannt werden, ob ein Member Credits benötigt? Dies kann man hier einstellen, sprich die Creditgrenze, die unterschritten sein muss, um automatisch Credits zu bestellen, zudem dann auch die Höhe der zu bestellenden Credits.
+	</li>
+	<li>IWDB-Sperre<br>
+	Ab und an muss die Datenbank auch gewartet werden. Dazu kann man dann hier die Datenbank sperren, um in Ruhe daran zu arbeiten ohne irgendwelche Veränderungen durch zB neue Aufträge oder neue Parsings
+	</li>
+</ul>

@@ -132,7 +132,7 @@ if (!empty($rowP['value'])) {
 ?>
 <br>
 <form method="POST" action="index.php?action=admin&uaction=einstellungen&send=sound&sid=<?php echo $sid;?>" enctype="multipart/form-data">
-    <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 95%;">
+    <table class="table_format" style="width: 95%;">
         <tr>
             <th colspan="2" class="titlebg">
                 <b>Sitterbenachrichtigung:</b>
@@ -250,7 +250,7 @@ if (!empty($rowP['value'])) {
 ?>
 
 <form method="POST" action="index.php?action=admin&uaction=einstellungen&send=bericht&sid=<?php echo $sid;?>" enctype="multipart/form-data">
-    <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 95%;">
+    <table class="table_format" style="width: 95%;">
         <tr>
             <th colspan="2" class="titlebg">
                 <b>'Bericht einfügen für':</b>
@@ -358,7 +358,7 @@ if (isset($db_tb_bestellung)) {
 
     ?>
     <form method="POST" action="index.php?action=admin&uaction=einstellungen&sid=<?php echo $sid;?>" enctype="multipart/form-data">
-        <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 95%;">
+        <table class="table_format" style="width: 95%;">
             <tr>
                 <th colspan="2" class="titlebg">
                     <b>Automatische Creditsbestellung:</b>
@@ -432,7 +432,7 @@ if ($iwdb_locked === 'true') {
 }
 ?>
 <form method="POST" action="index.php?action=admin&uaction=einstellungen&send=sperre&sid=<?php echo $sid;?>" enctype="multipart/form-data">
-    <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 95%;">
+    <table class="table_format" style="width: 95%;">
         <tr>
             <th colspan="3" class="titlebg" style="background-color: #ff0000">
                 <b>IWDB-Sperre:</b>

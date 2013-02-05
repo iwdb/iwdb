@@ -71,7 +71,7 @@ if (!empty($username)) {
 } else {
     ?>
     <form method='POST' action='index.php?action=password' enctype='multipart/form-data'>
-        <table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style="margin: 0 auto;">
+        <table class='table_format' style="margin: 0 auto;">
             <tr>
                 <td class='windowbg2'>Username:&nbsp;</td>
                 <td class='windowbg1'><input style='width: 200px' type='text' name='username' required='required'></td>

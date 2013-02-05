@@ -54,7 +54,7 @@ if (!empty($sitterlogin)) {
     <br>
     <form method="POST" action="index.php?action=profile&uaction=editplaneten&sid=<?php echo $sid;?>"
           enctype="multipart/form-data">
-        <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 80%;">
+        <table class="table_format" style="width: 80%;">
             <tr>
                 <td class="windowbg2" style="width:10%;">
                     Koordinaten

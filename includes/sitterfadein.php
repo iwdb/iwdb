@@ -160,7 +160,7 @@ if (!empty($user_id) AND ($user_id != 'guest') AND ($SitternoticeInModul)) {
                                 //autoplay des Sounds mit html5
                                 ?>
                                 <audio autoplay="autoplay">
-                                    <source src="<?php echo $soundfile;?>" type="audio/ogg">
+                                    <source src="<?php echo $soundfile;?>" type="audio/ogg"></source>
                                 </audio>
                             <?php
                             }

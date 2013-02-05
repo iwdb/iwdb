@@ -201,7 +201,7 @@ end_table();
 // Legende ausgeben
 ?>
 <br>
-<table border="0" cellpadding="4" cellspacing="1" class="bordercolor">
+<table class="table_format">
     <tr style="white-space:nowrap">
         <td style="width: 3em; background-color: #00FF00;"></td>
         <td class="windowbg1">Status aktuell</td>

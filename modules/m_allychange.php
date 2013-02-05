@@ -166,7 +166,7 @@ if (empty($playerdata)) {
 }
 echo '<div class="textsmall">Daten von ' . strftime(CONFIG_DATETIMEFORMAT, $playerupdatetime) . '</div><br>';
 ?>
-<table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 80%;">
+<table class="table_format" style="width: 80%;">
     <tr>
         <th class='windowbg2'>Spieler</th>
         <th class='windowbg2'>von Allianz</th>

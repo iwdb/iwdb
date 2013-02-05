@@ -46,7 +46,7 @@ if (empty($id)) {
 }
 ?>
     <br>
-    <table border="0" cellpadding="0" cellspacing="1" class="bordercolor">
+    <table class="table_format">
         <tr>
             <td class="menutop" align="center">
                 <a href="index.php?action=profile&id=<?php echo urlencode($id);?>&sitterlogin=<?php echo urlencode($sitterlogin);?>&sid=<?php echo $sid;?>">Einstellungen</a>

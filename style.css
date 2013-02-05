@@ -711,3 +711,61 @@ td[abbr=both] {
     margin: 0.75em;
     font-weight: bold;
 }
+
+.table_format {
+   border: 1px solid black;
+   padding: 4px;
+   border-collapse:collapse;
+   border-spacing: 1;
+   background-color: #000000;
+}
+
+.table_format th {
+	border-style: solid;
+	border: 1px solid black;
+   	padding: 4px;
+   	border-spacing: 1;
+}
+
+.table_format td {
+	border-style: solid;
+	border: 1px solid black;
+   	padding: 4px;
+   	border-spacing: 1;
+}
+
+.table_format_help {
+   border: 1px solid black;
+   padding: 8px;
+   border-collapse:collapse;
+   border-spacing: 1;
+   background-color: #000000;
+}
+
+.table_format_help th {
+	border-style: solid;
+	border: 1px solid black;
+   	padding: 8px;
+   	border-spacing: 1;
+}
+
+.table_format_help td {
+	border-style: solid;
+	border: 1px solid black;
+   	padding: 8px;
+   	border-spacing: 1;
+}
+
+.table_format_members {
+   border-style: none;
+   padding: 4px;
+   border-collapse:collapse;
+   border-spacing: 1;
+}
+
+.table_format_showgalaxy {
+   border-style: none;
+   padding: 3px;
+   border-collapse:collapse;
+   border-spacing: 1;
+}

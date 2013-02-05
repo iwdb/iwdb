@@ -69,7 +69,7 @@ while ($row = $db->db_fetch_array($result)) {
 }
 doc_title('Sitterlogins');
 ?>
-<table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 95%;">
+<table class="table_format" style="width: 95%;">
     <tr>
         <td class="titlebg" style="width:25%;">
             <a href="index.php?action=sitterlogins&order=sitterlogin&ordered=asc&sid=<?php echo $sid;?>"><img

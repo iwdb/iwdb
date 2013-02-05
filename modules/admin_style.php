@@ -147,7 +147,7 @@ if ($action == 'default') {
     //Tabelle beginnen
     ?>
     <form action='index.php?sid=<?php echo $sid;?>&action=admin&uaction=style&daction=send' method='post'>
-    <table width="100%">
+    <table style='width: 100%;'>
     <tr>
         <td colspan="4">&nbsp;</td>
     </tr>

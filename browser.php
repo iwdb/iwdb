@@ -6,7 +6,7 @@ define('APPLICATION_PATH_URL', dirname($_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_
 
 require_once("includes/bootstrap.php");
 
-define('SORT_ONLY_BY_TIME', false);
+define('SORT_ONLY_BY_TIME', true);
 
 if (empty($sid) || empty($user_sitterlogin) || !($user_adminsitten == SITTEN_BOTH || $user_adminsitten == SITTEN_ONLY_LOGINS) || $user_id == "guest") {
     header("Location: " . APPLICATION_PATH_RELATIVE);

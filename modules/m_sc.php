@@ -148,10 +148,11 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 //****************************************************************************
 //
 // -> Und hier beginnt das eigentliche Modul
-
 doc_title('Sondenkalkulator');
+
 ?>
-<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 30%;'>
+
+<table class='table_format' style='width: 30%;'>
     <tr>
         <th colspan='2' class='titlebg'><b>Eingabe der Sondendeff:</b></th>
     </tr>
@@ -169,7 +170,7 @@ doc_title('Sondenkalkulator');
     </tr>
 </table>
 <br>
-<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 30%;'>
+<table class='table_format' style='width: 30%;'>
     <tr>
         <th colspan='3' class='titlebg'><b>benötigte Anzahl Sonden</b></th>
     </tr>

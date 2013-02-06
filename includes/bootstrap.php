@@ -58,9 +58,9 @@ define('SITTEN_BOTH', 1);
 require_once 'includes/dBug.php'; //bessere Debugausgabe
 require_once 'includes/debug.php'; //Debug Funktionen
 require_once 'includes/function.php'; //sonstige Funktionen
-require_once 'includes/db_mysql.php';
+require_once 'includes/db_mysql.php';  //DB Klasse
 require_once 'parser/parser_help.php'; //ausgelagerte Parserhilfsfunktionen
-require_once 'config/configsql.php'; //Datenbank Zugangsdaten laden
+require_once 'config/configsql.php'; //Datenbank Zugangsdaten
 
 //DB Verbindung herstellen
 $db = new db();

@@ -1067,7 +1067,7 @@ $params['basen']             = $basen;
 $params['rote_lager']        = $rote_lager;
 $params['advanced_forecast'] = $advanced_forecast;
 echo 'Auswahl: ';
-echo makefield(array("type"  => 'select',
+echo makeField(array("type"  => 'select',
                     "values" => $config['filter_who'],
                     "value"  => $params['filter_who']
                ), 'filter_who'
@@ -1079,7 +1079,7 @@ echo ' <input type="checkbox" name="basen" value="1" ' . ($params['basen'] ? ' c
 echo ' mit Basen';
 // Minimal-Maximal Ressourcen einstellen
 echo '<br>Nach Ressourcen filtern:';
-echo makefield(array("type" => 'select', "values" => $resses_name, "value" => $params['ress']), 'ress');
+echo makeField(array("type" => 'select', "values" => $resses_name, "value" => $params['ress']), 'ress');
 echo ' Minimal: ';
 echo '<input type="text" name="minimal" size="6" value="' . $params['minimal'] . '"/>';
 echo ' Maximal: ';
@@ -1392,11 +1392,11 @@ if (isset($params['edit']) && !empty($params['edit'])) {
                 if (!$first) {
                     echo '&nbsp;';
                 }
-                echo makefield($field, $key);
+                echo makeField($field, $key);
                 $first = false;
             }
         } else {
-            echo makefield($field, $key);
+            echo makeField($field, $key);
         }
     }
     next_row('titlebg', 'align=center colspan=2');
@@ -1553,52 +1553,6 @@ function sort_data_cmp($a, $b)
     }
 
     return $result;
-}
-
-// ****************************************************************************
-//
-// Erstellt ein Formularfeld.
-function makefield($field, $key)
-{
-    $html = '';
-    switch ($field['type']) {
-        case 'text':
-            $html = '<input type="text" name="' . $key . '" value="' . $field['value'] . '"';
-            if (isset($field['style'])) {
-                $html .= ' style="' . $field['style'] . '"';
-            }
-            $html .= '>';
-            break;
-        case 'select':
-            //example: makefield(array("type" => 'select', "values" => $config['filter_who'], "value" => $params['filter_who']), 'filter_who');
-            $html = '<select name="' . $key . '">';
-            foreach ($field['values'] as $key => $value) {
-                $html .= '<option value="' . $key . '"';
-                if (isset($field['value']) && $field['value'] === $key) {
-                    $html .= ' selected';
-                }
-                $html .= '>' . $value . '</option>';
-            }
-            $html .= '</select>';
-            break;
-        case 'area':
-            $html = '<textarea name="' . $key . '" rows="' . $field['rows'] . '" cols="' . $field['cols'] . '">';
-            $html .= $field['value'];
-            $html .= '</textarea>';
-            break;
-        case 'checkbox':
-            $html = '<input type="checkbox" name="' . $key . '" value="1"';
-            if ($field['value']) {
-                $html .= ' checked';
-            }
-            if (isset($field['style'])) {
-                $html .= ' style="' . $field['style'] . '"';
-            }
-            $html .= '>';
-            break;
-    }
-
-    return $html;
 }
 
 // ****************************************************************************

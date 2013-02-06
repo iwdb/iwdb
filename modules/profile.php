@@ -39,8 +39,14 @@ $sitterlogin = getVar('sitterlogin');
 $id = getVar('id');
 if (empty($id)) {
     $id = $user_id;
-    $sitterlogin = $user_sitterlogin;
-} elseif (($id !== $user_id) and ($user_status !== "admin")) {
+    if (!empty($sitterlogin)) {     //masel: vorläufig
+        $id = $sitterlogin;
+    } else {
+        $sitterlogin = $user_sitterlogin;
+    }
+}
+
+if (($id !== $user_id) and ($user_status !== "admin")) {
     $id = $user_id;
     $sitterlogin = $user_sitterlogin;
 }

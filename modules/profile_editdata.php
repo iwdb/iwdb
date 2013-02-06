@@ -81,42 +81,49 @@ if (!empty($editprofile) AND (($id === $user_id) OR ($user_status === "admin")))
     $userd['email']        = getVar('email');
     $userd['allianz']      = getVar('allianz');
     $userd['squad']        = getVar('squad');
-    $userd['grav_von']     = (float)str_replace(",", ".", getVar('grav_von'));
-    $userd['grav_bis']     = (float)str_replace(",", ".", getVar('grav_bis'));
-    $userd['gal_start']    = (int)getVar('gal_start');
-    $userd['gal_end']      = (int)getVar('gal_end');
-    $userd['sys_start']    = (int)getVar('sys_start');
-    $userd['sys_end']      = (int)getVar('sys_end');
-    $userd['preset']       = getVar('preset');
+
+    $userd['grav_von'] = (float)getVar('grav_von');
+    $userd['grav_bis'] = (float)getVar('grav_bis');
+    list($userd['grav_von'], $userd['grav_bis']) = sortValuesInc($userd['grav_von'], $userd['grav_bis']);
+
+    $userd['gal_start'] = (int)getVar('gal_start');
+    $userd['gal_end']   = (int)getVar('gal_end');
+    list($userd['gal_start'], $userd['gal_end']) = sortValuesInc($userd['gal_start'], $userd['gal_end']);
+
+    $userd['sys_start'] = (int)getVar('sys_start');
+    $userd['sys_end']   = (int)getVar('sys_end');
+    list($userd['sys_start'], $userd['sys_end']) = sortValuesInc($userd['sys_start'], $userd['sys_end']);
+
+    $userd['preset'] = getVar('preset');
     //sitten
-    $userd['adminsitten']    = getVar('adminsitten');
-    $userd['sitten']         = getVar('sitten');
+    $userd['adminsitten']    = (int)getVar('adminsitten');
+    $userd['sitten']         = (bool)getVar('sitten');
     $userd['sitterpwd']      = getVar('sitterpwd');
     $userd['sitterpwdwdhl']  = getVar('sitterpwdwdhl');
-    $userd['sitterskin']     = getVar('sitterskin');
+    $userd['sitterskin']     = (int)('sitterskin');
     $userd['sittercomment']  = getVar('sittercomment');
-    $userd['sound']          = getVar('sound');
-    $userd['peitschen']      = getVar('peitschen');
+    $userd['sound']          = (int)('sound');
+    $userd['peitschen']      = (bool)('peitschen');
     $userd['ikea']           = getVar('ikea');
-    $userd['genbauschleife'] = getVar('genbauschleife');
-    $userd['genmaurer']      = getVar('genmaurer');
+    $userd['genbauschleife'] = (bool)('genbauschleife');
+    $userd['genmaurer']      = (bool)('genmaurer');
     $userd['gengebmod']      = (float)getVar('gengebmod');
-    $userd['iwsa']           = getVar('iwsa');
+    $userd['iwsa']           = (int)getVar('iwsa');
     //sonstiges
     $userd['budflesol']     = getVar('budflesol');
     $userd['buddlerfrom']   = getVar('buddlerfrom');
     $userd['color']         = getVar('color');
     $userd['staatsform']    = getVar('staatsform');
     $userd['NewUniXmlTime'] = strtotime(getVar('NewUniXmlTime')) ? strtotime(getVar('NewUniXmlTime')) : null;
-    $userd['planibilder']   = getVar('planibilder');
-    $userd['gebbilder']     = getVar('gebbilder');
-    $userd['sitterpunkte']  = getVar('sitterpunkte');
-    $userd['geopunkte']     = getVar('geopunkte');
-    $userd['syspunkte']     = getVar('syspunkte');
+    $userd['planibilder']   = (bool)getVar('planibilder');
+    $userd['gebbilder']     = (bool)getVar('gebbilder');
+    $userd['sitterpunkte']  = (int)getVar('sitterpunkte');
+    $userd['geopunkte']     = (int)getVar('geopunkte');
+    $userd['syspunkte']     = (int)getVar('syspunkte');
     $userd['status']        = getVar('status');
-    $userd['gesperrt']      = getVar('gesperrt');
+    $userd['gesperrt']      = (bool)getVar('gesperrt');
     $userd['menu_default']  = getVar('menu_default');
-    $userd['uniprop']       = getVar('uniprop');
+    $userd['uniprop']       = (bool)getVar('uniprop');
 
     if ($user_status != "admin") {
         unset($userd['status']);
@@ -499,7 +506,7 @@ switch ($sound) {
     <td class="windowbg1">
         <?php
         if ($user_status === "admin") {
-            echo "<textarea name='sittercomment' id='sittercomment' rows='3' cols='50'>$sittercomment</textarea>\n";
+            echo "<textarea name='sittercomment' id='sittercomment' rows='5' cols='50'>$sittercomment</textarea>\n";
             echo bbcode_buttons('sittercomment');
         } else {
             echo $sittercomment;
@@ -664,11 +671,13 @@ switch ($sound) {
 <tr>
     <td class="windowbg2">
         Planetenbilder anzeigen?:<br>
-        <span
-            style="font-style:italic;">Sollen Bilder, den Planetentypen entsprechend in der Karte angezeigt werden?</span>
+        <span style="font-style:italic;">Sollen Bilder, den Planetentypen entsprechend in der Karte angezeigt werden?</span>
     </td>
     <td class="windowbg1">
-        <input type="checkbox" name="planibilder" value="1"<?php echo ($planibilder) ? " checked" : "";?>>
+        <select name="planibilder">
+            <option value="" <?php echo ($planibilder) ? '' : 'selected';?>>nein</option>
+            <option value="1" <?php echo ($planibilder) ? 'selected' : '';?>>ja</option>
+        </select>
     </td>
 </tr>
 <tr>
@@ -677,7 +686,10 @@ switch ($sound) {
         <span style="font-style:italic;">Sollen Gebäudebilder beim Erstellen eines Auftrages und bei "Gebäude ausblenden" angezeigt werden?</span>
     </td>
     <td class="windowbg1">
-        <input type="checkbox" name="gebbilder" value="1"<?php echo ($gebbilder) ? " checked" : "";?>>
+        <select name="gebbilder">
+            <option value="" <?php echo ($gebbilder) ? '' : 'selected';?>>nein</option>
+            <option value="1" <?php echo ($gebbilder) ? 'selected' : '';?>>ja</option>
+        </select>
     </td>
 </tr>
 <tr>
@@ -760,7 +772,7 @@ if ($user_status === "admin") {
         Menü-Darstellung:
     </td>
     <td class="windowbg1">
-        <select name="menu_default" style="width: 100">
+        <select name="menu_default">
             <?php
             foreach ($menustyles as $key => $data) {
                 echo ($menu_default == $key)

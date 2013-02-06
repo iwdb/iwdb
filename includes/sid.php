@@ -37,7 +37,7 @@ if (!defined('IRA')) {
 
 //****************************************************************************
 
-global $db, $db_tb_sid, $db_prefix, $db_tb_user;
+global $db, $db_tb_sid, $db_tb_user;
 
 // get user ip
 $client_ip = $_SERVER['REMOTE_ADDR'];

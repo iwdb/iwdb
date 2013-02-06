@@ -103,7 +103,7 @@ echo "  <td class='windowbg2' align='center'>\n";
 
 global $user_status, $user_sitten;
 
-$sqlP = "SELECT value FROM " . $db_prefix . "params WHERE name = 'bericht_fuer_rang' ";
+$sqlP = "SELECT value FROM `{$db_tb_params}` WHERE name = 'bericht_fuer_rang';";
 $resultP = $db->db_query($sqlP)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
 $rowP = $db->db_fetch_array($resultP);
@@ -120,7 +120,7 @@ if ($rowP['value'] == 'all' AND (strtolower($user_status) != 'guest')) {
     $allow1 = true;
 }
 
-$sqlP = "SELECT value FROM " . $db_prefix . "params WHERE name = 'bericht_fuer_sitter' ";
+$sqlP = "SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'bericht_fuer_sitter';";
 $resultP = $db->db_query($sqlP)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
 $rowP = $db->db_fetch_array($resultP);
@@ -193,11 +193,9 @@ if (!empty($textinput)) {
                     $parser[$key] = array("/deprecated/", 1, $parserObj->getName());
                 }
                 if ($parser[$key][1] == 1) {
-                    echo "<div class='system_notification'>" . $parser[$key][2] .
-                        " erkannt. Parse ...</div>\n";
+                    echo "<div class='system_notification'>" . $parser[$key][2] . " erkannt. Parse ...</div>\n";
                 } else {
-                    echo "<div class='system_notification'>Weiteren " . $parser[$key][2] .
-                        " erkannt. Parse ...</div>\n";
+                    echo "<div class='system_notification'>Weiteren " . $parser[$key][2] . " erkannt. Parse ...</div>\n";
                 }
 
                 $parserResult = new DTOParserResultC ($parserObj);
@@ -234,21 +232,21 @@ if (!empty($textinput)) {
                                 $count++;
 
                             } else {
-                                echo "Input erfolgreich erkannt (" . $parserObj->getName() . "). Passende Verarbeitung ist aber bisher nicht vorhanden.<br />Suche alten Parser...<br />";
+                                doc_message("Input erfolgreich erkannt (" . $parserObj->getName() . "). Passende Verarbeitung ist aber bisher nicht vorhanden.");
                                 if (isset($debug)) {
                                     echo "<div class='system_debug_blue'>parse_{$lparser}() in parser/{$lparser}.php nicht gefunden!</div>";
                                 }
                             }
 
                         } else {
-                            echo "Input erfolgreich erkannt (" . $parserObj->getName() . "). Passende Verarbeitung ist aber bisher nicht vorhanden.<br />Suche alten Parser...<br />";
+                            doc_message("Input erfolgreich erkannt (" . $parserObj->getName() . "). Passende Verarbeitung ist aber bisher nicht vorhanden.");
                             if (isset($debug)) {
                                 echo "<div class='system_debug_blue'>parser/{$lparser}.php nicht gefunden!</div>";
                             }
                         }
                     }
                 } else {
-                    echo "Input (" . $parserObj->getName() . ") wurde erkannt, konnte aber nicht fehlerfrei geparsed werden!<br />";
+                    doc_message("Input (" . $parserObj->getName() . ") wurde erkannt, konnte aber nicht fehlerfrei geparsed werden!");
                     if (!empty($parserResult->aErrors) && count($parserResult->aErrors) > 0) {
                         echo "error:<br />";
                         foreach ($parserResult->aErrors as $t) {
@@ -300,7 +298,7 @@ if (!empty($textinput)) {
 //		sort($ausgabe['KBs']); // sortieren nach Zeit
 //	
 //		echo '
-//			<table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">
+//			<table class="table_format" style="width: 90%;">
 //				<tr>
 //					<td colspan="2" class="windowbg2" style="font-size: 18px;">BBCode der Kampfberichte</td>
 //				</tr>

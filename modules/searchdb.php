@@ -51,7 +51,6 @@ $orderprio = array(
     "objekt"            => "Objekttyp",
     "user"              => "Spielername",
     "allianz"           => "Allianz",
-    "punkte"            => "Punkte",
     "kgmod"             => "Gebäudekosten",
     "dgmod"             => "Gebäudedauer",
     "ksmod"             => "Schiffskosten",

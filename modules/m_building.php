@@ -204,7 +204,7 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 
 doc_title('Gebäude');
 
-global $db, $db_tb_gebaeude, $user_sitterlogin, $db_prefix, $show_building, $sid, $db_tb_research2user, $db_tb_gebaeude2user;
+global $db, $db_tb_gebaeude, $user_sitterlogin, $show_building, $sid, $db_tb_research2user, $db_tb_gebaeude2user;
 
 if (isset($show_building) AND !empty($show_building)) {
 
@@ -423,7 +423,7 @@ if (empty($id)) {
                 $research = trim($research);
 
 
-                $sqlR = "SELECT id FROM " . $db_prefix . "research WHERE name = '" . $research . "' ";
+                $sqlR = "SELECT id FROM `{$db_tb_research}` WHERE `name` = '" . $research . "';";
                 $resultR = $db->db_query($sqlR)
                     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlR);
                 $rowR  = $db->db_fetch_array($resultR);
@@ -431,8 +431,7 @@ if (empty($id)) {
 
                 if (isset($resid) AND !empty($resid)) {
 
-                    $sql = "SELECT * FROM " . $db_prefix . "research2user WHERE rid=" . $resid .
-                        " AND userid='" . $user_sitterlogin . "'";
+                    $sql = "SELECT * FROM `{$db_tb_research2user}` WHERE `rid`=" . $resid . " AND `userid`='" . $user_sitterlogin . "';";
                     $result = $db->db_query($sql)
                         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
@@ -483,7 +482,7 @@ if (empty($id)) {
                 $research = str_replace('\n', '', $research);
                 $research = trim($research);
 
-                $sqlR = "SELECT id FROM " . $db_prefix . "research WHERE name = '" . $research . "' ";
+                $sqlR = "SELECT `id` FROM `{$db_tb_research}` WHERE `name` = '" . $research . "';";
                 $resultR = $db->db_query($sqlR)
                     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlR);
                 $rowR  = $db->db_fetch_array($resultR);
@@ -491,8 +490,7 @@ if (empty($id)) {
 
                 if (isset($resid) AND !empty($resid)) {
 
-                    $sql = "SELECT * FROM " . $db_prefix . "research2user WHERE rid=" . $resid .
-                        " AND userid='" . $user_sitterlogin . "'";
+                    $sql = "SELECT * FROM `{$db_tb_research2user}` WHERE `rid`=" . $resid ." AND `userid`='" . $user_sitterlogin . "';";
                     $result = $db->db_query($sql)
                         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
@@ -548,7 +546,7 @@ if (empty($id)) {
                 $gebaeude = str_replace('\n', '', $gebaeude);
                 $gebaeude = trim($gebaeude);
 
-                $sqlR = "SELECT id FROM " . $db_prefix . "gebaeude WHERE name = '" . $gebaeude . "' ";
+                $sqlR = "SELECT `id` FROM `{$db_tb_gebaeude}` WHERE `name` = '" . $gebaeude . "';";
                 $resultR = $db->db_query($sqlR)
                     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlR);
                 $rowR  = $db->db_fetch_array($resultR);
@@ -558,9 +556,7 @@ if (empty($id)) {
 
                     echo '<img src="bilder/point.gif" alt="a point o.O">';
                     echo '&nbsp;';
-
                     echo '<a href="index.php?action=m_building&show_building=' . $resid . '&sid=' . $sid . '">' . $gebaeude . '</a>';
-
                     echo '<br>';
 
                 }
@@ -583,7 +579,7 @@ if (empty($id)) {
                 $gebaeude = str_replace('\n', '', $gebaeude);
                 $gebaeude = trim($gebaeude);
 
-                $sqlR = "SELECT id FROM " . $db_prefix . "gebaeude WHERE name = '" . $gebaeude . "' ";
+                $sqlR = "SELECT `id` FROM `{$db_tb_gebaeude}` WHERE `name` = '" . $gebaeude . "';";
                 $resultR = $db->db_query($sqlR)
                     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlR);
                 $rowR  = $db->db_fetch_array($resultR);
@@ -593,9 +589,7 @@ if (empty($id)) {
 
                     echo '<img src="bilder/point.gif" alt="a point o.O">';
                     echo '&nbsp;';
-
                     echo '<a href="index.php?action=m_building&show_building=' . $resid . '&sid=' . $sid . '">' . $gebaeude . '</a>';
-
                     echo '<br>';
 
                 }

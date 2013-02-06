@@ -65,7 +65,7 @@ $id = (empty($id) ? $user_sitterlogin : $id);
 $serie = "";
 $geb = 0;
 
-$differentid = !($user_sitterlogin == $id);
+$differentid = !($user_sitterlogin === $id);
 $editauftrag = getVar('editauftrag');
 
 // speichere Planetendaten in Array //
@@ -314,7 +314,7 @@ echo (empty($alert)) ? "" : $alert;
 ?>
 <br>
 <form method="POST" action="index.php?action=sitterauftrag&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>" enctype="multipart/form-data">
-<table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">
+<table class="table_format" style="width: 90%;">
     <tr>
         <td class="titlebg" colspan="4" align="center">
             <b>schnell hinzufügen</b>
@@ -355,7 +355,7 @@ echo (empty($alert)) ? "" : $alert;
 </table>
 <br>
 <br>
-<table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">
+<table class="table_format" style="width: 90%;">
     <tr>
         <td class="titlebg" style="width:3%;">
             &nbsp;
@@ -466,12 +466,10 @@ echo (empty($alert)) ? "" : $alert;
         <tr>
             <td class="windowbg<?php echo $num;?>" align="center">
                 <?php
-                if (!$differentid || (($user_status == "admin") OR ($user_status == "SV")) || ($user_sitterlogin == $row['ByUser'])) {
+                if (!$differentid OR (($user_status === "admin") OR ($user_status === "SV")) OR ($user_sitterlogin === $row['ByUser'])) {
                     echo (empty($row_bev['id']))
-                        ?
-                        "<img src='bilder/point.gif' alt=''>"
-                        :
-                        "<a href='index.php?action=sitterauftrag&delserie=" . $row['id'] . "&sid=" . $sid . "'><img src='bilder/plus.gif'></a>";
+                        ? "<img src='bilder/point.gif' alt=''>"
+                        : "<a href='index.php?action=sitterauftrag&delserie=" . $row['id'] . "&sid=" . $sid . "'><img src='bilder/plus.gif'></a>";
                 } else {
                     echo "<img src='bilder/point.gif' alt=''>";
                 }
@@ -506,23 +504,20 @@ echo (empty($alert)) ? "" : $alert;
             </td>
             <td class="windowbg<?php echo $num;?>" align="center">
                 <?php
-                if (!$differentid || (($user_status == "admin") OR ($user_status == "SV")) || ($user_sitterlogin == $row['ByUser'])) {
+                if (!$differentid || (($user_status === "admin") OR ($user_status === "SV")) || ($user_sitterlogin === $row['ByUser'])) {
                     ?>
-                    <a href="index.php?action=sitterauftrag&typ=<?php echo $row['typ'];?>&auftragid=<?php echo $row['id'];?>&umenu=1&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>"><img
-                            src="bilder/file_edit_s.gif" border="0" alt="editieren"></a>
+                    <a href="index.php?action=sitterauftrag&typ=<?php echo $row['typ'];?>&auftragid=<?php echo $row['id'];?>&umenu=1&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>"><img src="bilder/file_edit_s.gif" alt="editieren"></a>
                 <?php
                 }
                 if ($row['typ'] == "Gebaeude") {
                     ?>
-                    <a href="index.php?action=sitterauftrag&umenu=1&parentid=<?php echo $row['id'];?>&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>"><img
-                            src="bilder/file_new_s.gif" border="0" alt="anhängen"></a>
+                    <a href="index.php?action=sitterauftrag&umenu=1&parentid=<?php echo $row['id'];?>&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>"><img src="bilder/file_new_s.gif" alt="anhängen"></a>
                 <?php
                 }
-                if (!$differentid || (($user_status == "admin") OR ($user_status == "SV")) || ($user_sitterlogin == $row['ByUser'])) {
+                if (!$differentid || (($user_status === "admin") OR ($user_status === "SV")) || ($user_sitterlogin === $row['ByUser'])) {
                     ?>
                     <a href="index.php?action=sitterauftrag&parentid=<?php echo $row['id'];?>&delid=<?php echo $row['id'];?>&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>"
-                       onclick="return confirmlink(this, 'Auftrag wirklich löschen?')"><img
-                            src="bilder/file_delete_s.gif" border="0" alt="löschen"></a>
+                       onclick="return confirmlink(this, 'Auftrag wirklich löschen?')"><img src="bilder/file_delete_s.gif" alt="löschen"></a>
                 <?php
                 }
                 ?>
@@ -611,7 +606,7 @@ if (!empty($umenu)) {
     ?>
     <br>
     <form method="POST" action="index.php?action=sitterauftrag&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>" enctype="multipart/form-data">
-    <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 60%;">
+    <table class="table_format" style="width: 60%;">
     <tr>
         <td class="windowbg2" style="width: 30%;">
             Planet:<?php echo ($typ == "Forschung") ? "<br><i>(optional)</i>" : "";?>
@@ -947,9 +942,9 @@ if (!empty($umenu)) {
 
 //****************************************************************************
 //
-function fill_selection($selected_id)
+function fill_selection($selected_research_id)
 {
-    global $db, $db_tb_research, $db_tb_researchfield, $user_sitterlogin, $db_tb_research2user;
+    global $id, $db, $db_tb_research, $db_tb_researchfield, $db_tb_research2user;
 
     $fields = array();
 
@@ -964,8 +959,8 @@ function fill_selection($selected_id)
 
     $where = "";
 
-    if (!empty($user_sitterlogin)) {
-        $where = " WHERE NOT `ID` IN (SELECT `rID` FROM `{$db_tb_research2user}` WHERE `userid`='" . $user_sitterlogin . "')";
+    if (!empty($id)) {
+        $where = " WHERE NOT `ID` IN (SELECT `rID` FROM `{$db_tb_research2user}` WHERE `userid`='" . $id . "')";
     }
 
     $sql = "SELECT `ID`, `name`, `gebiet` FROM " . $db_tb_research . $where . " ORDER BY `gebiet` ASC, `name` ASC;";
@@ -986,7 +981,7 @@ function fill_selection($selected_id)
         }
 
         $retVal .= "<option value='" . $resid . "'";
-        if ($resid == $selected_id) {
+        if ($resid == $selected_research_id) {
             $retVal .= " selected";
         }
 

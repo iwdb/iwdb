@@ -54,7 +54,7 @@ function error($err_code, $err_msg = '', $err_title = '', $err_file = '', $err_l
 	switch ( $err_code  )
 	{
 		case GENERAL_ERROR:
-			if (defined( 'DEBUG' ) && DEBUG === TRUE)
+			if (defined( 'DEBUG' ) && DEBUG === true)
 			{
 				$debug_msg = "<b>DEBUG INFORMATION:</b><br>\n";
 				$debug_msg .= "<b>Time:</b> " . $err_dt . "<br>\n";
@@ -173,7 +173,7 @@ function dates($parentid, $user)
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 		$row_geb = $db->db_fetch_array($result_geb);
 
-		$modmaurer = ( ($genmaurer == 1) && (( strpos($row_geb['category'], "Bunker") !== FALSE ) || ( strpos($row_geb['category'], "Lager") !== FALSE )) ) ? 0.5: 1;
+		$modmaurer = ( ($genmaurer == 1) && (( strpos($row_geb['category'], "Bunker") !== false ) || ( strpos($row_geb['category'], "Lager") !== false )) ) ? 0.5: 1;
 
 		if ( empty($genbauschleife) ) $date_b2 = $row['date'];
 		else $date_b2 = $row['date_b1'];
@@ -227,8 +227,8 @@ function auftrag($typ, $bauschleife, $bauid, $text, $schiffanz, $planetenmod, $s
 				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 			$row_gebaeude = $db->db_fetch_array($result_gebaeude);
 
-			$bild_url = ( empty($row_gebaeude['bild']) ) ? "bilder/gebs/blank.gif": "bilder/gebs/" . $row_gebaeude['bild'] . ".jpg";
-			$modmaurer = ( ($user_genmaurer == 1) && (( strpos($row_gebaeude['category'], "Bunker") !== FALSE ) || ( strpos($row_gebaeude['category'], "Lager") !== FALSE )) ) ? 0.5: 1;
+			$bild_url = GEBAEUDE_BILDER_PATH . ( empty($row_gebaeude['bild']) ) ? "blank.gif" : $row_gebaeude['bild'] . ".jpg";
+			$modmaurer = ( ($user_genmaurer == 1) && (( strpos($row_gebaeude['category'], "Bunker") !== false ) || ( strpos($row_gebaeude['category'], "Lager") !== false )) ) ? 0.5: 1;
 
 			$dauer = round($row_gebaeude['dauer'] * $user_gengebmod * $modmaurer * $planetenmod * $bauschleifenmod);
 
@@ -266,16 +266,16 @@ function timeimport($textinput, $planet = '')
 	{
 		if ( empty($bau_type) )
 		{
-			if ( strpos($bau, "aktuell im Bau auf diesem Planeten") !== FALSE ) {
+			if ( strpos($bau, "aktuell im Bau auf diesem Planeten") !== false ) {
 				$bau_type = 'planet';
 			}
-			if ( strpos($bau, "Ausbaustatus") !== FALSE ) {
+			if ( strpos($bau, "Ausbaustatus") !== false ) {
 				$bau_type = 'liste';
 			}
 		}
 		elseif ( $bau_type == 'planet' )
 		{
-			if ( strpos($bau, " bis ") !== FALSE ) {
+			if ( strpos($bau, " bis ") !== false ) {
 				$date = substr($bau, strpos($bau, " bis ") + 5);
 				$date_split = explode(" ", trim($date));
 				$date_d = explode(".", $date_split[0]);
@@ -286,7 +286,7 @@ function timeimport($textinput, $planet = '')
 		}
 		elseif ( $bau_type == 'liste' )
 		{
-			if (( strpos($bau, " bis ") !== FALSE ) && ( strpos($bau, "(" . $planet . ")") !== FALSE )) {
+			if (( strpos($bau, " bis ") !== false ) && ( strpos($bau, "(" . $planet . ")") !== false )) {
 				$date = substr($bau, strpos($bau, " bis ") + 5);
 				$date_split = explode(" ", trim($date));
 				$date_d = explode(".", $date_split[0]);
@@ -387,7 +387,7 @@ function getVar($varname, $keephtmlspecialchars = false) {
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 /**
@@ -443,7 +443,7 @@ function scanAge($scandate) {
  *
  * @param string $name Zu überprüfender Accname
  *
- * @return string geprüfter Accname oder false falls nicht vorhanden
+ * @return string geprüfter Accname oder bool false falls nicht vorhanden
  *
  * @author masel
  */
@@ -477,6 +477,49 @@ function validAccname($name)
 }
 
 /**
+ * function ensureSortDirection
+ *
+ * filtert Sortierungsrichtung
+ *
+ * @param mixed $inputValue    zu filternder Wert
+ * @param mixed $standardValue optional Standardwert
+ *
+ * @return int|string gefilterter Wert oder Standardwert
+ *
+ * @author   masel
+ */
+function ensureSortDirection($inputValue, $standardValue='asc') {
+
+    return ensureValue($inputValue, array('asc', 'desc'), $standardValue);
+
+}
+
+/**
+ * function ensureValue
+ *
+ * filtert einfache Ganzzahlen mit Tausendertrennzeichen
+ *
+ * @param mixed $inputValue zu filternder Wert
+ * @param array $possibleValues gültige Werte
+ * @param mixed $standardValue optional Standardwert
+ *
+ * @return int|string gefilterter Wert, ggf Standardwert oder bool false
+ *
+ * @author   masel
+ */
+function ensureValue($inputValue, $possibleValues, $standardValue=null) {
+
+    if (in_array($inputValue, $possibleValues) AND $inputValue !== '') {
+        return $inputValue;
+    } elseif (!is_null($standardValue)) {
+        return $standardValue;
+    } else {
+        return false;
+    }
+
+}
+
+/**
  * function filter_int
  *
  * filtert einfache Ganzzahlen mit Tausendertrennzeichen
@@ -490,10 +533,10 @@ function validAccname($name)
  *
  * @author masel
  */
-function filter_int($numberstring, $default_value = NULL, $min_value = NULL, $max_value = NULL) {
+function filter_int($numberstring, $default_value = null, $min_value = null, $max_value = null) {
 
     $filtered_number = filter_var($numberstring, FILTER_SANITIZE_NUMBER_INT);
-    if (($filtered_number !== FALSE) AND ($filtered_number !== '')) {                    //Ergebnis nicht fehlgeschlagen oder leer
+    if (($filtered_number !== false) AND ($filtered_number !== '')) {                    //Ergebnis nicht fehlgeschlagen oder leer
 
         $filtered_number = (int)$filtered_number;
     } else {                                                                             //sonst Standardwert
@@ -584,6 +627,7 @@ function filter_number($numberstring, $default_value = false, $min_value = false
 // Replace thousand-separator with nothing, and the comma-sign with a period
 // Ideally the given string is a pure number with formatting.
 //
+// masel: veraltet -> filter_number nutzen
 function stripNumber($numberstring, $thousand='.', $comma=',') {
 
     $numbers = array('0','1','2','3','4','5','6','7','8','9');
@@ -738,7 +782,7 @@ function rating ( $scan_data , $coords = '0:0:0' )
 	return "<span class='ranking_" . $color . "'>" . $rating . "</span>";
 }
 
-function makeduration2($time1, $time2=NULL) {
+function makeduration2($time1, $time2=null) {
     //errechnet Zeitraum von Zeitpunkt 1 zu jetzt oder Zeitpunkt 2 ($time2)
     // masel
 
@@ -775,40 +819,62 @@ function makeduration2($time1, $time2=NULL) {
     return $text;
 }
 
-//******************************************************************************
-//
-// returns the parsed xml
-// loaded with simplexml_load_file (allow_url_fopen must be true) or curl Extension
-
+/**
+ * function simplexml_load_file_ex
+ *
+ * läd und parsed die angegebene xml Datei
+ *
+ * @param string $url URL der xml-Datei
+ *
+ * @throws Exception
+ * @return bool|object|\SimpleXMLElement Simplexml Object bei erfolg, false on error
+ *
+ * @author   masel
+ *
+ * @todo error handling
+ */
 function simplexml_load_file_ex($url)
 {
+    if (ini_get('allow_url_fopen') == true) {       //zuerst versuchen die xml per simple_load_file zu laden und parsen falls allow_url_fopen on (spart braucht weniger Speicher?)
 
-    if (ini_get('allow_url_fopen') == true) {                  //allow_url_fopen ist an -> direkt simplexml_load_file zum laden und parsen der XML-Datei verwenden
-        return @simplexml_load_file($url);                     //ToDo: Möglicher 404 Fehler bei nicht mehr vorhandener XML loggen aber keine doppelte Fehlermeldung.
-    } else if (function_exists('curl_init')) {                 //alternativ per curl laden falls vorhanden
+        return simplexml_load_file($url);
+
+    } elseif (function_exists('curl_init')) {                 //alternativ per curl falls vorhanden
+
         if ($curl = curl_init($url)) {
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
-            curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE);
+            curl_setopt($curl, CURLOPT_HEADER, false);
+            curl_setopt($curl, CURLOPT_USERAGENT, 'IWDB');
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 60);
+            curl_setopt($curl, CURLOPT_TIMEOUT, 60);
             $result = curl_exec($curl);
-            curl_close($curl);
-            return simplexml_load_string($result);
-        } else {
-            return FALSE;
+
+            if((curl_errno($curl) === 0)) {
+                $info = curl_getinfo($curl);
+                if ($info['http_code'] < 400) {
+                    curl_close($curl);
+                    return simplexml_load_string($result);
+                }
+
+            }
+
         }
-    } else {
-        return FALSE;
+
     }
+
+    return false;
+
 }
 
 function convert_bbcode($string) {
-    global $db, $db_prefix;
+    global $db, $db_tb_bbcodes;
 
     if ($string === '') {
        return '';
     }
 
     //ToDo: implement some caching
-    $sql = "SELECT isregex, bbcode, htmlcode FROM {$db_prefix}bbcodes;";
+    $sql = "SELECT `isregex`, `bbcode`, `htmlcode` FROM `{$db_tb_bbcodes}`;";
     $result_bbcodes = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query bbcodes.', '', __FILE__, __LINE__, $sql);
     while($row_bbcodes = $db->db_fetch_array($result_bbcodes))
@@ -829,14 +895,14 @@ function convert_bbcode($string) {
 }
 
 function bbcode_buttons($id) {
-    global $db, $db_prefix;
+    global $db, $db_tb_bbcodes;
     //ToDo: implement some caching
 
     $smilies = array();
     $bbscriptcode = "<script>\n";
     $bbscriptcode .= "var smilies = new Array();\n";
 
-    $sql = "SELECT bbcode, htmlcode FROM {$db_prefix}bbcodes WHERE htmlcode LIKE '%<img src=%' GROUP BY htmlcode";        //Smiliebilder holen
+    $sql = "SELECT `bbcode`, `htmlcode` FROM `{$db_tb_bbcodes}` WHERE `htmlcode` LIKE '%<img src=%' GROUP BY `htmlcode`;";        //Smiliebilder holen
     $result_bbcodes = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query bbcodes.', '', __FILE__, __LINE__, $sql);
     while($row_bbcodes = $db->db_fetch_array($result_bbcodes))
@@ -906,4 +972,65 @@ function find_research_id($researchname, $hidenew = false)
     } else {
         return $row['ID'];
     }
+}
+
+function redirect($link, $linktext=''){
+    /* little helperfunction, it just redirects the page to another
+    *
+    * by masel
+    */
+
+    if (empty($link)) {                  //ohne Weiterleitungslink sinnfrei -> kommentarlos zurückgeben
+        return;
+    }
+
+    echo "<a href='$link'>$linktext</a>";
+    echo "<script language ='JavaScript'>";
+    echo "window.location.replace('$link')";
+    echo "</script>";
+}
+
+/**
+ * function sortValuesInc
+ *
+ * sortiert übergebene Parameter in Aufsteigender richtung und gibt sie als Array zurück
+ *
+ * @param mixed ...
+ *
+ * @return array sortierte Parameter
+ *
+ * @author   masel
+ */
+function sortValuesInc() {
+    $vars = func_get_args();
+    sort ($vars, SORT_NUMERIC);
+    return $vars;
+}
+
+/**
+ * function parsetime
+ *
+ * wandelt Zeitstring in Unixzeit um
+ *
+ * @param string   $timestring  Zeitstring
+ *
+ * @return int Unixzeit
+ *
+ * @author masel
+ */
+function parseTime($timestring = '')
+{
+    $timestring = trim($timestring);
+
+    $parsed_datetime = strtotime($timestring);
+
+    if ($parsed_datetime !== false) {
+        if ($parsed_datetime > CURRENT_UNIX_TIME) { //ein gültiges Datum in der Zukunft?
+            return $parsed_datetime;
+        } elseif (strtotime("+1 day", $parsed_datetime) > CURRENT_UNIX_TIME) { //vielleicht morgen um die Zeit?
+            return strtotime("+1 day", $parsed_datetime);
+        }
+    }
+
+    return CURRENT_UNIX_TIME; //ansonsten momentane Zeit zurückgeben
 }

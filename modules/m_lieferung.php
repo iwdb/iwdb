@@ -329,15 +329,15 @@ if (isset($results)) {
 // Team Dropdown
 echo '<form method="POST" action="' . makeurl(array()) . '" enctype="multipart/form-data"><p align=\"center\">';
 echo 'Team: ';
-echo makefield(array("type"  => 'select',
+echo makeField(array("type"  => 'select',
                     "values" => $config['teams'],
                     "value"  => $params['filter_team']
                ), 'filter_team'
 );
 echo ' Start: ';
-echo makefield(array("type" => 'select', "values" => $config['users'], "value" => $params['user_from']), 'user_from');
+echo makeField(array("type" => 'select', "values" => $config['users'], "value" => $params['user_from']), 'user_from');
 echo ' Ziel: ';
-echo makefield(array("type" => 'select', "values" => $config['users'], "value" => $params['user_to']), 'user_to');
+echo makeField(array("type" => 'select', "values" => $config['users'], "value" => $params['user_to']), 'user_to');
 echo ' <input type="submit" name="submit" value="anzeigen"/>';
 echo "</form><br><br>\n";
 
@@ -549,49 +549,6 @@ function sort_data_cmp($a, $b)
 
 // ****************************************************************************
 //
-// Erstellt ein Formularfeld.
-function makefield($field, $key)
-{
-    switch ($field['type']) {
-        case 'text':
-            $html = '<input type="text" name="' . $key . '" value="' . $field['value'] . '"';
-            if (isset($field['style'])) {
-                $html .= ' style="' . $field['style'] . '"';
-            }
-            $html .= '>';
-            break;
-        case 'select':
-            $html = '<select name="' . $key . '">';
-            foreach ($field['values'] as $key => $value) {
-                $html .= '<option value="' . $key . '"';
-                if (isset($field['value']) && $field['value'] == $key) {
-                    $html .= ' selected';
-                }
-                $html .= '>' . $value . '</option>';
-            }
-            $html .= '</select>';
-            break;
-        case 'area':
-            $html = '<textarea name="' . $key . '" rows="' . $field['rows'] . '" cols="' . $field['cols'] . '">';
-            $html .= $field['value'];
-            $html .= '</textarea>';
-            break;
-        case 'checkbox':
-            $html = '<input type="checkbox" name="' . $key . '" value="1"';
-            if ($field['value']) {
-                $html .= ' checked';
-            }
-            if (isset($field['style'])) {
-                $html .= ' style="' . $field['style'] . '"';
-            }
-            $html .= '>';
-            break;
-    }
-    return $html;
-}
-
-// ****************************************************************************
-//
 // Erzeugt einen Modul-Link.
 function makelink($newparams, $content)
 {
@@ -614,5 +571,3 @@ function makeurl($newparams)
 
     return $url;
 }
-
-?>

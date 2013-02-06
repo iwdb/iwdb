@@ -6,7 +6,7 @@ define('APPLICATION_PATH_URL', dirname($_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_
 
 require_once("includes/bootstrap.php");
 
-define('SORT_ONLY_BY_TIME', true);
+$sort_only_by_time = true;
 
 if (empty($sid) || empty($user_sitterlogin) || !($user_adminsitten == SITTEN_BOTH || $user_adminsitten == SITTEN_ONLY_LOGINS) || $user_id == "guest") {
     header("Location: " . APPLICATION_PATH_RELATIVE);
@@ -96,7 +96,7 @@ while ($row = $db->db_fetch_array($result)) {
                 $user['sitterorder']['text'] = 'Sitten';
         }
     */
-    if (!defined('SORT_ONLY_BY_TIME') OR SORT_ONLY_BY_TIME !== true) {
+    if ($sort_only_by_time !== true) {
 
         $sql = "SELECT * FROM " . $db_tb_lieferung . " WHERE user_to='" . $row['id'] . "' AND art IN ('Angriff','Sondierung','Sondierung (Schiffe/Def/Ress)','Sondierung (Gebäude/Ress)') AND time>" . (CURRENT_UNIX_TIME - (15 * MINUTE)) . " ORDER BY time DESC";
         $result_angriff = $db->db_query($sql)
@@ -360,14 +360,7 @@ switch ($mode) {
                         </option>
                     </select>
                 </td>
-                <!--<tr>
-                <td nowrap width="100%">
-                    <a href='?action=own<?php echo "&allianz=$allianz" ?>' target='_top'>Eigener Spieler</a><br>
-					<a href='http://176.9.109.187/' target='main'>Icewars-Notlogin</a>
-                </td>
-                <td nowrap>
-                </td>
-            --></tr>
+            </tr>
             <tr>
                 <td>
                 </td>

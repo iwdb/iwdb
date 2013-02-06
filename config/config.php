@@ -39,18 +39,27 @@ if (!defined('IRA')) {
 }
 
 // ***************************************************************************
-//  Ab hier sind Angaben die nicht unbedingt geändert werden muessen.
+//  Ab hier sind Angaben die nicht unbedingt geändert werden müssen.
 //
+//allgemeine Pfadangaben
+define('BILDER_PATH', "bilder/");
+define('GEBAEUDE_BILDER_PATH', BILDER_PATH."gebs/");
+define('BANNER_PATH', BILDER_PATH."banner/");
+define('TECHTREE_BILDER_PATH', BILDER_PATH."techtree/");
+//für evl aktuellere techtrees
+//define('TECHTREE_BILDER_PATH', "//wuz.php-friends.de/techtree/");
 
-// Farben in der Karte der Allianzen (own - eigene Allianz/Wings, NAP, iNAP, VB, Krieg)
-$config_allianzstatus           = array();
-$config_allianzstatus['own']    = "#C4F493";
-$config_allianzstatus['wing']   = "#E6F6A5";
-$config_allianzstatus['NAP']    = "#7C9CF1";
-$config_allianzstatus['iNAP']   = "#8DADF2";
-$config_allianzstatus['VB']     = "#4A71D5";
-$config_allianzstatus['Krieg']  = "#E84528";
-$config_allianzstatus['noraid'] = "#DD9911";
+// Farben in der Karte der Allianzen
+$config_allianzstatus            = array();
+$config_allianzstatus['own']     = "#C4F493";
+$config_allianzstatus['wing']    = "#E6F6A5";
+$config_allianzstatus['NAP']     = "#7C9CF1";
+$config_allianzstatus['iNAP']    = "#8DADF2";
+$config_allianzstatus['VB']      = "#4A71D5";
+$config_allianzstatus['iVB']     = "#4A71D5";
+$config_allianzstatus['Krieg']   = "#E84528";
+$config_allianzstatus['imKrieg'] = "#FFC080";
+$config_allianzstatus['noraid']  = "#DD9911";
 
 // Farben von Stargates, Schwarze Loecher, reservierten Planeten
 $config_color                  = array();

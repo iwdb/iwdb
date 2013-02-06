@@ -173,13 +173,13 @@ if (file_exists("./config/m_research.cfg.php")) {
 
     // Array aller Evos ggf. anpassen
     $evoArray    = array();
-    $evoArray[0] = array('img' => 'blobtree-evo0.png');
-    $evoArray[1] = array('img' => 'blobtree-evo1.png', 'keyResearch' => 'Race into Space');
-    $evoArray[2] = array('img' => 'blobtree-evo2.png', 'keyResearch' => 'Interstellares Vordringen');
-    $evoArray[3] = array('img' => 'blobtree-evo3.png', 'keyResearch' => 'Aufnahme in die zivilisierten Welten');
-    $evoArray[4] = array('img' => 'blobtree-evo4.png', 'keyResearch' => 'Imperiale Gedanken');
-    $evoArray[5] = array('img' => 'blobtree-evo5.png', 'keyResearch' => 'Die Macht des Seins');
-    $evoArray[7] = array('img' => 'blobtree-evo7.png', 'keyResearch' => 'Verstehen der Zusammenhänge');
+    $evoArray[0] = array('img' => 'evo0.png');
+    $evoArray[1] = array('img' => 'evo1.png', 'keyResearch' => 'Race into Space');
+    $evoArray[2] = array('img' => 'evo2.png', 'keyResearch' => 'Interstellares Vordringen');
+    $evoArray[3] = array('img' => 'evo3.png', 'keyResearch' => 'Aufnahme in die zivilisierten Welten');
+    $evoArray[4] = array('img' => 'evo4.png', 'keyResearch' => 'Imperiale Gedanken');
+    $evoArray[5] = array('img' => 'evo5.png', 'keyResearch' => 'Die Macht des Seins');
+    $evoArray[7] = array('img' => 'evo7.png', 'keyResearch' => 'Verstehen der Zusammenhänge');
 
     $selectEvo = null;
 
@@ -252,7 +252,7 @@ if (file_exists("./config/m_research.cfg.php")) {
     }
     echo "</div>";
 
-    echo "<img src='bilder/techtree/" . $selectEvoImg . "'>";
+    echo "<img src='" . TECHTREE_BILDER_PATH . $selectEvoImg . "'>";
     echo "<br>";
     echo "Danke an H.G. Blob für die Grafiken der Techtrees. :)";
 }

@@ -256,3 +256,6 @@ ALTER TABLE `prefix_schiffstyp` ADD `werftTyp` VARCHAR( 50 ) NULL DEFAULT NULL A
 ALTER TABLE `prefix_schiffstyp` ADD `aktualisiert` INT UNSIGNED NULL DEFAULT NULL;
 ALTER TABLE `prefix_schiffstyp` ADD UNIQUE (`schiff`);
 ALTER TABLE `prefix_schiffstyp` ADD UNIQUE (`id_iw`);
+
+-- masel: 06.02.2013
+UPDATE `prefix_params` SET `name` = 'sound_standard' WHERE `name` = 'sound_standart';

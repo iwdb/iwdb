@@ -48,41 +48,36 @@ doc_title("Admin Einstellungen");
 $bs = GetVar('BS');
 if (!empty($bs)) {
 
-    $sound_standart = (int)GetVar('sound_standart');
+    $sound_standard = (int)GetVar('sound_standard');
     $sound_login    = (int)GetVar('sound_login');
 
-    $sqlP = "UPDATE " . $db_prefix . "params SET value = '" . $sound_standart . "' WHERE name = 'sound_standart'";
-    $resultP = $db->db_query($sqlP)
+    $db->db_update($db_tb_params, array('value' => $sound_standard), "WHERE name = 'sound_standard'")
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
 
-    $sqlP = "UPDATE " . $db_prefix . "params SET value = '" . $sound_login . "' WHERE name = 'sound_login'";
-    $resultP = $db->db_query($sqlP)
+    $db->db_update($db_tb_params, array('value' => $sound_login), "WHERE name = 'sound_login'")
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
 
-    $sqlM = "ALTER TABLE " . $db_prefix . "menu CHANGE `sound` `sound` INT( 1 ) DEFAULT '" . $sound_standart . "'";
+    $sqlM = "ALTER TABLE `{$db_tb_menu}` CHANGE `sound` `sound` TINYINT( 1 ) DEFAULT '" . $sound_standard . "'";
     $resultM = $db->db_query($sqlM)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlM);
 
-    $sqlM = "UPDATE " . $db_prefix . "menu SET sound = '0'";
-    $resultM = $db->db_query($sqlM)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlM);
+    $db->db_update($db_tb_menu, array('sound' => 0))
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
 
     $sound_menu = GetVar('sound_menu');
     foreach ($sound_menu as $menuid) {
-        $sqlM = "UPDATE " . $db_prefix . "menu SET sound = 1 WHERE id = " . $menuid . ";";
+        $sqlM = "UPDATE `{$db_tb_menu}` SET sound = 1 WHERE id = " . $menuid . ";";
         $resultM = $db->db_query($sqlM)
             or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlM);
     }
 
 }
 
-global $db_prefix, $sid;
-
 $menu_sel = array();
 $menu_not = array();
 
 //auslesen aller Menüpunkte, um eine Liste zu erstellen, wo der Sound abgespielt werden soll
-$sqlM = "SELECT action,sound,id FROM " . $db_prefix . "menu ";
+$sqlM = "SELECT `action`,`sound`,`id` FROM `{$db_tb_menu}`;";
 $resultM = $db->db_query($sqlM)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlM);
 
@@ -106,7 +101,7 @@ while ($rowM = $db->db_fetch_array($resultM)) {
 }
 
 //auslesen des standards
-$sqlP = "SELECT value FROM " . $db_prefix . "params WHERE name = 'sound_standart' ";
+$sqlP = "SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'sound_standard';";
 $resultP = $db->db_query($sqlP)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
 $rowP = $db->db_fetch_array($resultP);
@@ -119,7 +114,7 @@ if (!empty($rowP['value'])) {
     $sel_sel = '';
 }
 
-$sqlP = "SELECT value FROM " . $db_prefix . "params WHERE name = 'sound_login' ";
+$sqlP = "SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'sound_login';";
 $resultP = $db->db_query($sqlP)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
 $rowP = $db->db_fetch_array($resultP);
@@ -167,8 +162,8 @@ if (!empty($rowP['value'])) {
                 <i>Welche Einstellung sollen neu installierte Module haben?</i>
             </td>
             <td class="windowbg1"><?php
-                echo "<input type='radio' name='sound_standart' id='sound_on' value='1' $sel_sel><label for='sound_on'>Sound eingeschaltet</label>";
-                echo "<input type='radio' name='sound_standart' id='sound_off' value='0' $sel_not><label for='sound_off'>Sound ausgeschaltet</label>";
+                echo "<input type='radio' name='sound_standard' id='sound_on' value='1' $sel_sel><label for='sound_on'>Sound eingeschaltet</label>";
+                echo "<input type='radio' name='sound_standard' id='sound_off' value='0' $sel_not><label for='sound_off'>Sound ausgeschaltet</label>";
                 ?></td>
         </tr>
         <tr>
@@ -188,18 +183,18 @@ if (!empty($be)) {
     $bericht_fuer_sitter = (int)
     GetVar('bericht_fuer_sitter');
 
-    $sqlP = "UPDATE " . $db_prefix . "params SET value = '" . $bericht_fuer_rang . "' WHERE name = 'bericht_fuer_rang'";
+    $sqlP = "UPDATE `{$db_tb_params}` SET `value` = '" . $bericht_fuer_rang . "' WHERE `name` = 'bericht_fuer_rang';";
     $resultP = $db->db_query($sqlP)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
 
-    $sqlP = "UPDATE " . $db_prefix . "params SET value = '" . $bericht_fuer_sitter . "' WHERE name = 'bericht_fuer_sitter'";
+    $sqlP = "UPDATE `{$db_tb_params}` SET `value` = '" . $bericht_fuer_sitter . "' WHERE `name` = 'bericht_fuer_sitter';";
     $resultP = $db->db_query($sqlP)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
 
 }
 
 //auslesen rang
-$sqlP = "SELECT value FROM " . $db_prefix . "params WHERE name = 'bericht_fuer_rang' ";
+$sqlP = "SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'bericht_fuer_rang';";
 $resultP = $db->db_query($sqlP)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
 $rowP = $db->db_fetch_array($resultP);
@@ -231,7 +226,7 @@ if (!empty($rowP['value'])) {
 }
 
 //auslesen sitter
-$sqlP = "SELECT value FROM " . $db_prefix . "params WHERE name = 'bericht_fuer_sitter' ";
+$sqlP = "SELECT value FROM `{$db_tb_params}` WHERE name = 'bericht_fuer_sitter' ";
 $resultP = $db->db_query($sqlP)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
 $rowP = $db->db_fetch_array($resultP);

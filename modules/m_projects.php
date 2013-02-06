@@ -414,11 +414,11 @@ foreach ($view['edit'] as $key => $field) {
             if (!$first) {
                 echo '&nbsp;';
             }
-            echo makefield($field, $key);
+            echo makeField($field, $key);
             $first = false;
         }
     } else {
-        echo makefield($field, $key);
+        echo makeField($field, $key);
     }
     echo "";
 }
@@ -430,57 +430,6 @@ if (isset($params['edit']) && $params['edit']) {
 echo '<input type="submit" value="hinzufügen" name="button_add" class="submit">';
 end_table();
 echo '</form>';
-
-
-// ****************************************************************************
-//
-// Erstellt ein Formularfeld.
-function makefield($field, $key)
-{
-    switch ($field['type']) {
-        case 'text':
-            $html = '<input type="text" name="' . $key . '" value="' . $field['value'] . '"';
-            if (isset($field['style'])) {
-                $html .= ' style="' . $field['style'] . '"';
-            }
-            $html .= '>';
-            break;
-        case 'hidden':
-            $html = '<input type="hidden" name="' . $key . '" value="' . $field['value'] . '"';
-            if (isset($field['style'])) {
-                $html .= ' style="' . $field['style'] . '"';
-            }
-            $html .= '>';
-            break;
-        case 'select':
-            $html = '<select name="' . $key . '">';
-            foreach ($field['values'] as $key => $value) {
-                $html .= '<option value="' . $key . '"';
-                if (isset($field['value']) && $field['value'] == $key) {
-                    $html .= ' selected';
-                }
-                $html .= '>' . $value . '</option>';
-            }
-            $html .= '</select>';
-            break;
-        case 'area':
-            $html = '<textarea name="' . $key . '" rows="' . $field['rows'] . '" cols="' . $field['cols'] . '">';
-            $html .= $field['value'];
-            $html .= '</textarea>';
-            break;
-        case 'checkbox':
-            $html = '<input type="checkbox" name="' . $key . '" value="1"';
-            if ($field['value']) {
-                $html .= ' checked';
-            }
-            if (isset($field['style'])) {
-                $html .= ' style="' . $field['style'] . '"';
-            }
-            $html .= '>';
-            break;
-    }
-    return $html;
-}
 
 // ****************************************************************************
 //

@@ -685,7 +685,7 @@ if (isset($results)) {
 // Team Dropdown
 echo "<form method='POST' action='" . makeurl(array()) . "' enctype='multipart/form-data'><p align='center'>";
 echo 'Team: ';
-echo makefield(
+echo makeField(
     array(
          "type"   => 'select',
          "values" => $config['teams'],
@@ -704,7 +704,7 @@ echo '<td>';
 echo 'Heimatgalaxy: ';
 echo '</td>';
 echo '<td>';
-echo makefield(array("type" => 'text', "value" => $params['heimatgalaxy'], "size" => 2), 'heimatgalaxy');
+echo makeField(array("type" => 'text', "value" => $params['heimatgalaxy'], "size" => 2), 'heimatgalaxy');
 echo '</td>';
 echo '<td>';
 echo ' Systemtransporter: ';
@@ -713,7 +713,7 @@ echo '<td>';
 echo ' Klasse 1: ';
 echo '</td>';
 echo '<td>';
-echo makefield(
+echo makeField(
     array(
          "type"  => 'text',
          "value" => $params['heimatgalaxy_abdeckung_system_klasse1'],
@@ -726,7 +726,7 @@ echo '<td>';
 echo ' Klasse 2: ';
 echo '</td>';
 echo '<td>';
-echo makefield(
+echo makeField(
     array(
          "type"  => 'text',
          "value" => $params['heimatgalaxy_abdeckung_system_klasse2'],
@@ -753,7 +753,7 @@ echo '<td>';
 echo ' Klasse 1: ';
 echo '</td>';
 echo '<td>';
-echo makefield(
+echo makeField(
     array(
          "type"  => 'text',
          "value" => $params['heimatgalaxy_abdeckung_hyperraum_klasse1'],
@@ -766,7 +766,7 @@ echo '<td>';
 echo ' Klasse 2: ';
 echo '</td>';
 echo '<td>';
-echo makefield(
+echo makeField(
     array(
          "type"  => 'text',
          "value" => $params['heimatgalaxy_abdeckung_hyperraum_klasse2'],
@@ -793,7 +793,7 @@ echo '<td>';
 echo ' Klasse 1: ';
 echo '</td>';
 echo '<td>';
-echo makefield(
+echo makeField(
     array(
          "type"  => 'text',
          "value" => $params['sonstige_abdeckung_system_klasse1'],
@@ -806,7 +806,7 @@ echo '<td>';
 echo ' Klasse 2: ';
 echo '</td>';
 echo '<td>';
-echo makefield(
+echo makeField(
     array(
          "type"  => 'text',
          "value" => $params['sonstige_abdeckung_system_klasse2'],
@@ -833,7 +833,7 @@ echo '<td>';
 echo ' Klasse 1: ';
 echo '</td>';
 echo '<td>';
-echo makefield(
+echo makeField(
     array(
          "type"  => 'text',
          "value" => $params['sonstige_abdeckung_hyperraum_klasse1'],
@@ -846,7 +846,7 @@ echo '<td>';
 echo ' Klasse 2: ';
 echo '</td>';
 echo '<td>';
-echo makefield(
+echo makeField(
     array(
          "type"  => 'text',
          "value" => $params['sonstige_abdeckung_hyperraum_klasse2'],
@@ -1006,31 +1006,32 @@ next_cell("windowbg1", 'nowrap valign=top');
 end_table();
 
 // Legende ausgeben
-echo '<br><table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="">';
+echo '<br>';
+echo '<table class="table_format">';
 echo '<tr nowrap>';
-echo '<td style="background-color: white;" nowrap>Ress/Kolo- oder Schiffsübersicht</td>';
-echo '<td style="width: 30; background-color: #00FF00;"></td>';
-echo '<td class="windowbg1">von heute</td>';
-echo '<td style="width: 30; background-color: yellow;"></td>';
-echo '<td class="windowbg1">&gt;24h</td>';
-echo '<td style="width: 30; background-color: red;"></td>';
-echo '<td class="windowbg1">&gt;96h</td>';
-echo '<td style="width: 10; background-color: white;" align="center">S</td>';
-echo '<td class="windowbg1">Systrans</td>';
-echo '<td style="width: 10; background-color: white;" align="center">L</td>';
-echo '<td class="windowbg1">Lurch</td>';
-echo '<td style="width: 10; background-color: white;" align="center">G</td>';
-echo '<td class="windowbg1">Gorgol</td>';
-echo '<td style="width: 10; background-color: white;" align="center">E</td>';
-echo '<td class="windowbg1">Eisbär</td>';
-echo '<td style="width: 10; background-color: white;" align="center">K</td>';
-echo '<td class="windowbg1">Kamel</td>';
-echo '<td style="width: 10; background-color: white;" align="center">W</td>';
-echo '<td class="windowbg1">Waschbär</td>';
-echo '<td style="width: 10; background-color: white;" align="center">F</td>';
-echo '<td class="windowbg1">Flughund</td>';
-echo '<td style="width: 10; background-color: white;" align="center">S</td>';
-echo '<td class="windowbg1">Seepferdchen</td>';
+echo '  <td style="background-color: white;" nowrap>Ress/Kolo- oder Schiffsübersicht</td>';
+echo '  <td style="width: 30; background-color: #00FF00;"></td>';
+echo '  <td class="windowbg1">von heute</td>';
+echo '  <td style="width: 30; background-color: yellow;"></td>';
+echo '  <td class="windowbg1">&gt;24h</td>';
+echo '  <td style="width: 30; background-color: red;"></td>';
+echo '  <td class="windowbg1">&gt;96h</td>';
+echo '  <td style="width: 10; background-color: white;" align="center">S</td>';
+echo '  <td class="windowbg1">Systrans</td>';
+echo '  <td style="width: 10; background-color: white;" align="center">L</td>';
+echo '  <td class="windowbg1">Lurch</td>';
+echo '  <td style="width: 10; background-color: white;" align="center">G</td>';
+echo '  <td class="windowbg1">Gorgol</td>';
+echo '  <td style="width: 10; background-color: white;" align="center">E</td>';
+echo '  <td class="windowbg1">Eisbär</td>';
+echo '  <td style="width: 10; background-color: white;" align="center">K</td>';
+echo '  <td class="windowbg1">Kamel</td>';
+echo '  <td style="width: 10; background-color: white;" align="center">W</td>';
+echo '  <td class="windowbg1">Waschbär</td>';
+echo '  <td style="width: 10; background-color: white;" align="center">F</td>';
+echo '  <td class="windowbg1">Flughund</td>';
+echo '  <td style="width: 10; background-color: white;" align="center">S</td>';
+echo '  <td class="windowbg1">Seepferdchen</td>';
 echo '</tr>';
 echo '</table>';
 
@@ -1178,52 +1179,6 @@ function sort_data_cmp($a, $b)
 
 // ****************************************************************************
 //
-// Erstellt ein Formularfeld.
-function makefield($field, $key)
-{
-    switch ($field['type']) {
-        case 'text':
-            $html = '<input type="text" name="' . $key . '" value="' . $field['value'] . '"';
-            if (isset($field['style'])) {
-                $html .= ' style="' . $field['style'] . '"';
-            }
-            if (isset($field['size'])) {
-                $html .= ' size="' . $field['size'] . '"';
-            }
-            $html .= '>';
-            break;
-        case 'select':
-            $html = '<select name="' . $key . '">';
-            foreach ($field['values'] as $key => $value) {
-                $html .= '<option value="' . $key . '"';
-                if (isset($field['value']) && $field['value'] == $key) {
-                    $html .= ' selected';
-                }
-                $html .= '>' . $value . '</option>';
-            }
-            $html .= '</select>';
-            break;
-        case 'area':
-            $html = '<textarea name="' . $key . '" rows="' . $field['rows'] . '" cols="' . $field['cols'] . '">';
-            $html .= $field['value'];
-            $html .= '</textarea>';
-            break;
-        case 'checkbox':
-            $html = '<input type="checkbox" name="' . $key . '" value="1"';
-            if ($field['value']) {
-                $html .= ' checked';
-            }
-            if (isset($field['style'])) {
-                $html .= ' style="' . $field['style'] . '"';
-            }
-            $html .= '>';
-            break;
-    }
-    return $html;
-}
-
-// ****************************************************************************
-//
 // Erzeugt einen Modul-Link.
 function makelink($newparams, $content)
 {
@@ -1246,4 +1201,3 @@ function makeurl($newparams)
 
     return $url;
 }
-?> 

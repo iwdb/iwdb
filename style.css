@@ -452,6 +452,15 @@ a:hover        {
 /* !T Schwarze Schrift */
 /* !I */
 
+.doc_grey {
+    color:#777777;
+}
+
+
+/* !N .doc_black */
+/* !T Schwarze Schrift */
+/* !I */
+
   .doc_black {
    color:#000000; 
  }

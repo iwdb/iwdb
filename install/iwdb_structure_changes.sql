@@ -201,3 +201,58 @@ ALTER TABLE `prefix_lieferung` CHANGE `eis`  `eis` INT UNSIGNED NULL DEFAULT '0'
 ALTER TABLE `prefix_lieferung` CHANGE `wasser`  `wasser` INT UNSIGNED NULL DEFAULT '0';
 ALTER TABLE `prefix_lieferung` CHANGE `energie` `energie` INT UNSIGNED NULL DEFAULT  '0';
 ALTER TABLE `prefix_lieferung` ADD `volk` INT UNSIGNED NOT NULL DEFAULT '0' AFTER `energie`;
+
+-- masel: 01.02.
+ALTER TABLE `prefix_lieferung` CHANGE `eisen`  `eisen` INT( 10 ) UNSIGNED NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_lieferung` CHANGE `stahl`  `stahl` INT( 10 ) UNSIGNED NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_lieferung` CHANGE `vv4a`  `vv4a` INT( 10 ) UNSIGNED NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_lieferung` CHANGE `chem`  `chem` INT( 10 ) UNSIGNED NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_lieferung` CHANGE `eis`  `eis` INT( 10 ) UNSIGNED NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_lieferung` CHANGE `wasser`  `wasser` INT UNSIGNED NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_lieferung` CHANGE `energie` `energie` INT UNSIGNED NOT NULL DEFAULT  '0';
+
+-- masel 06.02.
+ALTER TABLE `prefix_user` CHANGE `grav_von`  `grav_von` FLOAT NOT NULL DEFAULT  '0.5';
+ALTER TABLE `prefix_user` CHANGE `grav_bis`  `grav_bis` FLOAT NOT NULL DEFAULT  '2';
+
+ALTER TABLE `prefix_schiffstyp` CHANGE `id_iw`  `id_iw` SMALLINT UNSIGNED NULL DEFAULT NULL;
+ALTER TABLE `prefix_schiffstyp` CHANGE `kosten_eisen`  `kosten_eisen` INT UNSIGNED NULL DEFAULT NULL;
+ALTER TABLE `prefix_schiffstyp` CHANGE `kosten_stahl`  `kosten_stahl` INT UNSIGNED NULL DEFAULT NULL;
+ALTER TABLE `prefix_schiffstyp` CHANGE `kosten_vv4a`  `kosten_vv4a` INT UNSIGNED NULL DEFAULT NULL;
+ALTER TABLE `prefix_schiffstyp` CHANGE `kosten_chemie`  `kosten_chemie` INT UNSIGNED NULL DEFAULT NULL;
+ALTER TABLE `prefix_schiffstyp` CHANGE `kosten_eis`  `kosten_eis` INT UNSIGNED NULL DEFAULT NULL;
+ALTER TABLE `prefix_schiffstyp` CHANGE `kosten_wasser`  `kosten_wasser` INT UNSIGNED NULL DEFAULT NULL;
+ALTER TABLE `prefix_schiffstyp` CHANGE `kosten_energie`  `kosten_energie` INT UNSIGNED NULL DEFAULT NULL;
+ALTER TABLE `prefix_schiffstyp` ADD `kosten_bev` INT UNSIGNED NULL DEFAULT NULL AFTER `kosten_energie`;
+ALTER TABLE `prefix_schiffstyp` CHANGE `angriff`  `angriff` SMALLINT UNSIGNED NULL DEFAULT NULL;
+ALTER TABLE `prefix_schiffstyp` CHANGE `waffenklasse`  `waffenklasse` VARCHAR( 30 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+ALTER TABLE `prefix_schiffstyp` CHANGE `verteidigung`  `verteidigung` SMALLINT UNSIGNED NULL DEFAULT NULL;
+ALTER TABLE `prefix_schiffstyp` CHANGE `panzerung_kinetisch`  `panzerung_kinetisch` SMALLINT UNSIGNED NULL DEFAULT NULL;
+ALTER TABLE `prefix_schiffstyp` CHANGE `panzerung_elektrisch`  `panzerung_elektrisch` SMALLINT UNSIGNED NULL DEFAULT NULL;
+ALTER TABLE `prefix_schiffstyp` CHANGE `panzerung_gravimetrisch`  `panzerung_gravimetrisch` SMALLINT UNSIGNED NULL DEFAULT NULL;
+ALTER TABLE `prefix_schiffstyp` ADD `GeschwindigkeitSol` MEDIUMINT UNSIGNED NULL DEFAULT NULL AFTER  `kosten_bev`;
+ALTER TABLE `prefix_schiffstyp` ADD `GeschwindigkeitGal` MEDIUMINT UNSIGNED NULL DEFAULT NULL AFTER  `GeschwindigkeitSol`;
+ALTER TABLE `prefix_schiffstyp` ADD `canLeaveGalaxy` TINYINT( 1 ) NULL DEFAULT NULL AFTER  `GeschwindigkeitGal`;
+ALTER TABLE `prefix_schiffstyp` ADD `canBeTransported` TINYINT( 1 ) NULL DEFAULT NULL AFTER  `canLeaveGalaxy`;
+ALTER TABLE `prefix_schiffstyp` ADD `VerbrauchChemie` SMALLINT UNSIGNED NULL DEFAULT NULL AFTER  `canBeTransported`;
+ALTER TABLE `prefix_schiffstyp` ADD `VerbrauchEnergie` SMALLINT UNSIGNED NULL DEFAULT NULL AFTER  `VerbrauchChemie`;
+ALTER TABLE `prefix_schiffstyp` ADD `Schilde` SMALLINT UNSIGNED NULL DEFAULT NULL AFTER `panzerung_gravimetrisch`;
+ALTER TABLE `prefix_schiffstyp` ADD `bev` INT UNSIGNED NULL DEFAULT NULL AFTER `klasse2`;
+ALTER TABLE `prefix_schiffstyp` CHANGE `dauer`  `dauer` INT UNSIGNED NULL DEFAULT NULL;
+ALTER TABLE `prefix_schiffstyp` CHANGE `bestellbar`  `bestellbar` TINYINT( 1 ) NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_schiffstyp` ADD `isTransporter` TINYINT( 1 ) NULL DEFAULT NULL AFTER `bestellbar`;
+ALTER TABLE `prefix_schiffstyp` CHANGE `klasse1`  `klasse1` INT UNSIGNED NULL DEFAULT NULL;
+ALTER TABLE `prefix_schiffstyp` CHANGE `klasse2`  `klasse2` INT UNSIGNED NULL DEFAULT NULL;
+ALTER TABLE `prefix_schiffstyp` ADD `isCarrier` TINYINT( 1 ) NULL DEFAULT NULL AFTER `bev`;
+ALTER TABLE `prefix_schiffstyp` ADD `shipKapa1` SMALLINT UNSIGNED NULL DEFAULT NULL AFTER `isCarrier`;
+ALTER TABLE `prefix_schiffstyp` ADD `shipKapa2` SMALLINT UNSIGNED NULL DEFAULT NULL AFTER `shipKapa1`;
+ALTER TABLE `prefix_schiffstyp` ADD `shipKapa3` SMALLINT UNSIGNED NULL DEFAULT NULL AFTER `shipKapa2`;
+ALTER TABLE `prefix_schiffstyp` ADD `accuracy`  SMALLINT UNSIGNED NULL DEFAULT NULL AFTER `Schilde`;
+ALTER TABLE `prefix_schiffstyp` ADD `mobility` SMALLINT UNSIGNED NULL DEFAULT NULL AFTER  `accuracy`;
+ALTER TABLE `prefix_schiffstyp` ADD `numEscort` SMALLINT UNSIGNED NULL DEFAULT NULL AFTER  `mobility`;
+ALTER TABLE `prefix_schiffstyp` ADD `EscortBonusAtt` FLOAT NOT NULL DEFAULT '1' AFTER  `numEscort`;
+ALTER TABLE `prefix_schiffstyp` ADD `EscortBonusDef` FLOAT NOT NULL DEFAULT '1' AFTER  `EscortBonusAtt`;
+ALTER TABLE `prefix_schiffstyp` ADD `werftTyp` VARCHAR( 50 ) NULL DEFAULT NULL AFTER  `EscortBonusDef`;
+ALTER TABLE `prefix_schiffstyp` ADD `aktualisiert` INT UNSIGNED NULL DEFAULT NULL;
+ALTER TABLE `prefix_schiffstyp` ADD UNIQUE (`schiff`);
+ALTER TABLE `prefix_schiffstyp` ADD UNIQUE (`id_iw`);

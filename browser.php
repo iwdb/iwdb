@@ -96,23 +96,23 @@ while ($row = $db->db_fetch_array($result)) {
                 $user['sitterorder']['text'] = 'Sitten';
         }
     */
-    if ($sort_only_by_time !== true) {
 
-        $sql = "SELECT * FROM " . $db_tb_lieferung . " WHERE user_to='" . $row['id'] . "' AND art IN ('Angriff','Sondierung','Sondierung (Schiffe/Def/Ress)','Sondierung (Gebäude/Ress)') AND time>" . (CURRENT_UNIX_TIME - (15 * MINUTE)) . " ORDER BY time DESC";
-        $result_angriff = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-        while ($row_angriff = $db->db_fetch_array($result_angriff)) {
-            if ($row_angriff['time'] > (CURRENT_UNIX_TIME - ($row_angriff['art'] == 'Angriff' ? (15 * MINUTE) : (5 * MINUTE)))) {
-                $key = $row_angriff['art'] == 'Angriff' ? 'attack' : 'probe';
+    $sql = "SELECT * FROM " . $db_tb_lieferung . " WHERE user_to='" . $row['id'] . "' AND art IN ('Angriff','Sondierung','Sondierung (Schiffe/Def/Ress)','Sondierung (Gebäude/Ress)') AND time>" . (CURRENT_UNIX_TIME - (15 * MINUTE)) . " ORDER BY time DESC";
+    $result_angriff = $db->db_query($sql)
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    while ($row_angriff = $db->db_fetch_array($result_angriff)) {
+        if ($row_angriff['time'] > (CURRENT_UNIX_TIME - ($row_angriff['art'] == 'Angriff' ? (15 * MINUTE) : (5 * MINUTE)))) {
+            $key = $row_angriff['art'] == 'Angriff' ? 'attack' : 'probe';
 
-                $user[$key][] = array(
-                    'coords' => $row_angriff['coords_to_gal'] . ':' . $row_angriff['coords_to_sys'] . ':' . $row_angriff['coords_to_planet'],
-                    'time'   => $row_angriff['time'],
-                    'from'   => $row_angriff['user_from'],
-                );
-                if (!isset($user['next_date']) || $user['next_date'] > ($row_angriff['time'] + (15 * MINUTE))) {
-                    $user['next_date'] = $row_angriff['time'];
-                }
+            $user[$key][] = array(
+                'coords' => $row_angriff['coords_to_gal'] . ':' . $row_angriff['coords_to_sys'] . ':' . $row_angriff['coords_to_planet'],
+                'time'   => $row_angriff['time'],
+                'from'   => $row_angriff['user_from'],
+            );
+            if (!isset($user['next_date']) || $user['next_date'] > ($row_angriff['time'] + (15 * MINUTE))) {
+                $user['next_date'] = $row_angriff['time'];
+            }
+            if ($sort_only_by_time !== true) {
                 if ($user['next_status'] > $status[$key]) {
                     $user['next_status'] = $status[$key];
                 }
@@ -257,12 +257,9 @@ switch ($mode) {
                 }
             </script>
         </head>
-        <frameset rows="0,*" cols="*" frameborder="YES" border="0" framespacing="0">
-            <frame src="?mode=top" name="topFrame" scrolling="NO" noresize>
-            <frameset rows="*" cols="300,*" framespacing="0" frameborder="YES" border="0">
-                <frame src="?mode=left&redirect=<?php echo $redirect;  echo !empty($login) ? "&login=$login" : "";  echo !empty($action) ? "&action=$action" : "";  echo "&allianz=$allianz"?>" name="left" id="left" scrolling="YES">
-                <frame src="<?php echo $mainurl ?>" name="main" id="main" onload="redirect(this.id)">
-            </frameset>
+        <frameset rows="*" cols="300,*" framespacing="0" frameborder="YES" border="0">
+            <frame src="?mode=left&redirect=<?php echo $redirect;  echo !empty($login) ? "&login=$login" : "";  echo !empty($action) ? "&action=$action" : "";  echo "&allianz=$allianz"?>" name="left" id="left" scrolling="YES">
+            <frame src="<?php echo $mainurl ?>" name="main" id="main" onload="redirect(this.id)">
         </frameset>
         <noframes>
             <body>
@@ -478,6 +475,5 @@ switch ($mode) {
         <?php
         break;
     default:
-        doc_message("Fehler: Unbekannter Modus '" . $mode . "'");
 }
 ?>

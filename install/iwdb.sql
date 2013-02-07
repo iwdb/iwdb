@@ -226,11 +226,11 @@ CREATE TABLE IF NOT EXISTS `prefix_gebaeude` (
   `Kosten` varchar(200) NOT NULL DEFAULT '',
   `Punkte` int(5) NOT NULL DEFAULT '0',
   `MaximaleAnzahl` int(3) NOT NULL DEFAULT '0',
-  `typ` varchar(5) NOT NULL DEFAULT '',
+  `typ` varchar(10) NOT NULL DEFAULT '',
   `kostet` varchar(200) NOT NULL,
   `id_iw` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Gebäudekurzform' AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Gebäudekurzform' AUTO_INCREMENT=252;
 
 -- --------------------------------------------------------
 

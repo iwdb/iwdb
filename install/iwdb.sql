@@ -1289,6 +1289,7 @@ CREATE TABLE IF NOT EXISTS `prefix_spieler` (
   `exallianz` varchar(50) DEFAULT NULL,
   `allychange_time` int(10) unsigned DEFAULT NULL,
   `staatsform` varchar(50) DEFAULT NULL,
+  `acctype` varchar(50) DEFAULT NULL,
   `status` varchar(50) NOT NULL,
   `dabeiseit` int(10) unsigned NOT NULL,
   `playerupdate_time` int(10) unsigned NOT NULL,

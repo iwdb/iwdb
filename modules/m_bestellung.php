@@ -980,7 +980,7 @@ echo '<input type="submit" value="hinzufügen" name="button_add" class="submit">
 end_table();
 echo '</form>';
 ?>
-<script type="text/javascript" src="javascript/bestellung.js"></script>
+    <script type="text/javascript" src="javascript/bestellung.js"></script>
 <?php
 
 function makeresstable($row, $prefix_out = '', $prefix_cmp = '', $nocolor = false)
@@ -1071,87 +1071,6 @@ function sort_data_cmp($a, $b)
     }
 
     return $result;
-}
-
-// ****************************************************************************
-//
-// Zeit einlesen.
-function parsetime($text)
-{
-    if (preg_match("/(\d+).(\d+).(\d+) (\d+):(\d+)/", $text, $match) > 0) {
-        return mktime($match[4], $match[5], 0, $match[2], $match[1], $match[3]);
-    } else {
-        return CURRENT_UNIX_TIME;
-    }
-}
-
-// ****************************************************************************
-//
-// Erstellt ein Formularfeld.
-function makefield($field, $key)
-{
-    switch ($field['type']) {
-        case 'text':
-            $html = '<input type="text" name="' . $key . '" value="' . $field['value'] . '"';
-            if (isset($field['style'])) {
-                $html .= ' style="' . $field['style'] . '"';
-            }
-            $html .= '>';
-            break;
-        case 'number':
-            $html = '<input type="number" name="' . $key . '"';
-            if (isset($field['value'])) {
-                $html .= ' value="' . $field['value'] . '"';
-            }
-            if (isset($field['id'])) {
-                $html .= ' id="' . $field['id'] . '"';
-            }
-            if (isset($field['min'])) {
-                $html .= ' min="' . $field['min'] . '"';
-            }
-            if (isset($field['max'])) {
-                $html .= ' max="' . $field['max'] . '"';
-            }
-            if (isset($field['style'])) {
-                $html .= ' style="' . $field['style'] . '"';
-            }
-            $html .= '>';
-            break;
-        case 'select':
-            $html = '<select name="' . $key . '"';
-            if (isset($field['id'])) {
-                $html .= ' id="' . $field['id'] . '"';
-            }
-            if (isset($field['onchange'])) {
-                $html .= ' onchange="' . $field['onchange'] . '"';
-            }
-            $html .= '>';
-            foreach ($field['values'] as $key => $value) {
-                $html .= '<option value="' . $key . '"';
-                if (isset($field['value']) && $field['value'] == $key) {
-                    $html .= ' selected';
-                }
-                $html .= '>' . $value . '</option>';
-            }
-            $html .= '</select>';
-            break;
-        case 'area':
-            $html = '<textarea name="' . $key . '" rows="' . $field['rows'] . '" cols="' . $field['cols'] . '">';
-            $html .= $field['value'];
-            $html .= '</textarea>';
-            break;
-        case 'checkbox':
-            $html = '<input type="checkbox" name="' . $key . '" value="1"';
-            if ($field['value']) {
-                $html .= ' checked';
-            }
-            if (isset($field['style'])) {
-                $html .= ' style="' . $field['style'] . '"';
-            }
-            $html .= '>';
-            break;
-    }
-    return $html;
 }
 
 // ****************************************************************************

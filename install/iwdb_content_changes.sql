@@ -1240,3 +1240,7 @@ INSERT INTO `prefix_schiffstyp` (`id`, `schiff`, `abk`, `typ`, `bild`, `id_iw`, 
 (306, 'TAG Vario Kreuzer', 'TAG Vario Kreuzer', 'admin', '', 58, 15000, 17000, 5890, 11000, 0, 0, 12000, 75, 700, 6800, 1, 0, 40, 40, 420, 'elektrisch', 300, 100, 100, 100, 650, 100, 70, 0, 1, 1, 'mittlere', 64800, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1360141314),
 (307, 'Kampfhuhn', 'Kampfhuhn', '', '', 77, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 500, 5000, 1, 0, 10, 10, 0, 'keine', 100, 100, 100, 100, 0, 100, 500, 0, 1, 1, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1360141458),
 (309, 'Downbringer', 'Downbringer', '3. Jäger & Co', '', 32, 450, 1200, 750, 800, 0, 0, 1300, 2, 850, 0, 0, 1, 9, 5, 25, 'elektrisch', 60, 100, 130, 100, 30, 150, 145, 0, 1, 1, 'kleine', 5040, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1360140052);
+
+-- masel 07.02.2013
+UPDATE `prefix_gebaeude` SET `bild` = 'mond_defence' WHERE `prefix_gebaeude`.`id` =12;
+UPDATE `prefix_gebaeude` SET `bild` = 'loch' WHERE `prefix_gebaeude`.`id` =36;

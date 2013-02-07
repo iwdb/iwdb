@@ -857,7 +857,7 @@ if (!empty($umenu)) {
 
                             if ($catprev != $row['category']) {
                                 if (($rownum != 0) && ($colnum == 2)) {
-                                    echo "<td>&nbsp;</td>\n</tr>\n";
+                                    echo "<td class='borderless'>&nbsp;</td>\n</tr>\n";
                                 }
 
                                 echo "<tr><td colspan='2' class='windowbg2'>" . $row['category'] . "</td></tr>\n";
@@ -881,15 +881,15 @@ if (!empty($umenu)) {
                             if ($colnum == 1) {
                                 echo "<tr>\n";
                             }
-                            echo "<td class='windowbg1' valign='middle'>";
+                            echo "<td class='windowbg1 borderless' valign='middle'>";
                             if ($user_gebbilder == "1") {
-                                echo "<table><tr><td>";
+                                echo "<table class='borderless'><tr><td class='borderless'>";
                             }
                             echo "<input type='radio' name='geb' value='" . $row['id'] . "'" . (($geb == $row['id']) ? " checked" : "") . "> ";
 
                             if ($user_gebbilder == "1") {
-                                $bild_url = (empty($row['bild'])) ? "bilder/gebs/blank.jpg" : "bilder/gebs/" . $row['bild'] . ".jpg";
-                                echo "</td><td><img src='" . $bild_url . "' title='" . $altname . "' width='50' height='50' style='vertical-align:middle;'></td><td>";
+                                $bild_url = GEBAEUDE_BILDER_PATH . ((empty($row['bild'])) ? "blank.jpg" : $row['bild'] . ".jpg");
+                                echo "</td><td class='borderless'><img src='" . $bild_url . "' title='" . $altname . "' width='50' height='50' style='vertical-align:middle;'></td><td class='borderless'>";
                             }
                             echo $resRowName . " [" . dauer($row['dauer'] * $user_gengebmod * $modmaurer) . "]";
                             if ($user_gebbilder == "1") {
@@ -904,7 +904,7 @@ if (!empty($umenu)) {
                         }
                     }
                     if ($colnum == 2) {
-                        echo "<td>&nbsp;</td>\n</tr>\n";
+                        echo "<td class='borderless'>&nbsp;</td>\n</tr>\n";
                     }
                     ?>
 

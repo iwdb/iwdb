@@ -1072,64 +1072,6 @@ function parsetime($text)
 
 // ****************************************************************************
 //
-// Erstellt ein Formularfeld.
-function makefield($field, $key)
-{
-    $html = '';
-    switch ($field['type']) {
-        case 'text':
-            $html = '<input type="text" name="' . $key . '" value="' . $field['value'] . '"';
-            if (isset($field['style'])) {
-                $html .= ' style="' . $field['style'] . '"';
-            }
-            $html .= '>';
-            break;
-        case 'number':
-            $html = '<input type="number" name="' . $key . '" value="' . $field['value'] . '"';
-            if (isset($field['min'])) {
-                $html .= ' min="' . $field['min'] . '"';
-            }
-            if (isset($field['max'])) {
-                $html .= ' max="' . $field['max'] . '"';
-            }
-            if (isset($field['style'])) {
-                $html .= ' style="' . $field['style'] . '"';
-            }
-            $html .= '>';
-            break;
-        case 'select':
-            $html = '<select name="' . $key . '">';
-            foreach ($field['values'] as $key => $value) {
-                $html .= '<option value="' . $key . '"';
-                if (isset($field['value']) && $field['value'] == $key) {
-                    $html .= ' selected';
-                }
-                $html .= '>' . $value . '</option>';
-            }
-            $html .= '</select>';
-            break;
-        case 'area':
-            $html = '<textarea name="' . $key . '" rows="' . $field['rows'] . '" cols="' . $field['cols'] . '">';
-            $html .= $field['value'];
-            $html .= '</textarea>';
-            break;
-        case 'checkbox':
-            $html = '<input type="checkbox" name="' . $key . '" value="1"';
-            if ($field['value']) {
-                $html .= ' checked';
-            }
-            if (isset($field['style'])) {
-                $html .= ' style="' . $field['style'] . '"';
-            }
-            $html .= '>';
-            break;
-    }
-
-    return $html;
-}
-
-// ****************************************************************************
-//
 // Erzeugt einen Modul-Link.
 function makelink($newparams, $content)
 {

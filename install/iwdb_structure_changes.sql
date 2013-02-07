@@ -259,3 +259,6 @@ ALTER TABLE `prefix_schiffstyp` ADD UNIQUE (`id_iw`);
 
 -- masel: 06.02.2013
 UPDATE `prefix_params` SET `name` = 'sound_standard' WHERE `name` = 'sound_standart';
+
+-- masel: 07.02.2013
+ALTER TABLE  `prefix_spieler` ADD  `acctype` VARCHAR( 50 ) NULL DEFAULT NULL AFTER  `staatsform`;

@@ -115,7 +115,7 @@ if (!empty($editgebaeude)) {
                     <td class="windowbg1" align="center">
                         <?php
                         if ($user_gebbilder == "1") {
-                            $bild_url = (empty($row_gebaeude['bild'])) ? "bilder/gebs/blank.jpg" : "bilder/gebs/" . $row_gebaeude['bild'] . ".jpg";
+                            $bild_url = GEBAEUDE_BILDER_PATH . ((empty($row_gebaeude['bild'])) ? "blank.jpg" : $row_gebaeude['bild'] . ".jpg");
                             ?>
                             <img src="<?php echo $bild_url;?>" width="50" height="50" style="vertical-align:middle;">
                         <?php

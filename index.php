@@ -63,6 +63,8 @@ if (($action === 'rules') AND (getVar('accept_rules')) AND ($user_id <> "guest")
     $user_rules = "1";
     $result = $db->db_update($db_tb_user, array('rules' => 1))
         or error(GENERAL_ERROR, 'Could not update rules information.', '', __FILE__, __LINE__);
+
+    $action = $config_default_action;
 }
 
 // Sitterlogin //
@@ -192,7 +194,7 @@ if (!getVar("nobody")) {
                                 if (file_exists("modules/" . $action . ".php") === true) {
                                     include("modules/" . $action . ".php");
                                 }
-                                if ($action == 'memberlogin2') {
+                                if ($action === 'memberlogin2') {
                                     include("modules/" . $config_default_action . ".php");
                                 }
 

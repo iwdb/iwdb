@@ -162,7 +162,7 @@ if (!empty($editprofile) AND (($id === $user_id) OR ($user_status === "admin")))
         unset($userd['passwordwdhl']);
     }
 
-    if ($userd['sitterpwd'] != $userd['sitterpwdwdhl']) {
+    if ($userd['sitterpwd'] !== $userd['sitterpwdwdhl']) {
         echo "<br><div class='system_error'>Sitterpasswörter stimmen nicht überein! Passwort zurückgesetzt.</div>";
         unset($userd['sitterpwd']);
         unset($userd['sitterpwdwdhl']);

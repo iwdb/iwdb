@@ -55,7 +55,7 @@ doc_title('Admin Gebäude');
 $gebpictures     = array();
 $gebpictures[''] = "keins";
 
-$handle = opendir('bilder/gebs/');
+$handle = opendir(GEBAEUDE_BILDER_PATH);
 while (false !== ($datei = readdir($handle))) {
     if (strpos($datei, ".jpg") !== false) {
         $id               = str_replace(".jpg", "", $datei);
@@ -253,7 +253,7 @@ while ($row = $db->db_fetch_array($result)) {
 
     while ($row_gebaeude = $db->db_fetch_array($result_gebaeude)) {
         $dauer    = dauer($row_gebaeude['dauer']);
-        $bild_url = "bilder/gebs/" . ((empty($row_gebaeude['bild'])) ? "blank.gif" : $row_gebaeude['bild'] . ".jpg");
+        $bild_url = GEBAEUDE_BILDER_PATH . ((empty($row_gebaeude['bild'])) ? "blank.jpg" : $row_gebaeude['bild'] . ".jpg");
 
         echo "<tbody>\n";
         echo " <tr>\n";

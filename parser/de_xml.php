@@ -107,7 +107,7 @@ function parse_sbxml($xmldata)
         $scan_data['geoscantime'] = (int)$xml->timestamp;
         $ressourcen               = $xml->plani_data->ressourcen_vorkommen->ressource;
         foreach ($ressourcen as $ressource) {
-            $wert = $wert = ((int)$ressource->wert[0] * 100);
+            $wert = $wert = (int)((float)$ressource->wert[0] * 100);
             switch ((int)$ressource->id) {
                 case 1:
                     $scan_data['eisengehalt'] = $wert;
@@ -121,7 +121,7 @@ function parse_sbxml($xmldata)
         }
         $ressourcen_tech_team = $xml->plani_data->ressourcen_vorkommen->ressource_tech_team;
         foreach ($ressourcen_tech_team as $ressource_tech_team) {
-            $wert = ((int)$ressource_tech_team->wert[0] * 100);
+            $wert = (int)((float)$ressource_tech_team->wert[0] * 100);
             switch ((int)$ressource_tech_team->id) {
                 case 1:
                     $scan_data['tteisen'] = $wert;

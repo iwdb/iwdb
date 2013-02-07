@@ -888,7 +888,11 @@ if (!empty($umenu)) {
                             echo "<input type='radio' name='geb' value='" . $row['id'] . "'" . (($geb == $row['id']) ? " checked" : "") . "> ";
 
                             if ($user_gebbilder == "1") {
-                                $bild_url = GEBAEUDE_BILDER_PATH . ((empty($row['bild'])) ? "blank.jpg" : $row['bild'] . ".jpg");
+                                if (!empty($row['bild'])) {
+                                    $bild_url = GEBAEUDE_BILDER_PATH . $row['bild'] . ".jpg";
+                                } else {
+                                    $bild_url = GEBAEUDE_BILDER_PATH . "blank.jpg";
+                                }
                                 echo "</td><td class='borderless'><img src='" . $bild_url . "' title='" . $altname . "' width='50' height='50' style='vertical-align:middle;'></td><td class='borderless'>";
                             }
                             echo $resRowName . " [" . dauer($row['dauer'] * $user_gengebmod * $modmaurer) . "]";

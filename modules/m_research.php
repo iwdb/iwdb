@@ -1059,11 +1059,14 @@ function getBuilding($bid)
     $retval = "";
     while (($research_data = $db->db_fetch_array($result)) !== false) {
         $retval .= "<tr>\n<td>";
+
         if (!empty($research_data['bild'])) {
-            $retval .= "<img src='bilder/gebs/" . $research_data['bild'] . ".jpg' width='50' height='50' alt='" . $research_data['name'] . "'/>";
+            $bild_url = GEBAEUDE_BILDER_PATH . $research_data['bild'] . ".jpg";
         } else {
-            $retval .= "<img src='bilder/gebs/blank.gif' width='50' height='50' alt='" . $research_data['name'] . "'/>";
+            $bild_url = GEBAEUDE_BILDER_PATH . "blank.gif";
         }
+        $retval .= "<img src='" . $bild_url . "' width='50' height='50' alt='" . $research_data['name'] . "'/>";
+
         $retval .= "</td>\n<td>";
         $retval .= $research_data['name'];
         $retval .= "</td>\n</tr>\n";

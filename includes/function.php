@@ -227,11 +227,15 @@ function auftrag($typ, $bauschleife, $bauid, $text, $schiffanz, $planetenmod, $s
 				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 			$row_gebaeude = $db->db_fetch_array($result_gebaeude);
 
-			$bild_url = GEBAEUDE_BILDER_PATH . ( empty($row_gebaeude['bild']) ) ? "blank.gif" : $row_gebaeude['bild'] . ".jpg";
 			$modmaurer = ( ($user_genmaurer == 1) && (( strpos($row_gebaeude['category'], "Bunker") !== false ) || ( strpos($row_gebaeude['category'], "Lager") !== false )) ) ? 0.5: 1;
 
 			$dauer = round($row_gebaeude['dauer'] * $user_gengebmod * $modmaurer * $planetenmod * $bauschleifenmod);
 
+            if (!empty($row_gebaeude['bild'])) {
+                $bild_url = GEBAEUDE_BILDER_PATH . $row_gebaeude['bild'] . ".jpg";
+            } else {
+                $bild_url = GEBAEUDE_BILDER_PATH . "blank.gif";
+            }
 			$return = "<img src='" . $bild_url . "' border='0' width='50' height='50' style='vertical-align:middle; padding-top: 3px;'> " . $row_gebaeude['name'] . " [" . dauer($dauer) . "]" . (( empty($bauschleife) ) ? "" : " [Bauschleife]" ) . "\n" . (( empty($text) ) ? "" : "<br><br>" . nl2br($text) );
 			break;
 		case "Schiffe":

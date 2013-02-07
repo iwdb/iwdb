@@ -253,7 +253,12 @@ while ($row = $db->db_fetch_array($result)) {
 
     while ($row_gebaeude = $db->db_fetch_array($result_gebaeude)) {
         $dauer    = dauer($row_gebaeude['dauer']);
-        $bild_url = GEBAEUDE_BILDER_PATH . ((empty($row_gebaeude['bild'])) ? "blank.jpg" : $row_gebaeude['bild'] . ".jpg");
+
+        if (!empty($row_gebaeude['bild'])) {
+            $bild_url = GEBAEUDE_BILDER_PATH . $row_gebaeude['bild'] . ".jpg";
+        } else {
+            $bild_url = GEBAEUDE_BILDER_PATH . "blank.jpg";
+        }
 
         echo "<tbody>\n";
         echo " <tr>\n";

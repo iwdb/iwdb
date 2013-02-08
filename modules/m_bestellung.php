@@ -218,25 +218,15 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 
 // Parameter ermitteln
 $params = array(
-    'view'       => getVar('view'),
-    'order'      => getVar('order'),
-    'orderd'     => getVar('orderd'),
+    'view'       => ensureValue(getVar('view'), array('bestellung'), 'bestellung'),
+    'order'      => ensureValue(getVar('order'), array('user', 'coords', 'team', 'text', 'prio', 'time', 'menge', 'offen'), 'prio'),
+    'orderd'     => ensureSortDirection(getVar('orderd')),
     'edit'       => (int)getVar('edit'),
-    'delete'     => getVar('delete'),
-    'expand'     => getVar('expand'),
+    'delete'     => (int)getVar('delete'),
+    'expand'     => (int)getVar('expand'),
     'filter_who' => getVar('filter_who'),
 );
 
-// Parameter validieren
-if (empty($params['view'])) {
-    $params['view'] = 'bestellung';
-}
-if (empty($params['order'])) {
-    $params['order'] = 'prio';
-}
-if ($params['orderd'] != 'asc' && $params['orderd'] != 'desc') {
-    $params['orderd'] = 'asc';
-}
 if (empty($params['filter_who'])) {
     if (!empty($user_buddlerfrom)) {
         $params['filter_who'] = '(Team) ' . $user_buddlerfrom;
@@ -288,21 +278,6 @@ $config['users'] = $users;
 //add teams and users to selectarray
 $config['filter_who'] = $config['filter_who'] + $teams + $users;
 
-// Schiffstypen abfragen
-$schiffstypen = array();
-
-$sql = "SELECT * FROM " . $db_tb_schiffstyp;
-debug_var('sql', $sql);
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-while ($row = $db->db_fetch_array($result)) {
-    if (!empty($row['abk'])) {
-        $schiffstypen[$row['abk']] = $row['abk'];
-    }
-}
-asort($schiffstypen);
-$config['schiffstypen'] = $schiffstypen;
-
 // Planeten des Spielers abfragen
 $config['planeten'] = array();
 
@@ -326,7 +301,7 @@ while ($row = $db->db_fetch_array($result)) {
 }
 
 // Daten löschen
-if (isset($params['delete']) && $params['delete'] != '') {
+if (!empty($params['delete'])) {
     $sql = "DELETE FROM " . $db_tb_bestellung . " WHERE id=" . $params['delete'];
     debug_var('sql', $sql);
     $db->db_query($sql)
@@ -342,54 +317,51 @@ $button_add  = getVar("button_add");
 
 // Edit-Daten belegen
 if (!empty($button_edit) || !empty($button_add)) {
-    debug_var(
-        "edit", $edit = array(
-                  'user'          => getVar('user'),
-                  'planet'        => getVar('planet'),
-                  'coords_gal'    => (int)getVar('coords_gal'),
-                  'coords_sys'    => (int)getVar('coords_sys'),
-                  'coords_planet' => (int)getVar('coords_planet'),
-                  'team'          => getVar('team'),
-                  'project'       => getVar('project'),
-                  'text'          => getVar('text'),
-                  'time'          => parsetime(getVar('time')),
-                  'eisen'         => (int)getVar('eisen'),
-                  'stahl'         => (int)getVar('stahl'),
-                  'chemie'        => (int)getVar('chemie'),
-                  'vv4a'          => (int)getVar('vv4a'),
-                  'eis'           => (int)getVar('eis'),
-                  'wasser'        => (int)getVar('wasser'),
-                  'energie'       => (int)getVar('energie'),
-                  'volk'          => (int)getVar('volk'),
-                  'credits'       => (int)getVar('credits'),
-                  'schiff'        => (int)getVar('schiff'),
-                  'anzahl'        => (int)getVar('anzahl'),
-              )
+    $edit = array(
+        'user'          => $db->escape(getVar('user')),
+        'planet'        => $db->escape(getVar('planet')),
+        'coords_gal'    => (int)getVar('coords_gal'),
+        'coords_sys'    => (int)getVar('coords_sys'),
+        'coords_planet' => (int)getVar('coords_planet'),
+        'team'          => $db->escape(getVar('team')),
+        'project'       => $db->escape(getVar('project')),
+        'text'          => $db->escape(getVar('text')),
+        'time'          => parseTime(getVar('time')),
+        'eisen'         => (int)getVar('eisen'),
+        'stahl'         => (int)getVar('stahl'),
+        'chemie'        => (int)getVar('chemie'),
+        'vv4a'          => (int)getVar('vv4a'),
+        'eis'           => (int)getVar('eis'),
+        'wasser'        => (int)getVar('wasser'),
+        'energie'       => (int)getVar('energie'),
+        'volk'          => (int)getVar('volk'),
+        'credits'       => (int)getVar('credits'),
+        'schiff'        => (int)getVar('schiff'),
+        'anzahl'        => (int)getVar('anzahl'),
     );
 } else {
-    debug_var(
-        "edit", $edit = array(
-                  'user'          => $user_sitterlogin,
-                  'planet'        => '',
-                  'coords_gal'    => '',
-                  'coords_sys'    => '',
-                  'coords_planet' => '',
-                  'team'          => '(Team) ' . $user_buddlerfrom,
-                  'project'       => '(Keins)',
-                  'text'          => '',
-                  'time'          => CURRENT_UNIX_TIME,
-                  'eisen'         => '',
-                  'stahl'         => '',
-                  'chemie'        => '',
-                  'vv4a'          => '',
-                  'eis'           => '',
-                  'wasser'        => '',
-                  'energie'       => '',
-                  'volk'          => '',
-                  'credits'       => '',
-              )
+    $edit = array(
+        'user'          => $user_sitterlogin,
+        'planet'        => '',
+        'coords_gal'    => '',
+        'coords_sys'    => '',
+        'coords_planet' => '',
+        'team'          => '(Team) ' . $user_buddlerfrom,
+        'project'       => '(Keins)',
+        'text'          => '',
+        'time'          => CURRENT_UNIX_TIME,
+        'eisen'         => '',
+        'stahl'         => '',
+        'chemie'        => '',
+        'vv4a'          => '',
+        'eis'           => '',
+        'wasser'        => '',
+        'energie'       => '',
+        'volk'          => '',
+        'credits'       => '',
     );
 }
+debug_var("edit", $edit);
 
 // Planetenkoordinatenfelder ergänzen wenn leer
 if (empty($edit['coords_gal']) AND empty($edit['coords_sys']) AND empty($edit['coords_planet']) AND !empty($edit['planet'])) {
@@ -668,7 +640,7 @@ $views = array(
                 'type'     => 'select',
                 'values'   => $config['planeten'],
                 'value'    => $edit['planet'],
-                'onchange' => 'updateCoords()'
+                'onchange' => 'updateCoordsInput()'
             ),
             'coords'  => array(
                 'title' => 'Koordinaten',
@@ -681,6 +653,7 @@ $views = array(
                         'max'   => $config_map_galaxy_max,
                         'style' => 'width: 5em',
                         'value' => $edit['coords_gal'],
+                        'onchange' => 'updateCoordsSelect()'
                     ),
                     'coords_sys'    => array(
                         'id'    => 'coords_sys_input',
@@ -689,6 +662,7 @@ $views = array(
                         'max'   => $config_map_system_max,
                         'style' => 'width: 5em',
                         'value' => $edit['coords_sys'],
+                        'onchange' => 'updateCoordsSelect()'
                     ),
                     'coords_planet' => array(
                         'id'    => 'coords_planet_input',
@@ -696,6 +670,7 @@ $views = array(
                         'min'   => '1',
                         'style' => 'width: 5em',
                         'value' => $edit['coords_planet'],
+                        'onchange' => 'updateCoordsSelect()'
                     ),
                 ),
             ),

@@ -259,48 +259,47 @@ function auftrag($typ, $bauschleife, $bauid, $text, $schiffanz, $planetenmod, $s
 //******************************************************************************
 //
 // Zeit parsen
+//
+//ToDo: rewrite to de_bauen_aktuell parser
 function timeimport($textinput, $planet = '')
 {
-	$bau_type = "";
-	$textinput = str_replace(" \t", " ", $textinput);
+    $bau_type = "";
+    $textinput = str_replace(" \t", " ", $textinput);
 	$textinput = str_replace("\t", " ", $textinput);
 
 	$text = explode("\r\n", $textinput);
-	foreach ($text as $bau)
-	{
-		if ( empty($bau_type) )
-		{
-			if ( strpos($bau, "aktuell im Bau auf diesem Planeten") !== false ) {
-				$bau_type = 'planet';
-			}
-			if ( strpos($bau, "Ausbaustatus") !== false ) {
-				$bau_type = 'liste';
-			}
-		}
-		elseif ( $bau_type == 'planet' )
-		{
-			if ( strpos($bau, " bis ") !== false ) {
-				$date = substr($bau, strpos($bau, " bis ") + 5);
-				$date_split = explode(" ", trim($date));
-				$date_d = explode(".", $date_split[0]);
-				$date_t = explode(":", $date_split[1]);
-				$date_stamp = mktime($date_t[0], $date_t[1], 00, $date_d[1], $date_d[0], $date_d[2]);
-				$bau_dates[] = $date_stamp;
-			}
-		}
-		elseif ( $bau_type == 'liste' )
-		{
-			if (( strpos($bau, " bis ") !== false ) && ( strpos($bau, "(" . $planet . ")") !== false )) {
-				$date = substr($bau, strpos($bau, " bis ") + 5);
-				$date_split = explode(" ", trim($date));
-				$date_d = explode(".", $date_split[0]);
-				$date_t = explode(":", $date_split[1]);
-				$date_stamp = mktime($date_t[0], $date_t[1], 00, $date_d[1], $date_d[0], $date_d[2]);
-				$bau_dates[] = $date_stamp;
-			}
-		}
-	}
-	$return['date'] = $bau_dates[(count($bau_dates) - 1)];
+    foreach ($text as $bau) {
+        if (empty($bau_type)) {
+            if (strpos($bau, "aktuell im Bau auf diesem Planeten") !== false) {
+                $bau_type = 'planet';
+            }
+            if (strpos($bau, "Ausbaustatus") !== false) {
+                $bau_type = 'liste';
+            }
+        } elseif ($bau_type == 'planet') {
+            if (strpos($bau, "Ausbau") !== false) {
+                break;
+            }
+            if (strpos($bau, " bis ") !== false) {
+                $date        = substr($bau, strpos($bau, " bis ") + 5);
+                $date_split  = explode(" ", trim($date));
+                $date_d      = explode(".", $date_split[0]);
+                $date_t      = explode(":", $date_split[1]);
+                $date_stamp  = mktime($date_t[0], $date_t[1], 00, $date_d[1], $date_d[0], $date_d[2]);
+                $bau_dates[] = $date_stamp;
+            }
+        } elseif ($bau_type == 'liste') {
+            if ((strpos($bau, " bis ") !== false) && (strpos($bau, "(" . $planet . ")") !== false)) {
+                $date        = substr($bau, strpos($bau, " bis ") + 5);
+                $date_split  = explode(" ", trim($date));
+                $date_d      = explode(".", $date_split[0]);
+                $date_t      = explode(":", $date_split[1]);
+                $date_stamp  = mktime($date_t[0], $date_t[1], 00, $date_d[1], $date_d[0], $date_d[2]);
+                $bau_dates[] = $date_stamp;
+            }
+        }
+    }
+    $return['date'] = $bau_dates[(count($bau_dates) - 1)];
 	$return['date_b1'] = isset($bau_dates[(count($bau_dates) - 2)]) ? $bau_dates[(count($bau_dates) - 2)]: '';
 	$return['date_b2'] = isset($bau_dates[(count($bau_dates) - 3)]) ? $bau_dates[(count($bau_dates) - 3)]: '';
 	return $return;

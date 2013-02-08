@@ -455,6 +455,11 @@ if (empty($edit['planet'])) {
     }
 }
 
+//Planetenkoordinaten füllen
+if (($edit['planet'] !== '(anderer)') AND ((($edit['coords_gal']) === '') OR ($edit['coords_sys'] === '') OR ($edit['coords_planet']) === '')) {
+    list($edit['coords_gal'], $edit['coords_sys'], $edit['coords_planet']) = explode(':', $edit['planet']);
+}
+
 // Tabellen-Daten abfragen
 $data = array();
 
@@ -656,35 +661,43 @@ $views = array(
                 'value'  => $edit['user'],
             ),
             'planet'  => array(
-                'title'  => 'Planet',
-                'desc'   => 'Welcher Planet soll beliefert werden?',
-                'type'   => 'select',
-                'values' => $config['planeten'],
-                'value'  => $edit['planet'],
+                'id'       => 'planetcoords_select',
+                'title'    => 'Planet',
+                'desc'     => 'Welcher Planet soll beliefert werden?',
+                'type'     => 'select',
+                'values'   => $config['planeten'],
+                'value'    => $edit['planet'],
+                'onchange' => 'updateCoordsInput()'
             ),
             'coords'  => array(
                 'title' => 'Koordinaten',
                 'desc'  => 'Falls anderer Planet.',
                 'type'  => array(
                     'coords_gal'    => array(
+                        'id'    => 'coords_gal_input',
                         'type'  => 'number',
                         'min'   => $config_map_galaxy_min,
                         'max'   => $config_map_galaxy_max,
                         'style' => 'width: 5em',
                         'value' => $edit['coords_gal'],
+                        'onchange' => 'updateCoordsSelect()'
                     ),
                     'coords_sys'    => array(
+                        'id'    => 'coords_sys_input',
                         'type'  => 'number',
                         'min'   => $config_map_system_min,
                         'max'   => $config_map_system_max,
                         'style' => 'width: 5em',
                         'value' => $edit['coords_sys'],
+                        'onchange' => 'updateCoordsSelect()'
                     ),
                     'coords_planet' => array(
+                        'id'    => 'coords_planet_input',
                         'type'  => 'number',
                         'min'   => '1',
                         'style' => 'width: 5em',
                         'value' => $edit['coords_planet'],
+                        'onchange' => 'updateCoordsSelect()'
                     ),
                 ),
             ),
@@ -935,7 +948,9 @@ if (isset($params['edit']) && is_numeric($params['edit'])) {
 echo '<input type="submit" value="hinzufügen" name="button_add" class="submit">';
 end_table();
 echo '</form>';
-
+?>
+    <script type="text/javascript" src="javascript/bestellung.js"></script>
+<?php
 function makeschifftable($row, $nocolor = false)
 {
     global $config;
@@ -1051,23 +1066,6 @@ function sort_data_cmp($a, $b)
     }
 
     return $result;
-}
-
-// ****************************************************************************
-//
-// Zeit einlesen.
-function parsetime($text)
-{
-    if (preg_match("/(\d+).(\d+).(\d+) (\d+):(\d+)/", $text, $match) > 0) {
-        $temptime = mktime($match[4], $match[5], 0, $match[2], $match[1], $match[3]);
-        if ($temptime < CURRENT_UNIX_TIME) {
-            return CURRENT_UNIX_TIME;
-        } else {
-            return mktime($match[4], $match[5], 0, $match[2], $match[1], $match[3]);
-        }
-    } else {
-        return CURRENT_UNIX_TIME;
-    }
 }
 
 // ****************************************************************************

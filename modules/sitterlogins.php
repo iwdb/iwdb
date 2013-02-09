@@ -67,7 +67,9 @@ $result = $db->db_query($sql)
 while ($row = $db->db_fetch_array($result)) {
     $sitterlogins[] = $row['sitterlogin'];
 }
+
 doc_title('Sitterlogins');
+
 ?>
 <table class="table_format" style="width: 95%;">
     <tr>

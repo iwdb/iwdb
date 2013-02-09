@@ -236,7 +236,7 @@ function auftrag($typ, $bauschleife, $bauid, $text, $schiffanz, $planetenmod, $s
             } else {
                 $bild_url = GEBAEUDE_BILDER_PATH . "blank.gif";
             }
-			$return = "<img src='" . $bild_url . "' border='0' width='50' height='50' style='vertical-align:middle; padding-top: 3px;'> " . $row_gebaeude['name'] . " [" . dauer($dauer) . "]" . (( empty($bauschleife) ) ? "" : " [Bauschleife]" ) . "\n" . (( empty($text) ) ? "" : "<br><br>" . nl2br($text) );
+			$return = "<img src='" . $bild_url . "' width='50' height='50' style='vertical-align:middle; padding-top: 3px;'> " . $row_gebaeude['name'] . " [" . dauer($dauer) . "]" . (( empty($bauschleife) ) ? "" : " [Bauschleife]" ) . "\n" . (( empty($text) ) ? "" : "<br><br>" . nl2br($text) );
 			break;
 		case "Schiffe":
 			$sql = "SELECT abk FROM " . $db_tb_schiffstyp . " WHERE id = '" . $bauid . "'";

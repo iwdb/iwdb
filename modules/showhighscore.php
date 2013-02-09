@@ -56,7 +56,7 @@ if ($hs_places > $row['igaccs']) {
 
 doc_title('Wer hat den Längsten?');
 
-echo '<br>
+echo '
 <form action="index.php" method="post"><p>
 <input type="hidden" name="action" value="showhighscore">
 <input type="hidden" name="sid" value="' . $sid . '">

@@ -5,11 +5,7 @@
 /* deswegen dort nichts ändern! */
 
 /* Diese Teil wurde automatsich erstellt */
-/* Zeitcode: Monday 13th 2011f June 2011 11:39:09 AM */
-/* Script: admin_style.php */
-/* Generator: Fiedler */
-/* Browsererkennung: Mozilla/5.0 (Windows; U; Windows NT 6.1; de; rv:1.9.2.17) Gecko/20110420 Firefox/3.6.17 */
-/* IP: 88.77.196.165 */
+/* Zeitcode: 09.02.2013 10:53:46 */
 
 
 /* !N a */
@@ -35,126 +31,104 @@ a:hover        {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
 /* !N html */
 /* !T Seite */
 /* !I */
 
-  html {
-   padding-top:0; 
-   padding-right:0; 
-   padding-bottom:0; 
-   padding-left:0; 
-   border-top-width:0; 
-   border-right-width:0; 
-   border-bottom-width:0; 
-   border-left-width:0; 
-   margin:0; 
- }
+html {
+    padding:0; 
+    margin:0; 
+    text-align:center; 
+}
 
 
 /* !N body */
 /* !T Seite */
 /* !I */
 
-  body {
-   height:100%; 
-   margin:0px; 
-   background-color:#000000; 
-   color:#000000; 
-   background-image:url(bilder/bg.gif); 
- }
+body {
+    height:100%; 
+    margin:0; 
+    color:#000000; 
+}
 
 
 /* !N seite */
 /* !T Seite */
 /* !I */
 
-  .seite {
-   height:100%; 
-   width:90%; 
-   border-width:1px; 
-   border-color:#000000; 
-   border-style:solid; 
-   margin:1px; 
- }
+.seite {
+    height:100%; 
+    width:100%; 
+    max-width:1400px; 
+}
 
 
 /* !N textsmall */
 /* !T kleiner Text alt */
 /* !I */
 
-  .textsmall {
-   font-size:7pt; 
- }
+.textsmall {
+    font-size:small; 
+}
 
 
 /* !N td */
 /* !T Tabellenzellen */
 /* !I */
 
-  td {
-   font-family:Verdana, Arial, Helvetica, sans-serif; 
-   font-size:8pt; 
-   font-style:normal; 
- }
+td {
+    font-family:Verdana, Arial, Helvetica, sans-serif; 
+    font-size:12px; 
+    font-style:normal; 
+}
 
 
 /* !N help */
 /* !T Hilfe */
 /* !I */
 
-  .help {
-   background-color:#FFFF80; 
-   color:#000000; 
-   font-size:10pt; 
- }
+.help {
+    background-color:#FFFF80; 
+    color:#000000; 
+    font-size:12px; 
+}
 
 
 /* !N help a */
 /* !T Links in der Hilfe */
 /* !I */
 
-  .help a {
-   text-decoration:underline; 
- }
+.help a {
+    text-decoration:underline; 
+}
 
 
 /* !N ranking */
 /* !T Ranking gut */
 /* !I */
 
-  .ranking_green {
-   color:#00AA00; 
- }
+.ranking_green {
+    color:#00AA00; 
+}
 
 
 /* !N ranking */
 /* !T Ranking mittel */
 /* !I */
 
-  .ranking_yellow {
-   color:#AAAA00; 
- }
+.ranking_yellow {
+    color:#AAAA00; 
+}
 
 
 /* !N ranking */
 /* !T Ranking schlecht */
 /* !I */
 
-  .ranking_red {
-   color:#FF0000; 
- }
+.ranking_red {
+    color:#FF0000; 
+}
 
 
 /* !N menu */
@@ -170,7 +144,6 @@ a:hover        {
 	white-space: nowrap;
 	display: block;
 	padding: 3px;
-	padding-left: 15px;
 }
 .menu a:hover {
 	background-color: #FFFFFF;
@@ -194,125 +167,124 @@ a:hover        {
 }
 
 
+/* !N banner */
+/* !T Banner */
+/* !I */
 
-
-
-
-
-
-
-
-
+#iwdb_logo {
+    background-color:#000000; 
+    text-align:center; 
+}
 
 
 /* !N titelbg */
 /* !T Titelzellen */
 /* !I */
 
-  .titlebg {
-   color:#FFFFFF; 
-   background-color:#4F94CD; 
- }
+.titlebg {
+    color:#FFFFFF; 
+    background-color:#4F94CD; 
+}
 
 
 /* !N windowbg1 */
 /* !T Hintergrund 1 */
 /* !I */
 
-  .windowbg1 {
-   background-color:#FFFFFF; 
-   color:#000000; 
- }
+.windowbg1 {
+    background-color:#FFFFFF; 
+    color:#000000; 
+}
 
 
 /* !N windowbg2 */
 /* !T Hintergrund 2 */
 /* !I */
 
-  .windowbg2 {
-   background-color:#4682B4; 
-   color:#000000; 
- }
+.windowbg2 {
+    background-color:#4682B4; 
+    color:#000000; 
+}
 
 
 /* !N windowbg3 */
 /* !T Hintergrund 3 neu */
 /* !I */
 
-  .windowbg3 {
-   background-color:#C2DFEF; 
-   color:#000000; 
- }
+.windowbg3 {
+    background-color:#C2DFEF; 
+    color:#000000; 
+}
 
 
 /* !N windowbg4 */
 /* !T Hintergrund 4: IKEA-Markierung */
 /* !I */
 
-  .windowbg4 {
-   background-color:#CFFECC; 
-   color:#000000; 
- }
+.windowbg4 {
+    background-color:#CFFECC; 
+    color:#000000; 
+}
 
 
 /* !N hr */
 /* !T Linie */
 /* !I */
 
-  .hr {
-   color:#000000; 
-   background-color:transparent; 
- }
+.hr {
+    color:#000000; 
+    background-color:transparent; 
+}
 
 
 /* !N background */
 /* !T Hintergrund */
 /* !I */
 
-  .background {
-   background-color:#F5F9FA; 
-   background-image:url(bilder/bg.gif); 
- }
+.background {
+    background-color:#F5F9FA; 
+    background-image:url(../bilder/bg.gif); 
+}
 
 
 /* !N bigtext */
 /* !T grosser Text alt */
 /* !I */
 
-  .bigtext {
-   font-size:13pt;
- }
+.bigtext {
+    font-size:15px; 
+}
 
 
 /* !N .doc_message */
 /* !T Systemmessage */
 /* !I */
 
-  .doc_message {
-   text-align:center;
- }
+.doc_message {
+    text-align:center; 
+}
 
 
 /* !N system_notification */
 /* !T Systemnotice */
 /* !I */
 
-  .system_notification {
-   font-size:1.1em; 
-   text-align:center; 
- }
+.system_notification {
+    font-size:1.1em; 
+    text-align:center; 
+}
 
 
 /* !N system_notification b */
 /* !T Systemwarning */
 /* !I */
 
-  .system_notification {
-   font-size:1.1em; 
-   color:#FF0000; 
-   font-weight:bold; 
-   text-align:center; 
- }
+.system_notification {
+    font-size:1.1em; 
+    color:#FF0000; 
+    font-weight:bold; 
+    text-align:center; 
+}
 
 
 /* !N Systemnachrichten */
@@ -320,20 +292,21 @@ a:hover        {
 /* !I */
 
 .system_notification_blue {
-    font-size: 1.2em;
-    text-align: center;
-    color: #0000FF;
+    font-size:1.2em; 
+    text-align:center; 
+    color:#0000FF; 
 }
+
 
 /* !N Systemnachrichten */
 /* !T Systemwarnung */
 /* !I */
 
 .system_warning {
-    font-size: 1.3em;
-    color: #FF6600;
-    font-weight: bold;
-    text-align: center;
+    font-size:1.3em; 
+    color:#FF6600; 
+    font-weight:bold; 
+    text-align:center; 
 }
 
 
@@ -341,111 +314,127 @@ a:hover        {
 /* !T Systemfehler */
 /* !I */
 
-  .system_error {
-   color:#FF0000; 
-   font-size:1.5em; 
-   text-align:center; 
- }
+.system_error {
+    color:#FF0000; 
+    font-size:1.5em; 
+    text-align:center; 
+}
 
 
 /* !N .doc_greeting */
-/* !T Begruessung */
+/* !T Begrüssung */
 /* !I */
 
-  .doc_greeting {
-   font-size:7pt; 
- }
+#doc_greeting {
+    width:15%; 
+    font-size:small; 
+    text-align:left; 
+    border:0; 
+}
+
+
+/* !N .doc_usersonline */
+/* !T Anzeige der in den letzten 5 min aktiven User */
+/* !I */
+
+#doc_usersonline {
+    font-size:small; 
+    text-align:left; 
+    border:0; 
+}
 
 
 /* !N .doc_mainmenu */
 /* !T Mainmenu oben */
 /* !I */
 
-  .doc_mainmenu {
-   font-size:7pt; 
-   text-align:right; 
-   font-weight:bold; 
- }
+#doc_mainmenu {
+    font-size:small; 
+    text-align:right; 
+    font-weight:bold; 
+    width:400px; 
+    border:0; 
+}
 
 
 /* !N .doc_menu */
 /* !T Menu links neu */
 /* !I */
 
-  .doc_menu {
-   text-align:left; 
- }
+.doc_menu {
+    text-align:left; 
+}
 
 
 /* !N .doc_main */
 /* !T Sichtfenster Aussen */
 /* !I */
 
-  table.doc_main {
-   width:100%; 
-   padding:5px;
-   border-spacing:1px; 
-   border-color:black; 
-   border-style:solid; 
-   border-width:1px; 
- }
+table.doc_main {
+    width:100%; 
+    padding:5px; 
+    border-spacing:1px; 
+    border-color:black; 
+    border-style:solid; 
+    border-width:1px; 
+}
 
 
 /* !N .doc_main */
 /* !T Sichtfenster Innen */
 /* !I */
 
-  td.doc_main {
-   width:100%; 
-   padding-left:15px; 
-   background-color:#FFFFFF; 
-   color:#000000; 
- }
+td.doc_main {
+    width:100%; 
+    padding-left:15px; 
+    background-color:#FFFFFF; 
+    color:#000000; 
+}
 
 
 /* !N .doc_blue */
 /* !T Blaue Schrift */
 /* !I */
 
-  .doc_blue {
-   color:#000088; 
- }
+.doc_blue {
+    color:#000088; 
+}
 
 
 /* !N .doc_red */
 /* !T Rote Schrift */
 /* !I */
 
-  .doc_red {
-   color:#FF0000; 
- }
+.doc_red {
+    color:#FF0000; 
+}
 
 
 /* !N .doc_green */
 /* !T Gruene Schrift */
 /* !I */
 
-  .doc_green {
-   color:#008800; 
- }
+.doc_green {
+    color:#008800; 
+}
 
 
 /* !N .doc_yellow */
 /* !T Gelbe Schrift */
 /* !I */
 
-  .doc_yellow {
-   color:#00FFFF; 
- }
+.doc_yellow {
+    color:#00FFFF; 
+}
 
 
 /* !N .doc_lightred */
 /* !T hellrote Schrift */
 /* !I */
 
-  .doc_lightred {
-   color:#FF4466; 
- }
+.doc_lightred {
+    color:#FF4466; 
+}
 
 
 /* !N .doc_black */
@@ -453,7 +442,7 @@ a:hover        {
 /* !I */
 
 .doc_grey {
-    color:#777777;
+    color:#777777; 
 }
 
 
@@ -461,176 +450,180 @@ a:hover        {
 /* !T Schwarze Schrift */
 /* !I */
 
-  .doc_black {
-   color:#000000; 
- }
+.doc_black {
+    color:#000000; 
+}
 
 
 /* !N .doc_centered */
 /* !T zentriert */
 /* !I */
 
-  .doc_centered {
-   text-align:center; 
- }
+.doc_centered {
+    text-align:center; 
+}
 
 
 /* !N .doc_centered_blue */
 /* !T Blaue zentrierte Schrift */
 /* !I */
 
-  .doc_centered_blue {
-   color:#000088; 
-   text-align:center; 
- }
+.doc_centered_blue {
+    color:#000088; 
+    text-align:center; 
+}
 
 
 /* !N .doc_centered_red */
 /* !T Rote zentrierte Schrift */
 /* !I */
 
-  .doc_centered_red {
-   color:#FF0000; 
-   text-align:center; 
- }
+.doc_centered_red {
+    color:#FF0000; 
+    text-align:center; 
+}
 
 
 /* !N .doc_centered_green */
 /* !T Gruene zentrierte Schrift */
 /* !I */
 
-  .doc_centered_green {
-   color:#008800; 
-   text-align:center; 
- }
+.doc_centered_green {
+    color:#008800; 
+    text-align:center; 
+}
 
 
 /* !N .doc_small_centered */
 /* !T Kleine zentrierte Schrift */
 /* !I */
 
-  .doc_small_centered {
-   font-size:15px; 
-   text-align:center; 
- }
+.doc_small_centered {
+    font-size:small; 
+    text-align:center; 
+}
 
 
 /* !N .doc_big_black */
 /* !T Schwarze grosse Schrift */
 /* !I */
 
-  .doc_big_black {
-   font-size:2em;
-   color:black; 
- }
+.doc_big_black {
+    font-size:2em; 
+    color:black; 
+}
 
 
 /* !N .doc_big_white */
 /* !T Weisse grosse Schrift */
 /* !I */
 
-  .doc_big_white {
-   font-size:1.5em; 
-   color:white; 
- }
+.doc_big_white {
+    font-size:1.5em; 
+    color:white; 
+}
 
 
 /* !N input */
-/* !T Textfelder, Buttons, Checkboxen */
+/* !T Textfelder, Checkboxen */
 /* !I */
 
-  input     {
-   height:20px; 
-   font-family:Verdana, arial, helvetica, serif; 
-   color:#22282E; 
-   font-size:8pt; 
-   border-width:1px; 
-   border-style:solid; 
-   border-color:#22282E; 
-   background-color:#FFFFFF;
-   vertical-align:middle; 
- }
+input {
+    height:1.5em; 
+    color:#22282E; 
+    background-color:ivory; 
+}
+
+
+/* !N input buttons */
+/* !T Buttons */
+/* !I */
+
+input[type=submit],
+input[type=button] {
+    height:1.5em;
+    font-family:Verdana, arial, helvetica, serif; 
+    color:#22282E; 
+    font-size:1.2em; 
+    border:1px solid #22282E; 
+    background-color:#FFFFFF; 
+    vertical-align:middle; 
+}
 
 
 /* !N textarea */
-/* !T Textfelder über mehrere Zeilen */
+/* !T Textfelder ueber mehrere Zeilen */
 /* !I */
 
-  textarea       {
-   font-family:Verdana, arial, helvetica, serif; 
-   color:#22282E; 
-   font-size:8pt; 
-   border-width:1px; 
-   border-style:solid; 
-   border-color:#22282E; 
-   background-color:#FFFFFF; 
- }
+textarea       {
+    color:#22282E; 
+    border:1px solid #22282E; 
+    background-color:#FFFFFF; 
+}
 
 
 /* !N select */
 /* !T Auswahllisten */
 /* !I */
 
-  select         {
-   font-family:Verdana, arial, helvetica, serif; 
-   color:#22282E; 
-   font-size:8pt;
-   border-width:1px;
-   border-style:solid;
-   border-color:#22282E;
-   background-color:#FFFFFF;
- }
+select {
+    color:#22282E; 
+    border:1px solid #22282E; 
+    background-color:#FFFFFF; 
+}
 
 
 /* !N fadein */
 /* !T Fadein bei unerledigten Sitteraufträgen */
 /* !I */
 
-  #fadein {
-   position:fixed; 
-   top:2px; 
-   right:2px; 
-   width:150px; 
-   height:40px; 
-   background-color:#FFEEDD; 
-   margin:5px;
-   border: 0;
-   text-align:center;
- }
+#fadein {
+    position:fixed; 
+    top:2px; 
+    right:2px; 
+    width:150px; 
+    height:40px; 
+    background-color:#FFEEDD; 
+    margin:5px; 
+    border:0; 
+    text-align:center; 
+}
 
 
 /* !N fadein */
 /* !T Fenster des Fadeins */
 /* !I */
 
-  .fadein {
-   background-color:#C4D7DF; 
-   color:#000000;
-   text-align:center;
- }
+.fadein {
+    background-color:#C4D7DF; 
+    color:#000000; 
+    text-align:center; 
+}
+
 
 /* !N h1 */
 /* !T überschrift in Modulen */
 /* !I */
 
 h1 {
-    color: #004466;
-    font-size: 2.2em;
-    text-align: center;
-    margin: 0.75em;
-    font-weight: bold;
+    color:#004466; 
+    font-size:2.2em; 
+    text-align:center; 
+    margin:0.75em; 
+    font-weight:bold; 
 }
+
 
 /* !N h2 */
 /* !T Teilüberschrift in Modulen */
 /* !I */
 
 h2 {
-    color: #004466;
-    font-size: 1.6em;
-    text-align: center;
-    margin: 0.5em;
-    font-weight: bold;
+    color:#004466; 
+    font-size:1.6em; 
+    text-align:center; 
+    margin:0.5em; 
+    font-weight:bold; 
 }
 
 
@@ -688,7 +681,7 @@ td[abbr=both] {
 
 /* bbcode styling */
 
-.bbcodebutton {width:18px; height:18px; padding:3px; margin:1px; border:1px solid #ccc; background: url('bilder/iwdb/bbcodebuttons.png') no-repeat;}
+.bbcodebutton {width:18px; height:18px; padding:3px; margin:1px; border:1px solid #ccc; background: url('../bilder/iwdb/bbcodebuttons.png') no-repeat;}
 #bbcode_b_button{ background-position: 0 0; }
 #bbcode_i_button{ background-position: -32px 0; }
 #bbcode_u_button{ background-position: -80px 0; }
@@ -708,10 +701,6 @@ td[abbr=both] {
 #smiliepickertable td:hover { background-color: #ddd; }
 
 /* veraltet */
-
-/* !N .doc_title */
-/* !T Ueberschrift in Modulen */
-/* !I */
 
 .doc_title {
     color: #004466;
@@ -778,3 +767,11 @@ td[abbr=both] {
 .borderless {
     border: 0 !important;
 }
+
+
+
+
+
+
+
+

@@ -106,13 +106,13 @@ if (!empty($edit)) {
             $result_del = $db->db_query($sql)
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
         }
-        $alert = "<br><font color='#FF0000'><b>Auftrag gelöscht.</b></font><br>";
+        $alert .= "<div class='system_notification'>Auftrag gelöscht.</div>";
     } else {
         if (!empty($comment)) {
             $sql = "UPDATE " . $db_tb_sitterauftrag . " SET auftrag = '" . $row_last['auftrag'] . "\nvon " . $user_sitterlogin . ": " . $comment . "' WHERE id = '" . $auftragids[(count($auftragids) - 1)] . "'";
             $result = $db->db_query($sql)
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-            $alert .= "<br><font color='#FF0000'><b>Kommentar hinzugefügt.</b></font><br>";
+            $alert .= "<div class='system_notification'>Kommentar hinzugefügt.</div>";
         }
         if (!empty($date_parse)) {
             $date_parse = timeimport($date_parse, $row_first['planet']);
@@ -159,7 +159,7 @@ if (!empty($edit)) {
         }
 
         if (($date < CURRENT_UNIX_TIME - $config_sitterauftrag_timeout) || ($date_b1 < CURRENT_UNIX_TIME - $config_sitterauftrag_timeout) || ($date_b2 < CURRENT_UNIX_TIME - $config_sitterauftrag_timeout)) {
-            $alert .= "<br><font color='#FF0000'><b>Ungültiger Zeitpunkt.</b></font><br>";
+            $alert .= "<div class='system_error'>Ungültiger Zeitpunkt.</div>";
         } else {
             if ($row_first['bauschleife'] != "1") {
                 $date_b1 = $date;
@@ -173,7 +173,7 @@ if (!empty($edit)) {
             dates($auftragids[0], $row_first['user']);
 
             if (($date <> $row_first['date']) || ($date_b1 <> $row_first['date_b1']) || ($date_b2 <> $row_first['date_b2'])) {
-                $alert .= "<br><font color='#FF0000'><b>Zeit editiert.</b></font><br>";
+                $alert .= "<div class='system_notification'>Zeit editiert.</div>";
             }
         }
     }
@@ -277,7 +277,7 @@ if (!empty($erledigt)) {
                     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
             }
 
-            $alert = "<br><font color='#FF0000'><b>Auftrag als erledigt markiert.</b></font><br>";
+            $alert .= "<div class='system_notification'>Auftrag als erledigt markiert.</div>";
         } else {
             $bis_array  = array("bis:", "bis");
             $date       = str_replace($bis_array, "", getVar('date'));
@@ -325,9 +325,9 @@ if (!empty($erledigt)) {
             }
 
             if (empty($date) && empty($date_parse) && empty($date_b1) && empty($date_b2)) {
-                $alert = "<br><font color='#FF0000'><b>Bitte ausfüllen.</b></font><br>";
+                $alert .= "<div class='system_error'>Bitte ausfüllen.</div>";
             } else {
-                $alert = (($date < CURRENT_UNIX_TIME - $config_sitterauftrag_timeout) || ($date_b1 < CURRENT_UNIX_TIME - $config_sitterauftrag_timeout) || ($date_b2 < CURRENT_UNIX_TIME - $config_sitterauftrag_timeout)) ? "<br><font color='#FF0000'><b>Ungueltiger Zeitpunkt.</b></font><br>" : "";
+                $alert .= (($date < CURRENT_UNIX_TIME - $config_sitterauftrag_timeout) || ($date_b1 < CURRENT_UNIX_TIME - $config_sitterauftrag_timeout) || ($date_b2 < CURRENT_UNIX_TIME - $config_sitterauftrag_timeout)) ? "<div class='system_error'>Ungültiger Zeitpunkt.</div>" : "";
             }
 
             $sql = "SELECT bauschleife, refid FROM " . $db_tb_sitterauftrag . " WHERE id = '" . $erledigtids[(count($erledigtids) - 1)] . "'";
@@ -403,12 +403,12 @@ if (!empty($erledigt)) {
                         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
                 }
 
-                $alert = "<br><font color='#FF0000'><b>Auftrag als erledigt markiert.</b></font><br>";
+                $alert .= "<div class='system_notification'>Auftrag als erledigt markiert.</div>";
             }
 
             if ((empty($date)) && (empty($date_parse)) && ($count != 0)) {
                 ?>
-                <font style="font-size: 22px; color: #004466">Sitterauftragszeit aktualisieren</font><br>
+                <div style="font-size: 22px; color: #004466">Sitterauftragszeit aktualisieren</div>
                 <br>
                 Den Auftrag, den du eben erledigt hast, hat Folgeaufträge eingetragen.<br>
                 Bitte aktualisiere für diese die Zeit, indem du folgendes Formular ausfüllst.<br>
@@ -472,7 +472,9 @@ if (!empty($erledigt)) {
                             </td>
                         </tr>
                 </form>
-                </table><br><br>
+                </table>
+                <br>
+                <br>
             <?php
             }
         }
@@ -480,19 +482,21 @@ if (!empty($erledigt)) {
 }
 
 doc_title('Sitteraufträge');
-echo (empty($alert)) ? "" : $alert;
+
+if (!empty($alert)) {
+ echo $alert;
+}
 
 // Start Dauerauftraege //
 include("dauerauftraege.php");
 // Ende Dauerauftraege //
 
 ?>
-<br>
-<table class="table_format" style="width: 90%;">
+<table id='current_sitterorders_table' class='table_format' style='width: 90%;'>
 <tr>
-    <td class="titlebg" colspan="6" align="center">
+    <th class="titlebg" colspan="6" align="center">
         <b>aktuelle Sitteraufträge</b>
-    </td>
+    </th>
 </tr>
 <tr>
     <td class="titlebg" style="width:20%;">
@@ -549,8 +553,6 @@ $sql = "SELECT planetenname, dgmod FROM " . $db_tb_scans . " WHERE coords = '" .
 $result_planet = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row_planet = $db->db_fetch_array($result_planet);
-
-
 
 $row_act = $row;
 
@@ -839,7 +841,7 @@ if (isset($row_lastlogin)) {
 </table>
 <br>
 <br>
-<table class="table_format" style="width: 90%;">
+<table id="next_sitterorders_table" class="table_format" style="width: 90%;">
     <tr>
         <td class="titlebg" colspan="4" align="center">
             <b>Sitteraufträge der nächsten <?php echo (round($config_sitterliste_timeout / 60 / 60));?> Stunden</b>

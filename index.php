@@ -119,37 +119,24 @@ if ((($user_adminsitten == SITTEN_BOTH) || ($user_adminsitten == SITTEN_ONLY_LOG
         }
     }
     ?>
-    <link href="style.css" rel="stylesheet" type="text/css">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
 </head>
 <?php
 if (!getVar("nobody")) {
 ?>
-<body class="body">
+<body class="body background">
 <div align="center">
     <table class="seite">
         <tr>
-            <td style="text-align: center; vertical-align:top;" class="background">
-                <p>
-                    <?php
-                    //hier hin verschoben da der IE iwie imemr sonst Mist baut ^^
-                    include ('includes/sitterfadein.php');
-                    ?>
-                </p>
-                <table width="100%" border="0" cellpadding="0" cellspacing="1" class="bordercolor">
-                    <tr>
-                        <td class="titlebg" style="background-color: #000000; text-align: center;">
-                            <?php
-                            if (isset($config_banner)) {
-                                ?>
-                                <img src="<?php echo $config_banner; ?>">
-                            <?php
-                            }
-                            ?>
-                        </td>
-                    </tr>
-                </table>
-                <?php    }
+            <td style="text-align: center;" class="background">
+                <?php
+                //hier hin verschoben da der IE iwie imemr sonst Mist baut ^^
+                include ('includes/sitterfadein.php');
 
+                if (!empty($config_banner)) {
+                    echo "<div id='iwdb_logo'><img src={$config_banner} alt='banner'></div>";
+                }
+                }
                 if ( ($user_id <> "guest") && ($user_rules == "1") ) {
 
                     if (getVar("action") == "profile") {
@@ -248,13 +235,8 @@ if (!getVar("nobody")) {
                                     $result = $db->db_query($sql)
                                         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
-                                    ?>
-                                    <br><br>
-                                    <div class='doc_title'>Account löschen</div>
-                                    <br>
-                                    <div class='system_notification'>Account '<?php echo $sitterlogin;?>' gelöscht!
-                                    </div>
-                                <?php
+                                    doc_title('Account löschen');
+                                    doc_message('Account ' . $sitterlogin . ' gelöscht!');
                                 }
                             } elseif (($user_id <> "guest") && ($user_rules != "1")) {
                                 include("modules/rules.php");

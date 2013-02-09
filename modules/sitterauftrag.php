@@ -302,17 +302,18 @@ if (empty($umenu)) {
         </td>
     </tr>
 </table>
-<br>
-<br>
 <?php
 if ($id == $user_sitterlogin) {
-    echo "<div style='font-size: 22px; color: #004466'>meine Sitteraufträge</div>";
+    doc_title("meine Sitteraufträge");
 } else {
-    echo "<div style='font-size: 22px; color: #004466'>Sitteraufträge von $id</div>";
+    doc_title("Sitteraufträge von $id");
 }
-echo (empty($alert)) ? "" : $alert;
+
+if (!empty($alert)) {
+    echo $alert;
+}
+
 ?>
-<br>
 <form method="POST" action="index.php?action=sitterauftrag&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>" enctype="multipart/form-data">
 <table class="table_format" style="width: 90%;">
     <tr>
@@ -601,10 +602,13 @@ if (!empty($umenu)) {
             $date_b2 = strftime(CONFIG_DATETIMEFORMAT, $date_b2);
         }
     }
+
     doc_title('neuer Sitterauftrag');
-    echo (empty($alert)) ? "" : $alert;
+
+    if (!empty($alert)) {
+        echo $alert;
+    }
     ?>
-    <br>
     <form method="POST" action="index.php?action=sitterauftrag&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>" enctype="multipart/form-data">
     <table class="table_format" style="width: 60%;">
     <tr>

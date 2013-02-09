@@ -36,7 +36,6 @@ if (!defined('IRA')) {
 //****************************************************************************
 
 $newlog = getVar('newlog');
-
 if (!empty($newlog)) {
     $sitterlogin = getVar('sitterlogin');
     $auftrag     = getVar('auftrag');
@@ -73,9 +72,6 @@ while ($row = $db->db_fetch_array($result)) {
     $sitterlogins[] = $row['sitterlogin'];
 }
 
-if (!empty($newlog)) {
-    echo "<div class='system_notification'>Auftrag gespeichert.</div>";
-}
 $count = 0;
 $sql = "SELECT sitterlogin, sitterpwd, sitten, sitterpunkte, peitschen, sittercomment FROM " . $db_tb_user . " WHERE sittercomment <> '' ORDER BY sitterlogin ASC";
 $result = $db->db_query($sql)
@@ -83,10 +79,7 @@ $result = $db->db_query($sql)
 $anz = $db->db_num_rows($result);
 if (!empty($anz)) {
     ?>
-    <br>
-
-    <br>
-    <table class='table_format' style='width: 90%;'>
+    <table id='permanent_sitterorders_table' class='table_format' style='width: 90%;'>
         <tr>
             <td class='titlebg' colspan='4' align='center'>
                 <b>Daueraufträge</b>

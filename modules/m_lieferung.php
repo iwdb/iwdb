@@ -327,7 +327,7 @@ if (isset($results)) {
 }
 
 // Team Dropdown
-echo '<form method="POST" action="' . makeurl(array()) . '" enctype="multipart/form-data"><p align=\"center\">';
+echo "<form method='POST' action='" . makeurl(array()) . "' enctype='multipart/form-data'><p align='center'>";
 echo 'Team: ';
 echo makeField(array("type"  => 'select',
                     "values" => $config['teams'],
@@ -362,7 +362,7 @@ foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
              'order'  => $orderkey,
              'orderd' => 'asc'
         ),
-        "<img src=\"./bilder/asc.gif\" border=\"0\">"
+        "<img src='./bilder/asc.gif'>"
     );
     echo $viewcolumnname;
     echo makelink(
@@ -370,7 +370,7 @@ foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
              'order'  => $orderkey,
              'orderd' => 'desc'
         ),
-        "<img src=\"./bilder/desc.gif\" border=\"0\">"
+        "<img src='./bilder/desc.gif'>"
     );
 }
 next_cell("windowbg2");
@@ -406,19 +406,19 @@ foreach ($data as $row) {
         if (!isset($row['allow_edit']) || $row['allow_edit']) {
             echo makelink(
                 array('edit' => $key),
-                "<img src=\"bilder/file_edit_s.gif\" border=\"0\" alt=\"bearbeiten\">"
+                "<img src='bilder/file_edit_s.gif' alt='bearbeiten'>"
             );
         }
         if (!isset($row['allow_delete']) || $row['can_delete']) {
             echo makelink(
                 array('delete' => $key),
-                "<img src=\"bilder/file_delete_s.gif\" border=\"0\" onclick=\"return confirmlink(this, 'Datensatz wirklich löschen?')\" alt=\"löschen\">"
+                "<img src='bilder/file_delete_s.gif' onclick=\"return confirmlink(this, 'Datensatz wirklich löschen?')\" alt='löschen'>"
             );
         }
     }
     // Markierbuttons ausgeben
     next_cell("windowbg1", 'nowrap valign=top');
-    //echo "<input type=\"checkbox\" name=\"mark_" . $index++ . "\" value=\"" . $key . "\"";
+    //echo "<input type='checkbox' name='mark_" . $index++ . "' value='" . $key . "'";
     //if (getVar("mark_all"))
     //	echo " checked";
     //echo ">";

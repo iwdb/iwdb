@@ -56,7 +56,6 @@ if ((isset($login_id)) && ($login_ok === false) && ($action != "memberlogout2"))
     }
 }
 ?>
-<br>
 <form method='POST' action='index.php?action=memberlogin2' enctype='multipart/form-data'>
     <table class='table_format' style="margin: 0 auto;">
         <tr>
@@ -77,4 +76,5 @@ if ((isset($login_id)) && ($login_ok === false) && ($action != "memberlogout2"))
     </table>
 </form>
 <a href='index.php?action=password'>Passwort vergessen?</a>
+<br>
 <br>

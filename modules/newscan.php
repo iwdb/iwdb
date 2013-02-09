@@ -94,87 +94,90 @@ $selectedusername = validAccname(getVar('seluser'));
 if ($selectedusername === false) {
     $selectedusername = $user_sitterlogin;
 }
+if (!isset($sitterschleife)) {
 
-doc_title('Neuer Bericht');
-echo "<form method='POST' action='index.php?action=newscan&sid=" . $sid . "' enctype='multipart/form-data'>\n";
-echo "<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 90%;'>\n";
-echo " <tr>\n";
-echo "  <td class='windowbg2' align='center'>\n";
 
-global $user_status, $user_sitten;
+    doc_title('Neuer Bericht');
+    echo "<form method='POST' action='index.php?action=newscan&sid=" . $sid . "' enctype='multipart/form-data'>\n";
+    echo "<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 90%;'>\n";
+    echo " <tr>\n";
+    echo "  <td class='windowbg2' align='center'>\n";
 
-$sqlP = "SELECT value FROM `{$db_tb_params}` WHERE name = 'bericht_fuer_rang';";
-$resultP = $db->db_query($sqlP)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
-$rowP = $db->db_fetch_array($resultP);
+    global $user_status, $user_sitten;
 
-$allow1 = false;
+    $sqlP = "SELECT value FROM `{$db_tb_params}` WHERE name = 'bericht_fuer_rang';";
+    $resultP = $db->db_query($sqlP)
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
+    $rowP = $db->db_fetch_array($resultP);
 
-if ($rowP['value'] == 'hc' AND (strtolower($user_status) == 'hc')) {
-    $allow1 = true;
-}
-if ($rowP['value'] == 'mv' AND (strtolower($user_status) == 'hc' OR strtolower($user_status) == 'mv')) {
-    $allow1 = true;
-}
-if ($rowP['value'] == 'all' AND (strtolower($user_status) != 'guest')) {
-    $allow1 = true;
-}
+    $allow1 = false;
 
-$sqlP = "SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'bericht_fuer_sitter';";
-$resultP = $db->db_query($sqlP)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
-$rowP = $db->db_fetch_array($resultP);
-
-$allow2 = false;
-
-if ($rowP['value'] == 0 AND ($user_sitten == 0 OR $user_sitten == 1)) {
-    $allow2 = true;
-}
-if ($rowP['value'] == 1 AND ($user_sitten == 1)) {
-    $allow2 = true;
-}
-if ($rowP['value'] == 3 AND ($user_sitten == 0 OR $user_sitten == 1)) {
-    $allow2 = true;
-}
-if ($rowP['value'] == 2) {
-    $allow2 = true;
-}
-
-if ($user_status == "admin") {
-    $allow1 = true;
-    $allow2 = true;
-}
-
-if ($allow1 AND $allow2) {
-    echo "   Bericht einfügen für\n";
-    echo "	 <select name='seluser' style='width: 200px;'>\n";
-
-    $sql = "SELECT sitterlogin FROM " . $db_tb_user . " ORDER BY id ASC";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-
-    while ($row = $row = $db->db_fetch_array($result)) {
-        echo "      <option value='" . $row['sitterlogin'] . "'" . ($selectedusername == $row['sitterlogin'] ? " selected" : "") . ">" . $row['sitterlogin'] . "</option>";
+    if ($rowP['value'] == 'hc' AND (strtolower($user_status) == 'hc')) {
+        $allow1 = true;
     }
-    echo " 	 </select><br />\n";
-}
+    if ($rowP['value'] == 'mv' AND (strtolower($user_status) == 'hc' OR strtolower($user_status) == 'mv')) {
+        $allow1 = true;
+    }
+    if ($rowP['value'] == 'all' AND (strtolower($user_status) != 'guest')) {
+        $allow1 = true;
+    }
 
-echo "   <textarea name='text' rows='14' cols='70'></textarea><br />\n";
-echo " 	 <br />\n";
-echo "<div style='color:yellow;'>Wichtig : Beim Einlesen der Ressübersicht darauf achten, dass das Lager ausgeklappt ist!</div>";
-echo "<div style='color:yellow;'>Wichtig : Beim Einlesen der Startseite darauf achten, dass die Fluginformationen ausgeklappt sind!</div>";
-echo " 	 <br />\n";
-echo "   Für Hilfe bitte oben auf den \"Hilfe\" Button drücken.\n";
-echo "  </td>\n";
-echo " </tr>\n";
-echo " <tr>\n";
-echo "  <td class='titlebg' align='center'>\n";
-echo "   <input type='submit' value='abspeichern' name='B1' class='submit'>\n";
-echo "  </td>\n";
-echo " </tr>\n";
-echo "</table>\n";
-echo "</form>\n";
-echo "<br>";
+    $sqlP = "SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'bericht_fuer_sitter';";
+    $resultP = $db->db_query($sqlP)
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
+    $rowP = $db->db_fetch_array($resultP);
+
+    $allow2 = false;
+
+    if ($rowP['value'] == 0 AND ($user_sitten == 0 OR $user_sitten == 1)) {
+        $allow2 = true;
+    }
+    if ($rowP['value'] == 1 AND ($user_sitten == 1)) {
+        $allow2 = true;
+    }
+    if ($rowP['value'] == 3 AND ($user_sitten == 0 OR $user_sitten == 1)) {
+        $allow2 = true;
+    }
+    if ($rowP['value'] == 2) {
+        $allow2 = true;
+    }
+
+    if ($user_status == "admin") {
+        $allow1 = true;
+        $allow2 = true;
+    }
+
+    if ($allow1 AND $allow2) {
+        echo "   Bericht einfügen für\n";
+        echo "	 <select name='seluser' style='width: 200px;'>\n";
+
+        $sql = "SELECT sitterlogin FROM " . $db_tb_user . " ORDER BY id ASC";
+        $result = $db->db_query($sql)
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
+        while ($row = $row = $db->db_fetch_array($result)) {
+            echo "      <option value='" . $row['sitterlogin'] . "'" . ($selectedusername == $row['sitterlogin'] ? " selected" : "") . ">" . $row['sitterlogin'] . "</option>";
+        }
+        echo " 	 </select><br />\n";
+    }
+
+    echo "   <textarea name='text' rows='14' cols='70'></textarea><br />\n";
+    echo " 	 <br />\n";
+    echo "<div style='color:yellow;'>Wichtig : Beim Einlesen der Ressübersicht darauf achten, dass das Lager ausgeklappt ist!</div>";
+    echo "<div style='color:yellow;'>Wichtig : Beim Einlesen der Startseite darauf achten, dass die Fluginformationen ausgeklappt sind!</div>";
+    echo " 	 <br />\n";
+    echo "   Für Hilfe bitte oben auf den \"Hilfe\" Button drücken.\n";
+    echo "  </td>\n";
+    echo " </tr>\n";
+    echo " <tr>\n";
+    echo "  <td class='titlebg' align='center'>\n";
+    echo "   <input type='submit' value='abspeichern' name='B1' class='submit'>\n";
+    echo "  </td>\n";
+    echo " </tr>\n";
+    echo "</table>\n";
+    echo "</form>\n";
+    echo "<br>";
+}
 
 $textinput = getVar('text', true); // ungefilterten Bericht holen
 if (!empty($textinput)) {

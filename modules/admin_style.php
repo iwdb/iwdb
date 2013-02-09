@@ -43,10 +43,8 @@ $submit = GetVar('submit');
 //submit existiert also neue Datei erstellen
 if (!empty($submit) AND !empty($daction) AND ($daction == 'send')) {
 
-    //datei löschen
-    //unlink("style2.css") or die ("Ich konnte die Datei nicht lesen!");
     // datei erstellen und zum schrieben öffnen
-    $fp = @fopen("style2.css", "w") or die ("Kann style2.css nicht öffnen.");
+    $fp = @fopen("css/style2.css", "w") or die ("Kann style2.css nicht öffnen.");
 
     //Standartzeug am Anfang in die Datei schreiben
     $newlines     = array();
@@ -132,9 +130,13 @@ if (!empty($submit) AND !empty($daction) AND ($daction == 'send')) {
     //und die Datei wieder schließen, damit sie zum lesen wieder geöffnet werden kann
     fclose($fp);
 
-    //datei zum guten Schluss (also im Erfolgsfall) verschieben
-    if (!copy('style2.css', 'style.css')) {
-        die ("Date konnte nicht verschoben werden.\n");
+    //datei zum guten Schluss (also im Erfolgsfall) verschieben und die temporäre löschen
+    if (copy('css/style2.css', 'css/style.css')) {
+        if (!unlink("css/style2.css")) {
+            echo "<div class='system_error'>Date konnte nicht verschoben werden</div>";
+        }
+    } else {
+        echo "<div class='system_error'>Date konnte nicht verschoben werden</div>";
     }
 
 }
@@ -154,7 +156,7 @@ if ($action == 'default') {
 
     <?php
     // Datei öffnen
-    $fp = @fopen("style.css", "r") or die ("Kann Datei nicht lesen.");
+    $fp = @fopen("css/style.css", "r") or die ("Kann Datei nicht lesen.");
 
     //Daten resetten
     $num_eigenschaft = 0;

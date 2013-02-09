@@ -30,7 +30,7 @@ if (!defined('IRA')) {
         ?>
         <br>
         <br>
-        <form method="POST" action="index.php?action=rules" enctype="multipart/form-data">
+        <form method="POST" action="index.php?action=rules&sid=<?php echo $sid;?>" enctype="multipart/form-data">
             <input type="submit" value="akzeptieren" name="accept_rules">
         </form>
         <br>

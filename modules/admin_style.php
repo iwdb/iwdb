@@ -54,7 +54,7 @@ if (!empty($submit) AND !empty($daction) AND ($daction == 'send')) {
     $newlines[3]  = '/* der erste Teil kann durch ein Modul ausgelesen werden */';
     $newlines[4]  = '/* deswegen dort nichts ändern! */';
     $newlines[5]  = '';
-    $newlines[6]  = '/* Diese Teil wurde automatsich erstellt */';
+    $newlines[6]  = '/* Diese Teil wurde automatisch erstellt */';
     $newlines[7]  = '/* Zeitcode: ' . strftime(CONFIG_DATETIMEFORMAT, CURRENT_UNIX_TIME) . ' */';
     $newlines[12] = '';
     foreach ($newlines as $newline) {

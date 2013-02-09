@@ -203,15 +203,6 @@ $offens       = array();
 $AllyEnde     = 0;
 $akt          = 0;
 
-if ($sub_back == 'zurück' || $sub_forw == 'vorwärts' || $sub_akt == 'speichern') {
-    if (!empty($akt_user) && !empty($sInhalt)) {
-        // Account Startseite auf Forschungsleerlauf / Bauleerlauf etc durchsuchen
-        $sitterschleife   = true;
-        $selectedusername = $akt_user;
-        include_once "newscan.php";
-    }
-}
-
 // nur eigene Allianz
 $sql = "SELECT sitterlogin, sitten, budflesol FROM $db_tb_user";
 $sql .= " WHERE sitterpwd <> '' AND allianz = '{$user_allianz}' ORDER BY sitterlogin ASC;";
@@ -310,9 +301,6 @@ if (isset($sitterlogins[$akt])) {
     echo "&nbsp;</big></b> ";
 }
 
-echo "<input type='submit' value='speichern' name='sub_akt'>";
-echo "<input type='hidden' value='$akt' name='val_akt'>";
-echo "&nbsp;&nbsp;";
 echo "<input type='submit' value='vorwärts' name='sub_forw'>";
 echo "<input type='hidden' value='$forw' name='val_forw'>";
 
@@ -332,9 +320,27 @@ if (isset($sitterlogins[$akt])) {
 }
 
 echo "<textarea name='text' cols='100' rows='2' style='border:2px black solid'></textarea>";
+echo "<input type='submit' value='speichern' name='sub_akt' style='vertical-align: top;'>";
+echo "<input type='hidden' value='$akt' name='val_akt'>";
 echo '</form>';
-echo "<div class='textsmall'><small>Auf der Seite des Accounts alles markieren (Strg-A), alles kopieren (Strg-C) und oben ins Feld einfügen.</div>";
-if (isset($sitterlogin_akt)) {
-    echo "<iframe src='index.php?action=sitterlogins&amp;sitterlogin=" . urlencode($sitterlogin_akt) . "&amp;sid=" . $sid . "' width='100%' height='3500px' id='Account' name='SitterAuftrag'></iframe>";
+echo "<div class='textsmall'>Auf der Seite des Accounts alles markieren (Strg-A), alles kopieren (Strg-C) und oben ins Feld einfügen (Strg-V).</div>";
+
+if ($sub_back == 'zurück' || $sub_forw == 'vorwärts' || $sub_akt == 'speichern') {
+    if (!empty($akt_user) && !empty($sInhalt)) {
+        echo "<br><div style='color: #00ad00; font-weight: bold;'>Daten wurden geparsed, Ergebnis ist unter dem Sitterframe.</div><br><br>";
+    }
 }
 
+if (isset($sitterlogin_akt)) {
+    echo "<iframe src='index.php?action=sitterlogins&amp;sitterlogin=" . urlencode($sitterlogin_akt) . "&amp;sid=" . $sid . "' width='100%' height='1000px' id='Account' name='SitterAuftrag'></iframe>";
+}
+
+if ($sub_back == 'zurück' || $sub_forw == 'vorwärts' || $sub_akt == 'speichern') {
+    if (!empty($akt_user) && !empty($sInhalt)) {
+        // Account Startseite auf Forschungsleerlauf / Bauleerlauf etc durchsuchen
+        $sitterschleife   = true;
+        $selectedusername = $akt_user;
+        echo '<br>';
+        include_once "newscan.php";
+    }
+}

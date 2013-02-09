@@ -37,7 +37,7 @@ if (!defined('IRA')) {
 
 doc_title('Planetenliste');
 ?>
-<table class="table_hovertable" style="width: 90%;">
+<table class="table_format" style="width: 90%;">
     <tr>
         <td class="titlebg" style="width:15%;">
             <a href="index.php?action=planeten&order=coords&ordered=asc&sid=<?php echo $sid;?>"><img
@@ -99,11 +99,11 @@ doc_title('Planetenliste');
             $sitpre = $row['sitterlogin'];
         }
         ?>
-        <TR bgcolor="#FFFFFF" onMouseOver="this.bgColor='gold';" onMouseOut="this.bgColor='#FFFFFF';">
-            <td>
+        <tr>
+            <td class="windowbg<?php echo $num;?>">
                 <a href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=auto&sid=<?php echo $sid;?>"><?php echo $row['coords'];?></a>
             </td>
-            <td>
+            <td class="windowbg<?php echo $num;?>">
                 <?php
                 if ($user_status == "admin") {
                     echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($row['sitterlogin']) . "&sid=" . $sid . "'>" . $row['sitterlogin'] . "</a>";
@@ -112,7 +112,7 @@ doc_title('Planetenliste');
                 }
                 ?>
             </td>
-            <td>
+            <td class="windowbg<?php echo $num;?>">
                 <a href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=auto&sid=<?php echo $sid;?>">
                     <div class='doc_<?php
                     if ($row['objekt'] == "Kolonie") {
@@ -142,7 +142,7 @@ doc_title('Planetenliste');
                     </div>
                 </a>
             </td>
-            <td>
+            <td class="windowbg<?php echo $num;?>">
                 <?php echo $row['budflesol']; echo ($row['buddlerfrom']) ? " von: " . $row['buddlerfrom'] : "";?>
             </td>
         </tr>

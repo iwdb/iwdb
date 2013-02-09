@@ -434,10 +434,10 @@ if (empty($login)) {
                         <td width="100%">
                             <?php
                             if (!empty($user['attack']) AND count($user['attack']) > 0) {
-                                echo "<div class='attack'>Angriff von " . $user['attack'][0]['from'] . " auf " . $user['attack'][0]['coords'] . "</div>";
+                                echo "<div class='attack'>Angriff von " . $user['attack'][0]['from'] . " auf " . $user['attack'][0]['coords'] . " um " . $user['next_date_text'] ."</div>";
                             }
                             if (!empty($user['probe']) AND count($user['probe']) > 0) {
-                                echo "<div class='probe'>Sondierung von " . $user['probe'][0]['from'] . " auf " . $user['probe'][0]['coords'] . "</div>";
+                                echo "<div class='probe'>Sondierung von " . $user['probe'][0]['from'] . " auf " . $user['probe'][0]['coords'] . " um " . $user['next_date_text'] ."</div>";
                             }
                             if ($user['lastsitterloggedin']) {
                                 echo "<div class='loggedin'>" . $user['lastsitteruser'] . " ist eingeloggt</div>";

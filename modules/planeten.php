@@ -37,30 +37,30 @@ if (!defined('IRA')) {
 
 doc_title('Planetenliste');
 ?>
-<table class="table_hovertable" style="width: 90%;">
-    <tr>
-        <td class="titlebg" style="width:15%;">
+<table class="table_format" style="width: 90%;">
+    <tr class="titlebg">
+        <td style="width:15%;">
             <a href="index.php?action=planeten&order=coords&ordered=asc&sid=<?php echo $sid;?>"><img
                     src="bilder/asc.gif" alt="asc"></a>
             <b>Koordinaten</b>
             <a href="index.php?action=planeten&order=coords&ordered=desc&sid=<?php echo $sid;?>"><img
                     src="bilder/desc.gif" alt="desc"></a>
         </td>
-        <td class="titlebg" style="width:20%;">
+        <td style="width:20%;">
             <a href="index.php?action=planeten&order=t2.sitterlogin&ordered=asc&sid=<?php echo $sid;?>"><img
                     src="bilder/asc.gif" alt="asc"></a>
             <b>Username</b>
             <a href="index.php?action=planeten&order=t2.sitterlogin&ordered=desc&sid=<?php echo $sid;?>"><img
                     src="bilder/desc.gif" alt="desc"></a>
         </td>
-        <td class="titlebg" style="width:40%;">
+        <td style="width:40%;">
             <a href="index.php?action=planeten&order=t1.planetenname&ordered=asc&sid=<?php echo $sid;?>"><img
                     src="bilder/asc.gif" alt="asc"></a>
             <b>Planetenname</b>
             <a href="index.php?action=planeten&order=t1.planetenname&ordered=desc&sid=<?php echo $sid;?>"><img
                     src="bilder/desc.gif" alt="desc"></a>
         </td>
-        <td class="titlebg" style="width:25%;">
+        <td style="width:25%;">
             <a href="index.php?action=planeten&order=t2.budflesol&ordered=asc&sid=<?php echo $sid;?>"><img
                     src="bilder/asc.gif" alt="asc"></a>
             <b>Spielart</b>
@@ -99,7 +99,7 @@ doc_title('Planetenliste');
             $sitpre = $row['sitterlogin'];
         }
         ?>
-        <TR bgcolor="#FFFFFF" onMouseOver="this.bgColor='gold';" onMouseOut="this.bgColor='#FFFFFF';">
+        <tr class="windowbg<?php echo $num;?>">
             <td>
                 <a href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=auto&sid=<?php echo $sid;?>"><?php echo $row['coords'];?></a>
             </td>

@@ -763,6 +763,13 @@ td[abbr=both] {
    border-spacing: 1px;
 }
 
+tr.windowbg1:hover,
+tr.windowbg2:hover,
+tr.windowbg3:hover,
+tr.windowbg4:hover {
+    background-color: gold !important;
+}
+
 .borderless {
     border: 0 !important;
 }

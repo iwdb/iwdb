@@ -1,13 +1,6 @@
 <?php
-/*
- * File and License information
- */
-
 /**
- * short description
- *
- * long
- * description
+ * rules accept page
  *
  * @author     masel <masel789@googlemail.com>
  * @copyright  masel <masel789@googlemail.com>

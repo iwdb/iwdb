@@ -465,7 +465,7 @@ $editview = array(
         'desc'  => 'Wieviele Stunden soll das Ziel reserviert werden?',
         'type'  => 'text',
         'value' => $edit['reserveraidhours'],
-        'style' => 'width: 70;',
+        'style' => 'width: 70px;',
     ),
     'reserveraiduntil' => array(
         'title' => 'Reserviert bis',
@@ -995,7 +995,7 @@ if (empty($params['view'])) {
         // Datensatz ist aufgeklappt?
         $expanded = $params['expand'] == $key;
         // Letzte Scantime
-        $last_scan = $row['time'];
+        $last_scan = null;
         if (($row['geoscantime'] > $last_scan && !empty($row['geoscantime'])) || empty($last_scan)) {
             $last_scan = $row['geoscantime'];
         }
@@ -1696,10 +1696,14 @@ function format_value($row, $name, $value)
             if (!empty($row['gebscantime'])) {
                 $result .= "<alt title='Gebäudescan vor " . makeduration($row['gebscantime']) . "'><img src='bilder/scann_geb.png'></alt> ";
             }
-            if ($row['last_scan'] == $row['fehlscantime']) {
-                $result .= '</td><td nowrap><span class="ranking_red">' . makeduration($row['last_scan']) . '</span>';
-            } else {
-                $result .= '</td><td nowrap><span class="ranking_green">' . makeduration($row['last_scan']) . '</span>';
+            $result .= '</td>';
+
+            if(!empty($row['last_scan'])) {
+                if ($row['last_scan'] == $row['fehlscantime']) {
+                    $result .= '<td nowrap><span class="ranking_red">' . makeduration($row['last_scan']) . '</span></td>';
+                } else {
+                    $result .= '<td nowrap><span class="ranking_green">' . makeduration($row['last_scan']) . '</span></td>';
+                }
             }
             $result .= "</td></tr></table>";
 

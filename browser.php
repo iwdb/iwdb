@@ -109,10 +109,12 @@ while ($row = $db->db_fetch_array($result)) {
                 'time'   => $row_angriff['time'],
                 'from'   => $row_angriff['user_from'],
             );
-            if (!isset($user['next_date']) || $user['next_date'] > ($row_angriff['time'] + (15 * MINUTE))) {
-                $user['next_date'] = $row_angriff['time'];
-            }
+
             if ($sort_only_by_time !== true) {
+                if (!isset($user['next_date']) || $user['next_date'] > ($row_angriff['time'] + (15 * MINUTE))) {
+                    $user['next_date'] = $row_angriff['time'];
+                }
+
                 if ($user['next_status'] > $status[$key]) {
                     $user['next_status'] = $status[$key];
                 }

@@ -76,8 +76,8 @@ doc_title('Profil von ' . $id);
 
 $editprofile = getVar('editprofile');
 if (!empty($editprofile) AND (($id === $user_id) OR ($user_status === "admin"))) {
-    $userd['password']     = getVar('password');
-    $userd['passwordwdhl'] = getVar('passwordwdhl');
+    $userd['newpassword']     = getVar('newpassword');
+    $userd['newpasswordwdhl'] = getVar('newpasswordwdhl');
     $userd['email']        = getVar('email');
     $userd['allianz']      = getVar('allianz');
     $userd['squad']        = getVar('squad');
@@ -100,15 +100,15 @@ if (!empty($editprofile) AND (($id === $user_id) OR ($user_status === "admin")))
     $userd['sitten']         = (bool)getVar('sitten');
     $userd['sitterpwd']      = getVar('sitterpwd');
     $userd['sitterpwdwdhl']  = getVar('sitterpwdwdhl');
-    $userd['sitterskin']     = (int)('sitterskin');
+    $userd['sitterskin']     = (int)getVar('sitterskin');
     $userd['sittercomment']  = getVar('sittercomment');
-    $userd['sound']          = (int)('sound');
-    $userd['peitschen']      = (bool)('peitschen');
+    $userd['sound']          = (int)getVar('sound');
+    $userd['peitschen']      = (bool)getVar('peitschen');
     $userd['ikea']           = getVar('ikea');
-    $userd['genbauschleife'] = (bool)('genbauschleife');
-    $userd['genmaurer']      = (bool)('genmaurer');
+    $userd['genbauschleife'] = (bool)getVar('genbauschleife');
+    $userd['genmaurer']      = (bool)getVar('genmaurer');
     $userd['gengebmod']      = (float)getVar('gengebmod');
-    $userd['iwsa']           = (int)getVar('iwsa');
+    $userd['iwsa']           = (bool)getVar('iwsa');
     //sonstiges
     $userd['budflesol']     = getVar('budflesol');
     $userd['buddlerfrom']   = getVar('buddlerfrom');
@@ -140,26 +140,26 @@ if (!empty($editprofile) AND (($id === $user_id) OR ($user_status === "admin")))
     }
 
     // Testet ob das Passwort sicher ist
-    if (!empty($userd['password'])) {
-        $alert = secure_password($userd['password']);
+    if (!empty($userd['newpassword'])) {
+        $alert = secure_password($userd['newpassword']);
 
         if (!empty($alert)) {
             echo "<br><div class='system_error'>" . $alert . "</div>";
-            unset($userd['password']);
-            unset($userd['passwordwdhl']);
+            unset($userd['newpassword']);
+            unset($userd['newpasswordwdhl']);
         } else {
-            if ($userd['password'] != $userd['passwordwdhl']) {
+            if ($userd['newpassword'] != $userd['newpasswordwdhl']) {
                 echo "<br><div class='system_error'>Passwörter stimmen nicht überein! Passwort zurückgesetzt.</div>";
-                unset($userd['password']);
-                unset($userd['passwordwdhl']);
+                unset($userd['newpassword']);
+                unset($userd['newpasswordwdhl']);
             } else {
-                unset($userd['passwordwdhl']);
-                $userd['password'] = md5($userd['password']);
+                unset($userd['newpasswordwdhl']);
+                $userd['password'] = md5($userd['newpassword']);
             }
         }
     } else {
-        unset($userd['password']);
-        unset($userd['passwordwdhl']);
+        unset($userd['newpassword']);
+        unset($userd['newpasswordwdhl']);
     }
 
     if ($userd['sitterpwd'] !== $userd['sitterpwdwdhl']) {
@@ -318,7 +318,7 @@ switch ($sound) {
         <span style="font-style:italic;">Dein Loginpasswort.</span>
     </td>
     <td class="windowbg1">
-        <input type="password" name="password" value="" style="width: 25em">
+        <input type="password" name="newpassword" autocomplete="off" value="" style="width: 25em">
     </td>
 </tr>
 <tr>
@@ -327,7 +327,7 @@ switch ($sound) {
         <span style="font-style:italic;">Passwort zur Sicherheit wiederholen.</span>
     </td>
     <td class="windowbg1">
-        <input type="password" name="passwordwdhl" value="" style="width: 25em">
+        <input type="password" name="newpasswordwdhl" autocomplete="off" value="" style="width: 25em">
     </td>
 </tr>
 <tr>
@@ -489,13 +489,15 @@ switch ($sound) {
         <span style="font-style:italic;">Welchen Skin möchtest du beim Sitten verwenden?</span>
     </td>
     <td class="windowbg1">
-        <select name="sitterskin">
             <?php
-            foreach ($skins as $key => $data) {
-                echo ($sitterskin == $key) ? " <option value='" . $key . "' selected>" . $data . "</option>\n" : " <option value='" . $key . "'>" . $data . "</option>\n";
-            }
+            echo makeField(
+                array(
+                     "type"   => 'select',
+                     "values" => $skins,
+                     "value"  => $sitterskin,
+                ), 'sitterskin'
+            );
             ?>
-        </select>
     </td>
 </tr>
 <tr>
@@ -547,11 +549,15 @@ switch ($sound) {
         <span style="font-style:italic;">Wenn du die Genetikoption hast, bitte auswählen.</span>
     </td>
     <td class="windowbg1">
-        <select name="ikea">
-            <option value="" <?php echo ($ikea === '') ? 'selected' : '';?>>kein Ikea</option>
-            <option value="L" <?php echo ($ikea === 'L') ? 'selected' : '';?>>Lehrling des IKEA</option>
-            <option value="M" <?php echo ($ikea === 'M') ? 'selected' : '';?>>Meister des IKEA</option>
-        </select>
+        <?php
+        echo makeField(
+            array(
+                 "type"   => 'select',
+                 "values" => array('' => 'kein Ikea', 'L' => 'Lehrling des IKEA', 'M' => 'Meister des IKEA'),
+                 "value"  => $ikea,
+            ), 'ikea'
+        );
+        ?>
     </td>
 </tr>
 <tr>
@@ -560,10 +566,15 @@ switch ($sound) {
         <span style="font-style:italic;">Wenn du die Genetikoption hast, bitte auswählen.</span>
     </td>
     <td class="windowbg1">
-        <select name="genbauschleife">
-            <option value="" <?php echo ($genbauschleife) ? '' : 'selected';?>>nein</option>
-            <option value="1" <?php echo ($genbauschleife) ? 'selected' : '';?>>ja</option>
-        </select>
+        <?php
+        echo makeField(
+            array(
+                 "type"   => 'select',
+                 "values" => array('' => 'nein', '1' => 'ja'),
+                 "value"  => $genbauschleife,
+            ), 'genbauschleife'
+        );
+        ?>
     </td>
 </tr>
 <tr>
@@ -572,10 +583,15 @@ switch ($sound) {
         <span style="font-style:italic;">Wenn du die Genetikoption hast, bitte auswählen.</span>
     </td>
     <td class="windowbg1">
-        <select name="genmaurer">
-            <option value="" <?php echo ($genmaurer) ? '' : 'selected';?>>nein</option>
-            <option value="1" <?php echo ($genmaurer) ? 'selected' : '';?>>ja</option>
-        </select>
+        <?php
+        echo makeField(
+            array(
+                 "type"   => 'select',
+                 "values" => array('' => 'nein', '1' => 'ja'),
+                 "value"  => $genmaurer,
+            ), 'genmaurer'
+        );
+        ?>
     </td>
 </tr>
 <tr>
@@ -584,13 +600,15 @@ switch ($sound) {
         <span style="font-style:italic;">Stelle hier deinen Gebäudebaudauermodifikator ein (Standard +-0%).</span>
     </td>
     <td class="windowbg1">
-        <select name="gengebmod">
-            <option value="0.90" <?php echo ($gengebmod == 0.90) ? 'selected' : '';?>>-10%</option>
-            <option value="0.95" <?php echo ($gengebmod == 0.95) ? 'selected' : '';?>>-5%</option>
-            <option value="1.00" <?php echo ($gengebmod == 1.00) ? 'selected' : '';?>>+-0%</option>
-            <option value="1.05" <?php echo ($gengebmod == 1.05) ? 'selected' : '';?>>+5%</option>
-            <option value="1.10" <?php echo ($gengebmod == 1.10) ? 'selected' : '';?>>+10%</option>
-        </select>
+        <?php
+        echo makeField(
+            array(
+                 "type"   => 'select',
+                 "values" => array('0.90' => '-10%', '0.95' => '-5%', '1.00' => '+-0%', '1.05' => '+5%', '1.10' => '+10%'),
+                 "value"  => $gengebmod,
+            ), 'gengebmod'
+        );
+        ?>
     </td>
 </tr>
 <tr>
@@ -600,10 +618,15 @@ switch ($sound) {
      Wichtig wegen FP!</span>
     </td>
     <td class="windowbg1">
-        <select name="iwsa">
-            <option value="" <?php echo ($sitten) ? '' : 'selected';?>>nein</option>
-            <option value="1" <?php echo ($sitten) ? 'selected' : '';?>>ja</option>
-        </select>
+        <?php
+        echo makeField(
+            array(
+                 "type"   => 'select',
+                 "values" => array('' => 'nein', '1' => 'ja'),
+                 "value"  => $iwsa,
+            ), 'iwsa'
+        );
+        ?>
     </td>
 </tr>
 <tr>
@@ -617,22 +640,25 @@ switch ($sound) {
         <span style="font-style:italic;">Hier deinen Spieltyp eintragen. Wenn du Buddler bist, bitte noch das 2. Feld ausfüllen (ansonsten leer lassen).</span>
     </td>
     <td class="windowbg1">
-        <select name="budflesol">
-            <?php
-            foreach ($spieltyp as $key => $data) {
-                echo ($budflesol == $key) ? " <option value='" . $key . "' selected>" . $data . "</option>\n" : " <option value='" . $key . "'>" . $data . "</option>\n";
-            }
-            ?>
-        </select>
-        von
-        <select name="buddlerfrom">
-            <option value="">---</option>
-            <?php
-            foreach ($alluser as $auser) {
-                echo ($buddlerfrom == $auser) ? " <option value='" . $auser . "' selected>" . $auser . "</option>\n" : " <option value='" . $auser . "'>" . $auser . "</option>\n";
-            }
-            ?>
-        </select>
+        <?php
+        echo makeField(
+            array(
+                 "type"   => 'select',
+                 "values" => $spieltyp,
+                 "value"  => $budflesol,
+            ), 'budflesol'
+        );
+
+        echo 'von';
+
+        echo makeField(
+            array(
+                 "type"   => 'select',
+                 "values" => array('' => '---') + $alluser,
+                 "value"  => $buddlerfrom,
+            ), 'buddlerfrom'
+        );
+        ?>
     </td>
 </tr>
 <tr>
@@ -650,13 +676,15 @@ switch ($sound) {
         <span style="font-style:italic;">Deine Staatsform.</span>
     </td>
     <td class="windowbg1">
-        <select name="staatsform">
-            <?php
-            foreach ($staatsformen as $key => $data) {
-                echo ($staatsform == $key) ? " <option value='" . $key . "' selected>" . $data . "</option>\n" : " <option value='" . $key . "'>" . $data . "</option>\n";
-            }
-            ?>
-        </select>
+        <?php
+        echo makeField(
+            array(
+                 "type"   => 'select',
+                 "values" => $staatsformen,
+                 "value"  => $staatsform,
+            ), 'staatsform'
+        );
+        ?>
     </td>
 </tr>
 <tr>
@@ -674,10 +702,15 @@ switch ($sound) {
         <span style="font-style:italic;">Sollen Bilder, den Planetentypen entsprechend in der Karte angezeigt werden?</span>
     </td>
     <td class="windowbg1">
-        <select name="planibilder">
-            <option value="" <?php echo ($planibilder) ? '' : 'selected';?>>nein</option>
-            <option value="1" <?php echo ($planibilder) ? 'selected' : '';?>>ja</option>
-        </select>
+        <?php
+        echo makeField(
+            array(
+                 "type"   => 'select',
+                 "values" => array('' => 'nein', '1' => 'ja'),
+                 "value"  => $planibilder,
+            ), 'planibilder'
+        );
+        ?>
     </td>
 </tr>
 <tr>
@@ -686,10 +719,15 @@ switch ($sound) {
         <span style="font-style:italic;">Sollen Gebäudebilder beim Erstellen eines Auftrages und bei "Gebäude ausblenden" angezeigt werden?</span>
     </td>
     <td class="windowbg1">
-        <select name="gebbilder">
-            <option value="" <?php echo ($gebbilder) ? '' : 'selected';?>>nein</option>
-            <option value="1" <?php echo ($gebbilder) ? 'selected' : '';?>>ja</option>
-        </select>
+        <?php
+        echo makeField(
+            array(
+                 "type"   => 'select',
+                 "values" => array('' => 'nein', '1' => 'ja'),
+                 "value"  => $gebbilder,
+            ), 'gebbilder'
+        );
+        ?>
     </td>
 </tr>
 <tr>
@@ -772,15 +810,15 @@ if ($user_status === "admin") {
         Menü-Darstellung:
     </td>
     <td class="windowbg1">
-        <select name="menu_default">
-            <?php
-            foreach ($menustyles as $key => $data) {
-                echo ($menu_default == $key)
-                    ? "    <option value='" . $key . "' selected>" . $data . "</option>\n"
-                    : "    <option value='" . $key . "'>" . $data . "</option>\n";
-            }
-            ?>
-        </select>
+        <?php
+        echo makeField(
+            array(
+                 "type"   => 'select',
+                 "values" => $menustyles,
+                 "value"  => $menu_default,
+            ), 'menu_default'
+        );
+        ?>
     </td>
 </tr>
 <?php

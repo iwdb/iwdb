@@ -153,7 +153,7 @@ doc_title('Frachtkapazitätenberechnung');
 ?>
 <form name='transcalc' action=''>
 
-    <table class='table_format' style='width: 100%;'>
+    <table class='table_format' style='width: 50%;'>
         <tr>
             <td colspan='2' class='titlebg'><b>Eingabe:</b></td>
         </tr>
@@ -228,7 +228,7 @@ doc_title('Frachtkapazitätenberechnung');
     <input type="reset">
 </form>
 <br>
-<table class='table_format' style='width: 100%;'>
+<table class='table_format' style='width: 50%;'>
     <tr>
         <td colspan='3' class='titlebg'><b>Benötigte Frachtkapazität</b></td>
     </tr>

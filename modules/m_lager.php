@@ -1099,7 +1099,7 @@ echo '<input type="submit" name="flotteversenden" value="Flotte versenden"/>';
 echo '</div>';
 
 //Überschriften ausgeben
-echo '<table class="bordercolor" width="100%" cellspacing="1" cellpadding="4">';
+echo '<table id="lagertabelle" class="bordercolor" width="100%" cellspacing="1" cellpadding="4">';
 start_row("titlebg", "nowrap valign=top");
 foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
     if (!isset($view['group'][$viewcolumnkey]) && !isset($filters[$viewcolumnkey])) {

@@ -758,6 +758,12 @@ td[abbr=both] {
     vertical-align:middle;
 }
 
+/* m_lager */
+
+#lagertabelle td {
+    font-size:11px;
+}
+
 /* bbcode styling */
 
 .bbcodebutton {width:18px; height:18px; padding:3px; margin:1px; border:1px solid #ccc; background: url('../bilder/iwdb/bbcodebuttons.png') no-repeat;}

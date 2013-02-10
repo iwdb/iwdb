@@ -1244,3 +1244,15 @@ INSERT INTO `prefix_schiffstyp` (`id`, `schiff`, `abk`, `typ`, `bild`, `id_iw`, 
 -- masel 07.02.2013
 UPDATE `prefix_gebaeude` SET `bild` = 'mond_defence' WHERE `prefix_gebaeude`.`id` =12;
 UPDATE `prefix_gebaeude` SET `bild` = 'loch' WHERE `prefix_gebaeude`.`id` =36;
+
+-- patsch 10.02.2013
+UPDATE `prefix_gebaeude` SET `bild` = 'chemlager_gross' WHERE `prefix_gebaeude`.`id` =103;
+UPDATE `prefix_gebaeude` SET `bild` = 'energielager_gross' WHERE `prefix_gebaeude`.`id` =104;
+UPDATE `prefix_gebaeude` SET `category` = '10a. Wirtschaft & Verwaltung' WHERE `prefix_gebaeude`.`id` =142;
+UPDATE `prefix_gebaeude` SET `category` = '10a. Wirtschaft & Verwaltung' WHERE `prefix_gebaeude`.`id` =22;
+UPDATE `prefix_gebaeude` SET `category` = '10a. Wirtschaft & Verwaltung' WHERE `prefix_gebaeude`.`id` =19;
+UPDATE `prefix_gebaeude` SET `category` = '10a. Wirtschaft & Verwaltung' WHERE `prefix_gebaeude`.`id` =21;
+UPDATE `prefix_gebaeude` SET `category` = '10a. Wirtschaft & Verwaltung' WHERE `prefix_gebaeude`.`id` =130;
+UPDATE `prefix_gebaeude` SET `category` = '10a. Wirtschaft & Verwaltung' WHERE `prefix_gebaeude`.`id` =88;
+UPDATE `prefix_gebaeude` SET `category` = '10a. Wirtschaft & Verwaltung' WHERE `prefix_gebaeude`.`id` =92;
+UPDATE `prefix_gebaeude` SET `category` = '10a. Wirtschaft & Verwaltung' WHERE `prefix_gebaeude`.`id` =123;

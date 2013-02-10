@@ -303,51 +303,92 @@ echo "</select>";
 echo "</p>";
 echo "<input type='submit' name='submit' value='anzeigen'/>";
 echo "</form>";
+echo "</p>";
 
 foreach ($categories as $category => $value) {
-    echo "<br>";
-    start_table();
-    $count = count($categories_buildings[$category]);
-    start_row("titlebg", "nowrap style='width:0%' align='center' colspan='" . ($count + 3) . "'");
-    echo "<b>" . $category . "</b>";
-    next_row("windowbg2", "nowrap style='width:0%' align='center'");
-    echo "Spieler";
-    next_cell("windowbg2", "nowrap style='width:0%' align='center'");
-    echo "Koords";
-    next_cell("windowbg2", "nowrap style='width:100%' align='center'");
-    echo "Planet";
-    foreach ($categories_buildings[$category] as $building => $value) {
-        next_cell("windowbg2", "style='width:60px' align='center'");
-        if (isset($buildings[$building])) {
-            $image = $buildings[$building]['bild'];
-            $id    = $buildings[$building]['id'];
-        } else {
-            $image = 'blank';
-            $id    = 0;
-        }
-        echo "<a href='index.php?action=m_building&show_building=" . $id . "'>";
-        echo "<img src='bilder/gebs/" . $image . ".jpg' width='50' height='50' alt='" . $building . "'>";
-        echo "</a>";
-    }
-    foreach ($data[$category] as $coords => $planet_buildings) {
-        $color = getScanAgeColor($planet_buildings['time']);
-        next_row("windowbg1", "nowrap style='width:0%; background-color: $color' align='left'");
-        echo $planet_buildings['user'];
-        next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-        echo $coords;
-        next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-        echo $planet_buildings['planet'];
-        foreach ($categories_buildings[$category] as $building => $value) {
-            next_cell("windowbg1", "align='center'");
-            if (isset($planet_buildings[$building])) {
-
-                echo $planet_buildings[$building];
-            } else {
-                echo "";
-            }
-        }
-    }
-    end_row();
-    end_table();
+	echo "<br>";
+	?>
+	<table class="table_hovertable">
+		<?php
+		$count = count($categories_buildings[$category]);
+		?>
+		<caption><?php echo $category ?></caption>
+		<thead>
+			<tr>
+				<th>
+					Spieler
+				</th>
+				<th>
+					Koords
+				</th>
+				<th>
+					Planet
+				</th>
+				<?php
+				foreach ($categories_buildings[$category] as $building => $value) {
+					?>
+					<th>
+						<?php
+						if (isset($buildings[$building])) {
+							$image = $buildings[$building]['bild'];
+							$id    = $buildings[$building]['id'];
+						} else {
+							$image = 'blank';
+							$id    = 0;
+						}
+						echo "<a href='index.php?action=m_building&show_building=" . $id . "'>";
+						echo "<img src='bilder/gebs/" . $image . ".jpg' width='50' height='50' alt='" . $building . "'>";
+						echo "</a>";
+						?>
+					</th>
+				<?php
+				}
+				?>
+			</tr>
+		</thead>
+		
+		<?php
+		foreach ($data[$category] as $coords => $planet_buildings) {
+			$color = getScanAgeColor($planet_buildings['time']);
+			?>
+			<tbody>
+				<tr>
+					<td>
+						<?php
+						echo $planet_buildings['user'];
+						?>
+					</td>
+					<td>
+						<?php
+						echo $coords;
+						?>
+					</td>
+					<td>
+						<?php
+						echo $planet_buildings['planet'];
+						?>
+					</td>
+					<?php
+					foreach ($categories_buildings[$category] as $building => $value) {
+						?>
+						<td>
+							<?php
+							if (isset($planet_buildings[$building])) {
+								echo $planet_buildings[$building];
+							} else {
+							echo "";
+							}
+							?>
+						</td>
+					<?php
+					}
+					?>
+				</tr>
+			</tbody>
+		<?php
+		}
+		?>
+	</table>
+<?php
 }
 ?>

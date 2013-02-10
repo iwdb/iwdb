@@ -255,71 +255,110 @@ echo "</select>";
 echo "</p>";
 echo "<input type='submit' name='submit' value='anzeigen'/>";
 echo "</form>";
+echo "</p>";
 
-start_table();
-start_row("titlebg", "nowrap style='width:0%' align='center' colspan='8'");
-echo "<b>Ressourcensammelbasen</b>";
-start_row("windowbg2", "nowrap style='width:0%' align='center'");
-echo "Spieler";
-next_cell("windowbg2", "nowrap style='width:0%' align='center'");
-echo "Typ";
-next_cell("windowbg2", "nowrap style='width:0%' align='center'");
-echo "Robotermining";
-next_cell("windowbg2", "nowrap style='width:0%' align='center'");
-echo "Robominerzentrale";
-next_cell("windowbg2", "nowrap style='width:0%' align='center'");
-echo "Sammelbasen";
-next_cell("windowbg2", "nowrap style='width:0%' align='center'");
-echo "Eisen/h";
-next_cell("windowbg2", "nowrap style='width:0%' align='center'");
-echo "Chemie/h";
-next_cell("windowbg2", "nowrap style='width:0%' align='center'");
-echo "Eis/h";
-
-// Abfrage auswerten
-while ($row = $db->db_fetch_array($result)) {
-    start_row("windowbg1", "nowrap style='width:0%' align='left'");
-    echo $row['user'];
-    next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-    echo $row['typ'];
-    next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-    if (!empty($row['research'])) {
-        echo "erforscht";
-    } else {
-        echo "-";
-    }
-    next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-    if (!empty($row['count'])) {
-        echo "Stufe " . $row['count'];
-    } else if (!empty($row['research'])) {
-        echo "Keine";
-    } else {
-        echo "-";
-    }
-    next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-    if (!empty($row['count'])) {
-        echo $row['base'] . "/" . $row['count'];
-    } else {
-        echo "-";
-    }
-    next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-    if (!empty($row['eisen'])) {
-        echo number_format($row['eisen'], 0, "", ".");
-    } else {
-        echo "-";
-    }
-    next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-    if (!empty($row['chemie'])) {
-        echo number_format($row['chemie'], 0, "", ".");
-    } else {
-        echo "-";
-    }
-    next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-    if (!empty($row['eis'])) {
-        echo number_format($row['eis'], 0, "", ".");
-    } else {
-        echo "-";
-    }
-    end_row();
-}
-end_table();
+?>
+<table class="table_hovertable">
+	<caption>Robotermining</caption>
+	<thead>
+		<tr>
+			<th>
+				Spieler
+			</th>
+			<th>
+				Typ
+			</th>
+			<th>
+				Robotermining
+			</th>
+			<th>
+				Robominerzentrale
+			</th>
+			<th>
+				Sammelbasen
+			</th>
+			<th>
+				Eisen /h
+			</th>
+			<th>
+				Chemie /h
+			</th>
+			<th>
+				Eis /h
+			</th>
+		</tr>
+	</thead>
+	
+	<?php
+	while ($row = $db->db_fetch_array($result)) {
+	?>
+	<tbody>
+		<tr>
+			<td>
+				<?php echo $row['user']; ?>
+			</td>
+			<td>
+				<?php echo $row['typ']; ?>
+			</td>
+			<td>
+				<?php
+				if (!empty($row['research'])) {
+					echo "erforscht";
+				} else {
+					echo "-";
+				}
+				?>
+			</td>
+			<td>
+				<?php
+				if (!empty($row['count'])) {
+					echo "Stufe " . $row['count'];
+				} else if (!empty($row['research'])) {
+					echo "Keine";
+				} else {
+					echo "-";
+				}
+				?>
+			</td>
+			<td>
+				<?php
+				if (!empty($row['count'])) {
+					echo $row['base'] . "/" . $row['count'];
+				} else {
+					echo "-";
+				}
+				?>
+			</td>
+			<td>
+				<?php
+				if (!empty($row['eisen'])) {
+					echo number_format($row['eisen'], 0, "", ".");
+				} else {
+					echo "-";
+				}
+				?>
+			</td>
+			<td>
+				<?php
+				if (!empty($row['chemie'])) {
+					echo number_format($row['chemie'], 0, "", ".");
+				} else {
+					echo "-";
+				}
+				?>
+			</td>
+			<td>
+				<?php
+				if (!empty($row['eis'])) {
+					echo number_format($row['eis'], 0, "", ".");
+				} else {
+					echo "-";
+				}
+				?>
+			</td>
+		</tr>
+	</tbody>
+	<?php
+	}
+	?>
+</table>

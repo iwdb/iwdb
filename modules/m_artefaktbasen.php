@@ -239,51 +239,74 @@ echo "</select>";
 echo "</p>";
 echo "<input type='submit' name='submit' value='anzeigen'/>";
 echo "</form>";
+echo "</p>";
 
-start_table();
-start_row("titlebg", "nowrap style='width:0%' align='center' colspan='8'");
-echo "<b>Artefaktsammelbasen</b>";
-start_row("windowbg2", "nowrap style='width:0%' align='center'");
-echo "Spieler";
-next_cell("windowbg2", "nowrap style='width:0%' align='center'");
-echo "Typ";
-next_cell("windowbg2", "nowrap style='width:0%' align='center'");
-echo "Suche nach neuen alten Sachen";
-next_cell("windowbg2", "nowrap style='width:0%' align='center'");
-echo "Artefaktsammelbasencenter";
-next_cell("windowbg2", "nowrap style='width:0%' align='center'");
-echo "Artefaktsammelbasis";
-
-
-// Abfrage auswerten
-while ($row = $db->db_fetch_array($result)) {
-    start_row("windowbg1", "nowrap style='width:0%' align='left'");
-    echo $row['user'];
-    next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-    echo $row['typ'];
-    next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-    if (!empty($row['research'])) {
-        echo "erforscht";
-    } else {
-        echo "-";
-    }
-    next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-    if (!empty($row['count'])) {
-        echo "Stufe " . $row['count'];
-    } else if (!empty($row['research'])) {
-        echo "Keine";
-    } else {
-        echo "-";
-    }
-    next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-    //echo $row['base'] . "/" . $row['count'];
-
-    if (!empty($row['count'])) {
-        echo $row['base'] . "/" . $row['count'];
-    } else {
-        echo "--";
-    }
-
-    end_row();
-}
-end_table();
+?>
+<table class="table_hovertable">
+	<caption>Artefaktsammelbasen</caption>
+	<thead>
+		<tr>
+			<th>
+				Spieler
+			</th>
+			<th>
+				Typ
+			</th>
+			<th>
+				Suche nach neuen alten Sachen
+			</th>
+			<th>
+				Artefaktsammelbasencenter
+			</th>
+			<th>
+				Artefaktsammelbasis
+			</th>
+		</tr>
+	</thead>
+	
+	<?php
+	while ($row = $db->db_fetch_array($result)) {
+	?>
+	<tbody>
+		<tr>
+			<td>
+				<?php echo $row['user']; ?>
+			</td>
+			<td>
+				<?php echo $row['typ']; ?>
+			</td>
+			<td>
+				<?php
+				if (!empty($row['research'])) {
+					echo "erforscht";
+				} else {
+					echo "-";
+				}
+				?>
+			</td>
+			<td>
+				<?php
+				if (!empty($row['count'])) {
+					echo "Stufe " . $row['count'];
+				} else if (!empty($row['research'])) {
+					echo "Keine";
+				} else {
+					echo "-";
+				}
+				?>
+			</td>
+			<td>
+				<?php
+				if (!empty($row['count'])) {
+					echo $row['base'] . "/" . $row['count'];
+				} else {
+					echo "--";
+				}
+				?>
+			</td>
+		</tr>
+	</tbody>
+	<?php
+	}
+	?>
+</table>

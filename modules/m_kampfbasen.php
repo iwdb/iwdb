@@ -250,79 +250,102 @@ echo "</select>";
 echo "</p>";
 echo "<input type='submit' name='submit' value='anzeigen'/>";
 echo "</form>";
-
-start_table();
-start_row("titlebg", "nowrap style='width:0%' align='center' colspan='8'");
-echo "<b>Kampfbasen</b>";
-start_row("windowbg2", "nowrap style='width:0%' align='center'");
-echo "Spieler";
-next_cell("windowbg2", "nowrap style='width:0%' align='center'");
-echo "Typ";
-next_cell("windowbg2", "nowrap style='width:0%' align='center'");
-echo "orbitale Dockingsysteme";
-next_cell("windowbg2", "nowrap style='width:0%' align='center'");
-echo "Kampfbasenverwaltung";
-next_cell("windowbg2", "nowrap style='width:0%' align='center'");
-echo "Kampfbasen";
-next_cell("windowbg2", "nowrap style='width:0%' align='center'");
-echo "# Basen";
-next_cell("windowbg2", "nowrap style='width:0%' align='center'");
-echo "Diff Soll";
-
-
-// Abfrage auswerten
-while ($row = $db->db_fetch_array($result)) {
-    start_row("windowbg1", "nowrap style='width:0%' align='left'");
-    echo $row['user'];
-    next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-    echo $row['typ'];
-    next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-    if (!empty($row['research'])) {
-        echo "erforscht";
-    } else {
-        echo "-";
-    }
-    next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-    if (!empty($row['count'])) {
-        echo "Stufe " . $row['count'];
-    } else if (!empty($row['research'])) {
-        echo "Keine";
-    } else {
-        echo "-";
-    }
-    next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-    echo $row['base'] . "/" . ($row['count'] + 2);
-    /*
-    if (!empty($row['base']))  {
-        echo $row['base'] . "/" . ($row['count']+2);
-    } else
-        echo "0/2";*/
-    next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-    if (!empty($row['alpha'])) {
-        $one = $row['alpha'];
-    } else {
-        $one = 0;
-    }
-    if (!empty($row['beta'])) {
-        $two = $row['beta'];
-    } else {
-        $two = 0;
-    }
-    if (!empty($row['gamma'])) {
-        $three = $row['gamma'];
-    } else {
-        $three = 0;
-    }
-
-    echo $one . "/" . $two . "/" . $three;
-
-
-    next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-    echo (($one + $two + $three) + $row['base'] - ($row['count'] + 2));
-
-    end_row();
-}
-end_table();
-
+echo "</p>";
 
 ?>
+<table class="table_hovertable">
+	<caption>Kampfbasen</caption>
+	<thead>
+		<tr>
+			<th>
+				Spieler
+			</th>
+			<th>
+				Typ
+			</th>
+			<th>
+				orbitale Dockingsysteme
+			</th>
+			<th>
+				Kampfbasenverwaltung
+			</th>
+			<th>
+				Kampfbasen
+			</th>
+			<th>
+				# Basen
+			</th>
+			<th>
+				Diff Soll
+			</th>
+		</tr>
+	</thead>
+	
+	<?php
+	while ($row = $db->db_fetch_array($result)) {
+	?>
+	<tbody>
+		<tr>
+			<td>
+				<?php echo $row['user']; ?>
+			</td>
+			<td>
+				<?php echo $row['typ']; ?>
+			</td>
+			<td>
+				<?php
+				if (!empty($row['research'])) {
+					echo "erforscht";
+				} else {
+					echo "-";
+				}
+				?>
+			</td>
+			<td>
+				<?php
+				if (!empty($row['count'])) {
+					echo "Stufe " . $row['count'];
+				} else if (!empty($row['research'])) {
+					echo "Keine";
+				} else {
+					echo "-";
+				}
+				?>
+			</td>
+			<td>
+				<?php
+				echo $row['base'] . "/" . ($row['count'] + 2);
+				?>
+			</td>
+			<td>
+				<?php
+				if (!empty($row['alpha'])) {
+					$one = $row['alpha'];
+				} else {
+					$one = 0;
+				}
+				if (!empty($row['beta'])) {
+					$two = $row['beta'];
+				} else {
+					$two = 0;
+				}
+				if (!empty($row['gamma'])) {
+					$three = $row['gamma'];
+				} else {
+					$three = 0;
+				}
+
+				echo $one . "/" . $two . "/" . $three;
+				?>
+			</td>
+			<td>
+				<?php
+				echo (($one + $two + $three) + $row['base'] - ($row['count'] + 2));
+				?>
+			</td>
+		</tr>
+	</tbody>
+	<?php
+	}
+	?>
+</table>

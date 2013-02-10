@@ -166,12 +166,12 @@ if (empty($playerdata)) {
 } else {
     echo '<div class="textsmall">Daten von ' . strftime(CONFIG_DATETIMEFORMAT, $playerupdatetime) . '</div><br>';
     ?>
-    <table class="table_format" style="width: 80%;">
+    <table class="table_hovertable" style="width: 80%;">
         <tr>
-            <th class='windowbg2'>Spieler</th>
-            <th class='windowbg2'>von Allianz</th>
-            <th class='windowbg2'>zu Allianz</th>
-            <th class='windowbg2'>Zeitpunkt</th>
+            <th>Spieler</th>
+            <th>von Allianz</th>
+            <th>zu Allianz</th>
+            <th>Zeitpunkt</th>
         </tr>
         <?php
         // letzten 50 Allywechsel abfragen
@@ -182,16 +182,16 @@ if (empty($playerdata)) {
         // Abfrage auswerten
         while ($row = $db->db_fetch_array($result)) {
             echo "<tr>\n";
-            echo "<td class='windowbg1' style='text-align: center;'>";
+            echo "<td>";
             echo "<a href='index.php?action=showgalaxy&amp;user=" . urlencode($row['name']) . "&amp;exact=1'>" . $row['name'] . "</a>";
             echo "</td>\n";
-            echo "<td class='windowbg1' style='text-align: center;'>";
+            echo "<td>";
             echo "<a href='index.php?action=m_allystats&allianz=" . $row['fromally'] . "'>" . $row['fromally'] . "</a>";
             echo "</td>\n";
-            echo "<td class='windowbg1' style='text-align: center;'>";
+            echo "<td>";
             echo "<a href='index.php?action=m_allystats&allianz=" . $row['toally'] . "'>" . $row['toally'] . "</a>";
             echo "</td>\n";
-            echo "<td class='windowbg1' style='text-align: center;'>";
+            echo "<td>";
             echo strftime(CONFIG_DATETIMEFORMAT, $row['time']);
             echo "</td>\n";
             echo "</tr>\n";

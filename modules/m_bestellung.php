@@ -797,7 +797,7 @@ if (isset($results)) {
 // Team Dropdown
 echo "<form method='POST' action='" . makeurl(array()) . "' enctype='multipart/form-data'><p align='center'>";
 echo 'Lieferant: ';
-echo makefield(
+echo makeField(
     array(
          "type"   => 'select',
          "values" => $config['filter_who'],
@@ -939,11 +939,11 @@ foreach ($view['edit'] as $key => $field) {
             if (!$first) {
                 echo '&nbsp;';
             }
-            echo makefield($field, $key);
+            echo makeField($field, $key);
             $first = false;
         }
     } else {
-        echo makefield($field, $key);
+        echo makeField($field, $key);
     }
 }
 

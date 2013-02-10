@@ -1510,11 +1510,11 @@ if (empty($params['view'])) {
                     if (!$first) {
                         echo '&nbsp;';
                     }
-                    echo makefield($field, $key);
+                    echo makeField($field, $key);
                     $first = false;
                 }
             } else {
-                echo makefield($field, $key);
+                echo makeField($field, $key);
             }
         }
         next_row('titlebg', 'align=center colspan=2');

@@ -210,7 +210,7 @@ $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $budflesol = 0;
 while ($row = $db->db_fetch_array($result)) {
-    $sql = "SELECT t1.* FROM " . $db_tb_sitterauftrag . " as t1 LEFT JOIN " . $db_tb_sitterauftrag . " as t2 ON t1.id = t2.refid WHERE t2.refid is null AND t1.date_b2 <= " . $config_date;
+    $sql = "SELECT t1.* FROM " . $db_tb_sitterauftrag . " as t1 LEFT JOIN " . $db_tb_sitterauftrag . " as t2 ON t1.id = t2.refid WHERE t2.refid is null AND t1.date_b2 <= " . CURRENT_UNIX_TIME;
     $sql .= " AND t1.user = '" . $row['sitterlogin'] . "' ";
     $result_auftrag = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -258,7 +258,6 @@ if ($akt < count($sitterlogins) - 1) {
 }
 
 echo "<form method='POST' action='index.php?action=" . $modulname . "&amp;sid=" . $sid . "' enctype='multipart/form-data'>\n";
-$j = 0;
 for ($i = 0; $i < count($sitterlogins); $i++) {
     $offen = ($offens[$i] ? '_offen' : '');
     if ($i < $AllyEnde) {
@@ -268,13 +267,8 @@ for ($i = 0; $i < count($sitterlogins); $i++) {
     }
     if ($i == $AllyEnde) {
         echo '<br><br>';
-        $j = 0;
     }
     echo "<input type='button' class='$class' name='r' value='" . substr($sitterlogins[$i], 0, 5) . "' onClick='self.location.href=\"index.php?action=$modulname&amp;sid=$sid&amp;r=$i\"'> ";
-    $j++;
-    if ($j % 20 == 0) {
-        echo "<br><br>";
-    }
 }
 echo "<br><br>";
 
@@ -319,7 +313,7 @@ if (isset($sitterlogins[$akt])) {
     include("sitterliste.php");
 }
 
-echo "<textarea name='text' cols='100' rows='2' style='border:2px black solid'></textarea>";
+echo "<textarea name='text' cols='50' rows='2' style='border:2px black solid'></textarea>";
 echo "<input type='submit' value='speichern' name='sub_akt' style='vertical-align: top;'>";
 echo "<input type='hidden' value='$akt' name='val_akt'>";
 echo '</form>';

@@ -645,7 +645,6 @@ width:100%;
 text-align:right;
 }
 
-
 .bordercolor {
 	background-color: #000000;
 }
@@ -683,37 +682,31 @@ td[abbr=both] {
     background-color: #ffffff !important;
     padding:1px;
     margin:4px 2px;
-    vertical-align:middle;
 }
 .button1_offen  {
     background-color: #FEDDDF !important;
     padding:1px;
     margin:4px 2px;
-    vertical-align:middle;
 }
 .button1_incoming  {
     background-color: #FF0000 !important;
     padding:1px;
     margin:4px 2px;
-    vertical-align:middle;
 }
 .button2  {
     background-color: #dddddd !important;
     padding:1px;
     margin:4px 2px;
-    vertical-align:middle;
 }
 .button2_offen  {
     background-color: #FEDDDF !important;
     padding:1px;
     margin:4px 2px;
-    vertical-align:middle;
 }
 .button2_incoming {
     background-color: #FF0000 !important;
     padding:1px;
     margin:4px 2px;
-    vertical-align:middle;
 }
 
 /* m_lager */
@@ -812,10 +805,6 @@ tr.windowbg2:hover,
 tr.windowbg3:hover,
 tr.windowbg4:hover {
     background-color: gold !important;
-}
-
-.borderless {
-    border: 0 !important;
 }
 
 .center {

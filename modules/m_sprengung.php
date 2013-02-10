@@ -162,7 +162,6 @@ if ($sys_start > $sys_end) { // ggf Werte vertauschen
     list($sys_start, $sys_end) = array($sys_end, $sys_start);
 }
 
-
 // Titelzeile
 doc_title('Sprengungen');
 echo "<div>Hier kann man sehen, wann Hasi die nächsten Planeten sprengt um neue Hyperraumumgehungsstraßen zu bauen:</div>";
@@ -171,18 +170,19 @@ echo "  Galaxie von: <input name='gal_start' value='" . $gal_start . "' style='w
 echo "  System von: <input name='sys_start' value='" . $sys_start . "' style='width: 5em' type='number' min='" . $config_map_system_min . "' max='" . $config_map_system_max . "'> bis: <input name='sys_end' value='" . $sys_end . "' style='width: 5em' type='number' min='" . $config_map_system_min . "' max='" . $config_map_system_max . "'><br><br>";
 echo "  <input type='submit' value='los' name='B1' class='submit'>";
 echo "</form>\n";
+
 ?>
 <br>
-<table class='table_format' style='width: 80%;'>
-    <tr>
-        <th class='windowbg2'>Koords</th>
-        <th class='windowbg2'>Planetentyp</th>
-        <th class='windowbg2'>Eisen<br><span style="font-size:x-small">(eff)</span></th>
-        <th class='windowbg2'>Chemie<br><span style="font-size:x-small">(eff)</span></th>
-        <th class='windowbg2'>Eis<br><span style="font-size:x-small">(eff)</span></th>
-        <th class='windowbg2'>LB</th>
-        <th class='windowbg2'>Gebäude-<br>dauer</th>
-        <th class='windowbg2'>
+<table class='table_hovertable' style='width: 80%;'>
+    <tr class='titlebg'>
+        <th>Koords</th>
+        <th>Planetentyp</th>
+        <th>Eisen<br><span style="font-size:x-small">(eff)</span></th>
+        <th>Chemie<br><span style="font-size:x-small">(eff)</span></th>
+        <th>Eis<br><span style="font-size:x-small">(eff)</span></th>
+        <th>LB</th>
+        <th>Gebäude-<br>dauer</th>
+        <th>
             <a href="index.php?action=m_sprengung&amp;ordered=asc&amp;sid=<?php echo $sid; ?>"><img
                     src="bilder/desc.gif" border="0" alt="a"></a>
             Sprengung
@@ -193,96 +193,96 @@ echo "</form>\n";
 
 
     </tr>
-    <?php
+<?php
 
-    // SQL-Statement aufbauen
-    $sql_where = '';
+// SQL-Statement aufbauen
+$sql_where = '';
 
-    if ($gal_start > 0) {
-        $sql_where .= ' coords_gal>=' . $gal_start;
-    }
+if ($gal_start > 0) {
+    $sql_where .= ' coords_gal>=' . $gal_start;
+}
 
-    if ($gal_end > 0) {
-        if ($sql_where != '') {
-            $sql_where .= ' AND ';
-        }
-        $sql_where .= ' coords_gal<=' . $gal_end;
-    }
-
-    if ($sys_start > 0) {
-        if ($sql_where != '') {
-            $sql_where .= ' AND ';
-        }
-        $sql_where .= ' coords_sys>=' . $sys_start;
-    }
-
-    if ($sys_end > 0) {
-        if ($sql_where != '') {
-            $sql_where .= ' AND ';
-        }
-        $sql_where .= ' coords_sys<=' . $sys_end;
-    }
-
+if ($gal_end > 0) {
     if ($sql_where != '') {
         $sql_where .= ' AND ';
     }
+    $sql_where .= ' coords_gal<=' . $gal_end;
+}
 
-    $sql_where = " WHERE " . $sql_where . " reset_timestamp>0 AND geoscantime>0 AND objekt='---' ";
-
-    $sql_order = " ORDER BY reset_timestamp_2 " . $sort . " , coords_gal ASC , coords_sys ASC , coords_planet ASC";
-
-    $Limit = " Limit 100";
-
-    // Abfrage ausführen
-    $sql = "SELECT coords,typ,(eisengehalt/dgmod) AS Eisen_eff,(chemievorkommen/dgmod) AS Chem_eff,(eisdichte/dgmod) AS Eis_eff,lebensbedingungen,DGmod, (geoscantime + reset_timestamp) AS reset_timestamp_2 FROM " . $db_tb_scans . $sql_where . $sql_order . $Limit;
-
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query scans_historie information.', '', __FILE__, __LINE__, $sql);
-
-    // Abfrage auswerten
-    while ($row = $db->db_fetch_array($result)) {
-        if (empty($row['DGmod'])) {
-            $row['DGmod'] = 1;
-        }
-
-        echo "  <tr>\n";
-        echo "    <td class='windowbg1' style='text-align:center;'>\n";
-        echo "      <a href='index.php?action=showplanet&amp;coords=" . $row['coords'] . "&amp;ansicht=auto&amp;sid=" . $sid . "'>\n";
-        echo "      " . $row['coords'] . "\n";
-        echo "      </a>\n";
-        echo "    </td>\n";
-        echo "    <td class='windowbg1' style='text-align:center;'>\n";
-        echo "      " . $row['typ'] . "\n";
-        echo "    </td>\n";
-        echo "    <td class='windowbg1' style='text-align:center;'>\n";
-        echo "      " . (int)($row['Eisen_eff']) . " %\n";
-        echo "    </td>\n";
-        echo "    <td class='windowbg1' style='text-align:center;'>\n";
-        echo "      " . (int)($row['Chem_eff']) . " %\n";
-        echo "    </td>\n";
-        echo "    <td class='windowbg1' style='text-align:center;'>\n";
-        echo "      " . (int)($row['Eis_eff']) . " %\n";
-        echo "    </td>\n";
-        echo "    <td class='windowbg1' style='text-align:center;'>\n";
-        echo "      " . $row['lebensbedingungen'] . "%\n";
-        echo "    </td>\n";
-        echo "    <td class='windowbg1' style='text-align:center;'>\n";
-        echo "      " . $row['DGmod'] . "\n";
-        echo "    </td>\n";
-        echo "    <td class='windowbg1' style='text-align:center;'>\n";
-
-        echo '<a href="index.php?action=m_sprengung&amp;ordered=asc&amp;sid=' . $sid . '><img src="bilder/asc.gif" alt="asc"></a>';
-        $reset_timestamp_first = ($row['reset_timestamp_2'] - DAY); //vorverlegen des Sprengdatums wegen +-24h
-        if ($reset_timestamp_first > CURRENT_UNIX_TIME) {
-            echo makeduration2(CURRENT_UNIX_TIME, $reset_timestamp_first) . " \n";
-        } elseif (($reset_timestamp_first + 2 * DAY) > CURRENT_UNIX_TIME) { // 2 Tage Toleranz
-            echo "evl. seit " . makeduration2($reset_timestamp_first, CURRENT_UNIX_TIME) . " gesprengt\n";
-        } else {
-            echo "wahrscheinlich gesprengt!"; //alles was drüber ist, ist wohl weg
-        }
-        echo "    </td>\n";
-        echo "  </tr>\n";
+if ($sys_start > 0) {
+    if ($sql_where != '') {
+        $sql_where .= ' AND ';
     }
-    echo "</table>";
+    $sql_where .= ' coords_sys>=' . $sys_start;
+}
 
-    ?>
+if ($sys_end > 0) {
+    if ($sql_where != '') {
+        $sql_where .= ' AND ';
+    }
+    $sql_where .= ' coords_sys<=' . $sys_end;
+}
+
+if ($sql_where != '') {
+    $sql_where .= ' AND ';
+}
+
+$sql_where = " WHERE " . $sql_where . " reset_timestamp>0 AND geoscantime>0 AND objekt='---' ";
+
+$sql_order = " ORDER BY reset_timestamp_2 " . $sort . " , coords_gal ASC , coords_sys ASC , coords_planet ASC";
+
+$Limit = " Limit 100";
+
+// Abfrage ausführen
+$sql = "SELECT coords,typ,(eisengehalt/dgmod) AS Eisen_eff,(chemievorkommen/dgmod) AS Chem_eff,(eisdichte/dgmod) AS Eis_eff,lebensbedingungen,DGmod, (geoscantime + reset_timestamp) AS reset_timestamp_2 FROM " . $db_tb_scans . $sql_where . $sql_order . $Limit;
+
+$result = $db->db_query($sql)
+    or error(GENERAL_ERROR, 'Could not query scans_historie information.', '', __FILE__, __LINE__, $sql);
+
+// Abfrage auswerten
+while ($row = $db->db_fetch_array($result)) {
+    if (empty($row['DGmod'])) {
+        $row['DGmod'] = 1;
+    }
+
+    echo "  <tr class='windowbg1 center'>\n";
+    echo "    <td>\n";
+    echo "      <a href='index.php?action=showplanet&amp;coords=" . $row['coords'] . "&amp;ansicht=auto&amp;sid=" . $sid . "'>\n";
+    echo "      " . $row['coords'] . "\n";
+    echo "      </a>\n";
+    echo "    </td>\n";
+    echo "    <td>\n";
+    echo "      " . $row['typ'] . "\n";
+    echo "    </td>\n";
+    echo "    <td>\n";
+    echo "      " . (int)($row['Eisen_eff']) . " %\n";
+    echo "    </td>\n";
+    echo "    <td>\n";
+    echo "      " . (int)($row['Chem_eff']) . " %\n";
+    echo "    </td>\n";
+    echo "    <td>\n";
+    echo "      " . (int)($row['Eis_eff']) . " %\n";
+    echo "    </td>\n";
+    echo "    <td>\n";
+    echo "      " . $row['lebensbedingungen'] . "%\n";
+    echo "    </td>\n";
+    echo "    <td>\n";
+    echo "      " . $row['DGmod'] . "\n";
+    echo "    </td>\n";
+    echo "    <td>\n";
+
+    echo '<a href="index.php?action=m_sprengung&amp;ordered=asc&amp;sid=' . $sid . '><img src="bilder/asc.gif" alt="asc"></a>';
+    $reset_timestamp_first = ($row['reset_timestamp_2'] - DAY); //vorverlegen des Sprengdatums wegen +-24h
+    if ($reset_timestamp_first > CURRENT_UNIX_TIME) {
+        echo makeduration2(CURRENT_UNIX_TIME, $reset_timestamp_first) . " \n";
+    } elseif (($reset_timestamp_first + 2 * DAY) > CURRENT_UNIX_TIME) { // 2 Tage Toleranz
+        echo "evl. seit " . makeduration2($reset_timestamp_first, CURRENT_UNIX_TIME) . " gesprengt\n";
+    } else {
+        echo "wahrscheinlich gesprengt!"; //alles was drüber ist, ist wohl weg
+    }
+    echo "    </td>\n";
+    echo "  </tr>\n";
+}
+echo "</table>";
+
+?>

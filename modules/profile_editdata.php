@@ -252,7 +252,7 @@ $sqlM = "SELECT `id` FROM `{$db_tb_user}`;";
 $resultM = $db->db_query($sqlM)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
 while ($rowM = $db->db_fetch_array($resultM)) {
-    $alluser[] = $rowM['id'];
+    $alluser[$rowM['id']] = $rowM['id'];
 }
 
 $sel0 = '';
@@ -489,15 +489,15 @@ switch ($sound) {
         <span style="font-style:italic;">Welchen Skin möchtest du beim Sitten verwenden?</span>
     </td>
     <td class="windowbg1">
-            <?php
-            echo makeField(
-                array(
-                     "type"   => 'select',
-                     "values" => $skins,
-                     "value"  => $sitterskin,
-                ), 'sitterskin'
-            );
-            ?>
+        <?php
+        echo makeField(
+            array(
+                 "type"   => 'select',
+                 "values" => $skins,
+                 "value"  => $sitterskin,
+            ), 'sitterskin'
+        );
+        ?>
     </td>
 </tr>
 <tr>

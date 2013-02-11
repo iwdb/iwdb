@@ -164,7 +164,7 @@ if ($editgebaeude) {
 
 echo "<br>\n";
 echo "<form method='POST' action='index.php?action=admin&uaction=gebaeude&sid=" . $sid . "' enctype='multipart/form-data'>\n";
-echo "<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 90%;'>\n";
+echo "<table class='table_format' style='width: 90%;'>\n";
 echo "<thead>\n";
 echo " <tr>\n";
 echo "  <th class='windowbg2'>Ausblenden?</td>\n";
@@ -179,7 +179,7 @@ echo "</thead>\n";
 
 echo "<tbody>\n";
 echo " <tr>\n";
-echo "  <td class='windowbg1' align='center'>\n";
+echo "  <td class='windowbg1 center'>\n";
 echo "   <input type='checkbox' name='" . ($lastid + 1) . "_inactive' value='1'>\n";
 echo "  </td>\n";
 echo "  <td class='windowbg1'>\n";
@@ -188,16 +188,16 @@ echo "  </td>\n";
 echo "  <td class='windowbg1'>\n";
 echo "   <input type='text' name='" . ($lastid + 1) . "_category' placeholder='Gebäudekategorie' maxlength='50' size='22'>\n";
 echo "  </td>\n";
-echo "  <td class='windowbg1' style='text-align:center !important'>\n";
-echo "   <input type='number' name='" . ($lastid + 1) . "_idcat' value='0' min='0' maxlength='5' style='width:50px; text-align:right;'>\n";
+echo "  <td class='windowbg1 center'>\n";
+echo "   <input type='number' class='right' name='" . ($lastid + 1) . "_idcat' value='0' min='0' maxlength='5' style='width:50px;'>\n";
 echo "  </td>\n";
-echo "  <td class='windowbg1' style='text-align:left !important'>\n";
-echo "    <input type='number' name='" . ($lastid + 1) . "_dauer_d' value='0' min='0' max='10' maxlength='2' style='width:50px; text-align:right;'> Tage<br>\n";
-echo "    <input type='number' name='" . ($lastid + 1) . "_dauer_h' value='0' min='0' max='60' maxlength='2' style='width:50px; text-align:right;'> h<br>\n";
-echo "    <input type='number' name='" . ($lastid + 1) . "_dauer_m' value='0' min='0' max='60' maxlength='2' style='width:50px; text-align:right;'> min\n";
+echo "  <td class='windowbg1 left'>\n";
+echo "    <input type='number' name='" . ($lastid + 1) . "_dauer_d' value='0' min='0' max='10' maxlength='2' style='width:50px;'> Tage<br>\n";
+echo "    <input type='number' name='" . ($lastid + 1) . "_dauer_h' value='0' min='0' max='60' maxlength='2' style='width:50px;'> h<br>\n";
+echo "    <input type='number' name='" . ($lastid + 1) . "_dauer_m' value='0' min='0' max='60' maxlength='2' style='width:50px;'> min\n";
 echo "  </td>\n";
-echo "  <td class='windowbg1' style='text-align:center !important'>\n";
-echo "   <input type='number' name='" . ($lastid + 1) . "_id_iw' value='0' min='0' size='5' maxlength='5' style='width:50px; text-align:right;'>\n";
+echo "  <td class='windowbg1 center'>\n";
+echo "   <input type='number' name='" . ($lastid + 1) . "_id_iw' value='0' min='0' size='5' maxlength='5' style='width:50px;'>\n";
 echo "  </td>\n";
 echo "  <td class='windowbg1'>\n";
 echo "   <select name='" . ($lastid + 1) . "_bild'>\n";
@@ -213,7 +213,7 @@ echo "</tbody>\n";
 
 echo "<tfoot>\n";
 echo " <tr>\n";
-echo "  <td class='windowbg2' colspan='7' style='text-align:center !important'>\n";
+echo "  <td class='windowbg2 center' colspan='7'>\n";
 echo "   <input type='submit' value='speichern' name='B2' class='submit'>\n";
 echo "  </td>\n";
 echo " </tr>\n";
@@ -229,10 +229,10 @@ $result = $db->db_query($sql)
 
 while ($row = $db->db_fetch_array($result)) {
     echo "<form method='POST' action='index.php?action=admin&uaction=gebaeude&sid=" . $sid . "' enctype='multipart/form-data'>\n";
-    echo "<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 90%;'>\n";
+    echo "<table class='table_format' style='width: 90%;'>\n";
     echo "<thead>\n";
     echo " <tr>\n";
-    echo "  <td class='titlebg' style='text-align:center !important' colspan='7'>\n";
+    echo "  <td class='titlebg center' colspan='7'>\n";
     echo "    <b>" . (empty($row['category']) ? "Sonstige" : $row['category']) . "</b>\n";
     echo "  </td>\n";
     echo " </tr>\n";
@@ -262,7 +262,7 @@ while ($row = $db->db_fetch_array($result)) {
 
         echo "<tbody>\n";
         echo " <tr>\n";
-        echo "  <td class='windowbg1' style='text-align:center !important'>\n";
+        echo "  <td class='windowbg1 center'>\n";
         echo "  Ausblenden:  <input type='checkbox' name='" . $row_gebaeude['id'] . "_inactive' value='1'" . (($row_gebaeude['inactive']) ? " checked" : "") . ">\n";
         echo "  Löschen:  <input type='checkbox' name='" . $row_gebaeude['id'] . "_delete' onclick='return confirmlink(this, 'Möchten sie dieses Gebäude wirklich löschen?')' value='1'>\n";
         echo "  </td>\n";
@@ -275,21 +275,21 @@ while ($row = $db->db_fetch_array($result)) {
         echo "   <input type='text' name='" . $row_gebaeude['id'] . "_category' value='" . $row_gebaeude['category'] . "' maxlength='50' size='22'>\n";
         echo "  </td>\n";
 
-        echo "  <td class='windowbg1' style='text-align:center !important;'>\n";
-        echo "    <input type='number' name='" . $row_gebaeude['id'] . "_idcat' value='" . $row_gebaeude['idcat'] . "' min='0' maxlength='5' style='width:50px; text-align:right;'>\n";
+        echo "  <td class='windowbg1 center'>\n";
+        echo "    <input type='number' name='" . $row_gebaeude['id'] . "_idcat' value='" . $row_gebaeude['idcat'] . "' min='0' maxlength='5' style='width:50px;'>\n";
         echo "  </td>\n";
 
-        echo "  <td class='windowbg1' style='text-align:left !important;'>\n";
-        echo "    <input type='number' name='" . $row_gebaeude['id'] . "_dauer_d' value='" . $dauer['d'] . "' min='0' maxlength='2' style='width:50px; text-align:right;'> Tage<br>\n";
-        echo "    <input type='number' name='" . $row_gebaeude['id'] . "_dauer_h' value='" . $dauer['h'] . "' min='0' maxlength='2' style='width:50px; text-align:right;'> h\n";
-        echo "    <input type='number' name='" . $row_gebaeude['id'] . "_dauer_m' value='" . $dauer['m'] . "' min='0' maxlength='2' style='width:50px; text-align:right;'> min\n";
+        echo "  <td class='windowbg1 left'>\n";
+        echo "    <input type='number' name='" . $row_gebaeude['id'] . "_dauer_d' value='" . $dauer['d'] . "' min='0' maxlength='2' style='width:50px;'> Tage<br>\n";
+        echo "    <input type='number' name='" . $row_gebaeude['id'] . "_dauer_h' value='" . $dauer['h'] . "' min='0' maxlength='2' style='width:50px;'> h\n";
+        echo "    <input type='number' name='" . $row_gebaeude['id'] . "_dauer_m' value='" . $dauer['m'] . "' min='0' maxlength='2' style='width:50px;'> min\n";
         echo "  </td>\n";
 
-        echo "  <td class='windowbg1' style='text-align:center !important;'>\n";
-        echo "    <input type='number' name='" . $row_gebaeude['id'] . "_id_iw' value='" . $row_gebaeude['id_iw'] . "' min='0' maxlength='5' style='width:50px; text-align:right;'>\n";
+        echo "  <td class='windowbg1 center'>\n";
+        echo "    <input type='number' name='" . $row_gebaeude['id'] . "_id_iw' value='" . $row_gebaeude['id_iw'] . "' min='0' maxlength='5' style='width:50px;'>\n";
         echo "  </td>\n";
 
-        echo "  <td class='windowbg1' style='text-align:middle !important;'>\n";
+        echo "  <td class='windowbg1 center'>\n";
         echo "    <img src='" . $bild_url . "' width='50' height='50'>\n";
         echo "    <select name='" . $row_gebaeude['id'] . "_bild'>\n";
         foreach ($gebpictures as $key => $data) {
@@ -307,7 +307,7 @@ while ($row = $db->db_fetch_array($result)) {
 
     echo "<tfoot>\n";
     echo " <tr>\n";
-    echo "  <td class='windowbg2' colspan='7' style='text-align:center !important;'>\n";
+    echo "  <td class='windowbg2 center' colspan='7'>\n";
     echo "   <input type='submit' value='speichern' name='editgebaude' class='submit'>\n";
     echo "  </td>\n";
     echo " </tr>\n";

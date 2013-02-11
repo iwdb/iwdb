@@ -68,10 +68,10 @@ if ((isset($login_id)) && ($login_ok === false) && ($action != "memberlogout2"))
         </tr>
         <tr>
             <td class='windowbg2'>Eingeloggt bleiben?</td>
-            <td class='windowbg1' align='center'><input type='checkbox' name='login_cookie' value='1'></td>
+            <td class='windowbg1 center'><input type='checkbox' name='login_cookie' value='1'></td>
         </tr>
         <tr>
-            <td class='titlebg' align='center' colspan='2'><input type='submit' value='lass mich rein' name='B1' class='submit'></td>
+            <td class='titlebg center' colspan='2'><input type='submit' value='lass mich rein' name='B1' class='submit'></td>
         </tr>
     </table>
 </form>

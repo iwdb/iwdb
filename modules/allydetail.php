@@ -283,12 +283,12 @@ if (!empty($allianz)) {
         //allgemeines
 
         start_table();
-        start_row("titlebg", "style='width:95%' align='center' colspan='4'");
+        start_row("titlebg center", "style='width:95%' colspan='4'");
         echo "<b>Allgemeine Informationen</b>";
-        next_row("windowbg2", "style='width:25%' align='left'");
+        next_row("windowbg2 left", "style='width:25%'");
 
         echo "Allianz-Tag";
-        next_cell("windowbg1", "style='width:25%' align='left'");
+        next_cell("windowbg1 left", "style='width:25%'");
         if (empty($allianz)) {
             echo '<i>Solo</i>';
         } elseif ($allianz == '%') {
@@ -297,93 +297,93 @@ if (!empty($allianz)) {
             echo $allianz;
         }
 
-        next_cell("windowbg2", "style='width:25%' align='left'");
+        next_cell("windowbg2 left", "style='width:25%'");
         echo "Kolonien";
-        next_cell("windowbg1", "style='width:25%' align='left'");
+        next_cell("windowbg1 left", "style='width:25%'");
         echo $plancount;
 
-        next_row("windowbg2", "style='width:25%' align='left'");
+        next_row("windowbg2 left", "style='width:25%'");
         echo "diplomatischer Status";
-        next_cell("windowbg1", "style='width:25%; text-align:left; $bgcolor'");
+        next_cell("windowbg1 left", "style='width:25%; $bgcolor'");
         if ($status === 'keiner') {
             echo "<i>keiner</i>";
         } else {
             echo $status;
         }
 
-        next_cell("windowbg2", "style='width:25%' align='left'");
+        next_cell("windowbg2 left", "style='width:25%'");
         echo "Kolonisierte Steinklumpen";
-        next_cell("windowbg1", "style='width:25%' align='left'");
+        next_cell("windowbg1 left", "style='width:25%'");
         echo ($steinis + $chaosgalasteinies) . " (" . $steinis . "+" . $chaosgalasteinies . ")";
 
-        next_row("windowbg2", "style='width:25%' align='left'");
+        next_row("windowbg2 left", "style='width:25%'");
         echo "Mitgliederzahl";
-        next_cell("windowbg1", "style='width:25%' align='left'");
+        next_cell("windowbg1 left", "style='width:25%'");
         echo $allianzSpieler['gesamt'];
 
-        next_cell("windowbg2", "style='width:25%' align='left'");
+        next_cell("windowbg2 left", "style='width:25%'");
         echo "Kolonisierte Asteroiden";
-        next_cell("windowbg1", "style='width:25%' align='left'");
+        next_cell("windowbg1 left", "style='width:25%'");
         echo $astros;
 
-        next_row("windowbg2", "style='width:25%' align='left'");
+        next_row("windowbg2 left", "style='width:25%'");
         echo "unbekannte Staatsform";
-        next_cell("windowbg1", "style='width:25%' align='left'");
+        next_cell("windowbg1 left", "style='width:25%'");
         echo $allianzSpieler['unbekannt'];
 
-        next_cell("windowbg2", "style='width:25%' align='left'");
+        next_cell("windowbg2 left", "style='width:25%'");
         echo "Kolonisierte Gasriesen";
-        next_cell("windowbg1", "style='width:25%' align='left'");
+        next_cell("windowbg1 left", "style='width:25%'");
         echo $gasis;
 
-        next_row("windowbg2", "style='width:25%' align='left'");
+        next_row("windowbg2 left", "style='width:25%'");
         echo "Barbaren";
-        next_cell("windowbg1", "style='width:25%' align='left'");
+        next_cell("windowbg1 left", "style='width:25%'");
         echo $allianzSpieler['Barbaren'];
 
-        next_cell("windowbg2", "style='width:25%' align='left'");
+        next_cell("windowbg2 left", "style='width:25%'");
         echo "Kolonisierte Eisplaneten";
-        next_cell("windowbg1", "style='width:25%' align='left'");
+        next_cell("windowbg1 left", "style='width:25%'");
         echo $eisis;
 
-        next_row("windowbg2", "style='width:25%' align='left'");
+        next_row("windowbg2 left", "style='width:25%'");
         echo "Diktatoren";
-        next_cell("windowbg1", "style='width:25%' align='left'");
+        next_cell("windowbg1 left", "style='width:25%'");
         echo $allianzSpieler['Diktatoren'];
 
-        next_cell("windowbg2", "style='width:25%' align='left'");
+        next_cell("windowbg2 left", "style='width:25%'");
         echo "Planeten pro Mitglied";
-        next_cell("windowbg1", "style='width:25%' align='left'");
+        next_cell("windowbg1 left", "style='width:25%'");
         echo number_format($planimem, 2, ",", ".");
 
-        next_row("windowbg2", "style='width:25%' align='left'");
+        next_row("windowbg2 left", "style='width:25%'");
         echo "Monarchen";
-        next_cell("windowbg1", "style='width:25%' align='left'");
+        next_cell("windowbg1 left", "style='width:25%'");
         echo $allianzSpieler['Monarchen'];
 
-        next_cell("windowbg2", "style='width:25%' align='left'");
+        next_cell("windowbg2 left", "style='width:25%'");
         echo "Sammelbasen";
-        next_cell("windowbg1", "style='width:25%' align='left'");
+        next_cell("windowbg1 left", "style='width:25%'");
         echo $Sammelbasen;
 
-        next_row("windowbg2", "style='width:25%' align='left'");
+        next_row("windowbg2 left", "style='width:25%'");
         echo "Kommunisten";
-        next_cell("windowbg1", "style='width:25%' align='left'");
+        next_cell("windowbg1 left", "style='width:25%'");
         echo $allianzSpieler['Kommunisten'];
 
-        next_cell("windowbg2", "style='width:25%' align='left'");
+        next_cell("windowbg2 left", "style='width:25%'");
         echo "Kampfbasen";
-        next_cell("windowbg1", "style='width:25%' align='left'");
+        next_cell("windowbg1 left", "style='width:25%'");
         echo $Kampfbasen;
 
-        next_row("windowbg2", "style='width:25%' align='left'");
+        next_row("windowbg2 left", "style='width:25%'");
         echo "Demokraten";
-        next_cell("windowbg1", "style='width:25%' align='left'");
+        next_cell("windowbg1 left", "style='width:25%'");
         echo $allianzSpieler['Demokraten'];
 
-        next_cell("windowbg2", "style='width:25%' align='left'");
+        next_cell("windowbg2 left", "style='width:25%'");
         echo "Artefaktbasen";
-        next_cell("windowbg1", "style='width:25%' align='left'");
+        next_cell("windowbg1 left", "style='width:25%'");
         echo $Artefaktbasen;
 
         end_row();
@@ -392,16 +392,16 @@ if (!empty($allianz)) {
 
         //Karte der Verteilung
         start_table();
-        start_row("titlebg", "style='width:95%' align='center' colspan='" . (ceil($config_map_system_max / $rangewidth) + 1) . "'");
+        start_row("titlebg center", "style='width:95%' colspan='" . (ceil($config_map_system_max / $rangewidth) + 1) . "'");
         echo "<b>Verteilungskarte</b>";
-        next_row("windowbg2", "style='width:5%' align='left'");
+        next_row("windowbg2 left", "style='width:5%'");
         echo " ";
         $width = floor(95 / ($config_map_system_max / $rangewidth));
         for ($range = 1; $range <= ceil($config_map_system_max / $rangewidth) - 1; $range++) {
-            next_cell("windowbg2", "style='width:$width%' align='center'");
+            next_cell("windowbg2 center", "style='width:$width%'");
             echo $range * $rangewidth - $rangewidth + 1 . "-" . $range * $rangewidth;
         }
-        next_cell("windowbg2", "style='width:$width%' align='center'"); //letzte Spalte
+        next_cell("windowbg2 center", "style='width:$width%'"); //letzte Spalte
         echo ceil($config_map_system_max / $rangewidth) * $rangewidth - $rangewidth + 1 . "-$config_map_system_max";
 
         foreach ($planicount as $gala => $pcount) {
@@ -433,23 +433,23 @@ if (!empty($allianz)) {
         if (!empty($allianz) and $allianz !== '%' AND !empty($player)) {
 
             start_table();
-            start_row("titlebg", "style='width:95%' align='center' colspan='4'");
+            start_row("titlebg center", "style='width:95%' colspan='4'");
             echo "<b>Spieler</b>";
 
-            next_row("windowbg2", "style='width:15%' align='center'");
+            next_row("windowbg2 center", "style='width:15%'");
             echo "Username";
 
-            next_cell("windowbg2", "style='width:40%' align='center'");
+            next_cell("windowbg2 center", "style='width:40%'");
             echo "Kolonien";
 
-            next_cell("windowbg2", "style='width:20%' align='center'");
+            next_cell("windowbg2 center", "style='width:20%'");
             echo "Sammelbasen";
 
-            next_cell("windowbg2", "style='width:20%' align='center'");
+            next_cell("windowbg2 center", "style='width:20%'");
             echo "Kampfbasen";
 
             foreach ($player as $playername => $planis) {
-                next_row("windowbg3", "style='width:22%' align='center'");
+                next_row("windowbg3 center", "style='width:22%'");
 
                 $sql = "SELECT `staatsform`,`allianzrang`,`Hauptplanet`,`acctype`,`status`,`ges_pkt` FROM `{$db_tb_spieler}` WHERE `name` = '" . $playername . "';";
                 $result = $db->db_query($sql)
@@ -512,7 +512,7 @@ if (!empty($allianz)) {
                 if (!empty($player[$playername]['Sammelbasis'])) {
                     start_table(100);
                     foreach ($player[$playername]['Sammelbasis'] as $planidata) {
-                        start_row("windowbg1", "style='width:100%' align='left'");
+                        start_row("windowbg1 left", "style='width:100%'");
                         echo $planidata['coordshtml'];
                         end_row();
                     }
@@ -524,7 +524,7 @@ if (!empty($allianz)) {
                 if (!empty($player[$playername]['Kampfbasis'])) {
                     start_table(100);
                     foreach ($player[$playername]['Kampfbasis'] as $planidata) {
-                        start_row("windowbg1", "style='width:100%' align='left'");
+                        start_row("windowbg1 "style='width:100%'", left");
                         echo $planidata['coordshtml'];
                         end_row();
                     }
@@ -541,32 +541,32 @@ if (!empty($allianz)) {
             //spezialplaniübersicht
             if (!empty($spezialplanie)) {
                 start_table();
-                start_row("titlebg", "style='width:95%' align='center' colspan='4'");
+                start_row("titlebg center", "style='width:95%' colspan='4'");
                 echo '<b>Spezialplanetenübersicht</b>';
-                next_row("windowbg2", "style='width:13%' align='center'");
+                next_row("windowbg2 center", "style='width:13%'");
                 echo 'Galaxie';
-                next_cell("windowbg2", "style='width:29%' align='center'");
+                next_cell("windowbg2 center", "style='width:29%'");
                 echo '<span class="doc_green">Gasriesen</span>';
-                next_cell("windowbg2", "style='width:29%' align='center'");
+                next_cell("windowbg2 center", "style='width:29%'");
                 echo '<span class="doc_red">Asteroiden</span>';
-                next_cell("windowbg2", "style='width:29%' align='center'");
+                next_cell("windowbg2 center", "style='width:29%'");
                 echo '<span class="doc_blue">Eisplaneten</span>';
                 foreach ($spezialplanie as $gala => $plaar) {
-                    next_row("windowbg3", "style='width:13%' align='center'");
+                    next_row("windowbg3 center", "style='width:13%''");
                     echo "Gala $gala";
-                    next_cell("windowbg1", "style='width:29%' align='left'");
+                    next_cell("windowbg1 left", "style='width:29%'");
                     if (isset($spezialplanie[$gala]['Gasgigant'])) {
                         foreach ($spezialplanie[$gala]['Gasgigant']['coords'] as $id => $pla) {
                             echo $spezialplanie[$gala]['Gasgigant']['coords'][$id] . " (" . $spezialplanie[$gala]['Gasgigant']['user'][$id] . ")<br>";
                         }
                     }
-                    next_cell("windowbg1", "style='width:29%' align='left'");
+                    next_cell("windowbg1 left", "style='width:29%'");
                     if (isset($spezialplanie[$gala]['Asteroid'])) {
                         foreach ($spezialplanie[$gala]['Asteroid']['coords'] as $id => $pla) {
                             echo $spezialplanie[$gala]['Asteroid']['coords'][$id] . " (" . $spezialplanie[$gala]['Asteroid']['user'][$id] . ")<br>";
                         }
                     }
-                    next_cell("windowbg1", "style='width:29%' align='left'");
+                    next_cell("windowbg1 left", "style='width:29%'");
                     if (isset($spezialplanie[$gala]['Eisplanet'])) {
                         foreach ($spezialplanie[$gala]['Eisplanet']['coords'] as $id => $pla) {
                             echo $spezialplanie[$gala]['Eisplanet']['coords'][$id] . " (" . $spezialplanie[$gala]['Eisplanet']['user'][$id] . ")<br>";

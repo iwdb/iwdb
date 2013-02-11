@@ -99,9 +99,9 @@ if (!isset($sitterschleife)) {
 
     doc_title('Neuer Bericht');
     echo "<form method='POST' action='index.php?action=newscan&sid=" . $sid . "' enctype='multipart/form-data'>\n";
-    echo "<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 90%;'>\n";
+    echo "<table class='table_format' style='width: 90%;'>\n";
     echo " <tr>\n";
-    echo "  <td class='windowbg2' align='center'>\n";
+    echo "  <td class='windowbg2 center'>\n";
 
     global $user_status, $user_sitten;
 
@@ -170,7 +170,7 @@ if (!isset($sitterschleife)) {
     echo "  </td>\n";
     echo " </tr>\n";
     echo " <tr>\n";
-    echo "  <td class='titlebg' align='center'>\n";
+    echo "  <td class='titlebg center'>\n";
     echo "   <input type='submit' value='abspeichern' name='B1' class='submit'>\n";
     echo "  </td>\n";
     echo " </tr>\n";
@@ -264,7 +264,7 @@ if (!empty($textinput)) {
     //! Anzeige für den Spieler ...
     if ($count > 0) {
         if ($count > 1) {
-            echo "<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 90%;'>\n";
+            echo "<table class='table_format' style='width: 90%;'>\n";
             echo "  <tr><td colspan='2' class='windowbg2' style='font-size: 18px;'>Zusammenfassung</td></tr>\n";
         }
         foreach ($parser as $key => $value) {

@@ -469,7 +469,7 @@ if ($newpreset == 1) {
                 </tr>
                 <?php
                 if (!empty($withoutscan)) {
-                    echo '<tr><td style="text-align: center;">Typ: ';
+                    echo '<tr><td class="center">Typ: ';
                     echo '<select name="typ">';
                     echo '<option value="%" selected>Alle</option>';
                     echo '<option value="Steinklumpen">Steinklumpen</option>';

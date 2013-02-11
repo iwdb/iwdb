@@ -214,23 +214,23 @@ start_row("titlebg", "align='center' colspan='6'");
 echo "<b>Sondierungen</b>";
 next_row("titlebg", "nowrap style='width:0%' align='center' ");
 echo "<b>Wer wird sondiert?</b>";
-next_cell("titlebg", "nowrap style='width:0%' align='center'");
+next_cell("titlebg center", "nowrap style='width:0%'");
 echo "<b>Zielplanet</b>";
-next_cell("titlebg", "nowrap style='width:0%' align='center'");
+next_cell("titlebg center", "nowrap style='width:0%'");
 echo "<b>Wer sondiert?</b>";
-next_cell("titlebg", "nowrap style='width:0%' align='center'");
+next_cell("titlebg center", "nowrap style='width:0%'");
 echo "<b>Von wo wird sondiert?</b>";
-next_cell("titlebg", "nowrap style='width:0%' align='center'");
+next_cell("titlebg center", "nowrap style='width:0%'");
 echo "<b>Zeitpunkt</b>";
-next_cell("titlebg", "nowrap style='width:0%' align='center'");
+next_cell("titlebg center", "nowrap style='width:0%'");
 echo "<b>Art der Sondierung</b>";
 
 while ($row = $db->db_fetch_array($result)) {
 
-    next_row("windowbg1", "nowrap style='width:0%' align='left'");
+    next_row("windowbg1 left", "nowrap style='width:0%'");
     echo $row['name_to'];
 
-    next_cell("windowbg1", "nowrap style='width:0%' align='left'");
+    next_cell("windowbg1 left", "nowrap style='width:0%'");
     $objekt = GetObjectByCoords($row['koords_to']);
     if ($objekt == 'Kolonie') {
         echo "<img src='bilder/kolo.png'>";
@@ -243,14 +243,14 @@ while ($row = $db->db_fetch_array($result)) {
     }
     echo $row['koords_to'];
 
-    next_cell("windowbg1", "nowrap style='width:0%' align='center'");
+    next_cell("windowbg1 center", "nowrap style='width:0%'");
     if (!empty($row['allianz_from'])) {
         echo ($row['name_from'] . " [" . $row['allianz_from'] . "]");
     } else {
         echo $row['name_from'];
     }
 
-    next_cell("windowbg1", "nowrap style='width:0%' align='center'");
+    next_cell("windowbg1 center", "nowrap style='width:0%'");
     $objekt = GetObjectByCoords($row['koords_from']);
     if ($objekt == 'Kolonie') {
         echo "<img src='bilder/kolo.png'>";
@@ -263,10 +263,10 @@ while ($row = $db->db_fetch_array($result)) {
     }
     echo $row['koords_from'];
 
-    next_cell("windowbg1", "nowrap style='width:0%' align='center'");
+    next_cell("windowbg1 center", "nowrap style='width:0%'");
     echo strftime("%d.%m.%y %H:%M:%S", $row['timestamp']);
 
-    next_cell("windowbg1", "nowrap style='width:0%' align='center'");
+    next_cell("windowbg1 center", "nowrap style='width:0%'");
     echo $row['art'];
 
 }
@@ -284,25 +284,25 @@ $data = array();
 
 //Tabelle für die Angriffe	
 start_table();
-start_row("titlebg", "align='center' colspan='5'");
+start_row("titlebg center", "colspan='5'");
 echo "<b>Angriffe</b>";
-next_row("titlebg", "nowrap style='width:0%' align='center'");
+next_row("titlebg center");
 echo "<b>Wer wird angegriffen?</b>";
-next_cell("titlebg", "nowrap style='width:0%' align='center'");
+next_cell("titlebg center");
 echo "<b>Zielplanet</b>";
-next_cell("titlebg", "nowrap style='width:0%' align='center'");
+next_cell("titlebg center");
 echo "<b>Wer greift an?</b>";
-next_cell("titlebg", "nowrap style='width:0%' align='center'");
+next_cell("titlebg center");
 echo "<b>Von wo wird angegriffen?</b>";
-next_cell("titlebg", "nowrap style='width:0%' align='center'");
+next_cell("titlebg center");
 echo "<b>Zeitpunkt</b>";
 
 while ($row = $db->db_fetch_array($result)) {
 
-    next_row("windowbg1", "nowrap style='width:0%' align='center'");
+    next_row("windowbg1 center");
     echo $row['name_to'];
 
-    next_cell("windowbg1", "nowrap style='width:0%' align='center'");
+    next_cell("windowbg1 center");
     $objekt = GetObjectByCoords($row['koords_to']);
     if ($objekt == 'Kolonie') {
         echo "<img src='bilder/kolo.png'>";
@@ -315,14 +315,14 @@ while ($row = $db->db_fetch_array($result)) {
     }
     echo $row['koords_to'];
 
-    next_cell("windowbg1", "nowrap style='width:0%' align='center'");
+    next_cell("windowbg1 center");
     if (!empty($row['allianz_from'])) {
         echo ($row['name_from'] . " [" . $row['allianz_from'] . "]");
     } else {
         echo $row['name_from'];
     }
 
-    next_cell("windowbg1", "nowrap style='width:0%' align='center'");
+    next_cell("windowbg1 center");
     $objekt = GetObjectByCoords($row['koords_from']);
     if ($objekt == 'Kolonie') {
         echo "<img src='bilder/kolo.png'>";
@@ -335,7 +335,7 @@ while ($row = $db->db_fetch_array($result)) {
     }
     echo $row['koords_from'];
 
-    next_cell("windowbg1", "nowrap style='width:0%' align='center'");
+    next_cell("windowbg1 center");
     echo strftime("%d.%m.%y %H:%M:%S", $row['timestamp']);
 }
 end_row();
@@ -346,13 +346,13 @@ echo " 	 <br />\n";
 
 //Legende, weil es immer noch IW-Spieler gibt, die nichts mit den Symbolen anfangen können 
 start_table();
-start_row("windowbg1", "nowrap style='width:0%' align='center'");
+start_row("windowbg1 center");
 echo "<img src='bilder/kolo.png'> = Kolonie";
-next_cell("windowbg1", "nowrap style='width:0%' align='center'");
+next_cell("windowbg1 center");
 echo "<img src='bilder/ress_basis.png'> = Ressourcensammelbasis";
-next_cell("windowbg1", "nowrap style='width:0%' align='center'");
+next_cell("windowbg1 center");
 echo "<img src='bilder/artefakt_basis.png'> = Artefaktsammelbasis";
-next_cell("windowbg1", "nowrap style='width:0%' align='center'");
+next_cell("windowbg1 center");
 echo "<img src='bilder/kampf_basis.png'> = Kampfbasis";
 end_row();
 end_table();

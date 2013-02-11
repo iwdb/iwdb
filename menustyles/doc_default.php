@@ -44,7 +44,7 @@ function doc_message($text)
 
 //******************************************************************************
 //
-function start_table($width = 90, $border = 0, $cellpadding = 4, $cellspacing = 1, $class = "bordercolor")
+function start_table($width = 90, $border = 0, $cellpadding = 4, $cellspacing = 1, $class = "table_format")
 {
     echo "<table border='" . $border . "' " .
         "cellpadding='" . $cellpadding . "' " .

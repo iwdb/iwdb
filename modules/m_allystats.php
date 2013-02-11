@@ -507,7 +507,7 @@ if ($i === 0) {
     echo "</div>";
 
     start_table();
-    start_row("titlebg", "style='width:95%' align='center' colspan='11'");
+    start_row("titlebg center", "style='width:95%' colspan='11'");
 
     if (($galamin == $config_map_galaxy_min) and ($galamax == $config_map_galaxy_max)) {
         echo "  <b>Bekanntes Hasiversum</b>\n";
@@ -517,37 +517,37 @@ if ($i === 0) {
         echo "  <b>Galaxien " . $galamin . " bis " . $galamax . "</b>\n";
     }
 
-    next_row("windowbg2", "style='width:5%' align='center'");
+    next_row("windowbg2 center", "style='width:5%'");
     echo "<b>Rang</b>";
 
-    next_cell("windowbg2", "style='width:10%' align='center'");
+    next_cell("windowbg2 center", "style='width:10%'");
     echo "<b>Allianz</b>";
 
-    next_cell("windowbg2", "style='width:8%' align='center'");
+    next_cell("windowbg2 center", "style='width:8%'");
     echo "<b>Spieler</b>";
 
-    next_cell("windowbg2", "style='width:8%' align='center'");
+    next_cell("windowbg2 center", "style='width:8%'");
     echo "<b>Kolonien</b>";
 
-    next_cell("windowbg2", "style='width:8%' align='center'");
+    next_cell("windowbg2 center", "style='width:8%'");
     echo "<b>Kolonien&nbsp;/<br \>Spieler</b>";
 
-    next_cell("windowbg2", "style='width:8%' align='center'");
+    next_cell("windowbg2 center", "style='width:8%'");
     echo "<b>Kolos&nbsp;auf<br \>Steinies</b>";
 
-    next_cell("windowbg2", "style='width:8%' align='center'");
+    next_cell("windowbg2 center", "style='width:8%'");
     echo "<b>Kolos&nbsp;auf Asties&nbsp;&nbsp;&nbsp;</b>";
 
-    next_cell("windowbg2", "style='width:8%' align='center'");
+    next_cell("windowbg2 center", "style='width:8%'");
     echo "<b>Kolos&nbsp;auf<br \>Gasis</b>";
 
-    next_cell("windowbg2", "style='width:8%' align='center'");
+    next_cell("windowbg2 center", "style='width:8%'");
     echo "<b>Kolos&nbsp;auf<br \>Eisis&nbsp;&nbsp;</b>";
 
-    next_cell("windowbg2", "style='width:8%' align='center'");
+    next_cell("windowbg2 center", "style='width:8%'");
     echo "<b>KB</b>";
 
-    next_cell("windowbg2", "style='width:8%' align='center'");
+    next_cell("windowbg2 center", "style='width:8%'");
     echo "<b>SB</b>";
 
     $i = 0;
@@ -572,43 +572,43 @@ if ($i === 0) {
                 $bgcolor = '';
             }
             if ($i % 2) {
-                $style = "windowbg1";
-                next_row("windowbg2", "style='width:5%; text-align:center; $bgcolor'");
+                $style = "windowbg1 right";
+                next_row("windowbg2 center", "style='width:5%; $bgcolor'");
             } else {
-                $style = "windowbg3";
-                next_row("windowbg2", "style='width:5%; text-align:center; $bgcolor'");
+                $style = "windowbg3 right";
+                next_row("windowbg2 center", "style='width:5%; $bgcolor'");
             }
 
             echo "$i.";
 
-            next_cell($style, "style='width:10%; text-align:right; $bgcolor'");
+            next_cell($style, "style='width:10%; $bgcolor'");
             echo $allylink;
 
-            next_cell($style, "style='width:8%; text-align:right; $bgcolor'");
+            next_cell($style, "style='width:8%; $bgcolor'");
             echo  $Alliestats['Spieler'];
 
-            next_cell($style, "style='width:8%; text-align:right; $bgcolor'");
+            next_cell($style, "style='width:8%; $bgcolor'");
             echo  $Alliestats['Kolonien'];
 
-            next_cell($style, "style='width:8%; text-align:right; $bgcolor'");
+            next_cell($style, "style='width:8%; $bgcolor'");
             echo  $Alliestats['KpS'];
 
-            next_cell($style, "style='width:8%; text-align:right; $bgcolor'");
+            next_cell($style, "style='width:8%; $bgcolor'");
             echo  $Alliestats['KoloSteinklumpen'];
 
-            next_cell($style, "style='width:8%; text-align:right; $bgcolor'");
+            next_cell($style, "style='width:8%; $bgcolor'");
             echo  $Alliestats['KoloAstroiden'];
 
-            next_cell($style, "style='width:8%; text-align:right; $bgcolor'");
+            next_cell($style, "style='width:8%; $bgcolor'");
             echo  $Alliestats['KoloGasgiganten'];
 
-            next_cell($style, "style='width:8%; text-align:right; $bgcolor'");
+            next_cell($style, "style='width:8%; $bgcolor'");
             echo  $Alliestats['KoloEisplaneten'];
 
-            next_cell($style, "style='width:8%; text-align:right; $bgcolor'");
+            next_cell($style, "style='width:8%; $bgcolor'");
             echo  $Alliestats['Kampfbasen'];
 
-            next_cell($style, "style='width:8%; text-align:right; $bgcolor'");
+            next_cell($style, "style='width:8%; $bgcolor'");
             echo  $Alliestats['Sammelbasen'];
 
         }

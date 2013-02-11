@@ -216,39 +216,39 @@ ein Feld zu schreiben, prefix_raidview.summe (ist schon erstellt) und dann auszu
 */
 
 start_table();
-start_row("titlebg", "style='width:10%' align='center'colspan='3'");
+start_row("titlebg center", "style='width:10%' colspan='3'");
 
 echo "<b>User</b>";
 
-next_cell("titlebg", "style='width:10%' align='center'");
+next_cell("titlebg center", "style='width:10%'");
 
 echo "<b>Raids</b>";
 
-next_cell("titlebg", "style='width:10%' align='center'");
+next_cell("titlebg center", "style='width:10%'");
 
 echo "<b>Eisen</b>";
 
-next_cell("titlebg", "style='width:10%' align='center'");
+next_cell("titlebg center", "style='width:10%'");
 
 echo "<b>Stahl</b>";
 
-next_cell("titlebg", "style='width:10%' align='center'");
+next_cell("titlebg center", "style='width:10%'");
 
 echo "<b>VV4A</b>";
 
-next_cell("titlebg", "style='width:10%' align='center'");
+next_cell("titlebg center", "style='width:10%'");
 
 echo "<b>Chemie</b>";
 
-next_cell("titlebg", "style='width:10%' align='center'");
+next_cell("titlebg center", "style='width:10%'");
 
 echo "<b>Eis</b>";
 
-next_cell("titlebg", "style='width:10%' align='center'");
+next_cell("titlebg center", "style='width:10%'");
 
 echo "<b>Wasser</b>";
 
-next_cell("titlebg", "style='width:10%' align='center'");
+next_cell("titlebg center", "style='width:10%'");
 
 echo "<b>Energie</b>";
 
@@ -371,15 +371,15 @@ while ($row = $db->db_fetch_array($result2)) {
     echo number_format($eisen, 0, ',', '.'), " <br> ", '<font color="red">', number_format($v_eisen, 0, ',', '.'), '</font>', " <br> ", '<font color="green">', number_format(($eisen - $v_eisen), 0, ',', '.');
     next_cell("windowbg1", "align='right'");
     echo number_format($stahl, 0, ',', '.'), " <br> ", '<font color="red">', number_format($v_stahl, 0, ',', '.'), " <br> ", '<font color="green">', number_format(($stahl - $v_stahl), 0, ',', '.');
-    next_cell("windowbg1", "style='width:10%' align='right'");
+    next_cell("windowbg1 right", "style='width:10%'");
     echo number_format($vv4a, 0, ',', '.'), " <br> ", '<font color="red">', number_format($v_vv4a, 0, ',', '.'), " <br> ", '<font color="green">', number_format(($vv4a - $v_vv4a), 0, ',', '.');
-    next_cell("windowbg1", "style='width:10%' align='right'");
+    next_cell("windowbg1 right", "style='width:10%'");
     echo number_format($chem, 0, ',', '.'), " <br> ", '<font color="red">', number_format($v_chem, 0, ',', '.'), " <br> ", '<font color="green">', number_format(($chem - $v_chem), 0, ',', '.');
-    next_cell("windowbg1", "style='width:10%' align='right'");
+    next_cell("windowbg1 right", "style='width:10%'");
     echo number_format($eis, 0, ',', '.'), " <br> ", '<font color="red">', number_format($v_eis, 0, ',', '.'), " <br> ", '<font color="green">', number_format(($eis - $v_eis), 0, ',', '.');
-    next_cell("windowbg1", "style='width:10%' align='right'");
+    next_cell("windowbg1 right", "style='width:10%'");
     echo number_format($wasser, 0, ',', '.'), " <br> ", '<font color="red">', number_format($v_wasser, 0, ',', '.'), " <br> ", '<font color="green">', number_format(($wasser - $v_wasser), 0, ',', '.');
-    next_cell("windowbg1", "style='width:10%' align='right'");
+    next_cell("windowbg1 right", "style='width:10%'");
     echo number_format($energie, 0, ',', '.'), " <br> ", '<font color="red">', number_format($v_energie, 0, ',', '.'), " <br> ", '<font color="green">', number_format(($energie - $v_energie), 0, ',', '.');
 
     end_row();
@@ -390,30 +390,30 @@ while ($row = $db->db_fetch_array($result2)) {
             // user aus Tabelle holen und gruppieren
             $user = $_GET['user'];
             # start_table();
-            start_row("titlebg", "style='width:95%' align='center' colspan='12'");
+            start_row("titlebg center", "style='width:95%' colspan='12'");
             echo "<b> Raidhistory von " . $user . "</b>";
-            next_row("windowbg2", "style='width:1%' align='center'");
+            next_row("windowbg2 center", "style='width:1%'");
             echo "";
-            next_cell("windowbg2", "style='width:10%' align='center'");
+            next_cell("windowbg2 center", "style='width:10%'");
             echo "Zeit";
-            next_cell("windowbg2", "style='width:10%' align='center'");
+            next_cell("windowbg2 center", "style='width:10%'");
             echo "Opfer";
-            next_cell("windowbg2", "style='width:9%' align='center'");
+            next_cell("windowbg2 center", "style='width:9%'");
             echo "Koords";
 
-            next_cell("windowbg2", "style='width:10%' align='center'");
+            next_cell("windowbg2 center", "style='width:10%'");
             echo "Eisen";
-            next_cell("windowbg2", "style='width:10%' align='center'");
+            next_cell("windowbg2 center", "style='width:10%'");
             echo "Stahl";
-            next_cell("windowbg2", "style='width:10%' align='center'");
+            next_cell("windowbg2 center", "style='width:10%'");
             echo "VV4A";
-            next_cell("windowbg2", "style='width:10%' align='center'");
+            next_cell("windowbg2 center", "style='width:10%'");
             echo "Chemie";
-            next_cell("windowbg2", "style='width:10%' align='center'");
+            next_cell("windowbg2 center", "style='width:10%'");
             echo "Eis";
-            next_cell("windowbg2", "style='width:10%' align='center'");
+            next_cell("windowbg2 center", "style='width:10%'");
             echo "Wasser";
-            next_cell("windowbg2", "style='width:10%' align='center'");
+            next_cell("windowbg2 center", "style='width:10%'");
             echo "Energie";
 
             // Ressourcen aus raidview holen und nach Datum sortieren
@@ -461,54 +461,54 @@ while ($row = $db->db_fetch_array($result2)) {
                 $guser       = preg_replace('/\[.*\]/', '', $geraided);
                 $guser       = trim($guser);
                 if (strnatcasecmp($ruser, $geraided)) {
-                    next_row("windowbg1", "style='width:1%' align='left'");
+                    next_row("windowbg1 left", "style='width:1%'");
                     echo "<a title='Link zum externen Kampfbericht' href='" . $row['link'] . "'><img src='bilder/point.gif'/></a>";
-                    next_cell("windowbg1", "style='width:12%' align='left'");
+                    next_cell("windowbg1 left", "style='width:12%'");
                     echo strftime(CONFIG_DATETIMEFORMAT, $row['date']);
-                    next_cell("windowbg1", "style='width:10%' align='center'");
+                    next_cell("windowbg1 center", "style='width:10%'");
                     echo "<a href='index.php?action=showgalaxy&user=" . $guser . "&sid=" . $sid . "'>" . $row['geraided'] . "</a>";
-                    next_cell("windowbg1", "style='width:9%' align='right'");
+                    next_cell("windowbg1 right", "style='width:9%'");
                     echo "<a href='index.php?action=showplanet&coords=" . $row['coords'] . "&ansicht=auto&sid=" . $sid . "'>" . $row['coords'] . "</a>";
 
-                    next_cell("windowbg1", "style='width:8%' align='right'");
+                    next_cell("windowbg1 right", "style='width:8%'");
                     echo number_format($row['eisen'], 0, ',', '.'), " <br> ", '<font color="red">', number_format($row['v_eisen'], 0, ',', '.'), '</font>', " <br> ", '<font color="green">', number_format($row['g_eisen'], 0, ',', '.');
-                    next_cell("windowbg1", "style='width:8%' align='right'");
+                    next_cell("windowbg1 right", "style='width:8%'");
                     echo number_format($row['stahl'], 0, ',', '.'), " <br> ", '<font color="red">', number_format($row['v_stahl'], 0, ',', '.'), '</font>', " <br> ", '<font color="green">', number_format($row['g_stahl'], 0, ',', '.');
-                    next_cell("windowbg1", "style='width:8%' align='right'");
+                    next_cell("windowbg1 right", "style='width:8%'");
                     echo number_format($row['vv4a'], 0, ',', '.'), " <br> ", '<font color="red">', number_format($row['v_vv4a'], 0, ',', '.'), '</font>', " <br> ", '<font color="green">', number_format($row['g_vv4a'], 0, ',', '.');
-                    next_cell("windowbg1", "style='width:8%' align='right'");
+                    next_cell("windowbg1 right", "style='width:8%'");
                     echo number_format($row['chemie'], 0, ',', '.'), " <br> ", '<font color="red">', number_format($row['v_chem'], 0, ',', '.'), '</font>', " <br> ", '<font color="green">', number_format($row['g_chem'], 0, ',', '.');
-                    next_cell("windowbg1", "style='width:8%' align='right'");
+                    next_cell("windowbg1 right", "style='width:8%'");
                     echo number_format($row['eis'], 0, ',', '.'), " <br> ", '<font color="red">', number_format($row['v_eis'], 0, ',', '.'), '</font>', " <br> ", '<font color="green">', number_format($row['g_eis'], 0, ',', '.');
-                    next_cell("windowbg1", "style='width:8%' align='right'");
+                    next_cell("windowbg1 right", "style='width:8%'");
                     echo number_format($row['wasser'], 0, ',', '.'), " <br> ", '<font color="red">', number_format($row['v_wasser'], 0, ',', '.'), '</font>', " <br> ", '<font color="green">', number_format($row['g_wasser'], 0, ',', '.');
-                    next_cell("windowbg1", "style='width:8%' align='right'");
+                    next_cell("windowbg1 right", "style='width:8%'");
                     echo number_format($row['energie'], 0, ',', '.'), " <br> ", '<font color="red">', number_format($row['v_energie'], 0, ',', '.'), '</font>', " <br> ", '<font color="green">', number_format($row['g_energie'], 0, ',', '.');
 
                 } else {
                     echo "<font color=red>";
-                    next_row("windowbg1", "style='width:1%' align='left'");
+                    next_row("windowbg1 left", "style='width:1%'");
                     echo "<a title='Link zum externen Kampfbericht' href='" . $row['link'] . "'><img src='bilder/point.gif'/></a>";
-                    next_cell("windowbg1", "style='width:12%' align='left'");
+                    next_cell("windowbg1 left", "style='width:12%'");
                     echo strftime(CONFIG_DATETIMEFORMAT, $row['date']);
-                    next_cell("windowbg1", "style='width:10%' align='center'");
+                    next_cell("windowbg1 center", "style='width:10%'");
                     echo "<a href='index.php?action=showgalaxy&user=" . $guser . "&sid=" . $sid . "'>" . $row['geraided'] . "</a>";
-                    next_cell("windowbg1", "style='width:9%' align='right'");
+                    next_cell("windowbg1 right", "style='width:9%'");
                     echo "<a href='index.php?action=showplanet&coords=" . $row['coords'] . "&ansicht=auto&sid=" . $sid . "'>" . $row['coords'] . "</a>";
 
-                    next_cell("windowbg1", "style=color:#FF0000 align='right'");
+                    next_cell("windowbg1 right", "style=color:#FF0000");
                     echo number_format($row['eisen'], 0, ',', '.'), " <br> ", '<font color="red">', number_format($row['v_eisen'], 0, ',', '.'), '</font>', " <br> ", '<font color="green">', number_format($row['g_eisen'], 0, ',', '.');
-                    next_cell("windowbg1", "style=color:#FF0000 align='right'");
+                    next_cell("windowbg1 right", "style=color:#FF0000");
                     echo number_format($row['stahl'], 0, ',', '.'), " <br> ", '<font color="red">', number_format($row['v_stahl'], 0, ',', '.'), '</font>', " <br> ", '<font color="green">', number_format($row['g_stahl'], 0, ',', '.');
-                    next_cell("windowbg1", "style=color:#FF0000 align='right'");
+                    next_cell("windowbg1 right", "style=color:#FF0000");
                     echo number_format($row['vv4a'], 0, ',', '.'), " <br> ", '<font color="red">', number_format($row['v_vv4a'], 0, ',', '.'), '</font>', " <br> ", '<font color="green">', number_format($row['g_vv4a'], 0, ',', '.');
-                    next_cell("windowbg1", "style=color:#FF0000 align='right'");
+                    next_cell("windowbg1 right", "style=color:#FF0000");
                     echo number_format($row['chemie'], 0, ',', '.'), " <br> ", '<font color="red">', number_format($row['v_chem'], 0, ',', '.'), '</font>', " <br> ", '<font color="green">', number_format($row['g_chem'], 0, ',', '.');
-                    next_cell("windowbg1", "style=color:#FF0000 align='right'");
+                    next_cell("windowbg1 right", "style=color:#FF0000");
                     echo number_format($row['eis'], 0, ',', '.'), " <br> ", '<font color="red">', number_format($row['v_eis'], 0, ',', '.'), '</font>', " <br> ", '<font color="green">', number_format($row['g_eis'], 0, ',', '.');
-                    next_cell("windowbg1", "style=color:#FF0000 align='right'");
+                    next_cell("windowbg1 right", "style=color:#FF0000");
                     echo number_format($row['wasser'], 0, ',', '.'), " <br> ", '<font color="red">', number_format($row['v_wasser'], 0, ',', '.'), '</font>', " <br> ", '<font color="green">', number_format($row['g_wasser'], 0, ',', '.');
-                    next_cell("windowbg1", "style=color:#FF0000 align='right'");
+                    next_cell("windowbg1 right", "style=color:#FF0000");
                     echo number_format($row['energie'], 0, ',', '.'), " <br> ", '<font color="red">', number_format($row['v_energie'], 0, ',', '.'), '</font>', " <br> ", '<font color="green">', number_format($row['g_energie'], 0, ',', '.');
                     echo "</font>";
                 }

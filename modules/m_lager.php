@@ -1094,7 +1094,7 @@ echo "</form>\n";
 //Aktionsschaltflaechen
 echo '<div>';
 echo '<form method="POST" action="' . makeurl(array()) . '" enctype="multipart/form-data"><p>' . "\n";
-echo '<div style="width: 100%; text-align: right; margin-bottom: 6px">';
+echo '<div class= "right" style="width: 100%; margin-bottom: 6px">';
 echo '<input type="submit" name="flotteversenden" value="Flotte versenden"/>';
 echo '</div>';
 
@@ -1277,72 +1277,72 @@ echo '&nbsp;';
 next_cell("windowbg1", 'nowrap valign=top');
 echo '&nbsp;';
 foreach ($resses as $ress_einzeln) {
-    next_cell("windowbg1", 'nowrap valign=top style="text-align: right;"');
+    next_cell("windowbg1 right top");
     echo format_value($summe, $ress_einzeln, $summe[$ress_einzeln]);
 }
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
-next_cell('windowbg1', 'nowrap valign=top style="background-color: white;"');
+next_cell('windowbg1 top', 'style="background-color: white;"');
 echo '&nbsp;';
-next_row('windowbg1', 'nowrap valign=top style="background-color: white;"');
+next_row('windowbg1 top', 'style="background-color: white;"');
 echo '&nbsp;';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '<b>Überschuss</b>';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
 foreach ($resses as $ress_einzeln) {
-    next_cell("windowbg1", 'nowrap valign=top style="text-align: right;"');
+    next_cell("windowbg1 right top");
     echo format_value($summe_ueberschuss, $ress_einzeln, $summe_ueberschuss[$ress_einzeln]);
 }
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
-next_cell('windowbg1', 'nowrap valign=top style="background-color: white;"');
+next_cell('windowbg1 top', 'style="background-color: white;"');
 echo '&nbsp;';
-next_row('windowbg1', 'nowrap valign=top style="background-color: white;"');
+next_row('windowbg1 top', 'style="background-color: white;"');
 echo '&nbsp;';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '<b>Bedarf</b>';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
 foreach ($resses as $ress_einzeln) {
-    next_cell("windowbg1", 'nowrap valign=top style="text-align: right;"');
+    next_cell("windowbg1 right top");
     echo format_value($summe_bedarf, $ress_einzeln, $summe_bedarf[$ress_einzeln]);
 }
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
-next_cell('windowbg1', 'nowrap valign=top style="background-color: white;"');
+next_cell('windowbg1 top', 'style="background-color: white;"');
 echo '&nbsp;';
-next_row('windowbg1', 'style="white-space: nowrap; vertical-align: top;"');
+next_row('windowbg1 top');
 echo '&nbsp;';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '<b>Gesamt</b>';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
 foreach ($resses as $ress_einzeln) {
-    next_cell("windowbg1", 'nowrap valign=top style="text-align: right;"');
+    next_cell("windowbg1 right top");
     echo format_value($summe_diff, $ress_einzeln, $summe_diff[$ress_einzeln]);
 }
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
-next_cell('windowbg1', 'style="background-color: white; white-space: nowrap; vertical-align: top;"');
+next_cell('windowbg1 top', 'style="background-color: white;"');
 echo '&nbsp;';
 end_table();
 echo '</form>';
@@ -1351,7 +1351,7 @@ echo '</div>';
 // Legende ausgeben
 echo "
 <br>
-<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 90%;'>
+<table class='table_format' style='width: 90%;'>
 <tr style='white-space: nowrap;'>
 <td style='width: 30px; background-color: green;'></td>
 <td class='windowbg1' style='width: 70px;'>optimal</td>

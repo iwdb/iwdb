@@ -77,8 +77,7 @@ if (!empty($username)) {
                 <td class='windowbg1'><input style='width: 200px' type='text' name='username' required='required'></td>
             </tr>
             <tr>
-                <td class='titlebg' align='center' colspan='2'><input type='submit' value='OK' name='B1' class='submit'>
-                </td>
+                <td class='titlebg center' colspan='2'><input type='submit' value='OK' name='B1' class='submit'></td>
             </tr>
         </table>
         <a href='index.php'>Zurück zur Startseite</a>

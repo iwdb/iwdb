@@ -128,9 +128,9 @@ if ($galaxy < $config_map_system_max) {
 }
 echo "</div></p>";
 
-echo "<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 80%;'>\n";
+echo "<table class='table_format' style='width: 80%;'>\n";
 echo " <tr>\n";
-echo "  <td class='titlebg' align='center' colspan='" . $config_map_cols . "'>\n";
+echo "  <td class='titlebg center' colspan='" . $config_map_cols . "'>\n";
 echo "   <b>Galaxie " . $galaxy . "</b>\n";
 echo "  </td>\n";
 echo " </tr>\n";
@@ -208,10 +208,10 @@ for ($i = 1; $i <= $maxsys; $i++) {
         echo "<tr>\n";
     }
 
-    echo " <td class='windowbg1' style='width: " . floor(100 / $config_map_cols) . " %; background-color: "
+    echo " <td class='windowbg1 center' style='width: " . floor(100 / $config_map_cols) . " %; background-color: "
         . ((empty($sys[$i])) ? "#FFFFFF"
             : $sys[$i])
-        . ";' align='center'>";
+        . ";'>";
 
     if (empty($sys[$i])) {
         echo $i;
@@ -264,7 +264,7 @@ echo " </tr>\n";
 
 if ($showmembers) {
     echo " <tr>\n";
-    echo "  <td colspan='10' align='center'>Planeten mit <b><i>Wing- und Allianzmitgliedern</i></b></td>\n";
+    echo "  <td class='center' colspan='10'>Planeten mit <b><i>Wing- und Allianzmitgliedern</i></b></td>\n";
     echo " </tr>\n";
 }
 echo "</table>\n";

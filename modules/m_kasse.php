@@ -355,10 +355,10 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
     }
     $whereclause .= "1";
 
-    echo "<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 30em;'>";
+    echo "<table class='table_format' style='width: 30em;'>";
     start_row("titlebg", "style='width:40%' align='center' colspan='2'");
     echo "  <b>Wer hat Credits bekommen?</b>\n";
-    next_row("windowbg2", "style='width:60%' align='center'");
+    next_row("windowbg2 center", "style='width:60%'");
     echo "<a href='$url&order=payedto&ordered=asc'> <img src='./bilder/asc.gif' alt='asc'> </a>";
     echo "Empfänger";
     echo "<a href='$url&order=payedto&ordered=desc'> <img src='./bilder/desc.gif' alt='desc'> </a>";
@@ -372,7 +372,7 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
     while ($row = $db->db_fetch_array($result)) {
-        next_row("windowbg1", "style='width:60%' align='left'");
+        next_row("windowbg1 left", "style='width:60%'");
         echo $row['payedto'];
         next_cell("windowbg1", "align='right'");
         echo number_format($row['sumof'], 0, ',', '.');
@@ -392,10 +392,10 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
     }
     $whereclause .= "1";
 
-    echo "<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 30em;'>";
+    echo "<table class='table_format' style='width: 30em;'>";
     start_row("titlebg", "style='width:40%' align='center' colspan='2'");
     echo "  <b>Wer hat Credits ausgezahlt?</b>\n";
-    next_row("windowbg2", "style='width:60%' align='center'");
+    next_row("windowbg2 center", "style='width:60%'");
     echo "<a href='$url&order=payedfrom&ordered=asc'> <img src='./bilder/asc.gif' alt='asc'> </a>";
     echo "Auszahlender";
     echo "<a href='$url&order=payedfrom&ordered=desc'> <img src='./bilder/desc.gif' alt='desc'> </a>";
@@ -410,7 +410,7 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
 
     while ($row = $db->db_fetch_array($result)) {
 
-        next_row("windowbg1", "style='width:60%' align='left'");
+        next_row("windowbg1 left", "style='width:60%'");
         echo $row['payedfrom'];
         next_cell("windowbg1", "align='right'");
         echo number_format($row['sumof'], 0, ',', '.');
@@ -433,11 +433,11 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
     start_table();
     start_row("titlebg", "style='width:40%' align='center' colspan='3'");
     echo "  <b>Wer hat Credits bekommen?</b>\n";
-    next_row("windowbg2", "style='width:40%' align='center'");
+    next_row("windowbg2 center", "style='width:40%'");
     echo "<a href='$url&rder=payedfrom&ordered=asc'> <img src='./bilder/asc.gif' alt='asc'> </a>";
     echo "Auszahlender";
     echo "<a href='$url&order=payedfrom&ordered=desc'> <img src='./bilder/desc.gif' alt='desc'> </a>";
-    next_cell("windowbg2", "style='width:40%' align='center'");
+    next_cell("windowbg2 center", "style='width:40%'");
     echo "<a href='$url&order=payedto&ordered=asc'> <img src='./bilder/asc.gif' alt='asc'> </a>";
     echo "Empfänger";
     echo "<a href='$url&order=payedto&ordered=desc'> <img src='./bilder/desc.gif' alt='desc'> </a>";
@@ -453,9 +453,9 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
     while ($row = $db->db_fetch_array($result)) {
-        next_row("windowbg1", "style='width:40%' align='left'");
+        next_row("windowbg1 left", "style='width:40%'");
         echo $row['payedfrom'];
-        next_cell("windowbg1", "style='width:40%' align='left'");
+        next_cell("windowbg1 left", "style='width:40%'");
         echo $row['payedto'];
         next_cell("windowbg1", "align='right'");
         echo number_format($row['sumof'], 0, ',', '.');
@@ -476,10 +476,10 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
     }
     $whereclause .= "1";
 
-    echo "<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 30em;'>";
+    echo "<table class='table_format' style='width: 30em;'>";
     start_row("titlebg", "style='width:40%' align='center' colspan='3'");
     echo "  <b>Kasseninhalt</b>\n";
-    next_row("windowbg2", "style='width:40%' align='center'");
+    next_row("windowbg2 center", "style='width:40%'");
     echo "<a href='$url&order=time_of_insert&ordered=asc'> <img src='./bilder/asc.gif' alt='asc'> </a>";
     echo "Datum";
     echo "<a href='$url&order=time_of_insert&ordered=desc'> <img src='./bilder/desc.gif' alt='desc'> </a>";
@@ -495,7 +495,7 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
     while ($row = $db->db_fetch_array($result)) {
         $time  = strtotime($row['time_of_insert']);
         $time1 = strftime("%d.%m.%y %H:%M", $time);
-        next_row("windowbg1", "style='width:50%' align='left'");
+        next_row("windowbg1 left", "style='width:50%'");
 
         echo $time1;
         next_cell("windowbg1", "align='right'");
@@ -516,10 +516,10 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
     }
     $whereclause .= "1";
 
-    echo "<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 30em;'>";
+    echo "<table class='table_format' style='width: 30em;'>";
     start_row("titlebg", "style='width:40%' align='center' colspan='3'");
     echo "  <b>Wer hat Credits bekommen?</b>\n";
-    next_row("windowbg2", "style='width:40%' align='center'");
+    next_row("windowbg2 center", "style='width:40%'");
     echo "<a href='$url&order=user&ordered=asc'> <img src='./bilder/asc.gif' alt='asc'> </a>";
     echo "Einzahler";
     echo "<a href='$url&order=user&ordered=desc'> <img src='./bilder/desc.gif' alt='desc'> </a>";
@@ -533,7 +533,7 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
     while ($row = $db->db_fetch_array($result)) {
-        next_row("windowbg1", "style='width:60%' align='left'");
+        next_row("windowbg1 left", "style='width:60%'");
         echo $row['user'];
         next_cell("windowbg1", "align='right'");
         echo number_format($row['sumof'], 2, ',', '.');

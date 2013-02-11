@@ -203,7 +203,7 @@ function createRessieTable($ressie, $direction, $altress = "", $decimals = 2, $a
         $pic = '<img src="./bilder/krone_top_' . $lowress . '.gif" alt="' . $ressie . '-Erster">';
     }
 
-    echo "<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 350;'>\n";
+    echo "<table class='table_format' style='width: 350;'>\n";
 
     start_row('windowbg2');
     next_cell('windowbg2', 'style="width:20ex;"');

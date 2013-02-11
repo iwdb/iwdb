@@ -454,7 +454,7 @@ while ($row = $db->db_fetch_array($result)) {
 
     if ($grart == "minus") {
 
-        echo "<tr><td colspan=2 width='100%' class='" . $cl . "' align='center'><table width='90%' class='bordercolor' border='0' cellpadding='2' cellspacing='0' >";
+        echo "<tr><td colspan=2 width='100%' class='" . $cl . " center'><table width='90%' class='bordercolor' border='0' cellpadding='2' cellspacing='0' >";
 
         echo "<tr><form name='form' action='index.php?action=admin_menue&sid=" . $sid . "&eid=" . $row['id'] . "' method='post'>";
         echo "<td width='50%' class='" . $cl . "' align='left'>Menütext:</td>";
@@ -516,7 +516,7 @@ while ($row = $db->db_fetch_array($result)) {
             echo "<td width='50%' class='" . $cl . "' align='left'><input name='edit_action' type='text' size=50 maxlength='200' value='" . $row['action'] . "'></td>";
         }
         echo "</tr><tr>";
-        echo "<td colspan=2 width='100%' class='" . $cl . "' align='center'><input type='submit' name='edit' value='Speichern'></td>";
+        echo "<td colspan=2 width='100%' class='" . $cl . " center'><input type='submit' name='edit' value='Speichern'></td>";
 
         echo "</tr></table></td>";
 
@@ -529,26 +529,26 @@ echo "</table><br><br>";
 
 echo "<table width='90%' class='bordercolor' border='0' cellpadding='2' cellspacing='1' >";
 echo "<tr><form name='form2' action='index.php?action=admin_menue&sid=" . $sid . "' method='post'>";
-echo "<td colspan=2 width='100%' class='windowbg2' align='center'>Neuer Menütitel</td>";
-echo "</tr><tr>";
-echo "<td width='50%' class='windowbg1' align='left'>Menütext:</td>";
-echo "<td width='50%' class='windowbg1' align='left'><input name='new_title' type='text' size=50 maxlength='100' value='Menütext'></td>";
-echo "</tr><tr>";
-echo "<td width='50%' class='windowbg1' align='left'>Menütext anzeigen:</td>";
-echo "<td width='50%' class='windowbg1' align='left'><input type='radio' name='new_active' value='0'> - Nein&nbsp;<input type='radio' name='new_active' value='1' checked> - Ja</td>";
-echo "</tr><tr>";
-echo "<td width='50%' class='windowbg1' align='left'>Wer dieses Menü sehen darf:</td>";
-echo "<td width='50%' class='windowbg1' align='left'><input type='radio' name='new_status' value='' checked> - Alle&nbsp;<input type='radio' name='new_status' value='hc'> - HC&nbsp;<input type='radio' name='new_status' value='admin'> - Admin</td>";
-echo "</tr><tr>";
-echo "<td width='50%' class='windowbg1' align='left'>Anzeigen bei Sittertyp:</td>";
-echo "<td width='50%' class='windowbg1' align='left'><select name='new_sittertyp'>";
+echo "<td colspan=2 width='100%' class='windowbg2 center'>Neuer Menütitel</td>";
+echo "</tr><tr class='windowbg1 left'>";
+echo "<td width='50%'>Menütext:</td>";
+echo "<td width='50%'><input name='new_title' type='text' size=50 maxlength='100' value='Menütext'></td>";
+echo "</tr><tr class='windowbg1 left'>";
+echo "<td width='50%'>Menütext anzeigen:</td>";
+echo "<td width='50%'><input type='radio' name='new_active' value='0'> - Nein&nbsp;<input type='radio' name='new_active' value='1' checked> - Ja</td>";
+echo "</tr><tr class='windowbg1 left'>";
+echo "<td width='50%'>Wer dieses Menü sehen darf:</td>";
+echo "<td width='50%'><input type='radio' name='new_status' value='' checked> - Alle&nbsp;<input type='radio' name='new_status' value='hc'> - HC&nbsp;<input type='radio' name='new_status' value='admin'> - Admin</td>";
+echo "</tr><tr class='windowbg1 left'>";
+echo "<td width='50%'>Anzeigen bei Sittertyp:</td>";
+echo "<td width='50%'><select name='new_sittertyp'>";
 echo "<option value='0' selected>kann Sitteraufträge erstellen, darf keine anderen sitten</option>";
 echo "<option value='1'>darf andere sitten, darf Sitteraufträge erstellen</option>";
 echo "<option value='2'>Sitterbereich deaktiviert</option>";
 echo "<option value='3'>darf andere sitten, darf keine Sitteraufträge erstellen</option>";
 echo "</select></td>";
 echo "</tr><tr>";
-echo "<td colspan=2 width='100%' class='windowbg2' align='center'><input type='submit' name='new' value='Speichern'></td>";
+echo "<td colspan=2 width='100%' class='windowbg2 center'><input type='submit' name='new' value='Speichern'></td>";
 echo "</form></tr>";
 echo "</table>";
 
@@ -574,7 +574,7 @@ while (false !== ($modulefile = readdir($moduledirhandle))) {
                 echo "   <td align='left' valign='center' class='titlebg'><strong>\n" . $moduleinfo['name'] . "</strong></td>\n";
             }
 
-            echo "   <td width='140' rowspan='2' class='windowbg1' align='center'>";
+            echo "   <td width='140' rowspan='2' class='windowbg1 center'>";
             echo "<input type='submit' value='deinstallieren' name='uninstall' class='submit'>";
             echo "</td>\n";
             echo "  </tr>\n";
@@ -591,7 +591,7 @@ while (false !== ($modulefile = readdir($moduledirhandle))) {
                     . " <table class='bordercolor' width='90%' cellpadding='4' cellspacing='1'>\n"
                     . "  <tr>\n"
                     . "   <td align='left' valign='center' class='titlebg'><strong>\n" . $moduleinfo['title'] . "</strong>&nbsp;<i>(" . $moduleinfo['name'] . ")</i></td>\n"
-                    . "   <td width='140' rowspan='2' class='windowbg1' align='center'>"
+                    . "   <td width='140' rowspan='2' class='windowbg1 center'>"
                     . "<input type='submit' value='Installieren' name='install' class='submit'>"
                     . "</td>\n"
                     . "  </tr>\n"

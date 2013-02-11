@@ -500,6 +500,7 @@ input {
 /* !I */
 
 input[type=submit],
+input[type=reset],
 input[type=button] {
     height: 1.5em;
     font-family: Verdana, arial, helvetica, serif;
@@ -508,6 +509,14 @@ input[type=button] {
     border: 1px solid #22282E;
     background-color: #FFFFFF;
     vertical-align: middle;
+}
+
+/* !N number inputs */
+/* !T number */
+/* !I */
+
+input[type=number] {
+    text-align: right;
 }
 
 /* !N textarea */
@@ -576,8 +585,31 @@ h2 {
     color: #004466;
     font-size: 1.6em;
     text-align: center;
-    margin: 0.5em;
+    margin: 0.75em;
     font-weight: bold;
+}
+
+/* !N h3 */
+/* !T Teilüberschrift in Modulen */
+/* !I */
+
+h3 {
+    color: #004466;
+    font-size: 1.4em;
+    text-align: center;
+    margin: 0.75em;
+    font-weight: bold;
+}
+
+/* !N h4 */
+/* !T Teilüberschrift in Modulen */
+/* !I */
+
+h4 {
+    font-size: 12px;
+    text-align: center;
+    margin: 0.75em;
+    font-weight:normal;
 }
 
 /* !END */
@@ -680,6 +712,30 @@ td[abbr=both] {
         font-size: 12px;
     }
 }
+
+/* m_frachtkappa */
+
+#transcalc_input_table input[type=text] {
+    width: 100px;
+    text-align: right;
+}
+
+#class1kappatext,
+#class2kappatext,
+#systranstext,
+#gorgoltext,
+#kameltext,
+#flughundtext,
+#lurchtext,
+#eisbaertext,
+#waschbaertext,
+#seepferdchentext {
+    width: 100px;
+    text-align: right;
+}
+
+
+
 /* bbcode styling */
 
 .bbcodebutton {
@@ -812,8 +868,28 @@ td[abbr=both] {
     border-spacing: 1px;
 }
 
+.left {
+    text-align: left !important;
+}
+
 .center {
-    text-align: center !important
+    text-align: center !important;
+}
+
+.right {
+    text-align: right !important;
+}
+
+.top {
+    vertical-align: top !important;
+}
+
+.middle {
+    vertical-align: middle !important;
+}
+
+.bottom {
+    vertical-align: bottom !important;
 }
 
 .table_hovertable {

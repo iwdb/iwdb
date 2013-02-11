@@ -81,7 +81,7 @@ if (!empty($anz)) {
     ?>
     <table id='permanent_sitterorders_table' class='table_format' style='width: 90%;'>
         <tr>
-            <td class='titlebg' colspan='4' align='center'>
+            <td class='titlebg center' colspan='4'>
                 <b>Daueraufträge</b>
             </td>
         </tr>
@@ -155,7 +155,7 @@ if (!empty($anz)) {
                 <td class='windowbg<?php echo $num;?>' valign='top'>
                     <?php echo nl2br(convert_bbcode($users_sittercomment[$key])); echo ($users_sitterpeitschen[$key] == '1') ? "<br><br><i>Meister d. Peitschen</i>" : "";?>
                 </td>
-                <td class='windowbg<?php echo $num;?>' valign='middle' align='center'>
+                <td class='windowbg<?php echo $num;?> center' valign='middle'>
                     <?php
                     if (!empty($users_logged_in[$key])) {
                         echo $users_logged_in[$key] . ' ist eingeloggt';
@@ -170,12 +170,12 @@ if (!empty($anz)) {
                 </td>
             </tr>
             <tr id='row_d<?php echo $key;?>' style='display: none;'>
-                <td colspan='4' class='windowbg1' valign='top' align='center' style='width: 100%;'>
+                <td colspan='4' class='windowbg1 center top' style='width: 100%;'>
                     <form method='POST' action='index.php?action=sitterliste&sid=<?php echo $sid;?>'
                           enctype='multipart/form-data'>
                         <table class='table_format'>
                             <tr>
-                                <td colspan='2' class='windowbg1' align='center'>
+                                <td colspan='2' class='windowbg1 center'>
                                     <b>Sitteraktivität</b>
                                 </td>
                             </tr>
@@ -191,7 +191,7 @@ if (!empty($anz)) {
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan='2' class='windowbg1' align='center'>
+                                <td colspan='2' class='windowbg1 center'>
                                     <input type="hidden" name="newlog" value="true"><input type="hidden"
                                                                                            name="sitterlogin"
                                                                                            value="<?php echo $data;?>"><input

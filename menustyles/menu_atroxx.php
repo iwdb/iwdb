@@ -163,7 +163,7 @@ include ('configmenu.php');
                         echo "    </div>\n";
                     }
 
-                    echo "    <div id='dropmenu" . ($row['menu'] - 1) . "' class='dropmenudiv' style='width:200px; text-align:left;'>\n";
+                    echo "    <div id='dropmenu" . ($row['menu'] - 1) . "' class='dropmenudiv left' style='width:200px;'>\n";
 
                     // Neue Tabelle aufmachen.
                     $tableopen = 1;
@@ -188,7 +188,7 @@ include ('configmenu.php');
             echo "    </div>\n";
         }
 
-        echo "    <div id='dropmenu" . $miscmenu . "' class='dropmenudiv' style='width:150px; text-align:left;'>\n
+        echo "    <div id='dropmenu" . $miscmenu . "' class='dropmenudiv left' style='width:150px;'>\n
       <a href='index.php'><img src='bilder/icon_mini_home.gif' width='12' height='13' alt='Startseite' align='absmiddle'> Startseite</a>
       <a href='index.php?action=profile'><img src='bilder/icon_mini_profile.gif' width='12' height='13' alt='profil' align='absmiddle'> profil</a>
       ";

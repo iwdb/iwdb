@@ -164,8 +164,8 @@ if ($sys_start > $sys_end) { // ggf Werte vertauschen
 
 // Titelzeile
 doc_title('Sprengungen');
-echo "<div>Hier kann man sehen, wann Hasi die nächsten Planeten sprengt um neue Hyperraumumgehungsstraßen zu bauen:</div>";
-echo "<form method='POST' action='index.php?action=" . $modulname . "&amp;sid=" . $sid . "' enctype='multipart/form-data'><p align='center'>\n";
+echo "<h4>Hier kann man sehen, wann Hasi die nächsten Planeten sprengt um neue Hyperraumumgehungsstraßen zu bauen:</h4>";
+echo "<form method='POST' action='index.php?action=" . $modulname . "&amp;sid=" . $sid . "' enctype='multipart/form-data'>\n";
 echo "  Galaxie von: <input name='gal_start' value='" . $gal_start . "' style='width: 5em' type='number' min='" . $config_map_galaxy_min . "' max='" . $config_map_galaxy_max . "'> bis: <input name='gal_end' value='" . $gal_end . "' style='width: 5em' type='number' min='" . $config_map_galaxy_min . "' max='" . $config_map_galaxy_max . "'><br><br>";
 echo "  System von: <input name='sys_start' value='" . $sys_start . "' style='width: 5em' type='number' min='" . $config_map_system_min . "' max='" . $config_map_system_max . "'> bis: <input name='sys_end' value='" . $sys_end . "' style='width: 5em' type='number' min='" . $config_map_system_min . "' max='" . $config_map_system_max . "'><br><br>";
 echo "  <input type='submit' value='los' name='B1' class='submit'>";

@@ -419,7 +419,7 @@ function finish_fehlscan($fehlscans)
     echo "<input type='text' name='terminus_all' style='width: 5em'>";
     next_cell("windowbg3", "");
     echo "<input type='text' name='x13_all' style='width: 5em'>";
-    next_row("titlebg", "colspan='8' align='center'");
+    next_row("titlebg center", "colspan='8'");
     echo "<input type='submit' value='abspeichern' name='B1' class='submit'>";
     end_table();
     echo '</form>';

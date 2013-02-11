@@ -564,7 +564,7 @@ $td2 = "</div></td>\n" .
     "    <td class='windowbg1' valign='top'>\n";
 
 echo "<br>\n";
-echo "<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 60%;'>\n";
+echo "<table class='table_format' style='width: 60%;'>\n";
 echo "  <tr>\n";
 echo "    <td class='windowbg2' colspan='2'><div class='doc_blue'>\n";
 echo $research_data['name'];
@@ -665,7 +665,7 @@ if (strpos(find_resfield($research_data['gebiet']), "Prototypen") !== false) {
 
 echo "</table>\n";
 echo "<br>\n";
-echo "<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 60%;'>\n";
+echo "<table class='table_format' style='width: 60%;'>\n";
 echo " <tr>\n";
 echo "   <td class='windowbg2' colspan='2'><div class='doc_blue'>";
 if (!$unknownonly) {

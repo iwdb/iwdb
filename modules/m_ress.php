@@ -245,62 +245,62 @@ make_link("datum", "asc");
 echo "<b>Einlesezeit</b>";
 make_link("datum", "desc");
 
-next_cell("titlebg", "style='width:9%' align='center'");
+next_cell("titlebg center", "style='width:9%'");
 make_link("eisen", "asc");
 echo "<b>Eisen</b>";
 make_link("eisen", "desc");
 
-next_cell("titlebg", "style='width:9%' align='center'");
+next_cell("titlebg center", "style='width:9%'");
 make_link("stahl", "asc");
 echo "<b>Stahl</b>";
 make_link("stahl", "desc");
 
-next_cell("titlebg", "style='width:9%' align='center'");
+next_cell("titlebg center", "style='width:9%'");
 make_link("vv4a", "asc");
 echo "<b>VV4A</b>";
 make_link("vv4a", "desc");
 
-next_cell("titlebg", "style='width:9%' align='center'");
+next_cell("titlebg center", "style='width:9%'");
 make_link("chem", "asc");
 echo "<b>Chemie</b>";
 make_link("chem", "desc");
 
-next_cell("titlebg", "style='width:9%' align='center'");
+next_cell("titlebg center", "style='width:9%'");
 make_link("eis", "asc");
 echo "<b>Eis</b>";
 make_link("eis", "desc");
 
-next_cell("titlebg", "style='width:9%' align='center'");
+next_cell("titlebg center", "style='width:9%'");
 make_link("wasser", "asc");
 echo "<b>Wasser</b>";
 make_link("wasser", "desc");
 
-next_cell("titlebg", "style='width:9%' align='center'");
+next_cell("titlebg center", "style='width:9%'");
 make_link("energie", "asc");
 echo "<b>Energie</b>";
 make_link("energie", "desc");
 
-next_cell("titlebg", "style='width:9%' align='center'");
+next_cell("titlebg center", "style='width:9%'");
 make_link("fp_ph", "asc");
 echo "<b>FP</b>";
 make_link("fp_ph", "desc");
 
-next_cell("titlebg", "style='width:9%' align='center'");
+next_cell("titlebg center", "style='width:9%'");
 make_link("credits", "asc");
 echo "<b>Credits</b>";
 make_link("credits", "desc");
 
-next_cell("titlebg", "style='width:9%' align='center'");
+next_cell("titlebg center", "style='width:9%'");
 make_link("bev_a", "asc");
 echo "<b>Hartz IV</b>";
 make_link("bev_a", "desc");
 
-next_cell("titlebg", "style='width:9%' align='center'");
+next_cell("titlebg center", "style='width:9%'");
 make_link("bev_g", "asc");
 echo "<b>Volk</b>";
 make_link("bev_g", "desc");
 
-next_cell("titlebg", "style='width:3%' align='center'");
+next_cell("titlebg center", "style='width:3%'");
 make_link("bev_q", "asc");
 echo "<b>Quote</b>";
 make_link("bev_q", "desc");
@@ -488,55 +488,55 @@ foreach ($fleeterlist as $key => $value) {
     echo "<b>Einlesezeit</b>";
     make_link("datum", "desc");
 
-    next_cell("titlebg", "style='width:9%' align='center'");
+    next_cell("titlebg center", "style='width:9%'");
     make_link("eisen", "asc");
     echo "<b>Eisen</b>";
     make_link("eisen", "desc");
 
-    next_cell("titlebg", "style='width:9%' align='center'");
+    next_cell("titlebg center", "style='width:9%'");
     make_link("stahl", "asc");
     echo "<b>Stahl</b>";
     make_link("stahl", "desc");
 
-    next_cell("titlebg", "style='width:9%' align='center'");
+    next_cell("titlebg center", "style='width:9%'");
     make_link("vv4a", "asc");
     echo "<b>VV4A</b>";
     make_link("vv4a", "desc");
 
-    next_cell("titlebg", "style='width:9%' align='center'");
+    next_cell("titlebg center", "style='width:9%'");
     make_link("chem", "asc");
     echo "<b>Chemie</b>";
     make_link("chem", "desc");
 
-    next_cell("titlebg", "style='width:9%' align='center'");
+    next_cell("titlebg center", "style='width:9%'");
     make_link("eis", "asc");
     echo "<b>Eis</b>";
     make_link("eis", "desc");
 
-    next_cell("titlebg", "style='width:9%' align='center'");
+    next_cell("titlebg center", "style='width:9%'");
     make_link("wasser", "asc");
     echo "<b>Wasser</b>";
     make_link("wasser", "desc");
 
-    next_cell("titlebg", "style='width:9%' align='center'");
+    next_cell("titlebg center", "style='width:9%'");
     make_link("energie", "asc");
     echo "<b>Energie</b>";
     make_link("energie", "desc");
 
-    next_cell("titlebg", "style='width:9%' align='center'");
+    next_cell("titlebg center", "style='width:9%'");
     make_link("fp_ph", "asc");
     echo "<b>FP</b>";
     make_link("fp_ph", "desc");
 
-    next_cell("titlebg", "style='width:9%' align='center'");
+    next_cell("titlebg center", "style='width:9%'");
     make_link("credits", "asc");
     echo "<b>Credits</b>";
     make_link("credits", "desc");
 
-    next_cell("titlebg", "style='width:9%' align='center'");
+    next_cell("titlebg center", "style='width:9%'");
     echo "<b>Spieltyp</b>";
 
-    next_cell("titlebg", "style='width:9%' align='center'");
+    next_cell("titlebg center", "style='width:9%'");
     echo "<b>Staatsform</b>";
 
     // Anzeigen der Daten im Browser

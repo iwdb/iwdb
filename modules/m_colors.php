@@ -163,7 +163,7 @@ if (empty($limit)) {
 }
 
 
-echo "<div class='doc_big_black' style='text-align:center'>Nachfolgend alle Farbcodes, " .
+echo "<div class='doc_big_black center'>Nachfolgend alle Farbcodes, " .
     "die Ihr für die Ordnung Eurer Links<br>und Planis ingame verwenden " .
     "könnt.</div>\n";
 echo "<br>\n";

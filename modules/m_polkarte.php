@@ -275,7 +275,7 @@ if ($galaxy < $config_map_galaxy_max) {
 }
 echo "</div></p>";
 
-echo "<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 80%;'>\n";
+echo "<table class='table_format' style='width: 80%;'>\n";
 echo " <tr>\n";
 echo "  <td class='titlebg' align='center' colspan=" . $config_map_cols . "'>\n";
 echo "   <b>Galaxie " . $galaxy . "</b>\n";

@@ -223,7 +223,7 @@ if ($action == 'default') {
             echo "</td>  \n";
             echo "</tr>  \n";
             echo "<tr>  \n";
-            echo "<td colspan='4' class='windowbg1' align='center'>  \n";
+            echo "<td colspan='4' class='windowbg1 center'>  \n";
             echo "<textarea cols='70' rows='100' name='row_other_value'>";
 
             $where = 350;
@@ -266,7 +266,7 @@ if ($action == 'default') {
             $line = str_replace('*/', '', $line);
 
             echo "<tr>  \n";
-            echo "<td colspan='4' class='windowbg1' align='center'>  \n";
+            echo "<td colspan='4' class='windowbg1 center'>  \n";
             echo "<input type='hidden' name='row_" . $num_eigenschaft . "_conf' value='" . $line . "'>";
             echo "<textarea cols='70' rows='20' name='row_" . $num_eigenschaft . "_value'>";
 

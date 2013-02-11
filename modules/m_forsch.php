@@ -159,13 +159,13 @@ $result = $db->db_query($sql)
 $data = array();
 
 start_table();
-start_row("titlebg", "nowrap style='width:0%' align='center' ");
+start_row("titlebg center", "nowrap");
 echo "<b>User</b>";
-next_cell("titlebg", "nowrap style='width:0%' align='center'");
+next_cell("titlebg center", "nowrap");
 echo "<b>laufende Forschung</b>";
-next_cell("titlebg", "nowrap style='width:0%' align='center'");
+next_cell("titlebg center", "nowrap");
 echo "<b>Forschung endet</b>";
-next_cell("titlebg", "nowrap style='width:0%' align='center'");
+next_cell("titlebg center", "nowrap");
 echo "<b>Einlesezeitpunkt</b>";
 
 while ($row = $db->db_fetch_array($result)) {
@@ -187,13 +187,13 @@ while ($row = $db->db_fetch_array($result)) {
         $color       = "#FF0000";
     }
 
-    next_row("windowbg1", "style='background-color:" . $color . "' nowrap='nowrap' 'width:0%' align='left'");
+    next_row("windowbg1 left", "style='background-color:" . $color . "'");
     echo $row['user'];
-    next_cell("windowbg1", "nowrap style='width:0%' align='left'");
+    next_cell("windowbg1 left");
     echo $row1['name'];
-    next_cell("windowbg1", "nowrap style='width:0%' align='left'");
+    next_cell("windowbg1 left");
     echo $row['date'];
-    next_cell("windowbg1", "nowrap style='width:0%' align='left'");
+    next_cell("windowbg1 left");
     echo strftime("%d.%m.%y %H:%M:%S", $row['time']);
 }
 end_row();

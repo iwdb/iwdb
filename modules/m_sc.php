@@ -159,13 +159,13 @@ doc_title('Sondenkalkulator');
     <tr>
         <td class='windowbg2' style='width: 100px;'>SD01:</td>
         <td class='windowbg1'>
-            <input type='number' min='0' max='9999' id='SD01' value='0' style='text-align:right;' oninput="SondenRechnen()">
+            <input type='number' min='0' max='9999' id='SD01' value='0'' oninput="SondenRechnen()">
         </td>
     </tr>
     <tr>
         <td class='windowbg2' style='width: 100px;'>SD02:</td>
         <td class='windowbg1'>
-            <input type='number' min='0' max='9999' id='SD02' value='0' style='text-align:right;' oninput="SondenRechnen()">
+            <input type='number' min='0' max='9999' id='SD02' value='0'' oninput="SondenRechnen()">
         </td>
     </tr>
 </table>
@@ -176,17 +176,17 @@ doc_title('Sondenkalkulator');
     </tr>
     <tr>
         <td class='windowbg2'>Entweder</td>
-        <td class='windowbg1' id='X11' style="width:80px; text-align:right;">20</td>
+        <td class='windowbg1' id='X11' style="width:80px;">20</td>
         <td class='windowbg2'>X11</td>
     </tr>
     <tr>
         <td class='windowbg2'>Oder</td>
-        <td class='windowbg1' id='Terminus' style="width:80px; text-align:right;">10</td>
+        <td class='windowbg1' id='Terminus' style="width:80px;">10</td>
         <td class='windowbg2'>Terminus</td>
     </tr>
     <tr>
         <td class='windowbg2'>Oder</td>
-        <td class='windowbg1' id='X13' style="width:80px; text-align:right;">8</td>
+        <td class='windowbg1' id='X13' style="width:80px;">8</td>
         <td class='windowbg2'>X13</td>
     </tr>
 </table>

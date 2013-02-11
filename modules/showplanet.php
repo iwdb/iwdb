@@ -203,14 +203,14 @@ if ((($ansicht == "auto") && ($row['objekt'] != "---")) || ($ansicht == "taktisc
     <td class="windowbg1">
 
         <form method='POST' action='index.php?action=showplanet&coords=<?php echo $coords; ?>&sid=<?php echo $sid; ?>&ansicht=auto' enctype='multipart/form-data'>
-        <table border='0' cellpadding='5' cellspacing='0' class='bordercolor' style='width: 80%;' align='center'>
+        <table class='table_format center' style='width: 80%;'>
             <tr>
-                <td class='windowbg2' align='center'>
+                <td class='windowbg2'>
                     <textarea name='notice' rows='10' cols='80'><?php echo $notice; ?></textarea>
                 </td>
             </tr>
             <tr>
-                <td class='titlebg' align='center'>
+                <td class='titlebg'>
                     <input type='submit' name='submitnotice' value='Speichern' class='submit'>
                     &nbsp;&nbsp;
                     <input type='reset' class='submit'>

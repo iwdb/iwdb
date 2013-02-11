@@ -372,17 +372,17 @@ if ($i === 0) {
     start_table();
     start_row("titlebg", "style='width:95%' align='center' colspan='6'");
     echo "  <b>Bekanntes Hasiversum</b>\n";
-    next_row("windowbg2", "style='width:16%' align='center'");
+    next_row("windowbg2 center", "style='width:16%'");
     echo "Allianz";
-    next_cell("windowbg2", "style='width:12%' align='center'");
+    next_cell("windowbg2 center", "style='width:12%'");
     echo "Kolonien auf Steinklumpen";
-    next_cell("windowbg2", "style='width:12%' align='center'");
+    next_cell("windowbg2 center", "style='width:12%'");
     echo "Kolonien auf Asteroiden";
-    next_cell("windowbg2", "style='width:12%' align='center'");
+    next_cell("windowbg2 center", "style='width:12%'");
     echo "Kolonien auf Gasgiganten";
-    next_cell("windowbg2", "style='width:12%' align='center'");
+    next_cell("windowbg2 center", "style='width:12%'");
     echo "Kolonien auf Eisplaneten";
-    next_cell("windowbg2", "style='width:12%' align='center'");
+    next_cell("windowbg2 center", "style='width:12%'");
     echo "Kampfbasen";
 
     $i = 0;
@@ -392,21 +392,21 @@ if ($i === 0) {
             if ($ally == "") {
                 $ally = "<i>allylos</i>";
             }
-            next_row("windowbg2", "style='width:16%' align='left'");
+            next_row("windowbg2 left", "style='width:16%'");
             echo "$i. <a href='index.php?action=m_allystats&allianz=$ally'>$ally";
-            next_cell("windowbg1", "style='width:12%' align='right'");
+            next_cell("windowbg1 right", "style='width:12%'");
             echo  $allystats[0];
-            next_cell("windowbg1", "style='width:12%' align='right'");
+            next_cell("windowbg1 right", "style='width:12%'");
             echo  $allystats[1];
-            next_cell("windowbg1", "style='width:12%' align='right'");
+            next_cell("windowbg1 right", "style='width:12%'");
             echo  $allystats[2];
-            next_cell("windowbg1", "style='width:12%' align='right'");
+            next_cell("windowbg1 right", "style='width:12%'");
             echo  $allystats[3];
-#         next_cell("windowbg1", "style='width:12%' align='right'");
+#         next_cell("windowbg1 right", "style='width:12%'");
 #         echo  number_format($allystats[4], 0, ",", ".");
-#         next_cell("windowbg1", "style='width:12%' align='right'");
+#         next_cell("windowbg1 right", "style='width:12%'");
 #         echo  number_format($allystats[5], 2, ",", ".");
-            next_cell("windowbg1", "style='width:12%' align='right'");
+            next_cell("windowbg1 right", "style='width:12%'");
             echo  $allystats[6];
         }
         //echo "  <tr><td>". $ally . "</td><td>" . $allystats[0] . "</td><td>" . $allystats[1] . "</td><td>" . $allystats[2] . "</td><td>" . $allystats[3] . "</td><td>" . $allystats[4] . "</td><td>" . $allystats[5] . "</td></tr>\n";
@@ -428,21 +428,21 @@ if ($i === 0) {
             start_table();
             start_row("titlebg", "style='width:95%' align='center' colspan='10'");
             echo "  <b>Gala $gala </b>\n";
-            next_row("windowbg2", "style='width:16%' align='center'");
+            next_row("windowbg2 center", "style='width:16%'");
             echo "Allianz";
-            next_cell("windowbg2", "style='width:12%' align='center'");
+            next_cell("windowbg2 center", "style='width:12%'");
             echo "Kolonien auf Steinklumpen";
-            next_cell("windowbg2", "style='width:12%' align='center'");
+            next_cell("windowbg2 center", "style='width:12%'");
             echo "Kolonien auf Asteroiden";
-            next_cell("windowbg2", "style='width:12%' align='center'");
+            next_cell("windowbg2 center", "style='width:12%'");
             echo "Kolonien auf Gasgiganten";
-            next_cell("windowbg2", "style='width:12%' align='center'");
+            next_cell("windowbg2 center", "style='width:12%'");
             echo "Kolonien auf Eisplaneten";
-            next_cell("windowbg2", "style='width:12%' align='center'");
+            next_cell("windowbg2 center", "style='width:12%'");
             echo "Planetenpunkte";
-            next_cell("windowbg2", "style='width:12%' align='center'");
+            next_cell("windowbg2 center", "style='width:12%'");
             echo "Punkte pro Planet";
-            next_cell("windowbg2", "style='width:12%' align='center'");
+            next_cell("windowbg2 center", "style='width:12%'");
             echo "Kampfbasen";
 
             $i = 0;
@@ -452,21 +452,21 @@ if ($i === 0) {
                     if ($galaally == "") {
                         $galaally = "<i>allylos</i>";
                     }
-                    next_row("windowbg2", "style='width:16%' align='left'");
+                    next_row("windowbg2 left", "style='width:16%'");
                     echo "$i. <a href='index.php?action=m_allystats&allianz=$galaally'>$galaally</a>";
-                    next_cell("windowbg1", "style='width:12%' align='right'");
+                    next_cell("windowbg1 right", "style='width:12%'");
                     echo  $galaallystats[0];
-                    next_cell("windowbg1", "style='width:12%' align='right'");
+                    next_cell("windowbg1 right", "style='width:12%'");
                     echo  $galaallystats[1];
-                    next_cell("windowbg1", "style='width:12%' align='right'");
+                    next_cell("windowbg1 right", "style='width:12%'");
                     echo  $galaallystats[2];
-                    next_cell("windowbg1", "style='width:12%' align='right'");
+                    next_cell("windowbg1 right", "style='width:12%'");
                     echo  $galaallystats[3];
-                    next_cell("windowbg1", "style='width:12%' align='right'");
+                    next_cell("windowbg1 right", "style='width:12%'");
                     echo  number_format($galaallystats[4], 0, ",", ".");
-                    next_cell("windowbg1", "style='width:12%' align='right'");
+                    next_cell("windowbg1 right", "style='width:12%'");
                     echo  number_format($galaallystats[5], 2, ",", ".");
-                    next_cell("windowbg1", "style='width:12%' align='right'");
+                    next_cell("windowbg1 right", "style='width:12%'");
                     echo  $galaallystats[6];
                 }
                 if ($i == $galamax) {

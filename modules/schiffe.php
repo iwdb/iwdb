@@ -107,9 +107,9 @@ while ($row = $db->db_fetch_array($result)) {
 
     $schiffsanz = $db->db_num_rows($result_schiffe);
 
-    echo "<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 90%;'>\n";
+    echo "<table class='table_format' style='width: 90%;'>\n";
     echo " <tr>\n";
-    echo "  <td class='titlebg' align='center' colspan='" . ($schiffsanz + 1) . "'>\n";
+    echo "  <td class='titlebg center' colspan='" . ($schiffsanz + 1) . "'>\n";
     echo "   <b>" . ((empty($row['typ'])) ? "Sonstige" : $row['typ']) . "</b>\n";
     echo "  </td>\n";
     echo " </tr>\n";

@@ -665,11 +665,16 @@ td[abbr=both] {
 }
 
 /* m_lager */
-
-#lagertabelle td {
-    font-size: 10px;
+@media all and (max-width: 1280px) {
+    #lagertabelle td {
+        font-size: 10px;
+    }
 }
-
+@media all and (min-width: 1280px) {
+    #lagertabelle td {
+        font-size: 12px;
+    }
+}
 /* bbcode styling */
 
 .bbcodebutton {

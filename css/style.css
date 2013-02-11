@@ -167,6 +167,11 @@ td {
     background-color: #000000;
     text-align: center;
 }
+@media all and (max-height: 600px) {
+    #iwdb_logo {
+        display: none;
+    }
+}
 
 /* !N titelbg */
 /* !T Titelzellen */

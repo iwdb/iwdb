@@ -256,7 +256,7 @@ echo "</div>";
 </table>
 <table align="center" style="width:100%;">
     <tr>
-        <td width="12%" valign="top" class='doc_menu'>
+        <td width="12%" class='doc_menu top'>
             <?php
 
             // Menu auslesen
@@ -360,8 +360,8 @@ echo "</div>";
 
             ?>
         </td>
-        <td width="2%">&nbsp;</td>
-        <td width="86%" valign="top" align="center">
-            <table class="doc_main" align="center">
+        <td style="width:2%">&nbsp;</td>
+        <td style="width:86%" class="center top">
+            <table class="doc_main center">
                 <tr>
-                    <td class="doc_main" align="center">
+                    <td class="doc_main center">

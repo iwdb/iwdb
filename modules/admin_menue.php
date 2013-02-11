@@ -569,9 +569,9 @@ while (false !== ($modulefile = readdir($moduledirhandle))) {
             echo "  <tr>\n";
 
             if (!empty($moduleinfo['title'])) {
-                echo "   <td align='left' valign='center' class='titlebg'><strong>\n" . $moduleinfo['title'] . "</strong>&nbsp;<i>(" . $moduleinfo['name'] . ")</i></td>\n";
+                echo "   <td class='titlebg center middle'><strong>\n" . $moduleinfo['title'] . "</strong>&nbsp;<i>(" . $moduleinfo['name'] . ")</i></td>\n";
             } else {
-                echo "   <td align='left' valign='center' class='titlebg'><strong>\n" . $moduleinfo['name'] . "</strong></td>\n";
+                echo "   <td class='titlebg center middle'><strong>\n" . $moduleinfo['name'] . "</strong></td>\n";
             }
 
             echo "   <td width='140' rowspan='2' class='windowbg1 center'>";
@@ -579,7 +579,7 @@ while (false !== ($modulefile = readdir($moduledirhandle))) {
             echo "</td>\n";
             echo "  </tr>\n";
             echo "  <tr>\n";
-            echo "   <td valign='top' class='windowbg1'>" . $moduleinfo['desc'] . "</td>\n";
+            echo "   <td class='windowbg1 top'>" . $moduleinfo['desc'] . "</td>\n";
             echo "  </tr>\n";
             echo " </table>";
             echo "</form><br>\n";
@@ -590,13 +590,13 @@ while (false !== ($modulefile = readdir($moduledirhandle))) {
                 $installecho = $installecho . "<form method='POST' action='index.php?action=" . $moduleinfo['name'] . "&was=install&sid=" . $sid . "'>"
                     . " <table class='bordercolor' width='90%' cellpadding='4' cellspacing='1'>\n"
                     . "  <tr>\n"
-                    . "   <td align='left' valign='center' class='titlebg'><strong>\n" . $moduleinfo['title'] . "</strong>&nbsp;<i>(" . $moduleinfo['name'] . ")</i></td>\n"
+                    . "   <td class='titlebg left middle'><strong>\n" . $moduleinfo['title'] . "</strong>&nbsp;<i>(" . $moduleinfo['name'] . ")</i></td>\n"
                     . "   <td width='140' rowspan='2' class='windowbg1 center'>"
                     . "<input type='submit' value='Installieren' name='install' class='submit'>"
                     . "</td>\n"
                     . "  </tr>\n"
                     . "  <tr>\n"
-                    . "   <td valign='top' class='windowbg1'>" . $moduleinfo['desc'] . "</td>\n"
+                    . "   <td class='windowbg1 top'>" . $moduleinfo['desc'] . "</td>\n"
                     . "  </tr>\n"
                     . " </table>"
                     . "</form><br>\n";

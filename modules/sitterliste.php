@@ -843,7 +843,7 @@ if (isset($row_lastlogin)) {
 <br>
 <table id="next_sitterorders_table" class="table_format" style="width: 90%;">
     <tr>
-        <td class="titlebg" colspan="4" align="center">
+        <td class="titlebg center" colspan="4">
             <b>Sitteraufträge der nächsten <?php echo (round($config_sitterliste_timeout / 60 / 60));?> Stunden</b>
         </td>
     </tr>

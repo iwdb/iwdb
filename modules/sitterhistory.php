@@ -59,7 +59,7 @@ end_form();
 ?>
 <table class="table_format" style="width: 90%;">
     <tr>
-        <td class="titlebg" colspan="4" align="center">
+        <td class="titlebg center" colspan="4">
             <b>Was andere bei <?php echo $selecteduser;?> gemacht haben:</b>
         </td>
     </tr>
@@ -109,7 +109,7 @@ end_form();
 <br>
 <table class="table_format" style="width: 90%;">
     <tr>
-        <td class="titlebg" colspan="4" align="center">
+        <td class="titlebg center" colspan="4">
             <b>Was <?php echo $selecteduser;?> bei anderen gemacht hat</b>
         </td>
     </tr>

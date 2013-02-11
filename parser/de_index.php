@@ -514,13 +514,13 @@ function display_de_index()
         echo "Aktionen";
 
         foreach ($scan_datas as $scan_data) {
-            next_row("windowbg1", "valign=top nowrap");
+            next_row("windowbg1 top");
             echo $scan_data['coords_to_gal'] . ":" . $scan_data['coords_to_sys'] . ":" . $scan_data['coords_to_planet'];
-            next_cell("windowbg1", "valign=top nowrap");
+            next_cell("windowbg1 top");
             echo $scan_data['coords_from_gal'] . ":" . $scan_data['coords_from_sys'] . ":" . $scan_data['coords_from_planet'];
-            next_cell("windowbg1", "valign=top nowrap");
+            next_cell("windowbg1 top");
             echo strftime("%d.%m.%Y %H:%M:%S", $scan_data['time']);
-            next_cell("windowbg1", "valign=top width=100%;");
+            next_cell("windowbg1 top", "style='width:100%;'");
             echo $scan_data['art'] . "<br>";
 
             if (isset($scan_data['pos'])) {

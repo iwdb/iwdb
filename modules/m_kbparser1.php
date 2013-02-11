@@ -134,7 +134,7 @@ function workInstallConfigString()
 {
     /*  global $config_gameversion;
       return
-        "\$v04 = \" <div class=\\\"doc_lightred\\\">(V " . $config_gameversion . ")</div>\";";
+        "\$v04 = ' <div class=\\'doc_lightred\\'>(V " . $config_gameversion . ")</div>';";
     */
 }
 
@@ -218,7 +218,7 @@ function makeArray($Bericht)
         } elseif (strpos($Bericht[$line], "value=") !== false) // Endwert
         {
             $temp = str_replace("<", "", $Bericht[$line]);
-            $temp = str_replace("\"", "", $temp);
+            $temp = str_replace("'", "", $temp);
             $temp = str_replace("/>", "", $temp);
             $temp = explode("value=", $temp);
             $name = trim($temp[0]); // Name des Elementes
@@ -274,13 +274,13 @@ function makeString($string, $f, $k, $u, $color)
 
 $parsstatus = getVar('parsstatus');
 
-echo "<font style=\"font-size: 18px; color: #004466\">KB Parser für BB-Code</font><br>\n";
+echo "<font style='font-size: 18px; color: #004466'>KB Parser für BB-Code</font><br>\n";
 echo "<br>\n";
 
 
 if (empty($parsstatus) == true) //Angabe für die Datei
 {
-    echo "<form method=\"POST\" action=\"index.php?action=m_kbparser1&parsstatus=read&sid=" . $sid . "\" enctype=\"multipart/form-data\">\n";
+    echo "<form method='POST' action='index.php?action=m_kbparser1&parsstatus=read&sid=" . $sid . "' enctype='multipart/form-data'>\n";
     echo <<< EOT
 	 <table border="1" cellpadding="2" cellspacing="1" rules="none" width="90%">
   		<tr>
@@ -323,149 +323,149 @@ if ($parsstatus == "read") // KB einlesen und für die Formatierung ausgeben
         $KBdata = makeArray($Bericht); // komische verschachtelte Arrays
 
 
-        echo "<form method=\"POST\" action=\"index.php?action=m_kbparser1&parsstatus=write&sid=" . $sid . "\" enctype=\"multipart/form-data\">\n";
-        echo "<table border=\"1\" cellpadding=\"2\" cellspacing=\"1\" style=\"width: 90%;\">\n";
+        echo "<form method='POST' action='index.php?action=m_kbparser1&parsstatus=write&sid=" . $sid . "' enctype='multipart/form-data'>\n";
+        echo "<table border='1' cellpadding='2' cellspacing='1' style='width: 90%;'>\n";
 
         // Optionen
         echo "  <tr>\n";
-        echo "     <td align=\"center\" colspan=8 >";
-        echo "        Optionen: <input type=\"checkbox\" name=\"optionQuote\" value=\"on\" checked>Quoten";
-        echo "        / <input type=\"checkbox\" name=\"optionTab\" value=\"on\" checked>Tabellen";
-        echo "        / <input type=\"checkbox\" name=\"optionHr\" value=\"on\" checked>horizonale Linie";
-        echo "        / <input type=\"checkbox\" name=\"optionAlign\" value=\"on\" checked>Ausrichtung";
-        echo "        / <input type=\"checkbox\" name=\"optionColor\" value=\"on\" checked>Farbe";
-        echo "        / <input type=\"checkbox\" name=\"optionForm\" value=\"on\" checked>Format";
-        echo "        / <input type=\"checkbox\" name=\"optionLink\" value=\"on\">DirektLink";
-        echo "        / <input type=\"checkbox\" name=\"optionHtml\" value=\"on\" >HTML";
+        echo "     <td align='center' colspan=8 >";
+        echo "        Optionen: <input type='checkbox' name='optionQuote' value='on' checked>Quoten";
+        echo "        / <input type='checkbox' name='optionTab' value='on' checked>Tabellen";
+        echo "        / <input type='checkbox' name='optionHr' value='on' checked>horizonale Linie";
+        echo "        / <input type='checkbox' name='optionAlign' value='on' checked>Ausrichtung";
+        echo "        / <input type='checkbox' name='optionColor' value='on' checked>Farbe";
+        echo "        / <input type='checkbox' name='optionForm' value='on' checked>Format";
+        echo "        / <input type='checkbox' name='optionLink' value='on'>DirektLink";
+        echo "        / <input type='checkbox' name='optionHtml' value='on' >HTML";
         echo "     </td>";
         echo "  </tr>\n";
 
 
         echo "  <tr>\n";
-        echo "     <td align=\"center\" colspan=\"8\">";
-        echo "       <input type=\"submit\" value=\"BB-Code gleich generieren\" style=\"color:#FFFFFF; background-color: #00688B;\">";
+        echo "     <td align='center' colspan='8'>";
+        echo "       <input type='submit' value='BB-Code gleich generieren' style='color:#FFFFFF; background-color: #00688B;'>";
         echo "     </td> ";
         echo "  </tr>\n ";
 
 
 // Kampf auf dem Planeten
         echo "  <tr>\n";
-        echo "     <td align=\"left\" colspan=\"8\" style=\"color:#000000; background-color:#CAE1FF;\" >";
-        echo "        <input TYPE=HIDDEN name=\"mainline\" type=\"text\" value=\"Kampf auf dem Planeten [b]" . $KBdata['kampf']['plani_data']['plani_name'] . " " . $KBdata['kampf']['plani_data']['koordinaten']['string'] . "[/b], der Besitzer ist [b]" . $KBdata['kampf']['plani_data']['user']['name'] . " [" . $KBdata['kampf']['plani_data']['user']['allianz_tag'] . "][/b].\" readonly>";
+        echo "     <td align='left' colspan='8' style='color:#000000; background-color:#CAE1FF;' >";
+        echo "        <input TYPE=HIDDEN name='mainline' type='text' value='Kampf auf dem Planeten [b]" . $KBdata['kampf']['plani_data']['plani_name'] . " " . $KBdata['kampf']['plani_data']['koordinaten']['string'] . "[/b], der Besitzer ist [b]" . $KBdata['kampf']['plani_data']['user']['name'] . " [" . $KBdata['kampf']['plani_data']['user']['allianz_tag'] . "][/b].' readonly>";
         echo "        Kampf auf dem Planeten <b>" . $KBdata['kampf']['plani_data']['plani_name'] . " " . $KBdata['kampf']['plani_data']['koordinaten']['string'] . "</b>, der Besitzer ist <b>" . $KBdata['kampf']['plani_data']['user']['name'] . " [" . $KBdata['kampf']['plani_data']['user']['allianz_tag'] . "]</b> ";
         echo "     </td> ";
         echo "  </tr>\n ";
         // Am Datum endete der Kampf mit einem Sieg für den ...
         setlocale(LC_ALL, 'de_DE@euro', 'de_DE', 'de', 'ge');
         echo "  <tr>\n";
-        echo "     <td class=\"windowbg1\" align=\"left\" colspan=\"8\">";
+        echo "     <td class='windowbg1' align='left' colspan='8'>";
         echo          strftime("Am <i>%d. %B %Y um %H:%M:%S</i>", $KBdata['kampf']['timestamp']) . " endete der Kampf mit einem Sieg für den ";
         if ($KBdata['kampf']['resultat']['id'] == 1) {
-            echo "<font color=\"green\"><b>Angreifer</b></font>";
+            echo "<font color='green'><b>Angreifer</b></font>";
         }
         else {
-            echo "<font color=\"red\"><b>Verteidiger</b></font>";
+            echo "<font color='red'><b>Verteidiger</b></font>";
         }
-        echo "        <input TYPE=HIDDEN name=\"dateline\" type=\"text\" value=\"" . strftime("Am <i>%d. %B %Y um %H:%M:%S</i>", $KBdata['kampf']['timestamp']) . " endete der Kampf mit einem Sieg für den ";
+        echo "        <input TYPE=HIDDEN name='dateline' type='text' value='" . strftime("Am <i>%d. %B %Y um %H:%M:%S</i>", $KBdata['kampf']['timestamp']) . " endete der Kampf mit einem Sieg für den ";
         if ($KBdata['kampf']['resultat']['id'] == 1) {
             echo "[color=green][b]Angreifer[/b][/color]";
         }
         else {
             echo "[color=red][b]Verteidiger[/b][/color]";
         }
-        echo                  "\" readonly>";
+        echo                  "' readonly>";
         echo "     </td> ";
         echo "  </tr>\n ";
         // Angreifende Flotten
         $i = 1;
         foreach ($KBdata['kampf']['flotten_att'] as $user) {
             echo "  <tr>\n";
-            echo "     <td align=\"left\" colspan=\"8\" style=\"color:#000000; background-color:#CAE1FF;\" >";
+            echo "     <td align='left' colspan='8' style='color:#000000; background-color:#CAE1FF;' >";
             echo "       Angreifende Flotte von <b>" . $user['name'] . " [" . $user['allianz_tag'] . "]</b>, Startplanet war " . $user['startplanet']['plani_name'] . " " . $user['startplanet']['koordinaten']['string'];
-            echo "       <input TYPE=HIDDEN name=\"atter" . $i . "\" type=\"text\" value=\"Angreifende Flotte von [b]" . $user['name'] . " [" . $user['allianz_tag'] . "][/b], Startplanet war " . $user['startplanet']['plani_name'] . " " . $user['startplanet']['koordinaten']['string'] . "\" readonly>";
+            echo "       <input TYPE=HIDDEN name='atter" . $i . "' type='text' value='Angreifende Flotte von [b]" . $user['name'] . " [" . $user['allianz_tag'] . "][/b], Startplanet war " . $user['startplanet']['plani_name'] . " " . $user['startplanet']['koordinaten']['string'] . "' readonly>";
             echo "     </td> ";
             echo "  </tr>\n ";
             if (empty($user['bloedsinn']['kaffee']) == false) {
                 echo "  <tr>\n";
-                echo "     <td align=\"left\" colspan=\"8\">";
+                echo "     <td align='left' colspan='8'>";
                 echo "        Die Flotte brachte Kaffee und Kuchen mit";
-                echo "        <input TYPE=HIDDEN name=\"atterkuchen" . $i . "\" type=\"text\" value=\"1\" readonly>";
+                echo "        <input TYPE=HIDDEN name='atterkuchen" . $i . "' type='text' value='1' readonly>";
                 echo "     </td>";
                 echo "  </tr>\n";
             }
             if (empty($user['bloedsinn']['lollis']) == false) {
                 echo "  <tr>\n";
-                echo "     <td align=\"left\" colspan=\"8\">";
+                echo "     <td align='left' colspan='8'>";
                 echo "        Diese wilden Barbarben haben unseren kleinen Kindern die Lollis geklaut!! Das schreit gradezu nach Rache.";
-                echo "        <input TYPE=HIDDEN name=\"atterlollies" . $i . "\" type=\"text\" value=\"1\" readonly>";
+                echo "        <input TYPE=HIDDEN name='atterlollies" . $i . "' type='text' value='1' readonly>";
                 echo "     </td>";
                 echo "  </tr>\n";
             }
             if (empty($user['bloedsinn']['msg']) == false) {
                 echo "  <tr>\n";
-                echo "     <td align=\"left\" colspan=\"8\">";
+                echo "     <td align='left' colspan='8'>";
                 echo "        Der Kommunikation konnte folgendes dekodieren: " . $user['bloedsinn']['msg'];
-                echo "        <input TYPE=HIDDEN name=\"attermsg" . $i . "\" type=\"text\" value=\"Der Kommunikation konnte folgendes dekodieren: " . $user['bloedsinn']['msg'] . "\" readonly>";
+                echo "        <input TYPE=HIDDEN name='attermsg" . $i . "' type='text' value='Der Kommunikation konnte folgendes dekodieren: " . $user['bloedsinn']['msg'] . "' readonly>";
                 echo "     </td>";
                 echo "  </tr>\n";
             }
             //Schiffe
             echo "  <tr>\n";
-            echo "    <td align=\"center\">";
+            echo "    <td align='center'>";
             echo "     Schiffname";
             echo "    </td>";
-            echo "    <td align=\"center\">";
+            echo "    <td align='center'>";
             echo "     Anzahl";
             echo "    </td>";
-            echo "    <td align=\"center\">";
+            echo "    <td align='center'>";
             echo "     Zerstört";
             echo "    </td>";
-            echo "    <td align=\"center\">";
+            echo "    <td align='center'>";
             echo "     Überlebend";
             echo "    </td>";
-            echo "    <td align=\"center\">";
+            echo "    <td align='center'>";
             echo "       <b>F</b>";
             echo "    </td>";
-            echo "    <td align=\"center\" >";
+            echo "    <td align='center' >";
             echo "       <i>K</i>";
             echo "    </td>";
-            echo "    <td align=\"center\" >";
+            echo "    <td align='center' >";
             echo "       <u>U</u>";
             echo "    </td>";
-            echo "    <td align=\"center\" >";
+            echo "    <td align='center' >";
             echo "       Farbe";
             echo "    </td>";
             echo "  </tr>\n";
             $j = 1;
             foreach ($user['schiffe'] as $schiffe) {
                 echo "  <tr>\n";
-                echo "    <td align=\"left\">";
+                echo "    <td align='left'>";
                 echo        $schiffe['name'];
-                echo "      <input TYPE=HIDDEN name=\"atterschiffname" . $i . "_" . $j . "\" type=\"text\" value=\"" . $schiffe['name'] . "\" readonly>";
+                echo "      <input TYPE=HIDDEN name='atterschiffname" . $i . "_" . $j . "' type='text' value='" . $schiffe['name'] . "' readonly>";
                 echo "    </td>";
-                echo "    <td align=\"right\">";
+                echo "    <td align='right'>";
                 echo        $schiffe['anzahl_start'];
-                echo "      <input TYPE=HIDDEN name=\"atterschiffstart" . $i . "_" . $j . "\" type=\"text\" value=\"" . $schiffe['anzahl_start'] . "\" readonly>";
+                echo "      <input TYPE=HIDDEN name='atterschiffstart" . $i . "_" . $j . "' type='text' value='" . $schiffe['anzahl_start'] . "' readonly>";
                 echo "    </td>";
-                echo "    <td align=\"right\">";
+                echo "    <td align='right'>";
                 echo        $schiffe['anzahl_verlust'];
-                echo "      <input TYPE=HIDDEN name=\"atterschiffweg" . $i . "_" . $j . "\" type=\"text\" value=\"" . $schiffe['anzahl_verlust'] . "\" readonly>";
+                echo "      <input TYPE=HIDDEN name='atterschiffweg" . $i . "_" . $j . "' type='text' value='" . $schiffe['anzahl_verlust'] . "' readonly>";
                 echo "    </td>";
-                echo "    <td align=\"right\">";
+                echo "    <td align='right'>";
                 echo        $schiffe['anzahl_ende'];
-                echo "      <input TYPE=HIDDEN name=\"atterschiffende" . $i . "_" . $j . "\" type=\"text\" value=\"" . $schiffe['anzahl_ende'] . "\" readonly>";
+                echo "      <input TYPE=HIDDEN name='atterschiffende" . $i . "_" . $j . "' type='text' value='" . $schiffe['anzahl_ende'] . "' readonly>";
                 echo "    </td>";
-                echo "    <td align=\"center\">";
-                echo "      <input type=\"checkbox\" name=\"Attformf" . $i . "_" . $j . "\" value=\"f\">";
+                echo "    <td align='center'>";
+                echo "      <input type='checkbox' name='Attformf" . $i . "_" . $j . "' value='f'>";
                 echo "    </td>";
-                echo "    <td align=\"center\">";
-                echo "      <input type=\"checkbox\" name=\"Attformk" . $i . "_" . $j . "\" value=\"k\">";
+                echo "    <td align='center'>";
+                echo "      <input type='checkbox' name='Attformk" . $i . "_" . $j . "' value='k'>";
                 echo "    </td>";
-                echo "    <td align=\"center\">";
-                echo "      <input type=\"checkbox\" name=\"Attformu" . $i . "_" . $j . "\" value=\"u\">";
+                echo "    <td align='center'>";
+                echo "      <input type='checkbox' name='Attformu" . $i . "_" . $j . "' value='u'>";
                 echo "    </td>";
-                echo "    <td align=\"center\">";
-                echo "      <select name=\"Attformc" . $i . "_" . $j . "\" size=\"1\"> ";
+                echo "    <td align='center'>";
+                echo "      <select name='Attformc" . $i . "_" . $j . "' size='1'> ";
                 echo "         <option>keine</option> ";
                 echo "         <option>red</option> ";
                 echo "         <option>yellow</option> ";
@@ -493,70 +493,70 @@ if ($parsstatus == "read") // KB einlesen und für die Formatierung ausgeben
         $i = 1;
         foreach ($KBdata['kampf']['pla_def'] as $user) {
             echo "  <tr>\n";
-            echo "     <td align=\"left\" colspan=\"8\" style=\"color:#000000; background-color:#CAE1FF;\">";
+            echo "     <td align='left' colspan='8' style='color:#000000; background-color:#CAE1FF;'>";
             echo "       Verteidiger ist <b>" . $user['name'] . " [" . $user['allianz_tag'] . "]</b>";
-            echo "       <input TYPE=HIDDEN name=\"pladeffer" . $i . "\" type=\"text\" value=\"Verteidiger ist [b]" . $user['name'] . " [" . $user['allianz_tag'] . "][/b]\" readonly>";
+            echo "       <input TYPE=HIDDEN name='pladeffer" . $i . "' type='text' value='Verteidiger ist [b]" . $user['name'] . " [" . $user['allianz_tag'] . "][/b]' readonly>";
             echo "     </td> ";
             echo "  </tr>\n ";
 
             //stationäre
             if (empty($user['defence']) == false) {
                 echo "  <tr>\n";
-                echo "    <td align=\"center\" >";
+                echo "    <td align='center' >";
                 echo "     Verteidigungsanlage";
                 echo "    </td>";
-                echo "    <td align=\"center\" >";
+                echo "    <td align='center' >";
                 echo "     Anzahl";
                 echo "    </td>";
-                echo "    <td align=\"center\" >";
+                echo "    <td align='center' >";
                 echo "     Zerstört";
                 echo "    </td>";
-                echo "    <td align=\"center\" >";
+                echo "    <td align='center' >";
                 echo "     Überlebend";
                 echo "    </td>";
-                echo "    <td align=\"center\" >";
+                echo "    <td align='center' >";
                 echo "       <b>F</b>";
                 echo "    </td>";
-                echo "    <td align=\"center\" >";
+                echo "    <td align='center' >";
                 echo "       <i>K</i>";
                 echo "    </td>";
-                echo "    <td align=\"center\" >";
+                echo "    <td align='center' >";
                 echo "       <u>U</u>";
                 echo "    </td>";
-                echo "    <td align=\"center\" >";
+                echo "    <td align='center' >";
                 echo "       Farbe";
                 echo "    </td>";
                 echo "  </tr>\n";
                 $j = 1;
                 foreach ($user['defence'] as $schiffe) {
                     echo "  <tr>\n";
-                    echo "    <td align=\"left\" >";
+                    echo "    <td align='left' >";
                     echo        $schiffe['name'];
-                    echo "      <input TYPE=HIDDEN name=\"pladefturm" . $i . "_" . $j . "\" type=\"text\" value=\"" . $schiffe['name'] . "\" readonly>";
+                    echo "      <input TYPE=HIDDEN name='pladefturm" . $i . "_" . $j . "' type='text' value='" . $schiffe['name'] . "' readonly>";
                     echo "    </td>";
-                    echo "    <td align=\"right\" >";
+                    echo "    <td align='right' >";
                     echo        $schiffe['anzahl_start'];
-                    echo "      <input TYPE=HIDDEN name=\"pladefturmstart" . $i . "_" . $j . "\" type=\"text\" value=\"" . $schiffe['anzahl_start'] . "\" readonly>";
+                    echo "      <input TYPE=HIDDEN name='pladefturmstart" . $i . "_" . $j . "' type='text' value='" . $schiffe['anzahl_start'] . "' readonly>";
                     echo "    </td>";
-                    echo "    <td align=\"right\" >";
+                    echo "    <td align='right' >";
                     echo        $schiffe['anzahl_verlust'];
-                    echo "      <input TYPE=HIDDEN name=\"pladefturmweg" . $i . "_" . $j . "\" type=\"text\" value=\"" . $schiffe['anzahl_verlust'] . "\" readonly>";
+                    echo "      <input TYPE=HIDDEN name='pladefturmweg" . $i . "_" . $j . "' type='text' value='" . $schiffe['anzahl_verlust'] . "' readonly>";
                     echo "    </td>";
-                    echo "    <td align=\"right\" >";
+                    echo "    <td align='right' >";
                     echo        $schiffe['anzahl_ende'];
-                    echo "      <input TYPE=HIDDEN name=\"pladefturmende" . $i . "_" . $j . "\" type=\"text\" value=\"" . $schiffe['anzahl_ende'] . "\" readonly>";
+                    echo "      <input TYPE=HIDDEN name='pladefturmende" . $i . "_" . $j . "' type='text' value='" . $schiffe['anzahl_ende'] . "' readonly>";
                     echo "    </td>";
-                    echo "    <td align=\"center\" >";
-                    echo "      <input type=\"checkbox\" name=\"Pladefturmformf" . $i . "_" . $j . "\" value=\"f\">";
+                    echo "    <td align='center' >";
+                    echo "      <input type='checkbox' name='Pladefturmformf" . $i . "_" . $j . "' value='f'>";
                     echo "    </td>";
-                    echo "    <td align=\"center\" >";
-                    echo "      <input type=\"checkbox\" name=\"Pladefturmformk" . $i . "_" . $j . "\" value=\"k\">";
+                    echo "    <td align='center' >";
+                    echo "      <input type='checkbox' name='Pladefturmformk" . $i . "_" . $j . "' value='k'>";
                     echo "    </td>";
-                    echo "    <td align=\"center\" >";
-                    echo "      <input type=\"checkbox\" name=\"Pladefturmformu" . $i . "_" . $j . "\" value=\"u\">";
+                    echo "    <td align='center' >";
+                    echo "      <input type='checkbox' name='Pladefturmformu" . $i . "_" . $j . "' value='u'>";
                     echo "    </td>";
-                    echo "    <td align=\"center\" >";
-                    echo "      <select name=\"Pladefturmformc" . $i . "_" . $j . "\" size=\"1\"> ";
+                    echo "    <td align='center' >";
+                    echo "      <select name='Pladefturmformc" . $i . "_" . $j . "' size='1'> ";
                     echo "         <option>keine</option> ";
                     echo "         <option>red</option> ";
                     echo "         <option>yellow</option> ";
@@ -581,61 +581,61 @@ if ($parsstatus == "read") // KB einlesen und für die Formatierung ausgeben
             //flotte
             if (empty($user['schiffe']) == false) {
                 echo "  <tr>\n";
-                echo "    <td align=\"center\" >";
+                echo "    <td align='center' >";
                 echo "     Schiffnamen";
                 echo "    </td>";
-                echo "    <td align=\"center\" >";
+                echo "    <td align='center' >";
                 echo "     Anzahl";
                 echo "    </td>";
-                echo "    <td align=\"center\" >";
+                echo "    <td align='center' >";
                 echo "     Zerstört";
                 echo "    </td>";
-                echo "    <td align=\"center\" >";
+                echo "    <td align='center' >";
                 echo "     Überlebend";
                 echo "    </td>";
-                echo "    <td align=\"center\" >";
+                echo "    <td align='center' >";
                 echo "       <b>F</b>";
                 echo "    </td>";
-                echo "    <td align=\"center\" >";
+                echo "    <td align='center' >";
                 echo "       <i>K</i>";
                 echo "    </td>";
-                echo "    <td align=\"center\" >";
+                echo "    <td align='center' >";
                 echo "       <u>U</u>";
                 echo "    </td>";
-                echo "    <td align=\"center\" >";
+                echo "    <td align='center' >";
                 echo "       Farbe";
                 echo "    </td>";
                 echo "  </tr>\n";
                 $j = 1;
                 foreach ($user['schiffe'] as $schiffe) {
                     echo "  <tr>\n";
-                    echo "    <td align=\"left\" >";
+                    echo "    <td align='left' >";
                     echo        $schiffe['name'];
-                    echo "      <input TYPE=HIDDEN name=\"pladefschiff" . $i . "_" . $j . "\" type=\"text\" value=\"" . $schiffe['name'] . "\" readonly>";
+                    echo "      <input TYPE=HIDDEN name='pladefschiff" . $i . "_" . $j . "' type='text' value='" . $schiffe['name'] . "' readonly>";
                     echo "    </td>";
-                    echo "    <td align=\"right\" >";
+                    echo "    <td align='right' >";
                     echo        $schiffe['anzahl_start'];
-                    echo "      <input TYPE=HIDDEN name=\"pladefschiffstart" . $i . "_" . $j . "\" type=\"text\" value=\"" . $schiffe['anzahl_start'] . "\" readonly>";
+                    echo "      <input TYPE=HIDDEN name='pladefschiffstart" . $i . "_" . $j . "' type='text' value='" . $schiffe['anzahl_start'] . "' readonly>";
                     echo "    </td>";
-                    echo "    <td align=\"right\" >";
+                    echo "    <td align='right' >";
                     echo        $schiffe['anzahl_verlust'];
-                    echo "      <input TYPE=HIDDEN name=\"pladefschiffweg" . $i . "_" . $j . "\" type=\"text\" value=\"" . $schiffe['anzahl_verlust'] . "\" readonly>";
+                    echo "      <input TYPE=HIDDEN name='pladefschiffweg" . $i . "_" . $j . "' type='text' value='" . $schiffe['anzahl_verlust'] . "' readonly>";
                     echo "    </td>";
-                    echo "    <td align=\"right\" >";
+                    echo "    <td align='right' >";
                     echo        $schiffe['anzahl_ende'];
-                    echo "      <input TYPE=HIDDEN name=\"pladefschiffende" . $i . "_" . $j . "\" type=\"text\" value=\"" . $schiffe['anzahl_ende'] . "\" readonly>";
+                    echo "      <input TYPE=HIDDEN name='pladefschiffende" . $i . "_" . $j . "' type='text' value='" . $schiffe['anzahl_ende'] . "' readonly>";
                     echo "    </td>";
-                    echo "    <td align=\"center\" >";
-                    echo "      <input type=\"checkbox\" name=\"Pladefschiffformf" . $i . "_" . $j . "\" value=\"f\">";
+                    echo "    <td align='center' >";
+                    echo "      <input type='checkbox' name='Pladefschiffformf" . $i . "_" . $j . "' value='f'>";
                     echo "    </td>";
-                    echo "    <td align=\"center\" >";
-                    echo "      <input type=\"checkbox\" name=\"Pladefschiffformk" . $i . "_" . $j . "\" value=\"k\">";
+                    echo "    <td align='center' >";
+                    echo "      <input type='checkbox' name='Pladefschiffformk" . $i . "_" . $j . "' value='k'>";
                     echo "    </td>";
-                    echo "    <td align=\"center\" >";
-                    echo "      <input type=\"checkbox\" name=\"Pladefschiffformu" . $i . "_" . $j . "\" value=\"u\">";
+                    echo "    <td align='center' >";
+                    echo "      <input type='checkbox' name='Pladefschiffformu" . $i . "_" . $j . "' value='u'>";
                     echo "    </td>";
-                    echo "    <td align=\"center\" >";
-                    echo "      <select name=\"Pladefschiffformc" . $i . "_" . $j . "\" size=\"1\"> ";
+                    echo "    <td align='center' >";
+                    echo "      <select name='Pladefschiffformc" . $i . "_" . $j . "' size='1'> ";
                     echo "         <option>keine</option> ";
                     echo "         <option>red</option> ";
                     echo "         <option>yellow</option> ";
@@ -666,68 +666,68 @@ if ($parsstatus == "read") // KB einlesen und für die Formatierung ausgeben
             $i = 1;
             foreach ($KBdata['kampf']['flotten_def'] as $user) {
                 echo "  <tr>\n";
-                echo "     <td align=\"left\" colspan=\"8\" style=\"color:#000000; background-color:#CAE1FF;\" >";
+                echo "     <td align='left' colspan='8' style='color:#000000; background-color:#CAE1FF;' >";
                 echo "       Verteidigende Flotte von <b>" . $user['name'] . " [" . $user['allianz_tag'] . "]</b>";
-                echo "       <input TYPE=HIDDEN name=\"deffer" . $i . "\" type=\"text\" value=\"Verteidigenden Flotte von [b]" . $user['name'] . " [" . $user['allianz_tag'] . "][/b]\" readonly>";
+                echo "       <input TYPE=HIDDEN name='deffer" . $i . "' type='text' value='Verteidigenden Flotte von [b]" . $user['name'] . " [" . $user['allianz_tag'] . "][/b]' readonly>";
                 echo "     </td> ";
                 echo "  </tr>\n ";
                 //schiffe
                 echo "  <tr>\n";
-                echo "    <td align=\"center\" >";
+                echo "    <td align='center' >";
                 echo "     Schiffname";
                 echo "    </td>";
-                echo "    <td align=\"center\" >";
+                echo "    <td align='center' >";
                 echo "     Anzahl";
                 echo "    </td>";
-                echo "    <td align=\"center\" >";
+                echo "    <td align='center' >";
                 echo "     Zerstört";
                 echo "    </td>";
-                echo "    <td align=\"center\" >";
+                echo "    <td align='center' >";
                 echo "     Überlebend";
                 echo "    </td>";
-                echo "    <td align=\"center\" >";
+                echo "    <td align='center' >";
                 echo "       <b>F</b>";
                 echo "    </td>";
-                echo "    <td align=\"center\" >";
+                echo "    <td align='center' >";
                 echo "       <i>K</i>";
                 echo "    </td>";
-                echo "    <td align=\"center\" >";
+                echo "    <td align='center' >";
                 echo "       <u>U</u>";
                 echo "    </td>";
-                echo "    <td align=\"center\" >";
+                echo "    <td align='center' >";
                 echo "       Farbe";
                 echo "    </td>";
                 echo "  </tr>\n";
                 $j = 1;
                 foreach ($user['schiffe'] as $schiffe) {
                     echo "  <tr>\n";
-                    echo "    <td align=\"left\" >";
+                    echo "    <td align='left' >";
                     echo        $schiffe['name'];
-                    echo "      <input TYPE=HIDDEN name=\"defferschiffname" . $i . "_" . $j . "\" type=\"text\" value=\"" . $schiffe['name'] . "\" readonly>";
+                    echo "      <input TYPE=HIDDEN name='defferschiffname" . $i . "_" . $j . "' type='text' value='" . $schiffe['name'] . "' readonly>";
                     echo "    </td>";
-                    echo "    <td align=\"right\" >";
+                    echo "    <td align='right' >";
                     echo        $schiffe['anzahl_start'];
-                    echo "      <input TYPE=HIDDEN name=\"defferschiffstart" . $i . "_" . $j . "\" type=\"text\" value=\"" . $schiffe['anzahl_start'] . "\" readonly>";
+                    echo "      <input TYPE=HIDDEN name='defferschiffstart" . $i . "_" . $j . "' type='text' value='" . $schiffe['anzahl_start'] . "' readonly>";
                     echo "    </td>";
-                    echo "    <td align=\"right\" >";
+                    echo "    <td align='right' >";
                     echo        $schiffe['anzahl_verlust'];
-                    echo "      <input TYPE=HIDDEN name=\"defferschiffweg" . $i . "_" . $j . "\" type=\"text\" value=\"" . $schiffe['anzahl_verlust'] . "\" readonly>";
+                    echo "      <input TYPE=HIDDEN name='defferschiffweg" . $i . "_" . $j . "' type='text' value='" . $schiffe['anzahl_verlust'] . "' readonly>";
                     echo "    </td>";
-                    echo "    <td align=\"right\" >";
+                    echo "    <td align='right' >";
                     echo        $schiffe['anzahl_ende'];
-                    echo "      <input TYPE=HIDDEN name=\"defferschiffende" . $i . "_" . $j . "\" type=\"text\" value=\"" . $schiffe['anzahl_ende'] . "\" readonly>";
+                    echo "      <input TYPE=HIDDEN name='defferschiffende" . $i . "_" . $j . "' type='text' value='" . $schiffe['anzahl_ende'] . "' readonly>";
                     echo "    </td>";
-                    echo "    <td align=\"center\" >";
-                    echo "      <input type=\"checkbox\" name=\"Deffformf" . $i . "_" . $j . "\" value=\"f\">";
+                    echo "    <td align='center' >";
+                    echo "      <input type='checkbox' name='Deffformf" . $i . "_" . $j . "' value='f'>";
                     echo "    </td>";
-                    echo "    <td align=\"center\" >";
-                    echo "      <input type=\"checkbox\" name=\"Deffformk" . $i . "_" . $j . "\" value=\"k\">";
+                    echo "    <td align='center' >";
+                    echo "      <input type='checkbox' name='Deffformk" . $i . "_" . $j . "' value='k'>";
                     echo "    </td>";
-                    echo "    <td align=\"center\" >";
-                    echo "      <input type=\"checkbox\" name=\"Deffformu" . $i . "_" . $j . "\" value=\"u\">";
+                    echo "    <td align='center' >";
+                    echo "      <input type='checkbox' name='Deffformu" . $i . "_" . $j . "' value='u'>";
                     echo "    </td>";
-                    echo "    <td align=\"center\" >";
-                    echo "      <select name=\"Deffformc" . $i . "_" . $j . "\" size=\"1\"> ";
+                    echo "    <td align='center' >";
+                    echo "      <select name='Deffformc" . $i . "_" . $j . "' size='1'> ";
                     echo "         <option>keine</option> ";
                     echo "         <option>red</option> ";
                     echo "         <option>yellow</option> ";
@@ -756,50 +756,50 @@ if ($parsstatus == "read") // KB einlesen und für die Formatierung ausgeben
 
         if (empty($KBdata['kampf']['resverluste']['att']) == false) {
             echo "  <tr>\n";
-            echo "     <td align=\"left\" colspan=\"8\" style=\"color:#000000; background-color:#CAE1FF;\" >";
+            echo "     <td align='left' colspan='8' style='color:#000000; background-color:#CAE1FF;' >";
             echo "       <b>Verluste des Angreiffers</b>";
             echo "     </td> ";
             echo "  </tr>\n ";
             echo "  <tr>\n";
-            echo "    <td align=\"center\">";
+            echo "    <td align='center'>";
             echo "     Ressource";
             echo "    </td>";
-            echo "    <td colspan=\"3\" align=\"center\">";
+            echo "    <td colspan='3' align='center'>";
             echo "     Anzahl";
             echo "    </td>";
-            echo "    <td align=\"center\" >";
+            echo "    <td align='center' >";
             echo "       <b>F</b>";
             echo "    </td>";
-            echo "    <td align=\"center\" >";
+            echo "    <td align='center' >";
             echo "       <i>K</i>";
             echo "    </td>";
-            echo "    <td align=\"center\" >";
+            echo "    <td align='center' >";
             echo "       <u>U</u>";
             echo "    </td>";
-            echo "    <td align=\"center\" >";
+            echo "    <td align='center' >";
             echo "       Farbe";
             echo "    </td>";
             echo "  </tr>\n";
             foreach ($KBdata['kampf']['resverluste']['att'] as $loos) {
                 echo "  <tr>\n";
-                echo "     <td align=\"left\"  >";
+                echo "     <td align='left'  >";
                 echo         $loos['name'];
                 echo "     </td>";
-                echo "     <td colspan=\"3\" align=\"right\">";
+                echo "     <td colspan='3' align='right'>";
                 echo         number_format($loos['anzahl'], 0, ",", " ");
-                echo "       <input TYPE=HIDDEN name=\"attverlust" . $loos['id'] . "\" type=\"text\" value=\"" . number_format($loos['anzahl'], 0, ",", " ") . "\" readonly>";
+                echo "       <input TYPE=HIDDEN name='attverlust" . $loos['id'] . "' type='text' value='" . number_format($loos['anzahl'], 0, ",", " ") . "' readonly>";
                 echo "     </td>";
-                echo "    <td align=\"center\" >";
-                echo "      <input type=\"checkbox\" name=\"attverlustformf" . $loos['id'] . "\" value=\"f\">";
+                echo "    <td align='center' >";
+                echo "      <input type='checkbox' name='attverlustformf" . $loos['id'] . "' value='f'>";
                 echo "    </td>";
-                echo "    <td align=\"center\" >";
-                echo "      <input type=\"checkbox\" name=\"attverlustformk" . $loos['id'] . "\" value=\"k\">";
+                echo "    <td align='center' >";
+                echo "      <input type='checkbox' name='attverlustformk" . $loos['id'] . "' value='k'>";
                 echo "    </td>";
-                echo "    <td align=\"center\" >";
-                echo "      <input type=\"checkbox\" name=\"attverlustformu" . $loos['id'] . "\" value=\"u\">";
+                echo "    <td align='center' >";
+                echo "      <input type='checkbox' name='attverlustformu" . $loos['id'] . "' value='u'>";
                 echo "    </td>";
-                echo "    <td align=\"center\" >";
-                echo "      <select name=\"attverlustformc" . $loos['id'] . "\" size=\"1\"> ";
+                echo "    <td align='center' >";
+                echo "      <select name='attverlustformc" . $loos['id'] . "' size='1'> ";
                 echo "         <option>keine</option> ";
                 echo "         <option>red</option> ";
                 echo "         <option>yellow</option> ";
@@ -823,50 +823,50 @@ if ($parsstatus == "read") // KB einlesen und für die Formatierung ausgeben
 
         if (empty($KBdata['kampf']['resverluste']['def']) == false) {
             echo "  <tr>\n";
-            echo "     <td align=\"left\" colspan=\"8\" style=\"color:#000000; background-color:#CAE1FF;\" >";
+            echo "     <td align='left' colspan='8' style='color:#000000; background-color:#CAE1FF;' >";
             echo "       <b>Verluste des Verteidigers</b>";
             echo "     </td> ";
             echo "  </tr>\n ";
             echo "  <tr>\n";
-            echo "    <td align=\"center\">";
+            echo "    <td align='center'>";
             echo "     Ressource";
             echo "    </td>";
-            echo "    <td colspan=\"3\" align=\"center\">";
+            echo "    <td colspan='3' align='center'>";
             echo "     Anzahl";
             echo "    </td>";
-            echo "    <td align=\"center\" >";
+            echo "    <td align='center' >";
             echo "       <b>F</b>";
             echo "    </td>";
-            echo "    <td align=\"center\" >";
+            echo "    <td align='center' >";
             echo "       <i>K</i>";
             echo "    </td>";
-            echo "    <td align=\"center\" >";
+            echo "    <td align='center' >";
             echo "       <u>U</u>";
             echo "    </td>";
-            echo "    <td align=\"center\" >";
+            echo "    <td align='center' >";
             echo "       Farbe";
             echo "    </td>";
             echo "  </tr>\n";
             foreach ($KBdata['kampf']['resverluste']['def'] as $loos) {
                 echo "  <tr>\n";
-                echo "     <td align=\"left\" >";
+                echo "     <td align='left' >";
                 echo         $loos['name'];
                 echo "     </td>";
-                echo "     <td colspan=\"3\" align=\"right\" >";
+                echo "     <td colspan='3' align='right' >";
                 echo         number_format($loos['anzahl'], 0, ",", " ");
-                echo "       <input TYPE=HIDDEN name=\"defverlust" . $loos['id'] . "\" type=\"text\" value=\"" . number_format($loos['anzahl'], 0, ",", " ") . "\" readonly>";
+                echo "       <input TYPE=HIDDEN name='defverlust" . $loos['id'] . "' type='text' value='" . number_format($loos['anzahl'], 0, ",", " ") . "' readonly>";
                 echo "     </td>";
-                echo "    <td align=\"center\" >";
-                echo "      <input type=\"checkbox\" name=\"defverlustformf" . $loos['id'] . "\" value=\"f\">";
+                echo "    <td align='center' >";
+                echo "      <input type='checkbox' name='defverlustformf" . $loos['id'] . "' value='f'>";
                 echo "    </td>";
-                echo "    <td align=\"center\" >";
-                echo "      <input type=\"checkbox\" name=\"defverlustformk" . $loos['id'] . "\" value=\"k\">";
+                echo "    <td align='center' >";
+                echo "      <input type='checkbox' name='defverlustformk" . $loos['id'] . "' value='k'>";
                 echo "    </td>";
-                echo "    <td align=\"center\" >";
-                echo "      <input type=\"checkbox\" name=\"defverlustformu" . $loos['id'] . "\" value=\"u\">";
+                echo "    <td align='center' >";
+                echo "      <input type='checkbox' name='defverlustformu" . $loos['id'] . "' value='u'>";
                 echo "    </td>";
-                echo "    <td align=\"center\" >";
-                echo "      <select name=\"defverlustformc" . $loos['id'] . "\" size=\"1\"> ";
+                echo "    <td align='center' >";
+                echo "      <select name='defverlustformc" . $loos['id'] . "' size='1'> ";
                 echo "         <option>keine</option> ";
                 echo "         <option>red</option> ";
                 echo "         <option>yellow</option> ";
@@ -892,50 +892,50 @@ if ($parsstatus == "read") // KB einlesen und für die Formatierung ausgeben
         if (empty($KBdata['kampf']['pluenderung']) == false) {
 
             echo "  <tr>\n";
-            echo "     <td align=\"left\" colspan=\"8\" style=\"color:#000000; background-color:#CAE1FF;\" >";
+            echo "     <td align='left' colspan='8' style='color:#000000; background-color:#CAE1FF;' >";
             echo "       <b>Es wurden folgende Ressourcen geplündert</b>";
             echo "     </td> ";
             echo "  </tr>\n ";
             echo "  <tr>\n";
-            echo "    <td align=\"center\">";
+            echo "    <td align='center'>";
             echo "     Ressource";
             echo "    </td>";
-            echo "    <td colspan=\"3\" align=\"center\">";
+            echo "    <td colspan='3' align='center'>";
             echo "     Anzahl";
             echo "    </td>";
-            echo "    <td align=\"center\" >";
+            echo "    <td align='center' >";
             echo "       <b>F</b>";
             echo "    </td>";
-            echo "    <td align=\"center\" >";
+            echo "    <td align='center' >";
             echo "       <i>K</i>";
             echo "    </td>";
-            echo "    <td align=\"center\" >";
+            echo "    <td align='center' >";
             echo "       <u>U</u>";
             echo "    </td>";
-            echo "    <td align=\"center\" >";
+            echo "    <td align='center' >";
             echo "       Farbe";
             echo "    </td>";
             echo "  </tr>\n";
             foreach ($KBdata['kampf']['pluenderung'] as $loos) {
                 echo "  <tr>\n";
-                echo "     <td align=\"left\" >";
+                echo "     <td align='left' >";
                 echo         $loos['name'];
                 echo "     </td>";
-                echo "     <td colspan=\"3\" align=\"right\">";
+                echo "     <td colspan='3' align='right'>";
                 echo         number_format($loos['anzahl'], 0, ",", " ");
-                echo "       <input TYPE=HIDDEN name=\"weg" . $loos['id'] . "\" type=\"text\" value=\"" . number_format($loos['anzahl'], 0, ",", " ") . "\" readonly>";
+                echo "       <input TYPE=HIDDEN name='weg" . $loos['id'] . "' type='text' value='" . number_format($loos['anzahl'], 0, ",", " ") . "' readonly>";
                 echo "     </td>";
-                echo "    <td align=\"center\" >";
-                echo "      <input type=\"checkbox\" name=\"wegformf" . $loos['id'] . "\" value=\"f\">";
+                echo "    <td align='center' >";
+                echo "      <input type='checkbox' name='wegformf" . $loos['id'] . "' value='f'>";
                 echo "    </td>";
-                echo "    <td align=\"center\" >";
-                echo "      <input type=\"checkbox\" name=\"wegformk" . $loos['id'] . "\" value=\"k\">";
+                echo "    <td align='center' >";
+                echo "      <input type='checkbox' name='wegformk" . $loos['id'] . "' value='k'>";
                 echo "    </td>";
-                echo "    <td align=\"center\" >";
-                echo "      <input type=\"checkbox\" name=\"wegformu" . $loos['id'] . "\" value=\"u\">";
+                echo "    <td align='center' >";
+                echo "      <input type='checkbox' name='wegformu" . $loos['id'] . "' value='u'>";
                 echo "    </td>";
-                echo "    <td align=\"center\" >";
-                echo "      <select name=\"wegformc" . $loos['id'] . "\" size=\"1\"> ";
+                echo "    <td align='center' >";
+                echo "      <select name='wegformc" . $loos['id'] . "' size='1'> ";
                 echo "         <option>keine</option> ";
                 echo "         <option>red</option> ";
                 echo "         <option>yellow</option> ";
@@ -960,21 +960,21 @@ if ($parsstatus == "read") // KB einlesen und für die Formatierung ausgeben
 
         if (empty($KBdata['kampf']['bomben']) == false) {
             echo "  <tr>\n";
-            echo "     <td align=\"left\" colspan=\"8\" style=\"color:#000000; background-color:#CAE1FF;\">";
+            echo "     <td align='left' colspan='8' style='color:#000000; background-color:#CAE1FF;'>";
             echo "       Der Planet wurde von <b>" . $KBdata['kampf']['bomben']['user']['name'] . "</b> ";
-            echo "       <input TYPE=HIDDEN name=\"bomb1\" type=\"text\" value=\"Der Planet wurde von [b]" . $KBdata['kampf']['bomben']['user']['name'] . "[/b] \" readonly>";
-            echo "       <input name=\"bomb2\" type=\"text\" value=\"bombadiert\" size=\"30\" >";
+            echo "       <input TYPE=HIDDEN name='bomb1' type='text' value='Der Planet wurde von [b]" . $KBdata['kampf']['bomben']['user']['name'] . "[/b] ' readonly>";
+            echo "       <input name='bomb2' type='text' value='bombadiert' size='30' >";
             echo "     </td> ";
             echo "  </tr>\n ";
 
             if (empty($KBdata['kampf']['bomben']['bombentrefferchance']) == false) // Bevölkerung
             {
                 echo "  <tr>\n";
-                echo "     <td align=\"left\" colspan=\"8\">";
-                echo "      <input name=\"bombtreff1\" type=\"text\" value=\"Staub, Rauch und Pfefferminzplätzchen hüllten den Planeten ein, so dass die Bombentrefferchance bei \" size=\"70\">";
+                echo "     <td align='left' colspan='8'>";
+                echo "      <input name='bombtreff1' type='text' value='Staub, Rauch und Pfefferminzplätzchen hüllten den Planeten ein, so dass die Bombentrefferchance bei ' size='70'>";
                 echo " <b>" . $KBdata['kampf']['bomben']['bombentrefferchance'] . "%</b> ";
-                echo "      <input TYPE=HIDDEN name=\"bombtreff2\" type=\"text\" value=\" [b]" . $KBdata['kampf']['bomben']['bombentrefferchance'] . "%[/b] \" readonly>";
-                echo "      <input name=\"bombtreff3\" type=\"text\" value=\"lag\" size=\"30\">";
+                echo "      <input TYPE=HIDDEN name='bombtreff2' type='text' value=' [b]" . $KBdata['kampf']['bomben']['bombentrefferchance'] . "%[/b] ' readonly>";
+                echo "      <input name='bombtreff3' type='text' value='lag' size='30'>";
                 echo "     </td> ";
                 echo "  </tr>\n ";
             }
@@ -984,22 +984,22 @@ if ($parsstatus == "read") // KB einlesen und für die Formatierung ausgeben
             {
                 if ($KBdata['kampf']['bomben']['basis_zerstoert'] == 1) {
                     echo "  <tr>\n";
-                    echo "     <td align=\"left\" colspan=\"8\">";
-                    echo "      <input name=\"bomb3\" type=\"text\" value=\"Irgendwer drückte aus Versehen auf den Selbstzerstörungsknopf. Damit endet die ruhmvolle Existenz der Basis. Plop.\" size=\"100\" >";
+                    echo "     <td align='left' colspan='8'>";
+                    echo "      <input name='bomb3' type='text' value='Irgendwer drückte aus Versehen auf den Selbstzerstörungsknopf. Damit endet die ruhmvolle Existenz der Basis. Plop.' size='100' >";
                     echo "     </td> ";
                     echo "  </tr>\n ";
                 } else {
                     echo "  <tr>\n";
-                    echo "     <td align=\"left\" colspan=\"8\">";
-                    echo "      <input name=\"bomb3\" type=\"text\" value=\"Der Wachhabende Offizier konnte den Selbstzerstörungsknopf nicht finden, daher steht die Basis noch.\" size=\"100\" >";
+                    echo "     <td align='left' colspan='8'>";
+                    echo "      <input name='bomb3' type='text' value='Der Wachhabende Offizier konnte den Selbstzerstörungsknopf nicht finden, daher steht die Basis noch.' size='100' >";
                     echo "     </td> ";
                     echo "  </tr>\n ";
                 }
             } elseif (empty($KBdata['kampf']['bomben']['geb_zerstoert']) == true) //keine Gebäude
             {
                 echo "  <tr>\n";
-                echo "     <td align=\"left\" colspan=\"8\">";
-                echo "      <input name=\"bomb3\" type=\"text\" value=\"Ist nur blöderweise kein Gebäude getroffen worden.\">";
+                echo "     <td align='left' colspan='8'>";
+                echo "      <input name='bomb3' type='text' value='Ist nur blöderweise kein Gebäude getroffen worden.'>";
                 echo "     </td> ";
                 echo "  </tr>\n ";
             } else //mit Gebäuden
@@ -1007,25 +1007,25 @@ if ($parsstatus == "read") // KB einlesen und für die Formatierung ausgeben
                 $i = 1;
                 foreach ($KBdata['kampf']['bomben']['geb_zerstoert'] as $loos) {
                     echo "  <tr>\n";
-                    echo "     <td align=\"left\" >";
+                    echo "     <td align='left' >";
                     echo         $loos['name'];
-                    echo "       <input TYPE=HIDDEN name=\"bombgeb" . $i . "\" type=\"text\" value=\"" . $loos['name'] . "\" readonly>";
+                    echo "       <input TYPE=HIDDEN name='bombgeb" . $i . "' type='text' value='" . $loos['name'] . "' readonly>";
                     echo "     </td>";
-                    echo "     <td colspan=\"3\" align=\"right\">";
+                    echo "     <td colspan='3' align='right'>";
                     echo         $loos['anzahl'];
-                    echo "       <input TYPE=HIDDEN name=\"bombgebanz" . $i . "\" type=\"text\" value=\"" . $loos['anzahl'] . "\" readonly>";
+                    echo "       <input TYPE=HIDDEN name='bombgebanz" . $i . "' type='text' value='" . $loos['anzahl'] . "' readonly>";
                     echo "     </td>";
-                    echo "    <td align=\"center\" >";
-                    echo "      <input type=\"checkbox\" name=\"bombgebformf" . $i . "\" value=\"f\">";
+                    echo "    <td align='center' >";
+                    echo "      <input type='checkbox' name='bombgebformf" . $i . "' value='f'>";
                     echo "    </td>";
-                    echo "    <td align=\"center\" >";
-                    echo "      <input type=\"checkbox\" name=\"bombgebformk" . $i . "\" value=\"k\">";
+                    echo "    <td align='center' >";
+                    echo "      <input type='checkbox' name='bombgebformk" . $i . "' value='k'>";
                     echo "    </td>";
-                    echo "    <td align=\"center\" >";
-                    echo "      <input type=\"checkbox\" name=\"bombgebformu" . $i . "\" value=\"u\">";
+                    echo "    <td align='center' >";
+                    echo "      <input type='checkbox' name='bombgebformu" . $i . "' value='u'>";
                     echo "    </td>";
-                    echo "    <td align=\"center\" >";
-                    echo "      <select name=\"bombgebformc" . $i . "\" size=\"1\"> ";
+                    echo "    <td align='center' >";
+                    echo "      <select name='bombgebformc" . $i . "' size='1'> ";
                     echo "         <option>keine</option> ";
                     echo "         <option>red</option> ";
                     echo "         <option>yellow</option> ";
@@ -1049,11 +1049,11 @@ if ($parsstatus == "read") // KB einlesen und für die Formatierung ausgeben
             if (empty($KBdata['kampf']['bomben']['bev_zerstoert']) == false) // Bevölkerung
             {
                 echo "  <tr>\n";
-                echo "     <td align=\"left\" colspan=\"8\">";
-                echo "      <input name=\"bombbev1\" type=\"text\" value=\"Bei der Bombadierung wurden\" size=\"50\">";
+                echo "     <td align='left' colspan='8'>";
+                echo "      <input name='bombbev1' type='text' value='Bei der Bombadierung wurden' size='50'>";
                 echo " <b>" . number_format($KBdata['kampf']['bomben']['bev_zerstoert'], 0, ",", " ") . "</b> ";
-                echo "      <input TYPE=HIDDEN name=\"bombbev2\" type=\"text\" value=\" [b]" . number_format($KBdata['kampf']['bomben']['bev_zerstoert'], 0, ",", " ") . "[/b] \" readonly>";
-                echo "      <input name=\"bombbev3\" type=\"text\" value=\"Menschen getötet\" size=\"50\">";
+                echo "      <input TYPE=HIDDEN name='bombbev2' type='text' value=' [b]" . number_format($KBdata['kampf']['bomben']['bev_zerstoert'], 0, ",", " ") . "[/b] ' readonly>";
+                echo "      <input name='bombbev3' type='text' value='Menschen getötet' size='50'>";
                 echo "     </td> ";
                 echo "  </tr>\n ";
             }
@@ -1064,9 +1064,9 @@ if ($parsstatus == "read") // KB einlesen und für die Formatierung ausgeben
         $KBLink = str_replace("&typ=xml", "", $KBLink);
 
         echo "  <tr>\n";
-        echo "     <td align=\"center\" colspan=\"8\">";
-        echo "       <input TYPE=HIDDEN name=\"KBLink\" type=\"text\" value=\"" . $KBLink . "\" readonly>";
-        echo "       <input type=\"submit\" value=\"BB-Code generieren\" style=\"color:#FFFFFF; background-color: #00688B;\">";
+        echo "     <td align='center' colspan='8'>";
+        echo "       <input TYPE=HIDDEN name='KBLink' type='text' value='" . $KBLink . "' readonly>";
+        echo "       <input type='submit' value='BB-Code generieren' style='color:#FFFFFF; background-color: #00688B;'>";
         echo "     </td> ";
         echo "  </tr>\n ";
 
@@ -1264,7 +1264,7 @@ if ($parsstatus == "write") // BB-Code ausgeben
     if (empty($_POST['optionHtml']) == false) {
         $outHTML = str_replace("[quote]<br>", "", $outHTML);
         $outHTML = str_replace("<br>[/quote]", "", $outHTML);
-        $outHTML = str_replace("[table]<br>", "<table  cellpadding=\"5%\">", $outHTML);
+        $outHTML = str_replace("[table]<br>", "<table  cellpadding='5%'>", $outHTML);
         $outHTML = str_replace("[/table]<br>", "</table>", $outHTML);
         $outHTML = str_replace("[tr]<br>", "<tr>", $outHTML);
         $outHTML = str_replace("[tr]", "<tr>", $outHTML);
@@ -1273,11 +1273,11 @@ if ($parsstatus == "write") // BB-Code ausgeben
         $outHTML = str_replace("[td]", "<td>", $outHTML);
         $outHTML = str_replace("[/td]", "</td>", $outHTML);
         $outHTML = str_replace("[hr]<br>", "<hr>", $outHTML);
-        $outHTML = str_replace("[center]", "<p align=\"center\">", $outHTML);
+        $outHTML = str_replace("[center]", "<p align='center'>", $outHTML);
         $outHTML = str_replace("[/center]", "</p>", $outHTML);
-        $outHTML = str_replace("[right]", "<p align=\"right\">", $outHTML);
+        $outHTML = str_replace("[right]", "<p align='right'>", $outHTML);
         $outHTML = str_replace("[/right]", "</p>", $outHTML);
-        $outHTML = str_replace("[left]", "<p align=\"left\">", $outHTML);
+        $outHTML = str_replace("[left]", "<p align='left'>", $outHTML);
         $outHTML = str_replace("[/left]", "</p>", $outHTML);
         $outHTML = str_replace("&nbsp;", "", $outHTML);
         $outHTML = str_replace("[b]", "<b>", $outHTML);
@@ -1286,22 +1286,22 @@ if ($parsstatus == "write") // BB-Code ausgeben
         $outHTML = str_replace("[/i]", "</i>", $outHTML);
         $outHTML = str_replace("[u]", "<u>", $outHTML);
         $outHTML = str_replace("[/u]", "</u>", $outHTML);
-        $outHTML = str_replace("[color=red]", "<font color=\"red\">", $outHTML);
-        $outHTML = str_replace("[color=pink]", "<font color=\"pink\">", $outHTML);
-        $outHTML = str_replace("[color=yellow]", "<font color=\"yellow\">", $outHTML);
-        $outHTML = str_replace("[color=green]", "<font color=\"green\">", $outHTML);
-        $outHTML = str_replace("[color=orange]", "<font color=\"orange\">", $outHTML);
-        $outHTML = str_replace("[color=purple]", "<font color=\"purple\">", $outHTML);
-        $outHTML = str_replace("[color=blue]", "<font color=\"blue\">", $outHTML);
-        $outHTML = str_replace("[color=beige]", "<font color=\"beige\">", $outHTML);
-        $outHTML = str_replace("[color=brown]", "<font color=\"brown\">", $outHTML);
-        $outHTML = str_replace("[color=teal]", "<font color=\"teal\">", $outHTML);
-        $outHTML = str_replace("[color=navy]", "<font color=\"navy\">", $outHTML);
-        $outHTML = str_replace("[color=maroon]", "<font color=\"maroon\">", $outHTML);
-        $outHTML = str_replace("[color=limegreen]", "<font color=\"limegreen\">", $outHTML);
+        $outHTML = str_replace("[color=red]", "<font color='red'>", $outHTML);
+        $outHTML = str_replace("[color=pink]", "<font color='pink'>", $outHTML);
+        $outHTML = str_replace("[color=yellow]", "<font color='yellow'>", $outHTML);
+        $outHTML = str_replace("[color=green]", "<font color='green'>", $outHTML);
+        $outHTML = str_replace("[color=orange]", "<font color='orange'>", $outHTML);
+        $outHTML = str_replace("[color=purple]", "<font color='purple'>", $outHTML);
+        $outHTML = str_replace("[color=blue]", "<font color='blue'>", $outHTML);
+        $outHTML = str_replace("[color=beige]", "<font color='beige'>", $outHTML);
+        $outHTML = str_replace("[color=brown]", "<font color='brown'>", $outHTML);
+        $outHTML = str_replace("[color=teal]", "<font color='teal'>", $outHTML);
+        $outHTML = str_replace("[color=navy]", "<font color='navy'>", $outHTML);
+        $outHTML = str_replace("[color=maroon]", "<font color='maroon'>", $outHTML);
+        $outHTML = str_replace("[color=limegreen]", "<font color='limegreen'>", $outHTML);
         $outHTML = str_replace("[/color]", "</font>", $outHTML);
-        $outHTML = str_replace("[url=", "<a href=\">", $outHTML);
-        $outHTML = str_replace("]externer Link[/url]", "\" target=\"_blank\">externer Link</a> ", $outHTML);
+        $outHTML = str_replace("[url=", "<a href='>", $outHTML);
+        $outHTML = str_replace("]externer Link[/url]", "' target='_blank'>externer Link</a> ", $outHTML);
     }
 
 //BBCode beschneiden, Nicht gerade schön aber zu faul für den Rest
@@ -1373,24 +1373,24 @@ if ($parsstatus == "write") // BB-Code ausgeben
     }
 
 
-    echo "<table border=\"0\" cellpadding=\"2\" cellspacing=\"1\" style=\"width: 90%;\">\n";
+    echo "<table border='0' cellpadding='2' cellspacing='1' style='width: 90%;'>\n";
     echo "  <tr>\n";
-    echo "     <td align=\"left\" colspan=\"2\">";
+    echo "     <td align='left' colspan='2'>";
     echo $outBB;
     echo "     <br></td>";
     echo "  </tr>\n";
 // Eventuell HTML-Code ausgeben
     if (empty($_POST['optionHtml']) == false) {
         echo "  <tr>";
-        echo "    <td colspan=\"2\"><br><hr><br></td>";
+        echo "    <td colspan='2'><br><hr><br></td>";
         echo "  </tr>";
         echo "  <tr>";
-        echo "     <td valign=\"top\" align=\"left\">";
+        echo "     <td class='left top'>";
         //$outHTML = str_replace("<","&lt;",$outHTML);
         //$outHTML = str_replace(">","&gt;",$outHTML);
         //$outHTML = str_replace("&","&;",$outHTML);
         echo "     <b>HTML-Code:</b></td>";
-        echo "     <td><textarea name=\"HTMLCode\" cols=\"100\" rows=\"10\" readonly>" . $outHTML . "</textarea>";
+        echo "     <td><textarea name='HTMLCode' cols='100' rows='10' readonly>" . $outHTML . "</textarea>";
         echo "     </td>";
         echo "  </tr>";
     }

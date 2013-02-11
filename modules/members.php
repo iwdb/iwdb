@@ -96,13 +96,13 @@ if (!empty($graph)) {
     <?php
     if ($user_status == "admin") {
         ?>
-        <td class="titlebg" style="width:56px;" align="center">
+        <td class="titlebg center" style="width:8%;">
             &nbsp;
         </td>
         <?php
     }
     ?>
-    <td class="titlebg" style="width:23%;" align="center">
+    <td class="titlebg center" style="width:8%;">
         <a href="index.php?action=members&order=sitterlogin&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif" alt="asc"></a>
         <b>Username</b>
         <a href="index.php?action=members&order=sitterlogin&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif" alt="desc"></a><br>
@@ -110,41 +110,41 @@ if (!empty($graph)) {
         <b>Spielart</b>
         <a href="index.php?action=members&order=budflesol&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif" alt="desc"></a>
     </td>
-    <td class="titlebg" style="width:4%;" align="center">
+    <td class="titlebg center" style="width:8%;">
         <a href="index.php?action=members&order=allianz&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif" alt="desc"></a><br>
         <b>Alli</b><br>
         <a href="index.php?action=members&order=allianz&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif" alt="asc"></a>
     </td>
-    <td class="titlebg" style="width:8%;" align="center">
+    <td class="titlebg center" style="width:8%;">
         <a href="index.php?action=members&order=rang&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif" alt="desc"></a><br>
         <b>Rang</b><br>
         <a href="index.php?action=members&order=rang&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif" alt="asc"></a>
     </td>
-    <td class="titlebg" style="width:8%;" align="center">
+    <td class="titlebg center" style="width:8%;">
         <a href="index.php?action=members&order=gebp&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif" alt="desc"></a><br>
         <b>GebP</b><br>
         <a href="index.php?action=members&order=gebp&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif" alt="asc"></a>
     </td>
-    <td class="titlebg" style="width:8%;" align="center">
+    <td class="titlebg center" style="width:8%;">
         <a href="index.php?action=members&order=fp&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif" alt="desc"></a><br>
         <b>FP</b><br><a href="index.php?action=members&order=fp&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif" alt="asc"></a>
     </td>
-    <td class="titlebg" style="width:9%;" align="center">
+    <td class="titlebg center" style="width:8%;">
         <a href="index.php?action=members&order=gesamtp&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif" alt="desc"></a><br>
         <b>GesamtP</b><br>
         <a href="index.php?action=members&order=gesamtp&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif" alt="asc"></a>
     </td>
-    <td class="titlebg" style="width:8%;" align="center">
+    <td class="titlebg center" style="width:8%;">
         <a href="index.php?action=members&order=ptag&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif" alt="desc"></a><br>
         <b>P/Tag</b><br>
         <a href="index.php?action=members&order=ptag&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif" alt="asc"></a>
     </td>
-    <td class="titlebg" style="width:10%;" align="center">
+    <td class="titlebg center" style="width:10%;">
         <a href="index.php?action=members&order=dabei&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif" alt="desc"></a><br>
         <b>dabei seit</b><br>
         <a href="index.php?action=members&order=dabei&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif" alt="asc"></a>
     </td>
-    <td class="titlebg" style="width:20%;" align="center">
+    <td class="titlebg center" style="width:20%;">
         <?php
         if ($user_status == "admin") {
             echo '<a href="index.php?action=members&order=adminsitten&ordered=desc&sid=' . $sid . '"><img src="bilder/desc.gif" alt="desc"></a> <b>Sitterrechte</b> <a href="index.php?action=members&order=adminsitten&ordered=asc&sid=' . $sid . '"><img src="bilder/asc.gif" alt="asc"></a>';
@@ -154,7 +154,7 @@ if (!empty($graph)) {
         }
         ?>
     </td>
-    <td class="titlebg" style="width:2%;" align="center">
+    <td class="titlebg center" style="width:2%;">
         &nbsp;
     </td>
 </tr>
@@ -227,7 +227,7 @@ while ($row = $db->db_fetch_array($result)) {
         <?php
         if ($user_status == "admin") {
             ?>
-            <td class="windowbg<?php echo $num;?>" valign="top">
+            <td class="windowbg<?php echo $num;?> top" >
                 <a href="index.php?action=profile&id=<?php echo $id_encoded; ?>&sitterlogin=<?php echo $sitterlogin_encoded; ?>&sid=<?php echo $sid;?>">
                     <img src="bilder/user-profil.gif" alt="P" title="Profil">
                 </a>
@@ -252,25 +252,25 @@ while ($row = $db->db_fetch_array($result)) {
                     style="color:<?php echo $color;?>">[<?php echo $row['budflesol']; echo ($row['buddlerfrom']) ? " v. " . $row['buddlerfrom'] : "";?>
                     ]</i></font>
         </td>
-        <td class="windowbg<?php echo $num;?>" valign="top">
+        <td class="windowbg<?php echo $num;?> top" >
             <?php echo $row['allianz'];?>
         </td>
-        <td class="windowbg<?php echo $num;?>" valign="top">
+        <td class="windowbg<?php echo $num;?> top" >
             <?php echo $row['rang'];?>
         </td>
-        <td class="windowbg<?php echo $num;?>" align="right" valign="top">
+        <td class="windowbg<?php echo $num;?> top" align="right" >
             <?php echo $row['gebp'];?>
         </td>
-        <td class="windowbg<?php echo $num;?>" align="right" valign="top">
+        <td class="windowbg<?php echo $num;?> top" align="right" >
             <?php echo $row['fp'];?>
         </td>
-        <td class="windowbg<?php echo $num;?>" align="right" valign="top">
+        <td class="windowbg<?php echo $num;?> top" align="right" >
             <?php echo $row['gesamtp'];?>
         </td>
-        <td class="windowbg<?php echo $num;?>" align="right" valign="top">
+        <td class="windowbg<?php echo $num;?> top" align="right" >
             <?php echo $row['ptag'];?>
         </td>
-        <td class="windowbg<?php echo $num;?>" align="right" valign="top">
+        <td class="windowbg<?php echo $num;?> top" align="right" >
             <?php
             if (!empty($row['dabei'])) {
                 echo strftime($config_members_timeformat, $row['dabei']);
@@ -308,7 +308,7 @@ while ($row = $db->db_fetch_array($result)) {
         echo $output;
         ?>
         
-        <td class="windowbg<?php echo $num;?>" valign="top">
+        <td class="windowbg<?php echo $num;?> top" >
             <?php
             $tempname = 'graph_' . str_replace(".", "%99", rawurlencode($row['sitterlogin']));
             $graphname = getVar($tempname);

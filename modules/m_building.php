@@ -319,44 +319,44 @@ if (empty($id)) {
     <tbody>
     <tr>
 
-        <td class="windowbg2" valign="middle" align="center"><?php echo $img;?></td>
-        <td class="windowbg2" valign="middle" align="center">
+        <td class="windowbg2 center middle"><?php echo $img;?></td>
+        <td class="windowbg2 center middle">
             <div class="doc_title"><span class="bigtext"><?php echo $build['name'];?></span></div>
         </td>
     </tr>
 
     <tr>
-        <td class="windowbg2" style="width: 20%;" valign="top">
+        <td class="windowbg2 top" style="width: 20%;">
             <div class="doc_blue">Beschreibung:</div>
         </td>
-        <td class="windowbg1" valign="top"><?php echo $build['besch'];?></td>
+        <td class="windowbg1 top"><?php echo $build['besch'];?></td>
     </tr>
     <?php
     if ($typ != 'pteur' AND $typ != 'gteur') {
         ?>
         <tr>
-            <td class="windowbg2" style="width: 20%;" valign="top">
+            <td class="windowbg2 top" style="width: 20%;">
                 <div class="doc_blue">Kosten:</div>
             </td>
-            <td class="windowbg1" valign="top">
+            <td class="windowbg1 top">
                 <?php echo $rowB['Kosten'];?>
             </td>
         </tr>
 
         <tr>
-            <td class="windowbg2" style="width: 20%;" valign="top">
+            <td class="windowbg2 top" style="width: 20%;">
                 <div class="doc_blue">Dauer:</div>
             </td>
-            <td class="windowbg1" valign="top">
+            <td class="windowbg1 top">
                 <?php echo $build['dauer'];?>
             </td>
         </tr>
 
         <tr>
-            <td class="windowbg2" style="width: 20%;" valign="top">
+            <td class="windowbg2 top" style="width: 20%;">
                 <div class="doc_blue">bringt:</div>
             </td>
-            <td class="windowbg1" valign="top">
+            <td class="windowbg1 top">
                 <?php echo $rowB['bringt'];?>
             </td>
         </tr>
@@ -364,7 +364,7 @@ if (empty($id)) {
     } else {
         ?>
         <tr>
-            <td class="windowbg1" colspan="2" valign="top"><?php echo $teuer;?> in
+            <td class="windowbg1 top" colspan="2"><?php echo $teuer;?> in
                 Stufen teurer werdendes Gebäude.
             </td>
         </tr>
@@ -372,48 +372,48 @@ if (empty($id)) {
     }
     ?>
     <tr>
-        <td class="windowbg2" style="width: 20%;" valign="top">
+        <td class="windowbg2 top" style="width: 20%;" >
             <div class="doc_blue">kostet:</div>
         </td>
-        <td class="windowbg1" valign="top">
+        <td class="windowbg1 top">
             <?php echo $rowB['kostet'];?>
         </td>
     </tr>
 
     <tr>
-        <td class="windowbg2" style="width: 20%;" valign="top">
+        <td class="windowbg2 top" style="width: 20%;" >
             <div class="doc_blue">Highscorepunkte:</div>
         </td>
-        <td class="windowbg1" valign="top">
+        <td class="windowbg1 top">
             <?php echo $rowB['Punkte'];?>
         </td>
     </tr>
     <?php if (!empty($build['kolotyp'])) { ?>
         <tr>
-            <td class="windowbg2" style="width: 20%;" valign="top">
+            <td class="windowbg2 top" style="width: 20%;" >
                 <div class="doc_blue">benötigter Kolotyp:</div>
             </td>
-            <td class="windowbg1" valign="top">
+            <td class="windowbg1 top">
                 <?php echo $build['kolotyp'];?>
             </td>
         </tr>
     <?php }  if (!empty($build['planityp'])) { ?>
         <tr>
-            <td class="windowbg2" style="width: 20%;" valign="top">
+            <td class="windowbg2 top" style="width: 20%;" >
                 <div class="doc_blue">benötigter Kolotyp:</div>
             </td>
-            <td class="windowbg1" valign="top">
+            <td class="windowbg1 top">
                 <?php echo $build['planityp'];?>
             </td>
         </tr>
     <?php } ?>
     <tr>
-        <td class="windowbg2" style="width: 20%;" valign="top">
+        <td class="windowbg2 top" style="width: 20%;" >
             <div class="doc_blue">Benötigte<br>
                 Forschungen:
             </div>
         </td>
-        <td class="windowbg1" valign="top"><?php
+        <td class="windowbg1 top"><?php
             $nresearch = preg_split('<br>', $rowB['n_research']);
 
             foreach ($nresearch as $research) {
@@ -468,12 +468,12 @@ if (empty($id)) {
             ?></td>
     </tr>
     <tr>
-        <td class="windowbg2" style="width: 20%;" valign="top">
+        <td class="windowbg2 top" style="width: 20%;" >
             <div class="doc_blue">Ermöglicht<br>
                 Forschungen:
             </div>
         </td>
-        <td class="windowbg1" valign="top"><?php
+        <td class="windowbg1 top"><?php
             $nresearch = preg_split('<br>', $rowB['e_research']);
 
             foreach ($nresearch as $research) {
@@ -532,12 +532,12 @@ if (empty($id)) {
             ?></td>
     </tr>
     <tr>
-        <td class="windowbg2" style="width: 20%;" valign="top">
+        <td class="windowbg2 top" style="width: 20%;" >
             <div class="doc_blue">Benötigte<br>
                 Gebäude:
             </div>
         </td>
-        <td class="windowbg1" valign="top"><?php
+        <td class="windowbg1 top"><?php
             $ngebaeude = preg_split('<br>', $rowB['n_building']);
 
             foreach ($ngebaeude as $gebaeude) {
@@ -565,12 +565,12 @@ if (empty($id)) {
             ?></td>
     </tr>
     <tr>
-        <td class="windowbg2" style="width: 20%;" valign="top">
+        <td class="windowbg2 top" style="width: 20%;" >
             <div class="doc_blue">Ermöglicht<br>
                 Gebäude:
             </div>
         </td>
-        <td class="windowbg1" valign="top"><?php
+        <td class="windowbg1 top"><?php
             $ngebaeude = preg_split('<br>', $rowB['e_building']);
 
             foreach ($ngebaeude as $gebaeude) {

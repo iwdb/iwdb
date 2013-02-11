@@ -317,7 +317,7 @@ if (!empty($alert)) {
 <form method="POST" action="index.php?action=sitterauftrag&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>" enctype="multipart/form-data">
 <table class="table_format" style="width: 90%;">
     <tr>
-        <td class="titlebg" colspan="4" align="center">
+        <td class="titlebg center" colspan="4">
             <b>schnell hinzufügen</b>
         </td>
     </tr>

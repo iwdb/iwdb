@@ -696,27 +696,27 @@ if (isset($row_lastlogin)) {
         <form method="POST" action="index.php?action=sitterliste&sid=<?php echo $sid;?>" enctype="multipart/form-data">
             <table class="table_format">
                 <tr>
-                    <td colspan="2" class="windowbg1 center">
+                    <td colspan="2" class="windowbg1 center borderless">
                         <b>Kommentar hinzufügen</b>
                     </td>
                 </tr>
                 <tr>
-                    <td class="windowbg1">
+                    <td class="windowbg1 borderless">
                         Kommentar:<br>
                         <i>Hier kannst du einen Kommentar<br>zu dem Auftrag hinzufügen.</i>
                     </td>
-                    <td class="windowbg1">
+                    <td class="windowbg1 borderless">
                         <textarea name='comment' id='comment' rows='4' cols='25' style='width: 200px;'></textarea>
                         <?php echo bbcode_buttons('comment'); ?>
                     </td>
                 </tr>
                 <tr>
-                    <td class="windowbg1" colspan="2">
+                    <td class="windowbg1 borderless" colspan="2">
                         <hr class="hr" size="1">
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2" class="windowbg1 center">
+                    <td colspan="2" class="windowbg1 center borderless">
                         <b>Zeit aktualisieren</b>
                     </td>
                 </tr>
@@ -724,10 +724,10 @@ if (isset($row_lastlogin)) {
                 if ($bauschleifenlaenge >= 3) {
                     ?>
                     <tr>
-                        <td class="windowbg1">
+                        <td class="windowbg1 borderless">
                             Zeit frühstens 2:
                         </td>
-                        <td class="windowbg1">
+                        <td class="windowbg1 borderless">
                             <input type="text" name="date_b2" id="date_b2_<?php echo $row['id'];?>"
                                    value="<?php echo strftime(CONFIG_DATETIMEFORMAT, $row['date_b2']);?>"
                                    style="width: 200;">
@@ -739,10 +739,10 @@ if (isset($row_lastlogin)) {
                 if ($bauschleifenlaenge >= 2) {
                     ?>
                     <tr>
-                        <td class="windowbg1">
+                        <td class="windowbg1 borderless">
                             Zeit frühstens 1:
                         </td>
-                        <td class="windowbg1">
+                        <td class="windowbg1 borderless">
                             <input type="text" name="date_b1" id="date_b1_<?php echo $row['id'];?>"
                                    value="<?php echo strftime(CONFIG_DATETIMEFORMAT, $row['date_b1']);?>"
                                    style="width: 120;">
@@ -754,11 +754,11 @@ if (isset($row_lastlogin)) {
                 }
                 ?>
                 <tr>
-                    <td class="windowbg1">
+                    <td class="windowbg1 borderless">
                         Zeit spätestens:<br>
                         <i>Zeit, zu der alle Bauschleifenaufträge auslaufen.</i>
                     </td>
-                    <td class="windowbg1">
+                    <td class="windowbg1 borderless">
                         <input type="text" name="date" id="date_<?php echo $row['id'];?>"
                                value="<?php echo strftime(CONFIG_DATETIMEFORMAT, $row['date']);?>"
                                style="width: 200;">
@@ -766,11 +766,11 @@ if (isset($row_lastlogin)) {
                 </tr>
 
                 <tr>
-                    <td class="windowbg1">
+                    <td class="windowbg1 borderless">
                         Zeiten + Variable:<br>
                         <i>Eingestellte Zeiten um ... verschieben</i>
                     </td>
-                    <td class="windowbg1">
+                    <td class="windowbg1 borderless">
                         <select name="plus_stunden">
                             <?php
                             $time_stunden = 0;
@@ -791,11 +791,11 @@ if (isset($row_lastlogin)) {
                 </tr>
 
                 <tr>
-                    <td class="windowbg1">
+                    <td class="windowbg1 borderless">
                         oder automatische Erkennung:<br>
                         <i>Aktuelle Bauliste aus Icewars kopieren.</i>
                     </td>
-                    <td class="windowbg1">
+                    <td class="windowbg1 borderless">
                         <textarea name="date_parse" rows="4" cols="25" style="width: 200;"></textarea>
                     </td>
                 </tr>
@@ -803,20 +803,20 @@ if (isset($row_lastlogin)) {
                 if ($user_status == "admin") {
                     ?>
                     <tr>
-                        <td class="windowbg1" colspan="2">
+                        <td class="windowbg1 borderless" colspan="2">
                             <hr class="hr" size="1">
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2" class="windowbg1 center">
+                        <td colspan="2" class="windowbg1 center borderless">
                             <b>Auftrag löschen</b>
                         </td>
                     </tr>
                     <tr>
-                        <td class="windowbg1">
+                        <td class="windowbg1 borderless">
                             Löschen bestätigen:
                         </td>
-                        <td class="windowbg1">
+                        <td class="windowbg1 borderless">
                             <input type="checkbox" name="del" value="1">
                         </td>
                     </tr>
@@ -824,7 +824,7 @@ if (isset($row_lastlogin)) {
                 }
                 ?>
                 <tr>
-                    <td colspan="2" class="windowbg1 center">
+                    <td colspan="2" class="windowbg1 center borderless">
                         <input type="hidden" name="auftragid" value="<?php echo $row['id'];?>"><input type="hidden"
                                                                                                       name="edit"
                                                                                                       value="1"><input

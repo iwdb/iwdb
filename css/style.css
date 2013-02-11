@@ -948,6 +948,10 @@ td[abbr=both] {
     text-align: center;
 }
 
+.borderless {
+    border: 0 !important;
+}
+
 /* veraltet */
 
 .doc_title {

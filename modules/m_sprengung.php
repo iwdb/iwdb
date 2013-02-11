@@ -174,7 +174,7 @@ echo "</form>\n";
 ?>
 <br>
 <table class='table_hovertable' style='width: 80%;'>
-    <tr class='titlebg'>
+    <tr>
         <th>Koords</th>
         <th>Planetentyp</th>
         <th>Eisen<br><span style="font-size:x-small">(eff)</span></th>
@@ -245,7 +245,7 @@ while ($row = $db->db_fetch_array($result)) {
         $row['DGmod'] = 1;
     }
 
-    echo "  <tr class='windowbg1 center'>\n";
+    echo "  <tr>\n";
     echo "    <td>\n";
     echo "      <a href='index.php?action=showplanet&amp;coords=" . $row['coords'] . "&amp;ansicht=auto&amp;sid=" . $sid . "'>\n";
     echo "      " . $row['coords'] . "\n";

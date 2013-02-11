@@ -111,7 +111,7 @@ if (!empty($allianz)) {
         }
 
         $sql = "SELECT count(name) as gesamt,
-        SUM(IF(`staatsform` IS NULL, 1,0)) AS unbekannt,
+        SUM(IF(`staatsform` IS NULL OR `staatsform` = '', 1,0)) AS unbekannt,
         SUM(IF(`staatsform` = 'Barbar', 1,0)) AS Barbaren,
         SUM(IF(`staatsform` = 'Diktator', 1,0))  AS Diktatoren,
         SUM(IF(`staatsform` = 'Demokrat', 1,0))  AS Demokraten,

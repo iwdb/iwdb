@@ -360,7 +360,7 @@ echo "</div>";
             ?>
         </td>
         <td style="width:2%">&nbsp;</td>
-        <td style="width:86%" class="center top">
-            <table class="doc_main center">
+        <td width="86%" valign="top" align="center">
+            <table class="doc_main" align="center">
                 <tr>
-                    <td class="doc_main center">
+                    <td class="doc_main" align="center">

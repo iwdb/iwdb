@@ -67,7 +67,7 @@ Top/Flop <input type="number" min="1" max="999" name="to" value="' . $hs_places 
 
 start_table(100, 0, 10, 0, "");
 start_row('windowbg2 center', '', 3);
-echo "<font style='font-size: 15px; color: white'>HALL OF FAME - TOP {$hs_places} DER BESTEN</font>";
+echo "<div style='font-size: 15px; color: white'>HALL OF FAME - TOP {$hs_places} DER BESTEN</div>";
 next_row();
 
 if ($ressu) {

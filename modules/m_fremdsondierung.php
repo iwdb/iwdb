@@ -299,3 +299,28 @@ $data = array();
 	}
 	?>
 </table>
+
+<table class='borderless'>
+	<tr>
+		<td>
+			<?php
+			echo "<img src='bilder/kolo.png'> = Kolonie";
+			?>
+		</td>
+		<td>
+			<?php
+			echo "<img src='bilder/ress_basis.png'> = Ressourcensammelbasis";
+			?>
+		</td>
+		<td>
+			<?php
+			echo "<img src='bilder/artefakt_basis.png'> = Artefaktsammelbasis";
+			?>
+		</td>
+		<td>
+			<?php
+			echo "<img src='bilder/kampf_basis.png'> = Kampfbasis";
+			?>
+		</td>
+	</tr>
+</table>

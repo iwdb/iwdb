@@ -345,14 +345,28 @@ echo " 	 <br />\n";
 echo " 	 <br />\n";
 
 //Legende, weil es immer noch IW-Spieler gibt, die nichts mit den Symbolen anfangen können 
-start_table();
-start_row("windowbg1 center");
-echo "<img src='bilder/kolo.png'> = Kolonie";
-next_cell("windowbg1 center");
-echo "<img src='bilder/ress_basis.png'> = Ressourcensammelbasis";
-next_cell("windowbg1 center");
-echo "<img src='bilder/artefakt_basis.png'> = Artefaktsammelbasis";
-next_cell("windowbg1 center");
-echo "<img src='bilder/kampf_basis.png'> = Kampfbasis";
-end_row();
-end_table();
+?>
+<table class='borderless'>
+	<tr>
+		<td>
+			<?php
+			echo "<img src='bilder/kolo.png'> = Kolonie";
+			?>
+		</td>
+		<td>
+			<?php
+			echo "<img src='bilder/ress_basis.png'> = Ressourcensammelbasis";
+			?>
+		</td>
+		<td>
+			<?php
+			echo "<img src='bilder/artefakt_basis.png'> = Artefaktsammelbasis";
+			?>
+		</td>
+		<td>
+			<?php
+			echo "<img src='bilder/kampf_basis.png'> = Kampfbasis";
+			?>
+		</td>
+	</tr>
+</table>

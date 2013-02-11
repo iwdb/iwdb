@@ -77,7 +77,7 @@ function parse_de_highscore($result)
         $scan_data = array();
         $scan_data['name']    = $object_user->strName;
         $scan_data['allianz'] = $object_user->strAllianz;
-        if ($strStaatsform !== false) {              //Staatsform eintragen falls spezifische Staatsform-Highscore
+        if (!empty($strStaatsform)) {              //Staatsform eintragen falls spezifische Staatsform-Highscore
             $scan_data['staatsform'] = $strStaatsform;
         }
         $scan_data['geb_pkt'] = $object_user->iGebP;

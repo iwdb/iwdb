@@ -285,7 +285,7 @@ if ($i === 0) {
         case "KpS":
             $firstsort = $KpS;
             break;
-        case "Steinies":
+        case "Steinis":
             $firstsort = $KoloSteinklumpen;
             break;
         case "Astis":
@@ -320,7 +320,7 @@ if ($i === 0) {
         case "KpS":
             $secondsort = $KpS;
             break;
-        case "Steinies":
+        case "Steinis":
             $secondsort = $KoloSteinklumpen;
             break;
         case "Astis":
@@ -385,19 +385,19 @@ if ($i === 0) {
     echo ">\n";
     echo "Kolonien/Spieler";
 
-    echo "<option value='Steinies'";
-    if ($order == "Steinies") {
+    echo "<option value='Steinis'";
+    if ($order == "Steinis") {
         echo " selected='selected'";
     }
     echo ">\n";
-    echo "Kolos auf Steinies";
+    echo "Kolos auf Steinis";
 
     echo "<option value='Astis'";
     if ($order == "Astis") {
         echo " selected='selected'";
     }
     echo ">\n";
-    echo "Kolos auf Asties";
+    echo "Kolos auf Astis";
 
     echo "<option value='Gasis'";
     if ($order == "Gasis") {
@@ -458,19 +458,19 @@ if ($i === 0) {
     echo ">\n";
     echo "Kolonien/Spieler";
 
-    echo "<option value='Steinies'";
-    if ($order2 == "Steinies") {
+    echo "<option value='Steinis'";
+    if ($order2 == "Steinis") {
         echo " selected='selected'";
     }
     echo ">\n";
-    echo "Kolos auf Steinies";
+    echo "Kolos auf Steinis";
 
     echo "<option value='Astis'";
     if ($order2 == "Astis") {
         echo " selected='selected'";
     }
     echo ">\n";
-    echo "Kolos auf Asties";
+    echo "Kolos auf Astis";
 
     echo "<option value='Gasis'";
     if ($order2 == "Gasis") {
@@ -533,10 +533,10 @@ if ($i === 0) {
     echo "<b>Kolonien&nbsp;/<br \>Spieler</b>";
 
     next_cell("windowbg2 center", "style='width:8%'");
-    echo "<b>Kolos&nbsp;auf<br \>Steinies</b>";
+    echo "<b>Kolos&nbsp;auf<br \>Steinis</b>";
 
     next_cell("windowbg2 center", "style='width:8%'");
-    echo "<b>Kolos&nbsp;auf Asties&nbsp;&nbsp;&nbsp;</b>";
+    echo "<b>Kolos&nbsp;auf Astis&nbsp;&nbsp;&nbsp;</b>";
 
     next_cell("windowbg2 center", "style='width:8%'");
     echo "<b>Kolos&nbsp;auf<br \>Gasis</b>";

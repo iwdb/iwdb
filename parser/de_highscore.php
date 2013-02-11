@@ -37,27 +37,57 @@ if (!defined('DEBUG_LEVEL')) {
 
 function parse_de_highscore($result)
 {
-    $count     = 0;
-    $scan_data = array("time" => $result->objResultData->iTimestamp);
-
+    $aktualisierungszeit = $result->objResultData->iTimestamp;
     $bDateOfEntryVisible = $result->objResultData->bDateOfEntryVisible;
+    $strHighscoreType    = $result->objResultData->strType;
 
+    $aHighscoreTypen     = array('Demokraten', 'Diktatoren', 'Kommunisten', 'Monarchen');
+    $aStaatsformen       = array('Demokrat', 'Diktator', 'Kommunist', 'Monarch');
+    $strStaatsform       = str_replace($aHighscoreTypen, $aStaatsformen, $strHighscoreType);
+
+    $count = 0;
     foreach ($result->objResultData->aMembers as $object_user) {
+        $scan_data = array();
+
+        $scan_data['name']    = $object_user->strName;
+        $scan_data['allianz'] = $object_user->strAllianz;
+
         if ($bDateOfEntryVisible) {
             $scan_data['dabei_seit'] = $object_user->iDabeiSeit;
         }
 
-        $scan_data['pos']     = $object_user->iPos;
-        $scan_data['name']    = $object_user->strName;
-        $scan_data['allianz'] = $object_user->strAllianz;
+        if ($strHighscoreType === false) {              //Position ist nur bei Highscore aller Spieler gültig
+            $scan_data['pos'] = $object_user->iPos;
+        } else {
+            $scan_data['pos'] = null;
+        }
 
         $scan_data['gebp']    = $object_user->iGebP;
         $scan_data['fp']      = $object_user->iFP;
         $scan_data['gesamtp'] = $object_user->iGesamtP;
         $scan_data['ptag']    = $object_user->iPperDay;
         $scan_data['diff']    = $object_user->iPosChange;
+        $scan_data['time']    = $aktualisierungszeit;
 
-        save_data($scan_data);
+        save_highscore($scan_data);
+
+        //nochmal das ganze für die Spielertabelle
+        //ToDo: Highscoredaten nur noch in die Spielertabelle oder nur noch in die Highscoretabelle?
+
+        $scan_data = array();
+        $scan_data['name']    = $object_user->strName;
+        $scan_data['allianz'] = $object_user->strAllianz;
+        if ($strStaatsform !== false) {              //Staatsform eintragen falls spezifische Staatsform-Highscore
+            $scan_data['staatsform'] = $strStaatsform;
+        }
+        $scan_data['geb_pkt'] = $object_user->iGebP;
+        $scan_data['forsch_pkt'] = $object_user->iFP;
+        $scan_data['ges_pkt'] = $object_user->iGesamtP;
+        $scan_data['forsch_pkt'] = $object_user->iFP;
+        $scan_data['pktupdate_time']    = $aktualisierungszeit;
+
+        save_playerdata($scan_data);
+
         $count++;
     }
 
@@ -66,13 +96,14 @@ function parse_de_highscore($result)
     return true;
 }
 
-function save_data($scan_data)
+function save_highscore($scan_data)
 {
     global $db, $db_tb_highscore, $db_tb_scans;
 
     $scan_data["gebp_nodiff"] = $scan_data["time"];
     $scan_data["fp_nodiff"]   = $scan_data["time"];
-    $sql                      = "SELECT * FROM " . $db_tb_highscore . " WHERE name='" . $scan_data['name'] . "'";
+
+    $sql = "SELECT * FROM " . $db_tb_highscore . " WHERE name='" . $scan_data['name'] . "'";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     if ($row = $db->db_fetch_array($result)) {
@@ -83,38 +114,20 @@ function save_data($scan_data)
             $scan_data["fp_nodiff"] = $row["fp_nodiff"];
         }
     }
-    $sql = "INSERT INTO " . $db_tb_highscore;
-    $sql .= " (pos,name,allianz,gebp,fp,gesamtp,ptag,diff,dabei_seit,gebp_nodiff,fp_nodiff,time) VALUES (";
-    $sql .= $scan_data["pos"];
-    $sql .= ",'" . $scan_data["name"] . "'";
-    $sql .= ",'" . $scan_data["allianz"] . "'";
-    $sql .= "," . $scan_data["gebp"];
-    $sql .= "," . $scan_data["fp"];
-    $sql .= "," . $scan_data["gesamtp"];
-    $sql .= "," . $scan_data["ptag"];
-    $sql .= "," . $scan_data["diff"];
-    $sql .= "," . $scan_data["dabei_seit"];
-    $sql .= "," . $scan_data["gebp_nodiff"];
-    $sql .= "," . $scan_data["fp_nodiff"];
-    $sql .= "," . $scan_data["time"];
-    $sql .= ") ON DUPLICATE KEY UPDATE ";
-    $sql .= "pos=" . $scan_data["pos"];
-    $sql .= ",allianz='" . $scan_data["allianz"] . "'";
-    $sql .= ",gebp=" . $scan_data["gebp"];
-    $sql .= ",fp=" . $scan_data["fp"];
-    $sql .= ",gesamtp=" . $scan_data["gesamtp"];
-    $sql .= ",ptag=" . $scan_data["ptag"];
-    $sql .= ",diff=" . $scan_data["diff"];
-    $sql .= ",dabei_seit=" . $scan_data["dabei_seit"];
-    $sql .= ",gebp_nodiff=" . $scan_data["gebp_nodiff"];
-    $sql .= ",fp_nodiff=" . $scan_data["fp_nodiff"];
-    $sql .= ",time=" . $scan_data["time"];
-    $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
-    $sql = "UPDATE " . $db_tb_scans . " SET punkte=" . $scan_data["gesamtp"] . " WHERE user='" . $scan_data["name"] . "'";
+    $db->db_insertupdate($db_tb_highscore, $scan_data)
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
 
-    $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    //Punkte in die Kartendaten übertragen
+    $db->db_update($db_tb_scans, array('punkte' => $scan_data["gesamtp"]), "WHERE user='" . $scan_data["name"] . "'")
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
 
+}
+
+function save_playerdata($scan_data)
+{
+    global $db, $db_tb_spieler;
+
+    $db->db_insertupdate($db_tb_spieler, $scan_data)
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
 }

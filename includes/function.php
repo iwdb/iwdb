@@ -785,10 +785,58 @@ function rating ( $scan_data , $coords = '0:0:0' )
 	return "<span class='ranking_" . $color . "'>" . $rating . "</span>";
 }
 
-function makeduration2($time1, $time2=null) {
-    //errechnet Zeitraum von Zeitpunkt 1 zu jetzt oder Zeitpunkt 2 ($time2)
-    // masel
+/**
+ * function makeShortDuration
+ *
+ * erzeugt eine kurzen String der Dauer zwischen zwei Zeitpunkten
+ *
+ * @param int $time1 1. Zeitpunkt
+ * @param int $time2 optional 2. Zeitpunkt sonst jetzt
+ *
+ * @return string Dauerstring
+ *
+ * @author   masel
+ */
+function makeShortDuration($time1, $time2=null) {
+    if (!isset($time1)) {
+        return '---';
+    }
+    if (!isset($time2)) {
+        $time2 = CURRENT_UNIX_TIME;
+    }
 
+    if ($time1>$time2) {
+        $duration = $time1 - $time2;
+        $text = '-';
+    } else {
+        $duration = $time2 - $time1;
+        $text = '';
+    }
+
+    if (round($duration / MINUTE)<99) {
+        $text .= round($duration / MINUTE) . 'm';
+    } else if (round($duration / HOUR)<99) {
+        $text .= round($duration / HOUR) . 'h';
+    } else {
+        $text .= round($duration / DAY) . 'd';
+    }
+
+    return $text;
+}
+
+/**
+ * function makeduration2
+ *
+ * erzeugt eine String der Dauer zwischen zwei Zeitpunkten
+ *
+ * @param int $time1 1. Zeitpunkt
+ * @param int $time2 optional 2. Zeitpunkt sonst jetzt
+ *
+ * @return string Dauerstring
+ *
+ * @author   masel
+ */
+function makeduration2($time1, $time2=null) {
     if (!isset($time1)) {
         return '---';
     }

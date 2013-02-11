@@ -35,23 +35,23 @@ if (!defined('IRA')) {
 
 //****************************************************************************
 //
-// -> Name des Moduls, ist notwendig für die Benennung der zugehörigen
+// -> Name des Moduls, ist notwendig fuer die Benennung der zugehoerigen
 //    Config.cfg.php
-// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung für
-//    eine Installation über das Menü
+// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung fuer 
+//    eine Installation ueber das Menue
 //
 $modulname = "m_allystats";
 
 //****************************************************************************
 //
-// -> Menütitel des Moduls der in der Navigation dargestellt werden soll.
+// -> Menuetitel des Moduls der in der Navigation dargestellt werden soll.
 //
-$modultitle = "Allianzstatistiken";
+$modultitle = "Allianz-Statistiken";
 
 //****************************************************************************
 //
-// -> Status des Moduls, bestimmt wer dieses Modul über die Navigation
-//    ausfuehren darf. Moegliche Werte:
+// -> Status des Moduls, bestimmt wer dieses Modul ueber die Navigation 
+//    ausfuehren darf. Muegliche Werte:
 //    - ""      <- nix = jeder,
 //    - "admin" <- na wer wohl
 //
@@ -59,20 +59,20 @@ $modulstatus = "";
 
 //****************************************************************************
 //
-// -> Beschreibung des Moduls, wie es in der Menue-Übersicht angezeigt wird.
+// -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
 //
 $moduldesc =
-    "Das Allianzstatistiken-Modul berechnet diverse Daten zu einer Allianz";
+    "Das Allianzstatistiken-modul, zeigt Statistiken aller bekannter Allianzen zusammen und einzeln im Detail an.";
 
 //****************************************************************************
 //
 // Function workInstallDatabase is creating all database entries needed for
 // installing this module.
 //
+
 function workInstallDatabase()
 {
-
-    echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>n/V (also OK)</b></div>";
+    //nothing here
 }
 
 //****************************************************************************
@@ -81,20 +81,18 @@ function workInstallDatabase()
 // installing this module. This function is called by the installation method
 // in the included file includes/menu_fn.php
 //
+
 function workInstallMenu()
 {
+
     global $modultitle, $modulstatus;
 
     $menu    = getVar('menu');
     $submenu = getVar('submenu');
 
-    $actionparamters = "";
-    insertMenuItem($menu, $submenu, $modultitle, $modulstatus, $actionparamters);
-    //
-    // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
-    //
-    // 	insertMenuItem( $menu+1, ($submenu+1), "Titel2", "hc", "&weissichnichtwas=1" );
-    //
+    $actionparameters = "";
+    insertMenuItem($menu, $submenu, $modultitle, $modulstatus, $actionparameters);
+
 }
 
 //****************************************************************************
@@ -102,10 +100,10 @@ function workInstallMenu()
 // Function workInstallConfigString will return all the other contents needed
 // for the configuration file
 //
+
 function workInstallConfigString()
 {
     return "";
-
 }
 
 //****************************************************************************
@@ -113,9 +111,10 @@ function workInstallConfigString()
 // Function workUninstallDatabase is creating all database entries needed for
 // removing this module.
 //
+
 function workUninstallDatabase()
 {
-    echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>n/V (also OK)</b></div>";
+    //nothing here
 }
 
 //****************************************************************************
@@ -127,10 +126,12 @@ function workUninstallDatabase()
 //
 //      http://Mein.server/iwdb/index.php?action=default&was=install
 //
-// Anstatt "Mein.Server" natürlich deinen Server angeben und default
+// Anstatt "Mein.Server" natuerlich deinen Server angeben und default 
 // durch den Dateinamen des Moduls ersetzen.
 //
+
 if (!empty($_REQUEST['was'])) {
+
     //  -> Nur der Admin darf Module installieren. (Meistens weiss er was er tut)
     if ($user_status != "admin") {
         die('Hacking attempt...');
@@ -145,555 +146,478 @@ if (!empty($_REQUEST['was'])) {
 
     // Wenn ein Modul administriert wird, soll der Rest nicht mehr
     // ausgefuehrt werden.
+
     return;
 }
 
-if (!@include("./config/" . $modulname . ".cfg.php")) {
-    die("Error:<br><b>Cannot load " . $modulname . " - configuration!</b>");
+/* if (!@include("./config/".$modulname.".cfg.php")) {
+	die( "Error:<br \><b>Cannot load ".$modulname." - configuration!</b>");
 }
-
+ */
 //****************************************************************************
 //
 // -> Und hier beginnt das eigentliche Modul
+global $db, $db_tb_allianzstatus, $db_tb_scans, $sid;
+global $config_map_default_galaxy, $config_map_galaxy_min, $config_map_galaxy_max;
 
-function getColor($tuedel)
-{
+$galamin   = getVar('galamin');
+$galamax   = getVar('galamax');
+$gesamtmin = getVar('gesamtmin');
 
-    if ($tuedel['Kolonie'] == 0 && $tuedel['Sammelbasis'] == 0 && $tuedel['Kampfbasis'] == 0 && $tuedel['Artefaktbasis'] == 0) {
-        return "#00FF00";
-    } else if ($tuedel['Kolonie'] == 0 && ($tuedel['Sammelbasis'] != 0 || $tuedel['Kampfbasis'] != 0 || $tuedel['Artefaktbasis'] != 0)) {
-        return "#00FFCC";
-    }
-
-    $i = (int)(60 * sqrt(0.5 * $tuedel['Kolonie']));
-    $i += 150;
-    $rot   = ($i < 256) ? $i : 255;
-    $gruen = ($i < 256) ? 255 : 254 - ($i - 256);
-
-    return ("#" . str_pad(dechex($rot), 2, "0", STR_PAD_LEFT) . str_pad(dechex($gruen), 2, "0", STR_PAD_LEFT) . "00");
+$gesamtmax = getVar('gesamtmax');
+$order     = getVar('order');
+if ((!isset($order)) or ($order == "")) {
+    $order = "Kolonien";
+}
+$order2 = getVar('order2');
+if ((!isset($order2)) or ($order2 == "")) {
+    $order2 = "Spieler";
 }
 
-global $sid;
+$showfrom = getVar('showfrom');
+$showto   = getVar('showto');
+$DBdata   = false;
 
-//settings überprüfen und entsprechend setzen
-$allianz = getVar('allianz') ? getVar('allianz') : "";
-$maxplannis = 300;
-$range = 25;
-$fleeterschnitt = getVar('fschnitt') ? (float)getVar('fschnitt') : 1.5;
-$n = 5;
+$galamin = (is_numeric($galamin)) ? $galamin : $config_map_galaxy_min;
+$galamin = ($galamin < $config_map_galaxy_min) ? $config_map_galaxy_min : $galamin;
+$galamin = ($galamin > $config_map_galaxy_max) ? $config_map_galaxy_max : $galamin;
 
+$galamax = (is_numeric($galamax)) ? $galamax : $config_map_galaxy_max;
+$galamax = ($galamax < $config_map_galaxy_min) ? $config_map_galaxy_min : $galamax;
+$galamax = ($galamax > $config_map_galaxy_max) ? $config_map_galaxy_max : $galamax;
 
-doc_title("Allianz-Statistiken");
+if ($galamin > $galamax) {
+    $temp    = $galamin;
+    $galamin = $galamax;
+    $galamax = $temp;
+}
 
-//Eingabeform für die Suche:
-echo "<div class='doc_centered'>\n";
-echo "<form name='frm'>\n";
-echo "<input type='hidden' name='sid' value='$sid'>\n";
-echo "<input type='hidden' name='action' value='$modulname'>\n";
-echo "<p>";
-echo "Allianztag: <input type='text' name='allianz' value='$allianz' size='20'>&nbsp;\n";
-echo "</p>\n<p>";
-echo "Spieler mit dem <input type='text' name='fschnitt' value='$fleeterschnitt' size='5'> fachen Punkteschnitt der Allianz für Fleeter halten\n";
-echo "</p>\n<p>";
-echo "<input type='submit' value='suchen'>";
-echo "</p>\n<br>";
-echo "</form>";
-echo "</div>";
+$gesamtmin = (is_numeric($gesamtmin)) ? $gesamtmin : 1; //Start-Position der allys im Hasiversum, ab wann in der gesamtliste angezeigt werden.
+$gesamtmax = (is_numeric($gesamtmax)) ? $gesamtmax : 100; //End-Position der allys im Hasiversum, die in der gesamtliste angezeigt werden.
 
-//wenn Allianz angegeben, Ausgabe
-if ($allianz != "") {
+$showfrom = (is_numeric($showfrom) && ($showfrom >= 1) && ($showfrom <= $config_map_galaxy_max)) ? $showfrom : ($config_map_default_galaxy - 3); //erste gala, die angezeigt wird
+if ($showfrom <= 1) {
+    $showfrom = 1;
+}
 
-    //Punkteschnitt der Allianz berechnen/prüfen ob es die Allianz gibt
-    $sql = "SELECT count(DISTINCT user) as usercount, sum(punkte) as pktsum FROM " . $db_tb_scans . " WHERE allianz like '$allianz'";
-    $result = $db->db_query($sql)
-        or error(
-        GENERAL_ERROR,
-        'Could not query config information.', '',
-        __FILE__, __LINE__, $sql
-    );
-    $row = $db->db_fetch_array($result);
-    if ($row['usercount'] > 0) {
-        $punkteschnitt = $row['pktsum'] / $row['usercount'];
-        $usercount     = $row['usercount'];
-    }
+$showto = (is_numeric($showto) && ($showto >= 1) && ($showto <= $config_map_galaxy_max)) ? $showto : ($config_map_default_galaxy + 3); //letzte gala, die angezeigt wird
+if ($showto > $config_map_galaxy_max) {
+    $showfrom = $config_map_galaxy_max;
+}
 
-    if (isset($punkteschnitt)) {
+$sql = "SELECT SQL_CACHE IF(`{$db_tb_scans}`.`allianz`='','<i>Solo</i>',`{$db_tb_scans}`.`allianz`) AS Allianz,
+    COUNT( DISTINCT `user` ) AS 'Spieler',
+    SUM(IF(`objekt` = 'Kolonie', 1,0)) AS Kolonien,
+    SUM(IF(`objekt` = 'Kolonie' AND `typ` = 'Steinklumpen', 1,0)) AS KoloSteinklumpen,
+    SUM(IF(`objekt` = 'Kolonie' AND `typ` = 'Gasgigant', 1,0)) AS KoloGasgiganten,
+    SUM(IF(`objekt` = 'Kolonie' AND `typ` = 'Eisplanet', 1,0)) AS KoloEisplaneten,
+    SUM(IF(`objekt` = 'Kolonie' AND `typ` = 'Asteroid', 1,0)) AS KoloAstroiden,
+    SUM(IF(`objekt` = 'Kampfbasis', 1,0)) AS Kampfbasen,
+    SUM(IF(`objekt` = 'Sammelbasis', 1,0)) AS Sammelbasen,
+    `prefix_allianzstatus`.`status`
+    FROM `{$db_tb_scans}` LEFT JOIN `{$db_tb_allianzstatus}`
+     ON `{$db_tb_allianzstatus}`.`allianz` = `{$db_tb_scans}`.`allianz`
+     WHERE `coords_gal` >= " . $galamin . " AND `coords_gal` <= " . $galamax . " AND `user` != ''
+     GROUP BY Allianz WITH ROLLUP";
 
-        //ausrechnen, ab welchem Punkteschnitt pro Plani wir einen Spieler für nen Fleeter halten
-        $fleeterschnitt = $punkteschnitt * $fleeterschnitt;
+$result = $db->db_query($sql)
+    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
-        //user mit überdurchschnittlichen Punkten aus der DB holen, die könnten ja Fleeter sein
-        $sql = "SELECT user, sum(punkte) AS pktsum FROM " . $db_tb_scans . " WHERE allianz like '$allianz' GROUP BY user";
-        $result = $db->db_query($sql)
-            or error(
-            GENERAL_ERROR,
-            'Could not query config information.', '',
-            __FILE__, __LINE__, $sql
-        );
-        while ($row = $db->db_fetch_array($result)) {
-            if ($row['pktsum'] > $fleeterschnitt) {
-                $fleeters[$row['user']] = number_format($row['pktsum'], 0, ",", ".");
-            } else {
-                $buddlers[$row['user']] = number_format($row['pktsum'], 0, ",", ".");
-            }
-        }
-
-        $allianzgals = array();
-        //auslesen, in welchen Galas die Allianz vertreten ist
-        $sql = "SELECT DISTINCT coords_gal FROM " . $db_tb_scans . " WHERE allianz like '$allianz' ORDER BY coords_gal";
-        $result = $db->db_query($sql)
-            or error(
-            GENERAL_ERROR,
-            'Could not query config information.', '',
-            __FILE__, __LINE__, $sql
-        );
-        $row    = $db->db_fetch_array($result);
-        $galmin = $row['coords_gal'];
-        $galmax = $galmin;
-        while ($row = $db->db_fetch_array($result)) {
-            $galmax = $row['coords_gal'];
-        }
-
-        //Variablen initialisieren
-        $steinis   = 0;
-        $sgsteinis = 0;
-        $eisis     = 0;
-        $gasis     = 0;
-        $astros    = 0;
-        $kb        = 0;
-        $rb        = 0;
-        $ab        = 0;
-        $pkte      = 0;
-
-        $plannicount = Array(); //hier wird Krams für die Karte reingeschrieben
-        for ($i = $galmin; $i <= $galmax; $i++) {
-            for ($j = 1; $j <= ceil($maxplannis / $range); $j++) {
-                $plannicount[$i][$j]['Kolonie']       = 0;
-                $plannicount[$i][$j]['Sammelbasis']   = 0;
-                $plannicount[$i][$j]['Kampfbasis']    = 0;
-                $plannicount[$i][$j]['Artefaktbasis'] = 0;
-            }
-        }
-
-        //alle Planis der Allianz aus der DB holen und verarbeiten:
-        $sql = "SELECT coords, coords_gal, coords_sys, coords_planet, user, allianz, planetenname, punkte, typ, objekt FROM " . $db_tb_scans . " WHERE allianz like '$allianz' ORDER BY user, coords_gal, coords_sys, coords_planet ASC";
-        $result = $db->db_query($sql)
-            or error(
-            GENERAL_ERROR,
-            'Could not query config information.', '',
-            __FILE__, __LINE__, $sql
-        );
-        $i = 0;
-        while ($row = $db->db_fetch_array($result)) {
-            $i++;
-
-            if ($row['objekt'] == "Kolonie" && $row['typ'] == "Eisplanet") {
-                $eisis++;
-            }
-            if ($row['objekt'] == "Kolonie" && $row['typ'] == "Steinklumpen") {
-                ($row['coords_gal'] % 4 == 0) ? $sgsteinis++ : $steinis++;
-            }
-            if ($row['objekt'] == "Kolonie" && $row['typ'] == "Gasgigant") {
-                $gasis++;
-            }
-            if ($row['objekt'] == "Kolonie" && $row['typ'] == "Asteroid") {
-                $astros++;
-            }
-            if ($row['objekt'] == "Sammelbasis") {
-                $rb++;
-            }
-            if ($row['objekt'] == "Kampfbasis") {
-                $kb++;
-            }
-            if ($row['objekt'] == "Artefaktbasis") {
-                $ab++;
-            }
-
-            $plannistring = "";
-            switch ($row['typ']) {
-                case "Steinklumpen" :
-                    $plannistring .= "<span class='doc_black'>S";
-                    break;
-                case "Eisplanet" :
-                    $plannistring .= "<span class='doc_blue'>E";
-
-                    if ($row['objekt'] == "Kolonie") {
-                        $spezpla[$row['coords_gal']]['Eisplanet']['user'][]   = $row['user'];
-                        $spezpla[$row['coords_gal']]['Eisplanet']['coords'][] = " <a href='index.php?action=showplanet&coords=" . $row['coords'] . "&ansicht=auto&sid=" . $sid . "'>" . $row['coords'] . "</a>";
-                        $spezpla[$row['coords_gal']]['Eisplanet']['pkte'][]   = $row['punkte'];
-                    }
-                    break;
-                case "Asteroid" :
-                    $plannistring .= "<span class='doc_red'>A";
-
-                    if ($row['objekt'] == "Kolonie") {
-                        $spezpla[$row['coords_gal']]['Asteroid']['user'][]   = $row['user'];
-                        $spezpla[$row['coords_gal']]['Asteroid']['coords'][] = " <a href='index.php?action=showplanet&coords=" . $row['coords'] . "&ansicht=auto&sid=" . $sid . "'>" . $row['coords'] . "</a>";
-                        $spezpla[$row['coords_gal']]['Asteroid']['pkte'][]   = $row['punkte'];
-                    }
-                    break;
-                case "Gasgigant" :
-                    $plannistring .= "<span class='doc_green'>G";
-
-                    if ($row['objekt'] == "Kolonie") {
-                        $spezpla[$row['coords_gal']]['Gasgigant']['user'][]   = $row['user'];
-                        $spezpla[$row['coords_gal']]['Gasgigant']['coords'][] = " <a href='index.php?action=showplanet&coords=" . $row['coords'] . "&ansicht=auto&sid=" . $sid . "'>" . $row['coords'] . "</a>";
-                        $spezpla[$row['coords_gal']]['Gasgigant']['pkte'][]   = $row['punkte'];
-                    }
-                    break;
-                default :
-                    $plannistring .= "<span class='doc_black'>N";
-            }
-
-            $plannistring .= " <a href='index.php?action=showplanet&coords=" . $row['coords'] . "&ansicht=auto&sid=" . $sid . "'>" . $row['coords'] . "</a>";
-            if ($row['objekt'] == "Kolonie") {
-                $plannistring .= "</span>";
-                $points[$row['user']][] = number_format($row['punkte'], 0, ",", ".");
-            }
-
-            if (isset($fleeters[$row['user']])) {
-                $fleeter[$row['user']][$row['objekt']][] = $plannistring;
-
-            } else {
-                $buddler[$row['user']][$row['objekt']][] = $plannistring;
-            }
-
-            if ($row['coords_sys'] > 300) {
-                $row['coords_sys'] = 300;
-            } //dafür sorgen, dass gaaaaanz hinten liegende systeme in das letzte intervall gesteckt werden
-            $inrange = ceil($row['coords_sys'] / $range);
-            if (isset($plannicount[(int)$row['coords_gal']][$inrange])) {
-                $plannicount[$row['coords_gal']][$inrange][$row['objekt']]++;
-            }
-
-            $pkte += $row['punkte'];
-        }
-
-        $plancount = $eisis + $astros + $gasis + $steinis + $sgsteinis;
-        $pkteplan  = $pkte / $plancount;
-        $pktemem   = $pkte / $usercount;
-        $plannimem = $plancount / $usercount;
-
-        //ausgabe
-        //allgemeines
-        start_table();
-        start_row("titlebg", "style='width:95%' align='center' colspan='4'");
-        echo "<b>Allgemeine Informationen</b>";
-        next_row("windowbg2", "style='width:25%' align='left'");
-        echo "Allianz";
-        next_cell("windowbg1", "style='width:25%' align='left'");
-        echo "<b>$allianz</b>";
-        next_cell("windowbg2", "style='width:25%' align='left'");
-        echo "Planetenpunkte";
-        next_cell("windowbg1", "style='width:25%' align='left'");
-        echo number_format($pkte, 0, ",", ".");
-        next_row("windowbg2", "style='width:25%' align='left'");
-        echo "Mitgliederzahl";
-        next_cell("windowbg1", "style='width:25%' align='left'");
-        echo $usercount;
-        next_cell("windowbg2", "style='width:25%' align='left'");
-        echo "Punkte pro Mitglied";
-        next_cell("windowbg1", "style='width:25%' align='left'");
-        echo number_format($pktemem, 2, ",", ".");
-        next_row("windowbg2", "style='width:25%' align='left'");
-        echo "Planeten pro Mitglied";
-        next_cell("windowbg1", "style='width:25%' align='left'");
-        echo number_format($plannimem, 2, ",", ".");
-        next_cell("windowbg2", "style='width:25%' align='left'");
-        echo "Punkte pro Planet";
-        next_cell("windowbg1", "style='width:25%' align='left'");
-        echo number_format($pkteplan, 2, ",", ".");
-        next_row("windowbg2", "style='width:25%' align='left'");
-        echo "Kolonien";
-        next_cell("windowbg1", "style='width:25%' align='left'");
-        echo "$plancount";
-        next_cell("windowbg2", "style='width:25%' align='left'");
-        echo "Kolonisierte Asteroiden";
-        next_cell("windowbg1", "style='width:25%' align='left'");
-        echo "$astros";
-        next_row("windowbg2", "style='width:25%' align='left'");
-        echo "Steinklumpen in Startgalas";
-        next_cell("windowbg1", "style='width:25%' align='left'");
-        echo "$steinis";
-        next_cell("windowbg2", "style='width:25%' align='left'");
-        echo "Kolonisierte Eisplaneten";
-        next_cell("windowbg1", "style='width:25%' align='left'");
-        echo "$eisis";
-        next_row("windowbg2", "style='width:25%' align='left'");
-        echo "Steinklumpen in Chaosgalas";
-        next_cell("windowbg1", "style='width:25%' align='left'");
-        echo "$sgsteinis";
-        next_cell("windowbg2", "style='width:25%' align='left'");
-        echo "Kolonisierte Gasgiganten";
-        next_cell("windowbg1", "style='width:25%' align='left'");
-        echo "$gasis";
-        next_row("windowbg2", "style='width:25%' align='left'");
-        echo "Sammelbasen";
-        next_cell("windowbg1", "style='width:25%' align='left'");
-        echo "$rb";
-        next_cell("windowbg2", "style='width:25%' align='left'");
-        echo "Kampfbasen";
-        next_cell("windowbg1", "style='width:25%' align='left'");
-        echo "$kb";
-        next_row("windowbg2", "style='width:25%' align='left'");
-        echo "Artefaktbasen";
-        next_cell("windowbg1", "style='width:25%' align='left'");
-        echo "$ab";
-        next_cell("windowbg2", "style='width:25%' align='left'");
-        echo "";
-        next_cell("windowbg1", "style='width:25%' align='left'");
-        echo "";
-        end_row();
-        end_table();
-        echo "<br>";
-
-        //Karte
-        start_table();
-        start_row("titlebg", "style='width:95%' align='center' colspan='" . (ceil($maxplannis / $range) + 1) . "'");
-        echo "<b>Allianzkarte</b>";
-        next_row("windowbg2", "style='width:5%' align='left'");
-        echo " ";
-        $width = floor(95 / ($maxplannis / $range));
-        for ($j = 1; $j <= ceil($maxplannis / $range) - 1; $j++) {
-            next_cell("windowbg2", "style='width:$width%' align='center'");
-            echo $j * $range - $range + 1 . "-" . $j * $range;
-        }
-        next_cell("windowbg2", "style='width:$width%' align='center'");
-        echo ceil($maxplannis / $range) * $range - $range + 1 . "-end";
-        foreach ($plannicount as $gala => $pcount) {
-            next_row("windowbg2", "align='left'");
-            echo "G $gala";
-            foreach ($plannicount[$gala] as $inrange => $count) {
-                $color = getColor($plannicount[$gala][$inrange]);
-                next_cell("windowbg1", "align='center' style='background-color:" . $color . "'");
-                echo $plannicount[$gala][$inrange]['Kolonie'] . "/" . $plannicount[$gala][$inrange]['Sammelbasis'] . "/" . $plannicount[$gala][$inrange]['Kampfbasis'] . "/" . $plannicount[$gala][$inrange]['Artefaktbasis'];
-            }
-        }
-        end_row();
-        end_table();
-        echo "<b>Kolonien/Sammelbasen/Kampfbasen/Artefaktbasen</b><br>";
-
-        //Planiliste
-        echo "<br>";
-        start_table();
-        start_row("titlebg", "style='width:95%' align='center' colspan='5'");
-        echo "<b>Spieler mit hohem Punkteschnitt</b> (mögliche Fleeter)";
-        next_row("windowbg2", "style='width:22%' align='center'");
-        echo "Username";
-        next_cell("windowbg2", "style='width:36%' align='center'");
-        echo "Kolonien";
-        next_cell("windowbg2", "style='width:21%' align='center'");
-        echo "Ressbasen";
-        next_cell("windowbg2", "style='width:21%' align='center'");
-        echo "Kampfbasen";
-        next_cell("windowbg2", "style='width:21%' align='center'");
-        echo "Artefaktbasen";
-        if (isset($fleeter)) {
-            foreach ($fleeter as $username => $plannis) {
-                next_row("windowbg3", "style='width:22%' align='center'");
-                echo "<b>$username</b><br>" . $fleeters[$username] . " pkte";
-                next_cell("windowbg1", "style='width:36%' align='left'");
-                if (isset($fleeter[$username]['Kolonie'])) {
-                    start_table(100);
-                    foreach ($fleeter[$username]['Kolonie'] as $key => $planni) {
-                        start_row("windowbg1", "style='width:55%' align='left'");
-                        echo "$planni";
-                        next_cell("windowbg1", "style='width:45%' align='right'");
-                        echo $points[$username][$key] . " pkte";
-                        end_row();
-                    }
-                    end_table();
-                } else {
-                    echo "-";
-                }
-                next_cell("windowbg1", "style='width:21%' align='left'");
-                if (isset($fleeter[$username]['Sammelbasis'])) {
-                    start_table(100);
-                    foreach ($fleeter[$username]['Sammelbasis'] as $planni) {
-                        start_row("windowbg1", "style='width:100%' align='left'");
-                        echo "$planni<br>";
-                        end_row();
-                    }
-                    end_table();
-                } else {
-                    echo "-";
-                }
-                next_cell("windowbg1", "style='width:21%' align='left'");
-                if (isset($fleeter[$username]['Kampfbasis'])) {
-                    start_table(100);
-                    foreach ($fleeter[$username]['Kampfbasis'] as $planni) {
-                        start_row("windowbg1", "style='width:100%' align='left'");
-                        echo "$planni<br>";
-                        end_row();
-                    }
-                    end_table();
-                } else {
-                    echo "-";
-                }
-                next_cell("windowbg1", "style='width:21%' align='left'");
-                if (isset($fleeter[$username]['Artefaktbasis'])) {
-                    start_table(100);
-                    foreach ($fleeter[$username]['Artefaktbasis'] as $planni) {
-                        start_row("windowbg1", "style='width:100%' align='left'");
-                        echo "$planni<br>";
-                        end_row();
-                    }
-                    end_table();
-                } else {
-                    echo "-";
-                }
-            }
-            end_row();
-        }
-        start_row("titlebg", "style='width:95%' align='center' colspan='5'");
-        echo "<b>weitere Spieler</b>";
-        next_row("windowbg2", "style='width:22%' align='center'");
-        echo "Username";
-        next_cell("windowbg2", "style='width:36%' lign='center'");
-        echo "Kolonien";
-        next_cell("windowbg2", "style='width:21%' align='center'");
-        echo "Ressbasen";
-        next_cell("windowbg2", "style='width:21%' align='center'");
-        echo "Kampfbasen";
-        next_cell("windowbg2", "style='width:21%' align='center'");
-        echo "Artefaktbasen";
-        foreach ($buddler as $username => $plannis) {
-            next_row("windowbg3", "style='width:22%' align='center'");
-            echo "<b>$username</b><br>" . $buddlers[$username] . " pkte";
-            next_cell("windowbg1", "style='width:36%' align='left'");
-            if (isset($buddler[$username]['Kolonie'])) {
-                start_table(100);
-                foreach ($buddler[$username]['Kolonie'] as $key => $planni) {
-                    start_row("windowbg1", "style='width:55%' align='left'");
-                    echo "$planni";
-                    next_cell("windowbg1", "style='width:45%' align='right'");
-                    echo $points[$username][$key] . " pkte";
-                    end_row();
-                }
-                end_table();
-            } else {
-                echo "-";
-            }
-            next_cell("windowbg1", "style='width:21%' align='left'");
-            if (isset($buddler[$username]['Sammelbasis'])) {
-                start_table(100);
-                foreach ($buddler[$username]['Sammelbasis'] as $planni) {
-                    start_row("windowbg1", "style='width:100%' align='left'");
-                    echo "$planni";
-                    end_row();
-                }
-                end_table();
-            } else {
-                echo "-";
-            }
-            next_cell("windowbg1", "style='width:21%' align='left'");
-            if (isset($buddler[$username]['Kampfbasis'])) {
-                start_table(100);
-                foreach ($buddler[$username]['Kampfbasis'] as $planni) {
-                    start_row("windowbg1", "style='width:100%' align='left'");
-                    echo "$planni";
-                    end_row();
-                }
-                end_table();
-
-            } else {
-                echo "-";
-            }
-            next_cell("windowbg1", "style='width:21%' align='left'");
-            if (isset($buddler[$username]['Artefaktbasis'])) {
-                start_table(100);
-                foreach ($buddler[$username]['Artefaktbasis'] as $planni) {
-                    start_row("windowbg1", "style='width:100%' align='left'");
-                    echo "$planni";
-                    end_row();
-                }
-                end_table();
-
-            } else {
-                echo "-";
-            }
-        }
-        end_row();
-        end_table();
-        echo "<b>S=Steinklumpen, E=Eisplanet, G=Gasriese, A=Asteroid, N=Nichts/Spezialgalatyp</b><br>";
-        echo "<br>";
-
-
-        //Spezialplanniübersicht
-        if (isset($spezpla)) {
-            start_table();
-            start_row("titlebg", "style='width:95%' align='center' colspan='10'");
-            echo "<b>Spezialplanetenübersicht</b>";
-            next_row("windowbg2", "style='width:13%' align='center'");
-            echo "Galaxie";
-            next_cell("windowbg2", "style='width:29%' align='center'");
-            echo "Gasgiganten";
-            next_cell("windowbg2", "style='width:29%' align='center'");
-            echo "Asteroiden";
-            next_cell("windowbg2", "style='width:29%' align='center'");
-            echo "Eisplaneten";
-            foreach ($spezpla as $gala => $plaar) {
-                next_row("windowbg3", "style='width:13%' align='center'");
-                echo "Gala $gala";
-                next_cell("windowbg1", "style='width:29%' align='left'");
-                if (isset($spezpla[$gala]['Gasgigant'])) {
-                    foreach ($spezpla[$gala]['Gasgigant']['coords'] as $id => $pla) {
-                        echo $spezpla[$gala]['Gasgigant']['coords'][$id] . " [" . $spezpla[$gala]['Gasgigant']['user'][$id] . "]<br>";
-                    }
-                }
-                next_cell("windowbg1", "style='width:29%' align='left'");
-                if (isset($spezpla[$gala]['Asteroid'])) {
-                    foreach ($spezpla[$gala]['Asteroid']['coords'] as $id => $pla) {
-                        echo $spezpla[$gala]['Asteroid']['coords'][$id] . " [" . $spezpla[$gala]['Asteroid']['user'][$id] . "]<br>";
-                    }
-                }
-                next_cell("windowbg1", "style='width:29%' align='left'");
-                if (isset($spezpla[$gala]['Eisplanet'])) {
-                    foreach ($spezpla[$gala]['Eisplanet']['coords'] as $id => $pla) {
-                        echo $spezpla[$gala]['Eisplanet']['coords'][$id] . " [" . $spezpla[$gala]['Eisplanet']['user'][$id] . "]<br>";
-                    }
-                }
-            }
-            end_row();
-            end_table();
-        }
+$i = 0;
+while ($rowGal = $db->db_fetch_array($result)) {
+    if ((int)$rowGal['Spieler'] === 0) {//prevent division by zero warnings
+        $rowGal['KpS'] = '';
     } else {
-        echo "Allianz dummerweise net gefunden<br>\n";
+        $rowGal['KpS'] = sprintf("%5.2f", ((int)$rowGal['Kolonien'] / (int)$rowGal['Spieler']));
     }
-    echo "<a href='index.php?action=m_allystats&sid=" . $sid . "'>zurück zur Allianzliste</a>";
 
-} else {
-    start_table();
-    start_row_only();
-    $rownum = 1;
-    $width  = (int)100 / $n;
-    $sql    = "SELECT DISTINCT allianz FROM " . $db_tb_scans . " WHERE allianz != '' ORDER BY allianz";
-    $result = $db->db_query($sql)
-        or error(
-        GENERAL_ERROR,
-        'Could not query config information.', '',
-        __FILE__, __LINE__, $sql
+    if (empty($rowGal['Allianz'])) { //Allianz '' enthällt alle Spieler
+        $rowGal['Allianz'] = '<i>alle</i>';
+        $rowGal['status']  = '';
+    }
+
+    $Allies[] = array(
+        'Allytag'          => (string)$rowGal['Allianz'],
+        'Spieler'          => (int)$rowGal['Spieler'],
+        'status'           => (string)$rowGal['status'],
+        'Kolonien'         => (int)$rowGal['Kolonien'],
+        'KpS'              => (string)$rowGal['KpS'],
+        'KoloSteinklumpen' => (int)$rowGal['KoloSteinklumpen'],
+        'KoloGasgiganten'  => (int)$rowGal['KoloGasgiganten'],
+        'KoloEisplaneten'  => (int)$rowGal['KoloEisplaneten'],
+        'KoloAstroiden'    => (int)$rowGal['KoloAstroiden'],
+        'Kampfbasen'       => (int)$rowGal['Kampfbasen'],
+        'Sammelbasen'      => (int)$rowGal['Sammelbasen']
     );
-    while ($row = $db->db_fetch_array($result)) {
-        cell("windowbg1", "style='width:$width%'");
-        action("m_allystats&allianz=" . $row['allianz'], $row['allianz']);
-        end_cell();
-        if ($rownum % $n == 0) {
-            echo "</tr>";
-            start_row_only();
-        }
-        $rownum++;
-    }
-    while ($rownum % $n != 1) {
-        cell("windowbg1");
-        echo " ";
-        end_cell();
-        $rownum++;
-    }
-    echo "</tr>";
-    end_table();
 
-
+    $i++;
 }
 
-?>
+if ($i === 0) {
+    doc_message('Die werden noch gemei&szlig;elt. :(');
+} else {
+
+    foreach ($Allies as $key => $row) {
+        $Allytag[$key]          = $row['Allytag'];
+        $Spieler[$key]          = $row['Spieler'];
+        $Kolonien[$key]         = $row['Kolonien'];
+        $KpS[$key]              = $row['KpS'];
+        $KoloSteinklumpen[$key] = $row['KoloSteinklumpen'];
+        $KoloGasgiganten[$key]  = $row['KoloGasgiganten'];
+        $KoloEisplaneten[$key]  = $row['KoloEisplaneten'];
+        $KoloAstroiden[$key]    = $row['KoloAstroiden'];
+        $Kampfbasen[$key]       = $row['Kampfbasen'];
+        $Sammelbasen[$key]      = $row['Sammelbasen'];
+    }
+
+    doc_title("Allianz-Statistiken");
+
+    switch ($order) {
+        case "Allianz":
+            $firstsort = $Allytag;
+            break;
+        case "Spieler":
+            $firstsort = $Spieler;
+            break;
+        case "Kolonien":
+            $firstsort = $Kolonien;
+            break;
+        case "KpS":
+            $firstsort = $KpS;
+            break;
+        case "Steinies":
+            $firstsort = $KoloSteinklumpen;
+            break;
+        case "Astis":
+            $firstsort = $KoloAstroiden;
+            break;
+        case "Gasis":
+            $firstsort = $KoloGasgiganten;
+            break;
+        case "Eisis":
+            $firstsort = $KoloEisplaneten;
+            break;
+        case "KBs":
+            $firstsort = $Kampfbasen;
+            break;
+        case "RBs":
+            $firstsort = $Sammelbasen;
+            break;
+        default:
+            $firstsort = $Kolonien;
+    }
+
+    switch ($order2) {
+        case "Allianz":
+            $secondsort = $Allytag;
+            break;
+        case "Spieler":
+            $secondsort = $Spieler;
+            break;
+        case "Kolonien":
+            $secondsort = $Kolonien;
+            break;
+        case "KpS":
+            $secondsort = $KpS;
+            break;
+        case "Steinies":
+            $secondsort = $KoloSteinklumpen;
+            break;
+        case "Astis":
+            $secondsort = $KoloAstroiden;
+            break;
+        case "Gasis":
+            $secondsort = $KoloGasgiganten;
+            break;
+        case "Eisis":
+            $secondsort = $KoloEisplaneten;
+            break;
+        case "KBs":
+            $secondsort = $Kampfbasen;
+            break;
+        case "RBs":
+            $secondsort = $Sammelbasen;
+            break;
+        default:
+            $secondsort = $Spieler;
+    }
+    array_multisort($firstsort, SORT_DESC, $secondsort, SORT_DESC, $Allies);
+
+    echo "<div class='doc_centered'>\n";
+    echo "<form name='frm'>\n";
+
+    echo "<input type='hidden' name='action' value='$modulname'>\n";
+    echo "<p>";
+    echo "Statistiken anzeigen für Gala <input type='text' name='galamin' value='$galamin' size='4'>&nbsp;\n";
+    echo "bis <input type='text' name='galamax' value='$galamax' size='4'>&nbsp;\n";
+    echo "</p>\n<p>";
+    echo "Hasiversumsliste von Ally <input type='text' name='gesamtmin' value='$gesamtmin' size='4'>&nbsp;\n";
+    echo "bis <input type='text' name='gesamtmax' value='$gesamtmax' size='4'>&nbsp;\n";
+    echo "</p>\n<p>";
+
+    echo "1. Sortierung nach <select name='order' size=1>\n";
+
+    echo "<option value='Allianz'\n";
+    if ($order == "Allianz") {
+        echo " selected='selected'";
+    }
+    echo ">\n";
+    echo "Ally Tag";
+
+    echo "<option value='Spieler'";
+    if ($order == "Spieler") {
+        echo " selected='selected'";
+    }
+    echo ">\n";
+    echo "Spieler";
+
+    echo "<option value='Kolonien'";
+    if ($order == "Kolonien") {
+        echo " selected='selected'";
+    }
+    echo ">\n";
+    echo "Kolonien";
+
+    echo "<option value='KpS'";
+    if ($order == "KpS") {
+        echo " selected='selected'";
+    }
+    echo ">\n";
+    echo "Kolonien/Spieler";
+
+    echo "<option value='Steinies'";
+    if ($order == "Steinies") {
+        echo " selected='selected'";
+    }
+    echo ">\n";
+    echo "Kolos auf Steinies";
+
+    echo "<option value='Astis'";
+    if ($order == "Astis") {
+        echo " selected='selected'";
+    }
+    echo ">\n";
+    echo "Kolos auf Asties";
+
+    echo "<option value='Gasis'";
+    if ($order == "Gasis") {
+        echo " selected='selected'";
+    }
+    echo ">\n";
+    echo "Kolos auf Gasis";
+
+    echo "<option value='Eisis'";
+    if ($order == "Eisis") {
+        echo " selected='selected'";
+    }
+    echo ">\n";
+    echo "Kolos auf Eisis";
+
+    echo "<option value='KBs'";
+    if ($order == "KBs") {
+        echo " selected='selected'";
+    }
+    echo ">\n";
+    echo "Kampfbasen";
+
+    echo "<option value='RBs'";
+    if ($order == "RBs") {
+        echo " selected='selected'";
+    }
+    echo ">\n";
+    echo "Ressbasen";
+    echo "</select></p>\n<p>";
+
+    echo "2. Sortierung nach <select name='order2' size=1>\n";
+
+    echo "<option value='Allianz'\n";
+    if ($order2 == "Allianz") {
+        echo " selected='selected'";
+    }
+    echo ">\n";
+    echo "Ally Tag";
+
+    echo "<option value='Spieler'";
+    if ($order2 == "Spieler") {
+        echo " selected='selected'";
+    }
+    echo ">\n";
+    echo "Spieler";
+
+    echo "<option value='Kolonien'";
+    if ($order2 == "Kolonien") {
+        echo " selected='selected'";
+    }
+    echo ">\n";
+    echo "Kolonien";
+
+    echo "<option value='KpS'";
+    if ($order2 == "KpS") {
+        echo " selected='selected'";
+    }
+    echo ">\n";
+    echo "Kolonien/Spieler";
+
+    echo "<option value='Steinies'";
+    if ($order2 == "Steinies") {
+        echo " selected='selected'";
+    }
+    echo ">\n";
+    echo "Kolos auf Steinies";
+
+    echo "<option value='Astis'";
+    if ($order2 == "Astis") {
+        echo " selected='selected'";
+    }
+    echo ">\n";
+    echo "Kolos auf Asties";
+
+    echo "<option value='Gasis'";
+    if ($order2 == "Gasis") {
+        echo " selected='selected'";
+    }
+    echo ">\n";
+    echo "Kolos auf Gasis";
+
+    echo "<option value='Eisis'";
+    if ($order2 == "Eisis") {
+        echo " selected='selected'";
+    }
+    echo ">\n";
+    echo "Kolos auf Eisis";
+
+    echo "<option value='KBs'";
+    if ($order2 == "KBs") {
+        echo " selected='selected'";
+    }
+    echo ">\n";
+    echo "Kampfbasen";
+
+    echo "<option value='RBs'";
+    if ($order2 == "RBs") {
+        echo " selected='selected'";
+    }
+    echo ">\n";
+    echo "Ressbasen";
+    echo "</select></p>\n<p>";
+
+    echo "<input type='submit' value='anzeigen'>";
+    echo "</p>\n<br \>";
+    echo "</form>";
+    echo "</div>";
+
+    start_table();
+    start_row("titlebg", "style='width:95%' align='center' colspan='11'");
+
+    if (($galamin == $config_map_galaxy_min) and ($galamax == $config_map_galaxy_max)) {
+        echo "  <b>Bekanntes Hasiversum</b>\n";
+    } else if ($galamin == $galamax) {
+        echo "  <b>Galaxie " . $galamin . "</b>\n";
+    } else {
+        echo "  <b>Galaxien " . $galamin . " bis " . $galamax . "</b>\n";
+    }
+
+    next_row("windowbg2", "style='width:5%' align='center'");
+    echo "<b>Rang</b>";
+
+    next_cell("windowbg2", "style='width:10%' align='center'");
+    echo "<b>Allianz</b>";
+
+    next_cell("windowbg2", "style='width:8%' align='center'");
+    echo "<b>Spieler</b>";
+
+    next_cell("windowbg2", "style='width:8%' align='center'");
+    echo "<b>Kolonien</b>";
+
+    next_cell("windowbg2", "style='width:8%' align='center'");
+    echo "<b>Kolonien&nbsp;/<br \>Spieler</b>";
+
+    next_cell("windowbg2", "style='width:8%' align='center'");
+    echo "<b>Kolos&nbsp;auf<br \>Steinies</b>";
+
+    next_cell("windowbg2", "style='width:8%' align='center'");
+    echo "<b>Kolos&nbsp;auf Asties&nbsp;&nbsp;&nbsp;</b>";
+
+    next_cell("windowbg2", "style='width:8%' align='center'");
+    echo "<b>Kolos&nbsp;auf<br \>Gasis</b>";
+
+    next_cell("windowbg2", "style='width:8%' align='center'");
+    echo "<b>Kolos&nbsp;auf<br \>Eisis&nbsp;&nbsp;</b>";
+
+    next_cell("windowbg2", "style='width:8%' align='center'");
+    echo "<b>KB</b>";
+
+    next_cell("windowbg2", "style='width:8%' align='center'");
+    echo "<b>SB</b>";
+
+    $i = 0;
+    foreach ($Allies as $ally => $Alliestats) {
+//	    echo "ally: $ally; allystats: $Alliestats<br />\n";
+
+        $i++;
+        if ($i >= $gesamtmin) {
+
+            if ($Alliestats['Allytag'] == "<i>alle</i>") {
+                $allylink = '<a href="index.php?action=allydetail&allianz=alle&amp;sid=' . $sid . '">' . $Alliestats['Allytag'] . '</a>';
+            } elseif ($Alliestats['Allytag'] == "<i>Solo</i>") {
+                $allylink = '<a href="index.php?action=allydetail&allianz=Solo&amp;sid=' . $sid . '">' . $Alliestats['Allytag'] . '</a>';
+            } else {
+                $allylink = '<a href="index.php?action=allydetail&allianz=' . $Alliestats['Allytag'] . '&amp;sid=' . $sid . '">' . $Alliestats['Allytag'] . '</a>';
+            }
+
+
+            if (!empty($Alliestats['status']) AND !empty($config_allianzstatus[$Alliestats['status']])) {
+                $bgcolor = 'background-color:'.$config_allianzstatus[$Alliestats['status']].';';
+            } else {
+                $bgcolor = '';
+            }
+            if ($i % 2) {
+                $style = "windowbg1";
+                next_row("windowbg2", "style='width:5%; text-align:center; $bgcolor'");
+            } else {
+                $style = "windowbg3";
+                next_row("windowbg2", "style='width:5%; text-align:center; $bgcolor'");
+            }
+
+            echo "$i.";
+
+            next_cell($style, "style='width:10%; text-align:right; $bgcolor'");
+            echo $allylink;
+
+            next_cell($style, "style='width:8%; text-align:right; $bgcolor'");
+            echo  $Alliestats['Spieler'];
+
+            next_cell($style, "style='width:8%; text-align:right; $bgcolor'");
+            echo  $Alliestats['Kolonien'];
+
+            next_cell($style, "style='width:8%; text-align:right; $bgcolor'");
+            echo  $Alliestats['KpS'];
+
+            next_cell($style, "style='width:8%; text-align:right; $bgcolor'");
+            echo  $Alliestats['KoloSteinklumpen'];
+
+            next_cell($style, "style='width:8%; text-align:right; $bgcolor'");
+            echo  $Alliestats['KoloAstroiden'];
+
+            next_cell($style, "style='width:8%; text-align:right; $bgcolor'");
+            echo  $Alliestats['KoloGasgiganten'];
+
+            next_cell($style, "style='width:8%; text-align:right; $bgcolor'");
+            echo  $Alliestats['KoloEisplaneten'];
+
+            next_cell($style, "style='width:8%; text-align:right; $bgcolor'");
+            echo  $Alliestats['Kampfbasen'];
+
+            next_cell($style, "style='width:8%; text-align:right; $bgcolor'");
+            echo  $Alliestats['Sammelbasen'];
+
+        }
+
+        if ($i == $gesamtmax) {
+            break;
+        }
+    }
+
+    end_row();
+    end_table();
+}

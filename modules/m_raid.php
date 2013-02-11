@@ -1253,10 +1253,10 @@ if (empty($params['view'])) {
     usort($data, "sort_data_cmp");
     // Daten ausgeben
     start_table();
-    start_row("titlebg", "nowrap valign=top");
+    start_row("titlebg top");
     foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
         if (!isset($view['group'][$viewcolumnkey]) && !isset($filters[$viewcolumnkey])) {
-            next_cell("titlebg", "nowrap valign=top");
+            next_cell("titlebg top");
             $orderkey = $viewcolumnkey;
             if (isset($view['sortcolumns'][$orderkey])) {
                 $orderkey = $view['sortcolumns'][$orderkey];
@@ -1279,10 +1279,10 @@ if (empty($params['view'])) {
         }
     }
     if (isset($view['edit'])) {
-        next_cell("titlebg", 'nowrap valign=top');
+        next_cell("titlebg top");
         echo '&nbsp;';
     }
-    next_cell("titlebg", 'nowrap valign=top');
+    next_cell("titlebg top");
     echo '&nbsp;';
     echo '<form method="POST">';
     $index           = 0;
@@ -1339,7 +1339,7 @@ if (empty($params['view'])) {
             }
         }
         // Markierbuttons ausgeben
-        next_cell("windowbg1", 'nowrap valign=top');
+        next_cell("windowbg1 top");
         echo '<input type="checkbox" name="mark_' . $key . '" ';
         if (getVar("mark_all")) {
             echo 'value=true checked';
@@ -1498,7 +1498,7 @@ if (empty($params['view'])) {
         echo '<input type="hidden" name="edit" value="' . $params['edit'] . '">' . "\n";
         echo "</b>";
         foreach ($view['edit'] as $key => $field) {
-            next_row('windowbg2', 'nowrap valign=top');
+            next_row("windowbg2 top");
             echo $field['title'];
             if (isset($field['desc'])) {
                 echo '<br><i>' . $field['desc'] . '</i>';

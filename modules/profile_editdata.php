@@ -862,7 +862,7 @@ if ($user_status === "admin") {
     </td>
 </tr>
 <tr>
-    <td colspan="2" class="titlebg" align="center">
+    <td colspan="2" class="titlebg center">
         <input type="submit" value="speichern" name="editprofile" class="submit">
     </td>
 </tr>

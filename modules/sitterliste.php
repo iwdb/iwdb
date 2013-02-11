@@ -466,7 +466,7 @@ if (!empty($erledigt)) {
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="2" class="titlebg" align="center">
+                            <td colspan="2" class="titlebg center">
                                 <input type="hidden" name="erledigt" value="<?php echo $erledigt;?>"><input
                                     type="submit" value="speichern" name="B1" class="submit">
                             </td>
@@ -494,7 +494,7 @@ include("dauerauftraege.php");
 ?>
 <table id='current_sitterorders_table' class='table_format' style='width: 90%;'>
 <tr>
-    <th class="titlebg" colspan="6" align="center">
+    <th class="titlebg center" colspan="6">
         <b>aktuelle Sitteraufträge</b>
     </th>
 </tr>
@@ -645,7 +645,7 @@ if (isset($row_lastlogin)) {
         }
         ?>
         [<?php echo $users_sitterpunkte;?> + <?php echo $users_sitterpunkte_user;?>]
-        <?php echo (($users_sitterpunkte + $users_sitterpunkte_user) > (3 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star1.gif' alt='star1' style='border:0;vertical-align:middle;'>" : ((($users_sitterpunkte + $users_sitterpunkte_user) > (2 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star2.gif' alt='star2' style='border:0;vertical-align:middle;'>" : ((($users_sitterpunkte + $users_sitterpunkte_user) > (round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star3.gif' alt='star3' style='border:0;vertical-align:middle;'>" : ""));
+        <?php echo (($users_sitterpunkte + $users_sitterpunkte_user) > (3 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star1.gif' alt='star1' style='vertical-align:middle;'>" : ((($users_sitterpunkte + $users_sitterpunkte_user) > (2 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star2.gif' alt='star2' style='vertical-align:middle;'>" : ((($users_sitterpunkte + $users_sitterpunkte_user) > (round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star3.gif' alt='star3' style='vertical-align:middle;'>" : ""));
         if (!empty($row['ByUser']) && ($row['user'] != $row['ByUser'])) {
             echo "<br>(eingestellt von " . $row['ByUser'] . ")";
         }
@@ -660,7 +660,7 @@ if (isset($row_lastlogin)) {
     <td class="windowbg<?php echo $num;?>">
         <?php echo convert_bbcode($row['auftrag']);?>
     </td>
-    <td class="windowbg<?php echo $num;?>" align="center">
+    <td class="windowbg<?php echo $num;?> center">
         <?php
 
         if (is_array($users_logged_in)) {
@@ -692,11 +692,11 @@ if (isset($row_lastlogin)) {
     </td>
 </tr>
 <tr id="row_<?php echo $row['id'];?>" style="display: none;">
-    <td colspan="6" class="windowbg1" valign="top" align="center" style="width: 100%;">
+    <td colspan="6" class="windowbg1 center top" style="width: 100%;">
         <form method="POST" action="index.php?action=sitterliste&sid=<?php echo $sid;?>" enctype="multipart/form-data">
             <table class="table_format">
                 <tr>
-                    <td colspan="2" class="windowbg1" align="center">
+                    <td colspan="2" class="windowbg1 center">
                         <b>Kommentar hinzufügen</b>
                     </td>
                 </tr>
@@ -716,7 +716,7 @@ if (isset($row_lastlogin)) {
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2" class="windowbg1" align="center">
+                    <td colspan="2" class="windowbg1 center">
                         <b>Zeit aktualisieren</b>
                     </td>
                 </tr>
@@ -808,7 +808,7 @@ if (isset($row_lastlogin)) {
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2" class="windowbg1" align="center">
+                        <td colspan="2" class="windowbg1 center">
                             <b>Auftrag löschen</b>
                         </td>
                     </tr>
@@ -824,7 +824,7 @@ if (isset($row_lastlogin)) {
                 }
                 ?>
                 <tr>
-                    <td colspan="2" class="windowbg1" align="center">
+                    <td colspan="2" class="windowbg1 center">
                         <input type="hidden" name="auftragid" value="<?php echo $row['id'];?>"><input type="hidden"
                                                                                                       name="edit"
                                                                                                       value="1"><input

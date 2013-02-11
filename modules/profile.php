@@ -54,16 +54,16 @@ if (($id !== $user_id) and ($user_status !== "admin")) {
     <br>
     <table class="table_format">
         <tr>
-            <td class="menutop" align="center">
+            <td class="menutop center">
                 <a href="index.php?action=profile&id=<?php echo urlencode($id);?>&sitterlogin=<?php echo urlencode($sitterlogin);?>&sid=<?php echo $sid;?>">Einstellungen</a>
             </td>
-            <td class="menutop" align="center">
+            <td class="menutop center">
                 <a href="index.php?action=profile&id=<?php echo urlencode($id);?>&sitterlogin=<?php echo urlencode($sitterlogin);?>&uaction=editplaneten&sid=<?php echo $sid;?>">Planeten</a>
             </td>
-            <td class="menutop" align="center">
+            <td class="menutop center">
                 <a href="index.php?action=profile&id=<?php echo urlencode($id);?>&sitterlogin=<?php echo urlencode($sitterlogin);?>&uaction=editpresets&sid=<?php echo $sid;?>">Presets</a>
             </td>
-            <td class="menutop" align="center">
+            <td class="menutop center">
                 <a href="index.php?action=profile&id=<?php echo urlencode($id);?>&sitterlogin=<?php echo urlencode($sitterlogin);?>&uaction=gebaeude&sid=<?php echo $sid;?>">Gebäude ausblenden</a>
             </td>
         </tr>

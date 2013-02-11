@@ -79,7 +79,7 @@ $result = $db->db_query($sql)
 
 while ($row = $db->db_fetch_array($result)) {
     start_table();
-    start_row("titlebg", "align='center'", 4);
+    start_row("titlebg center", "", 4);
     echo "<b>" . (empty($row['typ']) ? "Sonstige" : $row['typ']) . "</b>";
     next_row("windowbg2", "style='width:20%;'");
     echo "Schiff";
@@ -123,7 +123,7 @@ while ($row = $db->db_fetch_array($result)) {
 }
 
 start_table();
-start_row("titlebg", "align='center'");
+start_row("titlebg center");
 echo "<input type='hidden' name='editschiffe' value='true'>" .
     "<input type='submit' value='speichern' name='B1' class='submit'>\n";
 end_row();

@@ -1031,15 +1031,15 @@ switch ($params['mode']) {
             <?php            } else { ?>
         <tr class="universum-row<?php echo !empty($planet['allianzstatus']) ? '-' . $planet['allianzstatus'] : '' ?>" valign="top">
             <?php            }         } ?>
-            <td class="universum" width="20px" align="center" valign="center">
+            <td class="universum center middle" style="width:20px">
                 <?php echo $planet['coords_planet'] ?>
             </td>
-            <td class="universum" width="20px" align="center" valign="center">
+            <td class="universum center middle" style="width:20px">
                 <?php echo formatTyp($planet['typ']) ?>
             </td>
-            <td class="universum" valign="top">
+            <td class="universum top">
                 <table>
-                    <tr valign="center">
+                    <tr class="middle">
                         <td nowrap>
                             <?php    if (isColony($planet)) { ?>
                                 <img src="bilder/kolo.png" title="Kolonie"/>
@@ -1088,37 +1088,37 @@ switch ($params['mode']) {
                             } ?>
                         </td>
                         <?php    if (hasRaid($planet)) { ?>
-                            <td nowrap valign="center">
+                            <td nowrap class="middle">
                                 <a href="<?php echo $planet['raid_link'] ?>" target="main">Raid</a>
                             </td>
-                            <td nowrap valign="center">
+                            <td nowrap class="middle">
                                 <?php echo formatDuration($planet['raid_time'], 48 * 60) ?>
                             </td>
                         <?php }     if (hasFailScan($planet)) { ?>
                             <td nowrap>
                             </td>
-                            <td nowrap valign="center">
+                            <td nowrap class="middle">
                                 <span style="color : #ff0000;" title="Fehlgeschlagene Sondierung"><?php echo formatDuration($planet['fehlscantime']) ?></span>
                             </td>
                         <?php }     if (hasShipScan($planet)) { ?>
                             <td nowrap>
                                 <img src="bilder/scann_schiff.png" title="Schiffscan"/>
                             </td>
-                            <td nowrap valign="center">
+                            <td nowrap class="middle">
                                 <?php echo formatDuration($planet['schiffscantime'], 48 * 60) ?>
                             </td>
                         <?php }     if (hasGebScan($planet)) { ?>
-                            <td nowrap valign="top">
+                            <td nowrap class="top">
                                 <img src="bilder/scann_geb.png" title="Gebäudescan"/>
                             </td>
-                            <td nowrap valign="center">
+                            <td nowrap class="middle">
                                 4d
                             </td>
                         <?php }     if (hasGeoScan($planet)) { ?>
-                            <td nowrap valign="top">
+                            <td nowrap class="top">
                                 <img src="bilder/scann_geo.png" title="Geoscan"/>
                             </td>
-                            <td nowrap valign="center">
+                            <td nowrap class="middle">
                                 <?php echo formatDuration($planet['geoscantime']) ?>
                             </td>
                         <?php } ?>
@@ -1130,31 +1130,31 @@ switch ($params['mode']) {
                             <td nowrap>
                                 <img src="bilder/eisen.png" title="Eisen"/>
                             </td>
-                            <td valign="top" nowrap>
+                            <td class="top" nowrap>
                                 <?php echo formatAmount($planet["eisen"]) ?>
                             </td>
                             <td nowrap>
                                 <img src="bilder/stahl.png" title="Stahl"/>
                             </td>
-                            <td valign="top" nowrap>
+                            <td class="top" nowrap>
                                 <?php echo formatAmount($planet["stahl"]) ?>
                             </td>
                             <td nowrap>
                                 <img src="bilder/vv4a.png" title="VV4A"/>
                             </td>
-                            <td valign="top" nowrap>
+                            <td class="top" nowrap>
                                 <?php echo formatAmount($planet["vv4a"]) ?>
                             </td>
                             <td nowrap>
                                 <img src="bilder/chemie.png" title="chem. Elemente"/>
                             </td>
-                            <td valign="top" nowrap>
+                            <td class="top" nowrap>
                                 <?php echo formatAmount($planet["chemie"]) ?>
                             </td>
                             <td nowrap>
                                 <img src="bilder/eis.png" title="Eis"/>
                             </td>
-                            <td valign="top" nowrap>
+                            <td class="top" nowrap>
                                 <?php echo formatAmount($planet["eis"]) ?>
                             </td>
                             <td nowrap>
@@ -1166,10 +1166,10 @@ switch ($params['mode']) {
                             <td nowrap>
                                 <img src="bilder/energie.png" title="Energie"/>
                             </td>
-                            <td valign="top" nowrap>
+                            <td class="top" nowrap>
                                 <?php echo formatAmount($planet["energie"]) ?>
                             </td>
-                            <td nowrap width="100%">
+                            <td nowrap style="width:100%">
                             </td>
                             <td nowrap>
                                 <?php echo formatRating($planet["rating"]) ?>

@@ -209,4 +209,4 @@ include ('configmenu.php');
 <!-- hauptfenster Start -->
 <table align="center" style="width:100%;">
     <tr>
-        <td class="windowbg1" align="center">
+        <td class="windowbg1 center">

@@ -178,7 +178,7 @@ doc_title('Sitterlogins');
             }
             ?>
             <tr>
-                <td class="windowbg<?php echo $num;?>" valign="top">
+                <td class="windowbg<?php echo $num;?> top">
                     <?php
                     if ($user_status == "admin") {
                         echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($data) . "&sid=" . $sid . "'>" . $data . "</a>";
@@ -191,10 +191,10 @@ doc_title('Sitterlogins');
                     }
                     ?>
                 </td>
-                <td class="windowbg<?php echo $num;?>" valign="top">
-                    <?php echo ($users_sitterpunkte[$key] > (3 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star1.gif' alt='star1' style='border:0;vertical-align:middle;'>" : (($users_sitterpunkte[$key] > (2 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star2.gif' alt='star2' style='border:0;vertical-align:middle;'>" : (($users_sitterpunkte[$key] > round($row_avg['AVG(sitterpunkte)'])) ? "<img src='bilder/star3.gif'  alt='star3' style='border:0;vertical-align:middle;'>" : "")); echo $users_sitterpunkte_anz[$key];?>
+                <td class="windowbg<?php echo $num;?> top">
+                    <?php echo ($users_sitterpunkte[$key] > (3 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star1.gif' alt='star1' style='vertical-align:middle;'>" : (($users_sitterpunkte[$key] > (2 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star2.gif' alt='star2' style='vertical-align:middle;'>" : (($users_sitterpunkte[$key] > round($row_avg['AVG(sitterpunkte)'])) ? "<img src='bilder/star3.gif'  alt='star3' style='vertical-align:middle;'>" : "")); echo $users_sitterpunkte_anz[$key];?>
                 </td>
-                <td class="windowbg<?php echo $num;?>" valign="top">
+                <td class="windowbg<?php echo $num;?> top">
                     <?php
                     if (!empty($users_logged_in[$key])) {
                         echo "<b><font color='#ff0000'>" . $users_logged_in[$key] . " ist eingeloggt </font></b>" .
@@ -202,7 +202,7 @@ doc_title('Sitterlogins');
                             "' target='_blank' onclick='return confirmlink(this, " .
                             "'Jemand ist gerade im Account eingeloggt. Trotzdem einloggen?'" .
                             ")'>[trotzdem einloggen]</a>" .
-                            "<td class='windowbg" . $num . "' valign='top'>" .
+                            "<td class='windowbg" . $num . " top'>" .
                             (($users_sitterpeitschen[$key] == "1") ? " <i>Meister d. Peitschen<br/></i>" : "") .
                             ((!empty($users_sitterstaatsform[$key])) ? " <i>Staatsform: " . NumToStaatsform($users_sitterstaatsform[$key]) . "</i><br/>" : "") .
                             (($users_sitterikea[$key] == "M") ? " <i>Meister d. Ikea</i><br/>" : "") .
@@ -220,7 +220,7 @@ doc_title('Sitterlogins');
                             " <a href='index.php?action=sitterhistory&selecteduser=" .
                             urlencode($data) . "&sid=" . $sid . "'><img src='bilder/file_history.gif' " .
                             "alt='Sitterhistorie anschauen' title='Sitterhistorie anschauen'></a>" .
-                            "<td class='windowbg" . $num . "' valign='top'>" .
+                            "<td class='windowbg" . $num . " top'>" .
                             (($users_sitterpeitschen[$key] == "1") ? " <i>Meister d. Peitschen<br/></i>" : "") .
                             ((!empty($users_sitterstaatsform[$key])) ? " <i>Staatsform: " . NumToStaatsform($users_sitterstaatsform[$key]) . "</i><br/>" : "") .
                             (($users_sitterikea[$key] == "M") ? " <i>Meister d. Ikea</i><br/>" : "") .
@@ -236,7 +236,7 @@ doc_title('Sitterlogins');
                             " <a href='index.php?action=sitterhistory&selecteduser=" .
                             urlencode($data) . "&sid=" . $sid . "'><img src='bilder/file_history.gif' " .
                             "alt='Sitterhistorie anschauen' title='Sitterhistorie anschauen'></a>" .
-                            "<td class='windowbg" . $num . "' valign='top'>" .
+                            "<td class='windowbg" . $num . " top'>" .
                             (($users_sitterpeitschen[$key] == "1") ? " <i>Meister d. Peitschen<br/></i>" : "") .
                             ((!empty($users_sitterstaatsform[$key])) ? " <i>Staatsform: " . NumToStaatsform($users_sitterstaatsform[$key]) . "</i><br/>" : "") .
                             (($users_sitterikea[$key] == "M") ? " <i>Meister des Ikea</i><br/>" : "") .
@@ -247,7 +247,7 @@ doc_title('Sitterlogins');
                     ?>
 
                 </td>
-                <td class="windowbg<?php echo $num;?>" valign="top" style="white-space:nowrap;">
+                <td class="windowbg<?php echo $num;?> top">
                     <?php echo (empty($users_lastlogin_user[$key])) ? "" : strftime(CONFIG_DATETIMEFORMAT, $users_lastlogin[$key]) . "<br> von: " . $users_lastlogin_user[$key];?>
                 </td>
             </tr>

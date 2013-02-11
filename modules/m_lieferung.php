@@ -343,16 +343,16 @@ echo "</form><br><br>\n";
 
 // Daten ausgeben
 start_table(100);
-start_row("titlebg", "nowrap valign=top");
+start_row("titlebg top");
 foreach ($view['headers'] as $headercolumnname => $headercolumnspan) {
     next_cell("titlebg", "nowrap colspan=$headercolumnspan valign=top");
     echo "<b>" . $headercolumnname . "</b>";
 }
-next_cell("titlebg", 'nowrap valign=top');
+next_cell("titlebg top");
 echo '&nbsp;';
-start_row("windowbg2", "nowrap valign=top");
+start_row("windowbg2 top");
 foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
-    next_cell("windowbg2", "nowrap valign=top");
+    next_cell("windowbg2 top");
     $orderkey = $viewcolumnkey;
     if (isset($view['sortcolumns'][$orderkey])) {
         $orderkey = $view['sortcolumns'][$orderkey];
@@ -402,7 +402,7 @@ foreach ($data as $row) {
     }
     // Editbuttons ausgeben
     if (isset($view['edit'])) {
-        next_cell("windowbg1", 'nowrap valign=top');
+        next_cell("windowbg1 top");
         if (!isset($row['allow_edit']) || $row['allow_edit']) {
             echo makelink(
                 array('edit' => $key),
@@ -417,7 +417,7 @@ foreach ($data as $row) {
         }
     }
     // Markierbuttons ausgeben
-    next_cell("windowbg1", 'nowrap valign=top');
+    next_cell("windowbg1 top");
     //echo "<input type='checkbox' name='mark_" . $index++ . "' value='" . $key . "'";
     //if (getVar("mark_all"))
     //	echo " checked";
@@ -428,11 +428,11 @@ foreach ($data as $row) {
         echo "<b>" . $expand['title'] . "</b>";
         next_row('windowbg2', '');
         foreach ($expand['columns'] as $expandcolumnkey => $expandcolumnname) {
-            next_cell("windowbg2", "nowrap valign=top");
+            next_cell("windowbg2 top");
             echo $expandcolumnname;
         }
         if (isset($view['edit'])) {
-            next_cell("windowbg2", 'nowrap valign=top');
+            next_cell("windowbg2 top");
             echo '&nbsp;';
         }
         next_cell("windowbg2");
@@ -440,11 +440,11 @@ foreach ($data as $row) {
         foreach ($row['expand'] as $expand_row) {
             next_row('windowbg1', 'nowrap valign=center style="background-color: white;"');
             foreach ($expand['columns'] as $expandcolumnkey => $expandcolumnname) {
-                next_cell("windowbg1", "nowrap valign=top");
+                next_cell("windowbg1 top");
                 echo $expand_row[$expandcolumnkey];
             }
             if (isset($view['edit'])) {
-                next_cell("windowbg1", 'nowrap valign=top');
+                next_cell("windowbg1 top");
                 echo '&nbsp;';
             }
         }
@@ -471,7 +471,7 @@ foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
     }
 
 }
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 end_table();
 
 //****************************************************************************

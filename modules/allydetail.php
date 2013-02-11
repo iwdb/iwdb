@@ -407,13 +407,13 @@ if (!empty($allianz)) {
         foreach ($planicount as $gala => $pcount) {
             if ($gala > 0) {
 
-                next_row("windowbg2", "align='left'");
+                next_row("windowbg2 left");
                 echo "<a href='index.php?action=karte&amp;galaxy=$gala&amp;sid=" . $sid . "'>G $gala</a>\n";
                 $range = 1;
                 foreach ($planicount[$gala] as $inrange => $count) {
                     $color = getColor($planicount[$gala][$inrange]);
 
-                    next_cell("windowbg1", "align='center' style='background-color:" . $color . "'");
+                    next_cell("windowbg1 center", "style='background-color:" . $color . "'");
                     echo "<a href='index.php?action=showgalaxy&amp;sys_start=" . ($range * $rangewidth - $rangewidth + 1) .
                         "&amp;sys_end=" . ($range * $rangewidth) . "&amp;gal_start=" . $gala .
                         "&amp;gal_end=" . $gala . "&amp;sid=" . $sid . "' >" . $planicount[$gala][$inrange]['Kolonie'] . "/" . $planicount[$gala][$inrange]['Sammelbasis'] . "/" . $planicount[$gala][$inrange]['Kampfbasis'] . "</a>\n";
@@ -480,18 +480,18 @@ if (!empty($allianz)) {
                     echo "<span style='color:red'>" . $row['status'] . "</span>";
                 }
 
-                next_cell("windowbg1", "style='align='left'");
+                next_cell("windowbg1 left");
                 if (!empty($player[$playername]['Kolonie'])) {
                     start_table(100, 0, 4, 1);
                     //var_dump($player[$playername]['Kolonie']);
                     foreach ($player[$playername]['Kolonie'] as $coords => $planidata) {
-                        start_row("windowbg1", "style='width:50%'; align='left';");
+                        start_row("windowbg1 left", "style='width:50%';");
                         if (!empty($row['Hauptplanet']) AND ($row['Hauptplanet'] == $coords)) {
                             echo '<b>' . $planidata['coordshtml'] . ' </b> (HP)';
                         } else {
                             echo $planidata['coordshtml'];
                         }
-                        next_cell("windowbg1", "style='width:50%'; align='left';");
+                        next_cell("windowbg1 left", "style='width:50%';");
                         if (!empty($planidata['geoscantime'])) {
                             echo  "<alt title='Geoscan von " . strftime(CONFIG_DATETIMEFORMAT, $planidata['geoscantime']) . "'><img src='bilder/scann_geo.png'>&nbsp;".makeShortDuration($planidata['geoscantime']).'</alt>';
                         }
@@ -508,7 +508,7 @@ if (!empty($allianz)) {
                 } else {
                     echo '-';
                 }
-                next_cell("windowbg1", "style='align='left'");
+                next_cell("windowbg1 left");
                 if (!empty($player[$playername]['Sammelbasis'])) {
                     start_table(100);
                     foreach ($player[$playername]['Sammelbasis'] as $planidata) {
@@ -520,11 +520,11 @@ if (!empty($allianz)) {
                 } else {
                     echo "-";
                 }
-                next_cell("windowbg1", "style='align='left'");
+                next_cell("windowbg1 left");
                 if (!empty($player[$playername]['Kampfbasis'])) {
                     start_table(100);
                     foreach ($player[$playername]['Kampfbasis'] as $planidata) {
-                        start_row("windowbg1 "style='width:100%'", left");
+                        start_row("windowbg1 left", "style='width:100%'");
                         echo $planidata['coordshtml'];
                         end_row();
                     }

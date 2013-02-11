@@ -143,19 +143,19 @@ if (!empty($anz)) {
             }
             ?>
             <tr>
-                <td class='windowbg<?php echo $num;?>' valign='top'>
+                <td class='windowbg<?php echo $num;?> top'>
                     <?php
                     if ($user_status == "admin") {
                         echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($data) . "&sid=" . $sid . "'>" . $data . "</a>";
                     } else {
                         echo $data;
                     }
-                    echo $users_sitterpunkte_anz[$key]; echo ($users_sitterpunkte[$key] > (3 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star1.gif' alt='star1' style='border:0;vertical-align:middle;'>" : (($users_sitterpunkte[$key] > (2 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star2.gif' alt='star2' style='border:0;vertical-align:middle;'>" : (($users_sitterpunkte[$key] > round($row_avg['AVG(sitterpunkte)'])) ? "<img src='bilder/star3.gif' alt='star3' style='border:0;vertical-align:middle;'>" : ""));?>
+                    echo $users_sitterpunkte_anz[$key]; echo ($users_sitterpunkte[$key] > (3 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star1.gif' alt='star1' style='vertical-align:middle;'>" : (($users_sitterpunkte[$key] > (2 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star2.gif' alt='star2' style='vertical-align:middle;'>" : (($users_sitterpunkte[$key] > round($row_avg['AVG(sitterpunkte)'])) ? "<img src='bilder/star3.gif' alt='star3' style='vertical-align:middle;'>" : ""));?>
                 </td>
-                <td class='windowbg<?php echo $num;?>' valign='top'>
+                <td class='windowbg<?php echo $num;?> top'>
                     <?php echo nl2br(convert_bbcode($users_sittercomment[$key])); echo ($users_sitterpeitschen[$key] == '1') ? "<br><br><i>Meister d. Peitschen</i>" : "";?>
                 </td>
-                <td class='windowbg<?php echo $num;?> center' valign='middle'>
+                <td class='windowbg<?php echo $num;?> center middle'>
                     <?php
                     if (!empty($users_logged_in[$key])) {
                         echo $users_logged_in[$key] . ' ist eingeloggt';
@@ -165,7 +165,7 @@ if (!empty($anz)) {
                     ?>
                     <br><a href="javascript:Collapse('d<?php echo $key;?>');"><img src="bilder/plus.gif" alt="" id="collapse_d<?php echo $key;?>"></a>
                 </td>
-                <td class='windowbg<?php echo $num;?>' valign='top'>
+                <td class='windowbg<?php echo $num;?> top'>
                     <?php echo (empty($users_lastlogin_user[$key])) ? "" : strftime(CONFIG_DATETIMEFORMAT, $users_lastlogin[$key]) . " - " . $users_lastlogin_user[$key];?>
                 </td>
             </tr>

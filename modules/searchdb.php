@@ -147,7 +147,7 @@ doc_title('Planet suchen');
 ?>
 <table class="table_format" style="width: 80%;">
 <tr>
-    <td colspan="2" class="windowbg2" align="center"><br>
+    <td colspan="2" class="windowbg2 center"><br>
 
         <form method="POST" action="index.php?action=searchdb&sid=<?php echo $sid;?>" enctype="multipart/form-data">
             <select name="preset" style="width: 100px;" onchange="this.form.submit();">
@@ -372,7 +372,7 @@ doc_title('Planet suchen');
         <i>Nach was sollen die Suchergebnisse sortiert werden?</i></td>
 </tr>
 <tr>
-    <td colspan="2" class="windowbg1" align="center"><select name="order1">
+    <td colspan="2" class="windowbg1 center"><select name="order1">
             <?php
             $order1 = (isset($order1)) ? $order1 : '';
             foreach ($orderprio as $key => $data) {
@@ -389,7 +389,7 @@ doc_title('Planet suchen');
         </select></td>
 </tr>
 <tr>
-    <td colspan="2" class="windowbg1" align="center"><select name="order2">
+    <td colspan="2" class="windowbg1 center"><select name="order2">
             <?php
             $order2 = (isset($order2)) ? $order2 : '';
             foreach ($orderprio as $key => $data) {
@@ -406,7 +406,7 @@ doc_title('Planet suchen');
         </select></td>
 </tr>
 <tr>
-    <td colspan="2" class="windowbg1" align="center"><select name="order3">
+    <td colspan="2" class="windowbg1 center"><select name="order3">
             <?php
             $order3 = (isset($order3)) ? $order3 : '';
             foreach ($orderprio as $key => $data) {
@@ -423,13 +423,13 @@ doc_title('Planet suchen');
         </select></td>
 </tr>
 <tr>
-    <td class="windowbg1" colspan="2" align="center">maximale Ergebnisse:
+    <td class="windowbg1 center" colspan="2">maximale Ergebnisse:
         <input type="text" name="max" value="<?php echo ((isset($max)) ? $max : '')?>" style="width: 15em"
                maxlength="6">
     </td>
 </tr>
 <tr>
-    <td class="windowbg1" colspan="2" align="center">Ansicht: <select name="ansicht">
+    <td class="windowbg1 center" colspan="2">Ansicht: <select name="ansicht">
             <?php
             $ansicht = (isset($ansicht)) ? $ansicht : '';
             foreach ($ansichten as $key => $data) {
@@ -440,11 +440,11 @@ doc_title('Planet suchen');
     </td>
 </tr>
 <tr>
-    <td colspan="2" class="titlebg" align="center"><input type="submit"
+    <td colspan="2" class="titlebg center"><input type="submit"
                                                           value="OK" name="B1" class="submit"></td>
 </tr>
 <tr>
-    <td colspan="2" class="titlebg" align="center">als Preset speichern? <input
+    <td colspan="2" class="titlebg center">als Preset speichern? <input
             type="checkbox" name="newpreset" value="1"> <?php
         if ($user_status == "admin") {
             if ((isset($fromuser)) && ($fromuser == "")) {

@@ -138,7 +138,7 @@ if (!empty($sitterlogin)) {
             }
             ?>
             <tr>
-                <td colspan="7" class="titlebg" align="center">
+                <td colspan="7" class="titlebg center">
                     <input type="hidden" name="sitterlogin" value="<?php echo $sitterlogin;?>">
                     <input type="submit" value="speichern" name="editplaneten" class="submit">
                 </td>

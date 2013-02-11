@@ -75,7 +75,7 @@ if (!empty($editgebaeude)) {
         ?>
         <table class="table_format" style="width: 90%;">
             <tr>
-                <td class="titlebg" align="center" colspan="4">
+                <td class="titlebg center" colspan="4">
                     <b><?php echo (empty($row['category'])) ? "Sonstige" : $row['category'];?></b>
                 </td>
             </tr>
@@ -83,7 +83,7 @@ if (!empty($editgebaeude)) {
                 <td class="windowbg2" style="width:5%;">
                     ausblenden
                 </td>
-                <td class="windowbg2" style="width:5%;" align="center">
+                <td class="windowbg2 center" style="width:5%;">
                     &nbsp;
                 </td>
                 <td class="windowbg2" style="width:40%;">
@@ -108,11 +108,11 @@ if (!empty($editgebaeude)) {
                 }
                 ?>
                 <tr>
-                    <td class="windowbg1" align="center">
+                    <td class="windowbg1 center">
                         <input type="checkbox" name="<?php echo $row_gebaeude['id'];?>_inactive"
                                value="1"<?php echo (strpos($inactive, "|" . $row_gebaeude['id'] . "|") !== false) ? " checked" : "";?>>
                     </td>
-                    <td class="windowbg1" align="center">
+                    <td class="windowbg1 center">
                         <?php
                         if ($user_gebbilder == "1") {
                             if (!empty($row_gebaeude['bild'])) {
@@ -155,7 +155,7 @@ if (!empty($editgebaeude)) {
     ?>
     <table class="table_format" style="width: 90%;">
         <tr>
-            <td class="titlebg" align="center">
+            <td class="titlebg center">
                 <input type="hidden" name="id" value="<?php echo $id;?>">
                 <input type="hidden" name="sitterlogin" value="<?php echo $sitterlogin;?>">
                 <input type="submit" value="speichern" name="editgebaeude" class="submit">

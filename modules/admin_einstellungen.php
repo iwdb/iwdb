@@ -167,7 +167,7 @@ if (!empty($rowP['value'])) {
                 ?></td>
         </tr>
         <tr>
-            <td colspan="2" class="titlebg" align="center">
+            <td colspan="2" class="titlebg center">
                 <input type="submit" value="Fadeineinstellungen ändern" name="BS">
             </td>
         </tr>
@@ -279,7 +279,7 @@ if (!empty($rowP['value'])) {
             </td>
         </tr>
         <tr>
-            <td colspan="2" class="titlebg" align="center">
+            <td colspan="2" class="titlebg center">
                 <input type="submit" value="'Bericht einfügen für' ändern" name="BE">
             </td>
         </tr>
@@ -387,7 +387,7 @@ if (isset($db_tb_bestellung)) {
                 </td>
             </tr>
             <tr>
-                <td colspan="2" class="titlebg" align="center">
+                <td colspan="2" class="titlebg center">
                     <input type="submit" value="ändern" name="automatic_creds_order_change">
                 </td>
             </tr>
@@ -443,7 +443,7 @@ if ($iwdb_locked === 'true') {
             </td>
         </tr>
         <tr>
-            <td colspan="3" class="titlebg" align="center" style="background-color: #ff0000">
+            <td colspan="3" class="titlebg center" style="background-color: #ff0000">
                 <input type="submit" value="ändern" name="iwdb_lock_change">
             </td>
         </tr>

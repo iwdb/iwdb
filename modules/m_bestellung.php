@@ -795,7 +795,7 @@ if (isset($results)) {
 }
 
 // Team Dropdown
-echo "<form method='POST' action='" . makeurl(array()) . "' enctype='multipart/form-data'><p align='center'>";
+echo "<form method='POST' action='" . makeurl(array()) . "' enctype='multipart/form-data'><p class='center'>";
 echo 'Lieferant: ';
 echo makeField(
     array(
@@ -810,9 +810,9 @@ echo "</form><br><br>\n";
 // Daten ausgeben
 start_form("m_flotte_versenden", array("nobody" => 1, "art" => "bestellung"));
 start_table(100);
-start_row("titlebg", "nowrap valign=top");
+start_row("titlebg top");
 foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
-    next_cell("titlebg", "nowrap valign=top");
+    next_cell("titlebg top");
     $orderkey = $viewcolumnkey;
     if (isset($view['sortcolumns'][$orderkey])) {
         $orderkey = $view['sortcolumns'][$orderkey];
@@ -834,7 +834,7 @@ foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
     );
 }
 if (isset($view['edit'])) {
-    next_cell("titlebg", 'nowrap valign=top');
+    next_cell("titlebg top");
     echo '&nbsp;';
 }
 next_cell("titlebg");
@@ -842,22 +842,22 @@ $index = 0;
 foreach ($data as $row) {
     $key      = $row[$view['key']];
     $expanded = $params['expand'] == $key;
-    next_row('windowbg1', 'nowrap valign=top style="background-color: white;"');
+    next_row('windowbg1 top', 'style="background-color: white;"');
     echo makelink(
         array('expand' => ($expanded ? '' : $key)),
         '<img src="bilder/' . ($expanded ? 'point' : 'plus') . '.gif" alt="' . ($expanded ? 'zuklappen' : 'erweitern') . '">'
     );
     foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
         if ($viewcolumnkey == "text") {
-            next_cell("windowbg1", 'valign=top style="background-color: white;"');
+            next_cell("windowbg1 top", 'style="background-color: white;"');
         } else {
-            next_cell("windowbg1", 'nowrap valign=top style="background-color: white;"');
+            next_cell("windowbg1 top", 'style="background-color: white;"');
         }
         echo $row[$viewcolumnkey];
     }
     // Editbuttons ausgeben
     if (isset($view['edit'])) {
-        next_cell("windowbg1", 'nowrap valign=top');
+        next_cell("windowbg1 top");
         if (!isset($row['allow_edit']) || $row['allow_edit']) {
             echo makelink(
                 array('edit' => $key),
@@ -872,7 +872,7 @@ foreach ($data as $row) {
         }
     }
     // Markierbuttons ausgeben
-    next_cell("windowbg1", 'nowrap valign=top');
+    next_cell("windowbg1 top");
     echo "<input type='checkbox' name='mark_" . $index++ . "' value='" . $key . "'";
     if (getVar("mark_all")) {
         echo " checked";
@@ -884,23 +884,23 @@ foreach ($data as $row) {
         echo "<b>" . $expand['title'] . "</b>";
         next_row('windowbg2', '');
         foreach ($expand['columns'] as $expandcolumnkey => $expandcolumnname) {
-            next_cell("windowbg2", "nowrap valign=top");
+            next_cell("windowbg2 top");
             echo $expandcolumnname;
         }
         if (isset($view['edit'])) {
-            next_cell("windowbg2", 'nowrap valign=top');
+            next_cell("windowbg2 top");
             echo '&nbsp;';
         }
         next_cell("windowbg2");
         echo '&nbsp;';
         foreach ($row['expand'] as $expand_row) {
-            next_row('windowbg1', 'nowrap valign=center style="background-color: white;"');
+            next_row('windowbg1 middle', 'style="background-color: white;"');
             foreach ($expand['columns'] as $expandcolumnkey => $expandcolumnname) {
-                next_cell("windowbg1", "nowrap valign=top");
+                next_cell("windowbg1 top");
                 echo $expand_row[$expandcolumnkey];
             }
             if (isset($view['edit'])) {
-                next_cell("windowbg1", 'nowrap valign=top');
+                next_cell("windowbg1 top");
                 echo '&nbsp;';
             }
         }
@@ -917,7 +917,7 @@ end_form();
 echo '<br>';
 echo '<form method="POST" action="' . makeurl(array()) . '" enctype="multipart/form-data"><p>' . "\n";
 start_table();
-next_row("titlebg", 'nowrap valign=top colspan=2');
+next_row("titlebg top", 'colspan=2');
 echo "<b>" . $view['title'];
 if (isset($params['edit']) && is_numeric($params['edit'])) {
     echo " bearbeiten/hinzufügen";
@@ -927,7 +927,7 @@ if (isset($params['edit']) && is_numeric($params['edit'])) {
 }
 echo "</b>";
 foreach ($view['edit'] as $key => $field) {
-    next_row('windowbg2', 'nowrap valign=top');
+    next_row("windowbg2 top");
     echo $field['title'];
     if (isset($field['desc'])) {
         echo '<br><i>' . $field['desc'] . '</i>';
@@ -947,7 +947,7 @@ foreach ($view['edit'] as $key => $field) {
     }
 }
 
-next_row('titlebg', 'align=center colspan=2');
+next_row('titlebg center', 'colspan=2');
 if (!empty($params['edit'])) {
     echo '<input type="submit" value="ändern" name="button_edit" class="submit"> ';
 }
@@ -984,7 +984,7 @@ function makeresscol($row, $prefix_out, $prefix_cmp, $nocolor, $name, $title)
     $cmp   = $row[$prefix_cmp . $name];
     $value = $row[$prefix_out . $name];
     if ($cmp != 0) {
-        $html = '<tr><td nowrap>' . $title . '</td><td nowrap align="right">';
+        $html = '<tr><td nowrap>' . $title . '</td><td class="right">';
         if (!$nocolor) {
             $html .= '<span class="';
             if ($value > 0) {

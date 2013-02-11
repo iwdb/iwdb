@@ -1100,7 +1100,7 @@ echo '</div>';
 
 //Überschriften ausgeben
 echo '<table id="lagertabelle" class="bordercolor" width="100%" cellspacing="1" cellpadding="4">';
-start_row("titlebg", "nowrap valign=top");
+start_row("titlebg top");
 foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
     if (!isset($view['group'][$viewcolumnkey]) && !isset($filters[$viewcolumnkey])) {
         $extra = 'nowrap valign=top';
@@ -1132,10 +1132,10 @@ foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
     }
 }
 if (isset($view['edit'])) {
-    next_cell("titlebg", 'nowrap valign=top');
+    next_cell("titlebg top");
     echo '&nbsp;';
 }
-next_cell("titlebg", "nowrap valign=top");
+next_cell("titlebg top");
 
 //Initialisiere Summenzeilen
 $summe             = array();
@@ -1225,15 +1225,15 @@ foreach ($group_data as $groupkey => $group) {
                 next_row('windowbg2', '');
                 foreach ($expand['columns'] as $expandcolumnkey => $expandcolumnname) {
                     if (!isset($filters[$expandcolumnkey])) {
-                        next_cell("windowbg2", "nowrap valign=top");
+                        next_cell("windowbg2 top");
                         echo $expandcolumnname;
                     }
                 }
                 if (isset($view['edit'])) {
-                    next_cell("windowbg2", 'nowrap valign=top');
+                    next_cell("windowbg2 top");
                     echo '&nbsp;';
                 }
-                next_cell("windowbg2", 'nowrap valign=top');
+                next_cell("windowbg2 top");
                 echo '&nbsp;';
                 foreach ($expand_data as $expand_row) {
                     next_row('windowbg1', 'nowrap valign=center style="background-color: white;"');
@@ -1249,7 +1249,7 @@ foreach ($group_data as $groupkey => $group) {
                         }
                     }
                     if (isset($view['edit'])) {
-                        next_cell("windowbg1", 'nowrap valign=top');
+                        next_cell("windowbg1 top");
                         echo '&nbsp;';
                     }
                     next_cell('windowbg1', '');
@@ -1266,15 +1266,15 @@ next_row('windowbg2', 'nowrap valign=top colspan=' . (count($view['columns']) + 
 echo '<b>Summe</b>';
 next_row('windowbg1', 'nowrap valign=top style="background-color: white;"');
 echo '&nbsp;';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '<b>Lagerbestände</b>';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
 foreach ($resses as $ress_einzeln) {
     next_cell("windowbg1 right top");
@@ -1380,7 +1380,7 @@ if (isset($params['edit']) && !empty($params['edit'])) {
     echo '<input type="hidden" name="edit" value="' . $params['edit'] . '">' . "\n";
     echo "</b>";
     foreach ($view['edit'] as $key => $field) {
-        next_row('windowbg2', 'nowrap valign=top');
+        next_row("windowbg2 top");
         echo $field['title'];
         if (isset($field['desc'])) {
             echo '<br><i>' . $field['desc'] . '</i>';

@@ -121,7 +121,7 @@ start_row("windowbg1", "style='background-color: " . $color . "'");
 echo "<input type='text' name='" . ($lastid + 1) . "_allianz' value='' style='width: 100px'>\n";
 next_cell("windowbg1", "style='background-color: " . $color . "'");
 echo "<input type='text' name='" . ($lastid + 1) . "_status' value='' style='width: 100px'>\n";
-next_row("titlebg", "align='center'", 2);
+next_row("titlebg center", "", 2);
 echo "<input type='hidden' name='editallianz' value='true'>" .
     "<input type='submit' value='speichern' name='B1' class='submit'>\n";
 end_row();

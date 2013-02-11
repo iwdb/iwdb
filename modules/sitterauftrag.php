@@ -288,16 +288,16 @@ if (empty($umenu)) {
 <br>
 <table border="0" cellpadding="0" cellspacing="1" class="bordercolor">
     <tr>
-        <td class="menutop" align="center">
+        <td class="menutop center">
             <a href="index.php?action=sitterauftrag&typ=Gebaeude&umenu=1&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>">[Gebäude]</a>
         </td>
-        <td class="menutop" align="center">
+        <td class="menutop center">
             <a href="index.php?action=sitterauftrag&typ=Schiffe&umenu=1&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>">[Schiffe]</a>
         </td>
-        <td class="menutop" align="center">
+        <td class="menutop center">
             <a href="index.php?action=sitterauftrag&typ=Forschung&umenu=1&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>">[Forschung]</a>
         </td>
-        <td class="menutop" align="center">
+        <td class="menutop center">
             <a href="index.php?action=sitterauftrag&typ=Sonstiges&umenu=1&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>">[Sonstiges]</a>
         </td>
     </tr>
@@ -347,7 +347,7 @@ if (!empty($alert)) {
         </td>
     </tr>
     <tr>
-        <td class="titlebg" colspan="4" align="center">
+        <td class="titlebg center" colspan="4">
             <input type="hidden" name="typ" value="Sonstiges"><input type="hidden" name="editauftrag"
                                                                      value="true"><input type="submit" value="speichern"
                                                                                          name="B1" class="submit">
@@ -465,7 +465,7 @@ if (!empty($alert)) {
         $row['auftrag'] = auftrag($row['typ'], $row['bauschleife'], $row['bauid'], $row['auftrag'], $row['schiffanz'], $planetmod, $row['user'], $bauschleifenmod);
         ?>
         <tr>
-            <td class="windowbg<?php echo $num;?>" align="center">
+            <td class="windowbg<?php echo $num;?> center">
                 <?php
                 if (!$differentid OR (($user_status === "admin") OR ($user_status === "SV")) OR ($user_sitterlogin === $row['ByUser'])) {
                     echo (empty($row_bev['id']))
@@ -503,7 +503,7 @@ if (!empty($alert)) {
             <td class="windowbg<?php echo $num;?>">
                 <?php echo convert_bbcode($row['auftrag']);?>
             </td>
-            <td class="windowbg<?php echo $num;?>" align="center">
+            <td class="windowbg<?php echo $num;?> center">
                 <?php
                 if (!$differentid || (($user_status === "admin") OR ($user_status === "SV")) || ($user_sitterlogin === $row['ByUser'])) {
                     ?>
@@ -935,7 +935,7 @@ if (!empty($umenu)) {
     }
     ?>
     <tr>
-        <td colspan="2" class="titlebg" align="center">
+        <td colspan="2" class="titlebg center">
             <input type="hidden" name="parentid" value="<?php echo $thisid;?>">
             <input type="hidden" name="typ" value="<?php echo $typ;?>">
             <input type="hidden" name="auftragid" value="<?php echo $auftragid;?>">

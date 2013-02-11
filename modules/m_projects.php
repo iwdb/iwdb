@@ -348,10 +348,10 @@ doc_title('Projekteverwaltung');
 
 // Daten ausgeben
 start_table();
-start_row("titlebg", "nowrap valign=top");
+start_row("titlebg top");
 
 foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
-    next_cell("titlebg", "nowrap valign=top");
+    next_cell("titlebg top");
     $orderkey = $viewcolumnkey;
     if (isset($view['sortcolumns'][$orderkey])) {
         $orderkey = $view['sortcolumns'][$orderkey];
@@ -359,7 +359,7 @@ foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
     echo '<b>' . $viewcolumnname . '</b>';
 }
 if (isset($view['edit'])) {
-    next_cell("titlebg", 'nowrap valign=top');
+    next_cell("titlebg top");
     echo '&nbsp;';
 }
 foreach ($data as $row) {
@@ -371,7 +371,7 @@ foreach ($data as $row) {
     }
     // Editbuttons ausgeben
     if (isset($view['edit'])) {
-        next_cell("windowbg1", 'nowrap valign=top');
+        next_cell("windowbg1 top");
         if ((!isset($row['allow_edit']) || $row['allow_edit']) && $key != "(Keins)") {
             echo makelink(
                 array('edit' => $key),
@@ -402,7 +402,7 @@ if (isset($params['edit']) && $params['edit']) {
 }
 echo "</b>";
 foreach ($view['edit'] as $key => $field) {
-    next_row('windowbg2', 'nowrap valign=top');
+    next_row("windowbg2 top");
     echo $field['title'];
     if (isset($field['desc'])) {
         echo '<br><i>' . $field['desc'] . '</i>';

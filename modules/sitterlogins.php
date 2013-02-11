@@ -192,7 +192,7 @@ doc_title('Sitterlogins');
                     ?>
                 </td>
                 <td class="windowbg<?php echo $num;?> top">
-                    <?php echo ($users_sitterpunkte[$key] > (3 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star1.gif' alt='star1' style='vertical-align:middle;'>" : (($users_sitterpunkte[$key] > (2 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star2.gif' alt='star2' style='vertical-align:middle;'>" : (($users_sitterpunkte[$key] > round($row_avg['AVG(sitterpunkte)'])) ? "<img src='bilder/star3.gif'  alt='star3' style='vertical-align:middle;'>" : "")); echo $users_sitterpunkte_anz[$key];?>
+                    <?php echo ($users_sitterpunkte[$key] > (3 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star1.gif' alt='star1' class='middle'>" : (($users_sitterpunkte[$key] > (2 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star2.gif' alt='star2' class='middle'>" : (($users_sitterpunkte[$key] > round($row_avg['AVG(sitterpunkte)'])) ? "<img src='bilder/star3.gif'  alt='star3' class='middle'>" : "")); echo $users_sitterpunkte_anz[$key];?>
                 </td>
                 <td class="windowbg<?php echo $num;?> top">
                     <?php

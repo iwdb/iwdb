@@ -68,17 +68,16 @@ include ('configmenu.php');
 <div class="chromestyle" id="chromemenu" style=" position: fixed; width:100%; top:0px;">
     <ul>
         <li>
-            <table align="left" class='borderless'>
+            <table class='borderless left'>
                 <tr>
                     <td class='borderless'><strong>Hallo, <?php echo $user_id;?>.</strong></td>
                 </tr>
             </table>
         </li>
         <li>
-            <table align="right" class='borderless'>
+            <table class='borderless right'>
                 <tr>
-                    <td class='borderless' style="font-weight: bold;">Online: <?php echo $counter_member;?>
-                        &nbsp;&nbsp;</td>
+                    <td class='borderless' style="font-weight: bold;">Online: <?php echo $counter_member;?>&nbsp;&nbsp;</td>
                 </tr>
             </table>
         </li>

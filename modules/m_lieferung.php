@@ -327,7 +327,7 @@ if (isset($results)) {
 }
 
 // Team Dropdown
-echo "<form method='POST' action='" . makeurl(array()) . "' enctype='multipart/form-data'><p align='center'>";
+echo "<form method='POST' action='" . makeurl(array()) . "' enctype='multipart/form-data'><p class='center'>";
 echo 'Team: ';
 echo makeField(array("type"  => 'select',
                     "values" => $config['teams'],

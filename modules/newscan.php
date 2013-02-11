@@ -271,8 +271,8 @@ if (!empty($textinput)) {
             if ($parser[$key][1] > 0) {
                 if ($count > 1) {
                     echo "  <tr>\n";
-                    echo "    <td class='windowbg1' align='right' width='30px'>" . $parser[$key][1] . "</td>\n";
-                    echo "    <td class='windowbg1' align='left'>" . (($parser[$key][1] > 1) ? (plural($parser[$key][2])) : $parser[$key][2]) . "</td>\n";
+                    echo "    <td class='windowbg1 right' style='width:30px'>" . $parser[$key][1] . "</td>\n";
+                    echo "    <td class='windowbg1 left'>" . (($parser[$key][1] > 1) ? (plural($parser[$key][2])) : $parser[$key][2]) . "</td>\n";
                     echo "  </tr>\n";
                 }
                 // Closure hook for module after all needed things were inserted.

@@ -356,13 +356,13 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
     $whereclause .= "1";
 
     echo "<table class='table_format' style='width: 30em;'>";
-    start_row("titlebg", "style='width:40%' align='center' colspan='2'");
+    start_row("titlebg center", "style='width:40%' colspan='2'");
     echo "  <b>Wer hat Credits bekommen?</b>\n";
     next_row("windowbg2 center", "style='width:60%'");
     echo "<a href='$url&order=payedto&ordered=asc'> <img src='./bilder/asc.gif' alt='asc'> </a>";
     echo "Empfänger";
     echo "<a href='$url&order=payedto&ordered=desc'> <img src='./bilder/desc.gif' alt='desc'> </a>";
-    next_cell("windowbg2", "align='center'");
+    next_cell("windowbg2 center");
     echo "<a href='$url&order=sumof&ordered=asc'> <img src='./bilder/asc.gif' alt='asc'> </a>";
     echo "Summe der ausgezahlten Credits";
     echo "<a href='$url&order=sumof&ordered=desc'> <img src='./bilder/desc.gif' alt='desc'> </a>";
@@ -374,7 +374,7 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
     while ($row = $db->db_fetch_array($result)) {
         next_row("windowbg1 left", "style='width:60%'");
         echo $row['payedto'];
-        next_cell("windowbg1", "align='right'");
+        next_cell("windowbg1 right");
         echo number_format($row['sumof'], 0, ',', '.');
     }
     end_row();
@@ -393,13 +393,13 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
     $whereclause .= "1";
 
     echo "<table class='table_format' style='width: 30em;'>";
-    start_row("titlebg", "style='width:40%' align='center' colspan='2'");
+    start_row("titlebg center", "style='width:40%' colspan='2'");
     echo "  <b>Wer hat Credits ausgezahlt?</b>\n";
     next_row("windowbg2 center", "style='width:60%'");
     echo "<a href='$url&order=payedfrom&ordered=asc'> <img src='./bilder/asc.gif' alt='asc'> </a>";
     echo "Auszahlender";
     echo "<a href='$url&order=payedfrom&ordered=desc'> <img src='./bilder/desc.gif' alt='desc'> </a>";
-    next_cell("windowbg2", "align='center'");
+    next_cell("windowbg2 center");
     echo "<a href='$url&order=sumof&ordered=asc'> <img src='./bilder/asc.gif' alt='asc'> </a>";
     echo "Summe der ausgezahlten Credits";
     echo "<a href='$url&order=sumof&ordered=desc'> <img src='./bilder/desc.gif' alt='desc'> </a>";
@@ -412,7 +412,7 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
 
         next_row("windowbg1 left", "style='width:60%'");
         echo $row['payedfrom'];
-        next_cell("windowbg1", "align='right'");
+        next_cell("windowbg1 right");
         echo number_format($row['sumof'], 0, ',', '.');
     }
     end_row();
@@ -431,7 +431,7 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
     $whereclause .= "1";
 
     start_table();
-    start_row("titlebg", "style='width:40%' align='center' colspan='3'");
+    start_row("titlebg center", "style='width:40%' colspan='3'");
     echo "  <b>Wer hat Credits bekommen?</b>\n";
     next_row("windowbg2 center", "style='width:40%'");
     echo "<a href='$url&rder=payedfrom&ordered=asc'> <img src='./bilder/asc.gif' alt='asc'> </a>";
@@ -442,7 +442,7 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
     echo "Empfänger";
     echo "<a href='$url&order=payedto&ordered=desc'> <img src='./bilder/desc.gif' alt='desc'> </a>";
     ;
-    next_cell("windowbg2", "align='center'");
+    next_cell("windowbg2 center");
     echo "<a href='$url&order=sumof&ordered=asc'> <img src='./bilder/asc.gif' alt='asc'> </a>";
     echo "Summe der ausgezahlten Credits";
     echo "<a href='$url&order=sumof&ordered=desc'> <img src='./bilder/desc.gif' alt='desc'> </a>";
@@ -457,7 +457,7 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
         echo $row['payedfrom'];
         next_cell("windowbg1 left", "style='width:40%'");
         echo $row['payedto'];
-        next_cell("windowbg1", "align='right'");
+        next_cell("windowbg1 right");
         echo number_format($row['sumof'], 0, ',', '.');
     }
     end_row();
@@ -477,13 +477,13 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
     $whereclause .= "1";
 
     echo "<table class='table_format' style='width: 30em;'>";
-    start_row("titlebg", "style='width:40%' align='center' colspan='3'");
+    start_row("titlebg center", "style='width:40%' colspan='3'");
     echo "  <b>Kasseninhalt</b>\n";
     next_row("windowbg2 center", "style='width:40%'");
     echo "<a href='$url&order=time_of_insert&ordered=asc'> <img src='./bilder/asc.gif' alt='asc'> </a>";
     echo "Datum";
     echo "<a href='$url&order=time_of_insert&ordered=desc'> <img src='./bilder/desc.gif' alt='desc'> </a>";
-    next_cell("windowbg2", "align='center'");
+    next_cell("windowbg2 center");
     echo "<a href='$url&order=amount&ordered=asc'> <img src='./bilder/asc.gif' alt='asc'> </a>";
     echo "Inhalt der Allianzkasse";
     echo "<a href='$url&order=amount&ordered=desc'> <img src='./bilder/desc.gif' alt='desc'> </a>";
@@ -498,7 +498,7 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
         next_row("windowbg1 left", "style='width:50%'");
 
         echo $time1;
-        next_cell("windowbg1", "align='right'");
+        next_cell("windowbg1 right");
         echo number_format($row['amount'], 2, ',', '.');
     }
     end_row();
@@ -517,13 +517,13 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
     $whereclause .= "1";
 
     echo "<table class='table_format' style='width: 30em;'>";
-    start_row("titlebg", "style='width:40%' align='center' colspan='3'");
+    start_row("titlebg center", "style='width:40%' colspan='3'");
     echo "  <b>Wer hat Credits bekommen?</b>\n";
     next_row("windowbg2 center", "style='width:40%'");
     echo "<a href='$url&order=user&ordered=asc'> <img src='./bilder/asc.gif' alt='asc'> </a>";
     echo "Einzahler";
     echo "<a href='$url&order=user&ordered=desc'> <img src='./bilder/desc.gif' alt='desc'> </a>";
-    next_cell("windowbg2", "align='center'");
+    next_cell("windowbg2 center");
     echo "<a href='$url&order=sumof&ordered=asc'> <img src='./bilder/asc.gif' alt='asc'> </a>";
     echo "Summe der eingezahlten Credits";
     echo "<a href='$url&order=sumof&ordered=desc'> <img src='./bilder/desc.gif' alt='desc'> </a>";
@@ -535,7 +535,7 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
     while ($row = $db->db_fetch_array($result)) {
         next_row("windowbg1 left", "style='width:60%'");
         echo $row['user'];
-        next_cell("windowbg1", "align='right'");
+        next_cell("windowbg1 right");
         echo number_format($row['sumof'], 2, ',', '.');
     }
     end_row();

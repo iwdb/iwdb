@@ -943,9 +943,9 @@ foreach ($view['edit'] as $key => $field) {
 
 next_row('titlebg center', 'colspan=2');
 if (isset($params['edit']) && is_numeric($params['edit'])) {
-    echo '<input type="submit" value="speichern" name="button_edit" class="submit"> ';
+    echo '<input type="submit" value="speichern" name="button_edit"> ';
 }
-echo '<input type="submit" value="hinzufügen" name="button_add" class="submit">';
+echo '<input type="submit" value="hinzufügen" name="button_add">';
 end_table();
 echo '</form>';
 ?>

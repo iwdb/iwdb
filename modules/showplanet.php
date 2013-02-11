@@ -147,7 +147,7 @@ if ($user_planibilder == "1") {
     }
     ?>
     <tr>
-        <td colspan="2" align="center"><img src="<?php echo $path;?>" alt="<?php echo $row['typ']?>"></td>
+        <td colspan="2" class="center"><img src="<?php echo $path;?>" alt="<?php echo $row['typ']?>"></td>
     </tr>
 <?php
 }
@@ -304,7 +304,7 @@ if ($row['objekt'] == "---") {
         <td colspan="2" class="titlebg"><b>Rating:</b></td>
     </tr>
     <tr>
-        <td colspan="2" class="windowbg2" align="center">
+        <td colspan="2" class="windowbg2 center">
             <b><?php echo (!empty($rating) ? "<div class='doc_big_black'>" . $rating : "<div class='doc_red'>Kein Rating berechenbar, neuer Geoscan erforderlich");?>
                 </div>
             </b></td>
@@ -313,7 +313,7 @@ if ($row['objekt'] == "---") {
         <td colspan="2" class="titlebg"><b>Reservieren:</b></td>
     </tr>
     <tr>
-        <td colspan="2" class="windowbg2" align="center">
+        <td colspan="2" class="windowbg2 center">
             <form method="POST" action="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&sid=<?php echo $sid;?>" enctype="multipart/form-data">
                 <?php
                 if (empty($row['reserviert'])) {

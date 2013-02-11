@@ -429,7 +429,7 @@ while ($row = $db->db_fetch_array($result)) {
     }
     echo "<tr>";
     echo "<td width='50%' class='" . $cl . "' >&nbsp;" . $row['title'] . "&nbsp;</td>";
-    echo "<td width='50%' class='" . $cl . "' align='right'>";
+    echo "<td width='50%' class='" . $cl . " right'>";
     if ($row['submenu'] == 0) {
         echo "<a href='index.php?action=admin_menue&sid=" . $sid . "&delid=" . $row['id'] . "' target='_self'><img src='./bilder/delete.gif' align='absmiddle' title='Menütitel Löschen' alt='Menütitel Löschen' onclick='return confirmLink(this, \"" . $row['id'] . "\")'></a>";
     }
@@ -457,8 +457,8 @@ while ($row = $db->db_fetch_array($result)) {
         echo "<tr><td colspan=2 width='100%' class='" . $cl . " center'><table width='90%' class='bordercolor' border='0' cellpadding='2' cellspacing='0' >";
 
         echo "<tr><form name='form' action='index.php?action=admin_menue&sid=" . $sid . "&eid=" . $row['id'] . "' method='post'>";
-        echo "<td width='50%' class='" . $cl . "' align='left'>Menütext:</td>";
-        echo "<td width='50%' class='" . $cl . "' align='left'><input name='edit_title' type='text' size=50 maxlength='100' value='" . $row['title'] . "'></td>";
+        echo "<td width='50%' class='" . $cl . " left'>Menütext:</td>";
+        echo "<td width='50%' class='" . $cl . " left'><input name='edit_title' type='text' size=50 maxlength='100' value='" . $row['title'] . "'></td>";
         echo "</tr><tr>";
         if ($row['active'] == "0") {
             $checkno  = " checked";
@@ -467,8 +467,8 @@ while ($row = $db->db_fetch_array($result)) {
             $checkyes = " checked";
             $checkno  = "";
         }
-        echo "<td width='50%' class='" . $cl . "' align='left'>Menütext anzeigen:</td>";
-        echo "<td width='50%' class='" . $cl . "' align='left'><input type='radio' name='edit_active' value='0'" . $checkno . "> - Nein&nbsp;<input type='radio' name='edit_active' value='1'" . $checkyes . "> - Ja</td>";
+        echo "<td width='50%' class='" . $cl . " left'>Menütext anzeigen:</td>";
+        echo "<td width='50%' class='" . $cl . " left'><input type='radio' name='edit_active' value='0'" . $checkno . "> - Nein&nbsp;<input type='radio' name='edit_active' value='1'" . $checkyes . "> - Ja</td>";
         echo "</tr><tr>";
         if ($row['status'] == "") {
             $checkalle  = " checked";
@@ -485,16 +485,16 @@ while ($row = $db->db_fetch_array($result)) {
             $checkhc    = "";
             $checkadmin = " checked";
         }
-        echo "<td width='50%' class='" . $cl . "' align='left'>Wer dieses Menü sehen darf:</td>";
-        echo "<td width='50%' class='" . $cl . "' align='left'><input type='radio' name='edit_status' value=''" . $checkalle . "> - Alle&nbsp;<input type='radio' name='edit_status' value='HC'" . $checkhc . "> - HC&nbsp;<input type='radio' name='edit_status' value='admin'" . $checkadmin . "> - Admin</td>";
+        echo "<td width='50%' class='" . $cl . " left'>Wer dieses Menü sehen darf:</td>";
+        echo "<td width='50%' class='" . $cl . " left'><input type='radio' name='edit_status' value=''" . $checkalle . "> - Alle&nbsp;<input type='radio' name='edit_status' value='HC'" . $checkhc . "> - HC&nbsp;<input type='radio' name='edit_status' value='admin'" . $checkadmin . "> - Admin</td>";
         echo "</tr><tr>";
         $st[0]                 = "";
         $st[1]                 = "";
         $st[2]                 = "";
         $st[3]                 = "";
         $st[$row['sittertyp']] = " selected";
-        echo "<td width='50%' class='" . $cl . "' align='left'>Anzeigen bei Sittertyp:</td>";
-        echo "<td width='50%' class='" . $cl . "' align='left'><select name='edit_sittertyp'>";
+        echo "<td width='50%' class='" . $cl . " left'>Anzeigen bei Sittertyp:</td>";
+        echo "<td width='50%' class='" . $cl . " left'><select name='edit_sittertyp'>";
         echo "<option value='2'" . $st[2] . ">Sitterbereich deaktiviert</option>";
         echo "<option value='0'" . $st[0] . ">kann Sitteraufträge erstellen, darf keine anderen sitten</option>";
         echo "<option value='3'" . $st[3] . ">darf andere sitten, darf keine Sitteraufträge erstellen</option>";
@@ -509,11 +509,11 @@ while ($row = $db->db_fetch_array($result)) {
                 $checkyes = " checked";
                 $checkno  = "";
             }
-            echo "<td width='50%' class='" . $cl . "' align='left'>Externer Link:</td>";
-            echo "<td width='50%' class='" . $cl . "' align='left'><input type='radio' name='edit_extlink' value='n'" . $checkno . "> - Nein&nbsp;<input type='radio' name='edit_extlink' value='y'" . $checkyes . "> - Ja</td>";
+            echo "<td width='50%' class='" . $cl . " left'>Externer Link:</td>";
+            echo "<td width='50%' class='" . $cl . " left'><input type='radio' name='edit_extlink' value='n'" . $checkno . "> - Nein&nbsp;<input type='radio' name='edit_extlink' value='y'" . $checkyes . "> - Ja</td>";
             echo "</tr><tr>";
-            echo "<td width='50%' class='" . $cl . "' align='left'>Link:</td>";
-            echo "<td width='50%' class='" . $cl . "' align='left'><input name='edit_action' type='text' size=50 maxlength='200' value='" . $row['action'] . "'></td>";
+            echo "<td width='50%' class='" . $cl . " left'>Link:</td>";
+            echo "<td width='50%' class='" . $cl . " left'><input name='edit_action' type='text' size=50 maxlength='200' value='" . $row['action'] . "'></td>";
         }
         echo "</tr><tr>";
         echo "<td colspan=2 width='100%' class='" . $cl . " center'><input type='submit' name='edit' value='Speichern'></td>";

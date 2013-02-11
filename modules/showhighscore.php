@@ -61,12 +61,12 @@ echo '
 <input type="hidden" name="action" value="showhighscore">
 <input type="hidden" name="sid" value="' . $sid . '">
 Top/Flop <input type="number" min="1" max="999" name="to" value="' . $hs_places . '" size="3">
-<input type="submit" value="zeigen" name="B1" class="submit">
+<input type="submit" value="zeigen" name="B1">
 </p></form>
 ';
 
 start_table(100, 0, 10, 0, "");
-start_row('windowbg2', 'align="center"', 3);
+start_row('windowbg2 center', '', 3);
 echo "<font style='font-size: 15px; color: white'>HALL OF FAME - TOP {$hs_places} DER BESTEN</font>";
 next_row();
 
@@ -141,8 +141,8 @@ if ($user_fremdesitten != 1) {
 }
 
 if ($ressu) {
-    next_row('windowbg2', 'align="center"', 3);
-    echo "<font style='font-size: 15px; color: white'>HALL OF SHAME - TOP {$hs_places} DER ERSTEN VON HINTEN</font>";
+    next_row('windowbg2 center', '', 3);
+    echo "<div style='font-size: 15px; color: white'>HALL OF SHAME - TOP {$hs_places} DER ERSTEN VON HINTEN</div>";
     next_row();
 
     createRessieTable("Eisen", "ASC");
@@ -230,7 +230,7 @@ function createRessieTable($ressie, $direction, $altress = "", $decimals = 2, $a
 
     $count = 0;
     while ($count < $hs_places && $row = $db->db_fetch_array($result)) {
-        next_row("windowbg1", "align=\"center\"");
+        next_row("windowbg1 center");
         if ($count == 0) {
             echo $pic;
         } else {
@@ -245,7 +245,7 @@ function createRessieTable($ressie, $direction, $altress = "", $decimals = 2, $a
         } else {
             echo "&nbsp;";
         }
-        next_cell("windowbg1", "align=\"right\"");
+        next_cell("windowbg1 right");
         if ((SHOW_ONLY_NEGATIVE === true)
             || ($direction == "DESC" && $row['ressie'] > 0)
             || ($direction == "ASC" && $row['ressie'] <= 0)

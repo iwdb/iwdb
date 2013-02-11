@@ -231,32 +231,31 @@ echo "</div>";
 
             <a href="index.php?sid=<?php echo $sid;?>"><img
                     src="bilder/icon_mini_home.gif" width="12" height="13"
-                    alt="Startseite" align="top"> Startseite</a> |
+                    alt="Startseite" class="top"> Startseite</a> |
             <a href="index.php?action=memberlogout2&sid=<?php echo $sid;?>"><img
                     src="bilder/icon_mini_login.gif" width="12" height="13"
-                    alt="login" align="top"> logout</a> |
+                    alt="login" class="top"> logout</a> |
             <a href="index.php?action=profile&sid=<?php echo $sid;?>"><img
                     src="bilder/icon_mini_profile.gif" width="12" height="13"
-                    alt="profil" align="top"> profil</a> |
+                    alt="profil" class="top"> profil</a> |
             <a href="index.php?action=help&topic=<?php echo $action;?>&sid=<?php echo $sid;?>"><img
                     src="bilder/icon_mini_search.gif" width="12" height="13"
-                    alt="profile" align="top"> hilfe</a>
+                    alt="profile" class="top"> hilfe</a>
             <?php
 
             if ($user_status == "admin") {
                 ?>
                 |
-                <a href="index.php?action=admin&sid=<?php echo $sid;?>"><img src="bilder/icon_mini_members.gif" width="12" height="13" alt="admin" align="top">
-                    admin</a>
+                <a href="index.php?action=admin&sid=<?php echo $sid;?>"><img src="bilder/icon_mini_members.gif" width="12" height="13" alt="admin" class="top">admin</a>
             <?php
             }
             ?>
         </td>
     </tr>
 </table>
-<table align="center" style="width:100%;">
+<table class="center" style="width:100%;">
     <tr>
-        <td width="12%" class='doc_menu top'>
+        <td style='width:12%' class='doc_menu top'>
             <?php
 
             // Menu auslesen

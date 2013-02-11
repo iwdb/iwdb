@@ -350,7 +350,7 @@ if (!empty($alert)) {
         <td class="titlebg center" colspan="4">
             <input type="hidden" name="typ" value="Sonstiges"><input type="hidden" name="editauftrag"
                                                                      value="true"><input type="submit" value="speichern"
-                                                                                         name="B1" class="submit">
+                                                                                         name="B1">
         </td>
     </tr>
 </table>
@@ -897,7 +897,7 @@ if (!empty($umenu)) {
                                 } else {
                                     $bild_url = GEBAEUDE_BILDER_PATH . "blank.jpg";
                                 }
-                                echo "</td><td class='borderless'><img src='" . $bild_url . "' title='" . $altname . "' width='50' height='50' style='vertical-align:middle;'></td><td class='borderless'>";
+                                echo "</td><td class='borderless'><img src='" . $bild_url . "' title='" . $altname . "' width='50' height='50' class='middle'></td><td class='borderless'>";
                             }
                             echo $resRowName . " [" . dauer($row['dauer'] * $user_gengebmod * $modmaurer) . "]";
                             if ($user_gebbilder == "1") {
@@ -940,7 +940,7 @@ if (!empty($umenu)) {
             <input type="hidden" name="typ" value="<?php echo $typ;?>">
             <input type="hidden" name="auftragid" value="<?php echo $auftragid;?>">
             <input type="hidden" name="editauftrag" value="true">
-            <input type="submit" value="speichern" name="B1" class="submit">
+            <input type="submit" value="speichern" name="B1">
         </td>
     </tr>
     </table>

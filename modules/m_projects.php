@@ -423,11 +423,11 @@ foreach ($view['edit'] as $key => $field) {
     echo "";
 }
 
-next_row('titlebg', 'align=center colspan=2');
+next_row('titlebg center', 'colspan=2');
 if (isset($params['edit']) && $params['edit']) {
-    echo '<input type="submit" value="speichern" name="button_edit" class="submit"> ';
+    echo '<input type="submit" value="speichern" name="button_edit"> ';
 }
-echo '<input type="submit" value="hinzufügen" name="button_add" class="submit">';
+echo '<input type="submit" value="hinzufügen" name="button_add">';
 end_table();
 echo '</form>';
 

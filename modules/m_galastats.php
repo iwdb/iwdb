@@ -370,7 +370,7 @@ if ($i === 0) {
     array_multisort($sortar, SORT_NUMERIC, SORT_DESC, $sortarpkt, SORT_NUMERIC, SORT_DESC, $allylist);
 
     start_table();
-    start_row("titlebg", "style='width:95%' align='center' colspan='6'");
+    start_row("titlebg center", "style='width:95%' colspan='6'");
     echo "  <b>Bekanntes Hasiversum</b>\n";
     next_row("windowbg2 center", "style='width:16%'");
     echo "Allianz";
@@ -426,7 +426,7 @@ if ($i === 0) {
 
             array_multisort($sortargal[$gala], SORT_NUMERIC, SORT_DESC, $sortargalpkt[$gala], SORT_NUMERIC, SORT_DESC, $galaallys); //sortieren nach plannipunkten
             start_table();
-            start_row("titlebg", "style='width:95%' align='center' colspan='10'");
+            start_row("titlebg center", "style='width:95%' colspan='10'");
             echo "  <b>Gala $gala </b>\n";
             next_row("windowbg2 center", "style='width:16%'");
             echo "Allianz";

@@ -121,7 +121,7 @@ if (!empty($editgebaeude)) {
                                 $bild_url = GEBAEUDE_BILDER_PATH . "blank.jpg";
                             }
                             ?>
-                            <img src="<?php echo $bild_url;?>" width="50" height="50" style="vertical-align:middle;">
+                            <img src="<?php echo $bild_url;?>" width="50" height="50" class="middle">
                         <?php
                         }
                         ?>
@@ -158,7 +158,7 @@ if (!empty($editgebaeude)) {
             <td class="titlebg center">
                 <input type="hidden" name="id" value="<?php echo $id;?>">
                 <input type="hidden" name="sitterlogin" value="<?php echo $sitterlogin;?>">
-                <input type="submit" value="speichern" name="editgebaeude" class="submit">
+                <input type="submit" value="speichern" name="editgebaeude">
             </td>
         </tr>
     </table>

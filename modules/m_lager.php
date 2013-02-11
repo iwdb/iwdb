@@ -1173,7 +1173,7 @@ foreach ($group_data as $groupkey => $group) {
             } else {
                 $border = '';
             }
-            next_row('windowbg1', 'style="white-space: nowrap; vertical-align=middle;' . $border . '"');
+            next_row('windowbg1 middle', 'style="' . $border . '"');
             echo makelink(
                 array('expand' => ($expanded ? '' : $key), 'edit' => ''),
                 '<img src="bilder/' . ($expanded ? 'point' : 'plus') . '.gif" alt="' . ($expanded ? 'zuklappen' : 'erweitern') . '">'
@@ -1203,7 +1203,7 @@ foreach ($group_data as $groupkey => $group) {
             }
             // Editbuttons ausgeben
             if (isset($view['edit'])) {
-                next_cell("windowbg1", 'style="white-space: nowrap; vertical-align=top;' . $border . '"');
+                next_cell("windowbg1 top", 'style="' . $border . '"');
                 if (!isset($row['allow_edit']) || $row['allow_edit']) {
                     echo makelink(
                         array('edit' => $key),
@@ -1399,8 +1399,8 @@ if (isset($params['edit']) && !empty($params['edit'])) {
             echo makeField($field, $key);
         }
     }
-    next_row('titlebg', 'align=center colspan=2');
-    echo '<input type="submit" value="speichern" name="button_edit" class="submit"> ';
+    next_row('titlebg center', 'colspan=2');
+    echo '<input type="submit" value="speichern" name="button_edit"> ';
     end_table();
     echo '</form>';
 }

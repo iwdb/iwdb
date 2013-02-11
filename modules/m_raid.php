@@ -665,7 +665,7 @@ if (empty($params['view'])) {
     }
     echo "</select>";
     // Schaltflächen
-    next_row("titlebg", "align='center' colspan='2'");
+    next_row("titlebg center", "colspan='2'");
     echo "<input type='submit' value='suchen' name='searchtargets' class='submit'>\n";
     // Tabelle beenden
     end_table();
@@ -1347,9 +1347,9 @@ if (empty($params['view'])) {
         echo '>';
         // Kommentarbereich ausgeben
         if (!empty($row['comment'])) {
-            next_row("", "style='border-width: 0; margin: 0 0 0 0; padding: 4 4 4 4; background-color: white;'");
+            next_row("", "style='border-width: 0; margin: 0; padding: 4px; background-color: white;'");
             echo "";
-            next_cell("windowbg1", "style='border-width: 0; margin: 0 0 0 0; padding: 4 4 4 4; background-color: white;' nowrap valign=center", count($view['columns']) + 1);
+            next_cell("windowbg1 center", "style='border-width: 0; margin: 0; padding: 4px; background-color: white;'", count($view['columns']) + 1);
             echo "";
             start_table();
             echo $row['comment'];
@@ -1450,15 +1450,15 @@ if (empty($params['view'])) {
         echo "<br><div class='system_notification'>Es wurden nur die ersten {$max_results} Ergebnisse angezeigt. Bitte die Suche weiter einschränken.</div><br>";
     }
     echo '<table border="0" cellpadding="2" cellspacing="1" style="width: 100%;">';
-    echo '<tr><td align="right">';
+    echo '<tr><td class="right">';
     echo makelink(array('mark_all' => true), "Alle auswählen");
     echo ' / ';
     echo makelink(array('mark_all' => false), "Auswahl entfernen");
     echo '</td>';
     echo '</tr>';
-    echo '<tr><td align="right">';
-    echo '<input type="submit" value="Universum" name="universum" class="submit"> ';
-    echo '<input type="submit" value="Flotte versenden" name="flotteversenden" class="submit">';
+    echo '<tr><td class="right">';
+    echo '<input type="submit" value="Universum" name="universum"> ';
+    echo '<input type="submit" value="Flotte versenden" name="flotteversenden">';
     echo '</td>';
     echo '</table>';
     echo '</form>';
@@ -1517,8 +1517,8 @@ if (empty($params['view'])) {
                 echo makeField($field, $key);
             }
         }
-        next_row('titlebg', 'align=center colspan=2');
-        echo '<input type="submit" value="speichern" name="button_edit" class="submit"> ';
+        next_row('titlebg center', 'colspan=2');
+        echo '<input type="submit" value="speichern" name="button_edit"> ';
         end_table();
         echo '</form>';
     }

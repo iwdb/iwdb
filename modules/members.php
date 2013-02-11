@@ -77,7 +77,7 @@ if (!empty($graph)) {
         build_graph($users, $db_tb_punktelog, "user", "date", $graph_typ, $fitthis);
     }
     ?>
-    <p align="center">
+    <p class="center">
         Achsen optimieren? <input type="checkbox" name="fitthis" value="1"<?php echo ($fitthis) ? " checked" : "";?>>
         <select name="graph_typ">
             <?php
@@ -86,7 +86,7 @@ if (!empty($graph)) {
             }
             ?>
         </select>
-        <input type="submit" value="Graph zeichnen" name="B1" class="submit"></p>
+        <input type="submit" value="Graph zeichnen" name="B1"></p>
 <?php
 }
 ?>
@@ -258,19 +258,19 @@ while ($row = $db->db_fetch_array($result)) {
         <td class="windowbg<?php echo $num;?> top" >
             <?php echo $row['rang'];?>
         </td>
-        <td class="windowbg<?php echo $num;?> top" align="right" >
+        <td class="windowbg<?php echo $num;?> top right">
             <?php echo $row['gebp'];?>
         </td>
-        <td class="windowbg<?php echo $num;?> top" align="right" >
+        <td class="windowbg<?php echo $num;?> top right">
             <?php echo $row['fp'];?>
         </td>
-        <td class="windowbg<?php echo $num;?> top" align="right" >
+        <td class="windowbg<?php echo $num;?> top right">
             <?php echo $row['gesamtp'];?>
         </td>
-        <td class="windowbg<?php echo $num;?> top" align="right" >
+        <td class="windowbg<?php echo $num;?> top right">
             <?php echo $row['ptag'];?>
         </td>
-        <td class="windowbg<?php echo $num;?> top" align="right" >
+        <td class="windowbg<?php echo $num;?> top right">
             <?php
             if (!empty($row['dabei'])) {
                 echo strftime($config_members_timeformat, $row['dabei']);
@@ -323,7 +323,7 @@ while ($row = $db->db_fetch_array($result)) {
 </table>
 <table class='table_format_members' style='width: 90%;'>
     <tr>
-        <td align="right">
+        <td class="right">
             <a href="index.php?action=members&order=<?php echo $order;?>&ordered=<?php echo $ordered;?>&select_all=true&graph=<?php echo $graph;?>&graph_typ=<?php echo $graph_typ;?>&fitthis=<?php echo $fitthis;?>&sid=<?php echo $sid;?>">Alle
                 auswählen</a> /
             <a href="index.php?action=members&order=<?php echo $order;?>&ordered=<?php echo $ordered;?>&select_none=true&graph=<?php echo $graph;?>&graph_typ=<?php echo $graph_typ;?>&fitthis=<?php echo $fitthis;?>&sid=<?php echo $sid;?>">Auswahl
@@ -334,7 +334,7 @@ while ($row = $db->db_fetch_array($result)) {
     if (empty($graph)) {
         ?>
         <tr>
-            <td align="right">
+            <td class="right">
                 Achsen optimieren?
                 <input type="checkbox" name="fitthis" value="1"<?php echo ($fitthis) ? " checked" : "";?>>
                 <select name="graph_typ">
@@ -344,7 +344,7 @@ while ($row = $db->db_fetch_array($result)) {
                     }
                     ?>
                 </select>
-                <input type="submit" value="Graph zeichnen" name="B1" class="submit"><br>
+                <input type="submit" value="Graph zeichnen" name="B1"><br>
             </td>
         </tr>
     <?php

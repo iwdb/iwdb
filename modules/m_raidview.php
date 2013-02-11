@@ -364,12 +364,12 @@ while ($row = $db->db_fetch_array($result2)) {
         echo "<a href='index.php?action=m_raidview&user=" . $user . "&sid=$sid'><b>" . $user . "</b></a>";
 
     }
-    next_cell("windowbg1", "align='right'");
+    next_cell("windowbg1 right");
     echo "#:" . number_format($count, 0, ',', '.');
-    next_cell("windowbg1", "align='right'");
+    next_cell("windowbg1 right");
 
     echo number_format($eisen, 0, ',', '.'), " <br> ", '<font color="red">', number_format($v_eisen, 0, ',', '.'), '</font>', " <br> ", '<font color="green">', number_format(($eisen - $v_eisen), 0, ',', '.');
-    next_cell("windowbg1", "align='right'");
+    next_cell("windowbg1 right");
     echo number_format($stahl, 0, ',', '.'), " <br> ", '<font color="red">', number_format($v_stahl, 0, ',', '.'), " <br> ", '<font color="green">', number_format(($stahl - $v_stahl), 0, ',', '.');
     next_cell("windowbg1 right", "style='width:10%'");
     echo number_format($vv4a, 0, ',', '.'), " <br> ", '<font color="red">', number_format($v_vv4a, 0, ',', '.'), " <br> ", '<font color="green">', number_format(($vv4a - $v_vv4a), 0, ',', '.');
@@ -515,7 +515,7 @@ while ($row = $db->db_fetch_array($result2)) {
             }
 
             // Ausgabe der Gesamtsummen
-            next_row("windowbg2", "style='width:10%' align='left' colspan='11'");
+            next_row("windowbg2 left", "style='width:10%' colspan='11'");
             echo "&nbsp;";
             end_row();
 #      end_table();

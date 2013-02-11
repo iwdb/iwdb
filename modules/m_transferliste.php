@@ -295,7 +295,7 @@ function make_link_transferday($styleclass, $order, $ordered, $buddler, $transfe
     echo "<table border='0' width='100%'>\n";
     echo "<tr>\n";
     $zeitmarke = $transferday - DAY;
-    echo "  <td align='left' class='" . $styleclass . "'><b>\n";
+    echo "  <td class='" . $styleclass . " left'><b>\n";
     make_link(
         "&lt;&lt; " . strftime(CONFIG_DATEFORMAT, $zeitmarke),
         array(
@@ -306,7 +306,7 @@ function make_link_transferday($styleclass, $order, $ordered, $buddler, $transfe
         )
     );
     echo "  </b></td>\n";
-    echo "  <td align='right' class='" . $styleclass . "'><b>\n";
+    echo "  <td class='" . $styleclass . " right'><b>\n";
     $zeitmarke = $transferday + DAY;
     make_link(
         strftime(CONFIG_DATEFORMAT, $zeitmarke) . " &gt;&gt;",
@@ -770,9 +770,9 @@ function showbuddlertransfers($buddler, $transferday)
     }
 
     start_table();
-    /* start_row("windowbg1", "style='width:95%' align='center' colspan='10'");
+    /* start_row("windowbg1 center", "style='width:95%' colspan='10'");
       make_link_transferday("windowbg1",$order, $ordered, $buddler,$transferday); */
-    start_row("titlebg", "style='width:95%' align='center' colspan='10'");
+    start_row("titlebg center", "style='width:95%' colspan='10'");
     echo "<b>" . $buddler . "</b>";
     next_row("windowbg2 center", "style='width:14%'");
     make_order_link("zeitmarke", "asc", array("selbuddler=" . $buddler, "seltransferday=" . $transferday));
@@ -919,7 +919,7 @@ function showbuddlertransfers($buddler, $transferday)
     next_cell("windowbg2 right", "style='width:10%'");
     echo number_format($punkte, 0, ',', '.');
 
-    next_row("windowbg1", "style='width:95%' align='center' colspan='10'");
+    next_row("windowbg1 center", "style='width:95%' colspan='10'");
     make_link_transferday("windowbg1", $order, $ordered, $buddler, $transferday);
     end_row();
     end_table();
@@ -961,7 +961,7 @@ function showbuddler($buddler)
     }
 
     start_table();
-    start_row("titlebg", "style='width:95%' align='center' colspan='10'");
+    start_row("titlebg center", "style='width:95%' colspan='10'");
     echo "<b>" . $buddler . "</b>";
     next_row("windowbg2 center", "style='width:14%'");
     make_order_link("zeitmarke", "asc", array("selbuddler=" . $buddler));
@@ -1179,7 +1179,7 @@ function showallfleeters()
 
     while ($row = $db->db_fetch_array($result)) {
         start_table();
-        start_row("titlebg", "style='width:95%' align='center' colspan='10'");
+        start_row("titlebg center", "style='width:95%' colspan='10'");
         echo "<b>" . $row['fleeter'] . "</b>";
         next_row("windowbg2 center", "style='width:14%'");
         make_order_link("buddler", "asc");
@@ -1351,7 +1351,7 @@ function showallfleeters()
         next_cell("windowbg2 right", "style='width:9%'");
         echo number_format($punkte, 0, ',', '.');
 
-        /*    next_row("windowbg1", "style='width:95%' align='right' colspan='10'");
+        /*    next_row("windowbg1 right", "style='width:95%' colspan='10'");
               make_link("Alle auswählen",
                         array("order=".$order,
                       "ordered=".$ordered,

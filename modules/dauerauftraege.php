@@ -150,7 +150,7 @@ if (!empty($anz)) {
                     } else {
                         echo $data;
                     }
-                    echo $users_sitterpunkte_anz[$key]; echo ($users_sitterpunkte[$key] > (3 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star1.gif' alt='star1' style='vertical-align:middle;'>" : (($users_sitterpunkte[$key] > (2 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star2.gif' alt='star2' style='vertical-align:middle;'>" : (($users_sitterpunkte[$key] > round($row_avg['AVG(sitterpunkte)'])) ? "<img src='bilder/star3.gif' alt='star3' style='vertical-align:middle;'>" : ""));?>
+                    echo $users_sitterpunkte_anz[$key]; echo ($users_sitterpunkte[$key] > (3 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star1.gif' alt='star1' class='middle;'>" : (($users_sitterpunkte[$key] > (2 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star2.gif' alt='star2' class='middle;'>" : (($users_sitterpunkte[$key] > round($row_avg['AVG(sitterpunkte)'])) ? "<img src='bilder/star3.gif' alt='star3' class='middle;'>" : ""));?>
                 </td>
                 <td class='windowbg<?php echo $num;?> top'>
                     <?php echo nl2br(convert_bbcode($users_sittercomment[$key])); echo ($users_sitterpeitschen[$key] == '1') ? "<br><br><i>Meister d. Peitschen</i>" : "";?>
@@ -195,7 +195,7 @@ if (!empty($anz)) {
                                     <input type="hidden" name="newlog" value="true"><input type="hidden"
                                                                                            name="sitterlogin"
                                                                                            value="<?php echo $data;?>"><input
-                                        type="submit" value="speichern" name="B1" class="submit">
+                                        type="submit" value="speichern" name="B1">
                                 </td>
                             </tr>
                         </table>

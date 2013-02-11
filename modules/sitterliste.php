@@ -468,7 +468,7 @@ if (!empty($erledigt)) {
                         <tr>
                             <td colspan="2" class="titlebg center">
                                 <input type="hidden" name="erledigt" value="<?php echo $erledigt;?>"><input
-                                    type="submit" value="speichern" name="B1" class="submit">
+                                    type="submit" value="speichern" name="B1">
                             </td>
                         </tr>
                 </form>
@@ -645,7 +645,7 @@ if (isset($row_lastlogin)) {
         }
         ?>
         [<?php echo $users_sitterpunkte;?> + <?php echo $users_sitterpunkte_user;?>]
-        <?php echo (($users_sitterpunkte + $users_sitterpunkte_user) > (3 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star1.gif' alt='star1' style='vertical-align:middle;'>" : ((($users_sitterpunkte + $users_sitterpunkte_user) > (2 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star2.gif' alt='star2' style='vertical-align:middle;'>" : ((($users_sitterpunkte + $users_sitterpunkte_user) > (round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star3.gif' alt='star3' style='vertical-align:middle;'>" : ""));
+        <?php echo (($users_sitterpunkte + $users_sitterpunkte_user) > (3 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star1.gif' alt='star1' class='middle'>" : ((($users_sitterpunkte + $users_sitterpunkte_user) > (2 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star2.gif' alt='star2' class='middle'>" : ((($users_sitterpunkte + $users_sitterpunkte_user) > (round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star3.gif' alt='star3' class='middle'>" : ""));
         if (!empty($row['ByUser']) && ($row['user'] != $row['ByUser'])) {
             echo "<br>(eingestellt von " . $row['ByUser'] . ")";
         }
@@ -828,7 +828,7 @@ if (isset($row_lastlogin)) {
                         <input type="hidden" name="auftragid" value="<?php echo $row['id'];?>"><input type="hidden"
                                                                                                       name="edit"
                                                                                                       value="1"><input
-                            type="submit" value="speichern" name="B1" class="submit">
+                            type="submit" value="speichern" name="B1">
                     </td>
                 </tr>
         </form>

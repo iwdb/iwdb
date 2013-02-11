@@ -277,7 +277,7 @@ echo "</div></p>";
 
 echo "<table class='table_format' style='width: 80%;'>\n";
 echo " <tr>\n";
-echo "  <td class='titlebg' align='center' colspan=" . $config_map_cols . "'>\n";
+echo "  <td class='titlebg center' colspan=" . $config_map_cols . "'>\n";
 echo "   <b>Galaxie " . $galaxy . "</b>\n";
 echo "  </td>\n";
 echo " </tr>\n";
@@ -421,10 +421,10 @@ for ($i = 1; $i <= $maxsys; $i++) {
         echo "<tr>\n";
     }
 
-    echo " <td class='windowbg1' style='width: " . floor(100 / $config_map_cols) . " %; background-color: "
+    echo " <td class='windowbg1 center' style='width: " . floor(100 / $config_map_cols) . " %; background-color: "
         . ((empty($sys[$i])) ? "#FFFFFF"
             : $sys[$i])
-        . ";' align='center'>";
+        . ";'>";
 
     if (empty($sys[$i])) {
         echo $i;

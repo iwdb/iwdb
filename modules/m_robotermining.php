@@ -241,7 +241,7 @@ $result = $db->db_query($sql)
 
 // Auswahlfelder
 echo "<form method='POST' action='' enctype='multipart/form-data'>";
-echo "<p align='center'>";
+echo "<p class='center'>";
 echo "Team: ";
 echo "<select name='team'>";
 foreach ($config['teams'] as $team) {

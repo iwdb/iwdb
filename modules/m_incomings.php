@@ -210,19 +210,19 @@ $data = array();
 
 //Tabelle für die Sondierungen	
 start_table();
-start_row("titlebg", "align='center' colspan='6'");
+start_row("titlebg center", "colspan='6'");
 echo "<b>Sondierungen</b>";
-next_row("titlebg", "nowrap style='width:0%' align='center' ");
+next_row("titlebg center");
 echo "<b>Wer wird sondiert?</b>";
-next_cell("titlebg center", "nowrap style='width:0%'");
+next_cell("titlebg center");
 echo "<b>Zielplanet</b>";
-next_cell("titlebg center", "nowrap style='width:0%'");
+next_cell("titlebg center");
 echo "<b>Wer sondiert?</b>";
-next_cell("titlebg center", "nowrap style='width:0%'");
+next_cell("titlebg center");
 echo "<b>Von wo wird sondiert?</b>";
-next_cell("titlebg center", "nowrap style='width:0%'");
+next_cell("titlebg center");
 echo "<b>Zeitpunkt</b>";
-next_cell("titlebg center", "nowrap style='width:0%'");
+next_cell("titlebg center");
 echo "<b>Art der Sondierung</b>";
 
 while ($row = $db->db_fetch_array($result)) {

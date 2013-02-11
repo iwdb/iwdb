@@ -68,14 +68,14 @@ include ('configmenu.php');
 <div class="chromestyle" id="chromemenu">
     <ul>
         <li>
-            <table align="left" class='borderless'>
+            <table class='borderless left'>
                 <tr>
                     <td class='borderless'><strong>Hallo, <?php echo $user_id;?>.</strong></td>
                 </tr>
             </table>
         </li>
         <li>
-            <table align="right" class='borderless'>
+            <table class='borderless left'>
                 <tr>
                     <td class='borderless' style="font-weight: bold;">Online: <?php echo $counter_member;?>
                         &nbsp;&nbsp;</td>
@@ -208,6 +208,6 @@ include ('configmenu.php');
 <br><br>
 
 <!-- hauptfenster Start -->
-<table align="center" style="width:100%;">
+<table class="center" style="width:100%;">
     <tr>
         <td class="windowbg1 center">

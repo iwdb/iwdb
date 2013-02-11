@@ -314,7 +314,7 @@ if (isset($sitterlogins[$akt])) {
 }
 
 echo "<textarea name='text' cols='50' rows='2' style='border:2px black solid'></textarea>";
-echo "<input type='submit' value='speichern' name='sub_akt' style='vertical-align: top;'>";
+echo "<input type='submit' value='speichern' name='sub_akt'>";
 echo "<input type='hidden' value='$akt' name='val_akt'>";
 echo '</form>';
 echo "<div class='textsmall'>Auf der Seite des Accounts alles markieren (Strg-A), alles kopieren (Strg-C) und oben ins Feld einfügen (Strg-V).</div>";

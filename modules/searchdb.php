@@ -441,7 +441,7 @@ doc_title('Planet suchen');
 </tr>
 <tr>
     <td colspan="2" class="titlebg center"><input type="submit"
-                                                          value="OK" name="B1" class="submit"></td>
+                                                          value="OK" name="B1"></td>
 </tr>
 <tr>
     <td colspan="2" class="titlebg center">als Preset speichern? <input

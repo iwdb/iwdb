@@ -126,7 +126,7 @@ while ($row = $db->db_fetch_array($result)) {
     while ($row_schiffe = $db->db_fetch_array($result_schiffe)) {
         $schiffe[] = $row_schiffe['id'];
 
-        echo "  <td class='windowbg2' align='center' " .
+        echo "  <td class='windowbg2 center' " .
             "valign='bottom' style='width:" . (85 / $schiffsanz) . "%'>\n";
         echo "    <a href='index.php?action=schiffe&order=" . $row_schiffe['id'] .
             "&ordered=asc&sid=" . $sid . "'><img src='bilder/asc.gif'></a>\n";
@@ -147,7 +147,7 @@ while ($row = $db->db_fetch_array($result)) {
             or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
         $row_anzahl = $db->db_fetch_array($result_anzahl);
-        echo "    <td class='windowbg2' align='right'>" . $row_anzahl['gesamtanzahl'] . "</td>\n";
+        echo "    <td class='windowbg2 right'>" . $row_anzahl['gesamtanzahl'] . "</td>\n";
     }
     echo " </tr>\n";
 
@@ -162,7 +162,7 @@ while ($row = $db->db_fetch_array($result)) {
             $result_anzahl = $db->db_query($sql)
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
             $row_anzahl = $db->db_fetch_array($result_anzahl);
-            $shipprint .= "   <td class='windowbg1' align='right'>" .
+            $shipprint .= "   <td class='windowbg1 right'>" .
                 $row_anzahl['anzahl'] . "</td>\n";
             $shipcount .= $row_anzahl['anzahl'];
         }

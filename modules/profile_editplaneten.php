@@ -140,7 +140,7 @@ if (!empty($sitterlogin)) {
             <tr>
                 <td colspan="7" class="titlebg center">
                     <input type="hidden" name="sitterlogin" value="<?php echo $sitterlogin;?>">
-                    <input type="submit" value="speichern" name="editplaneten" class="submit">
+                    <input type="submit" value="speichern" name="editplaneten">
                 </td>
             </tr>
         </table>

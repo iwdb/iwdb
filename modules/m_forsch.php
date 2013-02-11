@@ -181,7 +181,7 @@ while ($row = $db->db_fetch_array($result)) {
         } else {
             $color = "#FFA500";
         }
-        $row['date'] = strftime("%d.%m.%y %H:%M:%S", $row['date']);
+        $row['date'] = strftime(CONFIG_DATETIMEFORMAT, $row['date']);
     } else {
         $row['date'] = '';
         $color       = "#FF0000";
@@ -194,7 +194,7 @@ while ($row = $db->db_fetch_array($result)) {
     next_cell("windowbg1 left");
     echo $row['date'];
     next_cell("windowbg1 left");
-    echo strftime("%d.%m.%y %H:%M:%S", $row['time']);
+    echo strftime(CONFIG_DATETIMEFORMAT, $row['time']);
 }
 end_row();
 end_table();

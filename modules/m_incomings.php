@@ -264,7 +264,7 @@ while ($row = $db->db_fetch_array($result)) {
     echo $row['koords_from'];
 
     next_cell("windowbg1 center");
-    echo strftime("%d.%m.%y %H:%M:%S", $row['timestamp']);
+    echo strftime(CONFIG_DATETIMEFORMAT, $row['timestamp']);
 
     next_cell("windowbg1 center");
     echo $row['art'];
@@ -336,7 +336,7 @@ while ($row = $db->db_fetch_array($result)) {
     echo $row['koords_from'];
 
     next_cell("windowbg1 center");
-    echo strftime("%d.%m.%y %H:%M:%S", $row['timestamp']);
+    echo strftime(CONFIG_DATETIMEFORMAT, $row['timestamp']);
 }
 end_row();
 end_table();

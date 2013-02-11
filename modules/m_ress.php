@@ -331,7 +331,7 @@ while ($row = $db->db_fetch_array($result)) {
     echo $row['user'] . "<br>";
 
     next_cell("windowbg1", "style='background-color:" . $color . "' nowrap='nowrap'");
-    echo strftime("%d.%m.%y %H:%M:%S", $row['datum']);
+    echo strftime(CONFIG_DATETIMEFORMAT, $row['datum']);
 
     next_cell("windowbg1 right");
     echo number_format($row['eisen'] * $switch, 0, ',', '.');

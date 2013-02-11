@@ -519,7 +519,7 @@ function display_de_index()
             next_cell("windowbg1 top");
             echo $scan_data['coords_from_gal'] . ":" . $scan_data['coords_from_sys'] . ":" . $scan_data['coords_from_planet'];
             next_cell("windowbg1 top");
-            echo strftime("%d.%m.%Y %H:%M:%S", $scan_data['time']);
+            echo strftime(CONFIG_DATETIMEFORMAT, $scan_data['time']);
             next_cell("windowbg1 top", "style='width:100%;'");
             echo $scan_data['art'] . "<br>";
 

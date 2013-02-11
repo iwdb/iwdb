@@ -273,7 +273,7 @@ $data = array();
 			</td>
 			<td>
 				<?php
-				echo strftime("%d.%m.%y %H:%M:%S", $row['timestamp']);
+				echo strftime(CONFIG_DATETIMEFORMAT, $row['timestamp']);
 				?>
 			</td>
 			<td>

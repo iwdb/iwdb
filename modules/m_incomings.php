@@ -227,10 +227,10 @@ echo "<b>Art der Sondierung</b>";
 
 while ($row = $db->db_fetch_array($result)) {
 
-    next_row("windowbg1 left", "nowrap style='width:0%'");
+    next_row("windowbg1 left");
     echo $row['name_to'];
 
-    next_cell("windowbg1 left", "nowrap style='width:0%'");
+    next_cell("windowbg1 left");
     $objekt = GetObjectByCoords($row['koords_to']);
     if ($objekt == 'Kolonie') {
         echo "<img src='bilder/kolo.png'>";
@@ -243,14 +243,14 @@ while ($row = $db->db_fetch_array($result)) {
     }
     echo $row['koords_to'];
 
-    next_cell("windowbg1 center", "nowrap style='width:0%'");
+    next_cell("windowbg1 center");
     if (!empty($row['allianz_from'])) {
         echo ($row['name_from'] . " [" . $row['allianz_from'] . "]");
     } else {
         echo $row['name_from'];
     }
 
-    next_cell("windowbg1 center", "nowrap style='width:0%'");
+    next_cell("windowbg1 center");
     $objekt = GetObjectByCoords($row['koords_from']);
     if ($objekt == 'Kolonie') {
         echo "<img src='bilder/kolo.png'>";
@@ -263,10 +263,10 @@ while ($row = $db->db_fetch_array($result)) {
     }
     echo $row['koords_from'];
 
-    next_cell("windowbg1 center", "nowrap style='width:0%'");
+    next_cell("windowbg1 center");
     echo strftime("%d.%m.%y %H:%M:%S", $row['timestamp']);
 
-    next_cell("windowbg1 center", "nowrap style='width:0%'");
+    next_cell("windowbg1 center");
     echo $row['art'];
 
 }

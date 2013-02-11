@@ -87,7 +87,7 @@ while ($row = $db->db_fetch_array($result)) {
     echo "Abkürzung";
     next_cell("windowbg2", "style='width:60%;'");
     echo "Typ";
-    next_cell("windowbg2", "style='width:0%;'");
+    next_cell("windowbg2");
     echo "bestellbar";
     end_row();
 

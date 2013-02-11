@@ -206,14 +206,10 @@ $row = $db->db_fetch_array($result);
 
 $switch = $row['switch'];
 
-//zeit ändern?
+//Zeit ändern?
 ?>
     <form action="index.php?action=m_ress" method="post">
-        <p>Anzeigen der Produktion für <input type="text" name="switch" size="3"> Stunden <input type="submit"
-                                                                                                 value="speichern"
-                                                                                                 name="form"
-                                                                                                >
-        </p>
+        <p>Anzeigen der Produktion für <input type="text" name="switch" size="3"> Stunden <input type="submit" value="speichern" name="form"></p>
     </form>
 <?php
 
@@ -331,7 +327,7 @@ $result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     $color = getScanAgeColor($row['datum']);
 
-    next_row("windowbg1", " nowrap='nowrap'");
+    next_row("windowbg1");
     echo $row['user'] . "<br>";
 
     next_cell("windowbg1", "style='background-color:" . $color . "' nowrap='nowrap'");

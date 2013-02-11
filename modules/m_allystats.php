@@ -35,23 +35,23 @@ if (!defined('IRA')) {
 
 //****************************************************************************
 //
-// -> Name des Moduls, ist notwendig fuer die Benennung der zugehoerigen
+// -> Name des Moduls, ist notwendig für die Benennung der zugehörigen
 //    Config.cfg.php
-// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung fuer 
-//    eine Installation ueber das Menue
+// -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung für
+//    eine Installation über das Menü
 //
 $modulname = "m_allystats";
 
 //****************************************************************************
 //
-// -> Menuetitel des Moduls der in der Navigation dargestellt werden soll.
+// -> Menütitel des Moduls der in der Navigation dargestellt werden soll.
 //
 $modultitle = "Allianz-Statistiken";
 
 //****************************************************************************
 //
-// -> Status des Moduls, bestimmt wer dieses Modul ueber die Navigation 
-//    ausfuehren darf. Muegliche Werte:
+// -> Status des Moduls, bestimmt wer dieses Modul über die Navigation
+//    ausführen darf. Mögliche Werte:
 //    - ""      <- nix = jeder,
 //    - "admin" <- na wer wohl
 //
@@ -59,7 +59,7 @@ $modulstatus = "";
 
 //****************************************************************************
 //
-// -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
+// -> Beschreibung des Moduls, wie es in der Menü-Übersicht angezeigt wird.
 //
 $moduldesc =
     "Das Allianzstatistiken-modul, zeigt Statistiken aller bekannter Allianzen zusammen und einzeln im Detail an.";
@@ -121,12 +121,12 @@ function workUninstallDatabase()
 //
 // Installationsroutine
 //
-// Dieser Abschnitt wird nur ausgefuehrt wenn das Modul mit dem Parameter
+// Dieser Abschnitt wird nur ausgeführt wenn das Modul mit dem Parameter
 // "install" aufgerufen wurde. Beispiel des Aufrufs:
 //
 //      http://Mein.server/iwdb/index.php?action=default&was=install
 //
-// Anstatt "Mein.Server" natuerlich deinen Server angeben und default 
+// Anstatt "Mein.Server" natürlich deinen Server angeben und default
 // durch den Dateinamen des Moduls ersetzen.
 //
 
@@ -145,7 +145,7 @@ if (!empty($_REQUEST['was'])) {
     }
 
     // Wenn ein Modul administriert wird, soll der Rest nicht mehr
-    // ausgefuehrt werden.
+    // ausgeführt werden.
 
     return;
 }

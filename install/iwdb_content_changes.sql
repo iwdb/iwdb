@@ -1256,3 +1256,9 @@ UPDATE `prefix_gebaeude` SET `category` = '10a. Wirtschaft & Verwaltung' WHERE `
 UPDATE `prefix_gebaeude` SET `category` = '10a. Wirtschaft & Verwaltung' WHERE `prefix_gebaeude`.`id` =88;
 UPDATE `prefix_gebaeude` SET `category` = '10a. Wirtschaft & Verwaltung' WHERE `prefix_gebaeude`.`id` =92;
 UPDATE `prefix_gebaeude` SET `category` = '10a. Wirtschaft & Verwaltung' WHERE `prefix_gebaeude`.`id` =123;
+
+-- patsch 12.02.2013
+UPDATE `prefix_schiffstyp` SET `typ` = 'alte Schiffe' WHERE `prefix_schiffstyp`.`id` =307;
+UPDATE `prefix_schiffstyp` SET `typ` = 'alte Schiffe' WHERE `prefix_schiffstyp`.`id` =169;
+UPDATE `prefix_schiffstyp` SET `typ` = 'alte Schiffe' WHERE `prefix_schiffstyp`.`id` =161;
+UPDATE `prefix_schiffstyp` SET `typ` = 'admin' WHERE `prefix_schiffstyp`.`id` =309;

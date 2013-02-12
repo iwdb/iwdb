@@ -37,36 +37,36 @@ if (!defined('IRA')) {
 
 doc_title('Planetenliste');
 ?>
-<table class="table_format" style="width: 90%;">
+<table class="table_hovertable" style="width: 90%;">
     <tr class="titlebg">
-        <td style="width:15%;">
+        <th style="width:15%;">
             <a href="index.php?action=planeten&order=coords&ordered=asc&sid=<?php echo $sid;?>"><img
                     src="bilder/asc.gif" alt="asc"></a>
             <b>Koordinaten</b>
             <a href="index.php?action=planeten&order=coords&ordered=desc&sid=<?php echo $sid;?>"><img
                     src="bilder/desc.gif" alt="desc"></a>
-        </td>
-        <td style="width:20%;">
+        </th>
+        <th style="width:20%;">
             <a href="index.php?action=planeten&order=t2.sitterlogin&ordered=asc&sid=<?php echo $sid;?>"><img
                     src="bilder/asc.gif" alt="asc"></a>
             <b>Username</b>
             <a href="index.php?action=planeten&order=t2.sitterlogin&ordered=desc&sid=<?php echo $sid;?>"><img
                     src="bilder/desc.gif" alt="desc"></a>
-        </td>
-        <td style="width:40%;">
+        </th>
+        <th style="width:40%;">
             <a href="index.php?action=planeten&order=t1.planetenname&ordered=asc&sid=<?php echo $sid;?>"><img
                     src="bilder/asc.gif" alt="asc"></a>
             <b>Planetenname</b>
             <a href="index.php?action=planeten&order=t1.planetenname&ordered=desc&sid=<?php echo $sid;?>"><img
                     src="bilder/desc.gif" alt="desc"></a>
-        </td>
-        <td style="width:25%;">
+        </th>
+        <th style="width:25%;">
             <a href="index.php?action=planeten&order=t2.budflesol&ordered=asc&sid=<?php echo $sid;?>"><img
                     src="bilder/asc.gif" alt="asc"></a>
             <b>Spielart</b>
             <a href="index.php?action=planeten&order=t2.budflesol&ordered=desc&sid=<?php echo $sid;?>"><img
                     src="bilder/desc.gif" alt="desc"></a>
-        </td>
+        </th>
     </tr>
     <?php
     $order = getVar('order');
@@ -99,11 +99,11 @@ doc_title('Planetenliste');
             $sitpre = $row['sitterlogin'];
         }
         ?>
-        <tr class="windowbg<?php echo $num;?>">
-            <td>
+        <tr>
+            <td class="left">
                 <a href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=auto&sid=<?php echo $sid;?>"><?php echo $row['coords'];?></a>
             </td>
-            <td>
+            <td class="left">
                 <?php
                 if ($user_status == "admin") {
                     echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($row['sitterlogin']) . "&sid=" . $sid . "'>" . $row['sitterlogin'] . "</a>";
@@ -112,7 +112,7 @@ doc_title('Planetenliste');
                 }
                 ?>
             </td>
-            <td>
+            <td class="left">
                 <a href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=auto&sid=<?php echo $sid;?>">
                     <div class='doc_<?php
                     if ($row['objekt'] == "Kolonie") {
@@ -142,7 +142,7 @@ doc_title('Planetenliste');
                     </div>
                 </a>
             </td>
-            <td>
+            <td class="left">
                 <?php echo $row['budflesol']; echo ($row['buddlerfrom']) ? " von: " . $row['buddlerfrom'] : "";?>
             </td>
         </tr>

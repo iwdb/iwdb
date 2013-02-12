@@ -163,10 +163,8 @@ if (!isset($sitterschleife)) {
 
     echo "   <textarea name='text' rows='14' cols='70'></textarea><br />\n";
     echo " 	 <br />\n";
-    echo "<div style='color:yellow;'>Wichtig : Beim Einlesen der Ressübersicht darauf achten, dass das Lager ausgeklappt ist!</div>";
-    echo "<div style='color:yellow;'>Wichtig : Beim Einlesen der Startseite darauf achten, dass die Fluginformationen ausgeklappt sind!</div>";
-    echo " 	 <br />\n";
     echo "   Für Hilfe bitte oben auf den \"Hilfe\" Button drücken.\n";
+	echo " 	 <br />\n";
     echo "  </td>\n";
     echo " </tr>\n";
     echo " <tr>\n";

@@ -927,7 +927,7 @@ if (isset($params['edit']) && is_numeric($params['edit'])) {
 }
 echo "</b>";
 foreach ($view['edit'] as $key => $field) {
-    next_row("windowbg2 top", "style='width:15%;'");
+    next_row("windowbg2 top", "style='width:25%;'");
     echo $field['title'];
     if (isset($field['desc'])) {
         echo '<br><i>' . $field['desc'] . '</i>';

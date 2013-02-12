@@ -920,7 +920,7 @@ foreach ($view['edit'] as $key => $field) {
         next_row('titlebg top', '', isset($field['colspan']) ? $field['colspan'] : 1);
         echo $field['title'];
     } else {
-        next_row("windowbg2 top", "style='width:15%;'");
+        next_row("windowbg2 top", "style='width:25%;'");
         echo $field['title'];
         if (isset($field['desc'])) {
             echo '<br><i>' . $field['desc'] . '</i>';

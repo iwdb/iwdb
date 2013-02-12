@@ -57,22 +57,22 @@ echo "maximal: <input type='text' name='limit' value='" . $limit . "' style='wid
 echo "<input type='submit' value='anzeigen' name='B1' class='submit'>\n";
 end_form();
 ?>
-<table class="table_format" style="width: 90%;">
+<table class="table_hovertable" style="width: 90%;">
     <tr class="titlebg center">
-        <td colspan="4">
+        <th colspan="4">
             <b>Was andere bei <?php echo $selecteduser;?> gemacht haben:</b>
-        </td>
+        </th>
     </tr>
     <tr class="titlebg left">
-        <td style="width:20%;">
+        <th style="width:15%;">
             <b>Username</b>
-        </td>
-        <td style="width:15%;">
+        </th>
+        <th class="center" style="width:20%;">
             <b>Zeit</b>
-        </td>
-        <td style="width:65%;">
+        </th>
+        <th style="width:65%;">
             <b>Auftrag</b>
-        </td>
+        </th>
     </tr>
     <?php
     // Auftraege durchgehen //
@@ -84,7 +84,7 @@ end_form();
     while ($row = $db->db_fetch_array($result)) {
         ?>
         <tr class="windowbg1 left">
-            <td>
+            <td class="left">
                 <?php
                 if ($user_status == "admin") {
                     echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($row['fromuser']) .
@@ -97,7 +97,7 @@ end_form();
             <td>
                 <?php echo strftime(CONFIG_DATETIMEFORMAT, $row['date']);?>
             </td>
-            <td>
+            <td class="left">
                 <?php echo convert_bbcode($row['action']);?>
             </td>
         </tr>
@@ -107,22 +107,22 @@ end_form();
 </table>
 <br>
 <br>
-<table class="table_format" style="width: 90%;">
+<table class="table_hovertable" style="width: 90%;">
     <tr class="titlebg center">
-        <td colspan="4">
+        <th colspan="4">
             <b>Was <?php echo $selecteduser;?> bei anderen gemacht hat</b>
-        </td>
+        </th>
     </tr>
     <tr class="titlebg left">
-        <td style="width:20%;">
+        <th style="width:15%;">
             <b>Username</b>
-        </td>
-        <td style="width:15%;">
+        </th>
+        <th class="center" style="width:20%;">
             <b>Zeit</b>
-        </td>
-        <td style="width:65%;">
+        </th>
+        <th style="width:65%;">
             <b>Auftrag</b>
-        </td>
+        </th>
     </tr>
     <?php
     // Aufträge durchgehen //
@@ -132,7 +132,7 @@ end_form();
     while ($row = $db->db_fetch_array($result)) {
         ?>
         <tr class="windowbg1 left">
-            <td>
+            <td class="left">
                 <?php
                 if ($user_status == "admin") {
                     echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($row['sitterlogin']) .
@@ -145,7 +145,7 @@ end_form();
             <td>
                 <?php echo strftime(CONFIG_DATETIMEFORMAT, $row['date']);?>
             </td>
-            <td>
+            <td class="left">
                 <?php echo convert_bbcode($row['action']);?>
             </td>
         </tr>

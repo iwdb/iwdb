@@ -960,7 +960,7 @@ echo '</form>';
 
 function makeresstable($row, $prefix_out = '', $prefix_cmp = '', $nocolor = false)
 {
-    $html = '<table class="table_format_noborder" width="100%">';
+    $html = '<table class="table_format_noborder" style="width:100%">';
     $html .= makeresscol($row, $prefix_out, $prefix_cmp, $nocolor, 'eisen', 'Eisen');
     $html .= makeresscol($row, $prefix_out, $prefix_cmp, $nocolor, 'stahl', 'Stahl');
     $html .= makeresscol($row, $prefix_out, $prefix_cmp, $nocolor, 'chemie', 'Chemie');

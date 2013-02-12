@@ -1690,7 +1690,7 @@ function format_value($row, $name, $value)
                 return '<span class="ranking_red">' . makeduration($value) . '</span>';
             }
         case 'last_scan':
-            $result = "<div class='nowrap'>";
+            $result = "<div class='nowrap borderless'>";
 
             if (!empty($row['geoscantime'])) {
                 $result .= "<img src='bilder/scann_geo.png' class='middle' title='Geoscan vor " . makeduration($row['geoscantime']) . "'>";
@@ -1704,9 +1704,9 @@ function format_value($row, $name, $value)
 
             if(!empty($row['last_scan'])) {
                 if ($row['last_scan'] == $row['fehlscantime']) {
-                    $result .= '<span class="ranking_red middle">' . makeduration($row['last_scan']) . '</span>';
+                    $result .= '<span class="ranking_red middle borderless">' . makeduration($row['last_scan']) . '</span>';
                 } else {
-                    $result .= '<span class="ranking_green middle">' . makeduration($row['last_scan']) . '</span>';
+                    $result .= '<span class="ranking_green middle borderless">' . makeduration($row['last_scan']) . '</span>';
                 }
             }
             $result .= "</div>";

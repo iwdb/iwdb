@@ -384,7 +384,7 @@ if ($unknownonly == "on") {
 }
 echo "/>\n";
 echo "nur noch nicht erforschte Forschungen anzeigen";
-echo "</td><td valign='top'>";
+echo "</td><td class='top'>";
 echo " <input type='submit' onclick='document.Formular.submit();' name='ok' value='Anzeigen' />\n";
 echo "</td></tr></table>";
 echo " <input type='button' onclick='dblclick()' name='ssuchen' value='Suche:' /><br>\n";

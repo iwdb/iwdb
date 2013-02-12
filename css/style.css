@@ -620,7 +620,7 @@ img,
 .borderless,
 #gebtable,
 #gebtable td {
-    border: 0;
+    border: 0 !important;
 }
 
 .scan_table {
@@ -819,7 +819,6 @@ td[abbr=both] {
     padding: 4px;
     border-collapse: collapse;
     border-spacing: 1px;
-    background-color: #000000;
 }
 
 .table_format th {
@@ -834,12 +833,30 @@ td[abbr=both] {
     border-spacing: 1px;
 }
 
+.table_format_noborder {
+    border: none;
+    padding: 4px;
+    border-collapse: collapse;
+    border-spacing: 1px;
+}
+
+.table_format_noborder th {
+    border: none;
+    padding: 4px;
+    border-spacing: 1px;
+}
+
+.table_format_noborder td {
+    border: none;
+    padding: 4px;
+    border-spacing: 1px;
+}
+
 .table_format_help {
     border: 1px solid black;
     padding: 8px;
     border-collapse: collapse;
     border-spacing: 1px;
-    background-color: #000000;
 }
 
 .table_format_help th {
@@ -890,6 +907,18 @@ td[abbr=both] {
 
 .bottom {
     vertical-align: bottom !important;
+}
+
+.nowrap {
+    white-space: nowrap;
+}
+
+abbr {
+    border: none;
+}
+
+.bold {
+    font-weight: bold;
 }
 
 .table_hovertable {
@@ -946,10 +975,6 @@ td[abbr=both] {
     color: #FFFFFF;
     font-weight: 600;
     text-align: center;
-}
-
-.borderless {
-    border: 0 !important;
 }
 
 /* veraltet */

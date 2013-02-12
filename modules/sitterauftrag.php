@@ -885,9 +885,9 @@ if (!empty($umenu)) {
                             if ($colnum == 1) {
                                 echo "<tr>\n";
                             }
-                            echo "<td class='windowbg1 borderless' valign='middle'>";
+                            echo "<td class='windowbg1 borderless middle'>";
                             if ($user_gebbilder == "1") {
-                                echo "<table class='borderless'><tr><td class='borderless'>";
+                                echo "<table class='table_format_noborder'><tr><td>";
                             }
                             echo "<input type='radio' name='geb' value='" . $row['id'] . "'" . (($geb == $row['id']) ? " checked" : "") . "> ";
 
@@ -897,7 +897,7 @@ if (!empty($umenu)) {
                                 } else {
                                     $bild_url = GEBAEUDE_BILDER_PATH . "blank.jpg";
                                 }
-                                echo "</td><td class='borderless'><img src='" . $bild_url . "' title='" . $altname . "' width='50' height='50' class='middle'></td><td class='borderless'>";
+                                echo "</td><td><img src='" . $bild_url . "' title='" . $altname . "' width='50' height='50' class='middle'></td><td>";
                             }
                             echo $resRowName . " [" . dauer($row['dauer'] * $user_gengebmod * $modmaurer) . "]";
                             if ($user_gebbilder == "1") {

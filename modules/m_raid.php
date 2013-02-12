@@ -1253,10 +1253,10 @@ if (empty($params['view'])) {
     usort($data, "sort_data_cmp");
     // Daten ausgeben
     start_table();
-    start_row("titlebg top");
+    start_row("titlebg top center nowrap");
     foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
         if (!isset($view['group'][$viewcolumnkey]) && !isset($filters[$viewcolumnkey])) {
-            next_cell("titlebg top");
+            next_cell("titlebg top center nowrap");
             $orderkey = $viewcolumnkey;
             if (isset($view['sortcolumns'][$orderkey])) {
                 $orderkey = $view['sortcolumns'][$orderkey];
@@ -1301,28 +1301,28 @@ if (empty($params['view'])) {
 
         echo '<input type="hidden" name="target_' . $index . '" value="' . $key . '"/>';
         if (isset($row['row_style'])) {
-            next_row("windowbg1", 'nowrap valign=center style="' . $row['row_style'] . '"');
+            next_row("windowbg1 center", 'style="' . $row['row_style'] . '"');
         } else {
-            next_row("windowbg1", 'nowrap valign=center');
+            next_row("windowbg1 center");
         }
         // Schaltfläche zum auf-/zuklappen
-        echo "<a href=\"javascript:Collapse('" . $key . "');\"><img src='bilder/plus.gif' alt='' id='collapse_" . $key . "'></a>";
+        echo "<a href=\"javascript:Collapse('" . $key . "');\"><img src='bilder/plus.gif' alt='+' id='collapse_" . $key . "'></a>";
         foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
             if (isset($row[$viewcolumnkey . '_style'])) {
-                next_cell("windowbg1", 'nowrap valign=center style="' . $row[$viewcolumnkey . '_style'] . '"');
+                next_cell("windowbg1 center", 'style="' . $row[$viewcolumnkey . '_style'] . '"');
             } elseif (isset($row['row_style'])) {
-                next_cell("windowbg1", 'nowrap valign=center style="' . $row['row_style'] . '"');
+                next_cell("windowbg1 center", 'style="' . $row['row_style'] . '"');
             } else {
-                next_cell("windowbg1", 'nowrap valign=center');
+                next_cell("windowbg1 center");
             }
             echo format_value($row, $viewcolumnkey, $row[$viewcolumnkey]);
         }
         // Editbuttons ausgeben
         if (isset($view['edit'])) {
             if (isset($row['row_style'])) {
-                next_cell("windowbg1", 'nowrap valign=center style="' . $row['row_style'] . '"');
+                next_cell("windowbg1 center", 'style="' . $row['row_style'] . '"');
             } else {
-                next_cell("windowbg1", 'nowrap valign=center');
+                next_cell("windowbg1 center");
             }
             if (!isset($row['allow_edit']) || $row['allow_edit']) {
                 echo makelink(
@@ -1363,7 +1363,7 @@ if (empty($params['view'])) {
         echo "<td colspan='23'>";
         start_table();
         if (!empty($row['schiffscantime']) OR !empty($row['gebscantime'])) {
-            start_row("titlebg", "nowrap valign=top", 2);
+            start_row("titlebg top", "", 2);
             echo '<b>auf Lager:</b>';
             next_row("windowbg2", "style='width: 20%'");
             echo 'Eisen:';
@@ -1393,7 +1393,7 @@ if (empty($params['view'])) {
             echo 'Energie:';
             next_cell("windowbg1");
             echo number_format((float)$row['energie'], 0, ",", '.');
-            start_row("titlebg", "nowrap valign=top", 2);
+            start_row("titlebg top", "", 2);
             echo '<b>benötigte Frachtkapazität:</b>';
             next_row("windowbg2", "style='width: 20%'");
             echo 'Klasse 1:';
@@ -1416,25 +1416,25 @@ if (empty($params['view'])) {
             echo ", " . number_format((float)ceil($kapazitaet / 250000), 0, ",", '.') . " Seepferdchen)";
         }
         if (!empty($row['geb'])) {
-            start_row("titlebg", "nowrap valign=top", 2);
+            start_row("titlebg top", "", 2);
             echo '<b>Gebäude:</b>';
             next_row("windowbg1", "", 2);
             echo $row['geb'];
         }
         if (!empty($row['plan'])) {
-            start_row("titlebg", "nowrap valign=top", 2);
+            start_row("titlebg top", "", 2);
             echo '<b>planetare Flotte:</b>';
             next_row("windowbg1", "", 2);
             echo $row['plan'];
         }
         if (!empty($row['stat'])) {
-            start_row("titlebg", "nowrap valign=top", 2);
+            start_row("titlebg top", "", 2);
             echo '<b>stationierte Flotte:</b>';
             next_row("windowbg1", "", 2);
             echo $row['stat'];
         }
         if (!empty($row['def'])) {
-            start_row("titlebg", "nowrap valign=top", 2);
+            start_row("titlebg top", "", 2);
             echo '<b>Verteidigung:</b>';
             next_row("windowbg1", "", 2);
             echo $row['def'];
@@ -1449,7 +1449,7 @@ if (empty($params['view'])) {
     if ($to_much_results) {
         echo "<br><div class='system_notification'>Es wurden nur die ersten {$max_results} Ergebnisse angezeigt. Bitte die Suche weiter einschränken.</div><br>";
     }
-    echo '<table border="0" cellpadding="2" cellspacing="1" style="width: 100%;">';
+    echo '<table class="table_format_noborder" style="width: 100%;">';
     echo '<tr><td class="right">';
     echo makelink(array('mark_all' => true), "Alle auswählen");
     echo ' / ';
@@ -1463,24 +1463,28 @@ if (empty($params['view'])) {
     echo '</table>';
     echo '</form>';
     // Legende ausgeben
-    echo '<br><table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">';
+    echo '<br><table class="table_format" style="width: 90%;">';
     echo '<tr>';
-    echo '<td style="width: 30; background-color: #C4F493;"></td>';
-    echo '<td class="windowbg1" style="width: 70;">own</td>';
-    echo '<td style="width: 30; background-color: #E6F6A5;"></td>';
-    echo '<td class="windowbg1" style="width: 70;">wing</td>';
-    echo '<td style="width: 30; background-color: #7C9CF1;"></td>';
-    echo '<td class="windowbg1" style="width: 70;">NAP</td>';
-    echo '<td style="width: 30; background-color: #8DADF2;"></td>';
-    echo '<td class="windowbg1" style="width: 70;">iNAP</td>';
-    echo '<td style="width: 30; background-color: #4A71D5;"></td>';
-    echo '<td class="windowbg1" style="width: 70;">VB</td>';
-    echo '<td style="width: 30; background-color: #E84528;"></td>';
-    echo '<td class="windowbg1" style="width: 70;">Krieg</td>';
-    echo '<td style="width: 30; background-color: #CCBB11;"></td>';
-    echo '<td class="windowbg1" style="width: 70;">noraid</td>';
-    echo '<td class="windowbg1" style="width: 70; color: #808080;">Reserviert</td>';
-    echo '<td class="windowbg1" style="width: 70; color: #FF0000;">Angriff</td>';
+    echo '<td style="width: 30px; background-color: '.$config_allianzstatus['own'] .';"></td>';
+    echo '<td class="windowbg1" style="width: 70px;">own</td>';
+    echo '<td style="width: 30px; background-color: '.$config_allianzstatus['wing'].';"></td>';
+    echo '<td class="windowbg1" style="width: 70px;">wing</td>';
+    echo '<td style="width: 30px; background-color: '.$config_allianzstatus['NAP'].';"></td>';
+    echo '<td class="windowbg1" style="width: 70px;">NAP</td>';
+    echo '<td style="width: 30px; background-color: '.$config_allianzstatus['iNAP'].';"></td>';
+    echo '<td class="windowbg1" style="width: 70px;">iNAP</td>';
+    echo '<td style="width: 30px; background-color: '.$config_allianzstatus['VB'].';"></td>';
+    echo '<td class="windowbg1" style="width: 70px;">VB</td>';
+    echo '<td style="width: 30px; background-color: '.$config_allianzstatus['iVB'].';"></td>';
+    echo '<td class="windowbg1" style="width: 70px;">iVB</td>';
+    echo '<td style="width: 30px; background-color: '.$config_allianzstatus['Krieg'].';"></td>';
+    echo '<td class="windowbg1" style="width: 70px;">Krieg</td>';
+    echo '<td style="width: 30px; background-color: '.$config_allianzstatus['imKrieg'].';"></td>';
+    echo '<td class="windowbg1" style="width: 70px;">im Krieg</td>';
+    echo '<td style="width: 30px; background-color: '.$config_allianzstatus['noraid'].';"></td>';
+    echo '<td class="windowbg1" style="width: 70px;">noraid</td>';
+    echo '<td class="windowbg1" style="width: 70px; color: #808080;">Reserviert</td>';
+    echo '<td class="windowbg1" style="width: 70px; color: #FF0000;">Angriff</td>';
     echo '</tr>';
     echo '</table>';
     // Maske ausgeben
@@ -1488,7 +1492,7 @@ if (empty($params['view'])) {
         echo '<br>';
         echo '<form method="POST" action="' . makeurl(array()) . '" enctype="multipart/form-data"><p>' . "\n";
         start_table();
-        next_row("titlebg", 'nowrap valign=top colspan=2');
+        next_row("titlebg top", 'colspan=2');
         if (!isset($view['edittitle'])) {
             echo "<b>" . $view['title'];
         } else {
@@ -1573,7 +1577,7 @@ function sort_data_cmp($a, $b)
 // Spalte formatieren
 function format_value($row, $name, $value)
 {
-    global $view, $sid, $params;
+    global $sid, $params;
     if ($value == '---') {
         return $value;
     }
@@ -1593,42 +1597,42 @@ function format_value($row, $name, $value)
             return "<a href='index.php?action=showplanet&amp;coords=" . $row['coords'] . "&amp;ansicht=auto&amp;sid=" . $sid . "'>" . $value . "</a>";
         case 'planetentyp':
             if ($value == "Steinklumpen") {
-                return "<a href='' title='Steinklumpen'>S</a>";
+                return "<abbr title='Steinklumpen'>S</abbr>";
             } elseif ($value == 'Asteroid') {
-                return "<a href='' title='Steinklumpen'>A</a>";
+                return "<abbr title='Steinklumpen'>A</abbr>";
             } elseif ($value == 'Gasgigant') {
-                return "<a href='' title='Steinklumpen'>G</a>";
+                return "<abbr title='Steinklumpen'>G</abbr>";
             } elseif ($value == 'Eisplanet') {
-                return "<a href='' title='Steinklumpen'>E</a>";
+                return "<abbr title='Steinklumpen'>E</abbr>";
             } else {
                 return $value;
             }
             break;
         case 'objekttyp':
             if ($value == 'Kolonie') {
-                return "<alt title='Kolonie'><img src='bilder/kolo.png'></a>";
+                return "<img src='bilder/kolo.png' title='Kolonie' alt='K'>";
             } elseif ($value == 'Sammelbasis') {
-                return "<alt title='Sammelbasis'><img src='bilder/ress_basis.png'></a>";
+                return "<img src='bilder/ress_basis.png' title='Sammelbasis' alt='SB'>";
             } elseif ($value == 'Kampfbasis') {
-                return "<alt title='Kampfbasis'><img src='bilder/kampf_basis.png'></a>";
+                return "<img src='bilder/kampf_basis.png' title='Kampfbasis' alt='KB'>";
             } elseif ($value == 'Artefaktbasis') {
-                return "<alt title='Artefaktbasis'><img src='bilder/artefakt_basis.png'></a>";
+                return "<img src='bilder/artefakt_basis.png' title='Artefaktbasis' alt='AB'>";
             }
             break;
         case 'eisen':
-            return "<alt title='" . number_format((float)$value, 0, ",", '.') . " Eisen'>" . makeAmount($value) . "</a>";
+            return "<abbr title='" . number_format((float)$value, 0, ",", '.') . " Eisen'>" . makeAmount($value) . "</abbr>";
         case 'stahl':
-            return "<alt title='" . number_format((float)$value, 0, ",", '.') . " Stahl'>" . makeAmount($value) . "</a>";
+            return "<abbr title='" . number_format((float)$value, 0, ",", '.') . " Stahl'>" . makeAmount($value) . "</abbr>";
         case 'vv4a':
-            return "<alt title='" . number_format((float)$value, 0, ",", '.') . " VV4A'>" . makeAmount($value) . "</a>";
+            return "<abbr title='" . number_format((float)$value, 0, ",", '.') . " VV4A'>" . makeAmount($value) . "</abbr>";
         case 'chemie':
-            return "<alt title='" . number_format((float)$value, 0, ",", '.') . " Chemie'>" . makeAmount($value) . "</a>";
+            return "<abbr title='" . number_format((float)$value, 0, ",", '.') . " Chemie'>" . makeAmount($value) . "</abbr>";
         case 'eis':
-            return "<alt title='" . number_format((float)$value, 0, ",", '.') . " Eis'>" . makeAmount($value) . "</a>";
+            return "<abbr title='" . number_format((float)$value, 0, ",", '.') . " Eis'>" . makeAmount($value) . "</abbr>";
         case 'wasser':
-            return "<alt title='" . number_format((float)$value, 0, ",", '.') . " Wasser'>" . makeAmount($value) . "</a>";
+            return "<abbr title='" . number_format((float)$value, 0, ",", '.') . " Wasser'>" . makeAmount($value) . "</abbr>";
         case 'energie':
-            return "<alt title='" . number_format((float)$value, 0, ",", '.') . " Energie'>" . makeAmount($value) . "</a>";
+            return "<abbr title='" . number_format((float)$value, 0, ",", '.') . " Energie'>" . makeAmount($value) . "</abbr>";
         case 'ress':
             /*$title = "";
             if (!empty($row['eisen']))
@@ -1653,13 +1657,13 @@ function format_value($row, $name, $value)
                 return '';
             }
 
-            return "<alt title='" . $row['schiffe'] . "'>" . number_format((float)$value, 0, ',', '.') . "</a>";
+            return "<abbr title='" . $row['schiffe'] . "'>" . number_format((float)$value, 0, ',', '.') . "</abbr>";
         case 'deff_pla':
             if (is_null($value)) {
                 return '';
             }
 
-            return "<alt title='" . $row['anlagen'] . "'>" . number_format((float)$value, 0, ',', '.') . "</a>";
+            return "<abbr title='" . $row['anlagen'] . "'>" . number_format((float)$value, 0, ',', '.') . "</abbr>";
         case 'tsonden':
         case 'x13sonden':
             if (substr($value, 0, 1) == ">") {
@@ -1686,26 +1690,26 @@ function format_value($row, $name, $value)
                 return '<span class="ranking_red">' . makeduration($value) . '</span>';
             }
         case 'last_scan':
-            $result = "<table width='100%'><tr><td nowrap width='100%'>";
+            $result = "<div class='nowrap'>";
+
             if (!empty($row['geoscantime'])) {
-                $result .= "<alt title='Geoscan vor " . makeduration($row['geoscantime']) . "'><img src='bilder/scann_geo.png'></alt> ";
+                $result .= "<img src='bilder/scann_geo.png' class='middle' title='Geoscan vor " . makeduration($row['geoscantime']) . "'>";
             }
             if (!empty($row['schiffscantime'])) {
-                $result .= "<alt title='Schiffscan vor " . makeduration($row['schiffscantime']) . "'><img src='bilder/scann_schiff.png'></alt> ";
+                $result .= "<img src='bilder/scann_schiff.png' class='middle' title='Schiffscan vor " . makeduration($row['schiffscantime']) . "'>";
             }
             if (!empty($row['gebscantime'])) {
-                $result .= "<alt title='Gebäudescan vor " . makeduration($row['gebscantime']) . "'><img src='bilder/scann_geb.png'></alt> ";
+                $result .= "<img src='bilder/scann_geb.png' class='middle' title='Gebäudescan vor " . makeduration($row['gebscantime']) . "'>";
             }
-            $result .= '</td>';
 
             if(!empty($row['last_scan'])) {
                 if ($row['last_scan'] == $row['fehlscantime']) {
-                    $result .= '<td nowrap><span class="ranking_red">' . makeduration($row['last_scan']) . '</span></td>';
+                    $result .= '<span class="ranking_red middle">' . makeduration($row['last_scan']) . '</span>';
                 } else {
-                    $result .= '<td nowrap><span class="ranking_green">' . makeduration($row['last_scan']) . '</span></td>';
+                    $result .= '<span class="ranking_green middle">' . makeduration($row['last_scan']) . '</span>';
                 }
             }
-            $result .= "</td></tr></table>";
+            $result .= "</div>";
 
             return $result;
         case 'last_raid':

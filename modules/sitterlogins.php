@@ -72,28 +72,28 @@ doc_title('Sitterlogins');
 
 ?>
 <table class="table_format" style="width: 95%;">
-    <tr>
-        <td class="titlebg" style="width:25%;">
+    <tr class="titlebg center">
+        <td style="width:25%;">
             <a href="index.php?action=sitterlogins&order=sitterlogin&ordered=asc&sid=<?php echo $sid;?>"><img
                     src="bilder/asc.gif" alt="asc"></a>
             <b>Username</b>
             <a href="index.php?action=sitterlogins&order=sitterlogin&ordered=desc&sid=<?php echo $sid;?>"><img
                     src="bilder/desc.gif" alt="desc"></a>
         </td>
-        <td class="titlebg" style="width:15%;">
+        <td style="width:15%;">
             <a href="index.php?action=sitterlogins&order=sitterpunkte&ordered=asc&sid=<?php echo $sid;?>"><img
                     src="bilder/asc.gif" alt="asc"></a>
             <b>Aktivität</b>
             <a href="index.php?action=sitterlogins&order=sitterpunkte&ordered=desc&sid=<?php echo $sid;?>"><img
                     src="bilder/desc.gif" alt="asc"></a>
         </td>
-        <td class="titlebg" style="width:30%;">
+        <td style="width:30%;">
             <b>Sitterlogin</b>
         </td>
-        <td class="titlebg" style="width:30%;">
+        <td style="width:30%;">
             <b>Besonderheiten</b>
         </td>
-        <td class="titlebg" style="width:30%;">
+        <td style="width:30%;">
             <a href="index.php?action=sitterlogins&order=lastlogin&ordered=asc&sid=<?php echo $sid;?>"><img
                     src="bilder/asc.gif" alt="asc"></a>
             <b>letzter Login</b>

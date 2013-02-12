@@ -493,13 +493,13 @@ if (!empty($allianz)) {
                         }
                         next_cell("windowbg1 left", "style='width:50%';");
                         if (!empty($planidata['geoscantime'])) {
-                            echo  "<alt title='Geoscan von " . strftime(CONFIG_DATETIMEFORMAT, $planidata['geoscantime']) . "'><img src='bilder/scann_geo.png'>&nbsp;".makeShortDuration($planidata['geoscantime']).'</alt>';
+                            echo  "<abbr title='Geoscan von " . strftime(CONFIG_DATETIMEFORMAT, $planidata['geoscantime']) . "'><img src='bilder/scann_geo.png' class='middle'><span class='middle'>&thinsp;".makeShortDuration($planidata['geoscantime']).'</span></abbr>';
                         }
                         if (!empty($planidata['schiffscantime'])) {
-                            echo "<alt title='Schiffscan von " . strftime(CONFIG_DATETIMEFORMAT, $planidata['schiffscantime']) . "'><img src='bilder/scann_schiff.png'>&nbsp;".makeShortDuration($planidata['schiffscantime']).'</alt>';
+                            echo "<abbr title='Schiffscan von " . strftime(CONFIG_DATETIMEFORMAT, $planidata['schiffscantime']) . "'><img src='bilder/scann_schiff.png' class='middle'><span class='middle'>&thinsp;".makeShortDuration($planidata['schiffscantime']).'</span></abbr>';
                         }
                         if (!empty($planidata['gebscantime'])) {
-                            echo "<alt title='Gebäudescan von " . strftime(CONFIG_DATETIMEFORMAT, $planidata['gebscantime']) . "'><img src='bilder/scann_geb.png'>&nbsp;".makeShortDuration($planidata['schiffscantime']).'</alt>';
+                            echo "<abbr title='Gebäudescan von " . strftime(CONFIG_DATETIMEFORMAT, $planidata['gebscantime']) . "'><img src='bilder/scann_geb.png' class='middle'><span class='middle'>&thinsp;".makeShortDuration($planidata['schiffscantime']).'</span></abbr>';
                         }
 
                         end_row();

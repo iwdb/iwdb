@@ -542,7 +542,7 @@ if ($newpreset == 1) {
         }
 
         ?>
-        <table class="table_format borderless" style="width: 90%;">
+        <table class="table_format borderless" style="width: 95%;">
         <tr class="titlebg center bold">
             <?php
             if ($user_planibilder == "1") {

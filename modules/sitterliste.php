@@ -727,7 +727,7 @@ if (isset($row_lastlogin)) {
                         <td>
                             Zeit frühstens 2:
                         </td>
-                        <td class="left">
+                        <td>
                             <input type="text" name="date_b2" id="date_b2_<?php echo $row['id'];?>"
                                    value="<?php echo strftime(CONFIG_DATETIMEFORMAT, $row['date_b2']);?>"
                                    style="width: 150px;">
@@ -742,7 +742,7 @@ if (isset($row_lastlogin)) {
                         <td>
                             Zeit frühstens 1:
                         </td>
-                        <td class="left">
+                        <td>
                             <input type="text" name="date_b1" id="date_b1_<?php echo $row['id'];?>"
                                    value="<?php echo strftime(CONFIG_DATETIMEFORMAT, $row['date_b1']);?>"
                                    style="width: 150px;">

@@ -954,7 +954,7 @@ echo '</form>';
 function makeschifftable($row, $nocolor = false)
 {
     global $config;
-    $html = '<table width="100%">';
+    $html = '<table class="table_format_noborder" width="100%">';
     foreach ($row as $typ => $menge) {
         $html .= '<tr>';
         $html .= "<td nowrap width='30%'>";

@@ -519,7 +519,7 @@ include("dauerauftraege.php");
     </td>
 </tr>
 <?php
-// Auftraege durchgehen //
+// Aufträge durchgehen //
 $sql = "SELECT AVG(sitterpunkte) FROM " . $db_tb_user . " WHERE sitterpunkte <> 0";
 $result_avg = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -692,32 +692,31 @@ if (isset($row_lastlogin)) {
     </td>
 </tr>
 <tr id="row_<?php echo $row['id'];?>" style="display: none;">
-    <td colspan="6" class="windowbg1 center top" style="width: 100%;">
+    <td colspan="6" class="windowbg1 center" style="width: 100%;">
         <form method="POST" action="index.php?action=sitterliste&sid=<?php echo $sid;?>" enctype="multipart/form-data">
-           <center> 
-			<table class="table_format borderless">
+			<table class="table_format_noborder left" style="margin: 0 auto;">
                 <tr>
-                    <td colspan="2" class="windowbg1 center borderless">
+                    <td colspan="2" class="center">
                         <b>Kommentar hinzufügen</b>
                     </td>
                 </tr>
                 <tr>
-                    <td class="windowbg1 borderless">
+                    <td>
                         Kommentar:<br>
                         <i>Hier kannst du einen Kommentar<br>zu dem Auftrag hinzufügen.</i>
                     </td>
-                    <td class="windowbg1 borderless">
+                    <td>
                         <textarea name='comment' id='comment' rows='4' cols='25' style='width: 200px;'></textarea>
                         <?php echo bbcode_buttons('comment'); ?>
                     </td>
                 </tr>
                 <tr>
-                    <td class="windowbg1 borderless" colspan="2">
-                        <hr class="hr" size="1">
+                    <td colspan="2">
+                        <hr class="hr">
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2" class="windowbg1 center borderless">
+                    <td colspan="2" class="center">
                         <b>Zeit aktualisieren</b>
                     </td>
                 </tr>
@@ -725,13 +724,13 @@ if (isset($row_lastlogin)) {
                 if ($bauschleifenlaenge >= 3) {
                     ?>
                     <tr>
-                        <td class="windowbg1 borderless">
+                        <td>
                             Zeit frühstens 2:
                         </td>
-                        <td class="windowbg1 borderless">
+                        <td class="left">
                             <input type="text" name="date_b2" id="date_b2_<?php echo $row['id'];?>"
                                    value="<?php echo strftime(CONFIG_DATETIMEFORMAT, $row['date_b2']);?>"
-                                   style="width: 200;">
+                                   style="width: 150px;">
                         </td>
                     </tr>
                 <?php
@@ -740,13 +739,13 @@ if (isset($row_lastlogin)) {
                 if ($bauschleifenlaenge >= 2) {
                     ?>
                     <tr>
-                        <td class="windowbg1 borderless">
+                        <td>
                             Zeit frühstens 1:
                         </td>
-                        <td class="windowbg1 borderless">
+                        <td class="left">
                             <input type="text" name="date_b1" id="date_b1_<?php echo $row['id'];?>"
                                    value="<?php echo strftime(CONFIG_DATETIMEFORMAT, $row['date_b1']);?>"
-                                   style="width: 120;">
+                                   style="width: 150px;">
                             <input type="button" name="kopieren" value="kopieren"
                                    onclick="kopiere_zeit('<?php echo $row['id'];?>');">
                         </td>
@@ -755,23 +754,22 @@ if (isset($row_lastlogin)) {
                 }
                 ?>
                 <tr>
-                    <td class="windowbg1 borderless">
+                    <td>
                         Zeit spätestens:<br>
                         <i>Zeit, zu der alle Bauschleifenaufträge auslaufen.</i>
                     </td>
-                    <td class="windowbg1 borderless">
+                    <td>
                         <input type="text" name="date" id="date_<?php echo $row['id'];?>"
                                value="<?php echo strftime(CONFIG_DATETIMEFORMAT, $row['date']);?>"
-                               style="width: 200;">
+                               style="width: 150px;">
                     </td>
                 </tr>
-
                 <tr>
-                    <td class="windowbg1 borderless">
+                    <td>
                         Zeiten + Variable:<br>
                         <i>Eingestellte Zeiten um ... verschieben</i>
                     </td>
-                    <td class="windowbg1 borderless">
+                    <td>
                         <select name="plus_stunden">
                             <?php
                             $time_stunden = 0;
@@ -792,32 +790,32 @@ if (isset($row_lastlogin)) {
                 </tr>
 
                 <tr>
-                    <td class="windowbg1 borderless">
+                    <td>
                         oder automatische Erkennung:<br>
                         <i>Aktuelle Bauliste aus Icewars kopieren.</i>
                     </td>
-                    <td class="windowbg1 borderless">
-                        <textarea name="date_parse" rows="4" cols="25" style="width: 200;"></textarea>
+                    <td>
+                        <textarea name="date_parse" rows="4" cols="25" style="width: 200px;"></textarea>
                     </td>
                 </tr>
                 <?php
                 if ($user_status == "admin") {
                     ?>
                     <tr>
-                        <td class="windowbg1 borderless" colspan="2">
-                            <hr class="hr" size="1">
+                        <td colspan="2">
+                            <hr class="hr">
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2" class="windowbg1 center borderless">
+                        <td colspan="2" class="center">
                             <b>Auftrag löschen</b>
                         </td>
                     </tr>
                     <tr>
-                        <td class="windowbg1 borderless">
+                        <td>
                             Löschen bestätigen:
                         </td>
-                        <td class="windowbg1 borderless">
+                        <td>
                             <input type="checkbox" name="del" value="1">
                         </td>
                     </tr>
@@ -825,15 +823,13 @@ if (isset($row_lastlogin)) {
                 }
                 ?>
                 <tr>
-                    <td colspan="2" class="windowbg1 center borderless">
-                        <input type="hidden" name="auftragid" value="<?php echo $row['id'];?>"><input type="hidden"
-                                                                                                      name="edit"
-                                                                                                      value="1"><input
-                            type="submit" value="speichern" name="B1">
+                    <td colspan="2" class="center">
+                        <input type="hidden" name="auftragid" value="<?php echo $row['id'];?>">
+                        <input type="hidden" name="edit" value="1">
+                        <input type="submit" value="speichern" name="B1">
                     </td>
                 </tr>
 			</table>
-			</center>
 		</form>
     </td>
     </tr>

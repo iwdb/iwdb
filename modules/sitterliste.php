@@ -694,7 +694,8 @@ if (isset($row_lastlogin)) {
 <tr id="row_<?php echo $row['id'];?>" style="display: none;">
     <td colspan="6" class="windowbg1 center top" style="width: 100%;">
         <form method="POST" action="index.php?action=sitterliste&sid=<?php echo $sid;?>" enctype="multipart/form-data">
-            <table class="table_format borderless">
+           <center> 
+			<table class="table_format borderless">
                 <tr>
                     <td colspan="2" class="windowbg1 center borderless">
                         <b>Kommentar hinzufügen</b>
@@ -831,8 +832,9 @@ if (isset($row_lastlogin)) {
                             type="submit" value="speichern" name="B1">
                     </td>
                 </tr>
-        </form>
-</table>
+			</table>
+			</center>
+		</form>
     </td>
     </tr>
 <?php

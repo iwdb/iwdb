@@ -246,16 +246,17 @@ echo "</div>";
             if ($user_status == "admin") {
                 ?>
                 |
-                <a href="index.php?action=admin&sid=<?php echo $sid;?>"><img src="bilder/icon_mini_members.gif" width="12" height="13" alt="admin" class="top">admin</a>
+                <a href="index.php?action=admin&sid=<?php echo $sid;?>"><img src="bilder/icon_mini_members.gif" width="12" height="13" alt="admin" class="top">
+                    admin</a>
             <?php
             }
             ?>
         </td>
     </tr>
 </table>
-<table class="center" style="width:100%;">
+<table align="center" style="width:100%;">
     <tr>
-        <td style='width:12%' class='doc_menu top'>
+        <td width="12%" valign="top" class='doc_menu'>
             <?php
 
             // Menu auslesen
@@ -359,7 +360,7 @@ echo "</div>";
 
             ?>
         </td>
-        <td style="width:2%">&nbsp;</td>
+        <td width="2%">&nbsp;</td>
         <td width="86%" valign="top" align="center">
             <table class="doc_main" align="center">
                 <tr>

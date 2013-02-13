@@ -209,70 +209,101 @@ $result = $db->db_query($sql)
 $data = array();
 
 //Tabelle für die Sondierungen	
-start_table();
-start_row("titlebg center", "colspan='6'");
-echo "<b>Sondierungen</b>";
-next_row("titlebg center");
-echo "<b>Wer wird sondiert?</b>";
-next_cell("titlebg center");
-echo "<b>Zielplanet</b>";
-next_cell("titlebg center");
-echo "<b>Wer sondiert?</b>";
-next_cell("titlebg center");
-echo "<b>Von wo wird sondiert?</b>";
-next_cell("titlebg center");
-echo "<b>Zeitpunkt</b>";
-next_cell("titlebg center");
-echo "<b>Art der Sondierung</b>";
+?>
+<table class='table_hovertable' style='width:95%'>
+	<caption>Sondierungen</caption>
+	<thead>
+		<tr>
+			<th>
+				Opfer
+			</th>
+			<th>
+				Zielplanet
+			</th>
+			<th>
+				Pösewicht
+			</th>
+			<th>
+				Ausgangsplanet
+			</th>
+			<th>
+				Zeitpunkt
+			</th>
+			<th>
+				Art der Sondierung
+			</th>
+		</tr>
+	</thead>
+	
+	<?php
+	while ($row = $db->db_fetch_array($result)) {
+	?>
+	<tbody>
+		<tr>
+			<td>
+				<?php 
+				$sitterlogin=CreateSitterlogin($row['name_to']);
+				echo "<a href='$sitterlogin' target='_blank'><img src='bilder/user-login.gif' alt='L' title='Einloggen'></a>";
+				echo "&emsp;" . $row['name_to'];
+				?>
+			</td>
+			<td>
+				<?php 
+				$objekt = GetObjectByCoords($row['koords_to']);
+				if ($objekt == 'Kolonie') {
+					echo "<img src='bilder/kolo.png'>";
+				} else if ($objekt == 'Sammelbasis') {
+					echo "<img src='bilder/ress_basis.png'>";
+				} else if ($objekt == 'Artefaktbasis') {
+					echo "<img src='bilder/artefakt_basis.png'>";
+				} else if ($objekt == 'Kampfbasis') {
+					echo "<img src='bilder/kampf_basis.png'>";
+				}
+				echo $row['koords_to'];
+				?>
+			</td>
+			<td>
+				<?php 
+				if (!empty($row['allianz_from'])) {
+					echo ($row['name_from'] . " [" . $row['allianz_from'] . "]");
+				} else {
+					echo $row['name_from'];
+				}
+				?>
+			</td>
+			<td>
+				<?php 
+				$objekt = GetObjectByCoords($row['koords_from']);
+				if ($objekt == 'Kolonie') {
+					echo "<img src='bilder/kolo.png'>";
+				} else if ($objekt == 'Sammelbasis') {
+					echo "<img src='bilder/ress_basis.png'>";
+				} else if ($objekt == 'Artefaktbasis') {
+					echo "<img src='bilder/artefakt_basis.png'>";
+				} else if ($objekt == 'Kampfbasis') {
+					echo "<img src='bilder/kampf_basis.png'>";
+				}
+				echo $row['koords_from'];
+				?>
+			</td>
+			<td>
+				<?php 
+				echo strftime(CONFIG_DATETIMEFORMAT, $row['timestamp']);
+				?>
+			</td>
+			<td>
+				<?php 
+				echo $row['art'];
+				?>
+			</td>
+		</tr>
+	</tbody>
+	<?php
+	}
+	?>
+</table>
 
-while ($row = $db->db_fetch_array($result)) {
-
-    next_row("windowbg1 left");
-    echo $row['name_to'];
-
-    next_cell("windowbg1 left");
-    $objekt = GetObjectByCoords($row['koords_to']);
-    if ($objekt == 'Kolonie') {
-        echo "<img src='bilder/kolo.png'>";
-    } else if ($objekt == 'Sammelbasis') {
-        echo "<img src='bilder/ress_basis.png'>";
-    } else if ($objekt == 'Artefaktbasis') {
-        echo "<img src='bilder/artefakt_basis.png'>";
-    } else if ($objekt == 'Kampfbasis') {
-        echo "<img src='bilder/kampf_basis.png'>";
-    }
-    echo $row['koords_to'];
-
-    next_cell("windowbg1 center");
-    if (!empty($row['allianz_from'])) {
-        echo ($row['name_from'] . " [" . $row['allianz_from'] . "]");
-    } else {
-        echo $row['name_from'];
-    }
-
-    next_cell("windowbg1 center");
-    $objekt = GetObjectByCoords($row['koords_from']);
-    if ($objekt == 'Kolonie') {
-        echo "<img src='bilder/kolo.png'>";
-    } else if ($objekt == 'Sammelbasis') {
-        echo "<img src='bilder/ress_basis.png'>";
-    } else if ($objekt == 'Artefaktbasis') {
-        echo "<img src='bilder/artefakt_basis.png'>";
-    } else if ($objekt == 'Kampfbasis') {
-        echo "<img src='bilder/kampf_basis.png'>";
-    }
-    echo $row['koords_from'];
-
-    next_cell("windowbg1 center");
-    echo strftime(CONFIG_DATETIMEFORMAT, $row['timestamp']);
-
-    next_cell("windowbg1 center");
-    echo $row['art'];
-
-}
-end_row();
-end_table();
-
+<?php 
 echo " 	 <br />\n";
 echo " 	 <br />\n";
 
@@ -283,69 +314,93 @@ $result = $db->db_query($sql)
 $data = array();
 
 //Tabelle für die Angriffe	
-start_table();
-start_row("titlebg center", "colspan='5'");
-echo "<b>Angriffe</b>";
-next_row("titlebg center");
-echo "<b>Wer wird angegriffen?</b>";
-next_cell("titlebg center");
-echo "<b>Zielplanet</b>";
-next_cell("titlebg center");
-echo "<b>Wer greift an?</b>";
-next_cell("titlebg center");
-echo "<b>Von wo wird angegriffen?</b>";
-next_cell("titlebg center");
-echo "<b>Zeitpunkt</b>";
-
-while ($row = $db->db_fetch_array($result)) {
-
-    next_row("windowbg1 center");
-    echo $row['name_to'];
-
-    next_cell("windowbg1 center");
-    $objekt = GetObjectByCoords($row['koords_to']);
-    if ($objekt == 'Kolonie') {
-        echo "<img src='bilder/kolo.png'>";
-    } else if ($objekt == 'Sammelbasis') {
-        echo "<img src='bilder/ress_basis.png'>";
-    } else if ($objekt == 'Artefaktbasis') {
-        echo "<img src='bilder/artefakt_basis.png'>";
-    } else if ($objekt == 'Kampfbasis') {
-        echo "<img src='bilder/kampf_basis.png'>";
-    }
-    echo $row['koords_to'];
-
-    next_cell("windowbg1 center");
-    if (!empty($row['allianz_from'])) {
-        echo ($row['name_from'] . " [" . $row['allianz_from'] . "]");
-    } else {
-        echo $row['name_from'];
-    }
-
-    next_cell("windowbg1 center");
-    $objekt = GetObjectByCoords($row['koords_from']);
-    if ($objekt == 'Kolonie') {
-        echo "<img src='bilder/kolo.png'>";
-    } else if ($objekt == 'Sammelbasis') {
-        echo "<img src='bilder/ress_basis.png'>";
-    } else if ($objekt == 'Artefaktbasis') {
-        echo "<img src='bilder/artefakt_basis.png'>";
-    } else if ($objekt == 'Kampfbasis') {
-        echo "<img src='bilder/kampf_basis.png'>";
-    }
-    echo $row['koords_from'];
-
-    next_cell("windowbg1 center");
-    echo strftime(CONFIG_DATETIMEFORMAT, $row['timestamp']);
-}
-end_row();
-end_table();
-
-echo " 	 <br />\n";
-echo " 	 <br />\n";
-
-//Legende, weil es immer noch IW-Spieler gibt, die nichts mit den Symbolen anfangen können 
 ?>
+<table class='table_hovertable' style='width:95%'>
+	<caption>Angriffe</caption>
+	<thead>
+		<tr>
+			<th>
+				Opfer
+			</th>
+			<th>
+				Zielplanet
+			</th>
+			<th>
+				Pösewicht
+			</th>
+			<th>
+				Ausgangsplanet
+			</th>
+			<th>
+				Zeitpunkt
+			</th>
+		</tr>
+	</thead>
+	
+	<?php
+	while ($row = $db->db_fetch_array($result)) {
+	?>
+	<tbody>
+		<tr>
+			<td>
+				<?php 
+				$sitterlogin=CreateSitterlogin($row['name_to']);
+				echo "<a href='$sitterlogin' target='_blank'><img src='bilder/user-login.gif' alt='L' title='Einloggen'></a>";
+				echo "&emsp;" . $row['name_to'];
+				?>
+			</td>
+			<td>
+				<?php 
+				$objekt = GetObjectByCoords($row['koords_to']);
+				if ($objekt == 'Kolonie') {
+					echo "<img src='bilder/kolo.png'>";
+				} else if ($objekt == 'Sammelbasis') {
+					echo "<img src='bilder/ress_basis.png'>";
+				} else if ($objekt == 'Artefaktbasis') {
+					echo "<img src='bilder/artefakt_basis.png'>";
+				} else if ($objekt == 'Kampfbasis') {
+					echo "<img src='bilder/kampf_basis.png'>";
+				}
+				echo $row['koords_to'];
+				?>
+			</td>
+			<td>
+				<?php 
+				if (!empty($row['allianz_from'])) {
+					echo ($row['name_from'] . " [" . $row['allianz_from'] . "]");
+				} else {
+					echo $row['name_from'];
+				}
+				?>
+			</td>
+			<td>
+				<?php 
+				$objekt = GetObjectByCoords($row['koords_from']);
+				if ($objekt == 'Kolonie') {
+					echo "<img src='bilder/kolo.png'>";
+				} else if ($objekt == 'Sammelbasis') {
+					echo "<img src='bilder/ress_basis.png'>";
+				} else if ($objekt == 'Artefaktbasis') {
+					echo "<img src='bilder/artefakt_basis.png'>";
+				} else if ($objekt == 'Kampfbasis') {
+					echo "<img src='bilder/kampf_basis.png'>";
+				}
+				echo $row['koords_from'];
+				?>
+			</td>
+			<td>
+				<?php 
+				echo strftime(CONFIG_DATETIMEFORMAT, $row['timestamp']);
+				?>
+			</td>
+		</tr>
+	</tbody>
+	<?php
+	}
+	?>
+</table>
+
+
 <table class='borderless'>
 	<tr>
 		<td>
@@ -370,3 +425,30 @@ echo " 	 <br />\n";
 		</td>
 	</tr>
 </table>
+
+<script type="text/javascript" src="javascript/incomings.js"></script>
+
+<?php 
+/**
+ * Sitterlogin generieren
+ *
+ */
+function CreateSitterlogin($user) {
+	
+	global $db, $db_tb_user;
+	
+	$sql = "SELECT `sitterpwd` FROM `{$db_tb_user}` WHERE `id` = '$user';";
+
+    $result = $db->db_query($sql)
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $row = $db->db_fetch_array($result);
+      
+    $url = 'http://icewars.de/index.php?action=login&name=' . urlencode($user);
+    $url .= '&pswd=' . $row['sitterpwd'];
+    $url .= '&serverskin=1';
+    $url .= '&serverskin_typ=3';
+    $url .= '&sitter=1&ismd5=1&submit=1';
+    
+    return $url;
+   	}
+ ?>

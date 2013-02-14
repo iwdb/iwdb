@@ -73,7 +73,7 @@ doc_title('Sitterlogins');
 ?>
 <table class="table_format" style="width: 95%;">
     <tr class="titlebg center">
-        <td>
+        <td style='width: 30%;'>
             <a href="index.php?action=sitterlogins&order=sitterlogin&ordered=asc&sid=<?php echo $sid;?>"><img
                     src="bilder/asc.gif" alt="asc"></a>
             <b>Username</b>

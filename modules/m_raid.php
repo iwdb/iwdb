@@ -465,14 +465,13 @@ $editview = array(
         'desc'  => 'Wieviele Stunden soll das Ziel reserviert werden?',
         'type'  => 'text',
         'value' => $edit['reserveraidhours'],
-        'style' => 'width: 70px;',
+        'style' => 'width: 5em;',
     ),
     'reserveraiduntil' => array(
         'title' => 'Reserviert bis',
         'desc'  => 'Wie lange ist das Ziel reserviert?',
         'type'  => 'label',
         'value' => $edit['reserveraiduntil'],
-        'style' => 'width: 110;',
     ),
 );
 
@@ -1502,7 +1501,7 @@ if (empty($params['view'])) {
         echo '<input type="hidden" name="edit" value="' . $params['edit'] . '">' . "\n";
         echo "</b>";
         foreach ($view['edit'] as $key => $field) {
-            next_row("windowbg2 top");
+            next_row("windowbg2 top", "style='width:15%;'");
             echo $field['title'];
             if (isset($field['desc'])) {
                 echo '<br><i>' . $field['desc'] . '</i>';

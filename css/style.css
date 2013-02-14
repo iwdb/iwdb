@@ -336,6 +336,11 @@ td {
     border: 0;
 }
 
+#doc_mainmenu img,
+#doc_mainmenu span {
+    vertical-align: middle;
+}
+
 /* !N .doc_menu */
 /* !T Menu links neu */
 /* !I */
@@ -627,8 +632,17 @@ img,
     width: 100%;
 }
 
+.scan_row:hover {
+    background-color: gold !important;
+}
+
+.scan_object {
+    border: 0 !important;
+}
+
 .scan_value {
     text-align: right;
+    border: 0;
 }
 
 .bordercolor {

@@ -326,6 +326,13 @@ function make_table($view, $data)
 function makeField($field, $key)
 {
     switch ($field['type']) {
+        case 'label':
+            $html = '<span';
+            if (isset($field['style'])) {
+                $html .= ' style="' . $field['style'] . '"';
+            }
+            $html .= '>' . $field['value'] . '</span>';
+            break;
         case 'text':
             $html = '<input type="text" name="' . $key . '"';
             if (isset($field['value'])) {
@@ -399,7 +406,7 @@ function makeField($field, $key)
             $html .= '>';
             break;
         default:
-            $html = 'unbekanter typ ' . $field;
+            $html = 'unbekanter typ ' . $field['type'];
     }
 
     return $html;

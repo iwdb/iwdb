@@ -78,14 +78,14 @@ $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
 while ($row = $db->db_fetch_array($result)) {
-    start_table();
+    start_table(95);
     start_row("titlebg center", "", 4);
     echo "<b>" . (empty($row['typ']) ? "Sonstige" : $row['typ']) . "</b>";
-    next_row("windowbg2", "style='width:20%;'");
+    next_row("windowbg2", "style='width:40%;'");
     echo "Schiff";
-    next_cell("windowbg2", "style='width:20%;'");
+    next_cell("windowbg2", "style='width:30%;'");
     echo "Abkürzung";
-    next_cell("windowbg2", "style='width:60%;'");
+    next_cell("windowbg2", "style='width:30%;'");
     echo "Typ";
     next_cell("windowbg2");
     echo "bestellbar";
@@ -101,11 +101,11 @@ while ($row = $db->db_fetch_array($result)) {
         next_cell("windowbg1");
         echo "<input type='text' name='" .
             $row_schiffe['id'] . "_abk' value='" . html_entity_decode($row_schiffe['abk'], ENT_QUOTES, 'UTF-8') .
-            "' style='width: 10em'>";
+            "' style='width: 99%;'>";
         next_cell("windowbg1");
         echo "<input type='text' name='" .
             $row_schiffe['id'] . "_typ' value='" . html_entity_decode($row_schiffe['typ'], ENT_QUOTES, 'UTF-8') .
-            "' style='width: 15em'>";
+            "' style='width: 99%;'>";
         next_cell("windowbg1");
         echo "<input type='checkbox' name='" .
             $row_schiffe['id'] . "_bestellbar' value='1'";

@@ -219,6 +219,7 @@ function makeArray($Bericht)
         {
             $temp = str_replace("<", "", $Bericht[$line]);
             $temp = str_replace("'", "", $temp);
+            $temp = str_replace("\"", "", $temp);
             $temp = str_replace("/>", "", $temp);
             $temp = explode("value=", $temp);
             $name = trim($temp[0]); // Name des Elementes
@@ -1406,5 +1407,3 @@ function file_get_contents_utf8($fn)
         mb_detect_encoding($content, 'UTF-8, ISO-8859-1', true)
     );
 }
-
-?>

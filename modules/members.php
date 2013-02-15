@@ -114,7 +114,7 @@ if (!empty($graph)) {
         <a href="index.php?action=members&order=allianz&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif" alt="desc"></a><br>
         <b>Alli</b><br>
         <a href="index.php?action=members&order=allianz&ordered=asc&sid=<?php echo $sid;?>"><img src="bilder/asc.gif" alt="asc"></a>
-    </td>
+    </th>
     <th style="width:8%;">
         <a href="index.php?action=members&order=rang&ordered=desc&sid=<?php echo $sid;?>"><img src="bilder/desc.gif" alt="desc"></a><br>
         <b>Rang</b><br>

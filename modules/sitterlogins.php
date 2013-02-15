@@ -203,11 +203,11 @@ doc_title('Sitterlogins');
                             "'Jemand ist gerade im Account eingeloggt. Trotzdem einloggen?'" .
                             ")'>[trotzdem einloggen]</a>" .
                             "<td class='windowbg" . $num . " top'>" .
-                            (($users_sitterpeitschen[$key] == "1") ? " <i>Meister d. Peitschen<br/></i>" : "") .
                             ((!empty($users_sitterstaatsform[$key])) ? " <i>Staatsform: " . NumToStaatsform($users_sitterstaatsform[$key]) . "</i><br/>" : "") .
-                            (($users_sitterikea[$key] == "M") ? " <i>Meister d. Ikea</i><br/>" : "") .
-                            (($users_sitterikea[$key] == "L") ? " <i>Lehrling d. Ikea</i><br/>" : "") .
-                            (($users_sitteriwsa[$key] == "1") ? " <i>IWSA/IWBP-Account<br/></i>" : "") .
+							(($users_sitterpeitschen[$key] == "1") ? " <i><font color=red>Meister der Peitschen</font></i><br/>" : "") .
+                            (($users_sitterikea[$key] == "M") ? " <i><font color=blue>Meister des Ikea</font></i><br/>" : "") .
+                            (($users_sitterikea[$key] == "L") ? " <i><font color=blue>Lehrling des Ikea</font></i><br/>" : "") .
+                            (($users_sitteriwsa[$key] == "1") ? " <i><font color=green>IWSA/IWBP-Account</font><br/></i>" : "") .
                             "</td>";
                     } elseif ((($user_status == "admin") OR ($user_status == "SV")) && (empty($users_sitten[$key]))) {
                         echo "<a href='index.php?action=sitterlogins&sitterlogin=" . urlencode($data) .
@@ -221,11 +221,11 @@ doc_title('Sitterlogins');
                             urlencode($data) . "&sid=" . $sid . "'><img src='bilder/file_history.gif' " .
                             "alt='Sitterhistorie anschauen' title='Sitterhistorie anschauen'></a>" .
                             "<td class='windowbg" . $num . " top'>" .
-                            (($users_sitterpeitschen[$key] == "1") ? " <i>Meister d. Peitschen<br/></i>" : "") .
                             ((!empty($users_sitterstaatsform[$key])) ? " <i>Staatsform: " . NumToStaatsform($users_sitterstaatsform[$key]) . "</i><br/>" : "") .
-                            (($users_sitterikea[$key] == "M") ? " <i>Meister d. Ikea</i><br/>" : "") .
-                            (($users_sitterikea[$key] == "L") ? " <i>Lehrling d. Ikea</i><br/>" : "") .
-                            (($users_sitteriwsa[$key] == "1") ? " <i>IWSA/IWBP-Account<br/></i>" : "") .
+							(($users_sitterpeitschen[$key] == "1") ? " <i><font color=red>Meister der Peitschen</font></i><br/>" : "") .
+                            (($users_sitterikea[$key] == "M") ? " <i><font color=blue>Meister des Ikea</font></i><br/>" : "") .
+                            (($users_sitterikea[$key] == "L") ? " <i><font color=blue>Lehrling des Ikea</font></i><br/>" : "") .
+                            (($users_sitteriwsa[$key] == "1") ? " <i><font color=green>IWSA/IWBP-Account</font><br/></i>" : "") .
                             "</td>";
                     } else {
                         echo "<a href='index.php?action=sitterlogins&sitterlogin=" . urlencode($data) .
@@ -237,11 +237,11 @@ doc_title('Sitterlogins');
                             urlencode($data) . "&sid=" . $sid . "'><img src='bilder/file_history.gif' " .
                             "alt='Sitterhistorie anschauen' title='Sitterhistorie anschauen'></a>" .
                             "<td class='windowbg" . $num . " top'>" .
-                            (($users_sitterpeitschen[$key] == "1") ? " <i>Meister d. Peitschen<br/></i>" : "") .
                             ((!empty($users_sitterstaatsform[$key])) ? " <i>Staatsform: " . NumToStaatsform($users_sitterstaatsform[$key]) . "</i><br/>" : "") .
-                            (($users_sitterikea[$key] == "M") ? " <i>Meister des Ikea</i><br/>" : "") .
-                            (($users_sitterikea[$key] == "L") ? " <i>Lehrling des Ikea</i><br/>" : "") .
-                            (($users_sitteriwsa[$key] == "1") ? " <i>IWSA/IWBP-Account<br/></i>" : "") .
+							(($users_sitterpeitschen[$key] == "1") ? " <i><font color=red>Meister der Peitschen</font></i><br/>" : "") .
+                            (($users_sitterikea[$key] == "M") ? " <i><font color=blue>Meister des Ikea</font></i><br/>" : "") .
+                            (($users_sitterikea[$key] == "L") ? " <i><font color=blue>Lehrling des Ikea</font></i><br/>" : "") .
+                            (($users_sitteriwsa[$key] == "1") ? " <i><font color=green>IWSA/IWBP-Account</font><br/></i>" : "") .
                             "</td>";
                     }
                     ?>

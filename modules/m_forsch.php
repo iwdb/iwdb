@@ -152,62 +152,147 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 //
 // -> Und hier beginnt das eigentliche Modul
 
+doc_title('aktuell laufende Forschungen');
+
 $sql = "SELECT * FROM " . $db_tb_user_research . " ORDER BY date ASC";
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
 $data = array();
 
-start_table();
-start_row("titlebg center", "nowrap");
-echo "<b>User</b>";
-next_cell("titlebg center", "nowrap");
-echo "<b>laufende Forschung</b>";
-next_cell("titlebg center", "nowrap");
-echo "<b>Forschung endet</b>";
-next_cell("titlebg center", "nowrap");
-echo "<b>Einlesezeitpunkt</b>";
-
-while ($row = $db->db_fetch_array($result)) {
-
-    $sql = "SELECT name FROM " . $db_tb_research . " WHERE id ='" . $row['rId'] . "'";
-    $result_forsch = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-    $row1 = $db->db_fetch_array($result_forsch);
-
-    if ($row['date'] != '0') {
-        if (($row['date'] > $row['time']) && ($row['date'] > CURRENT_UNIX_TIME)) {
-            $color = "#00FF00";
-        } else {
-            $color = "#FFA500";
-        }
-        $row['date'] = strftime(CONFIG_DATETIMEFORMAT, $row['date']);
-    } else {
-        $row['date'] = '';
-        $color       = "#FF0000";
-    }
-
-    next_row("windowbg1 left", "style='background-color:" . $color . "'");
-    echo $row['user'];
-    next_cell("windowbg1 left");
-    echo $row1['name'];
-    next_cell("windowbg1 left");
-    echo $row['date'];
-    next_cell("windowbg1 left");
-    echo strftime(CONFIG_DATETIMEFORMAT, $row['time']);
-}
-end_row();
-end_table();
-// Legende ausgeben
 ?>
-<br>
-<table class="table_format">
-    <tr style="white-space:nowrap">
-        <td style="width: 3em; background-color: #00FF00;"></td>
-        <td class="windowbg1">Status aktuell</td>
-        <td style="width: 3em; background-color: #FF0000;"></td>
-        <td class="windowbg1">es wird nicht geforscht</td>
-        <td style="width: 3em; background-color: #FFA500;"></td>
-        <td class="windowbg1">Startseite muss neu eingelesen werden</td>
-    </tr>
+<table class='table_hovertable'>
+	<tr>
+		<th>
+			User
+		</th>
+		<th>
+			laufende Forschung
+		</th>
+		<th>
+			Forschung endet
+		</th>
+		<th>
+			Einlesezeitpunkt
+		</th>
+	</tr>
+	<?php
+	while ($row = $db->db_fetch_array($result)) {
+		$sql = "SELECT name FROM " . $db_tb_research . " WHERE id ='" . $row['rId'] . "'";
+		$result_forsch = $db->db_query($sql)
+			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+		$row1 = $db->db_fetch_array($result_forsch);
+
+		if (!empty($row['date'])) {
+			if (($row['date'] > $row['time']) && ($row['date'] > CURRENT_UNIX_TIME)) {
+				$color = "#00FF00";
+			} else {
+				$color = "#FFA500";
+			}
+			$row['date'] = strftime(CONFIG_DATETIMEFORMAT, $row['date']);
+		} else {
+			$row['date'] = '';
+			$color       = "#FF0000";
+		}
+	
+	?>
+	<tr>
+		<td style="background-color: <?php echo $color ?>">
+			<?php
+			echo $row['user'];
+			?>
+		</td>
+		<td>
+			<?php
+			echo $row1['name'];
+			?>
+		</td>
+		<td>
+			<?php
+			echo $row['date'];
+			?>
+		</td>
+		<td>
+			<?php
+			echo strftime(CONFIG_DATETIMEFORMAT, $row['time']);
+			?>
+		</td>
+	</tr>
+	<?php
+	}
+	?>
 </table>
+<br>
+<br>
+<table class='table_format_noborder'>
+	<tr>
+		<td style="width: 3em; background-color: #00FF00;"></td>
+		<td>
+			= Status aktuell
+		</td>
+		<td style="width: 3em; background-color: #FF0000;"></td>
+		<td>
+			= es wird nicht geforscht
+		</td>
+		<td style="width: 3em; background-color: #FFA500;"></td>
+		<td>
+			= Startseite muss neu eingelesen werden
+		</td>
+	</tr>
+</table>
+<br>
+<br>
+<?php
+doc_title('erforschte Forschungen eines Spielers anschauen');
+?>
+<form method="POST" action="" enctype="multipart/form-data"> 
+<select name="spieler">
+<option value ="">Spieler auswählen ...</option>
+<?php
+$sql = "SELECT id FROM " . $db_tb_user;
+$result = $db->db_query($sql)
+    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+while($row = mysql_fetch_object($result)) { 
+echo "<option>"; 
+echo $row->id; 
+echo "</option>";  
+} 
+?> 
+</select><br><br> 
+<input type="submit" name="formSubmit" value="und los" >
+</form>
+<br><br>
+<?php
+if(isset($_POST['formSubmit']) ) {
+	
+	echo "Bisher erforschte Forschungen von " . $_POST['spieler'] . " anschauen";
+	
+	$sql = "SELECT * FROM " . $db_tb_research2user . " WHERE userid = '" . $_POST['spieler'] . "'";
+	$result = $db->db_query($sql)
+		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+		
+	?>
+	<table class='table_hovertable' style='width:90%'>
+	<?php
+	
+	while ($row = $db->db_fetch_array($result)) {
+		$sql = "SELECT name FROM " . $db_tb_research . " WHERE id ='" . $row['rid'] . "'";
+		$result_forsch = $db->db_query($sql)
+			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+		$row1 = $db->db_fetch_array($result_forsch);
+
+?>
+	<tr>
+		<td>
+			<?php
+			echo $row1['name'];
+			?>
+		</td>
+	</tr>
+	<?php
+	}
+	?>
+	<table>
+<?php		
+}
+?>

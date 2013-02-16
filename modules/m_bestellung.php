@@ -833,10 +833,12 @@ foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
         "<img src='./bilder/desc.gif'>"
     );
 }
+/*
 if (isset($view['edit'])) {
     next_cell("titlebg top");
     echo '&nbsp;';
 }
+*/
 next_cell("titlebg");
 $index = 0;
 foreach ($data as $row) {
@@ -871,13 +873,15 @@ foreach ($data as $row) {
             );
         }
     }
-    // Markierbuttons ausgeben
+    /*
+	// Markierbuttons ausgeben
     next_cell("windowbg1 top");
     echo "<input type='checkbox' name='mark_" . $index++ . "' value='" . $key . "'";
     if (getVar("mark_all")) {
         echo " checked";
     }
     echo ">";
+	*/
     // Expandbereich ausgeben
     if (isset($expand) && $params['expand'] == $key && isset($row['expand']) && count($row['expand'])) {
         next_row('titlebg', 'colspan=' . (count($view['columns']) + 3));

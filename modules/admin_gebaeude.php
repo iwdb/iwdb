@@ -65,23 +65,22 @@ while (false !== ($datei = readdir($handle))) {
 closedir($handle);
 ksort($gebpictures);
 
-$editgebaeude = getVar('editgebaude');
-$editgebaeude = getVar('newgebaude');
+$editgebaeude = (bool)getVar('editgebaeude');
+$newgebaeude  = (bool)getVar('newgebaeude');
 
 $sql = "SELECT id FROM " . $db_tb_gebaeude . " ORDER BY id ASC";
 $result_gebaeude = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
 while ($row_gebaeude = $db->db_fetch_array($result_gebaeude)) {
-    if (!empty($editgebaeude)) {
+    if ($editgebaeude) {
 
-        $temp_name = getVar(($row_gebaeude['id'] . '_name'));
-        if (!empty($temp_name)) {
+        $geb_name = getVar(($row_gebaeude['id'] . '_name'));
+        if (!empty($geb_name)) {
 
-            $geb_name  = $db->escape(getVar($row_gebaeude['id'] . '_name', true));
-            $geb_cat   = $db->escape(getVar($row_gebaeude['id'] . '_category', true));
+            $geb_cat   = $db->escape(getVar($row_gebaeude['id'] . '_category'));
             $geb_idcat = (int)getVar($row_gebaeude['id'] . '_idcat');
-            $geb_inact = getVar($row_gebaeude['id'] . '_inactive');
+            $geb_inact = (int)getVar($row_gebaeude['id'] . '_inactive');
             $geb_bild  = $db->escape(getVar($row_gebaeude['id'] . '_bild'));
             $id_iw     = (int)getVar($row_gebaeude['id'] . '_id_iw');
 
@@ -89,11 +88,20 @@ while ($row_gebaeude = $db->db_fetch_array($result_gebaeude)) {
             $dauer_h = (int)getVar($row_gebaeude['id'] . '_dauer_h');
             $dauer_m = (int)getVar($row_gebaeude['id'] . '_dauer_m');
 
-            $delete = getVar(($row_gebaeude['id'] . '_delete'));
+            $deletegebaeude = (bool)getVar(($row_gebaeude['id'] . '_delete'));
 
             $dauer = ($dauer_d * DAY) + ($dauer_h * HOUR) + ($dauer_m * MINUTE);
 
-            if (empty($delete)) {
+            if ($deletegebaeude) {
+
+                $sql = "DELETE FROM " . $db_tb_gebaeude .
+                    " WHERE name='" . $geb_name .
+                    "'AND category='" . $geb_cat .
+                    "'AND idcat='" . $geb_idcat .
+                    "'AND id = '" . $row_gebaeude['id'] . "'";
+                echo "<div class='system_notification'>Gebäude $geb_name gelöscht</div>";
+
+            } else {
 
                 $sql = "UPDATE " . $db_tb_gebaeude .
                     " SET name='" . $geb_name .
@@ -104,15 +112,6 @@ while ($row_gebaeude = $db->db_fetch_array($result_gebaeude)) {
                     "', bild='" . $geb_bild .
                     "', id_iw='" . $id_iw .
                     "' WHERE id = '" . $row_gebaeude['id'] . "'";
-
-            } else {
-
-                $sql = "DELETE FROM " . $db_tb_gebaeude .
-                    " WHERE name='" . $geb_name .
-                    "'AND category='" . $geb_cat .
-                    "'AND idcat='" . $geb_idcat .
-                    "'AND id = '" . $row_gebaeude['id'] . "'";
-                echo "<div class='system_notification'>Gebäude $geb_name gelöscht</div>";
 
             }
 
@@ -128,11 +127,11 @@ while ($row_gebaeude = $db->db_fetch_array($result_gebaeude)) {
 
 $lastid_name = getVar((($lastid + 1) . '_name'));
 
-if ((!empty($lastid_name)) && (empty($editgebaeude))) {
-    $geb_name  = $db->escape(getVar((($lastid + 1) . '_name'), true));
-    $geb_cat   = $db->escape(getVar((($lastid + 1) . '_category'), true));
+if ((!empty($lastid_name)) AND $newgebaeude) {
+    $geb_name  = $db->escape(getVar((($lastid + 1) . '_name')));
+    $geb_cat   = $db->escape(getVar((($lastid + 1) . '_category')));
     $geb_idcat = (int)getVar((($lastid + 1) . '_idcat'));
-    $geb_inact = getVar((($lastid + 1) . '_inactive'));
+    $geb_inact = (int)getVar((($lastid + 1) . '_inactive'));
     $geb_bild  = $db->escape(getVar((($lastid + 1) . '_bild')));
     $id_iw     = (int)getVar((($lastid + 1) . '_id_iw'));
 
@@ -141,21 +140,23 @@ if ((!empty($lastid_name)) && (empty($editgebaeude))) {
     $dauer_m = (int)getVar((($lastid + 1) . '_dauer_m'));
 
     $dauer = ($dauer_d * DAY) + ($dauer_h * HOUR) + ($dauer_m * MINUTE);
-    $sql   = "INSERT INTO " . $db_tb_gebaeude .
-        " (name, category, idcat, inactive, dauer, bild, id_iw) " .
-        " VALUES ('" . $geb_name .
-        "', '" . $geb_cat .
-        "', '" . $geb_idcat .
-        "', '" . $geb_inact .
-        "', '" . $dauer .
-        "', '" . $geb_bild .
-        "', '" . $id_iw . "')";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
+    $data = array(
+        'name' => $geb_name,
+        'category' => $geb_cat,
+        'idcat' => $geb_idcat,
+        'inactive' => $geb_inact,
+        'dauer' => $dauer,
+        'bild' => $geb_bild,
+        'id_iw' => $id_iw
+    );
+
+    $result = $db->db_insert($db_tb_gebaeude, $data)
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
 
     $lastid++;
 
-    echo "<div class='system_notification'>Gebäude $lastid_name hinzugefügt.</div>";
+    echo "<div class='system_notification'>Gebäude {$lastid_name} hinzugefügt.</div>";
 }
 
 if ($editgebaeude) {
@@ -164,7 +165,7 @@ if ($editgebaeude) {
 
 echo "<br>\n";
 echo "<form method='POST' action='index.php?action=admin&uaction=gebaeude&sid=" . $sid . "' enctype='multipart/form-data'>\n";
-echo "<table class='table_format' style='width: 90%;'>\n";
+echo "<table class='table_format' style='width: 95%;'>\n";
 echo "<thead>\n";
 echo " <tr>\n";
 echo "  <th class='windowbg2'>Ausblenden?</td>\n";
@@ -214,7 +215,7 @@ echo "</tbody>\n";
 echo "<tfoot>\n";
 echo " <tr>\n";
 echo "  <td class='windowbg2 center' colspan='7'>\n";
-echo "   <input type='submit' value='speichern' name='B2' class='submit'>\n";
+echo "   <input type='submit' value='hinzufügen' name='newgebaeude' class='submit'>\n";
 echo "  </td>\n";
 echo " </tr>\n";
 echo " </tfoot>\n";
@@ -229,7 +230,7 @@ $result = $db->db_query($sql)
 
 while ($row = $db->db_fetch_array($result)) {
     echo "<form method='POST' action='index.php?action=admin&uaction=gebaeude&sid=" . $sid . "' enctype='multipart/form-data'>\n";
-    echo "<table class='table_format' style='width: 90%;'>\n";
+    echo "<table class='table_format' style='width: 95%;'>\n";
     echo "<thead>\n";
     echo " <tr>\n";
     echo "  <td class='titlebg center' colspan='7'>\n";
@@ -308,7 +309,7 @@ while ($row = $db->db_fetch_array($result)) {
     echo "<tfoot>\n";
     echo " <tr>\n";
     echo "  <td class='windowbg2 center' colspan='7'>\n";
-    echo "   <input type='submit' value='speichern' name='editgebaude' class='submit'>\n";
+    echo "   <input type='submit' value='ändern' name='editgebaeude' class='submit'>\n";
     echo "  </td>\n";
     echo " </tr>\n";
     echo " </tfoot>\n";

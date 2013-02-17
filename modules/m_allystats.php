@@ -214,7 +214,7 @@ $sql = "SELECT SQL_CACHE IF(`{$db_tb_scans}`.`allianz`='','<i>Solo</i>',`{$db_tb
     SUM(IF(`objekt` = 'Kolonie' AND `typ` = 'Asteroid', 1,0)) AS KoloAstroiden,
     SUM(IF(`objekt` = 'Kampfbasis', 1,0)) AS Kampfbasen,
     SUM(IF(`objekt` = 'Sammelbasis', 1,0)) AS Sammelbasen,
-    `prefix_allianzstatus`.`status`
+    `{$db_tb_allianzstatus}`.`status`
     FROM `{$db_tb_scans}` LEFT JOIN `{$db_tb_allianzstatus}`
      ON `{$db_tb_allianzstatus}`.`allianz` = `{$db_tb_scans}`.`allianz`
      WHERE `coords_gal` >= " . $galamin . " AND `coords_gal` <= " . $galamax . " AND `user` != ''

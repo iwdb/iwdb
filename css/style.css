@@ -633,7 +633,7 @@ img,
 }
 
 .scan_row:hover {
-    background-color: gold !important;
+    background-color: gold;
 }
 
 .scan_object {
@@ -642,7 +642,7 @@ img,
 
 .scan_value {
     text-align: right;
-    border: 0;
+    border: 0 !important;
 }
 
 .bordercolor {

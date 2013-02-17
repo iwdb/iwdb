@@ -726,7 +726,7 @@ function fill_selection($selected_id)
         $resname  = $research_data['name'];
         $resfield = $research_data['gebiet'];
 
-        if (strlen($resname) > 62) {
+        if (mb_strlen($resname) > 62) {
             $resname = substr($resname, 0, 60) . "~";
         }
 

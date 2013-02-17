@@ -152,10 +152,12 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 //
 // -> Und hier beginnt das eigentliche Modul
 
+global $db, $db_tb_user_research, $db_tb_research;
+
 doc_title('aktuell laufende Forschungen');
 
-$sql = "SELECT * FROM " . $db_tb_user_research . " ORDER BY date ASC";
-$result = $db->db_query($sql)
+$sql = "SELECT `user`, `rId`, `date`, `time` FROM `" . $db_tb_user_research . "` ORDER BY `date` ASC;";
+$result_user_research = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
 $data = array();
@@ -177,21 +179,21 @@ $data = array();
 		</th>
 	</tr>
 	<?php
-	while ($row = $db->db_fetch_array($result)) {
-		$sql = "SELECT name FROM " . $db_tb_research . " WHERE id ='" . $row['rId'] . "'";
-		$result_forsch = $db->db_query($sql)
+	while ($row_user_research = $db->db_fetch_array($result_user_research)) {
+		$sql = "SELECT `name` FROM `" . $db_tb_research . "` WHERE `id` ='" . $row_user_research['rId'] . "';";
+		$result_research = $db->db_query($sql)
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-		$row1 = $db->db_fetch_array($result_forsch);
+		$row_research = $db->db_fetch_array($result_research);
 
-		if (!empty($row['date'])) {
-			if (($row['date'] > $row['time']) && ($row['date'] > CURRENT_UNIX_TIME)) {
+		if (!empty($row_user_research['date'])) {
+			if (($row_user_research['date'] > $row_user_research['time']) && ($row_user_research['date'] > CURRENT_UNIX_TIME)) {
 				$color = "#00FF00";
 			} else {
 				$color = "#FFA500";
 			}
-			$row['date'] = strftime(CONFIG_DATETIMEFORMAT, $row['date']);
+            $row_user_research['date'] = strftime(CONFIG_DATETIMEFORMAT, $row_user_research['date']);
 		} else {
-			$row['date'] = '';
+            $row_user_research['date'] = '';
 			$color       = "#FF0000";
 		}
 	
@@ -199,22 +201,22 @@ $data = array();
 	<tr>
 		<td style="background-color: <?php echo $color ?>">
 			<?php
-			echo $row['user'];
+			echo $row_user_research['user'];
 			?>
 		</td>
 		<td>
 			<?php
-			echo $row1['name'];
+			echo $result_research['name'];
 			?>
 		</td>
 		<td>
 			<?php
-			echo $row['date'];
+			echo $row_user_research['date'];
 			?>
 		</td>
 		<td>
 			<?php
-			echo strftime(CONFIG_DATETIMEFORMAT, $row['time']);
+			echo strftime(CONFIG_DATETIMEFORMAT, $row_user_research['time']);
 			?>
 		</td>
 	</tr>

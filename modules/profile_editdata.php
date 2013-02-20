@@ -42,10 +42,14 @@ $skins = array(
 );
 
 $spieltyp = array(
-    "Solo"     => "Solo",
-    "Buddler"  => "Buddler",
-    "Fleeter"  => "Fleeter",
-    "Cash Cow" => "Cash Cow"
+    "Solo"         => "Solo",
+    "Buddler"      => "Buddler",
+    "Allrounder"   => "Allrounder",
+    "Wandler"      => "Wandler",
+    "Stahlwandler" => "Stahlwandler",
+    "VV4A Wandler" => "VV4A Wandler",
+    "Fleeter"      => "Fleeter",
+    "Cash Cow"     => "Cash Cow"
 );
 
 $adminsittens = array(
@@ -145,25 +149,19 @@ if (!empty($editprofile) AND (($id === $user_id) OR ($user_status === "admin")))
 
         if (!empty($alert)) {
             echo "<br><div class='system_error'>" . $alert . "</div>";
-            unset($userd['newpassword']);
-            unset($userd['newpasswordwdhl']);
         } else {
             if ($userd['newpassword'] != $userd['newpasswordwdhl']) {
-                echo "<br><div class='system_error'>Passwörter stimmen nicht überein! Passwort zurückgesetzt.</div>";
-                unset($userd['newpassword']);
-                unset($userd['newpasswordwdhl']);
+                echo "<br><div class='system_error'>Passwörter stimmen nicht überein! IWDB Passwort NICHT geändert.</div>";
             } else {
-                unset($userd['newpasswordwdhl']);
                 $userd['password'] = md5($userd['newpassword']);
             }
         }
-    } else {
-        unset($userd['newpassword']);
-        unset($userd['newpasswordwdhl']);
     }
+    unset($userd['newpassword']);
+    unset($userd['newpasswordwdhl']);
 
     if ($userd['sitterpwd'] !== $userd['sitterpwdwdhl']) {
-        echo "<br><div class='system_error'>Sitterpasswörter stimmen nicht überein! Passwort zurückgesetzt.</div>";
+        echo "<br><div class='system_error'>Sitterpasswörter stimmen nicht überein! Sitterpasswort NICHT geändert.</div>";
         unset($userd['sitterpwd']);
         unset($userd['sitterpwdwdhl']);
     } else {

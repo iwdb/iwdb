@@ -353,7 +353,7 @@ foreach ($categories as $category => $value) {
 			?>
 			<tbody>
 				<tr>
-					<td style="background-color: <?php echo $color ?>">
+					<td style='background-color: <?php echo $color ?>'>
 						<?php
 						echo $planet_buildings['user'];
 						?>

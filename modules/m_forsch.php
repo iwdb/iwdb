@@ -180,7 +180,7 @@ $data = array();
 	</tr>
 	<?php
 	while ($row_user_research = $db->db_fetch_array($result_user_research)) {
-		$sql = "SELECT `name` FROM `" . $db_tb_research . "` WHERE `id` ='" . $row_user_research['rId'] . "';";
+		$sql = "SELECT `name` FROM `" . $db_tb_research . "` WHERE `id` ='" . $row_user_research['rid'] . "';";
 		$result_research = $db->db_query($sql)
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 		$row_research = $db->db_fetch_array($result_research);
@@ -206,7 +206,7 @@ $data = array();
 		</td>
 		<td>
 			<?php
-			echo $result_research['name'];
+			echo $row_research['name'];
 			?>
 		</td>
 		<td>

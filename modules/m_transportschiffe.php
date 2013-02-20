@@ -231,10 +231,15 @@ while ($row = $db->db_fetch_array($result)) {
 // Spieler und Teams abfragen
 $users = array();
 $teams = array();
-$teams['(Alle)'] = '(Alle)';
-$teams['(Nur Fleeter)'] = '(Nur Fleeter)';
+$teams['(Alle)']          = '(Alle)';
+$teams['(Nur Fleeter)']   = '(Nur Fleeter)';
 $teams['(Nur Cash Cows)'] = '(Nur Cash Cows)';
-$teams['(Nur Buddler)'] = '(Nur Buddler)';
+$teams['(Nur Buddler)']   = '(Nur Buddler)';
+$teams['(Nur Wandler)']   = '(Nur Wandler)';
+$teams['(Nur Allrounder)']   = '(Nur Allrounder)';
+$teams['(Nur Stahlwandler)']   = '(Nur Stahlwandler)';
+$teams['(Nur VV4a Wandler)']   = '(Nur VV4A Wandler)';
+
 $sql = "SELECT * FROM " . $db_tb_user;
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -339,6 +344,7 @@ $sql = "SELECT  $db_tb_user.id AS 'user',
             	  WHERE $db_tb_ressuebersicht.user=$db_tb_user.id) AS 'datum' 
 ";
 $sql .= " FROM $db_tb_user";
+
 if (isset($params['filter_team'])) {
     if ($params['filter_team'] == '(Nur Fleeter)') {
         $sql .= " WHERE " . $db_tb_user . ".budflesol='Fleeter'";
@@ -346,10 +352,19 @@ if (isset($params['filter_team'])) {
         $sql .= " WHERE " . $db_tb_user . ".budflesol='Cash Cow'";
     } elseif ($params['filter_team'] == '(Nur Buddler)') {
         $sql .= " WHERE " . $db_tb_user . ".budflesol='Buddler'";
+	} elseif ($params['filter_team'] == '(Nur Wandler)') {
+        $sql .= " WHERE " . $db_tb_user . ".budflesol='Wandler'";
+	} elseif ($params['filter_team'] == '(Nur Stahlandler)') {
+        $sql .= " WHERE " . $db_tb_user . ".budflesol='Stahlandler'";
+	} elseif ($params['filter_team'] == '(Nur VV4A Wandler)') {
+        $sql .= " WHERE " . $db_tb_user . ".budflesol='VV4A Wandler'";
+	} elseif ($params['filter_team'] == '(Nur Allrounder)') {
+        $sql .= " WHERE " . $db_tb_user . ".budflesol='Allrounder'";
     } elseif ($params['filter_team'] != '(Alle)') {
         $sql .= " WHERE " . $db_tb_user . ".buddlerfrom='" . $params['filter_team'] . "'";
     }
 }
+
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query scans_historie information.', '', __FILE__, __LINE__, $sql);
 

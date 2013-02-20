@@ -214,6 +214,10 @@ $teams['(Alle)']          = '(Alle)';
 $teams['(Nur Fleeter)']   = '(Nur Fleeter)';
 $teams['(Nur Cash Cows)'] = '(Nur Cash Cows)';
 $teams['(Nur Buddler)']   = '(Nur Buddler)';
+$teams['(Nur Wandler)']   = '(Nur Wandler)';
+$teams['(Nur Allrounder)']   = '(Nur Allrounder)';
+$teams['(Nur Stahlwandler)']   = '(Nur Stahlwandler)';
+$teams['(Nur VV4a Wandler)']   = '(Nur VV4A Wandler)';
 $sql                      = "SELECT * FROM " . $db_tb_user;
 if (!$user_fremdesitten) {
     $sql .= " WHERE allianz='" . $user_allianz . "'";
@@ -262,6 +266,14 @@ if (isset($params['team'])) {
         $sql .= " AND " . $db_tb_user . ".budflesol='Cash Cow'";
     } elseif ($params['team'] == '(Nur Buddler)') {
         $sql .= " AND " . $db_tb_user . ".budflesol='Buddler'";
+	} elseif ($params['team'] == '(Nur Wandler)') {
+        $sql .= " AND " . $db_tb_user . ".budflesol='Wandler'";
+	} elseif ($params['team'] == '(Nur Allrounder)') {
+        $sql .= " AND " . $db_tb_user . ".budflesol='Allrounder'";
+	} elseif ($params['team'] == '(Nur Stahlwandler)') {
+        $sql .= " AND " . $db_tb_user . ".budflesol='Stahlwandler'";
+	} elseif ($params['team'] == '(Nur VV4A Wandler)') {
+        $sql .= " AND " . $db_tb_user . ".budflesol='VV4A Wandler'";
     } elseif ($params['team'] != '(Alle)') {
         $sql .= " AND " . $db_tb_user . ".buddlerfrom='" . $params['team'] . "'";
     }

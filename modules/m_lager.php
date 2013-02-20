@@ -321,6 +321,10 @@ $config['filter_who']['(Alle)']          = '(Alle)';
 $config['filter_who']['(Nur Fleeter)']   = '(Nur Fleeter)';
 $config['filter_who']['(Nur Cash Cows)'] = '(Nur Cash Cows)';
 $config['filter_who']['(Nur Buddler)']   = '(Nur Buddler)';
+$config['filter_who']['(Nur Allrounder)']   = '(Nur Allrounder)';
+$config['filter_who']['(Nur Wandler)']   = '(Nur Wandler)';
+$config['filter_who']['(Nur Stahlwandler)']   = '(Nur Stahlwandler)';
+$config['filter_who']['(Nur VV4A Wandler)']   = '(Nur VV4A Wandler)';
 
 $sql = "SELECT * FROM " . $db_tb_user;
 if (!$user_fremdesitten) {
@@ -562,6 +566,14 @@ if (!empty($params['filter_who'])) {
         $sql .= " AND $db_tb_user.budflesol='Cash Cow'";
     } elseif ($params['filter_who'] === '(Nur Buddler)') {
         $sql .= " AND $db_tb_user.budflesol='Buddler'";
+	} elseif ($params['filter_who'] === '(Nur Allrounder)') {
+        $sql .= " AND $db_tb_user.budflesol='Allrounder'";
+	} elseif ($params['filter_who'] === '(Nur Wandler)') {
+        $sql .= " AND $db_tb_user.budflesol='Wandler'";
+	} elseif ($params['filter_who'] === '(Nur Stahlwandler)') {
+        $sql .= " AND $db_tb_user.budflesol='Stahlwandler'";
+	} elseif ($params['filter_who'] === '(Nur VV4A Wandler)') {
+        $sql .= " AND $db_tb_user.budflesol='VV4A Wandler'";
     } elseif (strpos($params['filter_who'], '(Team) ') === 0) { //suchen nach einem Team
         $sql .= " AND $db_tb_user.buddlerfrom='" . substr($params['filter_who'], 7) . "'";
     } elseif ($params['filter_who'] !== '(Alle)') { //suchen nach einem einzelnen Spieler

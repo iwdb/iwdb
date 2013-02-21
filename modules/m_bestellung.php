@@ -312,11 +312,11 @@ if (!empty($params['delete'])) {
 }
 
 // Button abfragen
-$button_edit = getVar("button_edit");
-$button_add  = getVar("button_add");
+$button_edit = (bool)getVar("button_edit");
+$button_add  = (bool)getVar("button_add");
 
 // Edit-Daten belegen
-if (!empty($button_edit) || !empty($button_add)) {
+if ($button_edit OR $button_add) {
     $edit = array(
         'user'          => $db->escape(getVar('user')),
         'planet'        => $db->escape(getVar('planet')),
@@ -377,7 +377,7 @@ $fields = $edit;
 unset($fields['planet']);
 
 // Edit-Daten modifizieren
-if (!empty($button_edit)) {
+if ($button_edit) {
     $db->db_update($db_tb_bestellung, $fields, "WHERE `id`=" . $params['edit'])
         or error(GENERAL_ERROR, 'Could not update ress order.', '', __FILE__, __LINE__, $sql);
 
@@ -385,7 +385,7 @@ if (!empty($button_edit)) {
 }
 
 // Edit-Daten hinzufügen
-if (!empty($button_add)) {
+if ($button_add) {
     $sql = "SELECT count(*) AS Anzahl FROM `{$db_tb_bestellung}` WHERE `coords_gal`=" . $fields['coords_gal'] . " AND `coords_planet`=" . $fields['coords_planet'] . " AND `coords_sys`=" . $fields['coords_sys'];
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query order information.', '', __FILE__, __LINE__, $sql);
@@ -406,7 +406,7 @@ if (!empty($button_add)) {
 }
 
 // Daten der Bestellung zum editieren abrufen
-if (empty($button_edit) AND empty($button_add) AND (!empty($params['edit']))) {
+if (!$button_edit AND !$button_add AND (!empty($params['edit']))) {
     $sql = "SELECT * FROM `{$db_tb_bestellung}` WHERE `id`=" . $params['edit'];
     debug_var('sql', $sql);
     $result = $db->db_query($sql)
@@ -487,7 +487,7 @@ while ($row = $db->db_fetch_array($result)) {
         'text'   => $text,
         'prio'   => $row['prio'],
         'time'   => strftime("%d.%m.%Y %H:%M", $row['time']),
-        'menge'  => makeresstable($row, '', '', true),
+        'menge'  => makeRessTable($row, '', '', true),
         'sort'   => $row['prio'] . "-" . $row['time'],
     );
 
@@ -570,8 +570,8 @@ foreach ($data as $id_bestellung => $bestellung) {
                     'art'    => $lieferung['art'],
                     'blank'  => " ",
                     'time'   => $lieferung['time'],
-                    'menge'  => makeresstable($lieferung, '', '', true),
-                    'offen'  => makeresstable($data[$id_bestellung]['offen'], '', ''),
+                    'menge'  => makeRessTable($lieferung, '', '', true),
+                    'offen'  => makeRessTable($data[$id_bestellung]['offen'], '', ''),
                 );
             }
         }
@@ -604,7 +604,7 @@ foreach ($data as $id_bestellung => $bestellung) {
         or error(GENERAL_ERROR, 'Could not update ress order.', '', __FILE__, __LINE__, $sql);
 
     // Mengen formatieren
-    $data[$id_bestellung]['offen'] = makeresstable($data[$id_bestellung]['offen'], '', '');
+    $data[$id_bestellung]['offen'] = makeRessTable($data[$id_bestellung]['offen'], '', '');
 }
 
 // Daten sortieren
@@ -962,24 +962,24 @@ echo '</form>';
     <script type="text/javascript" src="javascript/bestellung.js"></script>
 <?php
 
-function makeresstable($row, $prefix_out = '', $prefix_cmp = '', $nocolor = false)
+function makeRessTable($row, $prefix_out = '', $prefix_cmp = '', $nocolor = false)
 {
     $html = '<table class="table_format_noborder" style="width:100%">';
-    $html .= makeresscol($row, $prefix_out, $prefix_cmp, $nocolor, 'eisen', 'Eisen');
-    $html .= makeresscol($row, $prefix_out, $prefix_cmp, $nocolor, 'stahl', 'Stahl');
-    $html .= makeresscol($row, $prefix_out, $prefix_cmp, $nocolor, 'chemie', 'Chemie');
-    $html .= makeresscol($row, $prefix_out, $prefix_cmp, $nocolor, 'vv4a', 'VV4A');
-    $html .= makeresscol($row, $prefix_out, $prefix_cmp, $nocolor, 'eis', 'Eis');
-    $html .= makeresscol($row, $prefix_out, $prefix_cmp, $nocolor, 'wasser', 'Wasser');
-    $html .= makeresscol($row, $prefix_out, $prefix_cmp, $nocolor, 'energie', 'Energie');
-    $html .= makeresscol($row, $prefix_out, $prefix_cmp, $nocolor, 'volk', 'Bevölkerung');
-    $html .= makeresscol($row, $prefix_out, $prefix_cmp, $nocolor, 'credits', 'Credits');
+    $html .= makeRessCol($row, $prefix_out, $prefix_cmp, $nocolor, 'eisen', 'Eisen');
+    $html .= makeRessCol($row, $prefix_out, $prefix_cmp, $nocolor, 'stahl', 'Stahl');
+    $html .= makeRessCol($row, $prefix_out, $prefix_cmp, $nocolor, 'chemie', 'Chemie');
+    $html .= makeRessCol($row, $prefix_out, $prefix_cmp, $nocolor, 'vv4a', 'VV4A');
+    $html .= makeRessCol($row, $prefix_out, $prefix_cmp, $nocolor, 'eis', 'Eis');
+    $html .= makeRessCol($row, $prefix_out, $prefix_cmp, $nocolor, 'wasser', 'Wasser');
+    $html .= makeRessCol($row, $prefix_out, $prefix_cmp, $nocolor, 'energie', 'Energie');
+    $html .= makeRessCol($row, $prefix_out, $prefix_cmp, $nocolor, 'volk', 'Bevölkerung');
+    $html .= makeRessCol($row, $prefix_out, $prefix_cmp, $nocolor, 'credits', 'Credits');
     $html .= "</table>";
 
     return $html;
 }
 
-function makeresscol($row, $prefix_out, $prefix_cmp, $nocolor, $name, $title)
+function makeRessCol($row, $prefix_out, $prefix_cmp, $nocolor, $name, $title)
 {
     $html = "";
     if (!isset($row[$prefix_cmp . $name])) {

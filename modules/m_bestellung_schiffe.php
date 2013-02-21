@@ -305,51 +305,50 @@ while ($row = $db->db_fetch_array($result)) {
 $config['schiffstypen'] = $schiffstypen;
 
 // Daten löschen
-if (isset($params['delete']) && $params['delete'] != '') {
-    debug_var('sql', $sql = "DELETE FROM `" . $db_tb_bestellung_schiffe_pos . "` WHERE `bestellung_id`=" . $params['delete']);
+if (!empty($params['delete'])) {
+    $sql = "DELETE FROM `" . $db_tb_bestellung_schiffe_pos . "` WHERE `bestellung_id`=" . $params['delete'];
+    debug_var('sql', $sql);
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
     $sql = "DELETE FROM " . $db_tb_bestellung_schiffe . " WHERE id=" . $params['delete'];
     debug_var('sql', $sql);
     $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
     $results[]        = "<div class='system_notification'>Datensatz gelöscht.</div><br>";
     $params['delete'] = '';
     $params['edit']   = '';
 }
 
 // Button abfragen
-$button_edit = getVar("button_edit");
-$button_add  = getVar("button_add");
+$button_edit = (bool)getVar("button_edit");
+$button_add  = (bool)getVar("button_add");
 
 // Edit-Daten belegen
-if (!empty($button_edit) || !empty($button_add)) {
-    debug_var(
-        "edit", $edit = array(
-                  'user'          => getVar('user'),
-                  'planet'        => getVar('planet'),
-                  'coords_gal'    => (int)getVar('coords_gal'),
-                  'coords_sys'    => (int)getVar('coords_sys'),
-                  'coords_planet' => (int)getVar('coords_planet'),
-                  'team'          => getVar('team'),
-                  'project'       => getVar('project'),
-                  'text'          => getVar('text'),
-                  'time'          => parsetime(getVar('time')),
-              )
+if ($button_edit OR $button_add) {
+    $edit = array(
+        'user'          => $db->escape(getVar('user')),
+        'planet'        => $db->escape(getVar('planet')),
+        'coords_gal'    => (int)getVar('coords_gal'),
+        'coords_sys'    => (int)getVar('coords_sys'),
+        'coords_planet' => (int)getVar('coords_planet'),
+        'team'          => $db->escape(getVar('team')),
+        'project'       => $db->escape(getVar('project')),
+        'text'          => $db->escape(getVar('text')),
+        'time'          => parsetime(getVar('time')),
     );
 } else {
-    debug_var(
-        "edit", $edit = array(
-                  'user'          => $user_sitterlogin,
-                  'planet'        => '',
-                  'coords_gal'    => '',
-                  'coords_sys'    => '',
-                  'coords_planet' => '',
-                  'team'          => '(Alle)',
-                  'project'       => '(Keins)',
-                  'text'          => '',
-                  'time'          => CURRENT_UNIX_TIME,
-              )
+    $edit = array(
+        'user'          => $user_sitterlogin,
+        'planet'        => '',
+        'coords_gal'    => '',
+        'coords_sys'    => '',
+        'coords_planet' => '',
+        'team'          => '(Alle)',
+        'project'       => '(Keins)',
+        'text'          => '',
+        'time'          => CURRENT_UNIX_TIME,
     );
 }
 foreach ($config['schiffstypen'] as $schiffstyp) {
@@ -374,7 +373,7 @@ foreach ($edit as $key => $value) {
 unset($fields['planet']);
 
 // Edit-Daten modifizieren
-if (!empty($button_edit)) {
+if ($button_edit) {
     $db->db_update($db_tb_bestellung_schiffe, $fields, "WHERE `id`=" . $params['edit'])
         or error(GENERAL_ERROR, 'Could not update ship order.', '', __FILE__, __LINE__, $sql);
 
@@ -402,23 +401,29 @@ if (!empty($button_add)) {
 }
 
 // Edit-Daten hinzufügen/modifizeren
-if ((!empty($button_add) || !empty($button_edit)) && $doppelbelegung != "true") {
-    debug_var('sql', $sql = "DELETE FROM " . $db_tb_bestellung_schiffe_pos . " WHERE bestellung_id=" . $params['edit']);
+if (($button_add OR $button_edit) && $doppelbelegung != "true") {
+    $sql = "DELETE FROM " . $db_tb_bestellung_schiffe_pos . " WHERE bestellung_id=" . $params['edit'];
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     foreach ($config['schiffstypen'] as $schiffstyp) {
         $menge = $edit['schiff_' . $schiffstyp['id']];
         if (!empty($menge)) {
-            $sql = "INSERT INTO " . $db_tb_bestellung_schiffe_pos . " (bestellung_id,schiffstyp_id,menge) VALUES (" . $params['edit'] . "," . $schiffstyp['id'] . "," . $menge . ")";
-            debug_var('sql', $sql);
+
+            $sqldata = array(
+                'bestellung_id' => $params['edit'],
+                'schiffstyp_id' => $schiffstyp['id'],
+                'menge'         => $menge
+            );
+            $db->db_insert($db_tb_bestellung_schiffe_pos, $sqldata);
             $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+
         }
     }
 }
 
 // Edit-Daten abfragen
-if (empty($button_edit) && empty($button_add) && is_numeric($params['edit'])) {
+if (!$button_edit AND !$button_add AND is_numeric($params['edit'])) {
     debug_var('sql', $sql = "SELECT * FROM " . $db_tb_bestellung_schiffe . " WHERE id=" . $params['edit']);
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -431,7 +436,8 @@ if (empty($button_edit) && empty($button_add) && is_numeric($params['edit'])) {
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     while ($row = $db->db_fetch_array($result)) {
-        debug_var('edit[schiff_' . $row['schiffstyp_id'] . ']', $edit['schiff_' . $row['schiffstyp_id']] = $row['menge']);
+        $edit['schiff_' . $row['schiffstyp_id']] = $row['menge'];
+        debug_var('edit[schiff_' . $row['schiffstyp_id'] . ']', $edit['schiff_' . $row['schiffstyp_id']]);
     }
 }
 $edit['time'] = strftime("%d.%m.%Y %H:%M", $edit['time']);
@@ -588,11 +594,11 @@ foreach ($data as $id_bestellung => $bestellung) {
                     } else {
                         $offen = 0;
                     }
-                    debug_var(
-                        "sql", $sql = "UPDATE `{$db_tb_bestellung_schiffe_pos}` SET offen=" . $offen .
-                                 " WHERE `bestellung_id`=" . $id_bestellung .
-                                 "   AND `schiffstyp_id`=(SELECT `id` FROM $db_tb_schiffstyp WHERE schiff='" . $key . "')"
-                    );
+
+                    $sql = "UPDATE `{$db_tb_bestellung_schiffe_pos}` SET offen=" . $offen .
+                        " WHERE `bestellung_id`=" . $id_bestellung .
+                        "   AND `schiffstyp_id`=(SELECT `id` FROM $db_tb_schiffstyp WHERE schiff='" . $key . "')";
+                    debug_var("sql", $sql);
                     $db->db_query($sql)
                         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
                 }
@@ -618,12 +624,12 @@ foreach ($data as $id_bestellung => $bestellung) {
             $kontrollsumme += $menge;
         }
     }
-    debug_var(
-        "sql_erledigt", $sql_erledigt = "
-		UPDATE " . $db_tb_bestellung_schiffe . " 
-		SET " . $db_tb_bestellung_schiffe . ".erledigt=" . ($kontrollsumme ? '0' : '1') . " 
-		WHERE " . $db_tb_bestellung_schiffe . ".id=" . $id_bestellung
-    );
+
+    $sql_erledigt = "
+		UPDATE " . $db_tb_bestellung_schiffe . "
+		SET " . $db_tb_bestellung_schiffe . ".erledigt=" . ($kontrollsumme ? '0' : '1') . "
+		WHERE " . $db_tb_bestellung_schiffe . ".id=" . $id_bestellung;
+    debug_var("sql_erledigt", $sql_erledigt);
     $db->db_query($sql_erledigt)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     // Mengen formatieren
@@ -761,7 +767,7 @@ foreach ($config['schiffstypen'] as $schiffstyp) {
         'title' => $schiffstyp['abk'],
         'desc'  => 'Anzahl angeben',
         'type'  => 'number',
-        'min'   => '1',
+        'min'   => '0',
         'max'   => '1000000',
         'value' => $edit['schiff_' . $schiffstyp['id']],
         'style' => 'width: 10em;'
@@ -821,12 +827,7 @@ foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
         "<img src='./bilder/desc.gif'>"
     );
 }
-/*
-if (isset($view['edit'])) {
-    next_cell("titlebg top");
-    echo '&nbsp;';
-}
-*/
+
 next_cell("titlebg");
 $index = 0;
 foreach ($data as $row) {

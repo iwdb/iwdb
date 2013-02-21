@@ -362,7 +362,7 @@ while ($row = $db->db_fetch_array($result)) {
         );
     }
     // Link to simulator
-    $info['simulator'] = "sandkasten.icewars.de/game/index.php?action=simulator";
+    $info['simulator'] = "http://sandkasten.icewars.de/game/index.php?action=simulator";
     foreach ($objects as $key => $value) {
         if (isset($data['def'][$key])) {
             $info['simulator'] .= "&simu_def[" . $data['def'][$key]['id_iw'] . "]=" . $value;

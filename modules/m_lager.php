@@ -1457,7 +1457,8 @@ function make_color($row, $key)
 function format_value($row, $key, $value, $expand = false)
 {
     if ($row == null && $key == 'typ') {
-        return $value == 1 ? "Fleeter" : ($value == 2 ? "Cash Cow" : ($value == 3 ? "Buddler" : "Solo"));
+        //return $value == 1 ? "Fleeter" : ($value == 2 ? "Cash Cow" : ($value == 3 ? "Buddler" : "Solo"));
+		return $value == 1 ? "Fleeter" : ($value == 2 ? "Cash Cow" : ($value == 3 ? "Buddler" : ($value == 4 ? "Allrounder" : ($value == 5 ? "Wandler" : ($value == 6 ? "Stahlwandler" : ($value == 7 ? "VV4A Wandler" : "Solo"))))));
     }
     if ($key == 'user' && !$expand) {
         return $value . "<br>(" . make_duration($row['time']) . ")";

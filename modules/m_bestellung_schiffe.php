@@ -762,7 +762,7 @@ foreach ($config['schiffstypen'] as $schiffstyp) {
         'desc'  => 'Anzahl angeben',
         'type'  => 'number',
         'min'   => '1',
-        'max'   => '1000',
+        'max'   => '1000000',
         'value' => $edit['schiff_' . $schiffstyp['id']],
         'style' => 'width: 10em;'
     );

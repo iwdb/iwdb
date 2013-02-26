@@ -90,12 +90,15 @@ function plural($singular)
     return $singular;
 }
 
-$selectedusername = validAccname(getVar('seluser'));
-if ($selectedusername === false) {
+if (empty($selectedusername)) {      //wurde noch nicht woanders eingestellt (z.B. von Sitterschleife)
+    $selectedusername = validAccname(getVar('seluser'));
+}
+
+if (empty($selectedusername)) {
     $selectedusername = $user_sitterlogin;
 }
-if (!isset($sitterschleife)) {
 
+if (!isset($sitterschleife)) {
 
     doc_title('Neuer Bericht');
     echo "<form method='POST' action='index.php?action=newscan&sid=" . $sid . "' enctype='multipart/form-data'>\n";

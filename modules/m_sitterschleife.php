@@ -205,7 +205,7 @@ $akt          = 0;
 
 // nur eigene Allianz
 $sql = "SELECT sitterlogin, sitten, budflesol FROM $db_tb_user";
-$sql .= " WHERE sitterpwd <> '' AND allianz = '{$user_allianz}' ORDER BY sitterlogin ASC;";
+$sql .= " WHERE umod = '0' AND sitten = '1' AND sitterpwd <> '' AND sitterpwd IS NOT NULL AND allianz = '{$user_allianz}' ORDER BY sitterlogin ASC;";
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $budflesol = 0;

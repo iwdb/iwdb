@@ -655,13 +655,13 @@ function parse_kbxml($xmldata)
         if (isset($kb['bomb'])) {
             $sql    = "
 				INSERT INTO {$db_tb_kb_bomb}
-					(ID_KB, TIME";
+					(`ID_KB`, `time`";
             $values = "
 				VALUES
-					('$kb[id]', '$kb[time]";
+					('$kb[id]', '$kb[time]'";
             foreach ($kb['bomb'] as $key => $value) {
                 if ($key != 'geb') {
-                    $sql .= ", $key";
+                    $sql .= ", `$key`";
                     $values .= ", '$value'";
                 }
             }

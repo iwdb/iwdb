@@ -209,13 +209,18 @@ td {
     color: #000000;
 }
 
-/* !N windowbg4 */
-/* !T Hintergrund 4: IKEA-Markierung */
+/* !N IKEA */
+/* !T IKEA Textfarbe */
 /* !I */
+.IKEA {
+    color: blue;
+}
 
-.windowbg4 {
-    background-color: #CFFECC;
-    color: #000000;
+/* !N MdP */
+/* !T Meister der Peitschen Textfarbe */
+/* !I */
+.MdP {
+    color: green;
 }
 
 /* !N hr */

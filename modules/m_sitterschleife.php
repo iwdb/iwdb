@@ -277,22 +277,22 @@ echo "<input type='hidden' value='$back' name='val_back'>";
 
 if (isset($sitterlogins[$akt])) {
     echo "<input type='hidden' value='" . urlencode($sitterlogins[$akt]) . "' name='akt_user'>";
-    echo " <b><big>&nbsp;$sitterlogins[$akt]&nbsp;";
+    echo " <span class='bigtext bold'>&nbsp;$sitterlogins[$akt]&nbsp;";
     // Ikea/Peitschen nachlesen
     $sql = "SELECT ikea, peitschen FROM $db_tb_user WHERE sitterlogin = '" . $sitterlogins[$akt] . "'";
     $resultiw = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     $rowiw = $db->db_fetch_array($resultiw);
     if ($rowiw['ikea'] == 'L') {
-        echo "<font color=red>Ikea</font>";
+        echo "<abbr title='Lehrling des Ikea'><span class='IKEA'>Ikea</abbr>";
     }
     if ($rowiw['ikea'] == 'M') {
-        echo "<font color=red>Ikea</font>";
+        echo "<abbr title='Meister des Ikea'><span class='IKEA'>Ikea</abbr>";
     }
-    if ($rowiw['peitschen'] == 1) {
-        echo "<font color=green>Peitschen</font>";
+    if ($rowiw['peitschen']) {
+        echo "<abbr title='Meister der Peitschen'><span class='MdP'>MdP</abbr>";
     }
-    echo "&nbsp;</big></b> ";
+    echo "&nbsp;</span>";
 }
 
 echo "<input type='submit' value='vorwärts' name='sub_forw'>";

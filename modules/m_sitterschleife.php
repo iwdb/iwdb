@@ -194,7 +194,7 @@ if ($sub_forw == 'vorwärts') {
 if ($sub_akt == 'speichern') {
     $r = $val_akt;
 }
-$akt_user = getVar('akt_user');
+$akt_user = urldecode(getVar('akt_user'));
 
 $sitterlogin  = getVar('sitterlogin');
 $sInhalt      = getVar('text');

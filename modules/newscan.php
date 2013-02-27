@@ -98,7 +98,7 @@ $selectedusername = validAccname($selectedusername);             //Account verif
 if ($selectedusername === false) {
     $selectedusername = validAccname(urldecode($selectedusername));    //noch ein Versuch mit irgendwie encodiertem Namen
     if ($selectedusername === false) {
-        exit('invalid accname!');
+        $selectedusername = $user_sitterlogin;
     }
 }
 

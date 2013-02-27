@@ -91,11 +91,15 @@ function plural($singular)
 }
 
 if (empty($selectedusername)) {      //wurde noch nicht woanders eingestellt (z.B. von Sitterschleife)
-    $selectedusername = validAccname(getVar('seluser'));
+    $selectedusername = getVar('seluser');
 }
 
-if (empty($selectedusername)) {
-    $selectedusername = $user_sitterlogin;
+$selectedusername = validAccname($selectedusername);             //Account verifizieren
+if ($selectedusername === false) {
+    $selectedusername = validAccname(urldecode($selectedusername));    //noch ein Versuch mit irgendwie encodiertem Namen
+    if ($selectedusername === false) {
+        exit('invalid accname!');
+    }
 }
 
 if (!isset($sitterschleife)) {

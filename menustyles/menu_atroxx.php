@@ -68,17 +68,16 @@ include ('configmenu.php');
 <div class="chromestyle" id="chromemenu">
     <ul>
         <li>
-            <table class='borderless left'>
+            <table align="left" class='borderless'>
                 <tr>
                     <td class='borderless'><strong>Hallo, <?php echo $user_id;?>.</strong></td>
                 </tr>
             </table>
         </li>
         <li>
-            <table class='borderless left'>
+            <table align="right" class='borderless'>
                 <tr>
-                    <td class='borderless' style="font-weight: bold;">Online: <?php echo $counter_member;?>
-                        &nbsp;&nbsp;</td>
+                    <td class='borderless' style="font-weight: bold;"><abbr title="<?php echo $onlineUsers['strOnlineMember'];?>">Online: <?php echo $onlineUsers['counter_member'];?></abbr>&nbsp;&nbsp;</td>
                 </tr>
             </table>
         </li>
@@ -163,7 +162,7 @@ include ('configmenu.php');
                         echo "    </div>\n";
                     }
 
-                    echo "    <div id='dropmenu" . ($row['menu'] - 1) . "' class='dropmenudiv left' style='width:200px;'>\n";
+                    echo "    <div id='dropmenu" . ($row['menu'] - 1) . "' class='dropmenudiv' style='width:200px; text-align:left;'>\n";
 
                     // Neue Tabelle aufmachen.
                     $tableopen = 1;
@@ -188,7 +187,7 @@ include ('configmenu.php');
             echo "    </div>\n";
         }
 
-        echo "    <div id='dropmenu" . $miscmenu . "' class='dropmenudiv left' style='width:150px;'>\n
+        echo "    <div id='dropmenu" . $miscmenu . "' class='dropmenudiv' style='width:150px; text-align:left;'>\n
       <a href='index.php'><img src='bilder/icon_mini_home.gif' width='12' height='13' alt='Startseite' align='absmiddle'> Startseite</a>
       <a href='index.php?action=profile'><img src='bilder/icon_mini_profile.gif' width='12' height='13' alt='profil' align='absmiddle'> profil</a>
       ";
@@ -199,7 +198,7 @@ include ('configmenu.php');
         <?php } ?>
         <a href="index.php?action=help&topic=<?php echo $action;?>"><img src="bilder/icon_mini_search.gif" width="12" height="13" alt="profile" align="absmiddle"><span style="color:#e50f9f">
                 hilfe</span></a>
-        <a href="index.php?action=memberlogout"><img src="bilder/icon_mini_login.gif" width="12" height="13" alt="login" align="absmiddle">
+        <a href="index.php?action=memberlogout2"><img src="bilder/icon_mini_login.gif" width="12" height="13" alt="login" align="absmiddle">
             logout</a>
 </div>
 <!-- main menu ende -->
@@ -208,6 +207,6 @@ include ('configmenu.php');
 <br><br>
 
 <!-- hauptfenster Start -->
-<table class="center" style="width:100%;">
+<table align="center" style="width:100%;">
     <tr>
-        <td class="windowbg1 center">
+        <td class="windowbg1" align="center">

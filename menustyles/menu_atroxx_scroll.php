@@ -36,8 +36,7 @@ if (($user_adminsitten == SITTEN_BOTH) || ($user_adminsitten == SITTEN_ONLY_LOGI
     // Anstehende Aufträge zählen
     $anzauftrag = "";
 
-    $sql    = "SELECT count(*) AS anzahl FROM " . $db_tb_sitterauftrag .
-        " WHERE date_b2 < " . CURRENT_UNIX_TIME;
+    $sql    = "SELECT count(*) AS anzahl FROM " . $db_tb_sitterauftrag . " WHERE date_b2 < " . CURRENT_UNIX_TIME;
     $result = $db->db_query($sql);
     $row    = $db->db_fetch_array($result);
     $anzahl = $row['anzahl'];
@@ -68,16 +67,16 @@ include ('configmenu.php');
 <div class="chromestyle" id="chromemenu" style=" position: fixed; width:100%; top:0px;">
     <ul>
         <li>
-            <table class='borderless left'>
+            <table align="left" class='borderless'>
                 <tr>
                     <td class='borderless'><strong>Hallo, <?php echo $user_id;?>.</strong></td>
                 </tr>
             </table>
         </li>
         <li>
-            <table class='borderless right'>
+            <table align="right" class='borderless'>
                 <tr>
-                    <td class='borderless' style="font-weight: bold;">Online: <?php echo $counter_member;?>&nbsp;&nbsp;</td>
+                    <td class='borderless' style="font-weight: bold;"><abbr title="<?php echo $onlineUsers['strOnlineMember'];?>">Online: <?php echo $onlineUsers['counter_member'];?></abbr>&nbsp;&nbsp;</td>
                 </tr>
             </table>
         </li>
@@ -162,7 +161,7 @@ include ('configmenu.php');
                         echo "    </div>\n";
                     }
 
-                    echo "    <div id='dropmenu" . ($row['menu'] - 1) . "' class='dropmenudiv left' style='width:200px; position:fixed;'>\n";
+                    echo "    <div id='dropmenu" . ($row['menu'] - 1) . "' class='dropmenudiv' style='width:200px; position:fixed; text-align:left;'>\n";
 
                     // Neue Tabelle aufmachen.
                     $tableopen = 1;
@@ -187,7 +186,7 @@ include ('configmenu.php');
             echo "    </div>\n";
         }
 
-        echo "    <div id='dropmenu" . $miscmenu . "' class='dropmenudiv left' style='width:150px; position:fixed;'>\n
+        echo "    <div id='dropmenu" . $miscmenu . "' class='dropmenudiv' style='width:150px; text-align:left; position:fixed;'>\n
       <a href='index.php'><img src='bilder/icon_mini_home.gif' width='12' height='13' alt='Startseite' align='absmiddle'> Startseite</a>
       <a href='index.php?action=profile'><img src='bilder/icon_mini_profile.gif' width='12' height='13' alt='profil' align='absmiddle'> profil</a>
       ";
@@ -198,7 +197,7 @@ include ('configmenu.php');
         <?php } ?>
         <a href="index.php?action=help&topic=<?php echo $action;?>"><img src="bilder/icon_mini_search.gif" width="12" height="13" alt="profile" align="absmiddle"><span style="color:#e50f9f">
                 hilfe</span></a>
-        <a href="index.php?action=memberlogout"><img src="bilder/icon_mini_login.gif" width="12" height="13" alt="login" align="absmiddle">
+        <a href="index.php?action=memberlogout2"><img src="bilder/icon_mini_login.gif" width="12" height="13" alt="login" align="absmiddle">
             logout</a>
 </div>
 <!-- main menu ende -->
@@ -208,4 +207,4 @@ include ('configmenu.php');
 <!-- hauptfenster Start -->
 <table align="center" style="width:100%;">
     <tr>
-        <td class="windowbg1 center">
+        <td class="windowbg1" align="center">

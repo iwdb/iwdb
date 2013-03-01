@@ -229,16 +229,16 @@ echo "</div>";
             Online: <?php echo $onlineUsers['counter_member'] . " (" . $onlineUsers['strOnlineMember'] . ")";?></td>
         <td id="doc_mainmenu">
 
-            <a href="index.php?sid=<?php echo $sid;?>"><img
+            <a href="index.php"><img
                     src="bilder/icon_mini_home.gif" width="12" height="13"
                     alt="Startseite">&nbsp;<span>Startseite</span></a> |
-            <a href="index.php?action=memberlogout2&sid=<?php echo $sid;?>"><img
+            <a href="index.php?action=memberlogout2"><img
                     src="bilder/icon_mini_login.gif" width="12" height="13"
                     alt="login">&nbsp;<span>logout</span></a> |
-            <a href="index.php?action=profile&sid=<?php echo $sid;?>"><img
+            <a href="index.php?action=profile"><img
                     src="bilder/icon_mini_profile.gif" width="12" height="13"
                     alt="profil">&nbsp;<span>profil</span></a> |
-            <a href="index.php?action=help&topic=<?php echo $action;?>&sid=<?php echo $sid;?>"><img
+            <a href="index.php?action=help&topic=<?php echo $action;?>"><img
                     src="bilder/icon_mini_search.gif" width="12" height="13"
                     alt="profile">&nbsp;<span>hilfe</span></a>
             <?php
@@ -246,7 +246,7 @@ echo "</div>";
             if ($user_status == "admin") {
                 ?>
                 |
-                <a href="index.php?action=admin&sid=<?php echo $sid;?>"><img src="bilder/icon_mini_members.gif" width="12" height="13" alt="admin">&nbsp;<span>admin</span></a>
+                <a href="index.php?action=admin"><img src="bilder/icon_mini_members.gif" width="12" height="13" alt="admin">&nbsp;<span>admin</span></a>
             <?php
             }
             ?>
@@ -339,7 +339,7 @@ echo "</div>";
 
                         if ($row['extlink'] == "n") {
                             // interner Link
-                            echo "<a href='index.php?sid=" . $sid . "&action=" . $row['action'] . "'>" . $title . "</a>";
+                            echo "<a href='index.php?action=" . $row['action'] . "'>" . $title . "</a>";
                         } else {
                             // externer Link
                             echo "<a href='" . $row['action'] . "' target=_new>" . $title . "</a>";

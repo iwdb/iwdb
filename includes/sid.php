@@ -196,6 +196,10 @@ function useSID($sid, $ip_hash)
     $row_sid = $db->db_fetch_array($result);
 
     if (!empty($row_sid['id'])) {
+        //Zeit der letzten DB Nutzung aktualisieren
+        $db->db_update($db_tb_sid, array('date' => CURRENT_UNIX_TIME), "WHERE `id`='".$row_sid['id']."'")
+            or error(GENERAL_ERROR, 'Could not update sid!', '', __FILE__, __LINE__);
+
         return $row_sid['id'];
     } else {
         return false;
@@ -259,7 +263,7 @@ function getOnlineUsers()
 
     $sql = "SELECT DISTINCT `id` FROM `{$db_tb_sid}` WHERE `date`>" . (CURRENT_UNIX_TIME - $config_counter_timeout);
     if (!$user_fremdesitten) {
-        $sql .= " AND (SELECT `allianz` FROM `{$db_tb_user}` WHERE `{$db_tb_sid}`.`id`=`{$db_tb_user}`.id)='" . $user_allianz . "';";
+        $sql .= " AND (SELECT `allianz` FROM `{$db_tb_user}` WHERE `{$db_tb_sid}`.`id`=`{$db_tb_user}`.`id`)='" . $user_allianz . "';";
     }
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'General_error_query', '', __FILE__, __LINE__, $sql);

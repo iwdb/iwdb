@@ -482,8 +482,15 @@ $data = array();
             if (updateFleetsavings(this) === false) {
                 //alert("Fehler beim Setzen des Status!");
                 jQuery(this).prop('checked', !jQuery(this).prop("checked"));        //Auswahl rückgängig machen, da Fehler beim übernehmen
-            }
+            } else {                                                                //alle Incomings zu diesem Planie ändern
+                var jQhandle = jQuery(this);
+                if (jQhandle.hasClass('gesavedCheckbox')) {
+                    jQuery('.gesavedCheckbox[value="' + jQhandle.val() + '"]').prop('checked', jQhandle.prop("checked"));
+                } else if (jQhandle.hasClass('recalledCheckbox')) {
+                    jQuery('.recalledCheckbox[value="' + jQhandle.val() + '"]').prop('checked', jQhandle.prop("checked"));
+                }
 
+            }
         });
     });
 </script>

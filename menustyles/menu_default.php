@@ -126,7 +126,7 @@ if ($anzahl > 0) {
 echo "<div id='iwdb_notices'>";
 
 if (isset($db_tb_incomings)) {
-    $sql = "SELECT COUNT(*) AS 'anzahl' FROM $db_tb_incomings WHERE (art='Sondierung (Schiffe/Def/Ress)' OR art='Sondierung (Gebäude/Ress)') AND timestamp >" . (CURRENT_UNIX_TIME - 5 * MINUTE);
+    $sql = "SELECT COUNT(*) AS 'anzahl' FROM $db_tb_incomings WHERE (art='Sondierung (Schiffe/Def/Ress)' OR art='Sondierung (Gebäude/Ress)') AND arrivaltime >" . (CURRENT_UNIX_TIME - 5 * MINUTE);
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     $row = $db->db_fetch_array($result);
@@ -135,7 +135,7 @@ if (isset($db_tb_incomings)) {
     $db->db_free_result($result);
     $anz_incomings1 = $anzahl;
 
-    $sql = "SELECT COUNT(*) AS 'anzahl' FROM $db_tb_incomings WHERE art='Angriff' AND timestamp >" . (CURRENT_UNIX_TIME - 15 * MINUTE);
+    $sql = "SELECT COUNT(*) AS 'anzahl' FROM $db_tb_incomings WHERE art='Angriff' AND arrivaltime >" . (CURRENT_UNIX_TIME - 15 * MINUTE);
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     $row  = $db->db_fetch_array($result);

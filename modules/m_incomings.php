@@ -317,7 +317,7 @@ $data = array();
 echo " 	 <br />\n";
 echo " 	 <br />\n";
 
-$sql = "SELECT * FROM " . $db_tb_incomings . " WHERE art = 'Angriff' ORDER BY timestamp DESC";
+$sql = "SELECT * FROM " . $db_tb_incomings . " WHERE art = 'Angriff' ORDER BY timestamp ASC";
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query incomings information.', '', __FILE__, __LINE__, $sql);
 

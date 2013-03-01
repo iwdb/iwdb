@@ -970,7 +970,7 @@ if (empty($params['view'])) {
         $angriff_time = "";
         $angriff_from = "";
         if (!empty($db_tb_lieferung)) {
-            $sql_angriff = "SELECT art, user_from, time, schiffe FROM " . $db_tb_lieferung . " WHERE";
+            $sql_angriff = "SELECT art, user_from, coords_from_gal, coords_from_sys, coords_from_planet, time, schiffe FROM " . $db_tb_lieferung . " WHERE";
             $sql_angriff .= " coords_to_gal=" . $row['coords_gal'] . " AND";
             $sql_angriff .= " coords_to_sys=" . $row['coords_sys'] . " AND";
             $sql_angriff .= " coords_to_planet=" . $row['coords_planet'] . " AND";
@@ -981,10 +981,10 @@ if (empty($params['view'])) {
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
             while ($row_angriff = $db->db_fetch_array($result_angriff)) {
                 if ($row_angriff['art'] == 'Angriff') {
-                    $comment .= "<div style='color: red'>Angriff von " . $row_angriff['user_from'] . " bis " . strftime(CONFIG_DATETIMEFORMAT, $row_angriff['time']) . "</div>";
+                    $comment .= "<div style='color: red'>Angriff von " . $row_angriff['user_from'] . " von " . $row_angriff['coords_from_gal'] . ":" . $row_angriff['coords_from_sys'] . ":" . $row_angriff['coords_from_planet'] . " aus bis " . strftime(CONFIG_DATETIMEFORMAT, $row_angriff['time']) . "</div>";
                     $text_color = "color: red;";
                 } else {
-                    $comment .= "<div style='color: #CC6600'>Sondierung von " . $row_angriff['user_from'] . " bis " . strftime(CONFIG_DATETIMEFORMAT, $row_angriff['time']) . " mit " . $row_angriff['schiffe'] . "</div>";
+                    $comment .= "<div style='color: #CC6600'>Sondierung von " . $row_angriff['user_from'] . " von " . $row_angriff['coords_from_gal'] . ":" . $row_angriff['coords_from_sys'] . ":" . $row_angriff['coords_from_planet'] . " aus bis " . strftime(CONFIG_DATETIMEFORMAT, $row_angriff['time']) . " mit " . $row_angriff['schiffe'] . "</div>";
                     if (empty($text_color) || $text_color = "color: #808080;") {
                         $text_color = "color: #CC6600";
                     }

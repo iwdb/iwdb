@@ -226,28 +226,27 @@ echo "</div>";
     <tr>
         <td id="doc_greeting">Hallo, <?php echo $user_id;?>.</td>
         <td id="doc_usersonline">
-            Online: <?php echo $counter_member . " (" . $online_member . ")";?></td>
+            Online: <?php echo $onlineUsers['counter_member'] . " (" . $onlineUsers['strOnlineMember'] . ")";?></td>
         <td id="doc_mainmenu">
 
             <a href="index.php?sid=<?php echo $sid;?>"><img
                     src="bilder/icon_mini_home.gif" width="12" height="13"
-                    alt="Startseite" class="top"> Startseite</a> |
+                    alt="Startseite">&nbsp;<span>Startseite</span></a> |
             <a href="index.php?action=memberlogout2&sid=<?php echo $sid;?>"><img
                     src="bilder/icon_mini_login.gif" width="12" height="13"
-                    alt="login" class="top"> logout</a> |
+                    alt="login">&nbsp;<span>logout</span></a> |
             <a href="index.php?action=profile&sid=<?php echo $sid;?>"><img
                     src="bilder/icon_mini_profile.gif" width="12" height="13"
-                    alt="profil" class="top"> profil</a> |
+                    alt="profil">&nbsp;<span>profil</span></a> |
             <a href="index.php?action=help&topic=<?php echo $action;?>&sid=<?php echo $sid;?>"><img
                     src="bilder/icon_mini_search.gif" width="12" height="13"
-                    alt="profile" class="top"> hilfe</a>
+                    alt="profile">&nbsp;<span>hilfe</span></a>
             <?php
 
             if ($user_status == "admin") {
                 ?>
                 |
-                <a href="index.php?action=admin&sid=<?php echo $sid;?>"><img src="bilder/icon_mini_members.gif" width="12" height="13" alt="admin" class="top">
-                    admin</a>
+                <a href="index.php?action=admin&sid=<?php echo $sid;?>"><img src="bilder/icon_mini_members.gif" width="12" height="13" alt="admin">&nbsp;<span>admin</span></a>
             <?php
             }
             ?>

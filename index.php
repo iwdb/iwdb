@@ -34,7 +34,7 @@ define('APPLICATION_PATH_URL', dirname($_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_
 require_once("includes/bootstrap.php");
 global $sid;
 
-if (isset($user_status)) {
+if ($login_ok) {
     $sqlIA = "SELECT `text`,`value` FROM `{$db_tb_params}` WHERE `name` = 'gesperrt' ";
     $resultIA = $db->db_query($sqlIA)
         or error(GENERAL_ERROR, 'Could not query user status information.', '', __FILE__, __LINE__, $sqlIA);
@@ -58,8 +58,13 @@ if (isset($user_status)) {
     }
 }
 
+if ($action === 'memberlogout2') {
+    header("Location: " . APPLICATION_PATH_RELATIVE);
+    exit;
+}
+
 // Regeln akzeptieren //
-if (($action === 'rules') AND (getVar('accept_rules')) AND ($user_id <> "guest")) {
+if (($action === 'rules') AND (getVar('accept_rules')) AND ($login_ok)) {
     $user_rules = "1";
     $result = $db->db_update($db_tb_user, array('rules' => 1), "WHERE id='$user_id'")
         or error(GENERAL_ERROR, 'Could not update rules information.', '', __FILE__, __LINE__);
@@ -69,7 +74,7 @@ if (($action === 'rules') AND (getVar('accept_rules')) AND ($user_id <> "guest")
 
 // Sitterlogin //
 $sitterlogin = getVar('sitterlogin');
-if ((($user_adminsitten == SITTEN_BOTH) || ($user_adminsitten == SITTEN_ONLY_LOGINS)) && ($action == "sitterlogins") && (!empty($sitterlogin)) && ($user_id <> "guest")) {
+if ((($user_adminsitten == SITTEN_BOTH) || ($user_adminsitten == SITTEN_ONLY_LOGINS)) && ($action == "sitterlogins") && (!empty($sitterlogin)) && ($login_ok)) {
     $sql = "DELETE FROM " . $db_tb_sitterlog . " WHERE date<" . (CURRENT_UNIX_TIME - $config_sitterlog_timeout);
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -120,6 +125,8 @@ if ((($user_adminsitten == SITTEN_BOTH) || ($user_adminsitten == SITTEN_ONLY_LOG
     }
     ?>
     <link href="css/style.css" rel="stylesheet" type="text/css">
+    <script src="javascript/jquery-1.9.0.min.js"></script>
+    <script src="javascript/jquery-migrate-1.0.0.js"></script>
 </head>
 <?php
 if (!getVar("nobody")) {
@@ -137,7 +144,7 @@ if (!getVar("nobody")) {
                     echo "<div id='iwdb_logo'><img src={$config_banner} alt='banner'></div>";
                 }
                 }
-                if ( ($user_id <> "guest") && ($user_rules == "1") ) {
+                if ( ($login_ok) && ($user_rules == "1") ) {
 
                     if (getVar("action") == "profile") {
                         // Menue-Änderung voraus?
@@ -176,14 +183,16 @@ if (!getVar("nobody")) {
                                 echo "<br><div class='system_notification'><b>*moep* Achtung! Du hast zwar anderen das Sitten erlaubt, aber kein Sitterpasswort eingetragen.</b></div><br><br>";
                             }
 
-                            if (($user_id <> "guest") && ($user_rules == "1")) {
+                            if (($login_ok) && ($user_rules == "1")) {
+
+                                if ($action === 'memberlogin2') {
+                                    include("modules/" . $config_default_action . ".php");
+                                }
 
                                 if (file_exists("modules/" . $action . ".php") === true) {
                                     include("modules/" . $action . ".php");
                                 }
-                                if ($action === 'memberlogin2') {
-                                    include("modules/" . $config_default_action . ".php");
-                                }
+
 
                                 if ($action == 'deluser' AND $user_status === "admin") {
 
@@ -238,7 +247,7 @@ if (!getVar("nobody")) {
                                     doc_title('Account löschen');
                                     doc_message('Account ' . $sitterlogin . ' gelöscht!');
                                 }
-                            } elseif (($user_id <> "guest") && ($user_rules != "1")) {
+                            } elseif (($login_ok) && ($user_rules != "1")) {
                                 include("modules/rules.php");
                                 exit;
                             } else {
@@ -261,8 +270,6 @@ if (!getVar("nobody")) {
     </tr>
     </table>
 </div>
-<script src="javascript/jquery-1.9.0.min.js"></script>
-<script src="javascript/jquery-migrate-1.0.0.js"></script>
 <script src="javascript/misc.js"></script>
 </body>
 </html>

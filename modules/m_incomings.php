@@ -76,21 +76,23 @@ function workInstallDatabase()
 
     $sqlscript = array(
         "CREATE TABLE IF NOT EXISTS `{$db_prefix}incomings` (
-        `koords_to` varchar(11) NOT NULL,
-        `name_to` varchar(50) NOT NULL,
-        `allianz_to` varchar(50) NOT NULL,
-        `koords_from` varchar(11) NOT NULL,
-        `name_from` varchar(50) NOT NULL,
-        `allianz_from` varchar(50) NOT NULL,
-        `art` varchar(100) NOT NULL COMMENT 'Angriff oder Sondierung',
-        `timestamp` int(10) unsigned NOT NULL COMMENT 'Zeitstempel Sondierung',
+        `koords_to` VARCHAR(11) NOT NULL COMMENT 'Zielcoords',
+        `name_to` VARCHAR(50) NOT NULL COMMENT 'Zielspieler',
+        `allianz_to` VARCHAR(50) NOT NULL COMMENT 'Zielallianz',
+        `koords_from` VARCHAR(11) NOT NULL COMMENT 'Angreiferkoords',
+        `name_from` VARCHAR(50) NOT NULL COMMENT 'Angreiferspieler',
+        `allianz_from` VARCHAR(50) NOT NULL COMMENT 'Angreiferallianz',
+        `art` VARCHAR(100) NOT NULL COMMENT 'Angriff oder Sondierung',
+        `timestamp` INT(10) UNSIGNED NOT NULL COMMENT 'Unixzeitstempel des Atts/Sondierung',
+        `gesaved` INT(10) UNSIGNED DEFAULT NULL COMMENT 'Unixzeitstempel des Saveflug der Schiffe',
+        `recalled` INT(10) UNSIGNED DEFAULT NULL COMMENT 'Unixzeitstempel des Recall der Schiffe',
         PRIMARY KEY (`timestamp`,`koords_to`, `koords_from` , `art`)
         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Tabelle für Incomings';
         ",
     );
     foreach ($sqlscript as $sql) {
         $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            or error(GENERAL_ERROR, 'Could not install incomings-table.', '', __FILE__, __LINE__, $sql);
     }
     echo "<div class='system_success'>Installation: Datenbankänderungen = <b>OK</b></div>";
 
@@ -198,11 +200,11 @@ echo " 	 <br />\n";
 
 //Löschen der Einträge in der Tabelle incomings, es sollen nur aktuelle Sondierungen und Angriffe eingetragen sein
 //ToDo : evtl Trennung Sondierung und Angriffe, damit die Sondierungen früher entfernt sind
-$sql = "DELETE FROM " . $db_tb_incomings . " WHERE timestamp<" . (CURRENT_UNIX_TIME - 20 * 60);
+$sql = "DELETE FROM " . $db_tb_incomings . " WHERE timestamp<" . (CURRENT_UNIX_TIME - 20 * MINUTE);
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not delete incomings information.', '', __FILE__, __LINE__, $sql);
 
-$sql = "SELECT * FROM " . $db_tb_incomings . " WHERE art = 'Sondierung (Schiffe/Def/Ress)' OR art = 'Sondierung (Gebäude/Ress)' ORDER BY timestamp ASC";
+$sql = "SELECT koords_to, name_to, allianz_to, koords_from, name_from, allianz_from, timestamp, gesaved, recalled FROM " . $db_tb_incomings . " WHERE art = 'Sondierung (Schiffe/Def/Ress)' OR art = 'Sondierung (Gebäude/Ress)' ORDER BY timestamp ASC";
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query incomings information.', '', __FILE__, __LINE__, $sql);
 
@@ -211,99 +213,107 @@ $data = array();
 //Tabelle für die Sondierungen	
 ?>
 <table class='table_hovertable' style='width:95%'>
-	<caption>Sondierungen</caption>
-	<thead>
-		<tr>
-			<th>
-				Opfer
-			</th>
-			<th>
-				Zielplanet
-			</th>
-			<th>
-				Pösewicht
-			</th>
-			<th>
-				Ausgangsplanet
-			</th>
-			<th>
-				Zeitpunkt
-			</th>
-			<th>
-				Art der Sondierung
-			</th>
-		</tr>
-	</thead>
-	
-	<?php
-	while ($row = $db->db_fetch_array($result)) {
-	?>
-	<tbody>
-		<tr>
-			<td>
-				<?php 
-				$sitterlogin=CreateSitterlogin($row['name_to']);
-				echo "<a href='$sitterlogin' target='_blank'><img src='bilder/user-login.gif' alt='L' title='Einloggen'></a>";
-				echo "&emsp;" . $row['name_to'];
-				?>
-			</td>
-			<td>
-				<?php 
-				$objekt = GetObjectByCoords($row['koords_to']);
-				if ($objekt == 'Kolonie') {
-					echo "<img src='bilder/kolo.png'>";
-				} else if ($objekt == 'Sammelbasis') {
-					echo "<img src='bilder/ress_basis.png'>";
-				} else if ($objekt == 'Artefaktbasis') {
-					echo "<img src='bilder/artefakt_basis.png'>";
-				} else if ($objekt == 'Kampfbasis') {
-					echo "<img src='bilder/kampf_basis.png'>";
-				}
-				echo $row['koords_to'];
-				?>
-			</td>
-			<td>
-				<?php 
-				if (!empty($row['allianz_from'])) {
-					echo ($row['name_from'] . " [" . $row['allianz_from'] . "]");
-				} else {
-					echo $row['name_from'];
-				}
-				?>
-			</td>
-			<td>
-				<?php 
-				$objekt = GetObjectByCoords($row['koords_from']);
-				if ($objekt == 'Kolonie') {
-					echo "<img src='bilder/kolo.png'>";
-				} else if ($objekt == 'Sammelbasis') {
-					echo "<img src='bilder/ress_basis.png'>";
-				} else if ($objekt == 'Artefaktbasis') {
-					echo "<img src='bilder/artefakt_basis.png'>";
-				} else if ($objekt == 'Kampfbasis') {
-					echo "<img src='bilder/kampf_basis.png'>";
-				}
-				echo $row['koords_from'];
-				?>
-			</td>
-			<td>
-				<?php 
-				echo strftime(CONFIG_DATETIMEFORMAT, $row['timestamp']);
-				?>
-			</td>
-			<td>
-				<?php 
-				echo $row['art'];
-				?>
-			</td>
-		</tr>
-	</tbody>
-	<?php
-	}
-	?>
+    <caption>Sondierungen</caption>
+    <thead>
+    <tr>
+        <th>
+            Opfer
+        </th>
+        <th>
+            Zielplanet
+        </th>
+        <th>
+            Pösewicht
+        </th>
+        <th>
+            Ausgangsplanet
+        </th>
+        <th>
+            Zeitpunkt
+        </th>
+        <th>
+            Art der Sondierung
+        </th>
+        <th>
+            gesaved
+        </th>
+        <th>
+            recalled
+        </th>
+    </tr>
+    </thead>
+
+    <?php
+    while ($row = $db->db_fetch_array($result)) {
+        ?>
+        <tbody>
+        <tr>
+            <td>
+                <?php
+                echo "<a href='index.php?action=sitterlogins&sitterlogin=" . urlencode($row['name_to']) . "' target='_blank'><img src='" . BILDER_PATH . "user-login.gif' alt='L' title='Einloggen'>";
+                echo "&emsp;" . $row['name_to'];
+                echo "</a>";
+                ?>
+            </td>
+            <td>
+                <?php
+                echo getObjectPictureByCoords($row['koords_to']);
+                echo $row['koords_to'];
+                ?>
+            </td>
+            <td>
+                <?php
+                if (!empty($row['allianz_from'])) {
+                    echo ($row['name_from'] . " [" . $row['allianz_from'] . "]");
+                } else {
+                    echo $row['name_from'];
+                }
+                ?>
+            </td>
+            <td>
+                <?php
+                echo getObjectPictureByCoords($row['koords_from']);
+                echo $row['koords_from'];
+                ?>
+            </td>
+            <td>
+                <?php
+                echo strftime(CONFIG_DATETIMEFORMAT, $row['timestamp']);
+                ?>
+            </td>
+            <td>
+                <?php
+                echo $row['art'];
+                ?>
+            </td>
+            <td>
+                <?php
+                echo "<label><input type='checkbox' class='gesavedCheckbox' value='$row[koords_to]'";
+                if (!empty($row['gesaved'])) {
+                    echo 'checked="checked"';
+                }
+                echo "'>";
+                echo "</label>";
+                ?>
+            </td>
+            <td>
+                <?php
+                echo "<label><input type='checkbox' class='recalledCheckbox' value='$row[koords_to]'";
+                if (!empty($row['recalled'])) {
+                    echo 'checked="checked"';
+                }
+                echo "'>";
+                echo "</label>";
+                ?>
+            </td>
+        </tr>
+        </tbody>
+    <?php
+    }
+    ?>
 </table>
 
-<?php 
+<?php
 echo " 	 <br />\n";
 echo " 	 <br />\n";
 
@@ -316,139 +326,164 @@ $data = array();
 //Tabelle für die Angriffe	
 ?>
 <table class='table_hovertable' style='width:95%'>
-	<caption>Angriffe</caption>
-	<thead>
-		<tr>
-			<th>
-				Opfer
-			</th>
-			<th>
-				Zielplanet
-			</th>
-			<th>
-				Pösewicht
-			</th>
-			<th>
-				Ausgangsplanet
-			</th>
-			<th>
-				Zeitpunkt
-			</th>
-		</tr>
-	</thead>
-	
-	<?php
-	while ($row = $db->db_fetch_array($result)) {
-	?>
-	<tbody>
-		<tr>
-			<td>
-				<?php 
-				$sitterlogin=CreateSitterlogin($row['name_to']);
-				echo "<a href='$sitterlogin' target='_blank'><img src='bilder/user-login.gif' alt='L' title='Einloggen'></a>";
-				echo "&emsp;" . $row['name_to'];
-				?>
-			</td>
-			<td>
-				<?php 
-				$objekt = GetObjectByCoords($row['koords_to']);
-				if ($objekt == 'Kolonie') {
-					echo "<img src='bilder/kolo.png'>";
-				} else if ($objekt == 'Sammelbasis') {
-					echo "<img src='bilder/ress_basis.png'>";
-				} else if ($objekt == 'Artefaktbasis') {
-					echo "<img src='bilder/artefakt_basis.png'>";
-				} else if ($objekt == 'Kampfbasis') {
-					echo "<img src='bilder/kampf_basis.png'>";
-				}
-				echo $row['koords_to'];
-				?>
-			</td>
-			<td>
-				<?php 
-				if (!empty($row['allianz_from'])) {
-					echo ($row['name_from'] . " [" . $row['allianz_from'] . "]");
-				} else {
-					echo $row['name_from'];
-				}
-				?>
-			</td>
-			<td>
-				<?php 
-				$objekt = GetObjectByCoords($row['koords_from']);
-				if ($objekt == 'Kolonie') {
-					echo "<img src='bilder/kolo.png'>";
-				} else if ($objekt == 'Sammelbasis') {
-					echo "<img src='bilder/ress_basis.png'>";
-				} else if ($objekt == 'Artefaktbasis') {
-					echo "<img src='bilder/artefakt_basis.png'>";
-				} else if ($objekt == 'Kampfbasis') {
-					echo "<img src='bilder/kampf_basis.png'>";
-				}
-				echo $row['koords_from'];
-				?>
-			</td>
-			<td>
-				<?php 
-				echo strftime(CONFIG_DATETIMEFORMAT, $row['timestamp']);
-				?>
-			</td>
-		</tr>
-	</tbody>
-	<?php
-	}
-	?>
+    <caption>Angriffe</caption>
+    <thead>
+    <tr>
+        <th>
+            Opfer
+        </th>
+        <th>
+            Zielplanet
+        </th>
+        <th>
+            Pösewicht
+        </th>
+        <th>
+            Ausgangsplanet
+        </th>
+        <th>
+            Zeitpunkt
+        </th>
+        <th>
+            gesaved
+        </th>
+        <th>
+            recalled
+        </th>
+    </tr>
+    </thead>
+
+    <?php
+    while ($row = $db->db_fetch_array($result)) {
+        ?>
+        <tbody>
+        <tr>
+            <td>
+                <?php
+                echo "<a href='index.php?action=sitterlogins&sitterlogin=" . urlencode($row['name_to']) . "' target='_blank'><img src='" . BILDER_PATH . "user-login.gif' alt='L' title='Einloggen'>";
+                echo "&emsp;" . $row['name_to'];
+                echo "</a>";
+                ?>
+            </td>
+            <td>
+                <?php
+                echo getObjectPictureByCoords($row['koords_to']);
+                echo $row['koords_to'];
+                ?>
+            </td>
+            <td>
+                <?php
+                if (!empty($row['allianz_from'])) {
+                    echo ($row['name_from'] . " [" . $row['allianz_from'] . "]");
+                } else {
+                    echo $row['name_from'];
+                }
+                ?>
+            </td>
+            <td>
+                <?php
+                echo getObjectPictureByCoords($row['koords_from']);
+                echo $row['koords_from'];
+                ?>
+            </td>
+            <td><?php echo strftime(CONFIG_DATETIMEFORMAT, $row['timestamp']); ?></td>
+            <td>
+                <?php
+                echo "<label><input type='checkbox' class='gesavedCheckbox' value='$row[koords_to]'";
+                if (!empty($row['gesaved'])) {
+                    echo 'checked="checked"';
+                }
+                echo "'>";
+                echo "</label>";
+                ?>
+            </td>
+            <td>
+                <?php
+                echo "<label><input type='checkbox' class='recalledCheckbox' value='$row[koords_to]'";
+                if (!empty($row['recalled'])) {
+                    echo 'checked="checked"';
+                }
+                echo "'>";
+                echo "</label>";
+                ?>
+            </td>
+        </tr>
+        </tbody>
+    <?php
+    }
+    ?>
 </table>
 
 
 <table class='borderless'>
-	<tr>
-		<td>
-			<?php
-			echo "<img src='bilder/kolo.png'> = Kolonie";
-			?>
-		</td>
-		<td>
-			<?php
-			echo "<img src='bilder/ress_basis.png'> = Ressourcensammelbasis";
-			?>
-		</td>
-		<td>
-			<?php
-			echo "<img src='bilder/artefakt_basis.png'> = Artefaktsammelbasis";
-			?>
-		</td>
-		<td>
-			<?php
-			echo "<img src='bilder/kampf_basis.png'> = Kampfbasis";
-			?>
-		</td>
-	</tr>
+    <tr>
+        <td>
+            <?php
+            echo "<img src='" . BILDER_PATH . "kolo.png'> = Kolonie";
+            ?>
+        </td>
+        <td>
+            <?php
+            echo "<img src='" . BILDER_PATH . "ress_basis.png'> = Ressourcensammelbasis";
+            ?>
+        </td>
+        <td>
+            <?php
+            echo "<img src='" . BILDER_PATH . "artefakt_basis.png'> = Artefaktsammelbasis";
+            ?>
+        </td>
+        <td>
+            <?php
+            echo "<img src='" . BILDER_PATH . "kampf_basis.png'> = Kampfbasis";
+            ?>
+        </td>
+    </tr>
 </table>
 
-<script type="text/javascript" src="javascript/incomings.js"></script>
+<script>
+    "use strict";
 
-<?php 
-/**
- * Sitterlogin generieren
- *
- */
-function CreateSitterlogin($user) {
-	
-	global $db, $db_tb_user;
-	
-	$sql = "SELECT `sitterpwd` FROM `{$db_tb_user}` WHERE `id` = '$user';";
+    /**
+     * @return {boolean}
+     */
+    function updateFleetsavings(handle) {
+        var action = '';
+        var result = false;
+        var jQhandle = jQuery(handle);
 
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-    $row = $db->db_fetch_array($result);
-      
-    $url = 'http://icewars.de/index.php?action=login&name=' . urlencode($user);
-    $url .= '&pswd=' . $row['sitterpwd'];
-    $url .= '&serverskin=1';
-    $url .= '&serverskin_typ=3';
-    $url .= '&sitter=1&ismd5=1&submit=1';
-    
-    return $url;
-   	}
- ?>
+        if (jQhandle.hasClass('gesavedCheckbox')) {
+            action = 'gesaved';
+        } else if (jQhandle.hasClass('recalledCheckbox')) {
+            action = 'recalled';
+        }
+
+        jQuery.ajax({
+            url: 'ajax.php',
+            type: 'POST',
+            cache: false,
+            async: false,
+            data: {
+                coords: jQhandle.val(),
+                action: action,
+                state: jQhandle.prop("checked")
+            },
+            success: function (ajaxreturn) {
+                if (ajaxreturn === 'success') {
+                    result = true;
+                }
+            }
+        });
+
+        return result;
+    }
+
+    jQuery(document).ready(function () {
+        jQuery('.gesavedCheckbox, .recalledCheckbox').change(function () {          //gesaved oder recalled Änderung
+            if (updateFleetsavings(this) === false) {
+                //alert("Fehler beim Setzen des Status!");
+                jQuery(this).prop('checked', !jQuery(this).prop("checked"));        //Auswahl rückgängig machen, da Fehler beim übernehmen
+            }
+
+        });
+    });
+</script>

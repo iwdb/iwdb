@@ -88,7 +88,7 @@ end_form();
                 <?php
                 if ($user_status == "admin") {
                     echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($row['fromuser']) .
-                        "&sid=" . $sid . "'>" . $row['fromuser'] . "</a>";
+                        "'>" . $row['fromuser'] . "</a>";
                 } else {
                     echo $row['fromuser'];
                 }
@@ -136,7 +136,7 @@ end_form();
                 <?php
                 if ($user_status == "admin") {
                     echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($row['sitterlogin']) .
-                        "&sid=" . $sid . "'>" . $row['sitterlogin'] . "</a>";
+                        "'>" . $row['sitterlogin'] . "</a>";
                 } else {
                     echo $row['sitterlogin'];
                 }

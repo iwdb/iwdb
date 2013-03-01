@@ -116,10 +116,10 @@ while ($row = $db->db_fetch_array($result)) {
     echo "\n";
     echo " <tr>\n";
     echo "  <td class='windowbg2' valign='bottom' style='width:15%'>\n";
-    echo "   <a href='index.php?action=schiffe&ordered=asc&sid=" . $sid . "'>" .
+    echo "   <a href='index.php?action=schiffe&ordered=asc'>" .
         "<img src='bilder/asc.gif'></a>" .
         "  Username  " .
-        "<a href='index.php?action=schiffe&ordered=desc&sid=" . $sid . "'>" .
+        "<a href='index.php?action=schiffe&ordered=desc'>" .
         "<img src='bilder/desc.gif'></a>\n";
     echo "  </td>\n";
 
@@ -129,10 +129,10 @@ while ($row = $db->db_fetch_array($result)) {
         echo "  <td class='windowbg2 center' " .
             "valign='bottom' style='width:" . (85 / $schiffsanz) . "%'>\n";
         echo "    <a href='index.php?action=schiffe&order=" . $row_schiffe['id'] .
-            "&ordered=asc&sid=" . $sid . "'><img src='bilder/asc.gif'></a>\n";
+            "&ordered=asc'><img src='bilder/asc.gif'></a>\n";
         echo $row_schiffe['abk'];
         echo "    <a href='index.php?action=schiffe&order=" . $row_schiffe['id'] .
-            "&ordered=desc&sid=" . $sid . "'><img src='bilder/desc.gif'></a>\n";
+            "&ordered=desc'><img src='bilder/desc.gif'></a>\n";
         echo "  </td>\n";
     }
     echo " </tr>\n";
@@ -175,7 +175,7 @@ while ($row = $db->db_fetch_array($result)) {
 
             if ($user_status == "admin") {
                 echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($userx) .
-                    "&sid=" . $sid . "'>" . $userx . "</a>";
+                    "'>" . $userx . "</a>";
             } else {
                 echo $userx;
             }

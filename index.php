@@ -32,7 +32,6 @@ define('APPLICATION_PATH_RELATIVE', dirname($_SERVER['SCRIPT_NAME']));
 define('APPLICATION_PATH_URL', dirname($_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME']));
 
 require_once("includes/bootstrap.php");
-global $sid;
 
 if ($login_ok) {
     $sqlIA = "SELECT `text`,`value` FROM `{$db_tb_params}` WHERE `name` = 'gesperrt' ";
@@ -116,7 +115,7 @@ if ((($user_adminsitten == SITTEN_BOTH) || ($user_adminsitten == SITTEN_ONLY_LOG
     <meta charset="utf-8">
     <title><?php echo $config_allytitle ?></title>
     <?php
-    $SERVERURI = "index.php?action=" . $action . "&sid=" . $sid;
+    $SERVERURI = "index.php?action=" . $action;
 
     if (($action == "sitterlogins") || ($action == "sitterliste")) {
         if (($user_adminsitten == SITTEN_BOTH) || ($user_adminsitten == SITTEN_ONLY_LOGINS)) {

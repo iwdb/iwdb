@@ -431,22 +431,22 @@ while ($row = $db->db_fetch_array($result)) {
     echo "<td width='50%' class='" . $cl . "' >&nbsp;" . $row['title'] . "&nbsp;</td>";
     echo "<td width='50%' class='" . $cl . " right'>";
     if ($row['submenu'] == 0) {
-        echo "<a href='index.php?action=admin_menue&sid=" . $sid . "&delid=" . $row['id'] . "' target='_self'><img src='./bilder/delete.gif' align='absmiddle' title='Menütitel Löschen' alt='Menütitel Löschen' onclick='return confirmLink(this, \"" . $row['id'] . "\")'></a>";
+        echo "<a href='index.php?action=admin_menue&delid=" . $row['id'] . "' target='_self'><img src='./bilder/delete.gif' align='absmiddle' title='Menütitel Löschen' alt='Menütitel Löschen' onclick='return confirmLink(this, \"" . $row['id'] . "\")'></a>";
     }
     if ($row['id'] == $hid) {
         echo "<img src='./bilder/sort_up2.gif' align='absmiddle' title='Sortieren: Up' alt='Sortieren: Up'>";
     } else {
-        echo "<a href='index.php?action=admin_menue&sid=" . $sid . "&sort=up&id=" . $row['id'] . "' target='_self'><img src='./bilder/sort_up.gif' align='absmiddle' title='Sortieren: Up' alt='Sortieren: Up'></a>";
+        echo "<a href='index.php?action=admin_menue&sort=up&id=" . $row['id'] . "' target='_self'><img src='./bilder/sort_up.gif' align='absmiddle' title='Sortieren: Up' alt='Sortieren: Up'></a>";
     }
     if ($row['id'] == $lid) {
         echo "<img src='./bilder/sort_down2.gif' align='absmiddle' title='Sortieren: Down' alt='Sortieren: Down'>";
     } else {
-        echo "<a href='index.php?action=admin_menue&sid=" . $sid . "&sort=down&id=" . $row['id'] . "' target='_self'><img src='./bilder/sort_down.gif' align='absmiddle' title='Sortieren: Down' alt='Sortieren: Down'></a>";
+        echo "<a href='index.php?action=admin_menue&sort=down&id=" . $row['id'] . "' target='_self'><img src='./bilder/sort_down.gif' align='absmiddle' title='Sortieren: Down' alt='Sortieren: Down'></a>";
     }
     if (!empty($grtext)) {
-        echo "<a href='index.php?action=admin_menue&sid=" . $sid . "&eid=" . $row['id'] . "' target='_self'><img src='./bilder/edit_" . $grart . ".gif' align='absmiddle' title='" . $grtext . "' alt='" . $grtext . "'></a>";
+        echo "<a href='index.php?action=admin_menue&eid=" . $row['id'] . "' target='_self'><img src='./bilder/edit_" . $grart . ".gif' align='absmiddle' title='" . $grtext . "' alt='" . $grtext . "'></a>";
     } else {
-        echo "<a href='index.php?action=admin_menue&sid=" . $sid . "' target='_self'><img src='./bilder/edit_" . $grart . ".gif' align='absmiddle' title='" . $grtext . "' alt='" . $grtext . "'></a>";
+        echo "<a href='index.php?action=admin_menue' target='_self'><img src='./bilder/edit_" . $grart . ".gif' align='absmiddle' title='" . $grtext . "' alt='" . $grtext . "'></a>";
     }
     echo "</td>";
     echo "</tr>";
@@ -456,7 +456,7 @@ while ($row = $db->db_fetch_array($result)) {
 
         echo "<tr><td colspan=2 width='100%' class='" . $cl . " center'><table width='90%' class='bordercolor' border='0' cellpadding='2' cellspacing='0' >";
 
-        echo "<tr><form name='form' action='index.php?action=admin_menue&sid=" . $sid . "&eid=" . $row['id'] . "' method='post'>";
+        echo "<tr><form name='form' action='index.php?action=admin_menue&eid=" . $row['id'] . "' method='post'>";
         echo "<td width='50%' class='" . $cl . " left'>Menütext:</td>";
         echo "<td width='50%' class='" . $cl . " left'><input name='edit_title' type='text' size=50 maxlength='100' value='" . $row['title'] . "'></td>";
         echo "</tr><tr>";
@@ -528,7 +528,7 @@ echo "</table><br><br>";
 
 
 echo "<table width='90%' class='bordercolor' border='0' cellpadding='2' cellspacing='1' >";
-echo "<tr><form name='form2' action='index.php?action=admin_menue&sid=" . $sid . "' method='post'>";
+echo "<tr><form name='form2' action='index.php?action=admin_menue' method='post'>";
 echo "<td colspan=2 width='100%' class='windowbg2 center'>Neuer Menütitel</td>";
 echo "</tr><tr class='windowbg1 left'>";
 echo "<td width='50%'>Menütext:</td>";
@@ -564,7 +564,7 @@ while (false !== ($modulefile = readdir($moduledirhandle))) {
 
         if (file_exists(APPLICATION_PATH_ABSOLUTE . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . $moduleinfo['name'] . '.cfg.php')) { //Moduleinstellungsdatei vorhanden (Modul installiert) -> Deinstallation anbieten
 
-            echo "<form method='POST' action='index.php?action=" . $moduleinfo['name'] . "&was=uninstall&sid=" . $sid . "'>\n";
+            echo "<form method='POST' action='index.php?action=" . $moduleinfo['name'] . "&was=uninstall'>\n";
             echo " <table class='bordercolor' width='90%' cellpadding='4' cellspacing='1'>\n";
             echo "  <tr>\n";
 
@@ -587,7 +587,7 @@ while (false !== ($modulefile = readdir($moduledirhandle))) {
         } else { //Moduleinstellungsdatei nicht vorhanden (Modul nicht installiert) -> Installation anbieten (erst nach der Anzeige der Installierten Module)
             if (!empty($moduleinfo['title'])) {
 
-                $installecho = $installecho . "<form method='POST' action='index.php?action=" . $moduleinfo['name'] . "&was=install&sid=" . $sid . "'>"
+                $installecho .= "<form method='POST' action='index.php?action=" . $moduleinfo['name'] . "&was=install'>"
                     . " <table class='bordercolor' width='90%' cellpadding='4' cellspacing='1'>\n"
                     . "  <tr>\n"
                     . "   <td class='titlebg left middle'><strong>\n" . $moduleinfo['title'] . "</strong>&nbsp;<i>(" . $moduleinfo['name'] . ")</i></td>\n"
@@ -605,7 +605,7 @@ while (false !== ($modulefile = readdir($moduledirhandle))) {
                 $installecho = $installecho . "<hr width='90%'>"
                     . "<big><b>" . $moduleinfo['name'] . "</b></big><br><br>"
                     . "Willst du es jetzt installieren?<br><br>"
-                    . "<form method='POST' action='index.php?action=" . $moduleinfo['name'] . "&was=install&sid=" . $sid . "'>"
+                    . "<form method='POST' action='index.php?action=" . $moduleinfo['name'] . "&was=install'>"
                     . "<input type='submit' value='Na klar!' name='install' class='submit'>"
                     . "</form><br>"
                     . "<hr width='90%'><br>";

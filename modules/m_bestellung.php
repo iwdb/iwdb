@@ -1065,10 +1065,9 @@ function makelink($newparams, $content)
 // Erzeugt eine Modul-URL.
 function makeurl($newparams)
 {
-    global $modulname, $sid, $params;
+    global $modulname, $params;
 
     $url = 'index.php?action=' . $modulname;
-    $url .= '&sid=' . $sid;
     $mergeparams = array_merge($params, $newparams);
     foreach ($mergeparams as $paramkey => $paramvalue) {
         $url .= '&' . $paramkey . '=' . $paramvalue;

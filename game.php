@@ -7,7 +7,7 @@ define('APPLICATION_PATH_URL', dirname($_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_
 require_once("includes/bootstrap.php");
 error_reporting(E_ALL & ~E_NOTICE);
 
-if (empty($sid) || empty($user_sitterlogin) || !($user_adminsitten == SITTEN_BOTH || $user_adminsitten == SITTEN_ONLY_LOGINS) || $user_id == "guest") {
+if (($login_ok === false) || empty($user_sitterlogin) || !($user_adminsitten == SITTEN_BOTH || $user_adminsitten == SITTEN_ONLY_LOGINS)) {
     header("Location: " . APPLICATION_PATH_RELATIVE);
     exit;
 }
@@ -17,25 +17,24 @@ if (!defined('DEBUG_LEVEL')) {
 }
 
 // Get request parameter
-$params = array(
-    'mode'   => getVar('mode'),
-    'action' => getVar('action'),
-);
-
-debug_var('name', $params['name'] = getVar('name'));
-debug_var('galaxy', $params['galaxy'] = getVar('galaxy'));
-debug_var('system', $params['system'] = getVar('system'));
-debug_var('planet', $params['planet'] = getVar('planet'));
-debug_var('view', $params['view'] = getVar('view'));
-debug_var('next', $params['next'] = getVar('next'));
-debug_var('next_galaxy', $params['next_galaxy'] = getVar('next_galaxy'));
-debug_var('next_system', $params['next_system'] = getVar('next_system'));
-debug_var('next_planet', $params['next_planet'] = getVar('next_planet'));
-debug_var('prev', $params['prev'] = getVar('prev'));
-debug_var('prev_galaxy', $params['prev_galaxy'] = getVar('prev_galaxy'));
-debug_var('prev_system', $params['prev_system'] = getVar('prev_system'));
-debug_var('prev_planet', $params['prev_planet'] = getVar('prev_planet'));
-debug_var('autocalc', $params['autocalc'] = getVar('autocalc'));
+$params = array();
+$params['mode'] = getVar('mode');
+$params['action'] = getVar('action');
+$params['name'] = getVar('name');
+$params['galaxy'] = getVar('galaxy');
+$params['system'] = getVar('system');
+$params['planet'] = getVar('planet');
+$params['view'] = getVar('view');
+$params['next'] = getVar('next');
+$params['next_galaxy'] = getVar('next_galaxy');
+$params['next_system'] = getVar('next_system');
+$params['next_planet'] = getVar('next_planet');
+$params['prev'] = getVar('prev');
+$params['prev_galaxy'] = getVar('prev_galaxy');
+$params['prev_system'] = getVar('prev_system');
+$params['prev_planet'] = getVar('prev_planet');
+$params['autocalc'] = getVar('autocalc');
+debug_var('params', $params);
 
 // Validate request parameter
 if (empty($params['mode'])) {
@@ -73,7 +72,7 @@ $data = array(
 );
 
 // Retrieve defence
-debug_var("sql", $sql = "SELECT * FROM $db_tb_def");
+debug_var("sql", $sql = "SELECT `name`, `id`, `abk`, `id_iw` FROM `{$db_tb_def}`;");
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 while ($row = $db->db_fetch_array($result)) {
@@ -85,7 +84,7 @@ while ($row = $db->db_fetch_array($result)) {
 }
 
 // Retrieve ships
-debug_var("sql", $sql = "SELECT * FROM $db_tb_schiffstyp");
+debug_var("sql", $sql = "SELECT `schiff`, `id_iw`, `abk` FROM `{$db_tb_schiffstyp}`;");
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 while ($row = $db->db_fetch_array($result)) {
@@ -99,11 +98,11 @@ while ($row = $db->db_fetch_array($result)) {
 // Retrieve target list
 $data['targets'] = array();
 
-$sql = 'SELECT *' .
+$sql = 'SELECT `coords_gal`, `coords_sys`, `coords_planet`' .
     ' FROM ' . $db_tb_target .
-    ' WHERE user="' . $user_sitterlogin . '"' .
-    ' AND name="' . $params['name'] . '"' .
-    ' ORDER BY coords_gal,coords_sys,coords_planet';
+    ' WHERE `user`="' . $user_sitterlogin . '"' .
+    ' AND `name`="' . $params['name'] . '"' .
+    ' ORDER BY `coords_gal`, `coords_sys`, `coords_planet`;';
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 while ($row = $db->db_fetch_array($result)) {
@@ -154,13 +153,13 @@ $data['url'] = array(
     'main'       => ($params['view'] == 'fleet_send'
         ? 'http://sandkasten.icewars.de/game/index.php?action=flotten_send&gal=' . $params['galaxy'] . "&sol=" . $params['system'] . '&pla=' . $params['planet']
         : 'http://sandkasten.icewars.de/game/index.php?action=universum&gal=' . $params['galaxy'] . "&sol=" . $params['system']),
-    'top'        => $_SERVER["SCRIPT_NAME"] . '?sid=' . $sid . '&name=' . $params['name'] . '&mode=top&view=' . $params['view'] . '&galaxy=' . $params['galaxy'] . '&system=' . $params['system'] . '&planet=' . $params['planet'] . '&autocalc=' . $params['autocalc'],
-    'right'      => $_SERVER["SCRIPT_NAME"] . '?sid=' . $sid . '&name=' . $params['name'] . '&mode=right&view=' . $params['view'] . '&galaxy=' . $params['galaxy'] . '&system=' . $params['system'],
-    'prev'       => $_SERVER["SCRIPT_NAME"] . '?sid=' . $sid . '&name=' . $params['name'] . '&action=prev&view=' . $params['view'] . '&galaxy=' . $data['targets_prev_gal'] . '&system=' . $data['targets_prev_sys'],
-    'next'       => $_SERVER["SCRIPT_NAME"] . '?sid=' . $sid . '&name=' . $params['name'] . '&action=next&view=' . $params['view'] . '&galaxy=' . $data['targets_next_gal'] . '&system=' . $data['targets_next_sys'],
-    'prevtarget' => $_SERVER["SCRIPT_NAME"] . '?sid=' . $sid . '&name=' . $params['name'] . '&view=fleet_send&galaxy=' . $data['target_prev_gal'] . '&system=' . $data['target_prev_sys'] . '&planet=' . $data['target_prev_planet'],
-    'nexttarget' => $_SERVER["SCRIPT_NAME"] . '?sid=' . $sid . '&name=' . $params['name'] . '&view=fleet_send&galaxy=' . $data['target_next_gal'] . '&system=' . $data['target_next_sys'] . '&planet=' . $data['target_next_planet'],
-    'uniview'    => $_SERVER["SCRIPT_NAME"] . '?sid=' . $sid . '&name=' . $params['name'] . '&view=universum&galaxy=' . $params['galaxy'] . '&system=' . $params['system'] . '&planet=' . $params['planet'],
+    'top'        => $_SERVER["SCRIPT_NAME"] . '?name=' . $params['name'] . '&mode=top&view=' . $params['view'] . '&galaxy=' . $params['galaxy'] . '&system=' . $params['system'] . '&planet=' . $params['planet'] . '&autocalc=' . $params['autocalc'],
+    'right'      => $_SERVER["SCRIPT_NAME"] . '?name=' . $params['name'] . '&mode=right&view=' . $params['view'] . '&galaxy=' . $params['galaxy'] . '&system=' . $params['system'],
+    'prev'       => $_SERVER["SCRIPT_NAME"] . '?name=' . $params['name'] . '&action=prev&view=' . $params['view'] . '&galaxy=' . $data['targets_prev_gal'] . '&system=' . $data['targets_prev_sys'],
+    'next'       => $_SERVER["SCRIPT_NAME"] . '?name=' . $params['name'] . '&action=next&view=' . $params['view'] . '&galaxy=' . $data['targets_next_gal'] . '&system=' . $data['targets_next_sys'],
+    'prevtarget' => $_SERVER["SCRIPT_NAME"] . '?name=' . $params['name'] . '&view=fleet_send&galaxy=' . $data['target_prev_gal'] . '&system=' . $data['target_prev_sys'] . '&planet=' . $data['target_prev_planet'],
+    'nexttarget' => $_SERVER["SCRIPT_NAME"] . '?name=' . $params['name'] . '&view=fleet_send&galaxy=' . $data['target_next_gal'] . '&system=' . $data['target_next_sys'] . '&planet=' . $data['target_next_planet'],
+    'uniview'    => $_SERVER["SCRIPT_NAME"] . '?name=' . $params['name'] . '&view=universum&galaxy=' . $params['galaxy'] . '&system=' . $params['system'] . '&planet=' . $params['planet'],
     'universum'  => 'http://sandkasten.icewars.de/game/index.php?action=universum&gal=' . $params['galaxy'] . "&sol=" . $params['system'],
 );
 
@@ -264,7 +263,7 @@ $data['shiptrans2'] = array(
 
 // Retrieve alliance status
 $data['alliancestatus'] = array();
-$sql = 'SELECT *' .
+$sql = 'SELECT `allianz`, `status`' .
     ' FROM ' . $db_tb_allianzstatus .
     ' WHERE name="' . $user_allianz . "'";
 $result = $db->db_query($sql)
@@ -371,7 +370,7 @@ while ($row = $db->db_fetch_array($result)) {
         }
     }
     // Link to fleet send view
-    $info['fleet_send'] = $_SERVER["SCRIPT_NAME"] . '?sid=' . $sid . '&name=' . $params['name'] . '&view=fleet_send&galaxy=' . $row['coords_gal'] . '&system=' . $row['coords_sys'] . '&planet=' . $row['coords_planet'];
+    $info['fleet_send'] = $_SERVER["SCRIPT_NAME"] . '?name=' . $params['name'] . '&view=fleet_send&galaxy=' . $row['coords_gal'] . '&system=' . $row['coords_sys'] . '&planet=' . $row['coords_planet'];
     // Calculate total defence
     $info['total'] = $shipattack + $info['def'];
     // Calculate rating
@@ -618,7 +617,6 @@ switch ($params['mode']) {
         <body onLoad="transCalcOnLoad()">
         <form target="_top">
         <input type="hidden" name="name" value="<?php echo $params['name'] ?>"/>
-        <input type="hidden" name="sid" value="<?php echo $sid ?>"/>
         <input type="hidden" name="view" value="<?php echo $params['view'] ?>"/>
         <input type="hidden" name="galaxy" value="<?php echo $params['galaxy'] ?>"/>
         <input type="hidden" name="system" value="<?php echo $params['system'] ?>"/>
@@ -670,7 +668,7 @@ switch ($params['mode']) {
                 } ?>
             </td>
             <td nowrap align="right" valign="top">
-                <a href="index.php?action=newscan&sid=<?php echo $sid ?>" target="_top">[ X ]</a>
+                <a href="index.php?action=newscan" target="_top">[ X ]</a>
             </td>
         </tr>
         <tr height="90px">
@@ -909,7 +907,7 @@ switch ($params['mode']) {
         <head>
             <style type="text/css">
                 * {
-                    font-family: verdana;
+                    font-family: verdana,serif;
                     font-size: 11px;
                 }
 
@@ -930,6 +928,30 @@ switch ($params['mode']) {
                 body, table, tr, td, form {
                     margin: 0 0 0 0;
                     padding: 0 0 0 0;
+                }
+
+                .left {
+                    text-align: left !important;
+                }
+
+                .center {
+                    text-align: center !important;
+                }
+
+                .right {
+                    text-align: right !important;
+                }
+
+                .top {
+                    vertical-align: top !important;
+                }
+
+                .middle {
+                    vertical-align: middle !important;
+                }
+
+                .bottom {
+                    vertical-align: bottom !important;
                 }
 
                 .universum {
@@ -977,7 +999,7 @@ switch ($params['mode']) {
         <body>
         <table border="0" cellpadding="0" cellspacing="0" width="100%" height="177px">
             <tr>
-                <td align="right" nowrap>[<a href="index.php?action=newscan&sid=<?php echo $sid ?>" target="_top">X</a>]
+                <td align="right" nowrap>[<a href="index.php?action=newscan" target="_top">X</a>]
                 </td>
             </tr>
             <tr>
@@ -1023,9 +1045,9 @@ switch ($params['mode']) {
             </td>
         </tr>
         <?php    foreach ($data['planets'] as $planet) {         if (isset($data['targets'][$planet['coords']])) {             if ($user_uniprop) { ?>
-        <tr class="universum-row-selected" height="71px" valign="top">
+        <tr class="universum-row-selected top" height="71px" >
             <?php            } else { ?>
-        <tr class="universum-row-selected" valign="top">
+        <tr class="universum-row-selected top" >
             <?php            }         } else {             if ($user_uniprop) { ?>
         <tr class="universum-row<?php echo !empty($planet['allianzstatus']) ? '-' . $planet['allianzstatus'] : '' ?>" height="71px" valign="top">
             <?php            } else { ?>
@@ -1215,7 +1237,7 @@ switch ($params['mode']) {
             </td>
         </tr>
         <tr height="40px" valign="top">
-            <td class="universum-spacer" colspan="3" width="100%" height="40px" valign="top" nowrap>
+            <td class="universum-spacer top" colspan="3" width="100%" height="40px"  nowrap>
                 <table width="100%" height="40px" valign="top">
                     <tr height="40px" valign="top">
                         <td align="left" valign="top" nowrap>

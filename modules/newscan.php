@@ -105,7 +105,7 @@ if ($selectedusername === false) {
 if (!isset($sitterschleife)) {
 
     doc_title('Neuer Bericht');
-    echo "<form method='POST' action='index.php?action=newscan&sid=" . $sid . "' enctype='multipart/form-data'>\n";
+    echo "<form method='POST' action='index.php?action=newscan' enctype='multipart/form-data'>\n";
     echo "<table class='table_format' style='width: 90%;'>\n";
     echo " <tr>\n";
     echo "  <td class='windowbg2 center'>\n";

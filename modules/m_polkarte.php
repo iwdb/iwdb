@@ -251,7 +251,7 @@ doc_title('Karte');
 echo "<div class='doc_big_black'>";
 if ($galaxy > $config_map_galaxy_min) {
     echo "<a href='index.php?action=m_polkarte&amp;galaxy=" . ($galaxy - 1) .
-        "&amp;sid=" . $sid . "'><b>&lt;&lt;</b></a>\n"; // <<
+        "'><b>&lt;&lt;</b></a>\n"; // <<
 }
 
 if (!empty($config_map_galaxy_min)) {
@@ -261,7 +261,7 @@ if (!empty($config_map_galaxy_min)) {
 }
 
 while ($gal <= $config_map_galaxy_max) { // Galaxiezahl
-    echo "<a href='index.php?action=m_polkarte&amp;galaxy=" . ($gal) . "&amp;sid=" . $sid . "'>";
+    echo "<a href='index.php?action=m_polkarte&amp;galaxy=" . ($gal) . "'>";
     if ($gal == $galaxy) {
         echo "<b>[" . $gal . "]</b></a>\n";
     } else {
@@ -271,7 +271,7 @@ while ($gal <= $config_map_galaxy_max) { // Galaxiezahl
 }
 
 if ($galaxy < $config_map_galaxy_max) {
-    echo "<a href='index.php?action=m_polkarte&amp;galaxy=" . ($galaxy + 1) . "&amp;sid=" . $sid . "'><b>&gt;&gt;</b></a>\n"; // >>
+    echo "<a href='index.php?action=m_polkarte&amp;galaxy=" . ($galaxy + 1) . "'><b>&gt;&gt;</b></a>\n"; // >>
 }
 echo "</div></p>";
 
@@ -431,7 +431,7 @@ for ($i = 1; $i <= $maxsys; $i++) {
     } else {
         $showgalaxylink = "<a href='index.php?action=showgalaxy&sys_end=" . $i .
             "&sys_start=" . $i . "&gal_end=" . $galaxy .
-            "&gal_start=" . $galaxy . "&sid=" . $sid . "' ";
+            "&gal_start=" . $galaxy . "' ";
 
         if ($showmembers) {
             echo $formatStart;

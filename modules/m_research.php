@@ -344,8 +344,7 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 // werden kann. Fehlen dann diese Definitionen, koennen die Daten nicht
 // gelesen werden.
 
-global $sid,
-       $db,
+global $db,
        $researchid,
        $db_tb_research,
        $db_tb_user,
@@ -366,7 +365,7 @@ $neededfpforresearch = 0;
 
 doc_title('Forschungsübersicht');
 echo "<form name='Formular' method='POST' action='index.php?action=" . $modulname .
-    "&sid=" . $sid . "' enctype='multipart/form-data' onsubmit='return false'>\n";
+    "' enctype='multipart/form-data' onsubmit='return false'>\n";
 echo "<select onchange='document.Formular.submit();' name='researchid' style='width: 400px;'>\n";
 echo fill_selection($resid);
 echo "</optgroup>\n";
@@ -777,7 +776,7 @@ function find_resfield($id)
 //
 function create_depends_on($resid)
 {
-    global $sid, $db, $db_tb_research2research, $db_tb_research, $v04,
+    global $db, $db_tb_research2research, $db_tb_research, $v04,
            $alphaorder, $config_gameversion, $modulname;
 
     $sql = "SELECT t1.rOld AS rid, t2.name AS rname, t2.gameversion AS gameversion FROM " .
@@ -797,7 +796,6 @@ function create_depends_on($resid)
         $retVal .= "<img src='bilder/point.gif' alt='a point o.O'/>&nbsp;";
         $retVal .= "<a href='index.php?action=" . $modulname .
             "&researchid=" . $research_data['rid'] .
-            "&sid=" . $sid .
             "&alphaorder=" . $alphaorder . "'>" .
             $research_data['rname'] . "</a>";
         if ($research_data['gameversion'] != $config_gameversion) {
@@ -816,7 +814,7 @@ function create_depends_on($resid)
 //
 function create_allows($resid)
 {
-    global $sid, $db, $db_tb_research2research, $modulname,
+    global $db, $db_tb_research2research, $modulname,
            $db_tb_research, $v04, $alphaorder, $config_gameversion;
 
     $sql = "SELECT t1.rNew AS rid, t2.name AS rname, t2.gebiet AS rgebiet," .
@@ -836,7 +834,7 @@ function create_allows($resid)
         $retVal .= "<img src='bilder/point.gif' alt='a point o.O'/>&nbsp;";
         $retVal .= "<a href='index.php?action=" . $modulname .
             "&researchid=" . $research_data['rid'] .
-            "&sid=" . $sid . "&alphaorder=" . $alphaorder . "'>";
+            "&alphaorder=" . $alphaorder . "'>";
         if ($research_data['rgebiet'] == 0) {
             $retVal .= "<span class='doc_red'>";
         }
@@ -969,7 +967,7 @@ function create_allows_prototype($resid)
 //
 function dependencies($resid)
 {
-    global $sid, $db, $db_tb_building2research, $db_tb_research2research, $alphaorder,
+    global $db, $db_tb_building2research, $db_tb_research2research, $alphaorder,
            $db_tb_research, $buildings, $researches, $v04, $unknownonly,
            $db_tb_research2user, $user_sitterlogin, $modulname, $config_gameversion;
 
@@ -1028,14 +1026,14 @@ function dependencies($resid)
             $retVal .= "<img src='bilder/point.gif' alt='a point o.O'/>&nbsp;";
             $retVal .= "<a href='index.php?action=" . $modulname .
                 "&researchid=" . $resid .
-                "&sid=" . $sid . "&alphaorder=" . $alphaorder . "'>" .
+                "&alphaorder=" . $alphaorder . "'>" .
                 $colorme_on . $researches[$resid] . $colorme_off . "</a><br>";
         }
     } else {
         $retVal .= "<img src='bilder/point.gif' alt='a point o.O'/>&nbsp;";
         $retVal .= "<a href='index.php?action=" . $modulname .
             "&researchid=" . $resid .
-            "&sid=" . $sid . "&alphaorder=" . $alphaorder . "'><span class='doc_red'>" .
+            "&alphaorder=" . $alphaorder . "'><span class='doc_red'>" .
             $researches[$resid] . "</span></a><br>";
 
 

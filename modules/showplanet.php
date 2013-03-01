@@ -34,7 +34,7 @@ if (!defined('IRA')) {
 }
 
 //****************************************************************************
-global $sid, $db;
+global $db, $db_tb_scans, $user_sitterlogin, $user_status, $db_tb_allianzstatus, $user_planibilder;
 
 doc_title('Planet');
 
@@ -173,7 +173,7 @@ if ((($ansicht == "auto") && ($row['objekt'] != "---")) || ($ansicht == "taktisc
     <tr>
         <td class="windowbg2">Allianz:</td>
         <td class="windowbg1" style=" background-color: <?php echo $color;?>;"><a
-                href="index.php?action=showgalaxy&allianz=<?php echo $row['allianz'];?>&sid=<?php echo $sid;?>"><?php echo $row['allianz']; echo ((empty($row_status['status'])) || ($row_status['status'] == 'own')) ? "" : " (" . $row_status['status'] . ")";?></a>
+                href="index.php?action=showgalaxy&allianz=<?php echo $row['allianz'];?>"><?php echo $row['allianz']; echo ((empty($row_status['status'])) || ($row_status['status'] == 'own')) ? "" : " (" . $row_status['status'] . ")";?></a>
         </td>
     </tr>
     <tr>
@@ -202,7 +202,7 @@ if ((($ansicht == "auto") && ($row['objekt'] != "---")) || ($ansicht == "taktisc
             Absprachen, Tipps für Raider eingeben.</i></td>
     <td class="windowbg1">
 
-        <form method='POST' action='index.php?action=showplanet&coords=<?php echo $coords; ?>&sid=<?php echo $sid; ?>&ansicht=auto' enctype='multipart/form-data'>
+        <form method='POST' action='index.php?action=showplanet&coords=<?php echo $coords; ?>&ansicht=auto' enctype='multipart/form-data'>
         <table class='table_format center' style='width: 80%;'>
             <tr>
                 <td class='windowbg2'>
@@ -314,7 +314,7 @@ if ($row['objekt'] == "---") {
     </tr>
     <tr>
         <td colspan="2" class="windowbg2 center">
-            <form method="POST" action="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&sid=<?php echo $sid;?>" enctype="multipart/form-data">
+            <form method="POST" action="index.php?action=showplanet&coords=<?php echo $row['coords'];?>" enctype="multipart/form-data">
                 <?php
                 if (empty($row['reserviert'])) {
                     echo "Diesen Planeten für dich reservieren? <input type='checkbox' name='reservieren'>

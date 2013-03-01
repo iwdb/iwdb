@@ -36,7 +36,7 @@
 $soundfile_normal = 'audio/auftrag.oga';
 $soundfile_wichtig = 'audio/auftrag.oga';
 
-global $sid, $db, $db_tb_sitterauftrag;
+global $db, $db_tb_sitterauftrag;
 
 //auslesen ob das Modul Sound haben darf
 $sqlM = "SELECT sound FROM " . $db_tb_menu . " WHERE action = '" . $action . "';";
@@ -172,26 +172,26 @@ if (($login_ok) AND ($SitternoticeInModul)) {
                             <?php
                             if (($iSitterauftraege == 1) AND ($iForschungsauftraege == 0)) {
                                 ?>
-                                <a href="index.php?sid=<?php echo $sid;?>&action=sitterliste"><span
+                                <a href="index.php?action=sitterliste"><span
                                         style="font-size: 1.8rem; color: Cyan;">Es ist ein Auftrag offen!</span></a>
                             <?php
                             }
                             if (($iSitterauftraege == 1) AND ($iForschungsauftraege == 1)) {
                                 ?>
-                                <a href="index.php?sid=<?php echo $sid;?>&action=sitterliste"><span
+                                <a href="index.php?action=sitterliste"><span
                                         style="font-size: 1.8rem; color: Cyan;">Es ist ein Forschungsauftrag offen!</span></a>
                             <?php
                             }
                             if (($iSitterauftraege > 1) AND ($iForschungsauftraege == 0)) {
                                 ?>
-                                <a href="index.php?sid=<?php echo $sid;?>&action=sitterliste"><span
+                                <a href="index.php?action=sitterliste"><span
                                         style="font-size: 1.8rem; color: Cyan;">Es sind <?php echo $iSitterauftraege;?>
                                         Aufträge offen!</span></a>
                             <?php
                             }
                             if (($iSitterauftraege > 1) AND ($iForschungsauftraege >= 1)) {
                                 ?>
-                                <a href="index.php?sid=<?php echo $sid;?>&action=sitterliste"><span
+                                <a href="index.php?action=sitterliste"><span
                                         style="font-size: 1.8rem; color: Cyan;">Es sind <?php echo $iSitterauftraege;?>
                                         Aufträge offen!</span></a>
                             <?php

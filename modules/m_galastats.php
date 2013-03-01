@@ -156,7 +156,6 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 //
 // -> Und hier beginnt das eigentliche Modul
 
-global $sid;
 global $config_map_default_galaxy;
 global $config_map_galaxy_max;
 
@@ -297,7 +296,6 @@ if ($i === 0) {
     echo "<div class='doc_centered'>\n";
     echo "<form name='frm'>\n";
 
-    echo "<input type='hidden' name='sid' value='$sid'>\n";
     echo "<input type='hidden' name='action' value='$modulname'>\n";
     echo "<p>";
     echo "Statistiken anzeigen für Gala <input type='text' name='showfrom' value='$showfrom' size='4'>&nbsp;\n";

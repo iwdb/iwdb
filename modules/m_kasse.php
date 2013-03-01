@@ -248,7 +248,7 @@ if (strtolower($user_status) == 'admin' && getVar('allianz')) {
 }
 
 //url fürs sortieren wieder zusammensetzen
-$url = "index.php?action=m_kasse&sid=$sid&type=$type&today=$today&tomonth=$tomonth&toyear=$toyear&fromday=$fromday&frommonth=$frommonth&fromyear=$fromyear&allianz=$allianz";
+$url = "index.php?action=m_kasse&type=$type&today=$today&tomonth=$tomonth&toyear=$toyear&fromday=$fromday&frommonth=$frommonth&fromyear=$fromyear&allianz=$allianz";
 
 doc_title("Allianzkasse");
 
@@ -291,7 +291,6 @@ if (strtolower($user_status) == 'admin') {
     }
 }
 
-echo "<input type='hidden' name='sid' value='" . $sid . "'>\n";
 echo "<input type='hidden' name='action' value='" . $modulname . "'>\n";
 echo "<p>";
 echo "<select name='type' size=1>\n";

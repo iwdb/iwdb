@@ -231,13 +231,13 @@ if (file_exists("./config/m_research.cfg.php")) {
 
     echo "<div class='doc_big_black'>";
     if ($selectEvo > 0) {
-        echo "<a href='index.php?action=m_techtree&selectEvo=" . ($selectEvo - 1) . "&sid=" . $sid . "'><b>&lt;&lt;</b></a>\n"; // <<
+        echo "<a href='index.php?action=m_techtree&selectEvo=" . ($selectEvo - 1) . "'><b>&lt;&lt;</b></a>\n"; // <<
     }
 
     for ($evo = 0; $evo <= 7; $evo++) {
 
         if (array_key_exists($evo, $evoArray)) { //gibt es die Evo überhaupt?
-            echo "<a href='index.php?action=m_techtree&selectEvo=" . $evo . "&sid=" . $sid . "'>";
+            echo "<a href='index.php?action=m_techtree&selectEvo=" . $evo . "'>";
             if ($evo === $selectEvo) {
                 echo "<b>[" . $evo . "]</b>";
             } else {
@@ -248,7 +248,7 @@ if (file_exists("./config/m_research.cfg.php")) {
     }
 
     if ($selectEvo < 7) {
-        echo "<a href='index.php?action=m_techtree&selectEvo=" . ($selectEvo + 1) . "&amp;sid=" . $sid . "'><b>&gt;&gt;</b></a>\n"; // >>
+        echo "<a href='index.php?action=m_techtree&selectEvo=" . ($selectEvo + 1) . "'><b>&gt;&gt;</b></a>\n"; // >>
     }
     echo "</div>";
 

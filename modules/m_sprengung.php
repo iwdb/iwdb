@@ -165,7 +165,7 @@ if ($sys_start > $sys_end) { // ggf Werte vertauschen
 // Titelzeile
 doc_title('Sprengungen');
 echo "<h4>Hier kann man sehen, wann Hasi die nächsten Planeten sprengt um neue Hyperraumumgehungsstraßen zu bauen:</h4>";
-echo "<form method='POST' action='index.php?action=" . $modulname . "&amp;sid=" . $sid . "' enctype='multipart/form-data'>\n";
+echo "<form method='POST' action='index.php?action=" . $modulname . "' enctype='multipart/form-data'>\n";
 echo "  Galaxie von: <input name='gal_start' value='" . $gal_start . "' style='width: 5em' type='number' min='" . $config_map_galaxy_min . "' max='" . $config_map_galaxy_max . "'> bis: <input name='gal_end' value='" . $gal_end . "' style='width: 5em' type='number' min='" . $config_map_galaxy_min . "' max='" . $config_map_galaxy_max . "'><br><br>";
 echo "  System von: <input name='sys_start' value='" . $sys_start . "' style='width: 5em' type='number' min='" . $config_map_system_min . "' max='" . $config_map_system_max . "'> bis: <input name='sys_end' value='" . $sys_end . "' style='width: 5em' type='number' min='" . $config_map_system_min . "' max='" . $config_map_system_max . "'><br><br>";
 echo "  <input type='submit' value='los' name='B1' class='submit'>";
@@ -183,10 +183,10 @@ echo "</form>\n";
         <th>LB</th>
         <th>Gebäude-<br>dauer</th>
         <th>
-            <a href="index.php?action=m_sprengung&amp;ordered=asc&amp;sid=<?php echo $sid; ?>"><img
+            <a href="index.php?action=m_sprengung&amp;ordered=asc"><img
                     src="bilder/desc.gif" border="0" alt="a"></a>
             Sprengung
-            <a href="index.php?action=m_sprengung&amp;ordered=desc&amp;sid=<?php echo $sid; ?>"><img
+            <a href="index.php?action=m_sprengung&amp;ordered=desc"><img
                     src="bilder/asc.gif" border="0" alt="d"></a>
             <br><span style="font-size:x-small">frühestens</span>
         </th>
@@ -247,7 +247,7 @@ while ($row = $db->db_fetch_array($result)) {
 
     echo "  <tr>\n";
     echo "    <td>\n";
-    echo "      <a href='index.php?action=showplanet&amp;coords=" . $row['coords'] . "&amp;ansicht=auto&amp;sid=" . $sid . "'>\n";
+    echo "      <a href='index.php?action=showplanet&amp;coords=" . $row['coords'] . "&amp;ansicht=auto'>\n";
     echo "      " . $row['coords'] . "\n";
     echo "      </a>\n";
     echo "    </td>\n";
@@ -271,7 +271,7 @@ while ($row = $db->db_fetch_array($result)) {
     echo "    </td>\n";
     echo "    <td>\n";
 
-    echo '<a href="index.php?action=m_sprengung&amp;ordered=asc&amp;sid=' . $sid . '><img src="bilder/asc.gif" alt="asc"></a>';
+    echo '<a href="index.php?action=m_sprengung&amp;ordered=asc"><img src="bilder/asc.gif" alt="asc"></a>';
     $reset_timestamp_first = ($row['reset_timestamp_2'] - DAY); //vorverlegen des Sprengdatums wegen +-24h
     if ($reset_timestamp_first > CURRENT_UNIX_TIME) {
         echo makeduration2(CURRENT_UNIX_TIME, $reset_timestamp_first) . " \n";

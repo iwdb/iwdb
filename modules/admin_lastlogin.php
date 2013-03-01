@@ -64,7 +64,7 @@ while ($row = $db->db_fetch_array($result)) {
 
     start_row("windowbg1");
     echo "<a href='index.php?action=profile&sitterlogin=" .
-        urlencode($row['sitterlogin']) . "&sid=" . $sid . "'>" . $row['sitterlogin'] . "</a>";
+        urlencode($row['sitterlogin']) . "'>" . $row['sitterlogin'] . "</a>";
     next_cell("windowbg1");
     echo $lastlogindate;
     next_cell("windowbg1");

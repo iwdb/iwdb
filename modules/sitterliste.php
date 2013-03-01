@@ -413,7 +413,7 @@ if (!empty($erledigt)) {
                 Den Auftrag, den du eben erledigt hast, hat Folgeaufträge eingetragen.<br>
                 Bitte aktualisiere für diese die Zeit, indem du folgendes Formular ausfüllst.<br>
                 Danach wird der Auftrag als erledigt markiert. Danke.<br><br>
-                <form method="POST" action="index.php?action=sitterliste&sid=<?php echo $sid;?>"
+                <form method="POST" action="index.php?action=sitterliste"
                       enctype="multipart/form-data">
                     <table class="table_format" style="width: 60%;">
                         <?php
@@ -639,7 +639,7 @@ if (isset($row_lastlogin)) {
     <td class="windowbg<?php echo $num;?>">
         <?php
         if ($user_status == "admin") {
-            echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($row['user']) . "&sid=" . $sid . "'>" . $row['user'] . "</a>";
+            echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($row['user']) . "'>" . $row['user'] . "</a>";
         } else {
             echo $row['user'];
         }
@@ -671,12 +671,12 @@ if (isset($row_lastlogin)) {
         }
 
         if (empty($users_logged_in)) {
-            echo "<a href='index.php?action=sitterlogins&sitterlogin=" . urlencode($row['user']) . "&sid=" . $sid . "' target='sitterbereich'>[einloggen]</a>";
+            echo "<a href='index.php?action=sitterlogins&sitterlogin=" . urlencode($row['user']) . "' target='sitterbereich'>[einloggen]</a>";
 
             if ($row['schieben'] == "1") {
                 echo "<a href='javascript:Collapse(" . $row['id'] . ");'>[schieben]</a>";
             } else {
-                echo "<a href='index.php?action=sitterliste&erledigt=" . $row['id'] . "&sid=" . $sid . "' onclick='return confirmlink(this, \"Auftrag wirklich erledigt?\")'>[erledigt]</a>";
+                echo "<a href='index.php?action=sitterliste&erledigt=" . $row['id'] . "' onclick='return confirmlink(this, \"Auftrag wirklich erledigt?\")'>[erledigt]</a>";
             }
         } else {
             echo $users_logged_in . " ist eingeloggt";
@@ -693,7 +693,7 @@ if (isset($row_lastlogin)) {
 </tr>
 <tr id="row_<?php echo $row['id'];?>" style="display: none;">
     <td colspan="6" class="windowbg1 center" style="width: 100%;">
-        <form method="POST" action="index.php?action=sitterliste&sid=<?php echo $sid;?>" enctype="multipart/form-data">
+        <form method="POST" action="index.php?action=sitterliste" enctype="multipart/form-data">
 			<table class="table_format_noborder left" style="margin: 0 auto;">
                 <tr>
                     <td colspan="2" class="center">
@@ -896,7 +896,7 @@ if (isset($row_lastlogin)) {
             <td class="windowbg1">
                 <?php
                 if ($user_status == "admin") {
-                    echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($row['user']) . "&sid=" . $sid . "'>" . $row['user'] . "</a>";
+                    echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($row['user']) . "'>" . $row['user'] . "</a>";
                 } else {
                     echo $row['user'];
                 }

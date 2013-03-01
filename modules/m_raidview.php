@@ -201,9 +201,8 @@ if (isset($_GET['user'])) {
 // TABELLE - RAIDHIGHSCORE START
 function make_link($order, $ordered)
 {
-    global $sid;
     echo "<a href='index.php?action=m_raidview&order=" . $order . "&ordered=" . $ordered .
-        "&sid=$sid'> <img src='bilder/" . $ordered . ".gif' alt='" . $ordered . "'> </a>";
+        "'> <img src='bilder/" . $ordered . ".gif' alt='" . $ordered . "'> </a>";
 }
 
 // user aus Tabelle holen und gruppieren
@@ -353,11 +352,11 @@ while ($row = $db->db_fetch_array($result2)) {
     next_row("windowbg1", "colspan='3'");
     if (isset($user) and isset($_GET['user']) and $_GET['user'] == $user) {
 
-        echo "<a href='index.php?action=m_raidview&sid=$sid'><b>" . $user . "</b></a>";
+        echo "<a href='index.php?action=m_raidview'><b>" . $user . "</b></a>";
 
     } else {
 
-        echo "<a href='index.php?action=m_raidview&user=" . $user . "&sid=$sid'><b>" . $user . "</b></a>";
+        echo "<a href='index.php?action=m_raidview&user=" . $user . "'><b>" . $user . "</b></a>";
 
     }
     next_cell("windowbg1 right");
@@ -462,9 +461,9 @@ while ($row = $db->db_fetch_array($result2)) {
                     next_cell("windowbg1 left", "style='width:12%'");
                     echo strftime(CONFIG_DATETIMEFORMAT, $row['date']);
                     next_cell("windowbg1 center", "style='width:10%'");
-                    echo "<a href='index.php?action=showgalaxy&user=" . $guser . "&sid=" . $sid . "'>" . $row['geraided'] . "</a>";
+                    echo "<a href='index.php?action=showgalaxy&user=" . $guser . "'>" . $row['geraided'] . "</a>";
                     next_cell("windowbg1 right", "style='width:9%'");
-                    echo "<a href='index.php?action=showplanet&coords=" . $row['coords'] . "&ansicht=auto&sid=" . $sid . "'>" . $row['coords'] . "</a>";
+                    echo "<a href='index.php?action=showplanet&coords=" . $row['coords'] . "&ansicht=auto'>" . $row['coords'] . "</a>";
 
                     next_cell("windowbg1 right", "style='width:8%'");
                     echo number_format($row['eisen'], 0, ',', '.'), " <br> ", '<font color="red">', number_format($row['v_eisen'], 0, ',', '.'), '</font>', " <br> ", '<font color="green">', number_format($row['g_eisen'], 0, ',', '.');
@@ -488,9 +487,9 @@ while ($row = $db->db_fetch_array($result2)) {
                     next_cell("windowbg1 left", "style='width:12%'");
                     echo strftime(CONFIG_DATETIMEFORMAT, $row['date']);
                     next_cell("windowbg1 center", "style='width:10%'");
-                    echo "<a href='index.php?action=showgalaxy&user=" . $guser . "&sid=" . $sid . "'>" . $row['geraided'] . "</a>";
+                    echo "<a href='index.php?action=showgalaxy&user=" . $guser . "'>" . $row['geraided'] . "</a>";
                     next_cell("windowbg1 right", "style='width:9%'");
-                    echo "<a href='index.php?action=showplanet&coords=" . $row['coords'] . "&ansicht=auto&sid=" . $sid . "'>" . $row['coords'] . "</a>";
+                    echo "<a href='index.php?action=showplanet&coords=" . $row['coords'] . "&ansicht=auto'>" . $row['coords'] . "</a>";
 
                     next_cell("windowbg1 right", "style=color:#FF0000");
                     echo number_format($row['eisen'], 0, ',', '.'), " <br> ", '<font color="red">', number_format($row['v_eisen'], 0, ',', '.'), '</font>', " <br> ", '<font color="green">', number_format($row['g_eisen'], 0, ',', '.');

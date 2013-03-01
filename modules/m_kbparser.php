@@ -210,7 +210,7 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 
 <body>
 
-<form action="index.php?action=kbp&sid=<?php echo $sid; ?>" method="post">
+<form action="index.php?action=kbp" method="post">
     <textarea name="Eingabe" cols="80" rows="5"></textarea><br/>
     <input type="submit" value="KB haben will!">
 </form>

@@ -267,7 +267,7 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 // werden kann. Fehlen dann diese Definitionen, koennen die Daten nicht
 // gelesen werden.
 
-global $sid, $db, $db_tb_transferliste;
+global $db, $db_tb_transferliste;
 
 $order      = getVar('order');
 $ordered    = getVar('ordered');
@@ -326,11 +326,9 @@ function make_link_transferday($styleclass, $order, $ordered, $buddler, $transfe
 //
 function make_order_link($order, $ordered, $parameters = array())
 {
-    global $sid;
     $link = "<a href='index.php?action=m_transferliste";
     $link .= "&order=" . $order;
     $link .= "&ordered=" . $ordered;
-    $link .= "&sid=" . $sid;
     foreach ($parameters as $parameter) {
         $link .= "&" . $parameter;
     }
@@ -344,9 +342,7 @@ function make_order_link($order, $ordered, $parameters = array())
 //
 function make_link($name, $parameters)
 {
-    global $sid;
     $link = "<a href='index.php?action=m_transferliste";
-    $link .= "&sid=" . $sid;
     foreach ($parameters as $parameter) {
         $link .= "&" . $parameter;
     }
@@ -359,8 +355,7 @@ function make_link($name, $parameters)
 //
 function build_graph_transfer($users, $fitthis, $date_min, $date_max, $typ)
 {
-    global $sid,
-           $db,
+    global $db,
            $order,
            $ordered,
            $fakt_eisen,
@@ -746,8 +741,7 @@ function build_graph_transfer($users, $fitthis, $date_min, $date_max, $typ)
 //
 function showbuddlertransfers($buddler, $transferday)
 {
-    global $sid,
-           $db,
+    global $db,
            $order,
            $ordered,
            $fakt_eisen,
@@ -929,8 +923,7 @@ function showbuddlertransfers($buddler, $transferday)
 //
 function showbuddler($buddler)
 {
-    global $sid,
-           $db,
+    global $db,
            $order,
            $ordered,
            $fakt_eisen,
@@ -1124,8 +1117,7 @@ function showbuddler($buddler)
 //
 function showallfleeters()
 {
-    global $sid,
-           $db,
+    global $db,
            $db_tb_transferliste,
            $fakt_eisen,
            $fakt_stahl,

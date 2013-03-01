@@ -74,17 +74,17 @@ doc_title('Sitterlogins');
 <table class="table_format" style="width: 95%;">
     <tr class="titlebg center">
         <td style='width: 30%;'>
-            <a href="index.php?action=sitterlogins&order=sitterlogin&ordered=asc&sid=<?php echo $sid;?>"><img
+            <a href="index.php?action=sitterlogins&order=sitterlogin&ordered=asc"><img
                     src="bilder/asc.gif" alt="asc"></a>
             <b>Username</b>
-            <a href="index.php?action=sitterlogins&order=sitterlogin&ordered=desc&sid=<?php echo $sid;?>"><img
+            <a href="index.php?action=sitterlogins&order=sitterlogin&ordered=desc"><img
                     src="bilder/desc.gif" alt="desc"></a>
         </td>
         <td>
-            <a href="index.php?action=sitterlogins&order=sitterpunkte&ordered=asc&sid=<?php echo $sid;?>"><img
+            <a href="index.php?action=sitterlogins&order=sitterpunkte&ordered=asc"><img
                     src="bilder/asc.gif" alt="asc"></a>
             <b>Aktivität</b>
-            <a href="index.php?action=sitterlogins&order=sitterpunkte&ordered=desc&sid=<?php echo $sid;?>"><img
+            <a href="index.php?action=sitterlogins&order=sitterpunkte&ordered=desc"><img
                     src="bilder/desc.gif" alt="asc"></a>
         </td>
         <td>
@@ -94,10 +94,10 @@ doc_title('Sitterlogins');
             <b>Besonderheiten</b>
         </td>
         <td>
-            <a href="index.php?action=sitterlogins&order=lastlogin&ordered=asc&sid=<?php echo $sid;?>"><img
+            <a href="index.php?action=sitterlogins&order=lastlogin&ordered=asc"><img
                     src="bilder/asc.gif" alt="asc"></a>
             <b>letzter Login</b>
-            <a href="index.php?action=sitterlogins&order=lastlogin&ordered=desc&sid=<?php echo $sid;?>"><img
+            <a href="index.php?action=sitterlogins&order=lastlogin&ordered=desc"><img
                     src="bilder/desc.gif" alt="desc"></a>
         </td>
     </tr>
@@ -181,7 +181,7 @@ doc_title('Sitterlogins');
                 <td class="windowbg<?php echo $num;?> top">
                     <?php
                     if ($user_status == "admin") {
-                        echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($data) . "&sid=" . $sid . "'>" . $data . "</a>";
+                        echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($data) . "'>" . $data . "</a>";
                     } else {
                         echo $data;
                     }
@@ -198,7 +198,7 @@ doc_title('Sitterlogins');
                     <?php
                     if (!empty($users_logged_in[$key])) {
                         echo "<b><font color='#ff0000'>" . $users_logged_in[$key] . " ist eingeloggt </font></b>" .
-                            "<br/><a href='index.php?action=sitterlogins&sitterlogin=" . urlencode($data) . "&sid=" . $sid .
+                            "<br/><a href='index.php?action=sitterlogins&sitterlogin=" . urlencode($data) .
                             "' target='_blank' onclick='return confirmlink(this, " .
                             "'Jemand ist gerade im Account eingeloggt. Trotzdem einloggen?'" .
                             ")'>[trotzdem einloggen]</a>" .
@@ -211,14 +211,14 @@ doc_title('Sitterlogins');
                             "</td>";
                     } elseif ((($user_status == "admin") OR ($user_status == "SV")) && (empty($users_sitten[$key]))) {
                         echo "<a href='index.php?action=sitterlogins&sitterlogin=" . urlencode($data) .
-                            "&sid=" . $sid . "' target='_blank' onclick='return confirmlink(this, " .
+                            "' target='_blank' onclick='return confirmlink(this, " .
                             "'Dieser User hat das Sitten deaktiviert. Trotzdem einloggen?'" .
                             ")'>[sitten deaktiviert - einloggen]</a> " .
                             "<a href='index.php?action=sitterauftrag&sitterid=" .
-                            urlencode($data) . "&sid=" . $sid . "'><img src='bilder/file_new_s.gif' " .
+                            urlencode($data) . "'><img src='bilder/file_new_s.gif' " .
                             "alt='Sitterauftrag erstellen' title='Sitterauftrag erstellen'></a>" .
                             " <a href='index.php?action=sitterhistory&selecteduser=" .
-                            urlencode($data) . "&sid=" . $sid . "'><img src='bilder/file_history.gif' " .
+                            urlencode($data) . "'><img src='bilder/file_history.gif' " .
                             "alt='Sitterhistorie anschauen' title='Sitterhistorie anschauen'></a>" .
                             "<td class='windowbg" . $num . " top'>" .
                             ((!empty($users_sitterstaatsform[$key])) ? " <i>Staatsform: " . NumToStaatsform($users_sitterstaatsform[$key]) . "</i><br/>" : "") .
@@ -229,12 +229,12 @@ doc_title('Sitterlogins');
                             "</td>";
                     } else {
                         echo "<a href='index.php?action=sitterlogins&sitterlogin=" . urlencode($data) .
-                            "&sid=" . $sid . "' target='_blank'>[jetzt einloggen]</a>&nbsp;" .
+                            "' target='_blank'>[jetzt einloggen]</a>&nbsp;" .
                             "<a href='index.php?action=sitterauftrag&sitterid=" . urlencode($data) .
-                            "&sid=" . $sid . "'><img src='bilder/file_new_s.gif' " .
+                            "'><img src='bilder/file_new_s.gif' " .
                             "alt='Sitterauftrag erstellen' title='Sitterauftrag erstellen'></a>" .
                             " <a href='index.php?action=sitterhistory&selecteduser=" .
-                            urlencode($data) . "&sid=" . $sid . "'><img src='bilder/file_history.gif' " .
+                            urlencode($data) . "'><img src='bilder/file_history.gif' " .
                             "alt='Sitterhistorie anschauen' title='Sitterhistorie anschauen'></a>" .
                             "<td class='windowbg" . $num . " top'>" .
                             ((!empty($users_sitterstaatsform[$key])) ? " <i>Staatsform: " . NumToStaatsform($users_sitterstaatsform[$key]) . "</i><br/>" : "") .

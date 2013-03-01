@@ -479,14 +479,15 @@ function save_data($scan_data)
 
             //Löschen der Einträge älter als 20 min in der Tabelle incomings, es sollen nur aktuelle Sondierungen und Angriffe eingetragen sein
             //ToDo : evtl Trennung Sondierung und Angriffe, damit die Sondierungen früher entfernt sind
-            $sql = "DELETE FROM $db_tb_incomings WHERE timestamp<" . (CURRENT_UNIX_TIME - 20 * MINUTE);
+            $sql = "DELETE FROM $db_tb_incomings WHERE arrivaltime<" . (CURRENT_UNIX_TIME - 20 * MINUTE);
             $result = $db->db_query($sql)
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
             if (($allianz_to === $config_allytag) AND ($scan_data['time'] > (CURRENT_UNIX_TIME - 20 * MINUTE))) { //nur incomings auf die eigene Ally und maximal 20 min in der Vergangenheit?
                 $koords_from = $scan_data['coords_from_gal'] . ":" . $scan_data['coords_from_sys'] . ":" . $scan_data['coords_from_planet'];
                 $koords_to   = $scan_data['coords_to_gal'] . ":" . $scan_data['coords_to_sys'] . ":" . $scan_data['coords_to_planet'];
-                $sql         = "INSERT INTO $db_tb_incomings (koords_to,name_to,allianz_to,koords_from,name_from,allianz_from,art,timestamp) VALUES ('" . $koords_to . "','" . $scan_data['user_to'] . "','" . $allianz_to . "','" . $koords_from . "','" . $scan_data['user_from'] . "','" . (GetAllianceByUser($scan_data['user_from'])) . "','" . $scan_data['art'] . "','" . $scan_data['time'] . "') ON DUPLICATE KEY UPDATE timestamp=timestamp;"; //ON DUPLICATE KEY UPDATE timestamp=timestamp entspricht ON DUPLICATE KEY "DO NOTHING"
+
+                $sql = "INSERT INTO $db_tb_incomings (koords_to,name_to,allianz_to,koords_from,name_from,allianz_from,art,arrivaltime,listedtime) VALUES ('" . $koords_to . "','" . $scan_data['user_to'] . "','" . $allianz_to . "','" . $koords_from . "','" . $scan_data['user_from'] . "','" . (GetAllianceByUser($scan_data['user_from'])) . "','" . $scan_data['art'] . "'," . $scan_data['time'] . ", ".CURRENT_UNIX_TIME.") ON DUPLICATE KEY UPDATE arrivaltime=arrivaltime;"; //ON DUPLICATE KEY UPDATE timestamp=timestamp entspricht ON DUPLICATE KEY "DO NOTHING"
                 debug_var('sql', $sql);
                 $result = $db->db_query($sql)
                     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);

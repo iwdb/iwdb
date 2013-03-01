@@ -281,7 +281,7 @@ echo "<br>\n";
 
 if (empty($parsstatus) == true) //Angabe für die Datei
 {
-    echo "<form method='POST' action='index.php?action=m_kbparser1&parsstatus=read&sid=" . $sid . "' enctype='multipart/form-data'>\n";
+    echo "<form method='POST' action='index.php?action=m_kbparser1&parsstatus=read' enctype='multipart/form-data'>\n";
     echo <<< EOT
 	 <table border="1" cellpadding="2" cellspacing="1" rules="none" width="90%">
   		<tr>
@@ -324,7 +324,7 @@ if ($parsstatus == "read") // KB einlesen und für die Formatierung ausgeben
         $KBdata = makeArray($Bericht); // komische verschachtelte Arrays
 
 
-        echo "<form method='POST' action='index.php?action=m_kbparser1&parsstatus=write&sid=" . $sid . "' enctype='multipart/form-data'>\n";
+        echo "<form method='POST' action='index.php?action=m_kbparser1&parsstatus=write' enctype='multipart/form-data'>\n";
         echo "<table border='1' cellpadding='2' cellspacing='1' style='width: 90%;'>\n";
 
         // Optionen

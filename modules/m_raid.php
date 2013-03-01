@@ -260,7 +260,7 @@ if (!empty($universum) || !empty($flotteversenden)) {
         }
     } while (!empty($current));
     $results[] = "<div class='system_notification'>Zielliste gespeichert.</div><br>";
-    $redirect  = 'game.php?sid=' . $sid . '&name=' . $name;
+    $redirect  = 'game.php?name=' . $name;
     if (!empty($universum)) {
         $redirect .= '&view=universum';
     } else {
@@ -531,7 +531,7 @@ if (isset($redirect)) {
 // Suchmaske oder Daten ausgeben?
 if (empty($params['view'])) {
     // Form beginnen
-    start_form($modulname . "&amp;sid=" . $sid);
+    start_form($modulname);
     // Tabelle beginnen
     start_table();
     // Bereich
@@ -1576,7 +1576,7 @@ function sort_data_cmp($a, $b)
 // Spalte formatieren
 function format_value($row, $name, $value)
 {
-    global $sid, $params;
+    global $params;
     if ($value == '---') {
         return $value;
     }
@@ -1586,14 +1586,13 @@ function format_value($row, $name, $value)
                 array(
                      "view" => $params['view'],
                      "user" => $value,
-                     "sid"  => $sid,
                 ), $value, true
             );
         case 'coords':
         case 'gal':
         case 'sys':
         case 'pla':
-            return "<a href='index.php?action=showplanet&amp;coords=" . $row['coords'] . "&amp;ansicht=auto&amp;sid=" . $sid . "'>" . $value . "</a>";
+            return "<a href='index.php?action=showplanet&amp;coords=" . $row['coords'] . "&amp;ansicht=auto'>" . $value . "</a>";
         case 'planetentyp':
             if ($value == "Steinklumpen") {
                 return "<abbr title='Steinklumpen'>S</abbr>";
@@ -1767,10 +1766,9 @@ function makelink($newparams, $content, $nomerge = false)
 // Erzeugt eine Modul-URL.
 function makeurl($newparams, $nomerge = false)
 {
-    global $modulname, $sid, $params;
+    global $modulname, $params;
 
     $url = 'index.php?action=' . $modulname;
-    $url .= '&amp;sid=' . $sid;
     if ($nomerge) {
         $mergeparams = $newparams;
     } elseif (is_array($newparams)) {

@@ -300,7 +300,7 @@ $svg .= '</g>' . "\n";
 // now draw the invisible clickable areas on the map locating to the maps page
 $svg .= '<g fill-opacity="0" style="cursor:pointer;" id="clickable areas">' . "\n";
 foreach ($existing_galas as $gala) {
-    $svg .= '<rect x="' . ($config_borderleft + 1 + ($config_linewidth)) . '" y="' . ($config_bordertop + (($gala - 1) * $config_lineheight)) . '" width="' . ($config_map_system_max * $config_linewidth) . '" height="' . $config_lineheight . '" onclick="self.location.href=\'index.php?action=karte&galaxy=' . $gala . '&sid=' . $sid . '\';return false;"/>' . "\n";
+    $svg .= '<rect x="' . ($config_borderleft + 1 + ($config_linewidth)) . '" y="' . ($config_bordertop + (($gala - 1) * $config_lineheight)) . '" width="' . ($config_map_system_max * $config_linewidth) . '" height="' . $config_lineheight . '" onclick="self.location.href=\'index.php?action=karte&galaxy=' . $gala . '\';return false;"/>' . "\n";
 }
 $svg .= '</g>' . "\n";
 

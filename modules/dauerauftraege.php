@@ -146,7 +146,7 @@ if (!empty($anz)) {
                 <td class='windowbg<?php echo $num;?> top'>
                     <?php
                     if ($user_status == "admin") {
-                        echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($data) . "&sid=" . $sid . "'>" . $data . "</a>";
+                        echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($data) . "'>" . $data . "</a>";
                     } else {
                         echo $data;
                     }
@@ -160,7 +160,7 @@ if (!empty($anz)) {
                     if (!empty($users_logged_in[$key])) {
                         echo $users_logged_in[$key] . ' ist eingeloggt';
                     } else {
-                        echo "<a href='index.php?action=sitterlogins&sitterlogin=" . urlencode($data) . "&sid=" . $sid . "' target='_blank'>[einloggen]</a>";
+                        echo "<a href='index.php?action=sitterlogins&sitterlogin=" . urlencode($data) . "' target='_blank'>[einloggen]</a>";
                     }
                     ?>
                     <br><a href="javascript:Collapse('d<?php echo $key;?>');"><img src="bilder/plus.gif" alt="" id="collapse_d<?php echo $key;?>"></a>
@@ -171,8 +171,7 @@ if (!empty($anz)) {
             </tr>
             <tr id='row_d<?php echo $key;?>' style='display: none;'>
                 <td colspan='4' class='windowbg1 center top' style='width: 100%;'>
-                    <form method='POST' action='index.php?action=sitterliste&sid=<?php echo $sid;?>'
-                          enctype='multipart/form-data'>
+                    <form method='POST' action='index.php?action=sitterliste' enctype='multipart/form-data'>
                         <table class='table_format'>
                             <tr>
                                 <td colspan='2' class='windowbg1 center'>

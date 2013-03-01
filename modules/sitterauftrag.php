@@ -289,16 +289,16 @@ if (empty($umenu)) {
 <table border="0" cellpadding="0" cellspacing="1" class="bordercolor">
     <tr>
         <td class="menutop center">
-            <a href="index.php?action=sitterauftrag&typ=Gebaeude&umenu=1&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>">[Gebäude]</a>
+            <a href="index.php?action=sitterauftrag&typ=Gebaeude&umenu=1&sitterid=<?php echo urlencode($id);?>">[Gebäude]</a>
         </td>
         <td class="menutop center">
-            <a href="index.php?action=sitterauftrag&typ=Schiffe&umenu=1&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>">[Schiffe]</a>
+            <a href="index.php?action=sitterauftrag&typ=Schiffe&umenu=1&sitterid=<?php echo urlencode($id);?>">[Schiffe]</a>
         </td>
         <td class="menutop center">
-            <a href="index.php?action=sitterauftrag&typ=Forschung&umenu=1&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>">[Forschung]</a>
+            <a href="index.php?action=sitterauftrag&typ=Forschung&umenu=1&sitterid=<?php echo urlencode($id);?>">[Forschung]</a>
         </td>
         <td class="menutop center">
-            <a href="index.php?action=sitterauftrag&typ=Sonstiges&umenu=1&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>">[Sonstiges]</a>
+            <a href="index.php?action=sitterauftrag&typ=Sonstiges&umenu=1&sitterid=<?php echo urlencode($id);?>">[Sonstiges]</a>
         </td>
     </tr>
 </table>
@@ -314,7 +314,7 @@ if (!empty($alert)) {
 }
 
 ?>
-<form method="POST" action="index.php?action=sitterauftrag&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>" enctype="multipart/form-data">
+<form method="POST" action="index.php?action=sitterauftrag&sitterid=<?php echo urlencode($id);?>" enctype="multipart/form-data">
 <table class="table_format" style="width: 90%;">
     <tr>
         <td class="titlebg center" colspan="4">
@@ -470,7 +470,7 @@ if (!empty($alert)) {
                 if (!$differentid OR (($user_status === "admin") OR ($user_status === "SV")) OR ($user_sitterlogin === $row['ByUser'])) {
                     echo (empty($row_bev['id']))
                         ? "<img src='bilder/point.gif' alt=''>"
-                        : "<a href='index.php?action=sitterauftrag&delserie=" . $row['id'] . "&sid=" . $sid . "'><img src='bilder/plus.gif'></a>";
+                        : "<a href='index.php?action=sitterauftrag&delserie=" . $row['id'] . "'><img src='bilder/plus.gif'></a>";
                 } else {
                     echo "<img src='bilder/point.gif' alt=''>";
                 }
@@ -507,17 +507,17 @@ if (!empty($alert)) {
                 <?php
                 if (!$differentid || (($user_status === "admin") OR ($user_status === "SV")) || ($user_sitterlogin === $row['ByUser'])) {
                     ?>
-                    <a href="index.php?action=sitterauftrag&typ=<?php echo $row['typ'];?>&auftragid=<?php echo $row['id'];?>&umenu=1&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>"><img src="bilder/file_edit_s.gif" alt="editieren"></a>
+                    <a href="index.php?action=sitterauftrag&typ=<?php echo $row['typ'];?>&auftragid=<?php echo $row['id'];?>&umenu=1&sitterid=<?php echo urlencode($id);?>"><img src="bilder/file_edit_s.gif" alt="editieren"></a>
                 <?php
                 }
                 if ($row['typ'] == "Gebaeude") {
                     ?>
-                    <a href="index.php?action=sitterauftrag&umenu=1&parentid=<?php echo $row['id'];?>&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>"><img src="bilder/file_new_s.gif" alt="anhängen"></a>
+                    <a href="index.php?action=sitterauftrag&umenu=1&parentid=<?php echo $row['id'];?>&sitterid=<?php echo urlencode($id);?>"><img src="bilder/file_new_s.gif" alt="anhängen"></a>
                 <?php
                 }
                 if (!$differentid || (($user_status === "admin") OR ($user_status === "SV")) || ($user_sitterlogin === $row['ByUser'])) {
                     ?>
-                    <a href="index.php?action=sitterauftrag&parentid=<?php echo $row['id'];?>&delid=<?php echo $row['id'];?>&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>"
+                    <a href="index.php?action=sitterauftrag&parentid=<?php echo $row['id'];?>&delid=<?php echo $row['id'];?>&sitterid=<?php echo urlencode($id);?>"
                        onclick="return confirmlink(this, 'Auftrag wirklich löschen?')"><img src="bilder/file_delete_s.gif" alt="löschen"></a>
                 <?php
                 }
@@ -609,7 +609,7 @@ if (!empty($umenu)) {
         echo $alert;
     }
     ?>
-    <form method="POST" action="index.php?action=sitterauftrag&sitterid=<?php echo urlencode($id);?>&sid=<?php echo $sid;?>" enctype="multipart/form-data">
+    <form method="POST" action="index.php?action=sitterauftrag&sitterid=<?php echo urlencode($id);?>" enctype="multipart/form-data">
     <table class="table_format" style="width: 60%;">
     <tr>
         <td class="windowbg2" style="width: 30%;">
@@ -876,7 +876,7 @@ if (!empty($umenu)) {
                                     $resRowName = $row['name'];
                                 } else {
                                     $altname    = "Benötigte Forschung:" . find_research_name($resid);
-                                    $resRowName = "<a href='index.php?action=m_research&researchid=" . $resid . "&sid=" . $sid . "' title='" . $altname . "'>" . $row['name'] . "</a>";
+                                    $resRowName = "<a href='index.php?action=m_research&researchid=" . $resid . "' title='" . $altname . "'>" . $row['name'] . "</a>";
                                 }
                             } else {
                                 $resRowName = $row['name'];
@@ -1034,10 +1034,9 @@ function makelink($newparams, $content)
 // Erzeugt eine Modul-URL.
 function makeurl($newparams)
 {
-    global $modulname, $sid, $params;
+    global $modulname, $params;
 
     $url = 'index.php?action=' . $modulname;
-    $url .= '&sid=' . $sid;
     if (is_array($newparams)) {
         $mergeparams = array_merge($params, $newparams);
     } else {

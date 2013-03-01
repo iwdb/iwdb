@@ -164,17 +164,14 @@ function end_form()
 //
 function action($action, $text)
 {
-    global $sid;
-    echo "<a href='index.php?action=" . $action . "&sid=" . $sid . "'>" . $text . "</a>\n";
+    echo "<a href='index.php?action=" . $action . "'>" . $text . "</a>\n";
 }
 
 //******************************************************************************
 //
 function url($action, $params = 0)
 {
-    global $sid;
-
-    $url = "index.php?action=" . $action . "&sid=" . $sid;
+    $url = "index.php?action=" . $action;
     if (isset($params) && is_array($params)) {
         foreach ($params as $key => $value) {
             if (is_array($value)) {

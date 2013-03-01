@@ -56,7 +56,7 @@ if (!empty($editgebaeude)) {
 }
 ?>
 <br>
-<form method="POST" action="index.php?action=profile&uaction=gebaeude&sid=<?php echo $sid;?>" enctype="multipart/form-data">
+<form method="POST" action="index.php?action=profile&uaction=gebaeude" enctype="multipart/form-data">
     <?php
     $sql = "SELECT gengebmod, genmaurer, gebaeude FROM " . $db_tb_user . " WHERE id = '" . $id . "'";
     $result_user = $db->db_query($sql)
@@ -133,7 +133,7 @@ if (!empty($editgebaeude)) {
                             if ($resid == 0) {
                                 $resRowName = $row_gebaeude['name'];
                             } else {
-                                $resRowName = "<a href='index.php?action=research&researchid=" . $resid . "&sid=" . $sid . "'>" . $row_gebaeude['name'] . "</a>";
+                                $resRowName = "<a href='index.php?action=research&researchid=" . $resid . "'>" . $row_gebaeude['name'] . "</a>";
                             }
                             echo $resRowName;
                         } else {

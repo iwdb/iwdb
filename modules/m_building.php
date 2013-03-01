@@ -204,7 +204,7 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 
 doc_title('Gebäude');
 
-global $db, $db_tb_gebaeude, $user_sitterlogin, $show_building, $sid, $db_tb_research2user, $db_tb_gebaeude2user;
+global $db, $db_tb_gebaeude, $user_sitterlogin, $show_building, $db_tb_research2user, $db_tb_gebaeude2user;
 
 if (!empty($show_building)) {
 
@@ -240,12 +240,12 @@ if (empty($id)) {
         ?>
         <tr>
             <td><?php if (!empty($rowB['bild'])) { ?> <a
-                    href="index.php?action=m_building&show_building=<?php echo $rowB['id']?>&sid=<?php echo $sid;?>"><img
+                    href="index.php?action=m_building&show_building=<?php echo $rowB['id']?>"><img
                         src="bilder/gebs/<?php echo $rowB['bild'];?>.jpg"></a> <?php } else { ?> <a
-                    href="index.php?action=m_building&show_building=<?php echo $rowB['id']?>&sid=<?php echo $sid;?>"><img
+                    href="index.php?action=m_building&show_building=<?php echo $rowB['id']?>"><img
                         src="bilder/gebs/blank.jpg"></a> <?php } ?></td>
             <td><a
-                    href="index.php?action=m_building&show_building=<?php echo $rowB['id']?>&sid=<?php echo $sid;?>"><?php echo $rowB['name'];?></a>
+                    href="index.php?action=m_building&show_building=<?php echo $rowB['id']?>"><?php echo $rowB['name'];?></a>
             </td>
         </tr>
     <?php
@@ -447,7 +447,7 @@ if (empty($id)) {
 
                     echo '<img src="bilder/point.gif" alt="a point o.O">';
                     echo '&nbsp;';
-                    echo '<a href="index.php?action=m_research&researchid=' . $resid . '&sid=' . $sid . '">' . $colorme_on . $research . $colorme_off . '</a>';
+                    echo '<a href="index.php?action=m_research&researchid=' . $resid . '">' . $colorme_on . $research . $colorme_off . '</a>';
                     echo '<br>';
 
                 } else {
@@ -507,7 +507,7 @@ if (empty($id)) {
                     if (!empty($research)) {
                         echo '<img src="bilder/point.gif" alt="a point o.O">';
                         echo '&nbsp;';
-                        echo '<a href="index.php?action=m_research&researchid=' . $resid . '&sid=' . $sid . '">' . $colorme_on . $research . $colorme_off . '</a>';
+                        echo '<a href="index.php?action=m_research&researchid=' . $resid . '">' . $colorme_on . $research . $colorme_off . '</a>';
                         echo '<br>';
                     }
 
@@ -556,7 +556,7 @@ if (empty($id)) {
 
                     echo '<img src="bilder/point.gif" alt="a point o.O">';
                     echo '&nbsp;';
-                    echo '<a href="index.php?action=m_building&show_building=' . $resid . '&sid=' . $sid . '">' . $gebaeude . '</a>';
+                    echo '<a href="index.php?action=m_building&show_building=' . $resid . '">' . $gebaeude . '</a>';
                     echo '<br>';
 
                 }
@@ -589,7 +589,7 @@ if (empty($id)) {
 
                     echo '<img src="bilder/point.gif" alt="a point o.O">';
                     echo '&nbsp;';
-                    echo '<a href="index.php?action=m_building&show_building=' . $resid . '&sid=' . $sid . '">' . $gebaeude . '</a>';
+                    echo '<a href="index.php?action=m_building&show_building=' . $resid . '">' . $gebaeude . '</a>';
                     echo '<br>';
 
                 }

@@ -52,7 +52,7 @@ if (!empty($sitterlogin)) {
     }
     ?>
     <br>
-    <form method="POST" action="index.php?action=profile&uaction=editplaneten&sid=<?php echo $sid;?>"
+    <form method="POST" action="index.php?action=profile&uaction=editplaneten"
           enctype="multipart/form-data">
         <table class="table_format" style="width: 80%;">
             <tr>

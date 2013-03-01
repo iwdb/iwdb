@@ -257,7 +257,7 @@ if ($akt < count($sitterlogins) - 1) {
     $forw = $akt + 1;
 }
 
-echo "<form method='POST' action='index.php?action=" . $modulname . "&amp;sid=" . $sid . "' enctype='multipart/form-data'>\n";
+echo "<form method='POST' action='index.php?action=" . $modulname . "' enctype='multipart/form-data'>\n";
 for ($i = 0; $i < count($sitterlogins); $i++) {
     $offen = ($offens[$i] ? '_offen' : '');
     if ($i < $AllyEnde) {
@@ -268,7 +268,7 @@ for ($i = 0; $i < count($sitterlogins); $i++) {
     if ($i == $AllyEnde) {
         echo '<br><br>';
     }
-    echo "<input type='button' class='$class' name='r' value='" . substr($sitterlogins[$i], 0, 5) . "' onClick='self.location.href=\"index.php?action=$modulname&amp;sid=$sid&amp;r=$i\"'> ";
+    echo "<input type='button' class='$class' name='r' value='" . substr($sitterlogins[$i], 0, 5) . "' onClick='self.location.href=\"index.php?action=$modulname&amp;r=$i\"'> ";
 }
 echo "<br><br>";
 
@@ -301,7 +301,7 @@ echo "<input type='hidden' value='$forw' name='val_forw'>";
 if ($user_adminsitten == SITTEN_BOTH || $user_status == 'admin') {
     echo "&nbsp;&nbsp;";
     echo "<a href='index.php?action=sitterauftrag&amp;sitterid=" . urlencode($sitterlogins[$akt]) .
-        "&amp;sid=$sid' target=_new><img src='./bilder/file_new_s.gif' alt='Sitterauftrag erstellen' title='Sitterauftrag erstellen'></a>";
+        "' target=_new><img src='./bilder/file_new_s.gif' alt='Sitterauftrag erstellen' title='Sitterauftrag erstellen'></a>";
 }
 
 // offene Aufträge des aktuellen Accounts
@@ -326,7 +326,7 @@ if ($sub_back == 'zurück' || $sub_forw == 'vorwärts' || $sub_akt == 'speichern
 }
 
 if (isset($sitterlogin_akt)) {
-    echo "<iframe src='index.php?action=sitterlogins&amp;sitterlogin=" . urlencode($sitterlogin_akt) . "&amp;sid=" . $sid . "' width='100%' height='1000px' id='Account' name='SitterAuftrag'></iframe>";
+    echo "<iframe src='index.php?action=sitterlogins&amp;sitterlogin=" . urlencode($sitterlogin_akt) . "' width='100%' height='1000px' id='Account' name='SitterAuftrag'></iframe>";
 }
 
 if ($sub_back == 'zurück' || $sub_forw == 'vorwärts' || $sub_akt == 'speichern') {

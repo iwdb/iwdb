@@ -59,7 +59,6 @@ doc_title('Wer hat den Längsten?');
 echo '
 <form action="index.php" method="post"><p>
 <input type="hidden" name="action" value="showhighscore">
-<input type="hidden" name="sid" value="' . $sid . '">
 Top/Flop <input type="number" min="1" max="999" name="to" value="' . $hs_places . '" size="3">
 <input type="submit" value="zeigen" name="B1">
 </p></form>

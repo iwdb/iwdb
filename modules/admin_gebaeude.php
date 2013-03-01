@@ -164,7 +164,7 @@ if ($editgebaeude) {
 }
 
 echo "<br>\n";
-echo "<form method='POST' action='index.php?action=admin&uaction=gebaeude&sid=" . $sid . "' enctype='multipart/form-data'>\n";
+echo "<form method='POST' action='index.php?action=admin&uaction=gebaeude' enctype='multipart/form-data'>\n";
 echo "<table class='table_format' style='width: 95%;'>\n";
 echo "<thead>\n";
 echo " <tr>\n";
@@ -229,7 +229,7 @@ $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
 while ($row = $db->db_fetch_array($result)) {
-    echo "<form method='POST' action='index.php?action=admin&uaction=gebaeude&sid=" . $sid . "' enctype='multipart/form-data'>\n";
+    echo "<form method='POST' action='index.php?action=admin&uaction=gebaeude' enctype='multipart/form-data'>\n";
     echo "<table class='table_format' style='width: 95%;'>\n";
     echo "<thead>\n";
     echo " <tr>\n";

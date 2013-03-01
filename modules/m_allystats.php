@@ -157,7 +157,7 @@ if (!empty($_REQUEST['was'])) {
 //****************************************************************************
 //
 // -> Und hier beginnt das eigentliche Modul
-global $db, $db_tb_allianzstatus, $db_tb_scans, $sid;
+global $db, $db_tb_allianzstatus, $db_tb_scans;
 global $config_map_default_galaxy, $config_map_galaxy_min, $config_map_galaxy_max;
 
 $galamin   = getVar('galamin');
@@ -558,11 +558,11 @@ if ($i === 0) {
         if ($i >= $gesamtmin) {
 
             if ($Alliestats['Allytag'] == "<i>alle</i>") {
-                $allylink = '<a href="index.php?action=allydetail&allianz=alle&amp;sid=' . $sid . '">' . $Alliestats['Allytag'] . '</a>';
+                $allylink = '<a href="index.php?action=allydetail&allianz=alle">' . $Alliestats['Allytag'] . '</a>';
             } elseif ($Alliestats['Allytag'] == "<i>Solo</i>") {
-                $allylink = '<a href="index.php?action=allydetail&allianz=Solo&amp;sid=' . $sid . '">' . $Alliestats['Allytag'] . '</a>';
+                $allylink = '<a href="index.php?action=allydetail&allianz=Solo">' . $Alliestats['Allytag'] . '</a>';
             } else {
-                $allylink = '<a href="index.php?action=allydetail&allianz=' . $Alliestats['Allytag'] . '&amp;sid=' . $sid . '">' . $Alliestats['Allytag'] . '</a>';
+                $allylink = '<a href="index.php?action=allydetail&allianz=' . $Alliestats['Allytag'] . '">' . $Alliestats['Allytag'] . '</a>';
             }
 
 

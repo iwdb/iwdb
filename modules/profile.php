@@ -55,16 +55,16 @@ if (($id !== $user_id) and ($user_status !== "admin")) {
     <table class="table_format">
         <tr>
             <td class="menutop center">
-                <a href="index.php?action=profile&id=<?php echo urlencode($id);?>&sitterlogin=<?php echo urlencode($sitterlogin);?>&sid=<?php echo $sid;?>">Einstellungen</a>
+                <a href="index.php?action=profile&id=<?php echo urlencode($id);?>&sitterlogin=<?php echo urlencode($sitterlogin);?>">Einstellungen</a>
             </td>
             <td class="menutop center">
-                <a href="index.php?action=profile&id=<?php echo urlencode($id);?>&sitterlogin=<?php echo urlencode($sitterlogin);?>&uaction=editplaneten&sid=<?php echo $sid;?>">Planeten</a>
+                <a href="index.php?action=profile&id=<?php echo urlencode($id);?>&sitterlogin=<?php echo urlencode($sitterlogin);?>&uaction=editplaneten">Planeten</a>
             </td>
             <td class="menutop center">
-                <a href="index.php?action=profile&id=<?php echo urlencode($id);?>&sitterlogin=<?php echo urlencode($sitterlogin);?>&uaction=editpresets&sid=<?php echo $sid;?>">Presets</a>
+                <a href="index.php?action=profile&id=<?php echo urlencode($id);?>&sitterlogin=<?php echo urlencode($sitterlogin);?>&uaction=editpresets">Presets</a>
             </td>
             <td class="menutop center">
-                <a href="index.php?action=profile&id=<?php echo urlencode($id);?>&sitterlogin=<?php echo urlencode($sitterlogin);?>&uaction=gebaeude&sid=<?php echo $sid;?>">Gebäude ausblenden</a>
+                <a href="index.php?action=profile&id=<?php echo urlencode($id);?>&sitterlogin=<?php echo urlencode($sitterlogin);?>&uaction=gebaeude">Gebäude ausblenden</a>
             </td>
         </tr>
     </table>

@@ -336,9 +336,9 @@ Achja bei dem ganzen Chaos kamen 142 Leute ums Leben.
 
 function finish_fehlscan($fehlscans)
 {
-    global $db, $db_tb_scans, $db_tb_lieferung, $sid;
+    global $db, $db_tb_scans, $db_tb_lieferung;
 
-    echo '<form id="fehlscan_form" method="POST" action="index.php?action=m_raid&sid=' . $sid . '" enctype="multipart/form-data"><p>' . "\n";
+    echo '<form id="fehlscan_form" method="POST" action="index.php?action=m_raid" enctype="multipart/form-data"><p>' . "\n";
     echo '<input type="hidden" name="fehlscan" id="fehlscan_count" value="' . count($fehlscans) . '">';
     echo '<tr class="windowbg1"\>';
     echo '<td colspan=2>';

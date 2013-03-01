@@ -35,7 +35,6 @@ if (!defined('IRA')) {
 }
 
 //****************************************************************************
-global $sid, $config_date;
 global $db, $db_tb_scans, $db_tb_allianzstatus, $db_tb_spieler;
 global $config_map_galaxy_min, $config_map_galaxy_max, $config_map_system_max;
 
@@ -93,7 +92,7 @@ echo makeField(
          "type"   => 'select',
          "values" => $alliances,
          "value"  => urlencode($allianz),
-         "onchange" => "location.href='index.php?action=allydetail&amp;sid=$sid&amp;allianz='+this.options[this.selectedIndex].value",
+         "onchange" => "location.href='index.php?action=allydetail&amp;allianz='+this.options[this.selectedIndex].value",
     ), 'allianz'
 );
 echo "<br><br>\n";
@@ -220,7 +219,7 @@ if (!empty($allianz)) {
 
                     if ($row['objekt'] == "Kolonie") {
                         $spezialplanie[$row['coords_gal']]['Eisplanet']['user'][]   = $row['user'];
-                        $spezialplanie[$row['coords_gal']]['Eisplanet']['coords'][] = " <a href='index.php?action=showplanet&amp;coords=" . $row['coords'] . "&amp;ansicht=auto&amp;sid=" . $sid . "'>" . $row['coords'] . "</a>";
+                        $spezialplanie[$row['coords_gal']]['Eisplanet']['coords'][] = " <a href='index.php?action=showplanet&amp;coords=" . $row['coords'] . "&amp;ansicht=auto'>" . $row['coords'] . "</a>";
                     }
                     break;
                 case "Asteroid" :
@@ -228,7 +227,7 @@ if (!empty($allianz)) {
 
                     if ($row['objekt'] == "Kolonie") {
                         $spezialplanie[$row['coords_gal']]['Asteroid']['user'][]   = $row['user'];
-                        $spezialplanie[$row['coords_gal']]['Asteroid']['coords'][] = " <a href='index.php?action=showplanet&amp;coords=" . $row['coords'] . "&amp;ansicht=auto&amp;sid=" . $sid . "'>" . $row['coords'] . "</a>";
+                        $spezialplanie[$row['coords_gal']]['Asteroid']['coords'][] = " <a href='index.php?action=showplanet&amp;coords=" . $row['coords'] . "&amp;ansicht=auto'>" . $row['coords'] . "</a>";
                     }
                     break;
                 case "Gasgigant" :
@@ -236,14 +235,14 @@ if (!empty($allianz)) {
 
                     if ($row['objekt'] == "Kolonie") {
                         $spezialplanie[$row['coords_gal']]['Gasgigant']['user'][]   = $row['user'];
-                        $spezialplanie[$row['coords_gal']]['Gasgigant']['coords'][] = " <a href='index.php?action=showplanet&amp;coords=" . $row['coords'] . "&amp;ansicht=auto&amp;sid=" . $sid . "'>" . $row['coords'] . "</a>";
+                        $spezialplanie[$row['coords_gal']]['Gasgigant']['coords'][] = " <a href='index.php?action=showplanet&amp;coords=" . $row['coords'] . "&amp;ansicht=auto'>" . $row['coords'] . "</a>";
                     }
                     break;
                 default :
                     $PlaniHtmlString = "<span class='doc_grey'><b>N</b></span>";
             }
 
-            $PlaniHtmlString .= " <a href='index.php?action=showplanet&amp;coords=" . $row['coords'] . "&amp;ansicht=auto&amp;sid=" . $sid . "'>" . $row['coords'] . "</a>";
+            $PlaniHtmlString .= " <a href='index.php?action=showplanet&amp;coords=" . $row['coords'] . "&amp;ansicht=auto'>" . $row['coords'] . "</a>";
             if ($row['objekt'] == "Kolonie") {
                 $PlaniHtmlString .= "</span>";
             }
@@ -408,7 +407,7 @@ if (!empty($allianz)) {
             if ($gala > 0) {
 
                 next_row("windowbg2 left");
-                echo "<a href='index.php?action=karte&amp;galaxy=$gala&amp;sid=" . $sid . "'>G $gala</a>\n";
+                echo "<a href='index.php?action=karte&amp;galaxy=$gala'>G $gala</a>\n";
                 $range = 1;
                 foreach ($planicount[$gala] as $inrange => $count) {
                     $color = getColor($planicount[$gala][$inrange]);
@@ -416,7 +415,7 @@ if (!empty($allianz)) {
                     next_cell("windowbg1 center", "style='background-color:" . $color . "'");
                     echo "<a href='index.php?action=showgalaxy&amp;sys_start=" . ($range * $rangewidth - $rangewidth + 1) .
                         "&amp;sys_end=" . ($range * $rangewidth) . "&amp;gal_start=" . $gala .
-                        "&amp;gal_end=" . $gala . "&amp;sid=" . $sid . "' >" . $planicount[$gala][$inrange]['Kolonie'] . "/" . $planicount[$gala][$inrange]['Sammelbasis'] . "/" . $planicount[$gala][$inrange]['Kampfbasis'] . "</a>\n";
+                        "&amp;gal_end=" . $gala . "' >" . $planicount[$gala][$inrange]['Kolonie'] . "/" . $planicount[$gala][$inrange]['Sammelbasis'] . "/" . $planicount[$gala][$inrange]['Kampfbasis'] . "</a>\n";
                     $range++;
                 }
             }

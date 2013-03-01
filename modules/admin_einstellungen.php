@@ -126,7 +126,7 @@ if (!empty($rowP['value'])) {
 
 ?>
 <br>
-<form method="POST" action="index.php?action=admin&uaction=einstellungen&send=sound&sid=<?php echo $sid;?>" enctype="multipart/form-data">
+<form method="POST" action="index.php?action=admin&uaction=einstellungen&send=sound" enctype="multipart/form-data">
     <table class="table_format" style="width: 95%;">
         <tr>
             <th colspan="2" class="titlebg">
@@ -244,7 +244,7 @@ if (!empty($rowP['value'])) {
 
 ?>
 
-<form method="POST" action="index.php?action=admin&uaction=einstellungen&send=bericht&sid=<?php echo $sid;?>" enctype="multipart/form-data">
+<form method="POST" action="index.php?action=admin&uaction=einstellungen&send=bericht" enctype="multipart/form-data">
     <table class="table_format" style="width: 95%;">
         <tr>
             <th colspan="2" class="titlebg">
@@ -352,7 +352,7 @@ if (isset($db_tb_bestellung)) {
     }
 
     ?>
-    <form method="POST" action="index.php?action=admin&uaction=einstellungen&sid=<?php echo $sid;?>" enctype="multipart/form-data">
+    <form method="POST" action="index.php?action=admin&uaction=einstellungen" enctype="multipart/form-data">
         <table class="table_format" style="width: 95%;">
             <tr>
                 <th colspan="2" class="titlebg">
@@ -426,7 +426,7 @@ if ($iwdb_locked === 'true') {
     $sel_iwdb_locked = 'checked="checked"';
 }
 ?>
-<form method="POST" action="index.php?action=admin&uaction=einstellungen&send=sperre&sid=<?php echo $sid;?>" enctype="multipart/form-data">
+<form method="POST" action="index.php?action=admin&uaction=einstellungen&send=sperre" enctype="multipart/form-data">
     <table class="table_format" style="width: 95%;">
         <tr>
             <th colspan="3" class="titlebg" style="background-color: #ff0000">

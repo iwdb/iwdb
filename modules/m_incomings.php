@@ -83,10 +83,13 @@ function workInstallDatabase()
         `name_from` VARCHAR(50) NOT NULL COMMENT 'Angreiferspieler',
         `allianz_from` VARCHAR(50) NOT NULL COMMENT 'Angreiferallianz',
         `art` VARCHAR(100) NOT NULL COMMENT 'Angriff oder Sondierung',
-        `timestamp` INT(10) UNSIGNED NOT NULL COMMENT 'Unixzeitstempel des Atts/Sondierung',
-        `gesaved` INT(10) UNSIGNED DEFAULT NULL COMMENT 'Unixzeitstempel des Saveflug der Schiffe',
-        `recalled` INT(10) UNSIGNED DEFAULT NULL COMMENT 'Unixzeitstempel des Recall der Schiffe',
-        PRIMARY KEY (`timestamp`,`koords_to`, `koords_from` , `art`)
+        `arrivaltime` INT(10) UNSIGNED NOT NULL COMMENT 'Unixzeitstempel der Ankunft der Sondierung/Att',
+        `listedtime` INT(10) UNSIGNED NOT NULL COMMENT 'Unixzeitstempel des Eintrags',
+        `saved` TINYINT( 1 ) NOT NULL DEFAULT '0',
+        `savedUpdateTime` INT(10) UNSIGNED DEFAULT NULL COMMENT 'Unixzeitstempel des Saveflug der Schiffe',
+        `recalled` TINYINT( 1 ) NOT NULL DEFAULT '0',
+        `recalledUpdateTime` INT(10) UNSIGNED DEFAULT NULL COMMENT 'Unixzeitstempel des Recall der Schiffe',
+        PRIMARY KEY (`arrivaltime`,`koords_to`, `koords_from` , `art`)
         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Tabelle für Incomings';
         ",
     );
@@ -198,223 +201,9 @@ echo "Anzeige der laufenden Sondierungen und Angriffe auf uns";
 echo " 	 <br />\n";
 echo " 	 <br />\n";
 
-//Löschen der Einträge in der Tabelle incomings, es sollen nur aktuelle Sondierungen und Angriffe eingetragen sein
-//ToDo : evtl Trennung Sondierung und Angriffe, damit die Sondierungen früher entfernt sind
-$sql = "DELETE FROM " . $db_tb_incomings . " WHERE timestamp<" . (CURRENT_UNIX_TIME - 20 * MINUTE);
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not delete incomings information.', '', __FILE__, __LINE__, $sql);
-
-$sql = "SELECT koords_to, name_to, allianz_to, koords_from, name_from, allianz_from, timestamp, art, gesaved, recalled FROM " . $db_tb_incomings . " WHERE art = 'Sondierung (Schiffe/Def/Ress)' OR art = 'Sondierung (Gebäude/Ress)' ORDER BY timestamp ASC";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query incomings information.', '', __FILE__, __LINE__, $sql);
-
-$data = array();
-
-//Tabelle für die Sondierungen	
+//Tabelle für die Sondierungen
 ?>
-<table class='table_hovertable' style='width:95%'>
-    <caption>Sondierungen</caption>
-    <thead>
-    <tr>
-        <th>
-            Opfer
-        </th>
-        <th>
-            Zielplanet
-        </th>
-        <th>
-            Pösewicht
-        </th>
-        <th>
-            Ausgangsplanet
-        </th>
-        <th>
-            Zeitpunkt
-        </th>
-        <th>
-            Art der Sondierung
-        </th>
-        <th>
-            gesaved
-        </th>
-        <th>
-            recalled
-        </th>
-    </tr>
-    </thead>
-
-    <?php
-    while ($row = $db->db_fetch_array($result)) {
-        ?>
-        <tbody>
-        <tr>
-            <td>
-                <?php
-                echo "<a href='index.php?action=sitterlogins&sitterlogin=" . urlencode($row['name_to']) . "' target='_blank'><img src='" . BILDER_PATH . "user-login.gif' alt='L' title='Einloggen'>";
-                echo "&emsp;" . $row['name_to'];
-                echo "</a>";
-                ?>
-            </td>
-            <td>
-                <?php
-                echo getObjectPictureByCoords($row['koords_to']);
-                echo $row['koords_to'];
-                ?>
-            </td>
-            <td>
-                <?php
-                if (!empty($row['allianz_from'])) {
-                    echo ($row['name_from'] . " [" . $row['allianz_from'] . "]");
-                } else {
-                    echo $row['name_from'];
-                }
-                ?>
-            </td>
-            <td>
-                <?php
-                echo getObjectPictureByCoords($row['koords_from']);
-                echo $row['koords_from'];
-                ?>
-            </td>
-            <td>
-                <?php
-                echo strftime(CONFIG_DATETIMEFORMAT, $row['timestamp']);
-                ?>
-            </td>
-            <td>
-                <?php
-                echo $row['art'];
-                ?>
-            </td>
-            <td>
-                <?php
-                echo "<label><input type='checkbox' class='gesavedCheckbox' value='$row[koords_to]'";
-                if (!empty($row['gesaved'])) {
-                    echo 'checked="checked"';
-                }
-                echo "'>";
-                echo "</label>";
-                ?>
-            </td>
-            <td>
-                <?php
-                echo "<label><input type='checkbox' class='recalledCheckbox' value='$row[koords_to]'";
-                if (!empty($row['recalled'])) {
-                    echo 'checked="checked"';
-                }
-                echo "'>";
-                echo "</label>";
-                ?>
-            </td>
-        </tr>
-        </tbody>
-    <?php
-    }
-    ?>
-</table>
-
-<?php
-echo " 	 <br />\n";
-echo " 	 <br />\n";
-
-$sql = "SELECT * FROM " . $db_tb_incomings . " WHERE art = 'Angriff' ORDER BY timestamp ASC";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query incomings information.', '', __FILE__, __LINE__, $sql);
-
-$data = array();
-
-//Tabelle für die Angriffe	
-?>
-<table class='table_hovertable' style='width:95%'>
-    <caption>Angriffe</caption>
-    <thead>
-    <tr>
-        <th>
-            Opfer
-        </th>
-        <th>
-            Zielplanet
-        </th>
-        <th>
-            Pösewicht
-        </th>
-        <th>
-            Ausgangsplanet
-        </th>
-        <th>
-            Zeitpunkt
-        </th>
-        <th>
-            gesaved
-        </th>
-        <th>
-            recalled
-        </th>
-    </tr>
-    </thead>
-
-    <?php
-    while ($row = $db->db_fetch_array($result)) {
-        ?>
-        <tbody>
-        <tr>
-            <td>
-                <?php
-                echo "<a href='index.php?action=sitterlogins&sitterlogin=" . urlencode($row['name_to']) . "' target='_blank'><img src='" . BILDER_PATH . "user-login.gif' alt='L' title='Einloggen'>";
-                echo "&emsp;" . $row['name_to'];
-                echo "</a>";
-                ?>
-            </td>
-            <td>
-                <?php
-                echo getObjectPictureByCoords($row['koords_to']);
-                echo $row['koords_to'];
-                ?>
-            </td>
-            <td>
-                <?php
-                if (!empty($row['allianz_from'])) {
-                    echo ($row['name_from'] . " [" . $row['allianz_from'] . "]");
-                } else {
-                    echo $row['name_from'];
-                }
-                ?>
-            </td>
-            <td>
-                <?php
-                echo getObjectPictureByCoords($row['koords_from']);
-                echo $row['koords_from'];
-                ?>
-            </td>
-            <td><?php echo strftime(CONFIG_DATETIMEFORMAT, $row['timestamp']); ?></td>
-            <td>
-                <?php
-                echo "<label><input type='checkbox' class='gesavedCheckbox' value='$row[koords_to]'";
-                if (!empty($row['gesaved'])) {
-                    echo 'checked="checked"';
-                }
-                echo "'>";
-                echo "</label>";
-                ?>
-            </td>
-            <td>
-                <?php
-                echo "<label><input type='checkbox' class='recalledCheckbox' value='$row[koords_to]'";
-                if (!empty($row['recalled'])) {
-                    echo 'checked="checked"';
-                }
-                echo "'>";
-                echo "</label>";
-                ?>
-            </td>
-        </tr>
-        </tbody>
-    <?php
-    }
-    ?>
-</table>
-
-
+<div id='incomings_tabellen'></div>
 <table class='borderless'>
     <tr>
         <td>
@@ -451,10 +240,10 @@ $data = array();
         var result = false;
         var jQhandle = jQuery(handle);
 
-        if (jQhandle.hasClass('gesavedCheckbox')) {
-            action = 'gesaved';
+        if (jQhandle.hasClass('savedCheckbox')) {
+            action = 'setSaved';
         } else if (jQhandle.hasClass('recalledCheckbox')) {
-            action = 'recalled';
+            action = 'setRecalled';
         }
 
         jQuery.ajax({
@@ -465,7 +254,7 @@ $data = array();
             data: {
                 coords: jQhandle.val(),
                 action: action,
-                state: jQhandle.prop("checked")
+                state: handle.checked
             },
             success: function (ajaxreturn) {
                 if (ajaxreturn === 'success') {
@@ -478,16 +267,47 @@ $data = array();
     }
 
     jQuery(document).ready(function () {
-        jQuery('.gesavedCheckbox, .recalledCheckbox').change(function () {          //gesaved oder recalled Änderung
+        var timeOfIncomingData = 0;
+
+        function updateIncomings() {
+            var recievedData = '';
+
+            jQuery.ajax({
+                url: 'ajax.php',
+                type: 'POST',
+                cache: false,
+                async: false,
+                data: {
+                    action: 'getIncomings',
+                    timestamp: timeOfIncomingData
+                },
+                success: function (data, status, xhr) {
+                    //console.log('status:' + xhr.status);
+                    if (xhr.status === 200) {
+                        recievedData = JSON.parse(data);
+                        timeOfIncomingData = recievedData.time;
+
+                        jQuery('#incomings_tabellen').html(recievedData.tables);
+                    }
+
+                },
+                complete: function () {
+                    setTimeout(updateIncomings, 5000);               //alle 5 Sekunden
+                }
+            });
+        }
+        updateIncomings();
+
+        jQuery(document).on("click", '.savedCheckbox, .recalledCheckbox', function(){          //saved oder recalled Änderung
             if (updateFleetsavings(this) === false) {
                 //alert("Fehler beim Setzen des Status!");
-                jQuery(this).prop('checked', !jQuery(this).prop("checked"));        //Auswahl rückgängig machen, da Fehler beim übernehmen
+                jQuery(this).prop('checked', !this.checked);        //Auswahl rückgängig machen, da Fehler beim übernehmen
             } else {                                                                //alle Incomings zu diesem Planie ändern
                 var jQhandle = jQuery(this);
-                if (jQhandle.hasClass('gesavedCheckbox')) {
-                    jQuery('.gesavedCheckbox[value="' + jQhandle.val() + '"]').prop('checked', jQhandle.prop("checked"));
+                if (jQhandle.hasClass('savedCheckbox')) {
+                    jQuery('.savedCheckbox[value="' + jQhandle.val() + '"]').prop('checked', this.checked);
                 } else if (jQhandle.hasClass('recalledCheckbox')) {
-                    jQuery('.recalledCheckbox[value="' + jQhandle.val() + '"]').prop('checked', jQhandle.prop("checked"));
+                    jQuery('.recalledCheckbox[value="' + jQhandle.val() + '"]').prop('checked', this.checked);
                 }
 
             }

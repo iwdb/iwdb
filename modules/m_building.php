@@ -206,7 +206,7 @@ doc_title('Gebäude');
 
 global $db, $db_tb_gebaeude, $user_sitterlogin, $show_building, $sid, $db_tb_research2user, $db_tb_gebaeude2user;
 
-if (isset($show_building) AND !empty($show_building)) {
+if (!empty($show_building)) {
 
     $id = $show_building;
 
@@ -429,7 +429,7 @@ if (empty($id)) {
                 $rowR  = $db->db_fetch_array($resultR);
                 $resid = $rowR['id'];
 
-                if (isset($resid) AND !empty($resid)) {
+                if (!empty($resid)) {
 
                     $sql = "SELECT * FROM `{$db_tb_research2user}` WHERE `rid`=" . $resid . " AND `userid`='" . $user_sitterlogin . "';";
                     $result = $db->db_query($sql)
@@ -488,7 +488,7 @@ if (empty($id)) {
                 $rowR  = $db->db_fetch_array($resultR);
                 $resid = $rowR['id'];
 
-                if (isset($resid) AND !empty($resid)) {
+                if (!empty($resid)) {
 
                     $sql = "SELECT * FROM `{$db_tb_research2user}` WHERE `rid`=" . $resid ." AND `userid`='" . $user_sitterlogin . "';";
                     $result = $db->db_query($sql)

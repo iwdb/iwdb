@@ -60,7 +60,7 @@ if (empty($action) OR $action === 'memberlogin2') {
     }
 }
 
-if (!empty($user_id) AND ($user_id != 'guest') AND ($SitternoticeInModul)) {
+if (($login_ok) AND ($SitternoticeInModul)) {
     //was soll abgespielt werden?
     $sqlS = "SELECT sound FROM " . $db_tb_user . " WHERE id = '" . $user_id . "' ";
     $resultS = $db->db_query($sqlS)

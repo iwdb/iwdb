@@ -100,14 +100,6 @@ function error($err_code, $err_msg = '', $err_title = '', $err_file = '', $err_l
 }
 
 //******************************************************************************
-//
-// IP entschluesseln
-function encode_ip($dotquad_ip)
-{
-    return sha1($dotquad_ip);
-}
-
-//******************************************************************************
 
 //
 // Funktion fuer Zufallsstring mit Zeichen $values und Länge $length
@@ -329,28 +321,10 @@ function secure_password($password)
 
 //******************************************************************************
 //
-// auf sicheren Benutzernamen ueberpruefen
-function check_username($username)
-{
-	$alert = "";
-  $username = trim($username);
-  
-  if(empty($username))
-    return $alert;
-  
-  if( !preg_match( '%^([a-zA-Z0-9_=\.\-\+\*\(\)\{\} ])*$%', $username)) {
-    $alert = "Benutzername enthält ungütige Zeichen.";
-  } 
-  
-  return $alert;
-}
-
-//******************************************************************************
-//
 // Function for fetching a server variable. 
 //
 function getServerVar($varname, $default) {	
-	if( isset($_SERVER[$varname]) && !empty($_SERVER[$varname])) {
+	if(!empty($_SERVER[$varname])) {
         return $_SERVER[$varname];
     }
 
@@ -407,7 +381,7 @@ function getScanAgeColor($scandate)
 {
     global $config_map_timeout, $config_color;
 
-    if ($scandate < CURRENT_UNIX_TIME - $config_map_timeout) {
+    if ($scandate < (CURRENT_UNIX_TIME - $config_map_timeout)) {
         return $config_color['scanoutdated'];
     } elseif ((CURRENT_UNIX_TIME - $scandate) < DAY) {
         return $config_color['first24h'];
@@ -491,9 +465,9 @@ function validAccname($name)
  *
  * @author   masel
  */
-function ensureSortDirection($inputValue, $standardValue='asc') {
+function ensureSortDirection($inputValue, $standardValue='ASC') {
 
-    return ensureValue($inputValue, array('asc', 'desc'), $standardValue);
+    return ensureValue($inputValue, array('asc', 'desc', 'ASC', 'DESC'), $standardValue);
 
 }
 
@@ -512,12 +486,16 @@ function ensureSortDirection($inputValue, $standardValue='asc') {
  */
 function ensureValue($inputValue, $possibleValues, $standardValue=null) {
 
-    if (in_array($inputValue, $possibleValues) AND $inputValue !== '') {
+    if (empty($possibleValues)) {
+        return false;
+    }
+
+    if (in_array($inputValue, $possibleValues)) {
         return $inputValue;
     } elseif (!is_null($standardValue)) {
         return $standardValue;
     } else {
-        return false;
+        return $possibleValues[0];
     }
 
 }
@@ -801,7 +779,7 @@ function makeShortDuration($time1, $time2=null) {
     if (!isset($time1)) {
         return '---';
     }
-    if (!isset($time2)) {
+    if (is_null($time2)) {
         $time2 = CURRENT_UNIX_TIME;
     }
 

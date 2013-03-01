@@ -41,7 +41,7 @@ if (!defined('IRA')) {
 // nur negative Werte vorkommen dürfen.
 define('SHOW_ONLY_NEGATIVE', true);
 
-$ressu = (isset($db_tb_ressuebersicht) && !empty($db_tb_ressuebersicht)) ? true : false;
+$ressu = (!empty($db_tb_ressuebersicht)) ? true : false;
 
 $hs_places = filter_int(getVar('to'), 5, 1, null);
 

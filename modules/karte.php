@@ -107,7 +107,7 @@ if ($galaxy > $config_map_galaxy_min) {
         "&amp;sid=" . $sid . "'><b>&lt;&lt;</b></a>\n"; // <<
 }
 
-if (isset($config_map_galaxy_min) AND !empty($config_map_galaxy_min)) {
+if (!empty($config_map_galaxy_min)) {
     $gal = $config_map_galaxy_min;
 } else {
     $gal = 1;

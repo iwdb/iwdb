@@ -402,7 +402,7 @@ if (empty($edit['reserveraidhours'])) {
 $edit['reserveraiduntil'] = strftime("%d.%m.%Y %H:%M", (CURRENT_UNIX_TIME + ($edit['reserveraidhours'] * HOUR)));
 
 // Edit-Daten löschen
-if (isset($params['delete']) && !empty($params['delete'])) {
+if (!empty($params['delete'])) {
     $explode = explode(":", $params['delete']);
     $sql     = "UPDATE " . $db_tb_scans;
     $sql .= " SET reserveraid=NULL, reserveraiduser=NULL";
@@ -1487,7 +1487,7 @@ if (empty($params['view'])) {
     echo '</tr>';
     echo '</table>';
     // Maske ausgeben
-    if (isset($params['edit']) && !empty($params['edit'])) {
+    if (!empty($params['edit'])) {
         echo '<br>';
         echo '<form method="POST" action="' . makeurl(array()) . '" enctype="multipart/form-data"><p>' . "\n";
         start_table();

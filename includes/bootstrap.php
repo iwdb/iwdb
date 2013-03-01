@@ -16,7 +16,7 @@
 error_reporting(E_ALL | E_STRICT);
 ini_set("display_errors", '1');
 libxml_use_internal_errors(true);
-$error = '';                 //veraltet
+$error = '';
 
 //set some standards
 date_default_timezone_set('Europe/Berlin');
@@ -46,10 +46,10 @@ define('DEBUG', true);
 define('LOG_DB_QUERIES', false);
 define('IRA', true);
 define('NEBULA', true);
-define('SPECIALSEARCH', true);
 define('ALLY_MEMBERS_ON_MAP', true);
-define('GENERAL_ERROR', 'GENERAL_ERROR'); //veraltet
-define("DB_MAX_INSERTS", 1000);
+define('GENERAL_ERROR', 'GENERAL_ERROR');
+define("DB_MAX_INSERTS", 500);
+
 define('SITTEN_DISABLED', 2);
 define('SITTEN_ONLY_NEWTASKS', 0);
 define('SITTEN_ONLY_LOGINS', 3);
@@ -71,7 +71,7 @@ $link_id = $db->db_connect($db_host, $db_user, $db_pass, $db_name)
 $db_tb_iwdbtabellen = $db_prefix . "iwdbtabellen";
 
 // Die restlichen Tabellennamen werden aus der DB gelesen.
-$sql    = "SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '$db_name' AND table_name LIKE '$db_prefix%'";
+$sql    = "SELECT `table_name` FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `table_schema` = '$db_name' AND `table_name` LIKE '$db_prefix%';";
 $result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     $tbname    = "db_tb_" . mb_substr($row['table_name'], mb_strlen($db_prefix));
@@ -88,10 +88,10 @@ if (empty($action)) {
 
 require_once("includes/sid.php");
 
-$sql = "SELECT gesperrt FROM " . $db_tb_user . " WHERE id = '" . $user_id . "'";
+$sql = "SELECT `gesperrt` FROM `{$db_tb_user}` WHERE `id` = '{$user_id}';";
 $result_g = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    or error(GENERAL_ERROR, 'Could not query user information.', '', __FILE__, __LINE__, $sql);
 $row_g = $db->db_fetch_array($result_g);
-if ($row_g['gesperrt'] == 1) {
-    die ('<div style="text-align:center;color:red">ihr Account ist gesperrt worden!</div>');
+if ($row_g['gesperrt']) {
+    die ('<div style="text-align:center;color:red">Dein Account ist gesperrt worden!</div>');
 }

@@ -125,7 +125,7 @@ if (!isset($sitterschleife)) {
     if ($rowP['value'] == 'mv' AND (strtolower($user_status) == 'hc' OR strtolower($user_status) == 'mv')) {
         $allow1 = true;
     }
-    if ($rowP['value'] == 'all' AND (strtolower($user_status) != 'guest')) {
+    if ($rowP['value'] == 'all' AND ($login_ok)) {
         $allow1 = true;
     }
 

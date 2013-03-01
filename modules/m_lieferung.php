@@ -227,11 +227,11 @@ if (isset($params['filter_team'])) {
         $sql .= ")";
     }
 }
-if (isset($params['user_from']) && !empty($params['user_from']) && $params['user_from'] != '(Alle)') {
+if (!empty($params['user_from']) && $params['user_from'] != '(Alle)') {
     $sql .= " AND $db_tb_lieferung.user_from=";
     $sql .= "'" . $params['user_from'] . "'";
 }
-if (isset($params['user_to']) && !empty($params['user_to']) && $params['user_to'] != '(Alle)') {
+if (!empty($params['user_to']) && $params['user_to'] != '(Alle)') {
     $sql .= " AND $db_tb_lieferung.user_to=";
     $sql .= "'" . $params['user_to'] . "'";
 }

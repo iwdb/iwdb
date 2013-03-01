@@ -323,67 +323,67 @@ function make_table($view, $data)
 //******************************************************************************
 //
 // Erstellt ein Formularfeld.
-function makeField($field, $key)
+function makeField($options, $name)
 {
-    switch ($field['type']) {
+    switch ($options['type']) {
         case 'label':
             $html = '<span';
-            if (isset($field['style'])) {
-                $html .= ' style="' . $field['style'] . '"';
+            if (isset($options['style'])) {
+                $html .= ' style="' . $options['style'] . '"';
             }
-            $html .= '>' . $field['value'] . '</span>';
+            $html .= '>' . $options['value'] . '</span>';
             break;
         case 'text':
-            $html = '<input type="text" name="' . $key . '"';
-            if (isset($field['value'])) {
-                $html .= ' value="' . $field['value'] . '"';
+            $html = '<input type="text" name="' . $name . '"';
+            if (isset($options['value'])) {
+                $html .= ' value="' . $options['value'] . '"';
             }
-            if (isset($field['style'])) {
-                $html .= ' style="' . $field['style'] . '"';
+            if (isset($options['style'])) {
+                $html .= ' style="' . $options['style'] . '"';
             }
             $html .= '>';
             break;
         case 'hidden':
-            $html = '<input type="hidden" name="' . $key . '" value="' . $field['value'] . '"';
-            if (isset($field['style'])) {
-                $html .= ' style="' . $field['style'] . '"';
+            $html = '<input type="hidden" name="' . $name . '" value="' . $options['value'] . '"';
+            if (isset($options['style'])) {
+                $html .= ' style="' . $options['style'] . '"';
             }
             $html .= '>';
             break;
         case 'number':
-            $html = '<input type="number" name="' . $key . '"';
-            if (isset($field['id'])) {
-                $html .= ' id="' . $field['id'] . '"';
+            $html = '<input type="number" name="' . $name . '"';
+            if (isset($options['id'])) {
+                $html .= ' id="' . $options['id'] . '"';
             }
-            if (isset($field['value'])) {
-                $html .= ' value="' . $field['value'] . '"';
+            if (isset($options['value'])) {
+                $html .= ' value="' . $options['value'] . '"';
             }
-            if (isset($field['onchange'])) {
-                $html .= ' onchange="' . $field['onchange'] . '"';
+            if (isset($options['onchange'])) {
+                $html .= ' onchange="' . $options['onchange'] . '"';
             }
-            if (isset($field['min'])) {
-                $html .= ' min="' . $field['min'] . '"';
+            if (isset($options['min'])) {
+                $html .= ' min="' . $options['min'] . '"';
             }
-            if (isset($field['max'])) {
-                $html .= ' max="' . $field['max'] . '"';
+            if (isset($options['max'])) {
+                $html .= ' max="' . $options['max'] . '"';
             }
-            if (isset($field['style'])) {
-                $html .= ' style="' . $field['style'] . '"';
+            if (isset($options['style'])) {
+                $html .= ' style="' . $options['style'] . '"';
             }
             $html .= '>';
             break;
         case 'select':
-            $html = '<select name="' . $key . '"';
-            if (isset($field['id'])) {
-                $html .= ' id="' . $field['id'] . '"';
+            $html = '<select name="' . $name . '"';
+            if (isset($options['id'])) {
+                $html .= ' id="' . $options['id'] . '"';
             }
-            if (isset($field['onchange'])) {
-                $html .= ' onchange="' . $field['onchange'] . '"';
+            if (isset($options['onchange'])) {
+                $html .= ' onchange="' . $options['onchange'] . '"';
             }
             $html .= '>';
-            foreach ($field['values'] as $key => $value) {
+            foreach ($options['values'] as $key => $value) {
                 $html .= '<option value="' . $key . '"';
-                if (isset($field['value']) && $field['value'] == $key) {
+                if (isset($options['value']) && $options['value'] === $key) {
                     $html .= ' selected';
                 }
                 $html .= '>' . $value . '</option>';
@@ -391,22 +391,22 @@ function makeField($field, $key)
             $html .= '</select>';
             break;
         case 'area':
-            $html = '<textarea name="' . $key . '" rows="' . $field['rows'] . '" cols="' . $field['cols'] . '">';
-            $html .= $field['value'];
+            $html = '<textarea name="' . $name . '" rows="' . $options['rows'] . '" cols="' . $options['cols'] . '">';
+            $html .= $options['value'];
             $html .= '</textarea>';
             break;
         case 'checkbox':
-            $html = '<input type="checkbox" name="' . $key . '" value="1"';
-            if ($field['value']) {
+            $html = '<input type="checkbox" name="' . $name . '" value="1"';
+            if ($options['value']) {
                 $html .= ' checked';
             }
-            if (isset($field['style'])) {
-                $html .= ' style="' . $field['style'] . '"';
+            if (isset($options['style'])) {
+                $html .= ' style="' . $options['style'] . '"';
             }
             $html .= '>';
             break;
         default:
-            $html = 'unbekanter typ ' . $field['type'];
+            $html = 'unbekanter typ ' . $options['type'];
     }
 
     return $html;

@@ -183,3 +183,22 @@ function GetObjectByCoords($coords)
 
     return $row['objekt'];
 }
+
+function GetObjectPictureByCoords($coords)
+{
+
+    $objekt = GetObjectByCoords($coords);
+    $objectPicture = '';
+
+    if ($objekt == 'Kolonie') {
+        $objectPicture = "<img src='" . BILDER_PATH . "kolo.png'>";
+    } else if ($objekt == 'Sammelbasis') {
+        $objectPicture = "<img src='" . BILDER_PATH . "ress_basis.png'>";
+    } else if ($objekt == 'Artefaktbasis') {
+        $objectPicture = "<img src='" . BILDER_PATH . "artefakt_basis.png'>";
+    } else if ($objekt == 'Kampfbasis') {
+        $objectPicture = "<img src='" . BILDER_PATH . "kampf_basis.png'>";
+    }
+
+    return $objectPicture;
+}

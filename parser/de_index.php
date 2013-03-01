@@ -77,7 +77,7 @@ function parse_de_index($return)
     foreach ($return->objResultData->aContainer as $aContainer) {
         if ($aContainer->bSuccessfullyParsed) {
             if ($aContainer->strIdentifier == "de_index_fleet") {
-                $fleetType = $aContainer->objResultData->strType; //! own OR opposite
+                $fleetType = $aContainer->objResultData->strType; //own OR opposite
 
                 $flottentyp = "";
                 if ($fleetType == "own") {
@@ -145,7 +145,7 @@ function parse_de_index($return)
                             $scan_data['time'] = $msg->iAnkunft;
                         }
 
-                        if (!isset($scan_data['user_to']) || empty($scan_data['user_to'])) {
+                        if (empty($scan_data['user_to'])) {
                             $scan_data['user_to'] = "";
 
                             $sql = "SELECT user FROM " . $db_tb_scans;
@@ -160,7 +160,7 @@ function parse_de_index($return)
                             }
                             debug_var('user_to', $scan_data['user_to']);
                         }
-                        if (!isset($scan_data['user_from']) || empty($scan_data['user_from'])) {
+                        if (empty($scan_data['user_from'])) {
                             // Von
                             $sql = "SELECT user FROM " . $db_tb_scans;
                             $sql .= " WHERE coords_gal=" . $scan_data['coords_from_gal'];
@@ -195,7 +195,7 @@ function parse_de_index($return)
                         save_data($scan_data);
                         $scan_datas[] = $scan_data;
                     } else {
-                        //echo "<font color='red'>unknown transfer_type detected: " .$tf_type."</font>";
+                        //echo "<div style='color:red;'>unknown transfer_type detected: " .$tf_type."</div>";
                         continue;
                     }
                 }

@@ -40,18 +40,14 @@ include "./menustyles/doc_default.php";
 doc_title('Login');
 
 if ((isset($login_id)) && ($login_ok === false) && ($action != "memberlogout2")) {
-    echo "<div class='doc_warning'>Falscher Benutzername oder Passwort!</div>\n";
-
-    if ($wronglogins < $config_wronglogins) {
-        echo "<div class='doc_warning'>Du hast noch " . ($config_wronglogins - $wronglogins) . " Versuch(e).</div>\n";
-    }
+    echo "<div class='system_warning'>Falscher Benutzername oder Passwort!</div><br>\n";
 
     if ($wronglogins >= $config_wronglogins) {
-        echo "<div class='doc_warning'>Du hast dich " . $wronglogins . " mal falsch eingeloggt! " .
-            "Einloggen für die nächsten " .
+        echo "<div class='system_warning'>Du hast dich zu oft falsch eingeloggt! " .
+            "Einloggen für ist die nächsten " .
             round($config_wronglogin_timeout / HOUR) .
             " Stunden gesperrt.<br>" .
-            "Daten wurden an den Admin übermittelt.</div>\n";
+            "Daten wurden an den Admin übermittelt.</div><br>\n";
 
     }
 }

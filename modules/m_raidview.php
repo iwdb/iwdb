@@ -207,50 +207,46 @@ function make_link($order, $ordered)
 }
 
 // user aus Tabelle holen und gruppieren
-$sql = "SELECT user FROM " . $db_tb_raidview . " GROUP BY user;";
+$sql = "SELECT `user` FROM `{$db_tb_raidview}` GROUP BY `user`;";
 $result2 = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
-/*make_link() gelöscht, weil nicht funktionieren, eine Lösung wäre, die Gesammtsummen in
-ein Feld zu schreiben, prefix_raidview.summe (ist schon erstellt) und dann auszulesen...
-*/
-
 start_table();
-start_row("titlebg center", "style='width:10%' colspan='3'");
+start_row("titlebg center bold", "style='width:10%' colspan='3'");
 
-echo "<b>User</b>";
+echo "User";
 
-next_cell("titlebg center", "style='width:10%'");
+next_cell("titlebg center bold", "style='width:10%'");
 
-echo "<b>Raids</b>";
+echo "Raids";
 
-next_cell("titlebg center", "style='width:10%'");
+next_cell("titlebg center bold", "style='width:10%'");
 
-echo "<b>Eisen</b>";
+echo "Eisen";
 
-next_cell("titlebg center", "style='width:10%'");
+next_cell("titlebg center bold", "style='width:10%'");
 
-echo "<b>Stahl</b>";
+echo "Stahl";
 
-next_cell("titlebg center", "style='width:10%'");
+next_cell("titlebg center bold", "style='width:10%'");
 
-echo "<b>VV4A</b>";
+echo "VV4A";
 
-next_cell("titlebg center", "style='width:10%'");
+next_cell("titlebg center bold", "style='width:10%'");
 
-echo "<b>Chemie</b>";
+echo "Chemie";
 
-next_cell("titlebg center", "style='width:10%'");
+next_cell("titlebg center bold", "style='width:10%'");
 
-echo "<b>Eis</b>";
+echo "Eis";
 
-next_cell("titlebg center", "style='width:10%'");
+next_cell("titlebg center bold", "style='width:10%'");
 
-echo "<b>Wasser</b>";
+echo "Wasser";
 
-next_cell("titlebg center", "style='width:10%'");
+next_cell("titlebg center bold", "style='width:10%'");
 
-echo "<b>Energie</b>";
+echo "Energie";
 
 
 // jeder user eine tabelle

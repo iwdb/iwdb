@@ -579,8 +579,7 @@ if (!empty($allianz)) {
         }
     } else {
         doc_message('Allianz wurde nicht gefunden');
-        var_dump($allianz);
-        //redirect("index.php?action=m_allystats&amp;sid=$sid", "< zurück zur Allianzliste");
+        redirect("index.php?action=m_allystats", "< zurück zur Allianzliste");
     }
 
 }

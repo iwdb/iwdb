@@ -204,7 +204,7 @@ $sql = "DELETE FROM " . $db_tb_incomings . " WHERE timestamp<" . (CURRENT_UNIX_T
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not delete incomings information.', '', __FILE__, __LINE__, $sql);
 
-$sql = "SELECT koords_to, name_to, allianz_to, koords_from, name_from, allianz_from, timestamp, gesaved, recalled FROM " . $db_tb_incomings . " WHERE art = 'Sondierung (Schiffe/Def/Ress)' OR art = 'Sondierung (Gebäude/Ress)' ORDER BY timestamp ASC";
+$sql = "SELECT koords_to, name_to, allianz_to, koords_from, name_from, allianz_from, timestamp, art, gesaved, recalled FROM " . $db_tb_incomings . " WHERE art = 'Sondierung (Schiffe/Def/Ress)' OR art = 'Sondierung (Gebäude/Ress)' ORDER BY timestamp ASC";
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query incomings information.', '', __FILE__, __LINE__, $sql);
 

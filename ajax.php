@@ -43,8 +43,6 @@ if ($action === 'getIncomings') {
         echo 'success';
     }
 
-} elseif ($action === 'getServertime') {
-    echo CURRENT_UNIX_TIME;
 }
 
 function getIncomings($timestamp) {
@@ -55,7 +53,7 @@ function getIncomings($timestamp) {
         or error(GENERAL_ERROR, 'Could not query incomings information.', '', __FILE__, __LINE__, $sql);
     $row = $db->db_fetch_array($result);
     if (empty($row['newEntries'])) {
-        //es sind keine neuen Einträge da
+        //es sind keine aktuelleren Einträge da
         header('HTTP/1.1 304 Not Modified');
     } else {
         echo json_encode(array('tables' => getIncomingsTables(), 'time' => CURRENT_UNIX_TIME));
@@ -110,19 +108,17 @@ function getIncomingsTables() {
 
         $art = $row['art'];
 
-        $savedCheckbox = "<label><input type='checkbox' class='savedCheckbox' value='$row[koords_to]'";
+        $savedCheckbox = "<input type='checkbox' class='savedCheckbox' value='$row[koords_to]'";
         if (!empty($row['saved'])) {
             $savedCheckbox .= 'checked="checked"';
         }
         $savedCheckbox .= "'>";
-        $savedCheckbox .= "</label>";
 
-        $recalledCheckbox = "<label><input type='checkbox' class='recalledCheckbox' value='$row[koords_to]'";
+        $recalledCheckbox = "<input type='checkbox' class='recalledCheckbox' value='$row[koords_to]'";
         if (!empty($row['recalled'])) {
             $recalledCheckbox .= 'checked="checked"';
         }
         $recalledCheckbox .= "'>";
-        $recalledCheckbox .= "</label>";
 
         $tabellen .= "
         <tr>
@@ -179,19 +175,17 @@ function getIncomingsTables() {
 
         $arrivaltime = strftime(CONFIG_DATETIMEFORMAT, $row['arrivaltime']);
 
-        $savedCheckbox = "<label><input type='checkbox' class='savedCheckbox' value='$row[koords_to]'";
+        $savedCheckbox = "<input type='checkbox' class='savedCheckbox' value='$row[koords_to]'";
         if (!empty($row['saved'])) {
             $savedCheckbox .= 'checked="checked"';
         }
         $savedCheckbox .= "'>";
-        $savedCheckbox .= "</label>";
 
-        $recalledCheckbox = "<label><input type='checkbox' class='recalledCheckbox' value='$row[koords_to]'";
+        $recalledCheckbox = "<input type='checkbox' class='recalledCheckbox' value='$row[koords_to]'";
         if (!empty($row['recalled'])) {
             $recalledCheckbox .= 'checked="checked"';
         }
         $recalledCheckbox .= "'>";
-        $recalledCheckbox .= "</label>";
 
         $tabellen .= "
         <tr>

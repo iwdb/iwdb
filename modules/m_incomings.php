@@ -201,9 +201,8 @@ echo "Anzeige der laufenden Sondierungen und Angriffe auf uns";
 echo " 	 <br />\n";
 echo " 	 <br />\n";
 
-//Tabelle für die Sondierungen
 ?>
-<div id='incomings_tabellen'></div>
+<div id='incomings_tabellen_container'></div>
 <table class='borderless'>
     <tr>
         <td>
@@ -228,97 +227,4 @@ echo " 	 <br />\n";
         </td>
     </tr>
 </table>
-
-<script>
-    "use strict";
-
-    /**
-     * @return {boolean}
-     */
-    jQuery(document).ready(function () {
-
-        var timeOfIncomingData = 0;
-        var IncomingDataIntervalID;
-
-        function updateFleetsavings(handle) {
-            var action = '';
-            var result = false;
-            var jQhandle = jQuery(handle);
-            var recievedData = '';
-
-            if (jQhandle.hasClass('savedCheckbox')) {
-                action = 'setSaved';
-            } else if (jQhandle.hasClass('recalledCheckbox')) {
-                action = 'setRecalled';
-            }
-
-            jQuery.ajax({
-                url: 'ajax.php',
-                type: 'POST',
-                cache: false,
-                async: false,
-                data: {
-                    coords: jQhandle.val(),
-                    action: action,
-                    state: handle.checked
-                },
-                success: function (data, status, xhr) {
-                    if (xhr.status === 200) {
-                        recievedData = JSON.parse(data);
-                        if (recievedData.result === 'success') {
-                            timeOfIncomingData = recievedData.time;
-
-                            jQuery('#incomings_tabellen').html(recievedData.tables);
-
-                            clearInterval(IncomingDataIntervalID);
-                            IncomingDataIntervalID = setInterval(function () {
-                                updateIncomings()
-                            }, 10000);             //Interval Neustart, Aufruf alle 10 Sekunden
-                            result = true;
-                        }
-                    }
-                }
-            });
-
-            return result;
-        }
-
-        function updateIncomings() {
-            var recievedData = '';
-
-            jQuery.ajax({
-                url: 'ajax.php',
-                type: 'POST',
-                cache: false,
-                async: false,
-                data: {
-                    action: 'getIncomings',
-                    timestamp: timeOfIncomingData
-                },
-                success: function (data, status, xhr) {
-                    //console.log('status:' + xhr.status);
-                    if (xhr.status === 200) {
-                        recievedData = JSON.parse(data);
-                        if (recievedData.result === 'success') {
-                            timeOfIncomingData = recievedData.time;
-
-                            jQuery('#incomings_tabellen').html(recievedData.tables);
-                        }
-                    }
-                }
-            });
-        }
-
-        updateIncomings();
-        IncomingDataIntervalID = setInterval(function () {
-            updateIncomings()
-        }, 10000);                    //Aufruf alle 10 Sekunden
-
-        jQuery(document).on("change", '.savedCheckbox, .recalledCheckbox', function () {          //saved oder recalled Änderung
-            if (updateFleetsavings(this) === false) {
-                //alert("Fehler beim Setzen des Status!");
-                jQuery(this).prop('checked', !this.checked);        //Auswahl rückgängig machen, da Fehler beim übernehmen
-            }
-        });
-    });
-</script>
+<script src="javascript/m_incomings.js"></script>

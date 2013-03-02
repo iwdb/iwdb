@@ -295,14 +295,16 @@ echo " 	 <br />\n";
         }
 
         updateIncomings();
-        var intervalID = setInterval(function(){updateIncomings()}, 10000);                    //alle 10 Sekunden
+        var intervalID = setInterval(function(){updateIncomings()}, 10000);                    //Aufruf alle 10 Sekunden
 
         jQuery(document).on("click", '.savedCheckbox, .recalledCheckbox', function(){          //saved oder recalled Änderung
             if (updateFleetsavings(this) === false) {
                 //alert("Fehler beim Setzen des Status!");
                 jQuery(this).prop('checked', !this.checked);        //Auswahl rückgängig machen, da Fehler beim übernehmen
             } else {                                                                //alle Incomings zu diesem Planie ändern
-                updateIncomings();
+                clearInterval(intervalID);                                                  //Interval stop
+                updateIncomings();                                                          //sofortiger Aufruf
+                intervalID = setInterval(function(){updateIncomings()}, 10000);             //interval Neustart, Aufruf alle 10 Sekunden
             }
         });
     });

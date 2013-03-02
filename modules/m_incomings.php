@@ -290,26 +290,19 @@ echo " 	 <br />\n";
                         jQuery('#incomings_tabellen').html(recievedData.tables);
                     }
 
-                },
-                complete: function () {
-                    setTimeout(updateIncomings, 5000);               //alle 5 Sekunden
                 }
             });
         }
+
         updateIncomings();
+        var intervalID = setInterval(function(){updateIncomings()}, 10000);                    //alle 10 Sekunden
 
         jQuery(document).on("click", '.savedCheckbox, .recalledCheckbox', function(){          //saved oder recalled Änderung
             if (updateFleetsavings(this) === false) {
                 //alert("Fehler beim Setzen des Status!");
                 jQuery(this).prop('checked', !this.checked);        //Auswahl rückgängig machen, da Fehler beim übernehmen
             } else {                                                                //alle Incomings zu diesem Planie ändern
-                var jQhandle = jQuery(this);
-                if (jQhandle.hasClass('savedCheckbox')) {
-                    jQuery('.savedCheckbox[value="' + jQhandle.val() + '"]').prop('checked', this.checked);
-                } else if (jQhandle.hasClass('recalledCheckbox')) {
-                    jQuery('.recalledCheckbox[value="' + jQhandle.val() + '"]').prop('checked', this.checked);
-                }
-
+                updateIncomings();
             }
         });
     });

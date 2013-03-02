@@ -182,9 +182,6 @@ if ($login_ok) {
     $user_allianz         = "";
 }
 
-// set online counter //
-$onlineUsers = getOnlineUsers();
-
 //sid mit dieser ip gültig?
 function useSID($sid, $ip_hash)
 {
@@ -249,30 +246,6 @@ function loginUser($login_id, $password)
     } else {
         $returnData['wronglogins'] = $wronglogins + 1;
     }
-
-    return $returnData;
-}
-
-function getOnlineUsers()
-{
-    global $db, $db_tb_sid, $db_tb_user, $config_counter_timeout, $user_fremdesitten, $user_allianz;
-
-    $returnData                   = array();
-    $returnData['counter_member'] = 0;
-    $returnData['aOnlineMember']  = array();
-
-    $sql = "SELECT DISTINCT `id` FROM `{$db_tb_sid}` WHERE `date`>" . (CURRENT_UNIX_TIME - $config_counter_timeout);
-    if (!$user_fremdesitten) {
-        $sql .= " AND (SELECT `allianz` FROM `{$db_tb_user}` WHERE `{$db_tb_sid}`.`id`=`{$db_tb_user}`.`id`)='" . $user_allianz . "';";
-    }
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'General_error_query', '', __FILE__, __LINE__, $sql);
-    while ($row = $db->db_fetch_array($result)) {
-        $returnData['counter_member']++;
-        $returnData['aOnlineMember'][] = $row['id'];
-    }
-
-    $returnData['strOnlineMember'] = implode(",", $returnData['aOnlineMember']);
 
     return $returnData;
 }

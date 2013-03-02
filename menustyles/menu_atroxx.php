@@ -68,16 +68,16 @@ include ('configmenu.php');
 <div class="chromestyle" id="chromemenu">
     <ul>
         <li>
-            <table align="left" class='borderless'>
+            <table align="left" class='table_format_noborder'>
                 <tr>
-                    <td class='borderless'><strong>Hallo, <?php echo $user_id;?>.</strong></td>
+                    <td><strong>Hallo, <?php echo $user_id;?>.</strong></td>
                 </tr>
             </table>
         </li>
         <li>
-            <table align="right" class='borderless'>
+            <table align="right">
                 <tr>
-                    <td class='borderless' style="font-weight: bold;"><abbr title="<?php echo $onlineUsers['strOnlineMember'];?>">Online: <?php echo $onlineUsers['counter_member'];?></abbr>&nbsp;&nbsp;</td>
+                    <td id="doc_usersonline" style="font-weight: bold;"></td>
                 </tr>
             </table>
         </li>
@@ -205,7 +205,39 @@ include ('configmenu.php');
 <script type="text/javascript"> cssdropdown.startchrome("chromemenu") </script>
 <!-- menu Ende -->
 <br><br>
+<script>
+    jQuery(document).ready(function () {
+        var getOnlineUsersIntervalID;
 
+        function updateOnlineUsers() {
+            var recievedData = '';
+
+            jQuery.ajax({
+                url: 'ajax.php',
+                type: 'POST',
+                cache: false,
+                async: true,
+                data: {
+                    action: 'getOnlineUsers'
+                },
+                success: function (data, status, xhr) {
+                    if (xhr.status === 200) {
+                        recievedData = JSON.parse(data);
+                        if (recievedData.result === 'success') {
+                            jQuery('#doc_usersonline').html('<abbr title="'+recievedData.data.strOnlineMember+'">Online: '+recievedData.data.counter_member+'</abbr>');
+                        }
+                    }
+                }
+            });
+        }
+
+        updateOnlineUsers();
+        getOnlineUsersIntervalID = setInterval(function () {
+            updateOnlineUsers();
+        }, 180000);                    //Aufruf alle 3 Minuten
+
+    });
+</script>
 <!-- hauptfenster Start -->
 <table align="center" style="width:100%;">
     <tr>

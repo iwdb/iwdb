@@ -200,14 +200,14 @@ if ($row['time'] < (CURRENT_UNIX_TIME - 48 * HOUR)) {
     echo "<div style='color:red; font-weight:bold; font-size:1.5em; border: 2px solid red; padding:2px; margin: 5px 0px;'>Deine Gebäudeübersicht wurde seit 48h nicht mehr aktualisiert!</div>";
 }
 
-// Warnung nicht eingelesene Allikasse seit 24 Stunden
+// Warnung nicht eingelesene Allikasse seit 72 Stunden
 $sql = "SELECT UNIX_TIMESTAMP(MAX(time_of_insert)) AS time FROM `" . $db_tb_kasse_content . '`;';
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row = $db->db_fetch_array($result);
 
-if ((CURRENT_UNIX_TIME - 24 * HOUR) > $row['time']) {
-    echo "<div style='color:red; font-weight:bold; font-size:1.5em; border: 2px solid red; padding:2px; margin: 5px 0px;'>Die Allianzkasse wurde seit über 24h nicht mehr aktualisiert!</div>";
+if ((CURRENT_UNIX_TIME - 72 * HOUR) > $row['time']) {
+    echo "<div style='color:red; font-weight:bold; font-size:1.5em; border: 2px solid red; padding:2px; margin: 5px 0px;'>Die Allianzkasse wurde seit über 72h nicht mehr aktualisiert!</div>";
 }
 
 // Warnung nicht eingelesene Mitgliederliste seit 96 Stunden
@@ -251,39 +251,7 @@ echo "</div>";
         </td>
     </tr>
 </table>
-<script>
-    jQuery(document).ready(function () {
-        var getOnlineUsersIntervalID;
-
-        function updateOnlineUsers() {
-            var recievedData = '';
-
-            jQuery.ajax({
-                url: 'ajax.php',
-                type: 'POST',
-                cache: false,
-                async: true,
-                data: {
-                    action: 'getOnlineUsers'
-                },
-                success: function (data, status, xhr) {
-                    if (xhr.status === 200) {
-                        recievedData = JSON.parse(data);
-                        if (recievedData.result === 'success') {
-                            jQuery('#doc_usersonline').html('Online: '+recievedData.data.counter_member+' ('+recievedData.data.strOnlineMember+')');
-                        }
-                    }
-                }
-            });
-        }
-
-        updateOnlineUsers();
-        getOnlineUsersIntervalID = setInterval(function () {
-            updateOnlineUsers();
-        }, 180000);                    //Aufruf alle 3 Minuten
-
-    });
-</script>
+<script src="javascript/menu_default.js"></script>
 <table align="center" style="width:100%;">
     <tr>
         <td width="12%" valign="top" class='doc_menu'>

@@ -25,6 +25,7 @@ if ($action === 'getIncomings') {
     $result = $db->db_update($db_tb_incomings, array('saved' => $saved, 'savedUpdateTime' => CURRENT_UNIX_TIME ), "WHERE koords_to = '$coords'");
 
     if ($result === true) {
+        include('ajax/getIncomingsTables.php');
         echo json_encode(array('result' => 'success', 'time' => CURRENT_UNIX_TIME, 'tables' => getIncomingsTables()));
     }
 
@@ -40,11 +41,13 @@ if ($action === 'getIncomings') {
     $result = $db->db_update($db_tb_incomings, array('recalled' => $recalled, 'recalledUpdateTime' => CURRENT_UNIX_TIME), "WHERE koords_to = '$coords'");
 
     if ($result === true) {
+        include('ajax/getIncomingsTables.php');
         echo json_encode(array('result' => 'success', 'time' => CURRENT_UNIX_TIME, 'tables' => getIncomingsTables()));
     }
 
 } elseif ($action === 'getOnlineUsers') {
 
+    include('ajax/getOnlineUsers.php');
     echo json_encode(array('result' => 'success', 'time' => CURRENT_UNIX_TIME, 'data' => getOnlineUsers()));
 
 }
@@ -64,185 +67,9 @@ function getIncomings($timestamp)
 
     } else {
 
+        include_once('ajax/getIncomingsTables.php');
         echo json_encode(array('result' => 'success', 'time' => CURRENT_UNIX_TIME, 'tables' => getIncomingsTables()));
 
     }
 
-}
-
-function getIncomingsTables()
-{
-    global $db, $db_tb_incomings;
-
-    //Löschen der Einträge in der Tabelle incomings, es sollen nur aktuelle Sondierungen und Angriffe eingetragen sein
-    //ToDo : evtl Trennung Sondierung und Angriffe, damit die Sondierungen früher entfernt sind
-    $sql = "DELETE FROM " . $db_tb_incomings . " WHERE arrivaltime<" . (CURRENT_UNIX_TIME - 20 * MINUTE);
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not delete incomings information.', '', __FILE__, __LINE__, $sql);
-
-    //Tabelle der kommenden Sondierungen erstellen
-
-    $tabellen = "
-    <table class='table_hovertable' style='width:95%'>
-        <caption>Sondierungen</caption>
-        <thead>
-        <tr>
-            <th>Opfer</th>
-            <th>Zielplanet</th>
-            <th>Pösewicht</th>
-            <th>Ausgangsplanet</th>
-            <th>Zeitpunkt</th>
-            <th>Art der Sondierung</th>
-            <th>gesaved</th>
-            <th>recalled</th>
-        </tr>
-        </thead>
-        <tbody>";
-
-    //Tabellendaten für Sondierungen holen und verarbeiten
-
-    $sql = "SELECT koords_to, name_to, allianz_to, koords_from, name_from, allianz_from, arrivaltime, art, saved, recalled FROM " . $db_tb_incomings . " WHERE art = 'Sondierung (Schiffe/Def/Ress)' OR art = 'Sondierung (Gebäude/Ress)' ORDER BY arrivaltime ASC";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query incomings information.', '', __FILE__, __LINE__, $sql);
-
-    while ($row = $db->db_fetch_array($result)) {
-
-        $name_to = "<a href='index.php?action=sitterlogins&sitterlogin=" . urlencode($row['name_to']) . "' target='_blank'><img src='" . BILDER_PATH . "user-login.gif' alt='L' title='Einloggen'>&emsp;$row[name_to]</a>";
-
-        $koords_to = getObjectPictureByCoords($row['koords_to']) . $row['koords_to'];
-
-        if (!empty($row['allianz_from'])) {
-            $name_from = ($row['name_from'] . " [" . $row['allianz_from'] . "]");
-        } else {
-            $name_from = $row['name_from'];
-        }
-
-        $koords_from = getObjectPictureByCoords($row['koords_from']) . $row['koords_from'];
-
-        $arrivaltime = strftime(CONFIG_DATETIMEFORMAT, $row['arrivaltime']);
-
-        $art = $row['art'];
-
-        $savedCheckbox = "<input type='checkbox' class='savedCheckbox' value='$row[koords_to]'";
-        if (!empty($row['saved'])) {
-            $savedCheckbox .= 'checked="checked"';
-        }
-        $savedCheckbox .= "'>";
-
-        $recalledCheckbox = "<input type='checkbox' class='recalledCheckbox' value='$row[koords_to]'";
-        if (!empty($row['recalled'])) {
-            $recalledCheckbox .= 'checked="checked"';
-        }
-        $recalledCheckbox .= "'>";
-
-        $tabellen .= "
-        <tr>
-            <td>$name_to</td>
-            <td>$koords_to</td>
-            <td>$name_from</td>
-            <td>$koords_from</td>
-            <td>$arrivaltime</td>
-            <td>$art</td>
-            <td>$savedCheckbox</td>
-            <td>$recalledCheckbox</td>
-        </tr>";
-    }
-    $tabellen .= "
-        </tbody>
-    </table>
-    <br />
-    <br />";
-
-    //Tabelle der kommenden Angriffe erstellen
-
-    $tabellen .= "
-    <table class='table_hovertable' style='width:95%'>
-        <caption>Angriffe</caption>
-        <thead>
-        <tr>
-            <th>Opfer</th>
-            <th>Zielplanet</th>
-            <th>Pösewicht</th>
-            <th>Ausgangsplanet</th>
-            <th>Zeitpunkt</th>
-            <th>gesaved</th>
-            <th>recalled</th>
-        </tr>
-        </thead>
-        <tbody>";
-
-    //Tabellendaten für Angriffe holen und verarbeiten
-
-    $sql = "SELECT koords_to, name_to, allianz_to, koords_from, name_from, allianz_from, arrivaltime, saved, recalled FROM " . $db_tb_incomings . " WHERE art = 'Angriff' ORDER BY arrivaltime ASC";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query incomings information.', '', __FILE__, __LINE__, $sql);
-
-    while ($row = $db->db_fetch_array($result)) {
-        $name_to = "<a href='index.php?action=sitterlogins&sitterlogin=" . urlencode($row['name_to']) . "' target='_blank'><img src='" . BILDER_PATH . "user-login.gif' alt='L' title='Einloggen'>&emsp;$row[name_to]</a>";
-
-        $koords_to = getObjectPictureByCoords($row['koords_to']) . $row['koords_to'];
-
-        if (!empty($row['allianz_from'])) {
-            $name_from = ($row['name_from'] . " [" . $row['allianz_from'] . "]");
-        } else {
-            $name_from = $row['name_from'];
-        }
-
-        $koords_from = getObjectPictureByCoords($row['koords_from']) . $row['koords_from'];
-
-        $arrivaltime = strftime(CONFIG_DATETIMEFORMAT, $row['arrivaltime']);
-
-        $savedCheckbox = "<input type='checkbox' class='savedCheckbox' value='$row[koords_to]'";
-        if (!empty($row['saved'])) {
-            $savedCheckbox .= 'checked="checked"';
-        }
-        $savedCheckbox .= "'>";
-
-        $recalledCheckbox = "<input type='checkbox' class='recalledCheckbox' value='$row[koords_to]'";
-        if (!empty($row['recalled'])) {
-            $recalledCheckbox .= 'checked="checked"';
-        }
-        $recalledCheckbox .= "'>";
-
-        $tabellen .= "
-        <tr>
-            <td>$name_to</td>
-            <td>$koords_to</td>
-            <td>$name_from</td>
-            <td>$koords_from</td>
-            <td>$arrivaltime</td>
-            <td>$savedCheckbox</td>
-            <td>$recalledCheckbox</td>
-        </tr>
-        ";
-    }
-    $tabellen .= "
-        </tbody>
-    </table>";
-
-    return $tabellen;
-
-}
-
-function getOnlineUsers()
-{
-    global $db, $db_tb_sid, $db_tb_user, $config_counter_timeout, $user_fremdesitten, $user_allianz;
-
-    $returnData                   = array();
-    $returnData['counter_member'] = 0;
-    $returnData['aOnlineMember']  = array();
-
-    $sql = "SELECT DISTINCT `id` FROM `{$db_tb_sid}` WHERE `date`>" . (CURRENT_UNIX_TIME - $config_counter_timeout);
-    if (!$user_fremdesitten) {
-        $sql .= " AND (SELECT `allianz` FROM `{$db_tb_user}` WHERE `{$db_tb_sid}`.`id`=`{$db_tb_user}`.`id`)='" . $user_allianz . "';";
-    }
-    $result = $db->db_query($sql);
-    while ($row = $db->db_fetch_array($result)) {
-        $returnData['counter_member']++;
-        $returnData['aOnlineMember'][] = $row['id'];
-    }
-
-    $returnData['strOnlineMember'] = implode(",", $returnData['aOnlineMember']);
-
-    return $returnData;
 }

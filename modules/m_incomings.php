@@ -235,39 +235,53 @@ echo " 	 <br />\n";
     /**
      * @return {boolean}
      */
-    function updateFleetsavings(handle) {
-        var action = '';
-        var result = false;
-        var jQhandle = jQuery(handle);
-
-        if (jQhandle.hasClass('savedCheckbox')) {
-            action = 'setSaved';
-        } else if (jQhandle.hasClass('recalledCheckbox')) {
-            action = 'setRecalled';
-        }
-
-        jQuery.ajax({
-            url: 'ajax.php',
-            type: 'POST',
-            cache: false,
-            async: false,
-            data: {
-                coords: jQhandle.val(),
-                action: action,
-                state: handle.checked
-            },
-            success: function (ajaxreturn) {
-                if (ajaxreturn === 'success') {
-                    result = true;
-                }
-            }
-        });
-
-        return result;
-    }
-
     jQuery(document).ready(function () {
+
         var timeOfIncomingData = 0;
+        var IncomingDataIntervalID;
+
+        function updateFleetsavings(handle) {
+            var action = '';
+            var result = false;
+            var jQhandle = jQuery(handle);
+            var recievedData = '';
+
+            if (jQhandle.hasClass('savedCheckbox')) {
+                action = 'setSaved';
+            } else if (jQhandle.hasClass('recalledCheckbox')) {
+                action = 'setRecalled';
+            }
+
+            jQuery.ajax({
+                url: 'ajax.php',
+                type: 'POST',
+                cache: false,
+                async: false,
+                data: {
+                    coords: jQhandle.val(),
+                    action: action,
+                    state: handle.checked
+                },
+                success: function (data, status, xhr) {
+                    if (xhr.status === 200) {
+                        recievedData = JSON.parse(data);
+                        if (recievedData.result === 'success') {
+                            timeOfIncomingData = recievedData.time;
+
+                            jQuery('#incomings_tabellen').html(recievedData.tables);
+
+                            clearInterval(IncomingDataIntervalID);
+                            IncomingDataIntervalID = setInterval(function () {
+                                updateIncomings()
+                            }, 10000);             //Interval Neustart, Aufruf alle 10 Sekunden
+                            result = true;
+                        }
+                    }
+                }
+            });
+
+            return result;
+        }
 
         function updateIncomings() {
             var recievedData = '';
@@ -285,26 +299,25 @@ echo " 	 <br />\n";
                     //console.log('status:' + xhr.status);
                     if (xhr.status === 200) {
                         recievedData = JSON.parse(data);
-                        timeOfIncomingData = recievedData.time;
+                        if (recievedData.result === 'success') {
+                            timeOfIncomingData = recievedData.time;
 
-                        jQuery('#incomings_tabellen').html(recievedData.tables);
+                            jQuery('#incomings_tabellen').html(recievedData.tables);
+                        }
                     }
-
                 }
             });
         }
 
         updateIncomings();
-        var intervalID = setInterval(function(){updateIncomings()}, 10000);                    //Aufruf alle 10 Sekunden
+        IncomingDataIntervalID = setInterval(function () {
+            updateIncomings()
+        }, 10000);                    //Aufruf alle 10 Sekunden
 
-        jQuery(document).on("click", '.savedCheckbox, .recalledCheckbox', function(){          //saved oder recalled Änderung
+        jQuery(document).on("change", '.savedCheckbox, .recalledCheckbox', function () {          //saved oder recalled Änderung
             if (updateFleetsavings(this) === false) {
                 //alert("Fehler beim Setzen des Status!");
                 jQuery(this).prop('checked', !this.checked);        //Auswahl rückgängig machen, da Fehler beim übernehmen
-            } else {                                                                //alle Incomings zu diesem Planie ändern
-                clearInterval(intervalID);                                                  //Interval stop
-                updateIncomings();                                                          //sofortiger Aufruf
-                intervalID = setInterval(function(){updateIncomings()}, 10000);             //interval Neustart, Aufruf alle 10 Sekunden
             }
         });
     });

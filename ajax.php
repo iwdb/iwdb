@@ -25,7 +25,7 @@ if ($action === 'getIncomings') {
     $result = $db->db_update($db_tb_incomings, array('saved' => $saved, 'savedUpdateTime' => CURRENT_UNIX_TIME), "WHERE koords_to = '$coords'");
 
     if ($result === true) {
-        echo 'success';
+        echo json_encode(array('result' => 'success', 'time' => CURRENT_UNIX_TIME, 'tables' => getIncomingsTables()));
     }
 
 } elseif ($action === 'setRecalled') {
@@ -40,7 +40,7 @@ if ($action === 'getIncomings') {
     $result = $db->db_update($db_tb_incomings, array('recalled' => $recalled, 'recalledUpdateTime' => CURRENT_UNIX_TIME), "WHERE koords_to = '$coords'");
 
     if ($result === true) {
-        echo 'success';
+        echo json_encode(array('result' => 'success', 'time' => CURRENT_UNIX_TIME, 'tables' => getIncomingsTables()));
     }
 
 }
@@ -56,7 +56,7 @@ function getIncomings($timestamp) {
         //es sind keine aktuelleren Einträge da
         header('HTTP/1.1 304 Not Modified');
     } else {
-        echo json_encode(array('tables' => getIncomingsTables(), 'time' => CURRENT_UNIX_TIME));
+        echo json_encode(array('result' => 'success', 'time' => CURRENT_UNIX_TIME, 'tables' => getIncomingsTables()));
     }
 
 }

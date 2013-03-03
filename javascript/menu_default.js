@@ -30,8 +30,6 @@ jQuery(document).ready(function () {
     }
 
     updateOnlineUsers();
-    getOnlineUsersIntervalID = setInterval(function () {
-        updateOnlineUsers();
-    }, 180000);                    //Aufruf alle 3 Minuten
+    setInterval(function () { updateOnlineUsers(); }, 180000);                    //Aufruf alle 3 Minuten
 
 });

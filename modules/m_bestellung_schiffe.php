@@ -69,7 +69,7 @@ $modulstatus = "";
 //
 // -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
 //
-$moduldesc = "Bestellsystem zur Koordination von Logistikaufträgen im Buddler-Fleeter-System.";
+$moduldesc = "Bestellsystem zur Koordination von Schiffsbestellungen.";
 
 //****************************************************************************
 //

@@ -248,9 +248,7 @@ while ($row = $db->db_fetch_array($result)) {
                 echo $id;
             }
             ?>
-            <br><font size="1"><i
-                    style="color:<?php echo $color;?>">[<?php echo $row['budflesol']; echo ($row['buddlerfrom']) ? " v. " . $row['buddlerfrom'] : "";?>
-                    ]</i></font>
+            <div style='font-size:smaller; font-style:italic; color:<?php echo $color;?>'>[<?php echo $row['budflesol']; echo ($row['buddlerfrom']) ? " v. " . $row['buddlerfrom'] : "";?>]</div>
         </td>
         <td class="top" >
             <?php echo $row['allianz'];?>

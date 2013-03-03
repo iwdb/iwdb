@@ -557,31 +557,31 @@ foreach ($fleeterlist as $key => $value) {
         echo strftime("%d.%m.%y<br>%H:%M:%S", $row['datum']);
 
         next_cell("windowbg1 right");
-        echo number_format($row['eisen'] * $switch, 0, '.', ',');
+        echo number_format($row['eisen'] * $switch, 0, ',', '.');
 
         next_cell("windowbg1 right");
-        echo number_format($row['stahl'] * $switch, 0, '.', ',');
+        echo number_format($row['stahl'] * $switch, 0, ',', '.');
 
         next_cell("windowbg1 right");
-        echo number_format($row['vv4a'] * $switch, 0, '.', ',');
+        echo number_format($row['vv4a'] * $switch, 0, ',', '.');
 
         next_cell("windowbg1 right");
-        echo number_format($row['chem'] * $switch, 0, '.', ',');
+        echo number_format($row['chem'] * $switch, 0, ',', '.');
 
         next_cell("windowbg1 right");
-        echo number_format($row['eis'] * $switch, 0, '.', ',');
+        echo number_format($row['eis'] * $switch, 0, ',', '.');
 
         next_cell("windowbg1 right");
-        echo number_format($row['wasser'] * $switch, 0, '.', ',');
+        echo number_format($row['wasser'] * $switch, 0, ',', '.');
 
         next_cell("windowbg1 right");
-        echo number_format($row['energie'] * $switch, 0, '.', ',');
+        echo number_format($row['energie'] * $switch, 0, ',', '.');
 
         next_cell("windowbg1 right");
-        echo number_format($row['fp_ph'] * $switch, 0, '.', ',');
+        echo number_format($row['fp_ph'] * $switch, 0, ',', '.');
 
         next_cell("windowbg1 right");
-        echo number_format($row['credits'] * $switch, 0, '.', ',');
+        echo number_format($row['credits'] * $switch, 0, ',', '.');
 
         next_cell("windowbg1 right");
         echo $row['budflesol'];
@@ -613,31 +613,31 @@ foreach ($fleeterlist as $key => $value) {
 
 
         next_cell("windowbg1 right");
-        echo number_format($row['eisen'] * $switch, 0, '.', ',');
+        echo number_format($row['eisen'] * $switch, 0, ',', '.');
 
         next_cell("windowbg1 right");
-        echo number_format($row['stahl'] * $switch, 0, '.', ',');
+        echo number_format($row['stahl'] * $switch, 0, ',', '.');
 
         next_cell("windowbg1 right");
-        echo number_format($row['vv4a'] * $switch, 0, '.', ',');
+        echo number_format($row['vv4a'] * $switch, 0, ',', '.');
 
         next_cell("windowbg1 right");
-        echo number_format($row['chem'] * $switch, 0, '.', ',');
+        echo number_format($row['chem'] * $switch, 0, ',', '.');
 
         next_cell("windowbg1 right");
-        echo number_format($row['eis'] * $switch, 0, '.', ',');
+        echo number_format($row['eis'] * $switch, 0, ',', '.');
 
         next_cell("windowbg1 right");
-        echo number_format($row['wasser'] * $switch, 0, '.', ',');
+        echo number_format($row['wasser'] * $switch, 0, ',', '.');
 
         next_cell("windowbg1 right");
-        echo number_format($row['energie'] * $switch, 0, '.', ',');
+        echo number_format($row['energie'] * $switch, 0, ',', '.');
 
         next_cell("windowbg1 right");
-        echo number_format($row['fp_ph'] * $switch, 0, '.', ',');
+        echo number_format($row['fp_ph'] * $switch, 0, ',', '.');
 
         next_cell("windowbg1 right");
-        echo number_format($row['credits'] * $switch, 0, '.', ',');
+        echo number_format($row['credits'] * $switch, 0, ',', '.');
 
         next_cell("titlebg center", "style='background-color:#FFFFFF' colspan='2'");
         echo "Gesamt";

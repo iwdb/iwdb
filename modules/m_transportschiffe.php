@@ -182,9 +182,9 @@ if (empty($params['order'])) {
 if ($params['orderd'] != 'asc' && $params['orderd'] != 'desc') {
     $params['orderd'] = 'asc';
 }
-if (empty($params['filter_team'])) {
-    $params['filter_team'] = $user_buddlerfrom;
-}
+
+$params['playerSelection'] = getVar('playerSelection');
+
 if (!is_numeric($params['heimatgalaxy'])) {
     $params['heimatgalaxy'] = $user_allianz == 'KEINE' ? 17 : 3;
 }
@@ -215,42 +215,10 @@ if (!is_numeric($params['sonstige_abdeckung_hyperraum_klasse2'])) {
 
 debug_var("params", $params);
 
-// Stammdaten abfragen
-$config = array();
-
-$sql = "SELECT * FROM $db_tb_gebaeude";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query scans_historie information.', '', __FILE__, __LINE__, $sql);
-while ($row = $db->db_fetch_array($result)) {
-    $buildings[$row['name']] = array(
-        "id"   => $row['id'],
-        "bild" => $row['bild']
-    );
-}
-
-// Spieler und Teams abfragen
-$users = array();
-$teams = array();
-$teams['(Alle)']          = '(Alle)';
-$teams['(Nur Fleeter)']   = '(Nur Fleeter)';
-$teams['(Nur Cash Cows)'] = '(Nur Cash Cows)';
-$teams['(Nur Buddler)']   = '(Nur Buddler)';
-$teams['(Nur Wandler)']   = '(Nur Wandler)';
-$teams['(Nur Allrounder)']   = '(Nur Allrounder)';
-$teams['(Nur Stahlwandler)']   = '(Nur Stahlwandler)';
-$teams['(Nur VV4a Wandler)']   = '(Nur VV4A Wandler)';
-
-$sql = "SELECT * FROM " . $db_tb_user;
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-while ($row = $db->db_fetch_array($result)) {
-    $users[$row['id']] = $row['id'];
-    if (!empty($row['buddlerfrom'])) {
-        $teams[$row['buddlerfrom']] = $row['buddlerfrom'];
-    }
-}
-$config['users'] = $users;
-$config['teams'] = $teams;
+// Auswahlarray zusammenbauen
+$playerSelectionOptions = array();
+$playerSelectionOptions['(Alle)'] = '(Alle)';
+$playerSelectionOptions += getAllyAccTypesSelect() + getAllyTeamsSelect();
 
 // Abfrage ausführen
 $sql = "SELECT  $db_tb_user.id AS 'user',
@@ -341,29 +309,10 @@ $sql = "SELECT  $db_tb_user.id AS 'user',
 		    AND $db_tb_schiffstyp.schiff NOT LIKE '%Settlers Delight%') AS 'transporter_hyperraum_klasse2',
 	        (SELECT datum
        	  FROM $db_tb_ressuebersicht
-            	  WHERE $db_tb_ressuebersicht.user=$db_tb_user.id) AS 'datum' 
+            	  WHERE $db_tb_ressuebersicht.user=$db_tb_user.id) AS 'datum'
 ";
 $sql .= " FROM $db_tb_user";
-
-if (isset($params['filter_team'])) {
-    if ($params['filter_team'] == '(Nur Fleeter)') {
-        $sql .= " WHERE " . $db_tb_user . ".budflesol='Fleeter'";
-    } elseif ($params['filter_team'] == '(Nur Cash Cows)') {
-        $sql .= " WHERE " . $db_tb_user . ".budflesol='Cash Cow'";
-    } elseif ($params['filter_team'] == '(Nur Buddler)') {
-        $sql .= " WHERE " . $db_tb_user . ".budflesol='Buddler'";
-	} elseif ($params['filter_team'] == '(Nur Wandler)') {
-        $sql .= " WHERE " . $db_tb_user . ".budflesol='Wandler'";
-	} elseif ($params['filter_team'] == '(Nur Stahlandler)') {
-        $sql .= " WHERE " . $db_tb_user . ".budflesol='Stahlandler'";
-	} elseif ($params['filter_team'] == '(Nur VV4A Wandler)') {
-        $sql .= " WHERE " . $db_tb_user . ".budflesol='VV4A Wandler'";
-	} elseif ($params['filter_team'] == '(Nur Allrounder)') {
-        $sql .= " WHERE " . $db_tb_user . ".budflesol='Allrounder'";
-    } elseif ($params['filter_team'] != '(Alle)') {
-        $sql .= " WHERE " . $db_tb_user . ".buddlerfrom='" . $params['filter_team'] . "'";
-    }
-}
+$sql .= " WHERE " . sqlPlayerSelection($params['playerSelection']);
 
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query scans_historie information.', '', __FILE__, __LINE__, $sql);
@@ -371,10 +320,6 @@ $result = $db->db_query($sql)
 // Abfrage auswerten
 $data = array();
 while ($row = $db->db_fetch_array($result)) {
-    // Drecks-Solos raus
-    if ($row['typ'] == 'Solo') {
-        continue;
-    }
     // Werte zurücksetzen
     $produktion_system_klasse1    = 0;
     $produktion_system_klasse2    = 0;
@@ -697,19 +642,18 @@ if (isset($results)) {
     }
 }
 
-// Team Dropdown
-echo "<form method='POST' action='" . makeurl(array()) . "' enctype='multipart/form-data'><p align='center'>";
-echo 'Team: ';
+// Spielerauswahl Dropdown erstellen
+echo "<div class='playerSelectionbox'>";
+echo "Auswahl: ";
 echo makeField(
     array(
          "type"   => 'select',
-         "values" => $config['teams'],
-         "value"  => $params['filter_team']
-    ), 'filter_team'
+         "values" => $playerSelectionOptions,
+         "value"  => $params['playerSelection'],
+         "onchange" => "location.href='index.php?action=m_transportschiffe&amp;playerSelection='+this.options[this.selectedIndex].value",
+    ), 'playerSelection'
 );
-echo '<input type="hidden" name="soll" value="0"/>';
-echo '<input type="submit" name="submit" value="anzeigen"/>';
-echo "</form>\n";
+echo '</div><br>';
 
 // Soll-Berechnung
 echo "<form method='POST' action='" . makeurl(array()) . "' enctype='multipart/form-data'><p align='center'>";
@@ -1205,10 +1149,9 @@ function makelink($newparams, $content)
 // Erzeugt eine Modul-URL.
 function makeurl($newparams)
 {
-    global $modulname, $sid, $params;
+    global $modulname, $params;
 
     $url = 'index.php?action=' . $modulname;
-    $url .= '&amp;sid=' . $sid;
     $mergeparams = array_merge($params, $newparams);
     foreach ($mergeparams as $paramkey => $paramvalue) {
         $url .= '&amp;' . $paramkey . '=' . $paramvalue;

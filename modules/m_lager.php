@@ -218,9 +218,7 @@ if (!empty($_REQUEST['was'])) {
     echo "<br>Installationsarbeiten am Modul " . $modulname .
         " (" . $_REQUEST['was'] . ")<br><br>\n";
 
-    if (!@include("./includes/menu_fn.php")) {
-        die("Cannot load menu functions");
-    }
+    require_once "./includes/menu_fn.php";
 
     // Wenn ein Modul administriert wird, soll der Rest nicht mehr
     // ausgeführt werden.
@@ -235,6 +233,9 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 //
 // -> Und hier beginnt das eigentliche Modul
 
+//verschiedene genutzte globale Variablen
+global $db, $db_tb_scans, $db_tb_target, $db_tb_lieferung, $db_tb_lager, $db_tb_user, $user_sitterlogin;
+
 // Parameter ermitteln
 $params = array(
     'view'              => getVar('view'),
@@ -243,7 +244,7 @@ $params = array(
     'edit'              => getVar('edit'),
     'delete'            => getVar('delete'),
     'expand'            => getVar('expand'),
-    'filter_who'        => getVar('filter_who'),
+    'playerSelection'   => getVar('playerSelection'),
     'forecast'          => getVar('forecast'),
     'advanced_forecast' => getVar('advanced_forecast'),
     'basen'             => getVar('basen'),
@@ -268,14 +269,14 @@ if ($params['orderd'] != 'asc' && $params['orderd'] != 'desc') {
 if (!empty($params['edit'])) {
     $params['expand'] = $params['edit'];
 }
-if (empty($params['filter_who'])) {
+if (empty($params['playerSelection'])) {
     if (!empty($user_buddlerfrom)) {
-        $params['filter_who'] = '(Team) ' . $user_buddlerfrom;
+        $params['playerSelection'] = '(Team) ' . $user_buddlerfrom;
     } else {
-        $params['filter_who'] = $user_sitterlogin;
+        $params['playerSelection'] = $user_sitterlogin;
     }
 } else {
-    $params['filter_who'] = $db->escape($params['filter_who']);
+    $params['playerSelection'] = $db->escape($params['playerSelection']);
 }
 
 // Zum Spiel weiterleiten
@@ -303,7 +304,7 @@ if (!empty($universum) || !empty($flotteversenden)) {
         }
     } while (!empty($current));
     $results[] = "<div class='system_notification'>Zielliste gespeichert.</div><br>";
-    $redirect  = 'game.php?sid=' . $sid . '&name=' . $name;
+    $redirect  = 'game.php?name=' . $name;
     if (!empty($universum)) {
         $redirect .= '&view=universum';
     } else {
@@ -315,32 +316,9 @@ if (!empty($universum) || !empty($flotteversenden)) {
 $config = array();
 
 // Spieler und Teams abfragen
-$users                                   = array();
-$teams                                   = array();
-$config['filter_who']['(Alle)']          = '(Alle)';
-$config['filter_who']['(Nur Fleeter)']   = '(Nur Fleeter)';
-$config['filter_who']['(Nur Cash Cows)'] = '(Nur Cash Cows)';
-$config['filter_who']['(Nur Buddler)']   = '(Nur Buddler)';
-$config['filter_who']['(Nur Allrounder)']   = '(Nur Allrounder)';
-$config['filter_who']['(Nur Wandler)']   = '(Nur Wandler)';
-$config['filter_who']['(Nur Stahlwandler)']   = '(Nur Stahlwandler)';
-$config['filter_who']['(Nur VV4A Wandler)']   = '(Nur VV4A Wandler)';
-
-$sql = "SELECT * FROM " . $db_tb_user;
-if (!$user_fremdesitten) {
-    $sql .= " WHERE allianz='" . $user_allianz . "'";
-}
-debug_var('sql', $sql);
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-while ($row = $db->db_fetch_array($result)) {
-    $users[$row['id']] = $row['id'];
-    if (!empty($row['buddlerfrom'])) {
-        $teams['(Team) ' . $row['buddlerfrom']] = '(Team) ' . $row['buddlerfrom'];
-    }
-}
-//add teams and users to selectarray
-$config['filter_who'] = $config['filter_who'] + $teams + $users;
+$playerSelectionOptions = array();
+$playerSelectionOptions['(Alle)'] = '(Alle)';
+$playerSelectionOptions += getAllyAccTypesSelect() + getAllyTeamsSelect() + getAllyAccs();
 
 // Planeten des Spielers abfragen
 $sql = "SELECT * FROM " . $db_tb_scans . " WHERE user='" . $user_sitterlogin . "'";
@@ -388,11 +366,9 @@ if (isset($params['delete']) && $params['delete'] != '') {
     $params['edit']   = '';
 }
 
-debug_var('$params[\'filter_who\']', $params['filter_who']);
-
 // Filter festlegen
-if (!empty($params['filter_who'])) {
-    $filters['filter_who'] = $params['filter_who'];
+if (!empty($params['playerSelection'])) {
+    $filters['playerSelection'] = $params['playerSelection'];
 }
 
 // Button abfragen
@@ -400,6 +376,7 @@ $button_edit = getVar("button_edit");
 $button_add  = getVar("button_add");
 
 // Edit-Daten belegen
+$edit = array();
 if (!empty($button_edit) || !empty($button_add)) {
     foreach ($resses as $ress) {
         $edit[$ress . '_soll'] = (int)filter_number(getVar($ress . '_soll'));
@@ -427,6 +404,7 @@ if (count($edit_keys_explode) == 3) {
 }
 
 // Edit-Felder belegen
+$fields = array();
 foreach ($edit as $key => $value) {
     $fields[$key] = (is_numeric($value) ? $value : (empty($value) ? 'NULL' : "'" . $value . "'"));
 }
@@ -553,33 +531,12 @@ $sql .= " AND $db_tb_lager.coords_sys = $db_tb_scans.coords_sys";
 $sql .= " AND $db_tb_lager.coords_planet = $db_tb_scans.coords_planet";
 $sql .= " LEFT JOIN " . $db_tb_user;
 $sql .= " ON $db_tb_lager.user = $db_tb_user.id";
-if (isset($params['basen']) && !empty($params['basen'])) {
+if (!empty($params['basen'])) {
     $sql .= " WHERE ($db_tb_lager.kolo_typ='Kolonie' OR $db_tb_lager.kolo_typ='Sammelbasis' OR $db_tb_lager.kolo_typ='Kampfbasis'  OR $db_tb_lager.kolo_typ='Artefaktbasis')";
 } else {
     $sql .= " WHERE $db_tb_lager.kolo_typ='Kolonie'";
 }
-
-if (!empty($params['filter_who'])) {
-    if ($params['filter_who'] === '(Nur Fleeter)') {
-        $sql .= " AND $db_tb_user.budflesol='Fleeter'";
-    } elseif ($params['filter_who'] === '(Nur Cash Cows)') {
-        $sql .= " AND $db_tb_user.budflesol='Cash Cow'";
-    } elseif ($params['filter_who'] === '(Nur Buddler)') {
-        $sql .= " AND $db_tb_user.budflesol='Buddler'";
-	} elseif ($params['filter_who'] === '(Nur Allrounder)') {
-        $sql .= " AND $db_tb_user.budflesol='Allrounder'";
-	} elseif ($params['filter_who'] === '(Nur Wandler)') {
-        $sql .= " AND $db_tb_user.budflesol='Wandler'";
-	} elseif ($params['filter_who'] === '(Nur Stahlwandler)') {
-        $sql .= " AND $db_tb_user.budflesol='Stahlwandler'";
-	} elseif ($params['filter_who'] === '(Nur VV4A Wandler)') {
-        $sql .= " AND $db_tb_user.budflesol='VV4A Wandler'";
-    } elseif (strpos($params['filter_who'], '(Team) ') === 0) { //suchen nach einem Team
-        $sql .= " AND $db_tb_user.buddlerfrom='" . substr($params['filter_who'], 7) . "'";
-    } elseif ($params['filter_who'] !== '(Alle)') { //suchen nach einem einzelnen Spieler
-        $sql .= " AND $db_tb_user.id='" . $params['filter_who'] . "'";
-    }
-}
+$sql .= " AND " . sqlPlayerSelection($params['playerSelection']);
 
 //Minimale und maximale Ressourcenbestände
 if (isset($params['ress']) && !empty($params['minimal'])) {
@@ -701,7 +658,9 @@ while ($row = $db->db_fetch_array($result)) {
         'wasser_style'      => 'background-color: ' . make_color($row, 'wasser') . '; text-align: right;',
         'energie_style'     => 'background-color: ' . make_color($row, 'energie') . '; text-align: right;',
     );
+
     // Expand-Daten abfragen
+    $expand_data = array();
     if ($expanded) {
         $expand_data['transfer']   = array(
             'coords'        => $row['coords_gal'] . ":" . $row['coords_sys'] . ":" . $row['coords_planet'],
@@ -1078,11 +1037,15 @@ echo "<form method='POST' action='" . makeurl(array()) . "' enctype='multipart/f
 $params['basen']             = $basen;
 $params['rote_lager']        = $rote_lager;
 $params['advanced_forecast'] = $advanced_forecast;
-echo 'Auswahl: ';
-echo makeField(array("type"  => 'select',
-                    "values" => $config['filter_who'],
-                    "value"  => $params['filter_who']
-               ), 'filter_who'
+// Auswahl Dropdown
+echo "Auswahl: ";
+echo makeField(
+    array(
+         "type"   => 'select',
+         "values" => $playerSelectionOptions,
+         "value"  => $params['playerSelection'],
+         //"onchange" => "location.href='index.php?action=m_lager&amp;playerSelection='+this.options[this.selectedIndex].value",
+    ), 'playerSelection'
 );
 echo ' Vorhersage: ';
 echo ' <input type="text" name="forecast" size="3" value="' . $params['forecast'] . '"/>';
@@ -1111,7 +1074,7 @@ echo '<input type="submit" name="flotteversenden" value="Flotte versenden"/>';
 echo '</div>';
 
 //Überschriften ausgeben
-echo '<table id="lagertabelle" class="bordercolor" width="100%" cellspacing="1" cellpadding="4">';
+echo '<table  class="table_format" id="lagertabelle">';
 start_row("titlebg top");
 foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
     if (!isset($view['group'][$viewcolumnkey]) && !isset($filters[$viewcolumnkey])) {
@@ -1131,7 +1094,7 @@ foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
                  'order'  => $orderkey,
                  'orderd' => 'asc'
             ),
-            "<img src='./bilder/asc.gif'>"
+            "<img src='".BILDER_PATH."asc.gif'>"
         );
         echo '<b>' . $viewcolumnname . '</b>';
         echo makelink(
@@ -1139,7 +1102,7 @@ foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
                  'order'  => $orderkey,
                  'orderd' => 'desc'
             ),
-            "<img src='./bilder/desc.gif'>"
+            "<img src='".BILDER_PATH."desc.gif'>"
         );
     }
 }
@@ -1219,7 +1182,7 @@ foreach ($group_data as $groupkey => $group) {
                 if (!isset($row['allow_edit']) || $row['allow_edit']) {
                     echo makelink(
                         array('edit' => $key),
-                        "<img src='bilder/file_edit_s.gif' alt='bearbeiten'>"
+                        "<img src='".BILDER_PATH."file_edit_s.gif' alt='bearbeiten'>"
                     );
                 }
                 if (!isset($row['allow_delete']) || $row['can_delete']) {
@@ -1382,7 +1345,7 @@ echo "
 ";
 
 // Maske ausgeben
-if (isset($params['edit']) && !empty($params['edit'])) {
+if (!empty($params['edit'])) {
     echo '<br>';
     echo '<form method="POST" action="' . makeurl(array()) . '" enctype="multipart/form-data"><p>' . "\n";
     start_table();
@@ -1400,11 +1363,11 @@ if (isset($params['edit']) && !empty($params['edit'])) {
         next_cell('windowbg1', 'style="width: 100%;"');
         if (is_array($field['type'])) {
             $first = true;
-            foreach ($field['type'] as $key => $field) {
+            foreach ($field['type'] as $typekey => $type) {
                 if (!$first) {
                     echo '&nbsp;';
                 }
-                echo makeField($field, $key);
+                echo makeField($type, $typekey);
                 $first = false;
             }
         } else {
@@ -1581,10 +1544,9 @@ function makelink($newparams, $content)
 // Erzeugt eine Modul-URL.
 function makeurl($newparams)
 {
-    global $modulname, $sid, $params;
+    global $modulname, $params;
 
     $url = 'index.php?action=' . $modulname;
-    $url .= '&sid=' . $sid;
     if (is_array($newparams)) {
         $mergeparams = array_merge($params, $newparams);
     } else {

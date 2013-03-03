@@ -41,17 +41,6 @@ $skins = array(
     "0" => "User Skin"
 );
 
-$spieltyp = array(
-    "Solo"         => "Solo",
-    "Buddler"      => "Buddler",
-    "Allrounder"   => "Allrounder",
-    "Wandler"      => "Wandler",
-    "Stahlwandler" => "Stahlwandler",
-    "VV4A Wandler" => "VV4A Wandler",
-    "Fleeter"      => "Fleeter",
-    "Cash Cow"     => "Cash Cow"
-);
-
 $adminsittens = array(
     SITTEN_DISABLED      => "Sitterbereich deaktiviert",
     SITTEN_ONLY_NEWTASKS => "kann Sitteraufträge erstellen, darf keine anderen sitten",
@@ -102,8 +91,8 @@ if (!empty($editprofile) AND (($id === $user_id) OR ($user_status === "admin")))
     //sitten
     $userd['adminsitten']    = (int)getVar('adminsitten');
     $userd['sitten']         = (bool)getVar('sitten');
-    $userd['sitterpwd']      = getVar('sitterpwd');
-    $userd['sitterpwdwdhl']  = getVar('sitterpwdwdhl');
+    $userd['newsitterpwd']      = getVar('newsitterpwd');
+    $userd['newsitterpwdwdhl']  = getVar('newsitterpwdwdhl');
     $userd['sitterskin']     = (int)getVar('sitterskin');
     $userd['sittercomment']  = getVar('sittercomment');
     $userd['sound']          = (int)getVar('sound');
@@ -160,19 +149,18 @@ if (!empty($editprofile) AND (($id === $user_id) OR ($user_status === "admin")))
     unset($userd['newpassword']);
     unset($userd['newpasswordwdhl']);
 
-    if ($userd['sitterpwd'] !== $userd['sitterpwdwdhl']) {
-        echo "<br><div class='system_error'>Sitterpasswörter stimmen nicht überein! Sitterpasswort NICHT geändert.</div>";
-        unset($userd['sitterpwd']);
-        unset($userd['sitterpwdwdhl']);
-    } else {
-        unset($userd['sitterpwdwdhl']);
-    }
+    if ($userd['newsitterpwd'] != $userd['newsitterpwdwdhl']) {
 
-    if ($userd['sitterpwd'] == '' OR $userd['sitterpwd'] == '***') {
-        unset($userd['sitterpwd']);
+        echo "<br><div class='system_error'>Sitterpasswörter stimmen nicht überein! Sitterpasswort NICHT geändert.</div>";
+
     } else {
-        $userd['sitterpwd'] = MD5($userd['sitterpwd']);
+        if (!empty($userd['newsitterpwd']) AND $userd['newsitterpwd'] !== '***') {
+            $userd['sitterpwd'] = MD5($userd['newsitterpwd']);
+        }
     }
+    unset($userd['newsitterpwd']);
+    unset($userd['newsitterpwdwdhl']);
+
 
     if (getVar('deleteSitterpass') == '1' AND getVar('deleteSitterpasswdh') == '1') {
         $userd['sitterpwd'] = '';
@@ -244,15 +232,6 @@ if (!empty($sitterpwd)) {
     $sitterpwdsp = '';
 }
 
-//auslesen aller Member
-$alluser = array();
-$sqlM = "SELECT `id` FROM `{$db_tb_user}`;";
-$resultM = $db->db_query($sqlM)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
-while ($rowM = $db->db_fetch_array($resultM)) {
-    $alluser[$rowM['id']] = $rowM['id'];
-}
-
 $sel0 = '';
 $sel1 = '';
 $sel2 = '';
@@ -288,7 +267,7 @@ switch ($sound) {
 
 ?>
 <br>
-<form method="POST" action="index.php?action=profile&sid=<?php echo $sid;?>" enctype="multipart/form-data">
+<form method="POST" action="index.php?action=profile" enctype="multipart/form-data">
 <table class="table_format" style="width: 80%;">
 <tr>
     <td colspan="2" class="titlebg">
@@ -466,7 +445,7 @@ switch ($sound) {
         <span style="font-style:italic;">Dein Sitterpasswort in Icewars.</span>
     </td>
     <td class="windowbg1">
-        <input type="password" name="sitterpwd" value="<?php echo $sitterpwdsp;?>" style="width: 25em">
+        <input type="password" name="newsitterpwd" value="<?php echo $sitterpwdsp;?>" style="width: 25em">
         löschen?
         <input type="checkbox" name="deleteSitterpass" value="1">
     </td>
@@ -476,7 +455,7 @@ switch ($sound) {
         Sitterpasswort Wiederholung:
     </td>
     <td class="windowbg1">
-        <input type="password" name="sitterpwdwdhl" value="<?php echo $sitterpwdsp;?>" style="width: 25em">
+        <input type="password" name="newsitterpwdwdhl" value="<?php echo $sitterpwdsp;?>" style="width: 25em">
         löschen?
         <input type="checkbox" name="deleteSitterpasswdh" value="1">
     </td>
@@ -642,7 +621,7 @@ switch ($sound) {
         echo makeField(
             array(
                  "type"   => 'select',
-                 "values" => $spieltyp,
+                 "values" => getAllAccTypes(),
                  "value"  => $budflesol,
             ), 'budflesol'
         );
@@ -652,7 +631,7 @@ switch ($sound) {
         echo makeField(
             array(
                  "type"   => 'select',
-                 "values" => array('' => '---') + $alluser,
+                 "values" => array('' => '---') + getAllyAccs(),
                  "value"  => $buddlerfrom,
             ), 'buddlerfrom'
         );
@@ -872,7 +851,7 @@ if (($user_status === "admin") && ($id !== $user_id)) {
     <br><br>
     <div class='doc_centered_blue'>Account löschen</div>
     <br>
-    <a href="index.php?action=deluser&sitterlogin=<?php echo urlencode($sitterlogin);?>&sid=<?php echo $sid;?>"
+    <a href="index.php?action=deluser&sitterlogin=<?php echo urlencode($sitterlogin);?>"
        onclick="return confirmlink(this, 'Account wirklich löschen?')">[jetzt löschen]</a>
 <?php
 }

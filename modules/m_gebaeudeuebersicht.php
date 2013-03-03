@@ -113,7 +113,7 @@ function workInstallMenu()
 {
     global $modultitle, $modulstatus, $_POST;
 
-    $actionparamters = "";
+    $actionparameters = "";
     insertMenuItem($_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparameters);
     //
     // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
@@ -190,14 +190,13 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 }
 
 //****************************************************************************
+Global $db_tb_user, $db_tb_gebaeude_spieler, $db_tb_gebaeude, $db_tb_scans;
 
 // Titelzeile
 doc_title('Gebäudeübersicht');
 
-// Stammdaten abfragen
-$config = array();
-
-$sql = "SELECT * FROM $db_tb_gebaeude";
+//Gebäudedaten holen
+$sql = "SELECT `name`, `id`, `bild` FROM `{$db_tb_gebaeude}`;";
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query scans_historie information.', '', __FILE__, __LINE__, $sql);
 while ($row = $db->db_fetch_array($result)) {
@@ -207,34 +206,13 @@ while ($row = $db->db_fetch_array($result)) {
     );
 }
 
-// Spieler und Teams abfragen
-$users                    = array();
-$teams                    = array();
-$teams['(Alle)']          = '(Alle)';
-$teams['(Nur Fleeter)']   = '(Nur Fleeter)';
-$teams['(Nur Cash Cows)'] = '(Nur Cash Cows)';
-$teams['(Nur Buddler)']   = '(Nur Buddler)';
-$teams['(Nur Wandler)']   = '(Nur Wandler)';
-$teams['(Nur Allrounder)']   = '(Nur Allrounder)';
-$teams['(Nur Stahlwandler)']   = '(Nur Stahlwandler)';
-$teams['(Nur VV4a Wandler)']   = '(Nur VV4A Wandler)';
-$sql                      = "SELECT * FROM " . $db_tb_user;
-if (!$user_fremdesitten) {
-    $sql .= " WHERE allianz='" . $user_allianz . "'";
-}
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-while ($row = $db->db_fetch_array($result)) {
-    $users[$row['id']] = $row['id'];
-    if (!empty($row['buddlerfrom'])) {
-        $teams[$row['buddlerfrom']] = $row['buddlerfrom'];
-    }
-}
-$config['users'] = $users;
-$config['teams'] = $teams;
+// aktuelle Spielerauswahl ermitteln
+$params['playerSelection'] = getVar('playerSelection');
 
-// Parameter ermitteln
-$params['team'] = getVar('team');
+// Auswahlarray zusammenbauen
+$playerSelectionOptions = array();
+$playerSelectionOptions['(Alle)'] = '(Alle)';
+$playerSelectionOptions += getAllyAccTypesSelect() + getAllyTeamsSelect() + getAllyAccs();
 
 // Abfrage ausführen
 $sql = "SELECT $db_tb_gebaeude_spieler.coords_gal,
@@ -259,25 +237,7 @@ $sql = "SELECT $db_tb_gebaeude_spieler.coords_gal,
 $sql .= " FROM $db_tb_gebaeude_spieler";
 $sql .= ",$db_tb_user";
 $sql .= " WHERE $db_tb_user.id=user AND $db_tb_gebaeude_spieler.count!='0' AND $db_tb_gebaeude_spieler.kolo_typ='Kolonie'";
-if (isset($params['team'])) {
-    if ($params['team'] == '(Nur Fleeter)') {
-        $sql .= " AND " . $db_tb_user . ".budflesol='Fleeter'";
-    } elseif ($params['team'] == '(Nur Cash Cows)') {
-        $sql .= " AND " . $db_tb_user . ".budflesol='Cash Cow'";
-    } elseif ($params['team'] == '(Nur Buddler)') {
-        $sql .= " AND " . $db_tb_user . ".budflesol='Buddler'";
-	} elseif ($params['team'] == '(Nur Wandler)') {
-        $sql .= " AND " . $db_tb_user . ".budflesol='Wandler'";
-	} elseif ($params['team'] == '(Nur Allrounder)') {
-        $sql .= " AND " . $db_tb_user . ".budflesol='Allrounder'";
-	} elseif ($params['team'] == '(Nur Stahlwandler)') {
-        $sql .= " AND " . $db_tb_user . ".budflesol='Stahlwandler'";
-	} elseif ($params['team'] == '(Nur VV4A Wandler)') {
-        $sql .= " AND " . $db_tb_user . ".budflesol='VV4A Wandler'";
-    } elseif ($params['team'] != '(Alle)') {
-        $sql .= " AND " . $db_tb_user . ".buddlerfrom='" . $params['team'] . "'";
-    }
-}
+$sql .= " AND " . sqlPlayerSelection($params['playerSelection']);
 if (!$user_fremdesitten) {
     $sql .= " AND " . $db_tb_user . ".allianz='" . $user_allianz . "'";
 }
@@ -299,23 +259,18 @@ while ($row = $db->db_fetch_array($result)) {
         $data[$row['category']][$row['coords_gal'] . ":" . $row['coords_sys'] . ":" . $row['coords_planet']][$row['building']] = $row['count'];
     }
 }
-// Auswahlfelder
-echo "<form method='POST' action='' enctype='multipart/form-data'>";
-echo "<p class='center'>";
-echo "Team: ";
-echo "<select name='team'>";
-foreach ($config['teams'] as $team) {
-    echo "<option value='$team'";
-    if ($team == $params['team']) {
-        echo " selected";
-    }
-    echo ">$team</option>";
-}
-echo "</select>";
-echo "</p>";
-echo "<input type='submit' name='submit' value='anzeigen'/>";
-echo "</form>";
-echo "</p>";
+
+// Spielerauswahl Dropdown erstellen
+echo "Auswahl: ";
+echo makeField(
+    array(
+         "type"   => 'select',
+         "values" => $playerSelectionOptions,
+         "value"  => $params['playerSelection'],
+         "onchange" => "location.href='index.php?action=m_gebaeudeuebersicht&amp;playerSelection='+this.options[this.selectedIndex].value",
+    ), 'playerSelection'
+);
+echo '<br>';
 
 foreach ($categories as $category => $value) {
 	echo "<br>";
@@ -388,7 +343,7 @@ foreach ($categories as $category => $value) {
 							if (isset($planet_buildings[$building])) {
 								echo $planet_buildings[$building];
 							} else {
-							echo "";
+							    echo "";
 							}
 							?>
 						</td>
@@ -401,6 +356,7 @@ foreach ($categories as $category => $value) {
 		}
 		?>
 	</table>
+    <br>
 <?php
 }
 ?>

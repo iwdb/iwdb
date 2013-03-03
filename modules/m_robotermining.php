@@ -154,45 +154,13 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 // Titelzeile
 doc_title('Robotermining');
 
-// Stammdaten abfragen
-$config = array();
+// aktuelle Spielerauswahl ermitteln
+$params['playerSelection'] = getVar('playerSelection');
 
-$sql = "SELECT * FROM $db_tb_gebaeude";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query scans_historie information.', '', __FILE__, __LINE__, $sql);
-while ($row = $db->db_fetch_array($result)) {
-    $buildings[$row['name']] = array(
-        "id"   => $row['id'],
-        "bild" => $row['bild']
-    );
-}
-
-// Spieler und Teams abfragen
-$users                    = array();
-$teams                    = array();
-$teams['(Alle)']          = '(Alle)';
-$teams['(Nur Fleeter)']   = '(Nur Fleeter)';
-$teams['(Nur Cash Cows)'] = '(Nur Cash Cows)';
-$teams['(Nur Buddler)']   = '(Nur Buddler)';
-$teams['(Nur Wandler)']   = '(Nur Wandler)';
-$teams['(Nur Allrounder)']   = '(Nur Allrounder)';
-$teams['(Nur Stahlwandler)']   = '(Nur Stahlwandler)';
-$teams['(Nur VV4a Wandler)']   = '(Nur VV4A Wandler)';
-
-$sql                      = "SELECT * FROM " . $db_tb_user;
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-while ($row = $db->db_fetch_array($result)) {
-    $users[$row['id']] = $row['id'];
-    if (!empty($row['buddlerfrom'])) {
-        $teams[$row['buddlerfrom']] = $row['buddlerfrom'];
-    }
-}
-$config['users'] = $users;
-$config['teams'] = $teams;
-
-// Parameter ermitteln
-$params['team'] = getVar('team');
+// Auswahlarray zusammenbauen
+$playerSelectionOptions = array();
+$playerSelectionOptions['(Alle)'] = '(Alle)';
+$playerSelectionOptions += getAllyAccTypesSelect() + getAllyTeamsSelect();
 
 // Abfrage ausführen
 $sql = "SELECT  $db_tb_user.id AS 'user',
@@ -229,46 +197,22 @@ $sql = "SELECT  $db_tb_user.id AS 'user',
 		    AND $db_tb_lager.kolo_typ='Sammelbasis') AS 'eis'";
 
 $sql .= " FROM $db_tb_user";
-
-if (isset($params['team'])) {
-    if ($params['team'] == '(Nur Fleeter)') {
-        $sql .= " WHERE " . $db_tb_user . ".budflesol='Fleeter'";
-    } elseif ($params['team'] == '(Nur Cash Cows)') {
-        $sql .= " WHERE " . $db_tb_user . ".budflesol='Cash Cow'";
-    } elseif ($params['team'] == '(Nur Buddler)') {
-        $sql .= " WHERE " . $db_tb_user . ".budflesol='Buddler'";
-	} elseif ($params['team'] == '(Nur Allrounder)') {
-        $sql .= " WHERE " . $db_tb_user . ".budflesol='Allrounder'";
-	} elseif ($params['team'] == '(Nur Wandler)') {
-        $sql .= " WHERE " . $db_tb_user . ".budflesol='Wandler'";
-	} elseif ($params['team'] == '(Nur Stahlwandler)') {
-        $sql .= " WHERE " . $db_tb_user . ".budflesol='Stahlwandler'";
-	} elseif ($params['team'] == '(Nur VV4A Wandler)') {
-        $sql .= " WHERE " . $db_tb_user . ".budflesol='VV4A Wandler'";
-    } elseif ($params['team'] != '(Alle)') {
-        $sql .= " WHERE " . $db_tb_user . ".buddlerfrom='" . $params['team'] . "'";
-    }
-}
+$sql .= " WHERE " . sqlPlayerSelection($params['playerSelection']);
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query scans_historie information.', '', __FILE__, __LINE__, $sql);
 
-// Auswahlfelder
-echo "<form method='POST' action='' enctype='multipart/form-data'>";
-echo "<p class='center'>";
-echo "Team: ";
-echo "<select name='team'>";
-foreach ($config['teams'] as $team) {
-    echo "<option value='$team'";
-    if ($team == $params['team']) {
-        echo " selected";
-    }
-    echo ">$team</option>";
-}
-echo "</select>";
-echo "</p>";
-echo "<input type='submit' name='submit' value='anzeigen'/>";
-echo "</form>";
-echo "</p>";
+// Spielerauswahl Dropdown erstellen
+echo "<div class='playerSelectionbox'>";
+echo "Auswahl: ";
+echo makeField(
+    array(
+         "type"   => 'select',
+         "values" => $playerSelectionOptions,
+         "value"  => $params['playerSelection'],
+         "onchange" => "location.href='index.php?action=m_robotermining&amp;playerSelection='+this.options[this.selectedIndex].value",
+    ), 'playerSelection'
+);
+echo '</div><br>';
 
 ?>
 <table class="table_hovertable">
@@ -316,29 +260,37 @@ echo "</p>";
 			<td>
 				<?php
 				if (!empty($row['research'])) {
-					echo "erforscht";
+                    echo "<span class='doc_green'>erforscht</span>";
 				} else {
-					echo "-";
+					echo "<span class='doc_red'>nicht erforscht</span>";
 				}
 				?>
 			</td>
 			<td>
 				<?php
 				if (!empty($row['count'])) {
-					echo "Stufe " . $row['count'];
+					if ($row['count'] < 3) {
+                        echo "<span class='doc_red'>".$row['count']."</span>";
+                    } else {
+                        echo "<span class='doc_green'>".$row['count']."</span>";
+                    }
 				} else if (!empty($row['research'])) {
-					echo "Keine";
+					echo "<span class='doc_red'>Keine</span>";
 				} else {
-					echo "-";
+					echo "<span class='doc_red'>-</span>";
 				}
 				?>
 			</td>
 			<td>
 				<?php
 				if (!empty($row['count'])) {
-					echo $row['base'] . "/" . $row['count'];
+                    if ($row['base'] < 3) {
+                        echo "<span class='doc_red'>".$row['base'] . "/" . $row['count']."</span>";
+                    } else {
+                        echo "<span class='doc_green'>".$row['base'] . "/" . $row['count']."</span>";
+                    }
 				} else {
-					echo "-";
+					echo "<span class='doc_red'>-</span>";
 				}
 				?>
 			</td>
@@ -375,3 +327,4 @@ echo "</p>";
 	}
 	?>
 </table>
+<br>

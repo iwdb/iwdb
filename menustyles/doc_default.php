@@ -380,7 +380,7 @@ function makeField($options, $name)
             $html .= '>';
             foreach ($options['values'] as $key => $value) {
                 $html .= '<option value="' . $key . '"';
-                if (isset($options['value']) && $options['value'] === $key) {
+                if (isset($options['value']) && $options['value'] == $key) {
                     $html .= ' selected';
                 }
                 $html .= '>' . $value . '</option>';

@@ -547,7 +547,7 @@ switch ($sound) {
         echo makeField(
             array(
                  "type"   => 'select',
-                 "values" => array('' => 'nein', '1' => 'ja'),
+                 "values" => array('0' => 'nein', '1' => 'ja'),
                  "value"  => $genbauschleife,
             ), 'genbauschleife'
         );
@@ -564,7 +564,7 @@ switch ($sound) {
         echo makeField(
             array(
                  "type"   => 'select',
-                 "values" => array('' => 'nein', '1' => 'ja'),
+                 "values" => array('0' => 'nein', '1' => 'ja'),
                  "value"  => $genmaurer,
             ), 'genmaurer'
         );
@@ -599,7 +599,7 @@ switch ($sound) {
         echo makeField(
             array(
                  "type"   => 'select',
-                 "values" => array('' => 'nein', '1' => 'ja'),
+                 "values" => array('0' => 'nein', '1' => 'ja'),
                  "value"  => $iwsa,
             ), 'iwsa'
         );
@@ -683,7 +683,7 @@ switch ($sound) {
         echo makeField(
             array(
                  "type"   => 'select',
-                 "values" => array('' => 'nein', '1' => 'ja'),
+                 "values" => array('0' => 'nein', '1' => 'ja'),
                  "value"  => $planibilder,
             ), 'planibilder'
         );
@@ -700,7 +700,7 @@ switch ($sound) {
         echo makeField(
             array(
                  "type"   => 'select',
-                 "values" => array('' => 'nein', '1' => 'ja'),
+                 "values" => array('0' => 'nein', '1' => 'ja'),
                  "value"  => $gebbilder,
             ), 'gebbilder'
         );

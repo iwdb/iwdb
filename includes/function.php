@@ -1097,7 +1097,13 @@ function getAllAccTypes()
 {
     global $aSpieltypen;
 
-    return array_values_recursive($aSpieltypen, true);
+    $array = array_values_recursive($aSpieltypen, true);
+    $allAccTypes = array();
+    foreach ($array as $accType) {
+        $allAccTypes[$accType] = $accType;
+    }
+
+    return $allAccTypes;
 }
 
 function getAllyAccTypes($allianz = null)
@@ -1129,7 +1135,7 @@ function getAllyAccTypesSelect($allianz = null) {
         $allyacctypes = array_merge($allyacctypes, array_get_value_recursive_up($value, $aSpieltypen));
     }
 
-    $allyacctypes = array_intersect (getAllAccTypes(), $allyacctypes);
+    $allyacctypes = array_intersect(getAllAccTypes(), $allyacctypes);
     $selectacctypes = array();
     foreach ($allyacctypes as $value) {
         $selectacctypes['(Nur '.$value.')'] = '(Nur '.$value.')';

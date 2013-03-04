@@ -202,7 +202,7 @@ if (isset($_GET['user'])) {
 function make_link($order, $ordered)
 {
     echo "<a href='index.php?action=m_raidview&order=" . $order . "&ordered=" . $ordered .
-        "'> <img src='bilder/" . $ordered . ".gif' alt='" . $ordered . "'> </a>";
+        "'> <img src='".BILDER_PATH."" . $ordered . ".gif' alt='" . $ordered . "'> </a>";
 }
 
 // user aus Tabelle holen und gruppieren
@@ -457,7 +457,7 @@ while ($row = $db->db_fetch_array($result2)) {
                 $guser       = trim($guser);
                 if (strnatcasecmp($ruser, $geraided)) {
                     next_row("windowbg1 left", "style='width:1%'");
-                    echo "<a title='Link zum externen Kampfbericht' href='" . $row['link'] . "'><img src='bilder/point.gif'/></a>";
+                    echo "<a title='Link zum externen Kampfbericht' href='" . $row['link'] . "'><img src='".BILDER_PATH."point.gif'/></a>";
                     next_cell("windowbg1 left", "style='width:12%'");
                     echo strftime(CONFIG_DATETIMEFORMAT, $row['date']);
                     next_cell("windowbg1 center", "style='width:10%'");
@@ -483,7 +483,7 @@ while ($row = $db->db_fetch_array($result2)) {
                 } else {
                     echo "<font color=red>";
                     next_row("windowbg1 left", "style='width:1%'");
-                    echo "<a title='Link zum externen Kampfbericht' href='" . $row['link'] . "'><img src='bilder/point.gif'/></a>";
+                    echo "<a title='Link zum externen Kampfbericht' href='" . $row['link'] . "'><img src='".BILDER_PATH."point.gif'/></a>";
                     next_cell("windowbg1 left", "style='width:12%'");
                     echo strftime(CONFIG_DATETIMEFORMAT, $row['date']);
                     next_cell("windowbg1 center", "style='width:10%'");

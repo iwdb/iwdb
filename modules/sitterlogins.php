@@ -192,7 +192,7 @@ doc_title('Sitterlogins');
                     ?>
                 </td>
                 <td class="windowbg<?php echo $num;?> top">
-                    <?php echo ($users_sitterpunkte[$key] > (3 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star1.gif' alt='star1' class='middle'>" : (($users_sitterpunkte[$key] > (2 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star2.gif' alt='star2' class='middle'>" : (($users_sitterpunkte[$key] > round($row_avg['AVG(sitterpunkte)'])) ? "<img src='bilder/star3.gif'  alt='star3' class='middle'>" : "")); echo $users_sitterpunkte_anz[$key];?>
+                    <?php echo ($users_sitterpunkte[$key] > (3 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='".BILDER_PATH."star1.gif' alt='star1' class='middle'>" : (($users_sitterpunkte[$key] > (2 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='".BILDER_PATH."star2.gif' alt='star2' class='middle'>" : (($users_sitterpunkte[$key] > round($row_avg['AVG(sitterpunkte)'])) ? "<img src='".BILDER_PATH."star3.gif'  alt='star3' class='middle'>" : "")); echo $users_sitterpunkte_anz[$key];?>
                 </td>
                 <td class="windowbg<?php echo $num;?> top">
                     <?php
@@ -215,10 +215,10 @@ doc_title('Sitterlogins');
                             "'Dieser User hat das Sitten deaktiviert. Trotzdem einloggen?'" .
                             ")'>[sitten deaktiviert - einloggen]</a> " .
                             "<a href='index.php?action=sitterauftrag&sitterid=" .
-                            urlencode($data) . "'><img src='bilder/file_new_s.gif' " .
+                            urlencode($data) . "'><img src='".BILDER_PATH."file_new_s.gif' " .
                             "alt='Sitterauftrag erstellen' title='Sitterauftrag erstellen'></a>" .
                             " <a href='index.php?action=sitterhistory&selecteduser=" .
-                            urlencode($data) . "'><img src='bilder/file_history.gif' " .
+                            urlencode($data) . "'><img src='".BILDER_PATH."file_history.gif' " .
                             "alt='Sitterhistorie anschauen' title='Sitterhistorie anschauen'></a>" .
                             "<td class='windowbg" . $num . " top'>" .
                             ((!empty($users_sitterstaatsform[$key])) ? " <i>Staatsform: " . NumToStaatsform($users_sitterstaatsform[$key]) . "</i><br/>" : "") .
@@ -231,10 +231,10 @@ doc_title('Sitterlogins');
                         echo "<a href='index.php?action=sitterlogins&sitterlogin=" . urlencode($data) .
                             "' target='_blank'>[jetzt einloggen]</a>&nbsp;" .
                             "<a href='index.php?action=sitterauftrag&sitterid=" . urlencode($data) .
-                            "'><img src='bilder/file_new_s.gif' " .
+                            "'><img src='".BILDER_PATH."file_new_s.gif' " .
                             "alt='Sitterauftrag erstellen' title='Sitterauftrag erstellen'></a>" .
                             " <a href='index.php?action=sitterhistory&selecteduser=" .
-                            urlencode($data) . "'><img src='bilder/file_history.gif' " .
+                            urlencode($data) . "'><img src='".BILDER_PATH."file_history.gif' " .
                             "alt='Sitterhistorie anschauen' title='Sitterhistorie anschauen'></a>" .
                             "<td class='windowbg" . $num . " top'>" .
                             ((!empty($users_sitterstaatsform[$key])) ? " <i>Staatsform: " . NumToStaatsform($users_sitterstaatsform[$key]) . "</i><br/>" : "") .

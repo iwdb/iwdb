@@ -34,17 +34,15 @@ if (!defined('IRA')) {
 }
 
 //****************************************************************************
+//genutzte globale Variablen
+global $user_sitterlogin, $user_status, $db, $db_tb_sitterlog;
 
 if ($user_adminsitten == SITTEN_DISABLED) {
     die('Hacking attempt...');
 }
 
-$limit = getVar('limit');
-if (empty($limit)) {
-    $limit = 20;
-}
-
-$selecteduser = getVar('selecteduser');
+$limit = filter_int(getVar('limit'), 20, 1, 250);
+$selecteduser = validAccname(getVar('selecteduser'));
 if (empty($selecteduser)) {
     $selecteduser = $user_sitterlogin;
 }
@@ -53,10 +51,11 @@ doc_title("Sitterhistorie von " . $selecteduser);
 
 start_form("sitterhistory");
 echo "<input type='hidden' name='selecteduser' value='" . $selecteduser . "'>\n";
-echo "maximal: <input type='text' name='limit' value='" . $limit . "' style='width: 50;'>\n";
+echo "maximal: <input type='number' name='limit' value='" . $limit . "' min='1' max='250' style='width: 5em;'> Einträge\n";
 echo "<input type='submit' value='anzeigen' name='B1' class='submit'>\n";
 end_form();
 ?>
+<br>
 <table class="table_hovertable" style="width: 90%;">
     <tr class="titlebg center">
         <th colspan="4">
@@ -76,19 +75,17 @@ end_form();
     </tr>
     <?php
     // Auftraege durchgehen //
-    $sql = "SELECT * FROM " . $db_tb_sitterlog . " WHERE sitterlogin = '" .
-        $selecteduser . "' ORDER BY date DESC LIMIT " . $limit;
+    $sql = "SELECT `fromuser`, `date`, `action` FROM `{$db_tb_sitterlog}` WHERE `sitterlogin` = '" . $selecteduser . "' ORDER BY `date` DESC LIMIT " . $limit;
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
     while ($row = $db->db_fetch_array($result)) {
         ?>
         <tr class="windowbg1 left">
-            <td class="left">
+            <td>
                 <?php
                 if ($user_status == "admin") {
-                    echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($row['fromuser']) .
-                        "'>" . $row['fromuser'] . "</a>";
+                    echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($row['fromuser']) . "'>" . $row['fromuser'] . "</a>";
                 } else {
                     echo $row['fromuser'];
                 }
@@ -97,7 +94,7 @@ end_form();
             <td>
                 <?php echo strftime(CONFIG_DATETIMEFORMAT, $row['date']);?>
             </td>
-            <td class="left">
+            <td>
                 <?php echo convert_bbcode($row['action']);?>
             </td>
         </tr>
@@ -126,17 +123,16 @@ end_form();
     </tr>
     <?php
     // Aufträge durchgehen //
-    $sql = "SELECT * FROM " . $db_tb_sitterlog . " WHERE fromuser = '" . $selecteduser . "' ORDER BY date DESC LIMIT " . $limit;
+    $sql = "SELECT `sitterlogin`, `date`, `action` FROM `{$db_tb_sitterlog}` WHERE `fromuser` = '" . $selecteduser . "' ORDER BY `date` DESC LIMIT " . $limit;
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     while ($row = $db->db_fetch_array($result)) {
         ?>
         <tr class="windowbg1 left">
-            <td class="left">
+            <td>
                 <?php
-                if ($user_status == "admin") {
-                    echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($row['sitterlogin']) .
-                        "'>" . $row['sitterlogin'] . "</a>";
+                if ($user_status === "admin") {
+                    echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($row['sitterlogin']) . "'>" . $row['sitterlogin'] . "</a>";
                 } else {
                     echo $row['sitterlogin'];
                 }
@@ -145,7 +141,7 @@ end_form();
             <td>
                 <?php echo strftime(CONFIG_DATETIMEFORMAT, $row['date']);?>
             </td>
-            <td class="left">
+            <td>
                 <?php echo convert_bbcode($row['action']);?>
             </td>
         </tr>

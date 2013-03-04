@@ -193,7 +193,7 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 
 function make_link($order, $ordered)
 {
-    echo "<a href='index.php?action=m_ress&order=" . $order . "&ordered=" . $ordered . "'> <img src='bilder/" . $ordered . ".gif' alt='" . $ordered . "'> </a>";
+    echo "<a href='index.php?action=m_ress&order=" . $order . "&ordered=" . $ordered . "'> <img src='".BILDER_PATH."" . $ordered . ".gif' alt='" . $ordered . "'> </a>";
 }
 
 //bestehende zeit holen

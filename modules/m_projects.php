@@ -375,13 +375,13 @@ foreach ($data as $row) {
         if ((!isset($row['allow_edit']) || $row['allow_edit']) && $key != "(Keins)") {
             echo makelink(
                 array('edit' => $key),
-                "<img src='bilder/file_edit_s.gif' alt='bearbeiten'>"
+                "<img src='".BILDER_PATH."file_edit_s.gif' alt='bearbeiten'>"
             );
         }
         if ((!isset($row['allow_delete']) || $row['can_delete']) && $key != "(Keins)") {
             echo makelink(
                 array('delete' => $key),
-                "<img src='bilder/file_delete_s.gif' onclick=\"return confirmlink(this, 'Datensatz wirklich löschen?')\" alt='löschen'>"
+                "<img src='".BILDER_PATH."file_delete_s.gif' onclick=\"return confirmlink(this, 'Datensatz wirklich löschen?')\" alt='löschen'>"
             );
         }
     }

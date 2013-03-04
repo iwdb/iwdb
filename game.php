@@ -498,52 +498,7 @@ switch ($params['mode']) {
         ?>
         <html>
         <head>
-            <style type="text/css">
-                * {
-                    font-family: verdana;
-                    font-size: 11px;
-                }
-
-                body {
-                    color: #ffffff;
-                    background-color: #111111;
-                    background-image: url(bilder/bg_space3.png);
-                }
-
-                a:link {
-                    color: #bbbbbb;
-                }
-
-                a:visited {
-                    color: #bbbbbb;
-                }
-
-                body, table, tr, td, form {
-                    margin: 0 0 0 0;
-                    padding: 0 0 0 0;
-                }
-
-                input {
-                    color: #ffffff;
-                    background-color: #555555;
-                }
-
-                .planet-enemy {
-                    background-image: url(bilder/rot.png);
-                }
-
-                .alliance-own {
-                    color: #00ff00;
-                }
-
-                .alliance-nap {
-                    color: #ff0000;
-                }
-
-                .alliance-noraid {
-                    color: #ffff00;
-                }
-            </style>
+            <link href="css/game.css" rel="stylesheet" type="text/css">
             <script>
                 function transCalcOnLoad() {
                     <?php	if (!empty($data['planet'])) {
@@ -564,7 +519,7 @@ switch ($params['mode']) {
                     <?php		} 	} ?>
                 }
                 function transCalcSetRess(id, amount) {
-                    input = document.getElementById(id);
+                    var input = document.getElementById(id);
                     if (input)
                         if (amount == 0)
                             transCalcResetRess(id);
@@ -573,42 +528,59 @@ switch ($params['mode']) {
                     transCalcUpdate();
                 }
                 function transCalcResetRess(id) {
-                    input = document.getElementById(id);
+                    var input = document.getElementById(id);
                     if (input)
                         input.value = '';
                     transCalcUpdate();
                 }
                 function transCalcUpdate() {
-                    class1 = 0;
+                    var class1 = 0;
+                    var class2 = 0;
+                    var value;
+                    var result;
+
                     value = parseInt(document.getElementById('transCalcEisen').value);
                     class1 += isNaN(value) ? 0 : value;
+
                     value = parseInt(document.getElementById('transCalcStahl').value);
                     class1 += isNaN(value) ? 0 : value * 2;
+
                     value = parseInt(document.getElementById('transCalcChemie').value);
                     class1 += isNaN(value) ? 0 : value * 3;
+
                     value = parseInt(document.getElementById('transCalcVV4A').value);
                     class1 += isNaN(value) ? 0 : value * 4;
-                    class2 = 0;
+
                     value = parseInt(document.getElementById('transCalcEis').value);
                     class2 += isNaN(value) ? 0 : value * 2;
+
                     value = parseInt(document.getElementById('transCalcWasser').value);
                     class2 += isNaN(value) ? 0 : value * 2;
+
                     value = parseInt(document.getElementById('transCalcEnergie').value);
                     class2 += isNaN(value) ? 0 : value;
+
                     result = Math.ceil(class1 / 400000);
                     document.getElementById('transCalcFlughund').value = isNaN(result) ? '' : result;
+
                     result = Math.ceil(class1 / 75000);
                     document.getElementById('transCalcKamel').value = isNaN(result) ? '' : result;
+
                     result = Math.ceil(class1 / 20000);
                     document.getElementById('transCalcGorgol').value = isNaN(result) ? '' : result;
+
                     result = Math.ceil(class1 / 5000);
                     document.getElementById('transCalcSystrans').value = isNaN(result) ? '' : result;
+
                     result = Math.ceil(class2 / 250000);
                     document.getElementById('transCalcSeepferdchen').value = isNaN(result) ? '' : result;
+
                     result = Math.ceil(class2 / 50000);
                     document.getElementById('transCalcWaschbaer').value = isNaN(result) ? '' : result;
+
                     result = Math.ceil(class2 / 10000);
                     document.getElementById('transCalcEisbaer').value = isNaN(result) ? '' : result;
+
                     result = Math.ceil(class2 / 2000);
                     document.getElementById('transCalcLurch').value = isNaN(result) ? '' : result;
                 }
@@ -636,16 +608,16 @@ switch ($params['mode']) {
                 <?php    if (!empty($data['planet'])) {
                     $planet = $data['planet'];
                     if (isColony($planet)) {
-                        echo "<img src='bilder/kolo.png' title='Kolonie'/>";
+                        echo "<img src='".BILDER_PATH."kolo.png' title='Kolonie'/>";
                     }
                     if (isBattleBase($planet)) {
-                        echo "<img src='bilder/kampf_basis.png' title='Kampfbasis'/>";
+                        echo "<img src='".BILDER_PATH."kampf_basis.png' title='Kampfbasis'/>";
                     }
                     if (isRessourceBase($planet)) {
-                        echo "<img src='bilder/ress_basis.png' title='Sammelbasis'/>";
+                        echo "<img src='".BILDER_PATH."ress_basis.png' title='Sammelbasis'/>";
                     }
                     if (isArtefactBase($planet)) {
-                        echo "<img src='bilder/artefakt_basis.png' title='Artefaktbasis'/>";
+                        echo "<img src='".BILDER_PATH."artefakt_basis.png' title='Artefaktbasis'/>";
                     }
                 } ?>
             <td nowrap>
@@ -663,7 +635,7 @@ switch ($params['mode']) {
             <td nowrap width="100%" align="left">
                 <?php    if (!empty($planet['transports'])) {
                     foreach ($planet['transports'] as $transport) {
-                        echo "<img src='bilder/raumschiff.png' title='".$transport['caption']."' />";
+                        echo "<img src='".BILDER_PATH."raumschiff.png' title='".$transport['caption']."' />";
                     }
                 } ?>
             </td>
@@ -735,7 +707,7 @@ switch ($params['mode']) {
                     Eisen
                 </div>
                 <div style="height : 100%; line-height : 25px; vertical-align: middle">
-                    <a href="javascript:transCalcSetRess('transCalcEisen','<?php echo abs($planet['eisen']) ?>')">--&gt;</a>
+                    <a href=\"javascript:transCalcSetRess('transCalcEisen','<?php echo abs($planet['eisen']) ?>')\">--&gt;</a>
                     <input id="transCalcEisen" type="text" name="eisen" size="6" onkeyup="transCalcUpdate()">
                     <a href="javascript:transCalcResetRess('transCalcEisen')">-x-</a>
                 </div>
@@ -745,7 +717,7 @@ switch ($params['mode']) {
                     Stahl
                 </div>
                 <div>
-                    <a href="javascript:transCalcSetRess('transCalcStahl','<?php echo abs($planet['stahl']) ?>')">--&gt;</a>
+                    <a href=\"javascript:transCalcSetRess('transCalcStahl','<?php echo abs($planet['stahl']) ?>')\">--&gt;</a>
                     <input id="transCalcStahl" type="text" name="stahl" size="6" onkeyup="transCalcUpdate()">
                     <a href="javascript:transCalcResetRess('transCalcStahl')">-x-</a>
                 </div>
@@ -755,7 +727,7 @@ switch ($params['mode']) {
                     Chemie
                 </div>
                 <div>
-                    <a href="javascript:transCalcSetRess('transCalcChemie','<?php echo abs($planet['chem']) ?>')">--&gt;</a>
+                    <a href=\"javascript:transCalcSetRess('transCalcChemie','<?php echo abs($planet['chem']) ?>')\">--&gt;</a>
                     <input id="transCalcChemie" type="text" name="chemie" size="6" onkeyup="transCalcUpdate()">
                     <a href="javascript:transCalcResetRess('transCalcChemie')">-x-</a>
                 </div>
@@ -765,7 +737,7 @@ switch ($params['mode']) {
                     VV4A
                 </div>
                 <div>
-                    <a href="javascript:transCalcSetRess('transCalcVV4A','<?php echo abs($planet['vv4a']) ?>')">--&gt;</a>
+                    <a href=\"javascript:transCalcSetRess('transCalcVV4A','<?php echo abs($planet['vv4a']) ?>')\">--&gt;</a>
                     <input id="transCalcVV4A" type="text" name="vv4a" size="6" onkeyup="transCalcUpdate()">
                     <a href="javascript:transCalcResetRess('transCalcVV4A')">-x-</a>
                 </div>
@@ -777,7 +749,7 @@ switch ($params['mode']) {
                     Eis
                 </div>
                 <div style="height : 100%; line-height : 25px; vertical-align: middle">
-                    <a href="javascript:transCalcSetRess('transCalcEis','<?php echo abs($planet['eis']) ?>')">--&gt;</a>
+                    <a href=\"javascript:transCalcSetRess('transCalcEis','<?php echo abs($planet['eis']) ?>')\">--&gt;</a>
                     <input id="transCalcEis" type="text" name="eis" size="6" onkeyup="transCalcUpdate()">
                     <a href="javascript:transCalcResetRess('transCalcEis')">-x-</a>
                 </div>
@@ -787,7 +759,7 @@ switch ($params['mode']) {
                     Wasser
                 </div>
                 <div>
-                    <a href="javascript:transCalcSetRess('transCalcWasser','<?php echo abs($planet['wasser']) ?>')">--&gt;</a>
+                    <a href=\"javascript:transCalcSetRess('transCalcWasser','<?php echo abs($planet['wasser']) ?>')\">--&gt;</a>
                     <input id="transCalcWasser" type="text" name="wasser" size="6" onkeyup="transCalcUpdate()">
                     <a href="javascript:transCalcResetRess('transCalcWasser')">-x-</a>
                 </div>
@@ -797,7 +769,7 @@ switch ($params['mode']) {
                     Energie
                 </div>
                 <div>
-                    <a href="javascript:transCalcSetRess('transCalcEnergie','<?php echo abs($planet['energie']) ?>')">--&gt;</a>
+                    <a href=\"javascript:transCalcSetRess('transCalcEnergie','<?php echo abs($planet['energie']) ?>')\">--&gt;</a>
                     <input id="transCalcEnergie" type="text" name="energie" size="6" onkeyup="transCalcUpdate()">
                     <a href="javascript:transCalcResetRess('transCalcEnergie')">-x-</a>
                 </div>
@@ -905,96 +877,7 @@ switch ($params['mode']) {
         ?>
         <html>
         <head>
-            <style type="text/css">
-                * {
-                    font-family: verdana,serif;
-                    font-size: 11px;
-                }
-
-                body {
-                    color: #ffffff;
-                    background-color: #111111;
-                    background-image: url(bilder/bg_space3.png);
-                }
-
-                a:link {
-                    color: #bbbbbb;
-                }
-
-                a:visited {
-                    color: #bbbbbb;
-                }
-
-                body, table, tr, td, form {
-                    margin: 0 0 0 0;
-                    padding: 0 0 0 0;
-                }
-
-                .left {
-                    text-align: left !important;
-                }
-
-                .center {
-                    text-align: center !important;
-                }
-
-                .right {
-                    text-align: right !important;
-                }
-
-                .top {
-                    vertical-align: top !important;
-                }
-
-                .middle {
-                    vertical-align: middle !important;
-                }
-
-                .bottom {
-                    vertical-align: bottom !important;
-                }
-
-                .universum {
-                    border-top: #59626e 1px dotted;
-                    border-right: #59626e 1px dotted;
-                }
-
-                .universum-spacer {
-                    border-top: #59626e 1px dotted;
-                }
-
-                .universum-row {
-                    background-image: url(bilder/bg_space2.png);
-                }
-
-                .universum-row-selected {
-                    background-image: url(bilder/gruen.png);
-                }
-
-                .universum-row-own {
-                    background-image: url(bilder/rot.png);
-                }
-
-                .universum-row-nap {
-                    background-image: url(bilder/gelb.png);
-                }
-
-                .universum-row-noraid {
-                    background-image: url(bilder/gelb.png);
-                }
-
-                .alliance-own {
-                    color: green;
-                }
-
-                .alliance-nap {
-                    color: red;
-                }
-
-                .alliance-noraid {
-                    color: yellow;
-                }
-            </style>
+            <link href="css/game.css" rel="stylesheet" type="text/css">
         </head>
         <body>
         <table border="0" cellpadding="0" cellspacing="0" width="100%" height="177px">

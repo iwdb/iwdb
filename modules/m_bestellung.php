@@ -218,23 +218,23 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 
 // Parameter ermitteln
 $params = array(
-    'view'       => ensureValue(getVar('view'), array('bestellung'), 'bestellung'),
-    'order'      => ensureValue(getVar('order'), array('user', 'coords', 'team', 'text', 'prio', 'time', 'menge', 'offen'), 'prio'),
-    'orderd'     => ensureSortDirection(getVar('orderd')),
-    'edit'       => (int)getVar('edit'),
-    'delete'     => (int)getVar('delete'),
-    'expand'     => (int)getVar('expand'),
-    'filter_who' => getVar('filter_who'),
+    'view'            => ensureValue(getVar('view'), array('bestellung'), 'bestellung'),
+    'order'           => ensureValue(getVar('order'), array('user', 'coords', 'team', 'text', 'prio', 'time', 'menge', 'offen'), 'prio'),
+    'orderd'          => ensureSortDirection(getVar('orderd')),
+    'edit'            => (int)getVar('edit'),
+    'delete'          => (int)getVar('delete'),
+    'expand'          => (int)getVar('expand'),
+    'playerSelection' => getVar('playerSelection'),
 );
 
-if (empty($params['filter_who'])) {
+if (empty($params['playerSelection'])) {
     if (!empty($user_buddlerfrom)) {
-        $params['filter_who'] = '(Team) ' . $user_buddlerfrom;
+        $params['playerSelection'] = '(Team) ' . $user_buddlerfrom;
     } else {
-        $params['filter_who'] = $user_sitterlogin;
+        $params['playerSelection'] = $user_sitterlogin;
     }
 } else {
-    $params['filter_who'] = $db->escape($params['filter_who']);
+    $params['playerSelection'] = $db->escape($params['playerSelection']);
 }
 
 debug_var("params", $params);
@@ -255,28 +255,10 @@ $config['ress'] = array(
     "credits" => "Credits"
 );
 
-// Spieler und Teams abfragen
-$users = array();
-$teams = array();
-
-$config['filter_who']['(Alle)'] = '(Alle)';
-
-$sql = "SELECT * FROM " . $db_tb_user;
-if (!$user_fremdesitten) {
-    $sql .= " WHERE allianz='" . $user_allianz . "'";
-}
-debug_var('sql', $sql);
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-while ($row = $db->db_fetch_array($result)) {
-    $users[$row['id']] = $row['id'];
-    if (!empty($row['buddlerfrom'])) {
-        $teams['(Team) ' . $row['buddlerfrom']] = '(Team) ' . $row['buddlerfrom'];
-    }
-}
-$config['users'] = $users;
-//add teams and users to selectarray
-$config['filter_who'] = $config['filter_who'] + $teams + $users;
+// Teams und Spieler abfragen
+$playerSelectionOptions = array();
+$playerSelectionOptions['(Alle)'] = '(Alle)';
+$playerSelectionOptions += getAllyTeamsSelect() + getAllyAccs();
 
 // Planeten des Spielers abfragen
 $config['planeten'] = array();
@@ -449,11 +431,11 @@ $data = array();
 $sql = "SELECT *,
 		 (SELECT `$db_tb_bestellung_projekt`.`prio` FROM `$db_tb_bestellung_projekt` WHERE `$db_tb_bestellung_projekt`.`name`=`$db_tb_bestellung`.`project` AND `$db_tb_bestellung_projekt`.`schiff`=0) AS prio
 	 FROM $db_tb_bestellung";
-if (isset($params['filter_who']) && $params['filter_who'] != '(Alle)') {
-    if (strpos($params['filter_who'], '(Team) ') === 0) { //suchen nach einem Team
-        $sql .= " WHERE (`{$db_tb_bestellung}`.`team`='" . $params['filter_who'] . "' OR `{$db_tb_bestellung}`.`team` IS NULL OR `{$db_tb_bestellung}`.`team`='(Alle)')";
+if (isset($params['playerSelection']) && $params['playerSelection'] != '(Alle)') {
+    if (strpos($params['playerSelection'], '(Team) ') === 0) { //suchen nach einem Team
+        $sql .= " WHERE (`{$db_tb_bestellung}`.`team`='" . $params['playerSelection'] . "' OR `{$db_tb_bestellung}`.`team` IS NULL OR `{$db_tb_bestellung}`.`team`='(Alle)')";
     } else { //suchen nach einem einzelnen Spieler
-        $sql .= " WHERE `{$db_tb_bestellung}`.`user`='" . $params['filter_who'] . "'";
+        $sql .= " WHERE (`{$db_tb_bestellung}`.`user`='" . $params['playerSelection'] . "' OR `{$db_tb_bestellung}`.`team` IS NULL OR `{$db_tb_bestellung}`.`team`='(Alle)')";
     }
     if (!$user_fremdesitten) {
         $sql .= " AND (SELECT `allianz` FROM `{$db_tb_user}` WHERE `{$db_tb_user}`.`id`=`{$db_tb_bestellung}`.`user`) = '" . $user_allianz . "'";
@@ -461,6 +443,7 @@ if (isset($params['filter_who']) && $params['filter_who'] != '(Alle)') {
 } elseif (!$user_fremdesitten) {
     $sql .= " WHERE (SELECT `allianz` FROM `{$db_tb_user}` WHERE `{$db_tb_user}`.`id`=`{$db_tb_bestellung}`.`user`) = '" . $user_allianz . "'";
 }
+
 $sql .= " ORDER BY `prio` DESC, `$db_tb_bestellung`.`time` DESC, `$db_tb_bestellung`.`user` ASC, `$db_tb_bestellung`.`coords_gal` ASC, `$db_tb_bestellung`.`coords_sys` ASC, `$db_tb_bestellung`.`coords_planet` ASC;";
 
 debug_var("sql", $sql);
@@ -630,7 +613,7 @@ $views = array(
                 'title'  => 'Spieler',
                 'desc'   => 'Welcher Spieler soll beliefert werden?',
                 'type'   => 'select',
-                'values' => $config['users'],
+                'values' => getAllyAccs(),
                 'value'  => $edit['user'],
             ),
             'planet'  => array(
@@ -678,8 +661,8 @@ $views = array(
                 'title'  => 'Lieferant',
                 'desc'   => 'Wer soll liefern?',
                 'type'   => 'select',
-                'values' => $config['filter_who'],
-                'value'  => $edit['team'],
+                'values' => $playerSelectionOptions,
+                'value'  => $params['playerSelection'],
             ),
             'project' => array(
                 'title'  => 'Projekt',
@@ -794,18 +777,17 @@ if (isset($results)) {
     }
 }
 
-// Team Dropdown
-echo "<form method='POST' action='" . makeurl(array()) . "' enctype='multipart/form-data'><p class='center'>";
-echo 'Lieferant: ';
+// Auswahl Dropdown
+echo "Lieferant: ";
 echo makeField(
     array(
          "type"   => 'select',
-         "values" => $config['filter_who'],
-         "value"  => $params['filter_who']
-    ), 'filter_who'
+         "values" => $playerSelectionOptions,
+         "value"  => $params['playerSelection'],
+         "onchange" => "location.href='index.php?action=m_bestellung&amp;playerSelection='+this.options[this.selectedIndex].value",
+    ), 'playerSelection'
 );
-echo "<input type='submit' name='submit' value='anzeigen'/>";
-echo "</form><br><br>\n";
+echo '<br><br>';
 
 // Daten ausgeben
 start_form("m_flotte_versenden", array("nobody" => 1, "art" => "bestellung"));
@@ -822,7 +804,7 @@ foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
              'order'  => $orderkey,
              'orderd' => 'asc'
         ),
-        "<img src='./bilder/asc.gif'>"
+        "<img src='".BILDER_PATH."asc.gif'>"
     );
     echo '<b>' . $viewcolumnname . '</b>';
     echo makelink(
@@ -830,7 +812,7 @@ foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
              'order'  => $orderkey,
              'orderd' => 'desc'
         ),
-        "<img src='./bilder/desc.gif'>"
+        "<img src='".BILDER_PATH."desc.gif'>"
     );
 }
 /*
@@ -863,13 +845,13 @@ foreach ($data as $row) {
         if (!isset($row['allow_edit']) || $row['allow_edit']) {
             echo makelink(
                 array('edit' => $key),
-                "<img src='bilder/file_edit_s.gif' alt='bearbeiten'>"
+                "<img src='".BILDER_PATH."file_edit_s.gif' alt='bearbeiten'>"
             );
         }
         if (!isset($row['allow_delete']) || $row['can_delete']) {
             echo makelink(
                 array('delete' => $key),
-                "<img src='bilder/file_delete_s.gif' onclick=\"return confirmlink(this, 'Datensatz wirklich löschen?')\" alt='löschen'>"
+                "<img src='".BILDER_PATH."file_delete_s.gif' onclick=\"return confirmlink(this, 'Datensatz wirklich löschen?')\" alt='löschen'>"
             );
         }
     }

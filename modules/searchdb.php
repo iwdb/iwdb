@@ -36,7 +36,7 @@ if (!defined('IRA')) {
 //****************************************************************************
 
 $orderprio = array(
-    ""                  => "Koordinaten",
+    "Koordinaten"       => "Koordinaten",
     "rating_normal"     => "Rating ohne Techteam",
     "rating_best_tt"    => "Rating bestes Techteam",
     "rating_eisen_tt"   => "Rating Techteam Eisen",
@@ -59,7 +59,7 @@ $orderprio = array(
 );
 
 $ratingtypes = array(
-    ""                 => "Rating ohne Techteam",
+    "rating_normal"    => "Rating ohne Techteam",
     "rating_best_tt"   => "Rating bestes Techteam",
     "rating_eisen_tt"  => "Rating Techteam Eisen",
     "rating_chemie_tt" => "Rating Techteam Chemie",
@@ -98,7 +98,7 @@ $ansichten = array(
 );
 
 $techteams = array(
-    ""         => "kein Techteam berücksichtigen",
+    "keinTT"         => "kein Techteam berücksichtigen",
     "EisenTT"  => "Techteam Eisen berücksichtigen",
     "ChemieTT" => "Techteam Chemie berücksichtigen",
     "EisTT"    => "Techteam Eis berücksichtigen"
@@ -149,7 +149,7 @@ doc_title('Planet suchen');
 <tr>
     <td colspan="2" class="windowbg2 center"><br>
 
-        <form method="POST" action="index.php?action=searchdb&sid=<?php echo $sid;?>" enctype="multipart/form-data">
+        <form method="POST" action="index.php?action=searchdb" enctype="multipart/form-data">
             <select name="preset" style="width: 100px;" onchange="this.form.submit();">
                 <?php
                 $sql = "SELECT id, name FROM " . $db_tb_preset . " WHERE (fromuser = '" . $user_sitterlogin . "' OR fromuser = '')";
@@ -164,7 +164,7 @@ doc_title('Planet suchen');
         <br>
     </td>
 </tr>
-<form method="POST" action="index.php?action=showgalaxy&sid=<?php echo $sid;?>" enctype="multipart/form-data">
+<form method="POST" action="index.php?action=showgalaxy" enctype="multipart/form-data">
 <tr>
     <td colspan="2" class="titlebg"><b>Bereich:</b></td>
 </tr>
@@ -228,25 +228,21 @@ doc_title('Planet suchen');
 <tr>
     <td class="windowbg2">Spielername (mehrere mit ; getrennt):<br>
         <i>Planeten eines bestimmten Spielers suchen</i></td>
-    <td class="windowbg1"><input type="text" name="user"
-                                 value="<?php echo ((isset($user)) ? $user : '')?>" style="width: 15em"><br>
-        <input type="checkbox" name="exact" value="1"
-            <?php echo (isset($exact) && $exact) ? "checked" : "";?>> exakte Suche?
+    <td class="windowbg1">
+        <input type="text" name="user" value="<?php echo ((isset($user)) ? $user : '')?>" style="width: 15em"><br>
+        <div><input type="checkbox" name="exact" class="middle" value="1" <?php echo (isset($exact) && $exact) ? "checked" : "";?>><span class="middle">exakte Suche?</span></div>
     </td>
 </tr>
 <tr>
     <td class="windowbg2">Allianzen (mehrere mit ; getrennt):<br>
         <i>Planeten einer bestimmten Allianz suchen</i></td>
-    <td class="windowbg1"><input type="text" name="allianz"
-                                 value="<?php echo ((isset($allianz)) ? $allianz : '');?>" style="width: 15em">
+    <td class="windowbg1"><input type="text" name="allianz" value="<?php echo ((isset($allianz)) ? $allianz : '');?>" style="width: 15em">
     </td>
 </tr>
 <tr>
     <td class="windowbg2">Planetenname:<br>
         <i>Nach Planetennamen suchen</i></td>
-    <td class="windowbg1"><input type="text" name="planetenname"
-                                 value="<?php echo ((isset($planetenname)) ? $planetenname : '');?>"
-                                 style="width: 15em"></td>
+    <td class="windowbg1"><input type="text" name="planetenname" value="<?php echo ((isset($planetenname)) ? $planetenname : '');?>" style="width: 15em"></td>
 </tr>
 <tr>
     <td colspan="2" class="titlebg"><b>Modifikationen:</b><br>
@@ -258,185 +254,196 @@ doc_title('Planet suchen');
 </tr>
 <tr>
     <td class="windowbg2">Gebäudekosten:</td>
-    <td class="windowbg1"><input type="text" name="kgmod"
-                                 value="<?php echo ((isset($kgmod)) ? $kgmod : '')?>" style="width: 15em"
-                                 maxlength="5"></td>
+    <td class="windowbg1">
+        <input type="text" name="kgmod" value="<?php echo ((isset($kgmod)) ? $kgmod : '')?>" style="width: 15em" maxlength="5">
+    </td>
 </tr>
 <tr>
     <td class="windowbg2">Gebäudedauer:</td>
-    <td class="windowbg1"><input type="text" name="dgmod"
-                                 value="<?php echo ((isset($dgmod)) ? $dgmod : '')?>" style="width: 15em"
-                                 maxlength="5">
-
+    <td class="windowbg1">
+        <input type="text" name="dgmod" value="<?php echo ((isset($dgmod)) ? $dgmod : '')?>" style="width: 15em" maxlength="5">
     </td>
 </tr>
 <tr>
     <td class="windowbg2">Schiffkosten:</td>
     <td class="windowbg1">
-        <input type="text" name="ksmod" value="<?php echo ((isset($ksmod)) ? $ksmod : '')?>" style="width: 15em"
-               maxlength="5">
-
+        <input type="text" name="ksmod" value="<?php echo ((isset($ksmod)) ? $ksmod : '')?>" style="width: 15em" maxlength="5">
     </td>
 </tr>
 <tr>
     <td class="windowbg2">Schiffdauer:</td>
     <td class="windowbg1">
-        <input type="text" name="dsmod" value="<?php echo ((isset($dsmod)) ? $dsmod : '')?>" style="width: 15em"
-               maxlength="5">
-
+        <input type="text" name="dsmod" value="<?php echo ((isset($dsmod)) ? $dsmod : '')?>" style="width: 15em" maxlength="5">
     </td>
 </tr>
-<!--  <tr>
-   <td class="windowbg2">
-    Forschung:(UNDER CONSTRUCTION)
-   </td>
+<tr>
+   <td class="windowbg2">Forschung:</td>
    <td class="windowbg1">
       <input type="text" name="fmod_bis" value="<?php echo ((isset($fmod)) ? $fmod : '')?>" style="width: 15em" maxlength="5">
    </td>
  </tr>
- <tr> //-->
+ <tr>
 <tr>
     <td colspan="2" class="titlebg"><b>Ressourcen (min):</b><br>
-        <i>Welche Ressourcenwerte soll der Planet mindestens aufweisen?</i></td>
+        <i>Welche Ressourcenwerte soll der Planet mindestens aufweisen?</i>
+    </td>
 </tr>
 <tr>
     <td class="windowbg2">Eisengehalt:</td>
     <td class="windowbg1">
-        <input type="text" name="eisengehalt" value="<?php echo ((isset($eisengehalt)) ? $eisengehalt : '')?>"
-               style="width: 15em" maxlength="3">
+        <input type="text" name="eisengehalt" value="<?php echo ((isset($eisengehalt)) ? $eisengehalt : '')?>" style="width: 15em" maxlength="3">
     </td>
 </tr>
 <tr>
     <td class="windowbg2">Chemievorkommen:</td>
     <td class="windowbg1">
-        <input type="text" name="chemievorkommen"
-               value="<?php echo ((isset($chemievorkommen)) ? $chemievorkommen : '')?>" style="width: 15em"
-               maxlength="3">
+        <input type="text" name="chemievorkommen" value="<?php echo ((isset($chemievorkommen)) ? $chemievorkommen : '')?>" style="width: 15em" maxlength="3">
     </td>
 </tr>
 <tr>
     <td class="windowbg2">Eisdichte:</td>
     <td class="windowbg1">
-        <input type="text" name="eisdichte" value="<?php echo ((isset($eisdichte)) ? $eisdichte : '')?>"
-               style="width: 15em" maxlength="3">
+        <input type="text" name="eisdichte" value="<?php echo ((isset($eisdichte)) ? $eisdichte : '')?>" style="width: 15em" maxlength="3">
     </td>
 </tr>
 <tr>
     <td class="windowbg2">Techteams:</td>
-    <td class="windowbg1"><select name="techteam" style="width: 20em">
+    <td class="windowbg1">
             <?php
-            $techteam = (isset($techteam)) ? $techteam : '';
-            foreach ($techteams as $key => $data) {
-                echo ($techteams == $key) ? " <option value='" . $key . "' selected>" . $data . "</option>\n" : " <option value='" . $key . "'>" . $data . "</option>\n";
-            }
+            $techteam = (isset($techteam)) ? $techteam : 'keinTT';
+            echo makeField(
+                array(
+                     "type"   => 'select',
+                     "values" => $techteams,
+                     "value"  => $techteam
+                ), 'techteam'
+            );
             ?>
-        </select></td>
+    </td>
 </tr>
 <tr>
     <td class="windowbg2">Lebensbedingungen:</td>
     <td class="windowbg1">
-        <input type="text" name="lebensbedingungen"
-               value="<?php echo ((isset($lebensbedingungen)) ? $lebensbedingungen : '')?>" style="width: 15em"
-               maxlength="3">
+        <input type="text" name="lebensbedingungen" value="<?php echo ((isset($lebensbedingungen)) ? $lebensbedingungen : '')?>" style="width: 15em" maxlength="3">
     </td>
 </tr>
-<?php if (defined('SPECIALSEARCH') && SPECIALSEARCH === true) { ?>
-    <tr>
-        <td class="windowbg2">Besonderheiten:</td>
-        <td class="windowbg1"><select name="merkmal" style="width: 15em">
-                <?php
-                $merkmal = (isset($merkmal)) ? $merkmal : '';
-                foreach ($merkmale as $key => $data) {
-                    echo ($merkmal == $key) ? " <option value='" . $key . "' selected>" . $data . "</option>\n" : " <option value='" . $key . "'>" . $data . "</option>\n";
-                }
-                ?>
-            </select></td>
-    </tr>
-    <tr>
-        <td class="windowbg2">Rating:</td>
-        <td class="windowbg1">
-            <input type="text" name="ratingmin" value="<?php echo ((isset($ratingmin)) ? $ratingmin : '')?>"
-                   style="width: 15em" maxlength="6">
-            <select name="ratingtyp" style="width: 20em">
-                <?php
-                $ratingtyp = (isset($ratingtyp)) ? $ratingtyp : '';
-                foreach ($ratingtypes as $key => $data) {
-                    echo ($ratingtyp == $key) ? " <option value='" . $key . "' selected>" . $data . "</option>\n" : " <option value='" . $key . "'>" . $data . "</option>\n";
-                }
-                ?>
-            </select></td>
-    </tr>
-<?php } ?>
+<tr>
+    <td class="windowbg2">Besonderheiten:</td>
+    <td class="windowbg1">
+        <?php
+        $merkmal = (isset($merkmal)) ? $merkmal : '';
+        echo makeField(
+            array(
+                 "type"   => 'select',
+                 "values" => $merkmale,
+                 "value"  => $merkmal
+            ), 'merkmal'
+        );
+        ?>
+    </td>
+</tr>
+<tr>
+    <td class="windowbg2">Rating:</td>
+    <td class="windowbg1">
+        <input type="text" name="ratingmin" value="<?php echo ((isset($ratingmin)) ? $ratingmin : '')?>" style="width: 15em" maxlength="6">
+        <?php
+        $ratingtyp = (isset($ratingtyp)) ? $ratingtyp : 'rating_normal';
+        echo makeField(
+            array(
+                 "type"   => 'select',
+                 "values" => $ratingtypes,
+                 "value"  => $ratingtyp
+            ), 'ratingtyp'
+        );
+        ?>
+    </td>
+</tr>
 <tr>
     <td colspan="2" class="titlebg"><b>Sortierung:</b><br>
         <i>Nach was sollen die Suchergebnisse sortiert werden?</i></td>
 </tr>
 <tr>
-    <td colspan="2" class="windowbg1 center"><select name="order1">
-            <?php
-            $order1 = (isset($order1)) ? $order1 : '';
-            foreach ($orderprio as $key => $data) {
-                echo ($order1 == $key) ? " <option value='" . $key . "' selected>" . $data . "</option>\n" : " <option value='" . $key . "'>" . $data . "</option>\n";
-            }
-            ?>
-        </select> <select name="order1_d">
-            <?php
-            $order1_d = (isset($order1_d)) ? $order1_d : '';
-            foreach ($orderpriod as $key => $data) {
-                echo ($order1_d == $key) ? " <option value='" . $key . "' selected>" . $data . "</option>\n" : " <option value='" . $key . "'>" . $data . "</option>\n";
-            }
-            ?>
-        </select></td>
-</tr>
-<tr>
-    <td colspan="2" class="windowbg1 center"><select name="order2">
-            <?php
-            $order2 = (isset($order2)) ? $order2 : '';
-            foreach ($orderprio as $key => $data) {
-                echo ($order2 == $key) ? " <option value='" . $key . "' selected>" . $data . "</option>\n" : " <option value='" . $key . "'>" . $data . "</option>\n";
-            }
-            ?>
-        </select> <select name="order2_d">
-            <?php
-            $order2_d = (isset($order2_d)) ? $order2_d : '';
-            foreach ($orderpriod as $key => $data) {
-                echo ($order2_d == $key) ? " <option value='" . $key . "' selected>" . $data . "</option>\n" : " <option value='" . $key . "'>" . $data . "</option>\n";
-            }
-            ?>
-        </select></td>
-</tr>
-<tr>
-    <td colspan="2" class="windowbg1 center"><select name="order3">
-            <?php
-            $order3 = (isset($order3)) ? $order3 : '';
-            foreach ($orderprio as $key => $data) {
-                echo ($order3 == $key) ? " <option value='" . $key . "' selected>" . $data . "</option>\n" : " <option value='" . $key . "'>" . $data . "</option>\n";
-            }
-            ?>
-        </select> <select name="order3_d">
-            <?php
-            $order3_d = (isset($order3_d)) ? $order3_d : '';
-            foreach ($orderpriod as $key => $data) {
-                echo ($order3_d == $key) ? " <option value='" . $key . "' selected>" . $data . "</option>\n" : " <option value='" . $key . "'>" . $data . "</option>\n";
-            }
-            ?>
-        </select></td>
-</tr>
-<tr>
-    <td class="windowbg1 center" colspan="2">maximale Ergebnisse:
-        <input type="text" name="max" value="<?php echo ((isset($max)) ? $max : '')?>" style="width: 15em"
-               maxlength="6">
+    <td colspan="2" class="windowbg1 center">
+        <?php
+            $order1 = (isset($order1)) ? $order1 : "Koordinaten";
+            echo makeField(
+                array(
+                     "type"   => 'select',
+                     "values" => $orderprio,
+                     "value"  => $order1
+                ), 'order1'
+            );
+            $order1_d = (isset($order1_d)) ? $order1_d : "Koordinaten";
+            echo makeField(
+                array(
+                     "type"   => 'select',
+                     "values" => $orderpriod,
+                     "value"  => $order1_d
+                ), 'order1_d'
+            );
+        ?>
     </td>
 </tr>
 <tr>
-    <td class="windowbg1 center" colspan="2">Ansicht: <select name="ansicht">
-            <?php
-            $ansicht = (isset($ansicht)) ? $ansicht : '';
-            foreach ($ansichten as $key => $data) {
-                echo ($ansicht == $key) ? " <option value='" . $key . "' selected>" . $data . "</option>\n" : " <option value='" . $key . "'>" . $data . "</option>\n";
-            }
-            ?>
-        </select>
+    <td colspan="2" class="windowbg1 center">
+        <?php
+        $order2 = (isset($order2)) ? $order2 : "Koordinaten";
+        echo makeField(
+            array(
+                 "type"   => 'select',
+                 "values" => $orderprio,
+                 "value"  => $order2
+            ), 'order2'
+        );
+        $order2_d = (isset($order2_d)) ? $order2_d : "Koordinaten";
+        echo makeField(
+            array(
+                 "type"   => 'select',
+                 "values" => $orderpriod,
+                 "value"  => $order2_d
+            ), 'order2_d'
+        );
+        ?>
+    </td>
+</tr>
+<tr>
+    <td colspan="2" class="windowbg1 center">
+        <?php
+        $order3 = (isset($order3)) ? $order3 : "Koordinaten";
+        echo makeField(
+            array(
+                 "type"   => 'select',
+                 "values" => $orderprio,
+                 "value"  => $order3
+            ), 'order3'
+        );
+        $order3_d = (isset($order3_d)) ? $order3_d : "Koordinaten";
+        echo makeField(
+            array(
+                 "type"   => 'select',
+                 "values" => $orderpriod,
+                 "value"  => $order3_d
+            ), 'order3_d'
+        );
+        ?>
+    </td>
+</tr>
+<tr>
+    <td class="windowbg1 center" colspan="2">maximale Ergebnisse:
+        <input type="text" name="max" value="<?php echo ((isset($max)) ? $max : '100')?>" style="width: 15em" maxlength="4">
+    </td>
+</tr>
+<tr>
+    <td class="windowbg1 center" colspan="2">Ansicht:
+        <?php
+            echo makeField(
+                array(
+                     "type"   => 'select',
+                     "values" => $ansichten,
+                     "value"  => $ansicht
+                ), 'ansicht'
+            );
+        ?>
     </td>
 </tr>
 <tr>
@@ -457,7 +464,7 @@ doc_title('Planet suchen');
         ändern: <select name="presetname1" style="width: 10em;">
             <?php
 
-            if ($user_status == "admin") {
+            if ($user_status === "admin") {
                 $sql = "SELECT id, name FROM " . $db_tb_preset . " WHERE fromuser = '" . $user_sitterlogin . "' OR fromuser = '' ORDER BY fromuser, name";
             } else {
                 $sql = "SELECT id, name FROM " . $db_tb_preset . " WHERE fromuser = '" . $user_sitterlogin . "'";

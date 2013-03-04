@@ -1265,7 +1265,7 @@ if (empty($params['view'])) {
                      'order'  => $orderkey,
                      'orderd' => 'asc'
                 ),
-                "<img src='./bilder/asc.gif'>"
+                "<img src='".BILDER_PATH."asc.gif'>"
             );
             echo '<b>' . $viewcolumnname . '</b>';
             echo makelink(
@@ -1273,7 +1273,7 @@ if (empty($params['view'])) {
                      'order'  => $orderkey,
                      'orderd' => 'desc'
                 ),
-                "<img src='./bilder/desc.gif'>"
+                "<img src='".BILDER_PATH."desc.gif'>"
             );
         }
     }
@@ -1305,7 +1305,7 @@ if (empty($params['view'])) {
             next_row("windowbg1 center");
         }
         // Schaltfläche zum auf-/zuklappen
-        echo "<a href=\"javascript:Collapse('" . $key . "');\"><img src='bilder/plus.gif' alt='+' id='collapse_" . $key . "'></a>";
+        echo "<a href=\"javascript:Collapse('" . $key . "');\"><img src='".BILDER_PATH."plus.gif' alt='+' id='collapse_" . $key . "'></a>";
         foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
             if (isset($row[$viewcolumnkey . '_style'])) {
                 next_cell("windowbg1 center", 'style="' . $row[$viewcolumnkey . '_style'] . '"');
@@ -1326,13 +1326,13 @@ if (empty($params['view'])) {
             if (!isset($row['allow_edit']) || $row['allow_edit']) {
                 echo makelink(
                     array('edit' => $key),
-                    "<img src='bilder/file_edit_s.gif' alt='bearbeiten'>"
+                    "<img src='".BILDER_PATH."file_edit_s.gif' alt='bearbeiten'>"
                 );
             }
             if (!isset($row['allow_delete']) || $row['allow_delete']) {
                 echo makelink(
                     array('delete' => $key),
-                    "<img src='bilder/file_delete_s.gif' onclick='return confirmlink(this, '" .
+                    "<img src='".BILDER_PATH."file_delete_s.gif' onclick='return confirmlink(this, '" .
                         (isset($view['deletetitle']) ? $view['deletetitle'] : 'Datensatz') . " wirklich löschen?')' alt='loeschen'>"
                 );
             }
@@ -1608,13 +1608,13 @@ function format_value($row, $name, $value)
             break;
         case 'objekttyp':
             if ($value == 'Kolonie') {
-                return "<img src='bilder/kolo.png' title='Kolonie' alt='K'>";
+                return "<img src='".BILDER_PATH."kolo.png' title='Kolonie' alt='K'>";
             } elseif ($value == 'Sammelbasis') {
-                return "<img src='bilder/ress_basis.png' title='Sammelbasis' alt='SB'>";
+                return "<img src='".BILDER_PATH."ress_basis.png' title='Sammelbasis' alt='SB'>";
             } elseif ($value == 'Kampfbasis') {
-                return "<img src='bilder/kampf_basis.png' title='Kampfbasis' alt='KB'>";
+                return "<img src='".BILDER_PATH."kampf_basis.png' title='Kampfbasis' alt='KB'>";
             } elseif ($value == 'Artefaktbasis') {
-                return "<img src='bilder/artefakt_basis.png' title='Artefaktbasis' alt='AB'>";
+                return "<img src='".BILDER_PATH."artefakt_basis.png' title='Artefaktbasis' alt='AB'>";
             }
             break;
         case 'eisen':
@@ -1691,13 +1691,13 @@ function format_value($row, $name, $value)
             $result = "<div class='nowrap borderless'>";
 
             if (!empty($row['geoscantime'])) {
-                $result .= "<img src='bilder/scann_geo.png' class='middle' title='Geoscan vor " . makeduration($row['geoscantime']) . "'>";
+                $result .= "<img src='".BILDER_PATH."scann_geo.png' class='middle' title='Geoscan vor " . makeduration($row['geoscantime']) . "'>";
             }
             if (!empty($row['schiffscantime'])) {
-                $result .= "<img src='bilder/scann_schiff.png' class='middle' title='Schiffscan vor " . makeduration($row['schiffscantime']) . "'>";
+                $result .= "<img src='".BILDER_PATH."scann_schiff.png' class='middle' title='Schiffscan vor " . makeduration($row['schiffscantime']) . "'>";
             }
             if (!empty($row['gebscantime'])) {
-                $result .= "<img src='bilder/scann_geb.png' class='middle' title='Gebäudescan vor " . makeduration($row['gebscantime']) . "'>";
+                $result .= "<img src='".BILDER_PATH."scann_geb.png' class='middle' title='Gebäudescan vor " . makeduration($row['gebscantime']) . "'>";
             }
 
             if(!empty($row['last_scan'])) {

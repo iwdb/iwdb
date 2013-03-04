@@ -492,13 +492,13 @@ if (!empty($allianz)) {
                         }
                         next_cell("windowbg1 left", "style='width:50%';");
                         if (!empty($planidata['geoscantime'])) {
-                            echo  "<abbr title='Geoscan von " . strftime(CONFIG_DATETIMEFORMAT, $planidata['geoscantime']) . "'><img src='bilder/scann_geo.png' class='middle'><span class='middle'>&thinsp;".makeShortDuration($planidata['geoscantime']).'</span></abbr>';
+                            echo  "<abbr title='Geoscan von " . strftime(CONFIG_DATETIMEFORMAT, $planidata['geoscantime']) . "'><img src='".BILDER_PATH."scann_geo.png' class='middle'><span class='middle'>&thinsp;".makeShortDuration($planidata['geoscantime']).'</span></abbr>';
                         }
                         if (!empty($planidata['schiffscantime'])) {
-                            echo "<abbr title='Schiffscan von " . strftime(CONFIG_DATETIMEFORMAT, $planidata['schiffscantime']) . "'><img src='bilder/scann_schiff.png' class='middle'><span class='middle'>&thinsp;".makeShortDuration($planidata['schiffscantime']).'</span></abbr>';
+                            echo "<abbr title='Schiffscan von " . strftime(CONFIG_DATETIMEFORMAT, $planidata['schiffscantime']) . "'><img src='".BILDER_PATH."scann_schiff.png' class='middle'><span class='middle'>&thinsp;".makeShortDuration($planidata['schiffscantime']).'</span></abbr>';
                         }
                         if (!empty($planidata['gebscantime'])) {
-                            echo "<abbr title='Gebäudescan von " . strftime(CONFIG_DATETIMEFORMAT, $planidata['gebscantime']) . "'><img src='bilder/scann_geb.png' class='middle'><span class='middle'>&thinsp;".makeShortDuration($planidata['schiffscantime']).'</span></abbr>';
+                            echo "<abbr title='Gebäudescan von " . strftime(CONFIG_DATETIMEFORMAT, $planidata['gebscantime']) . "'><img src='".BILDER_PATH."scann_geb.png' class='middle'><span class='middle'>&thinsp;".makeShortDuration($planidata['schiffscantime']).'</span></abbr>';
                         }
 
                         end_row();

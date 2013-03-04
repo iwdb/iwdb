@@ -233,7 +233,7 @@ while ($row = $db->db_fetch_array($result)) {
                 </a>
                 <?php
                 if (!empty($sitterlogin)) {
-                    echo "<a href='index.php?action=sitterlogins&sitterlogin={$sitterlogin_encoded}'><img src='bilder/user-login.gif' alt='L' title='Einloggen'></a>";
+                    echo "<a href='index.php?action=sitterlogins&sitterlogin={$sitterlogin_encoded}'><img src='".BILDER_PATH."user-login.gif' alt='L' title='Einloggen'></a>";
                 }
                 ?>
             </td>

@@ -240,7 +240,7 @@ global $db, $db_tb_scans, $db_tb_target, $db_tb_lieferung, $db_tb_lager, $db_tb_
 $params = array(
     'view'              => getVar('view'),
     'order'             => getVar('order'),
-    'orderd'            => getVar('orderd'),
+    'orderd'            => ensureSortDirection(getVar('orderd')),
     'edit'              => getVar('edit'),
     'delete'            => getVar('delete'),
     'expand'            => getVar('expand'),
@@ -262,9 +262,6 @@ if (empty($params['view'])) {
 }
 if (empty($params['order'])) {
     $params['order'] = 'user';
-}
-if ($params['orderd'] != 'asc' && $params['orderd'] != 'desc') {
-    $params['orderd'] = 'asc';
 }
 if (!empty($params['edit'])) {
     $params['expand'] = $params['edit'];
@@ -311,9 +308,6 @@ if (!empty($universum) || !empty($flotteversenden)) {
         $redirect .= '&view=fleet_send';
     }
 }
-
-// Stammdaten abfragen
-$config = array();
 
 // Spieler und Teams abfragen
 $playerSelectionOptions = array();
@@ -1044,7 +1038,6 @@ echo makeField(
          "type"   => 'select',
          "values" => $playerSelectionOptions,
          "value"  => $params['playerSelection'],
-         //"onchange" => "location.href='index.php?action=m_lager&amp;playerSelection='+this.options[this.selectedIndex].value",
     ), 'playerSelection'
 );
 echo ' Vorhersage: ';
@@ -1186,7 +1179,7 @@ foreach ($group_data as $groupkey => $group) {
                     );
                 }
                 if (!isset($row['allow_delete']) || $row['can_delete']) {
-                    //echo makelink(array('delete' => $key), "<img src='bilder/file_delete_s.gif' onclick=\"return confirmlink(this, 'Datensatz wirklich löschen?')\" alt='löschen'>");
+                    //echo makelink(array('delete' => $key), "<img src='".BILDER_PATH."file_delete_s.gif' onclick=\"return confirmlink(this, 'Datensatz wirklich löschen?')\" alt='löschen'>");
                 }
             }
             //Markierung-Checkbox

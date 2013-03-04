@@ -236,13 +236,13 @@ $data = array();
 				<?php
 				$objekt = GetObjectByCoords($row['koords_to']);
 				if ($objekt == 'Kolonie') {
-					echo "<img src='bilder/kolo.png'>";
+					echo "<img src='".BILDER_PATH."kolo.png'>";
 				} else if ($objekt == 'Sammelbasis') {
-					echo "<img src='bilder/ress_basis.png'>";
+					echo "<img src='".BILDER_PATH."ress_basis.png'>";
 				} else if ($objekt == 'Artefaktbasis') {
-					echo "<img src='bilder/artefakt_basis.png'>";
+					echo "<img src='".BILDER_PATH."artefakt_basis.png'>";
 				} else if ($objekt == 'Kampfbasis') {
-					echo "<img src='bilder/kampf_basis.png'>";
+					echo "<img src='".BILDER_PATH."kampf_basis.png'>";
 				}
 				echo $row['koords_to'];
 				?>
@@ -260,13 +260,13 @@ $data = array();
 				<?php
 				$objekt = GetObjectByCoords($row['koords_from']);
 				if ($objekt == 'Kolonie') {
-					echo "<img src='bilder/kolo.png'>";
+					echo "<img src='".BILDER_PATH."kolo.png'>";
 				} else if ($objekt == 'Sammelbasis') {
-					echo "<img src='bilder/ress_basis.png'>";
+					echo "<img src='".BILDER_PATH."ress_basis.png'>";
 				} else if ($objekt == 'Artefaktbasis') {
-					echo "<img src='bilder/artefakt_basis.png'>";
+					echo "<img src='".BILDER_PATH."artefakt_basis.png'>";
 				} else if ($objekt == 'Kampfbasis') {
-					echo "<img src='bilder/kampf_basis.png'>";
+					echo "<img src='".BILDER_PATH."kampf_basis.png'>";
 				}
 				echo $row['koords_from'];
 				?>
@@ -304,22 +304,22 @@ $data = array();
 	<tr>
 		<td>
 			<?php
-			echo "<img src='bilder/kolo.png'> = Kolonie";
+			echo "<img src='".BILDER_PATH."kolo.png'> = Kolonie";
 			?>
 		</td>
 		<td>
 			<?php
-			echo "<img src='bilder/ress_basis.png'> = Ressourcensammelbasis";
+			echo "<img src='".BILDER_PATH."ress_basis.png'> = Ressourcensammelbasis";
 			?>
 		</td>
 		<td>
 			<?php
-			echo "<img src='bilder/artefakt_basis.png'> = Artefaktsammelbasis";
+			echo "<img src='".BILDER_PATH."artefakt_basis.png'> = Artefaktsammelbasis";
 			?>
 		</td>
 		<td>
 			<?php
-			echo "<img src='bilder/kampf_basis.png'> = Kampfbasis";
+			echo "<img src='".BILDER_PATH."kampf_basis.png'> = Kampfbasis";
 			?>
 		</td>
 	</tr>

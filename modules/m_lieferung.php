@@ -159,7 +159,7 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 $params = array(
     'view'        => getVar('view'),
     'order'       => getVar('order'),
-    'orderd'      => getVar('orderd'),
+    'orderd'      => ensureSortDirection(getVar('orderd')),
     'expand'      => getVar('expand'),
     'filter_team' => getVar('filter_team'),
     'user_from'   => getVar('user_from'),
@@ -172,9 +172,6 @@ if (empty($params['view'])) {
 }
 if (empty($params['order'])) {
     $params['order'] = 'time';
-}
-if ($params['orderd'] != 'asc' && $params['orderd'] != 'desc') {
-    $params['orderd'] = 'asc';
 }
 if (empty($params['filter_team'])) //$params['filter_team'] = $user_buddlerfrom;
 {
@@ -362,7 +359,7 @@ foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
              'order'  => $orderkey,
              'orderd' => 'asc'
         ),
-        "<img src='./bilder/asc.gif'>"
+        "<img src='".BILDER_PATH."asc.gif'>"
     );
     echo $viewcolumnname;
     echo makelink(
@@ -370,7 +367,7 @@ foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
              'order'  => $orderkey,
              'orderd' => 'desc'
         ),
-        "<img src='./bilder/desc.gif'>"
+        "<img src='".BILDER_PATH."desc.gif'>"
     );
 }
 next_cell("windowbg2");
@@ -406,13 +403,13 @@ foreach ($data as $row) {
         if (!isset($row['allow_edit']) || $row['allow_edit']) {
             echo makelink(
                 array('edit' => $key),
-                "<img src='bilder/file_edit_s.gif' alt='bearbeiten'>"
+                "<img src='".BILDER_PATH."file_edit_s.gif' alt='bearbeiten'>"
             );
         }
         if (!isset($row['allow_delete']) || $row['can_delete']) {
             echo makelink(
                 array('delete' => $key),
-                "<img src='bilder/file_delete_s.gif' onclick=\"return confirmlink(this, 'Datensatz wirklich löschen?')\" alt='löschen'>"
+                "<img src='".BILDER_PATH."file_delete_s.gif' onclick=\"return confirmlink(this, 'Datensatz wirklich löschen?')\" alt='löschen'>"
             );
         }
     }

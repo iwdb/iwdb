@@ -333,7 +333,7 @@ function make_order_link($order, $ordered, $parameters = array())
         $link .= "&" . $parameter;
     }
     $link .= "'> ";
-    $link .= "  <img src='bilder/" . $ordered . ".gif' alt='" . $ordered . "'> ";
+    $link .= "  <img src='".BILDER_PATH."" . $ordered . ".gif' alt='" . $ordered . "'> ";
     $link .= "</a>";
     echo $link;
 }

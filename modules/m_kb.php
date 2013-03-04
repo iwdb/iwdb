@@ -1751,7 +1751,7 @@ function ausgabe_zeile($rowKB, $art, $bez, $K_Long, $typ, $ftoggle, $coords = ''
         echo "    <td class='$hclass $sclass right'>$gebscan";
         echo '<a class="kb" href="index.php?action=showplanet&amp;coords=' . $rowKB['k_ort'] . '">' . $rowKB['k_ort'] . '</a>';
         echo '&nbsp;&nbsp;';
-        echo     "<a href='index.php?action=m_kb&Ncoords=" . $rowKB['k_ort'] . "&fake=on&a_id=$a_id&k_id=" . $rowKB['k_id'] . "$k_zeigen' title='Nur die Angriffe auf diese Koordinate anzeigen'><img src='bilder/plus.gif' alt='' border='0'></a>\n";
+        echo     "<a href='index.php?action=m_kb&Ncoords=" . $rowKB['k_ort'] . "&fake=on&a_id=$a_id&k_id=" . $rowKB['k_id'] . "$k_zeigen' title='Nur die Angriffe auf diese Koordinate anzeigen'><img src='".BILDER_PATH."plus.gif' alt='' border='0'></a>\n";
     }
     echo "    <td class='menu'>";
     if ($art == 'E' || $art == 'SA' || $art == 'SJ') {
@@ -4041,7 +4041,7 @@ function angriffe_jeFC_zeile($hSpieler, $hAlly, $hAngriff, $hBomb, $hFake, $hPlo
     if ($FC_StatS) {
         echo "    <td class='$hclass'>&nbsp;\n";
     } else {
-        echo "    <td class='$hclass center'><a title='Alle Angriffe dieses FC anzeigen' href=\"javascript:Collapse('$FCanz');\"><img src='bilder/plus.gif' alt='' border='0' id='collapse_$FCanz'></a>\n";
+        echo "    <td class='$hclass center'><a title='Alle Angriffe dieses FC anzeigen' href=\"javascript:Collapse('$FCanz');\"><img src='".BILDER_PATH."plus.gif' alt='' border='0' id='collapse_$FCanz'></a>\n";
     }
     echo "    <td class='menu'>";
     echo "    <td class='$hclass left'>" . $hAlly;

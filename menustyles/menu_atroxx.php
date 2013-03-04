@@ -188,8 +188,8 @@ include ('configmenu.php');
         }
 
         echo "    <div id='dropmenu" . $miscmenu . "' class='dropmenudiv' style='width:150px; text-align:left;'>\n
-      <a href='index.php'><img src='bilder/icon_mini_home.gif' width='12' height='13' alt='Startseite' align='absmiddle'> Startseite</a>
-      <a href='index.php?action=profile'><img src='bilder/icon_mini_profile.gif' width='12' height='13' alt='profil' align='absmiddle'> profil</a>
+      <a href='index.php'><img src='".BILDER_PATH."icon_mini_home.gif' width='12' height='13' alt='Startseite' align='absmiddle'> Startseite</a>
+      <a href='index.php?action=profile'><img src='".BILDER_PATH."icon_mini_profile.gif' width='12' height='13' alt='profil' align='absmiddle'> profil</a>
       ";
         if ($user_status == "admin") {
             ?>
@@ -204,9 +204,9 @@ include ('configmenu.php');
 <!-- main menu ende -->
 <script type="text/javascript"> cssdropdown.startchrome("chromemenu") </script>
 <!-- menu Ende -->
-<br><br>
 <script src="javascript/menu_atroxx.js"></script>
 <!-- hauptfenster Start -->
+<br><br>
 <table align="center" style="width:100%;">
     <tr>
         <td class="windowbg1" align="center">

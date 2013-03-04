@@ -793,7 +793,7 @@ function create_depends_on($resid)
         if ($lind !== false) {
             $retVal .= "<br>\n";
         }
-        $retVal .= "<img src='bilder/point.gif' alt='a point o.O'/>&nbsp;";
+        $retVal .= "<img src='".BILDER_PATH."point.gif' alt='a point o.O'/>&nbsp;";
         $retVal .= "<a href='index.php?action=" . $modulname .
             "&researchid=" . $research_data['rid'] .
             "&alphaorder=" . $alphaorder . "'>" .
@@ -831,7 +831,7 @@ function create_allows($resid)
         if ($lind !== false) {
             $retVal .= "<br>\n";
         }
-        $retVal .= "<img src='bilder/point.gif' alt='a point o.O'/>&nbsp;";
+        $retVal .= "<img src='".BILDER_PATH."point.gif' alt='a point o.O'/>&nbsp;";
         $retVal .= "<a href='index.php?action=" . $modulname .
             "&researchid=" . $research_data['rid'] .
             "&alphaorder=" . $alphaorder . "'>";
@@ -871,10 +871,10 @@ function create_depends_on_building($resid)
         while (($research_data = $db->db_fetch_array($result)) !== false) {
             $retVal .= "<tr><td>";
             if (!empty($research_data['bbild'])) {
-                $retVal .= "<img src='bilder/gebs/" . $research_data['bbild'] .
+                $retVal .= "<img src='".BILDER_PATH."gebs/" . $research_data['bbild'] .
                     ".jpg' width='50' height='50' alt='" . $research_data['bname'] . "'/>";
             } else {
-                $retVal .= "<img src='bilder/gebs/blank.jpg' width='50' height='50' alt='blank'/>";
+                $retVal .= "<img src='".BILDER_PATH."gebs/blank.jpg' width='50' height='50' alt='blank'/>";
             }
             $retVal .= "</td><td>";
             $retVal .= $research_data['bname'];
@@ -912,9 +912,9 @@ function create_allows_building($resid, $isLevel)
         while (($research_data = $db->db_fetch_array($result)) !== false) {
             $retVal .= "<tr><td>";
             if (!empty($research_data['bbild'])) {
-                $retVal .= "<img src='bilder/gebs/" . $research_data['bbild'] . ".jpg' width='50' height='50' alt='" . $research_data['bname'] . "'/>";
+                $retVal .= "<img src='".BILDER_PATH."gebs/" . $research_data['bbild'] . ".jpg' width='50' height='50' alt='" . $research_data['bname'] . "'/>";
             } else {
-                $retVal .= "<img src='bilder/gebs/blank.jpg' width='50' height='50' alt='" . $research_data['bname'] . "'/>";
+                $retVal .= "<img src='".BILDER_PATH."gebs/blank.jpg' width='50' height='50' alt='" . $research_data['bname'] . "'/>";
             }
             $retVal .= "</td><td>";
             $retVal .= $research_data['bname'];
@@ -949,9 +949,9 @@ function create_allows_prototype($resid)
         while (($research_data = $db->db_fetch_array($result)) !== false) {
             $retVal .= "<tr><td>";
             if (!empty($research_data['pbild'])) {
-                $retVal .= "<img src='bilder/ships/" . $research_data['pbild'] . ".jpg' width='70' height='70' alt='" . $research_data['pname'] . "'/>";
+                $retVal .= "<img src='".BILDER_PATH."ships/" . $research_data['pbild'] . ".jpg' width='70' height='70' alt='" . $research_data['pname'] . "'/>";
             } else {
-                $retVal .= "<img src='bilder/ships/blank.jpg' width='70' height='70' alt='Leider kein Bild vorhanden.'/>";
+                $retVal .= "<img src='".BILDER_PATH."ships/blank.jpg' width='70' height='70' alt='Leider kein Bild vorhanden.'/>";
             }
             $retVal .= "</td><td>";
             $retVal .= $research_data['pname'];
@@ -1023,14 +1023,14 @@ function dependencies($resid)
 
     if ($gebiet > 0) {
         if (($unknownonly && $isresearched == false) || !$unknownonly) {
-            $retVal .= "<img src='bilder/point.gif' alt='a point o.O'/>&nbsp;";
+            $retVal .= "<img src='".BILDER_PATH."point.gif' alt='a point o.O'/>&nbsp;";
             $retVal .= "<a href='index.php?action=" . $modulname .
                 "&researchid=" . $resid .
                 "&alphaorder=" . $alphaorder . "'>" .
                 $colorme_on . $researches[$resid] . $colorme_off . "</a><br>";
         }
     } else {
-        $retVal .= "<img src='bilder/point.gif' alt='a point o.O'/>&nbsp;";
+        $retVal .= "<img src='".BILDER_PATH."point.gif' alt='a point o.O'/>&nbsp;";
         $retVal .= "<a href='index.php?action=" . $modulname .
             "&researchid=" . $resid .
             "&alphaorder=" . $alphaorder . "'><span class='doc_red'>" .

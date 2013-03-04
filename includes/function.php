@@ -527,7 +527,7 @@ function filter_int($numberstring, $default_value = null, $min_value = null, $ma
 {
 
     $filtered_number = filter_var($numberstring, FILTER_SANITIZE_NUMBER_INT);
-    if (($filtered_number !== false) AND ($filtered_number !== '')) { //Ergebnis nicht fehlgeschlagen oder leer
+    if (($filtered_number !== false) AND ($filtered_number !== '')) { //Ergebnis nicht fehlgeschlagen oder nicht leer
 
         $filtered_number = (int)$filtered_number;
     } else { //sonst Standardwert

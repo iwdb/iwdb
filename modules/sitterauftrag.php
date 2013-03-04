@@ -118,15 +118,12 @@ if (!empty($parentid)) {
 // Parameter ermitteln
 $params = array(
     'order'  => getVar('order'),
-    'orderd' => getVar('orderd'),
+    'orderd' => ensureSortDirection(getVar('orderd')),
 );
 
 // Parameter validieren
 if (empty($params['order'])) {
     $params['order'] = 'date';
-}
-if ($params['orderd'] != 'asc' && $params['orderd'] != 'desc') {
-    $params['orderd'] = 'asc';
 }
 
 // neuer Auftrag oder Auftrag aktualisieren //
@@ -368,7 +365,7 @@ if (!empty($alert)) {
                      'order'  => 'planet',
                      'orderd' => 'asc'
                 ),
-                "<img src='./bilder/asc.gif' alt=''>"
+                "<img src='".BILDER_PATH."asc.gif' alt=''>"
             );
             ?>
             <b>Planet</b>
@@ -378,7 +375,7 @@ if (!empty($alert)) {
                      'order'  => 'planet',
                      'orderd' => 'desc'
                 ),
-                "<img src='./bilder/desc.gif' alt=''>"
+                "<img src='".BILDER_PATH."desc.gif' alt=''>"
             );
 
             ?>
@@ -390,7 +387,7 @@ if (!empty($alert)) {
                      'order'  => 'date',
                      'orderd' => 'asc'
                 ),
-                "<img src='./bilder/asc.gif' alt=''>"
+                "<img src='".BILDER_PATH."asc.gif' alt=''>"
             );
             ?>
             <b>Zeit</b>
@@ -400,7 +397,7 @@ if (!empty($alert)) {
                      'order'  => 'date',
                      'orderd' => 'desc'
                 ),
-                "<img src='./bilder/desc.gif' alt=''>"
+                "<img src='".BILDER_PATH."desc.gif' alt=''>"
             );
             ?>
         </td>
@@ -469,10 +466,10 @@ if (!empty($alert)) {
                 <?php
                 if (!$differentid OR (($user_status === "admin") OR ($user_status === "SV")) OR ($user_sitterlogin === $row['ByUser'])) {
                     echo (empty($row_bev['id']))
-                        ? "<img src='bilder/point.gif' alt=''>"
-                        : "<a href='index.php?action=sitterauftrag&delserie=" . $row['id'] . "'><img src='bilder/plus.gif'></a>";
+                        ? "<img src='".BILDER_PATH."point.gif' alt=''>"
+                        : "<a href='index.php?action=sitterauftrag&delserie=" . $row['id'] . "'><img src='".BILDER_PATH."plus.gif'></a>";
                 } else {
-                    echo "<img src='bilder/point.gif' alt=''>";
+                    echo "<img src='".BILDER_PATH."point.gif' alt=''>";
                 }
                 ?>
             </td>

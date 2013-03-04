@@ -3,6 +3,7 @@
 require_once("includes/bootstrap.php");
 
 if ($login_ok === false) {
+    header('HTTP/1.1 403 forbidden');
     exit;
 }
 

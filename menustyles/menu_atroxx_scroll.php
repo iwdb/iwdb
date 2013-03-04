@@ -187,8 +187,8 @@ include ('configmenu.php');
         }
 
         echo "    <div id='dropmenu" . $miscmenu . "' class='dropmenudiv' style='width:150px; text-align:left; position:fixed;'>\n
-      <a href='index.php'><img src='bilder/icon_mini_home.gif' width='12' height='13' alt='Startseite' align='absmiddle'> Startseite</a>
-      <a href='index.php?action=profile'><img src='bilder/icon_mini_profile.gif' width='12' height='13' alt='profil' align='absmiddle'> profil</a>
+      <a href='index.php'><img src='".BILDER_PATH."icon_mini_home.gif' width='12' height='13' alt='Startseite' align='absmiddle'> Startseite</a>
+      <a href='index.php?action=profile'><img src='".BILDER_PATH."icon_mini_profile.gif' width='12' height='13' alt='profil' align='absmiddle'> profil</a>
       ";
         if ($user_status == "admin") {
             ?>

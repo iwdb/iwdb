@@ -211,15 +211,19 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 //
 // -> Und hier beginnt das eigentliche Modul
 
+//genutzte globale Variablen
+global $db, $db_tb_scans, $db_tb_user, $db_tb_bestellung_projekt, $db_tb_schiffstyp, $db_tb_bestellung_schiffe_pos, $db_tb_bestellung_schiffe, $db_tb_lieferung;
+global $config_map_galaxy_min, $config_map_galaxy_max, $config_map_system_min, $config_map_system_max, $user_sitterlogin;
+
 // Parameter ermitteln
 $params = array(
-    'view'       => getVar('view'),
-    'order'      => getVar('order'),
-    'orderd'     => getVar('orderd'),
-    'edit'       => getVar('edit'),
-    'delete'     => getVar('delete'),
-    'expand'     => getVar('expand'),
-    'filter_who' => getVar('filter_who'),
+    'view'            => getVar('view'),
+    'order'           => getVar('order'),
+    'orderd'          => ensureSortDirection(getVar('orderd')),
+    'edit'            => getVar('edit'),
+    'delete'          => getVar('delete'),
+    'expand'          => getVar('expand'),
+    'playerSelection' => getVar('playerSelection'),
 );
 
 // Parameter validieren
@@ -229,13 +233,10 @@ if (empty($params['view'])) {
 if (empty($params['order'])) {
     $params['order'] = 'sort';
 }
-if ($params['orderd'] != 'asc' && $params['orderd'] != 'desc') {
-    $params['orderd'] = 'asc';
-}
-if (empty($params['filter_who'])) {
-    $params['filter_who'] = '(Alle)';
+if (empty($params['playerSelection'])) {
+    $params['playerSelection'] = '(Alle)';
 } else {
-    $params['filter_who'] = $db->escape($params['filter_who']);
+    $params['playerSelection'] = $db->escape($params['playerSelection']);
 }
 
 debug_var("params", $params);
@@ -243,28 +244,10 @@ debug_var("params", $params);
 // Stammdaten abfragen
 $config = array();
 
-// Spieler und Teams abfragen
-$users = array();
-$teams = array();
-
-$config['filter_who']['(Alle)'] = '(Alle)';
-
-$sql = "SELECT * FROM " . $db_tb_user;
-if (!$user_fremdesitten) {
-    $sql .= " WHERE allianz='" . $user_allianz . "'";
-}
-debug_var('sql', $sql);
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-while ($row = $db->db_fetch_array($result)) {
-    $users[$row['id']] = $row['id'];
-    if (!empty($row['buddlerfrom'])) {
-        $teams['(Team) ' . $row['buddlerfrom']] = '(Team) ' . $row['buddlerfrom'];
-    }
-}
-$config['users'] = $users;
-//add teams and users to selectarray
-$config['filter_who'] = $config['filter_who'] + $teams + $users;
+// Teams und Spieler abfragen
+$playerSelectionOptions = array();
+$playerSelectionOptions['(Alle)'] = '(Alle)';
+$playerSelectionOptions += getAllyTeamsSelect() + getAllyAccs();
 
 // Planeten des Spielers abfragen
 $config['planeten'] = array();
@@ -471,12 +454,12 @@ $data = array();
 
 // Bestellungen abfragen
 $sql = "SELECT *,
-            (SELECT `$db_tb_bestellung_projekt`.`prio` FROM `$db_tb_bestellung_projekt` WHERE `$db_tb_bestellung_projekt`.`name`=`$db_tb_bestellung_schiffe`.`project` AND `$db_tb_bestellung_projekt`.`schiff`=1) AS prio FROM `$db_tb_bestellung_schiffe`";
-if (isset($params['filter_who']) && $params['filter_who'] != '(Alle)') {
-    if (strpos($params['filter_who'], '(Team) ') === 0) { //suchen nach einem Team
-        $sql .= " WHERE (" . $db_tb_bestellung_schiffe . ".team='" . $params['filter_who'] . "' OR " . $db_tb_bestellung_schiffe . ".team IS NULL" . " OR " . $db_tb_bestellung_schiffe . ".team='(Alle)')";
+            (SELECT `{$db_tb_bestellung_projekt}`.`prio` FROM `{$db_tb_bestellung_projekt}` WHERE `{$db_tb_bestellung_projekt}`.`name`=`{$db_tb_bestellung_schiffe}`.`project` AND `{$db_tb_bestellung_projekt}`.`schiff`=1) AS prio FROM `{$db_tb_bestellung_schiffe}`";
+if (isset($params['playerSelection']) && $params['playerSelection'] != '(Alle)') {
+    if (strpos($params['playerSelection'], '(Team) ') === 0) { //suchen nach einem Team
+        $sql .= " WHERE (" . $db_tb_bestellung_schiffe . ".team='" . $params['playerSelection'] . "' OR " . $db_tb_bestellung_schiffe . ".team IS NULL" . " OR " . $db_tb_bestellung_schiffe . ".team='(Alle)')";
     } else { //suchen nach einem einzelnen Spieler
-        $sql .= " WHERE " . $db_tb_bestellung_schiffe . ".user='" . $params['filter_who'] . "'";
+        $sql .= " WHERE (" . $db_tb_bestellung_schiffe . ".user='" . $params['playerSelection'] . "' OR " . $db_tb_bestellung_schiffe . ".team IS NULL" . " OR " . $db_tb_bestellung_schiffe . ".team='(Alle)')";
     }
     if (!$user_fremdesitten) {
         $sql .= " AND (SELECT allianz FROM " . $db_tb_user . " WHERE " . $db_tb_user . ".id=" . $db_tb_bestellung_schiffe . ".user) = '" . $user_allianz . "'";
@@ -530,7 +513,7 @@ while ($row = $db->db_fetch_array($result)) {
 
         $sql_lieferung =
             "SELECT *,
-				(SELECT $db_tb_user.`buddlerfrom` FROM $db_tb_user WHERE $db_tb_user.`id`=$db_tb_lieferung.`user_from`) AS team
+				(SELECT `{$db_tb_user}`.`buddlerfrom` FROM `{$db_tb_user}` WHERE `{$db_tb_user}`.`id`=`{$db_tb_lieferung}`.`user_from`) AS team
 			FROM $db_tb_lieferung
 			WHERE $db_tb_lieferung.`coords_to_gal`=" . $row['coords_gal'] . "
 			AND $db_tb_lieferung.`coords_to_sys`=" . $row['coords_sys'] . "
@@ -663,7 +646,7 @@ $views = array(
                 'title'  => 'Spieler',
                 'desc'   => 'Welcher Spieler soll beliefert werden?',
                 'type'   => 'select',
-                'values' => $config['users'],
+                'values' => getAllyAccs(),
                 'value'  => $edit['user'],
             ),
             'planet'  => array(
@@ -708,11 +691,11 @@ $views = array(
                 ),
             ),
             'team'    => array(
-                'title'  => 'Lieferant:',
+                'title'  => 'Lieferant',
                 'desc'   => 'Wer soll liefern?',
                 'type'   => 'select',
-                'values' => $config['filter_who'],
-                'value'  => $edit['team'],
+                'values' => $playerSelectionOptions,
+                'value'  => $params['playerSelection'],
             ),
             'project' => array(
                 'title'  => 'Projekt',
@@ -788,18 +771,17 @@ if (isset($results)) {
     }
 }
 
-// Team Dropdown
-echo '<form method="POST" action="' . makeurl(array()) . '" enctype="multipart/form-data"><p class="center">';
-echo 'Lieferant: ';
+// Auswahl Dropdown
+echo "Lieferant: ";
 echo makeField(
     array(
          "type"   => 'select',
-         "values" => $config['filter_who'],
-         "value"  => $params['filter_who']
-    ), 'filter_who'
+         "values" => $playerSelectionOptions,
+         "value"  => $params['playerSelection'],
+         "onchange" => "location.href='index.php?action=m_bestellung_schiffe&amp;playerSelection='+this.options[this.selectedIndex].value",
+    ), 'playerSelection'
 );
-echo ' <input type="submit" name="submit" value="anzeigen"/>';
-echo "</form><br><br>\n";
+echo '<br><br>';
 
 // Daten ausgeben
 start_form("m_flotte_versenden", array("nobody" => 1, "art" => "bestellung_schiffe"));
@@ -816,15 +798,15 @@ foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
              'order'  => $orderkey,
              'orderd' => 'asc'
         ),
-        "<img src='./bilder/asc.gif'>"
+        "<img src='".BILDER_PATH."asc.gif'>"
     );
-    echo '<b>' . $viewcolumnname . '</b>';
+    echo '<br><b>' . $viewcolumnname . '</b><br>';
     echo makelink(
         array(
              'order'  => $orderkey,
              'orderd' => 'desc'
         ),
-        "<img src='./bilder/desc.gif'>"
+        "<img src='".BILDER_PATH."desc.gif'>"
     );
 }
 
@@ -852,13 +834,13 @@ foreach ($data as $row) {
         if (!isset($row['allow_edit']) || $row['allow_edit']) {
             echo makelink(
                 array('edit' => $key),
-                "<img src='./bilder/file_edit_s.gif' alt='bearbeiten'>"
+                "<img src='".BILDER_PATH."file_edit_s.gif' alt='bearbeiten'>"
             );
         }
         if (!isset($row['allow_delete']) || $row['can_delete']) {
             echo makelink(
                 array('delete' => $key),
-                "<img src='./bilder/file_delete_s.gif' onclick=\"return confirmlink(this, 'Datensatz wirklich löschen?')\" alt='löschen'>"
+                "<img src='".BILDER_PATH."file_delete_s.gif' onclick=\"return confirmlink(this, 'Datensatz wirklich löschen?')\" alt='löschen'>"
             );
         }
     }

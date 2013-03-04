@@ -301,7 +301,7 @@ echo "<input type='hidden' value='$forw' name='val_forw'>";
 if ($user_adminsitten == SITTEN_BOTH || $user_status == 'admin') {
     echo "&nbsp;&nbsp;";
     echo "<a href='index.php?action=sitterauftrag&amp;sitterid=" . urlencode($sitterlogins[$akt]) .
-        "' target=_new><img src='./bilder/file_new_s.gif' alt='Sitterauftrag erstellen' title='Sitterauftrag erstellen'></a>";
+        "' target=_new><img src='".BILDER_PATH."file_new_s.gif' alt='Sitterauftrag erstellen' title='Sitterauftrag erstellen'></a>";
 }
 
 // offene Aufträge des aktuellen Accounts

@@ -314,15 +314,15 @@ while ($row = $db->db_fetch_array($result)) {
     // Scan failures
     if (hasFailScan($row) && hasOwner($row)) {
         if (!empty($row['terminus'])) {
-            $info['terminus'] = '<span style="font-weight : 700; color : #ff0000" title="Fehlscan mit ' . $row['terminus'] . ' Terminus Sonde">&gt;' . $row['terminus'] . '</span>';
+            $info['terminus'] = '<span style="font-weight:700; color:#ff0000" title="Fehlscan mit ' . $row['terminus'] . ' Terminus Sonde">&gt;' . $row['terminus'] . '</span>';
         } elseif (!empty($row['x13'])) {
-            $info['x13'] = '<span style="font-weight : 700; color : #ff0000" title="Fehlscan mit ' . $row['x13'] . ' X13 Sonde">&gt;' . $row['x13'] . '</span>';
+            $info['x13'] = '<span style="font-weight:700; color:#ff0000" title="Fehlscan mit ' . $row['x13'] . ' X13 Sonde">&gt;' . $row['x13'] . '</span>';
         }
     } elseif (hasShipScan($row) && hasOwner($row)) {
         $terminus         = ceil(($info['sd01'] / 1.2 + $info['sd02'] * 2.5 / 1.2 + 10));
         $x13              = ceil(($info['sd01'] / 2 + $info['sd02'] * 2.5 / 2 + 8));
-        $info['terminus'] = '<span style="font-weight : 700; color : #00ff00" title="min. ' . $terminus . ' Terminus Sonde">' . $terminus . '</span>';
-        $info['x13']      = '<span style="font-weight : 700; color : #00ff00" title="min. ' . $x13 . ' X13 Sonde">' . $x13 . '</span>';
+        $info['terminus'] = '<span style="font-weight:700; color:#00ff00" title="min. ' . $terminus . ' Terminus Sonde">' . $terminus . '</span>';
+        $info['x13']      = '<span style="font-weight:700; color:#00ff00" title="min. ' . $x13 . ' X13 Sonde">' . $x13 . '</span>';
     }
     $info['grav']     = isset($objects['SDI Gravitonbeam']) ? $objects['SDI Gravitonbeam'] : 0;
     $info['plasma']   = isset($objects['SDI Plasmalaser']) ? $objects['SDI Plasmalaser'] : 0;
@@ -645,39 +645,39 @@ switch ($params['mode']) {
         </tr>
         <tr height="90px">
         <td colspan="5" valign="top" width="100%" nowrap>
-        <div style="float : left">
-            <div style="margin-right: 10px">
+        <div style="float:left">
+            <div style="margin-right:10px">
                 <img src="bilder/eisen.png" title="Eisen"/>
                 <?php echo formatAmount($planet['eisen']) ?>
             </div>
-            <div style="margin-right: 10px">
+            <div style="margin-right:10px">
                 <img src="bilder/stahl.png" title="Stahl"/>
                 <?php echo formatAmount($planet['stahl']) ?>
             </div>
-            <div style="margin-right: 10px">
+            <div style="margin-right:10px">
                 <img src="bilder/vv4a.png" title="VV4A"/>
                 <?php echo formatAmount($planet['vv4a']) ?>
             </div>
-            <div style="margin-right: 10px">
+            <div style="margin-right:10px">
                 <img src="bilder/chemie.png" title="chem. Elemente"/>
                 <?php echo formatAmount($planet['chem']) ?>
             </div>
-            <div style="margin-right: 10px">
+            <div style="margin-right:10px">
                 <img src="bilder/eis.png" title="Eis"/>
                 <?php echo formatAmount($planet['eis']) ?>
             </div>
-            <div style="margin-right: 10px">
+            <div style="margin-right:10px">
                 <img src="bilder/wasser.png" title="Wasser"/>
                 <?php echo formatAmount($planet['wasser']) ?>
             </div>
-            <div style="margin-right: 10px">
+            <div style="margin-right:10px">
                 <img src="bilder/energie.png" title="Energie"/>
                 <?php echo formatAmount($planet['energie']) ?>
             </div>
         </div>
         <?php    if (!isset($planet['stock'])) {
             foreach ($data['cat'] as $category) { ?>
-                <div style="float : left">
+                <div style="float:left">
                     <?php        foreach ($category as $key) {
                         if (!empty($planet[$key])) { ?>
                             <div>
@@ -690,10 +690,10 @@ switch ($params['mode']) {
                         <?php }
                     } ?>
                 </div>
-                <div style="float : left">
+                <div style="float:left">
                     <?php        foreach ($category as $key) {
                         if (!empty($planet[$key])) { ?>
-                            <div style="margin-left: 2px; margin-right: 10px">
+                            <div style="margin-left:2px; margin-right:10px">
                                 <?php echo $planet[$key] ?>
                             </div>
                         <?php }
@@ -701,19 +701,19 @@ switch ($params['mode']) {
                 </div>
             <?php }
         } ?>
-        <div style="float : left; width: 170px">
-            <div style="height : 25px;">
-                <div style="float : left; width : 50px; line-height : 25px; vertical-align: middle">
+        <div style="float:left; width:170px">
+            <div style="height:25px;">
+                <div style="float:left; width:50px; line-height:25px; vertical-align:middle">
                     Eisen
                 </div>
-                <div style="height : 100%; line-height : 25px; vertical-align: middle">
+                <div style="height:100%; line-height:25px; vertical-align:middle">
                     <a href=\"javascript:transCalcSetRess('transCalcEisen','<?php echo abs($planet['eisen']) ?>')\">--&gt;</a>
                     <input id="transCalcEisen" type="text" name="eisen" size="6" onkeyup="transCalcUpdate()">
                     <a href="javascript:transCalcResetRess('transCalcEisen')">-x-</a>
                 </div>
             </div>
-            <div style="height : 25px;">
-                <div style="float : left; width : 50px; line-height : 25px; vertical-align: middle">
+            <div style="height:25px;">
+                <div style="float:left; width:50px; line-height:25px; vertical-align:middle">
                     Stahl
                 </div>
                 <div>
@@ -722,8 +722,8 @@ switch ($params['mode']) {
                     <a href="javascript:transCalcResetRess('transCalcStahl')">-x-</a>
                 </div>
             </div>
-            <div style="height : 25px">
-                <div style="float : left; width : 50px; line-height : 25px; vertical-align: middle">
+            <div style="height:25px">
+                <div style="float:left; width:50px; line-height:25px; vertical-align:middle">
                     Chemie
                 </div>
                 <div>
@@ -732,8 +732,8 @@ switch ($params['mode']) {
                     <a href="javascript:transCalcResetRess('transCalcChemie')">-x-</a>
                 </div>
             </div>
-            <div style="height : 25px">
-                <div style="float : left; width : 50px; line-height : 25px; vertical-align: middle">
+            <div style="height:25px">
+                <div style="float:left; width:50px; line-height:25px; vertical-align:middle">
                     VV4A
                 </div>
                 <div>
@@ -743,19 +743,19 @@ switch ($params['mode']) {
                 </div>
             </div>
         </div>
-        <div style="float : left; width: 170px">
-            <div style="height : 25px;">
-                <div style="float : left; width : 50px; line-height : 25px; vertical-align: middle">
+        <div style="float:left; width:170px">
+            <div style="height:25px;">
+                <div style="float:left; width:50px; line-height:25px; vertical-align:middle">
                     Eis
                 </div>
-                <div style="height : 100%; line-height : 25px; vertical-align: middle">
+                <div style="height:100%; line-height:25px; vertical-align:middle">
                     <a href=\"javascript:transCalcSetRess('transCalcEis','<?php echo abs($planet['eis']) ?>')\">--&gt;</a>
                     <input id="transCalcEis" type="text" name="eis" size="6" onkeyup="transCalcUpdate()">
                     <a href="javascript:transCalcResetRess('transCalcEis')">-x-</a>
                 </div>
             </div>
-            <div style="height : 25px;">
-                <div style="float : left; width : 50px; line-height : 25px; vertical-align: middle">
+            <div style="height:25px;">
+                <div style="float:left; width:50px; line-height:25px; vertical-align:middle">
                     Wasser
                 </div>
                 <div>
@@ -764,8 +764,8 @@ switch ($params['mode']) {
                     <a href="javascript:transCalcResetRess('transCalcWasser')">-x-</a>
                 </div>
             </div>
-            <div style="height : 25px">
-                <div style="float : left; width : 50px; line-height : 25px; vertical-align: middle">
+            <div style="height:25px">
+                <div style="float:left; width:50px; line-height:25px; vertical-align:middle">
                     Energie
                 </div>
                 <div>
@@ -775,33 +775,33 @@ switch ($params['mode']) {
                 </div>
             </div>
         </div>
-        <div style="float : left; width: 120px">
-            <div style="height : 25px;">
-                <div style="float : left; width : 60px; line-height : 25px; vertical-align: middle">
+        <div style="float:left; width:120px">
+            <div style="height:25px;">
+                <div style="float:left; width:60px; line-height:25px; vertical-align:middle">
                     <a href="javascript:void(0)">Flughund</a>
                 </div>
-                <div style="height : 100%; line-height : 25px; vertical-align: middle">
+                <div style="height:100%; line-height:25px; vertical-align:middle">
                     <input id="transCalcFlughund" type="text" name="flughund" size="4">
                 </div>
             </div>
-            <div style="height : 25px">
-                <div style="float : left; width : 60px; line-height : 25px; vertical-align: middle">
+            <div style="height:25px">
+                <div style="float:left; width:60px; line-height:25px; vertical-align:middle">
                     <a href="javascript:void(0)">Kamel</a>
                 </div>
                 <div>
                     <input id="transCalcKamel" type="text" name="kamel" size="4">
                 </div>
             </div>
-            <div style="height : 25px;">
-                <div style="float : left; width : 60px; line-height : 25px; vertical-align: middle">
+            <div style="height:25px;">
+                <div style="float:left; width:60px; line-height:25px; vertical-align:middle">
                     <a href="javascript:void(0)">Gorgol</a>
                 </div>
                 <div>
                     <input id="transCalcGorgol" type="text" name="gorgol" size="4">
                 </div>
             </div>
-            <div style="height : 25px;">
-                <div style="float : left; width : 60px; line-height : 25px; vertical-align: middle">
+            <div style="height:25px;">
+                <div style="float:left; width:60px; line-height:25px; vertical-align:middle">
                     <a href="javascript:void(0)">Systrans</a>
                 </div>
                 <div>
@@ -809,33 +809,33 @@ switch ($params['mode']) {
                 </div>
             </div>
         </div>
-        <div style="float : left; width: 160px">
-            <div style="height : 25px;">
-                <div style="float : left; width : 90px; line-height : 25px; vertical-align: middle">
+        <div style="float:left; width:160px">
+            <div style="height:25px;">
+                <div style="float:left; width:90px; line-height:25px; vertical-align:middle">
                     <a href="javascript:void(0)">Seepferdchen</a>
                 </div>
-                <div style="height : 100%; line-height : 25px; vertical-align: middle">
+                <div style="height:100%; line-height:25px; vertical-align:middle">
                     <input id="transCalcSeepferdchen" type="text" name="flughund" size="4">
                 </div>
             </div>
-            <div style="height : 25px">
-                <div style="float : left; width : 90px; line-height : 25px; vertical-align: middle">
+            <div style="height:25px">
+                <div style="float:left; width:90px; line-height:25px; vertical-align:middle">
                     <a href="javascript:void(0)">Waschb&auml;r</a>
                 </div>
                 <div>
                     <input id="transCalcWaschbaer" type="text" name="kamel" size="4">
                 </div>
             </div>
-            <div style="height : 25px;">
-                <div style="float : left; width : 90px; line-height : 25px; vertical-align: middle">
+            <div style="height:25px;">
+                <div style="float:left; width:90px; line-height:25px; vertical-align:middle">
                     <a href="javascript:void(0)">Eisb&auml;r</a>
                 </div>
                 <div>
                     <input id="transCalcEisbaer" type="text" name="eisbaer" size="4">
                 </div>
             </div>
-            <div style="height : 25px;">
-                <div style="float : left; width : 90px; line-height : 25px; vertical-align: middle">
+            <div style="height:25px;">
+                <div style="float:left; width:90px; line-height:25px; vertical-align:middle">
                     <a href="javascript:void(0)">Lurch</a>
                 </div>
                 <div>
@@ -843,18 +843,18 @@ switch ($params['mode']) {
                 </div>
             </div>
         </div>
-        <div style="float : left">
+        <div style="float:left">
             <div>
                 <a href="<?php echo $data['url']['main'] ?>" target="main">Flotte versenden</a>
             </div>
             <div>
                 <a href="<?php echo $data['url']['uniview'] ?>" target="_top">Universum</a>
             </div>
-            <div style="margin-bottom: 12px">
+            <div style="margin-bottom:12px">
                 <a href="<?php echo $planet['simulator'] ?>" target="main">Simulator</a>
             </div>
             <?php    if (isset($data['target_prev_gal'])) { ?>
-                <div style="margin-bottom: 5px">
+                <div style="margin-bottom:5px">
                     <input type="submit" name="prev" value="&lt;&lt; Zur&uuml;ck"/>
                 </div>
             <?php }     if (isset($data['target_next_gal'])) { ?>
@@ -1003,7 +1003,7 @@ switch ($params['mode']) {
                             <td nowrap>
                             </td>
                             <td nowrap class="middle">
-                                <span style="color : #ff0000;" title="Fehlgeschlagene Sondierung"><?php echo formatDuration($planet['fehlscantime']) ?></span>
+                                <span style="color:#ff0000;" title="Fehlgeschlagene Sondierung"><?php echo formatDuration($planet['fehlscantime']) ?></span>
                             </td>
                         <?php }     if (hasShipScan($planet)) { ?>
                             <td nowrap>
@@ -1240,11 +1240,11 @@ function formatTyp($value)
 function formatRating($value)
 {
     if ($value < 100) {
-        $result = '<span style="color : #ff0000">';
+        $result = '<span style="color:#ff0000">';
     } elseif ($value >= 100 && $value < 999) {
-        $result = '<span style="color : #ffff00">';
+        $result = '<span style="color:#ffff00">';
     } else {
-        $result = '<span style="color : #00ff00">';
+        $result = '<span style="color:#00ff00">';
     }
     $result .= number_format($value, 0, ',', '.') . '%';
     $result .= '</span>';
@@ -1277,7 +1277,7 @@ function formatYield($yield)
 // Menge formatieren
 function formatAmount($amount)
 {
-    $pre  = $amount < 0 ? '<span style="color : red">' : '';
+    $pre  = $amount < 0 ? '<span style="color:red">' : '';
     $post = $amount < 0 ? '</span>' : '';
     if (abs($amount) > 1000) {
         return $pre . number_format(round($amount / 1000), 0, ",", '.') . "k" . $post;
@@ -1298,7 +1298,7 @@ function formatDuration($time, $minYellow = 0)
     $hours    = round($duration / HOUR);
     $minutes  = round($duration / MINUTE);
     if (!empty($minYellow)) {
-        $pre  = '<span style="color : ' . ($minutes >= $minRed ? '#ffff00' : '#00ff00') . '">';
+        $pre  = '<span style="color:' . ($minutes >= $minRed ? '#ffff00' : '#00ff00') . '">';
         $post = '</span>';
     } else {
         $pre  = '';

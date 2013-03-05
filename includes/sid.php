@@ -52,6 +52,10 @@ $user_id  = false;
 $login_ok = false;
 $sid      = false;
 
+$debug    = true;
+$debugmessage = 'User-IP: ' . $user_ip . '<br>';
+$debugmessage .= 'Cookiedaten: '.print_r($_COOKIE, true) . '<br>';
+
 if (isset($_COOKIE[$config_cookie_name])) {
     $sid = $db->escape($_COOKIE[$config_cookie_name]);
 
@@ -81,8 +85,14 @@ if (!empty($action) AND (($action == "memberlogin2"))) {
 
         if (getVar('login_cookie')) {
             $result = setcookie($config_cookie_name, $sid, (CURRENT_UNIX_TIME + $config_cookie_timeout), null, null, false, true);
+            if (!$result) {
+                exit('Setzen des permanenten Cookies fehlgeschlagen!');
+            }
         } else {
             $result = setcookie($config_cookie_name, $sid, 0, null, null, false, true);
+            if (!$result) {
+                exit('Setzen des temporären Cookies fehlgeschlagen!');
+            }
         }
 
     } else {
@@ -127,10 +137,10 @@ if ($user_id === false) {
     $login_ok = true;
 }
 
-//Cookie leeren wenn Logout oder falsche Anmeldedaten
+//Cookie löschen wenn Logout oder falsche Anmeldedaten
 if ((!empty($action) AND ($action === "memberlogout2")) OR ($login_ok === false)) {
     if (isset($_COOKIE[$config_cookie_name])) {
-        setcookie($config_cookie_name, '', 1);
+        setcookie($config_cookie_name, '', 1, null, null, false, true);
     }
 }
 
@@ -182,10 +192,16 @@ if ($login_ok) {
     $user_allianz         = "";
 }
 
+if (($debug) AND ($action != 'memberlogout2')) {
+    echo $debugmessage;
+}
+unset($debug);
+unset($debugmessage);
+
 //sid mit dieser ip gültig?
 function useSID($sid, $ip_hash)
 {
-    global $db, $db_tb_sid;
+    global $db, $db_tb_sid, $debugmessage;
 
     $sql = "SELECT `id` FROM `{$db_tb_sid}` WHERE `ip`='" . $ip_hash . "' AND `sid`='" . $sid . "'";
     $result = $db->db_query($sql)
@@ -193,12 +209,30 @@ function useSID($sid, $ip_hash)
     $row_sid = $db->db_fetch_array($result);
 
     if (!empty($row_sid['id'])) {
-        //Zeit der letzten DB Nutzung aktualisieren
+        //Cookiedaten sind gültig -> Zeit der letzten DB Nutzung aktualisieren
         $db->db_update($db_tb_sid, array('date' => CURRENT_UNIX_TIME), "WHERE `id`='".$row_sid['id']."'")
             or error(GENERAL_ERROR, 'Could not update sid!', '', __FILE__, __LINE__);
 
         return $row_sid['id'];
     } else {
+        //Cookiedaten ungültig
+
+        $sql = "SELECT `id`, `ip` FROM `{$db_tb_sid}` WHERE `sid`='" . $sid . "'";
+        $result = $db->db_query($sql)
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $row_sid = $db->db_fetch_array($result);
+        if (!empty($row_sid['id'])) {
+            $debugmessage .= 'sid vorhanden aber mit anderer ip: '.$row_sid['ip'].' <-> '.$ip_hash.'<br>';
+        } else {
+            $sql = "SELECT `sid` FROM `{$db_tb_sid}` WHERE `ip`='" . $ip_hash . "'";
+            $result = $db->db_query($sql)
+                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $row_sid = $db->db_fetch_array($result);
+            if (!empty($row_sid['sid'])) {
+                $debugmessage .= 'Eintrag mit der ip vorhanden aber mit anderer sessionid? '.$row_sid['sid'].' <-> '.$sid.'<br>';
+            }
+        }
+
         return false;
     }
 }

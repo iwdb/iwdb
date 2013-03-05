@@ -348,6 +348,7 @@ if (!empty($edit['planet']) AND empty($edit['coords_gal']) AND empty($edit['coor
 }
 
 // Felder belegen
+$fields = array();
 foreach ($edit as $key => $value) {
     if (strncmp($key, "schiff_", 7) != 0) {
         $fields[$key] = $value;
@@ -393,12 +394,13 @@ if (($button_add OR $button_edit) && $doppelbelegung != "true") {
         if (!empty($menge)) {
 
             $sqldata = array(
-                'bestellung_id' => $params['edit'],
-                'schiffstyp_id' => $schiffstyp['id'],
-                'menge'         => $menge
+                'bestellung_id' => (int)$params['edit'],
+                'schiffstyp_id' => (int)$schiffstyp['id'],
+                'menge'         => (int)$menge,
+                'offen'         => (int)$menge
             );
-            $db->db_insert($db_tb_bestellung_schiffe_pos, $sqldata);
-            $result = $db->db_query($sql)
+
+            $db->db_insert($db_tb_bestellung_schiffe_pos, $sqldata)
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
 
         }
@@ -407,7 +409,8 @@ if (($button_add OR $button_edit) && $doppelbelegung != "true") {
 
 // Edit-Daten abfragen
 if (!$button_edit AND !$button_add AND is_numeric($params['edit'])) {
-    debug_var('sql', $sql = "SELECT * FROM " . $db_tb_bestellung_schiffe . " WHERE id=" . $params['edit']);
+    $sql = "SELECT * FROM " . $db_tb_bestellung_schiffe . " WHERE id=" . $params['edit'];
+    debug_var('sql', $sql);
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     if ($row = $db->db_fetch_array($result)) {
@@ -415,7 +418,8 @@ if (!$button_edit AND !$button_add AND is_numeric($params['edit'])) {
             $edit[$name] = $value;
         }
     }
-    debug_var('sql', $sql = "SELECT * FROM " . $db_tb_bestellung_schiffe_pos . " WHERE bestellung_id=" . $params['edit']);
+    $sql = "SELECT * FROM " . $db_tb_bestellung_schiffe_pos . " WHERE bestellung_id=" . $params['edit'];
+    debug_var('sql', $sql);
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     while ($row = $db->db_fetch_array($result)) {

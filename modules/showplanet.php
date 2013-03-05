@@ -143,7 +143,7 @@ if ($user_planibilder == "1") {
             break;
     }
     if ($row['objekt'] == "Schwarzes Loch") {
-        $path = 'bilder/planeten/200x200/schwarzesloch.jpg';
+        $path = BILDER_PATH.'planeten/200x200/schwarzesloch.jpg';
     }
     ?>
     <tr>

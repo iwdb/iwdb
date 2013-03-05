@@ -49,7 +49,7 @@ echo "letzter Login";
 next_cell("windowbg2", "style='width:60%;'");
 end_row();
 
-$sql = "SELECT sitterlogin, logindate, password FROM " . $db_tb_user . " ORDER BY logindate, sitterlogin";
+$sql = "SELECT id, logindate, password FROM " . $db_tb_user . " ORDER BY logindate, id";
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
@@ -63,13 +63,13 @@ while ($row = $db->db_fetch_array($result)) {
         : floor((CURRENT_UNIX_TIME - $logindate) / DAY) . " Tage her";
 
     start_row("windowbg1");
-    echo "<a href='index.php?action=profile&sitterlogin=" .
-        urlencode($row['sitterlogin']) . "'>" . $row['sitterlogin'] . "</a>";
+    echo "<a href='index.php?action=profile&id=" . urlencode($row['id']) . "'>" . $row['id'] . "</a>";
     next_cell("windowbg1");
     echo $lastlogindate;
     next_cell("windowbg1");
     echo $lastloggedon . $nopassword;
     end_row();
 }
-
 end_table();
+unset($row);
+$db->db_free_result($result);

@@ -531,6 +531,7 @@ if (!empty($params['basen'])) {
     $sql .= " WHERE $db_tb_lager.kolo_typ='Kolonie'";
 }
 $sql .= " AND " . sqlPlayerSelection($params['playerSelection']);
+$sql .= " AND $db_tb_user.sitten = '1'";
 
 //Minimale und maximale Ressourcenbestände
 if (isset($params['ress']) && !empty($params['minimal'])) {

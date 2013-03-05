@@ -52,9 +52,9 @@ $user_id  = false;
 $login_ok = false;
 $sid      = false;
 
-$debug    = true;
+$debug        = true;
 $debugmessage = 'User-IP: ' . $user_ip . '<br>';
-$debugmessage .= 'Cookiedaten: '.print_r($_COOKIE, true) . '<br>';
+$debugmessage .= 'Cookiedaten: ' . print_r($_COOKIE, true) . '<br>';
 
 if (isset($_COOKIE[$config_cookie_name])) {
     $sid = $db->escape($_COOKIE[$config_cookie_name]);
@@ -201,7 +201,7 @@ unset($debugmessage);
 //sid mit dieser ip gültig?
 function useSID($sid, $ip_hash)
 {
-    global $db, $db_tb_sid, $debugmessage;
+    global $db, $db_tb_sid, $debug, $debugmessage;
 
     $sql = "SELECT `id` FROM `{$db_tb_sid}` WHERE `ip`='" . $ip_hash . "' AND `sid`='" . $sid . "'";
     $result = $db->db_query($sql)
@@ -210,26 +210,28 @@ function useSID($sid, $ip_hash)
 
     if (!empty($row_sid['id'])) {
         //Cookiedaten sind gültig -> Zeit der letzten DB Nutzung aktualisieren
-        $db->db_update($db_tb_sid, array('date' => CURRENT_UNIX_TIME), "WHERE `id`='".$row_sid['id']."'")
+        $db->db_update($db_tb_sid, array('date' => CURRENT_UNIX_TIME), "WHERE `id`='" . $row_sid['id'] . "'")
             or error(GENERAL_ERROR, 'Could not update sid!', '', __FILE__, __LINE__);
 
         return $row_sid['id'];
     } else {
         //Cookiedaten ungültig
 
-        $sql = "SELECT `id`, `ip` FROM `{$db_tb_sid}` WHERE `sid`='" . $sid . "'";
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-        $row_sid = $db->db_fetch_array($result);
-        if (!empty($row_sid['id'])) {
-            $debugmessage .= 'sid vorhanden aber mit anderer ip: '.$row_sid['ip'].' <-> '.$ip_hash.'<br>';
-        } else {
-            $sql = "SELECT `sid` FROM `{$db_tb_sid}` WHERE `ip`='" . $ip_hash . "'";
+        if ($debug) {
+            $sql = "SELECT `id`, `ip` FROM `{$db_tb_sid}` WHERE `sid`='" . $sid . "'";
             $result = $db->db_query($sql)
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
             $row_sid = $db->db_fetch_array($result);
-            if (!empty($row_sid['sid'])) {
-                $debugmessage .= 'Eintrag mit der ip vorhanden aber mit anderer sessionid? '.$row_sid['sid'].' <-> '.$sid.'<br>';
+            if (!empty($row_sid['id'])) {
+                $debugmessage .= 'sid vorhanden aber mit anderer ip: ' . $row_sid['ip'] . ' <-> ' . $ip_hash . '<br>';
+            } else {
+                $sql = "SELECT `sid` FROM `{$db_tb_sid}` WHERE `ip`='" . $ip_hash . "'";
+                $result = $db->db_query($sql)
+                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                $row_sid = $db->db_fetch_array($result);
+                if (!empty($row_sid['sid'])) {
+                    $debugmessage .= 'Eintrag mit der ip vorhanden aber mit anderer sessionid? ' . $row_sid['sid'] . ' <-> ' . $sid . '<br>';
+                }
             }
         }
 

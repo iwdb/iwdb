@@ -1214,7 +1214,7 @@ CREATE TABLE IF NOT EXISTS `prefix_user` (
   `gengebmod` float NOT NULL DEFAULT '1',
   `genbauschleife` char(1) NOT NULL DEFAULT '',
   `genmaurer` char(1) NOT NULL DEFAULT '',
-  `budflesol` varchar(10) NOT NULL DEFAULT '',
+  `budflesol` varchar(50) NOT NULL DEFAULT '',
   `buddlerfrom` varchar(30) NOT NULL DEFAULT '',
   `rang` varchar(20) NOT NULL DEFAULT '',
   `gebp` int(12) NOT NULL DEFAULT '0',

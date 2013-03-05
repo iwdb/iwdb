@@ -264,3 +264,6 @@ UPDATE `prefix_params` SET `name` = 'sound_standard' WHERE `name` = 'sound_stand
 ALTER TABLE  `prefix_spieler` ADD  `acctype` VARCHAR( 50 ) NULL DEFAULT NULL AFTER  `staatsform`;
 
 ALTER TABLE `prefix_gebaeude` CHANGE  `typ`  `typ` VARCHAR( 10 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '';
+
+-- masel: 06.03.2013
+ALTER TABLE  `prefix_user` CHANGE  `budflesol`  `budflesol` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  '';

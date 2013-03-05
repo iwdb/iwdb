@@ -52,7 +52,7 @@ $user_id  = false;
 $login_ok = false;
 $sid      = false;
 
-$debug        = true;
+$debug        = false;
 $debugmessage = 'User-IP: ' . $user_ip . '<br>';
 $debugmessage .= 'Cookiedaten: ' . print_r($_COOKIE, true) . '<br>';
 

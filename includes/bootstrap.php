@@ -43,7 +43,7 @@ $DAYS = DAY;
 // some other constants
 // ToDo: clean them up
 define('DEBUG', true);
-define('LOG_DB_QUERIES', false);
+define('IWDB_LOG_DB_QUERIES', false);
 define('IRA', true);
 define('NEBULA', true);
 define('ALLY_MEMBERS_ON_MAP', true);

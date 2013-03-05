@@ -85,7 +85,7 @@ class db
             $this->query_count++;
 
             //log queries if logging enabled
-            if (defined('DB_LOG') AND (DB_LOG === true)) {
+            if (defined('IWDB_LOG_DB_QUERIES') AND (IWDB_LOG_DB_QUERIES === true)) {
                 $this->db_queries[] = $query;
             }
 

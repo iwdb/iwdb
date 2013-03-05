@@ -707,7 +707,7 @@ switch ($params['mode']) {
                     Eisen
                 </div>
                 <div style="height:100%; line-height:25px; vertical-align:middle">
-                    <a href=\"javascript:transCalcSetRess('transCalcEisen','<?php echo abs($planet['eisen']) ?>')\">--&gt;</a>
+                    <a href="javascript:transCalcSetRess('transCalcEisen','<?php echo abs($planet['eisen']) ?>')">--&gt;</a>
                     <input id="transCalcEisen" type="text" name="eisen" size="6" onkeyup="transCalcUpdate()">
                     <a href="javascript:transCalcResetRess('transCalcEisen')">-x-</a>
                 </div>
@@ -717,7 +717,7 @@ switch ($params['mode']) {
                     Stahl
                 </div>
                 <div>
-                    <a href=\"javascript:transCalcSetRess('transCalcStahl','<?php echo abs($planet['stahl']) ?>')\">--&gt;</a>
+                    <a href="javascript:transCalcSetRess('transCalcStahl','<?php echo abs($planet['stahl']) ?>')">--&gt;</a>
                     <input id="transCalcStahl" type="text" name="stahl" size="6" onkeyup="transCalcUpdate()">
                     <a href="javascript:transCalcResetRess('transCalcStahl')">-x-</a>
                 </div>
@@ -727,7 +727,7 @@ switch ($params['mode']) {
                     Chemie
                 </div>
                 <div>
-                    <a href=\"javascript:transCalcSetRess('transCalcChemie','<?php echo abs($planet['chem']) ?>')\">--&gt;</a>
+                    <a href="javascript:transCalcSetRess('transCalcChemie','<?php echo abs($planet['chem']) ?>')">--&gt;</a>
                     <input id="transCalcChemie" type="text" name="chemie" size="6" onkeyup="transCalcUpdate()">
                     <a href="javascript:transCalcResetRess('transCalcChemie')">-x-</a>
                 </div>
@@ -737,7 +737,7 @@ switch ($params['mode']) {
                     VV4A
                 </div>
                 <div>
-                    <a href=\"javascript:transCalcSetRess('transCalcVV4A','<?php echo abs($planet['vv4a']) ?>')\">--&gt;</a>
+                    <a href="javascript:transCalcSetRess('transCalcVV4A','<?php echo abs($planet['vv4a']) ?>')">--&gt;</a>
                     <input id="transCalcVV4A" type="text" name="vv4a" size="6" onkeyup="transCalcUpdate()">
                     <a href="javascript:transCalcResetRess('transCalcVV4A')">-x-</a>
                 </div>
@@ -749,7 +749,7 @@ switch ($params['mode']) {
                     Eis
                 </div>
                 <div style="height:100%; line-height:25px; vertical-align:middle">
-                    <a href=\"javascript:transCalcSetRess('transCalcEis','<?php echo abs($planet['eis']) ?>')\">--&gt;</a>
+                    <a href="javascript:transCalcSetRess('transCalcEis','<?php echo abs($planet['eis']) ?>')">--&gt;</a>
                     <input id="transCalcEis" type="text" name="eis" size="6" onkeyup="transCalcUpdate()">
                     <a href="javascript:transCalcResetRess('transCalcEis')">-x-</a>
                 </div>
@@ -759,7 +759,7 @@ switch ($params['mode']) {
                     Wasser
                 </div>
                 <div>
-                    <a href=\"javascript:transCalcSetRess('transCalcWasser','<?php echo abs($planet['wasser']) ?>')\">--&gt;</a>
+                    <a href="javascript:transCalcSetRess('transCalcWasser','<?php echo abs($planet['wasser']) ?>')">--&gt;</a>
                     <input id="transCalcWasser" type="text" name="wasser" size="6" onkeyup="transCalcUpdate()">
                     <a href="javascript:transCalcResetRess('transCalcWasser')">-x-</a>
                 </div>
@@ -769,7 +769,7 @@ switch ($params['mode']) {
                     Energie
                 </div>
                 <div>
-                    <a href=\"javascript:transCalcSetRess('transCalcEnergie','<?php echo abs($planet['energie']) ?>')\">--&gt;</a>
+                    <a href="javascript:transCalcSetRess('transCalcEnergie','<?php echo abs($planet['energie']) ?>')">--&gt;</a>
                     <input id="transCalcEnergie" type="text" name="energie" size="6" onkeyup="transCalcUpdate()">
                     <a href="javascript:transCalcResetRess('transCalcEnergie')">-x-</a>
                 </div>

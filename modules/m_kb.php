@@ -1417,10 +1417,10 @@ function insert_iw_kaputt()
         $kb_array['VANZE'] = (is_numeric($kb_array['VANZE']) ? $kb_array['VANZE'] : 0);
         if ($kb_array['VANZS'] > 0) {
             $sSQL = "INSERT INTO `" . $db_tb_kb_kaputt . "` VALUES ($a_id, $k_id, '" . $kb_array['VTYP'] . "' ";
-            $sSQL .= ", '" . $kb_array['VALLY'] . "' ";
-            $sSQL .= ", '" . $kb_array['VNAME'] . "' ";
+            $sSQL .= ", '" . htmlspecialchars($kb_array['VALLY'], ENT_QUOTES, 'UTF-8') . "' ";
+            $sSQL .= ", '" . htmlspecialchars($kb_array['VNAME'], ENT_QUOTES, 'UTF-8') . "' ";
             $sSQL .= ", '" . $kb_array['VART'] . "' ";
-            $sSQL .= ", '" . $kb_array['VBEZ'] . "' ";
+            $sSQL .= ", '" . htmlspecialchars($kb_array['VBEZ'], ENT_QUOTES, 'UTF-8') . "' ";
             $sSQL .= ", " . $kb_array['VANZS'];
             $sSQL .= ", " . $kb_array['VANZE'];
             $sSQL .= ", " . $kb_array['VKLASSE'];

@@ -1265,3 +1265,7 @@ UPDATE `prefix_schiffstyp` SET `typ` = 'admin' WHERE `prefix_schiffstyp`.`id` =3
 
 -- masel 06.03.2013
 UPDATE  `prefix_gebaeude` SET  `dauer` =  '43200' WHERE  `prefix_gebaeude`.`id` =5;
+
+-- masel 06.03.2013 encode &
+UPDATE `prefix_gebaeude` SET `name` = REPLACE( `name`,  ' & ',  ' &amp; ' );
+UPDATE `prefix_gebaeude` SET `category` = REPLACE( `category` ,  ' & ',  ' &amp; ' );

@@ -1262,3 +1262,6 @@ UPDATE `prefix_schiffstyp` SET `typ` = 'alte Schiffe' WHERE `prefix_schiffstyp`.
 UPDATE `prefix_schiffstyp` SET `typ` = 'alte Schiffe' WHERE `prefix_schiffstyp`.`id` =169;
 UPDATE `prefix_schiffstyp` SET `typ` = 'alte Schiffe' WHERE `prefix_schiffstyp`.`id` =161;
 UPDATE `prefix_schiffstyp` SET `typ` = 'admin' WHERE `prefix_schiffstyp`.`id` =309;
+
+-- masel 06.03.2013
+UPDATE  `usrdb_deathwbz_iwdb`.`prefix_gebaeude` SET  `dauer` =  '43200' WHERE  `prefix_gebaeude`.`id` =5;

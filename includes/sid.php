@@ -53,7 +53,7 @@ $login_ok = false;
 $sid      = false;
 
 $debug = false;
-$debugmessage = 'User-IP: ' . $user_ip . '<br>';
+$debugmessage = 'User-IP: ' . $user_ip . ' ';
 $debugmessage .= 'Cookiedaten: ' . print_r($_COOKIE, true) . '<br>';
 
 if (isset($_COOKIE[$config_cookie_name])) {
@@ -196,8 +196,10 @@ if ($login_ok) {
     $user_allianz         = "";
 }
 
-if (($debug) AND ($action != 'memberlogout2')) {
-    echo $debugmessage;
+if (($debug) AND $action !== 'memberlogout2') {
+    if (strpos($_SERVER['SCRIPT_NAME'], 'index.php')) {
+        echo "<span style='color:#DDDDDD;'>".$debugmessage."</span";
+    }
 }
 unset($debug);
 unset($debugmessage);

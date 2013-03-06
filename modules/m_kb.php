@@ -417,12 +417,12 @@ while ($rowW = $db->db_fetch_array($select)) {
 }
 $db->db_free_result($select);
 echo "</select></td></tr>";
-echo "<td><input type='submit' Name='A_War' VALUE='Auswahl'>&nbsp;";
+echo "<td><input type='submit' Name='A_War' value='Auswahl'>&nbsp;";
 if ($user_status == "admin") {
-    echo "    <input type='submit' Name='Edit_War' VALUE='Ändern'>&nbsp;";
-    echo "    <input type='submit' Name='New_War' VALUE='Neuanlage'>&nbsp;";
-    echo "    <input type='submit' Name='Delete_War' VALUE='Löschen'>&nbsp;";
-    echo "    <input type='submit' Name='Recalculate_War' VALUE='Neuberechnung'></td>";
+    echo "    <input type='submit' Name='Edit_War' value='Ändern'>&nbsp;";
+    echo "    <input type='submit' Name='New_War' value='Neuanlage'>&nbsp;";
+    echo "    <input type='submit' Name='Delete_War' value='Löschen'>&nbsp;";
+    echo "    <input type='submit' Name='Recalculate_War' value='Neuberechnung'></td>";
 }
 echo "</tr>";
 echo "</table>";
@@ -485,8 +485,8 @@ if ($Delete_War && $a_id > 0) {
     echo "<b>Ehrlich echt den kompletten Krieg incl. aller KB löschen???<b><br>";
     echo "<input type='hidden' name='action' value='m_kb'>";
     echo "<table cellspacing='1' cellpadding='2' border='0'>";
-    echo "<tr><td colspan=2><input type='submit' tabindex='1' Name='DN_War' VALUE='NEIN'></td>";
-    echo "    <td colspan=2><input type='submit' tabindex='2' Name='DJ_War' VALUE='ja ganz sicher'></td></tr>";
+    echo "<tr><td colspan=2><input type='submit' tabindex='1' Name='DN_War' value='NEIN'></td>";
+    echo "    <td colspan=2><input type='submit' tabindex='2' Name='DJ_War' value='ja ganz sicher'></td></tr>";
     echo "</table>";
     echo "<input name='a_id' value=$a_id type='hidden'>";
     echo "</form></p><br><br>";
@@ -521,20 +521,20 @@ if ($a_id > 0 && $kb_erfassen) {
     echo "<table cellspacing='1' cellpadding='2' border='0'>";
     echo "<tr><td><b>je Zeile 1 KB-Link, oder mit Ctrl-A, Ctrl-V mehrere komplette KB's</b></td></tr>";
     echo "<tr><td><textarea name='k_kb' rows='5' style='width:100%;'></textarea></td></tr>";
-    echo "<tr><td><input type='submit' Name='K_War'   VALUE='KB einlesen'>&nbsp;";
-    echo "        <input type='submit' Name='K_Short' VALUE='KB Übersicht'>&nbsp;";
-    echo "        <input type='submit' Name='K_Long'  VALUE='KB Komplett'>&nbsp;";
+    echo "<tr><td><input type='submit' Name='K_War'   value='KB einlesen'>&nbsp;";
+    echo "        <input type='submit' Name='K_Short' value='KB Übersicht'>&nbsp;";
+    echo "        <input type='submit' Name='K_Long'  value='KB Komplett'>&nbsp;";
     echo "        <b>FC-Statisik:</b> ";
-//  echo "        <input type='submit' Name='FC_Stat' VALUE='FC Statistik'>&nbsp;";
-    echo "        <input type='submit' Name='FC_StatS' VALUE='Summen'>&nbsp;";
-    echo "        <input type='submit' Name='FC_Stat' VALUE='EinzelKB'>&nbsp;";
+//  echo "        <input type='submit' Name='FC_Stat' value='FC Statistik'>&nbsp;";
+    echo "        <input type='submit' Name='FC_StatS' value='Summen'>&nbsp;";
+    echo "        <input type='submit' Name='FC_Stat' value='EinzelKB'>&nbsp;";
     echo "        <b>Verluste:</b> ";
-    echo "        <input type='submit' Name='K_Ver1'  VALUE='Ress/Atts/Deff'>&nbsp;";
-    echo "        <input type='submit' Name='K_Ver2'  VALUE='Gebäude'>&nbsp;";
-    echo "        <input type='submit' Name='K_Ver3'  VALUE='Schiffe'>&nbsp;";
-//  echo "        <input type='submit' Name='K_Ver'   VALUE='Verluste'>&nbsp;";
+    echo "        <input type='submit' Name='K_Ver1'  value='Ress/Atts/Deff'>&nbsp;";
+    echo "        <input type='submit' Name='K_Ver2'  value='Gebäude'>&nbsp;";
+    echo "        <input type='submit' Name='K_Ver3'  value='Schiffe'>&nbsp;";
+//  echo "        <input type='submit' Name='K_Ver'   value='Verluste'>&nbsp;";
     if ($user_status == "admin") {
-        echo "      <input type='submit' Name='K_VerBB' VALUE='Verluste BB-Code'>&nbsp;";
+        echo "      <input type='submit' Name='K_VerBB' value='Verluste BB-Code'>&nbsp;";
     }
     echo "</td></tr>";
     echo "</table>";
@@ -653,7 +653,7 @@ if ($a_id > 0 && ($K_Long || $K_Short)) {
 //    echo "<input name='Ncoords' value=$Ncoords type='hidden'>";
 //      $fake = 'on';
 //  }
-    echo "alternativ alle Angriffe auf folgende Koordinaten <input type='text' name='Ncoords' value='$Ncoords' style='width: 50' size='10'> <input type='submit' name='sCoord' VALUE='zeigen' style='CURSOR: hand;'>";
+    echo "alternativ alle Angriffe auf folgende Koordinaten <input type='text' name='Ncoords' value='$Ncoords' style='width: 50' size='10'> <input type='submit' name='sCoord' value='zeigen' style='CURSOR: hand;'>";
 
     echo "<table cellspacing='1' cellpadding='2' border='0' class='bordercolor' style='table-layout:fixed; overflow:hidden;'>";
     ausgabe_ueber($K_Long, 'E', 'J');
@@ -1324,7 +1324,7 @@ function new_xml_parser($file)
     $node_name[0] = '';
     $node_name[1] = '';
 
-    $xml_parser = xml_parser_create("ISO-8859-1");
+    $xml_parser = xml_parser_create("UTF-8");
     xml_parser_set_option($xml_parser, XML_OPTION_CASE_FOLDING, 1);
     xml_set_element_handler($xml_parser, "startElement", "endElement");
     xml_set_character_data_handler($xml_parser, "characterData");
@@ -1422,7 +1422,7 @@ function insert_iw_kaputt()
       //    $sSQL  .= ", '" . htmlentities($kb_array['VNAME']) . "' ";
             $sSQL .= ", '" . $kb_array['VNAME'] . "' ";
             $sSQL .= ", '" . $kb_array['VART'] . "' ";
-            $sSQL .= ", '" . htmlentities($kb_array['VBEZ']) . "' ";
+            $sSQL .= ", '" . htmlspecialchars($kb_array['VBEZ'], ENT_QUOTES, 'UTF-8') . "' ";
             $sSQL .= ", " . $kb_array['VANZS'];
             $sSQL .= ", " . $kb_array['VANZE'];
             $sSQL .= ", " . $kb_array['VKLASSE'];
@@ -1430,7 +1430,6 @@ function insert_iw_kaputt()
             $db->db_query($sSQL)
                 or error(GENERAL_ERROR, 'sql Fehler', '', __FILE__, __LINE__, $sSQL);
         }
-//    echo $kb_array['VBEZ'] . ' / ' . htmlentities($kb_array['VBEZ']) . '<br>';
     }
 }
 
@@ -1572,16 +1571,16 @@ function ausgabe_ueber($K_Long, $art, $fakeOff)
     echo "</tr><tr>";
     if ($art == 'E') {
 //   if ($user_status == "admin") {
-        echo "    <td class='titlebg center' style='width:30px'><input type='submit' name='sKB' VALUE='KB' style='CURSOR: hand;'>";
+        echo "    <td class='titlebg center' style='width:30px'><input type='submit' name='sKB' value='KB' style='CURSOR: hand;'>";
 //   } else {
 //      echo "    <td class='titlebg center' style='width:30px'>KB";
 //   }
 //    echo "    <td class='titlebg center' style='width:10px'>F";
         if ($fakeOff == 'J') {
             if ($fake != 'off') {
-                echo "    <td class='titlebg center' style='width:30px'><input type='submit' name='fake' VALUE='off' style='CURSOR: hand;' titles='Fakeangriffe NICHT anzeigen'>";
+                echo "    <td class='titlebg center' style='width:30px'><input type='submit' name='fake' value='off' style='CURSOR: hand;' title='Fakeangriffe NICHT anzeigen'>";
             } else {
-                echo "    <td class='titlebg center' style='width:30px'><input type='submit' name='fake' VALUE='on' style='CURSOR: hand;' titles='Fakeangriffe anzeigen'>";
+                echo "    <td class='titlebg center' style='width:30px'><input type='submit' name='fake' value='on' style='CURSOR: hand;' title='Fakeangriffe anzeigen'>";
             }
         } else {
             echo "    <td class='titlebg center' style='width:30px'>&nbsp;";

@@ -655,8 +655,8 @@ while ($row = $db->db_fetch_array($result)) {
     );
 
     // Expand-Daten abfragen
-    $expand_data = array();
     if ($expanded) {
+        $expand_data = array();
         $expand_data['transfer']   = array(
             'coords'        => $row['coords_gal'] . ":" . $row['coords_sys'] . ":" . $row['coords_planet'],
             'user'          => $row['user'],

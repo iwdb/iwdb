@@ -357,8 +357,9 @@ if ($parsstatus == "read") // KB einlesen und für die Formatierung ausgeben
         echo "     </td> ";
         echo "  </tr>\n ";
         // Am Datum endete der Kampf mit einem Sieg für den ...
-        setlocale(LC_ALL, 'de_DE@euro', 'de_DE', 'de', 'ge');
-        echo "  <tr>\n";
+        //setlocale(LC_ALL, 'de_DE@euro', 'de_DE', 'de', 'ge');
+        setlocale(LC_ALL, 'de_DE.utf8');
+		echo "  <tr>\n";
         echo "     <td class='windowbg1' align='left' colspan='8'>";
         echo          strftime("Am <i>%d. %B %Y um %H:%M:%S</i>", $KBdata['kampf']['timestamp']) . " endete der Kampf mit einem Sieg für den ";
         if ($KBdata['kampf']['resultat']['id'] == 1) {

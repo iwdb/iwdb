@@ -44,7 +44,10 @@ $submit = GetVar('submit');
 if (!empty($submit) AND !empty($daction) AND ($daction == 'send')) {
 
     // datei erstellen und zum schrieben öffnen
-    $fp = @fopen("css/style2.css", "w") or die ("Kann style2.css nicht öffnen.");
+    $fp = @fopen("css/style2.css", "w");
+    if ($fp == false) {
+        die ("Kann style2.css nicht öffnen.");
+    }
 
     //Standartzeug am Anfang in die Datei schreiben
     $newlines     = array();
@@ -156,7 +159,10 @@ if ($action == 'default') {
 
     <?php
     // Datei öffnen
-    $fp = @fopen("css/style.css", "r") or die ("Kann Datei nicht lesen.");
+    $fp = @fopen("css/style.css", "r");
+    if ($fp == false) {
+        die ("Kann Datei nicht lesen.");
+    }
 
     //Daten resetten
     $num_eigenschaft = 0;

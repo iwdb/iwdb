@@ -330,7 +330,7 @@ echo "</div>";
                             " </tr>\n" .
                             " <tr>\n";
                     } else {
-                        // Kein Hauptmenu. Eintraege in einzelne Tabellenzelle zusammenfassen.
+                        // Kein Hauptmenu. Einträge in einzelne Tabellenzelle zusammenfassen.
                         if ($insidetable == 0) {
                             echo " <td class='menu'>\n";
                             $insidetable = 1;

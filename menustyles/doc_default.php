@@ -145,7 +145,7 @@ function next_row($class = "", $extra = "", $columns = 1)
 
 //******************************************************************************
 //
-function start_form($action, $params = 0)
+function start_form($action, $params = '')
 {
     $html = "<form method='POST' action='";
     $html .= url($action, $params);
@@ -169,10 +169,10 @@ function action($action, $text)
 
 //******************************************************************************
 //
-function url($action, $params = 0)
+function url($action, $params = '')
 {
     $url = "index.php?action=" . $action;
-    if (isset($params) && is_array($params)) {
+    if (is_array($params)) {
         foreach ($params as $key => $value) {
             if (is_array($value)) {
                 foreach ($value as $subkey => $subvalue) {

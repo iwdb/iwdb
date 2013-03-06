@@ -806,7 +806,7 @@ foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
         ),
         "<img src='".BILDER_PATH."asc.gif'>"
     );
-    echo '<b>' . $viewcolumnname . '</b>';
+    echo '&nbsp;<b>' . $viewcolumnname . '</b>&nbsp;';
     echo makelink(
         array(
              'order'  => $orderkey,

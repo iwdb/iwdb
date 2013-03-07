@@ -1317,3 +1317,19 @@ CREATE TABLE IF NOT EXISTS `prefix_spielerallychange` (
   PRIMARY KEY (`name`,`fromally`,`toally`,`time`),
   KEY `time` (`time`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- -------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `prefix_versand_auftrag`
+--
+
+DROP TABLE IF EXISTS `prefix_versand_auftrag`;
+CREATE TABLE IF NOT EXISTS `prefix_versand_auftrag` (
+  `user` varchar(30) NOT NULL,
+  `time` int(11) NOT NULL,
+  `pos` int(11) NOT NULL,
+  `reference` varchar(30) NOT NULL,
+  `art` varchar(20) NOT NULL,
+  PRIMARY KEY (`user`,`time`,`pos`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;

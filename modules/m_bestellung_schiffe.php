@@ -814,6 +814,11 @@ foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
     );
 }
 
+if (isset($view['edit'])) {
+    next_cell("titlebg top");
+    echo '&nbsp;';
+}
+
 next_cell("titlebg");
 $index = 0;
 foreach ($data as $row) {
@@ -848,7 +853,7 @@ foreach ($data as $row) {
             );
         }
     }
-	/*
+	
     // Markierbuttons ausgeben
     next_cell("windowbg1 top");
     echo "<input type='checkbox' name='mark_" . $index++ . "' value='" . $key . "'";
@@ -856,7 +861,7 @@ foreach ($data as $row) {
         echo " checked";
     }
     echo ">";
-	*/
+	
     // Expandbereich ausgeben
     if (isset($expand) && $params['expand'] == $key && isset($row['expand']) && count($row['expand'])) {
         next_row('titlebg', 'colspan=' . (count($view['columns']) + 3));
@@ -889,6 +894,14 @@ foreach ($data as $row) {
         echo "&nbsp;";
     }
 }
+end_table();
+start_table(100, 0, 4, 1, "");
+next_row("", "align=\"right\"");
+echo makelink(array('mark_all' => true), "Alle ausw&auml;hlen");
+echo " / ";
+echo makelink(array('mark_all' => false), "Auswahl entfernen");
+next_row("", "align=\"right\"");
+echo "<input type=\"submit\" value=\"Flotte versenden\" name=\"flotte_versenden\" class=\"submit\">";
 end_table();
 end_form();
 

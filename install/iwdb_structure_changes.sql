@@ -267,3 +267,14 @@ ALTER TABLE `prefix_gebaeude` CHANGE  `typ`  `typ` VARCHAR( 10 ) CHARACTER SET u
 
 -- masel: 06.03.2013
 ALTER TABLE  `prefix_user` CHANGE  `budflesol`  `budflesol` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  '';
+
+-- patsch: 07.03.2013 Flotte versenden
+DROP TABLE IF EXISTS `prefix_versand_auftrag`;
+CREATE TABLE IF NOT EXISTS `prefix_versand_auftrag` (
+  `user` varchar(30) NOT NULL,
+  `time` int(11) NOT NULL,
+  `pos` int(11) NOT NULL,
+  `reference` varchar(30) NOT NULL,
+  `art` varchar(20) NOT NULL,
+  PRIMARY KEY (`user`,`time`,`pos`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;

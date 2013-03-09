@@ -45,12 +45,19 @@ class db
             $this->db_link_id = @mysql_connect($host, $user, $password);
         }
 
-        $this->query_count = 0;
-        $this->db_version  = @mysql_get_server_info();
-        $this->db_queries  = array();
-        mysql_set_charset('utf8', $this->db_link_id);
+        if ($this->db_link_id !== false) {
 
-        return ($this->db_link_id) ? (($this->db_select($database)) ? $this->db_link_id : false) : false;
+            $this->query_count = 0;
+            $this->db_version  = @mysql_get_server_info();
+            $this->db_queries  = array();
+            $this->db_select($database);
+
+            mysql_set_charset('utf8', $this->db_link_id);
+            return $this->db_link_id;
+
+        } else {
+            return false;
+        }
 
     }
 

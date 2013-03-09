@@ -763,8 +763,7 @@ CREATE TABLE IF NOT EXISTS `prefix_raidview` (
   `g_eis` int(11) NOT NULL,
   `g_wasser` int(11) NOT NULL,
   `g_energie` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `coords` (`coords`,`date`)
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Raidberichte' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------

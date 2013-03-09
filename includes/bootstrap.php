@@ -55,6 +55,8 @@ define('SITTEN_ONLY_NEWTASKS', 0);
 define('SITTEN_ONLY_LOGINS', 3);
 define('SITTEN_BOTH', 1);
 
+require_once 'config/config.php'; //IWDB Einstellungen
+require_once 'config/configally.php'; //Allianzeinstellungen
 require_once 'includes/dBug.php'; //bessere Debugausgabe
 require_once 'includes/debug.php'; //Debug Funktionen
 require_once 'includes/function.php'; //sonstige Funktionen
@@ -64,8 +66,11 @@ require_once 'config/configsql.php'; //Datenbank Zugangsdaten
 
 //DB Verbindung herstellen
 $db = new db();
-$link_id = $db->db_connect($db_host, $db_user, $db_pass, $db_name)
-    or error(GENERAL_ERROR, 'Could not connect to database.', '', __FILE__, __LINE__);
+$link_id = $db->db_connect($db_host, $db_user, $db_pass, $db_name);
+if ($link_id == false) {
+    exit('Could not connect to database.');
+}
+
 
 // Tabellennamen - Definition des Einstiegsnamens
 $db_tb_iwdbtabellen = $db_prefix . "iwdbtabellen";
@@ -77,9 +82,6 @@ while ($row = $db->db_fetch_array($result)) {
     $tbname    = "db_tb_" . mb_substr($row['table_name'], mb_strlen($db_prefix));
     ${$tbname} = $row['table_name'];
 }
-
-require_once 'config/config.php'; //IWDB Einstellungen
-require_once 'config/configally.php'; //Allianzeinstellungen
 
 $action = preg_replace('/[^a-zA-Z0-9_-]/', '', mb_substr(getVar('action'), 0, 100)); //get and filter actionstring (limited to 100 chars)
 if (empty($action)) {

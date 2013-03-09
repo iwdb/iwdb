@@ -278,3 +278,6 @@ CREATE TABLE IF NOT EXISTS `prefix_versand_auftrag` (
   `art` varchar(20) NOT NULL,
   PRIMARY KEY (`user`,`time`,`pos`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- masel: 09.03.2013
+ALTER TABLE `prefix_raidview` DROP INDEX `coords`;

@@ -140,7 +140,7 @@ if (!getVar("nobody")) {
                 include ('includes/sitterfadein.php');
 
                 if (!empty($config_banner)) {
-                    echo "<div id='iwdb_logo'><img src={$config_banner} alt='banner'></div>";
+                    echo "<div id='iwdb_logo'><img src={$config_banner} alt='banner' style='vertical-align: middle;'></div>";
                 }
                 }
                 if ( ($login_ok) && ($user_rules == "1") ) {

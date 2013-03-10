@@ -43,16 +43,15 @@ function parse_de_index($return)
 
     if ($return->objResultData->bOngoingResearch == false) { // keine laufende Forschung
 
-        $sql = "INSERT INTO `$db_tb_user_research` "
-            . "(`user`, `rId`, `date`, `time`) VALUES "
-            . "('{$selectedusername}', 0, '', " . CURRENT_UNIX_TIME . ") "
-            . " ON DUPLICATE KEY UPDATE "
-            . "`rId` = 0, "
-            . "`date` = '', "
-            . "`time` = " . CURRENT_UNIX_TIME . ";";
+        $SQLdata = array (
+            'user' => $selectedusername,
+            'rId'  => 0,
+            'date' => '',
+            'time' => CURRENT_UNIX_TIME
+        );
 
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not update researchtime.', '', __FILE__, __LINE__, $sql);
+        $result = $db->db_insertupdate($db_tb_user_research, $SQLdata)
+            or error(GENERAL_ERROR, 'Could not update researchtime.', '', __FILE__, __LINE__);
 
         //# alle Forschungsaufträge des Spielers anpassen
 
@@ -76,7 +75,7 @@ function parse_de_index($return)
 
     foreach ($return->objResultData->aContainer as $aContainer) {
         if ($aContainer->bSuccessfullyParsed) {
-            if ($aContainer->strIdentifier == "de_index_fleet") {
+            if ($aContainer->strIdentifier == "de_index_fleet") {                  //Flotten
                 $fleetType = $aContainer->objResultData->strType; //own OR opposite
 
                 $flottentyp = "";
@@ -309,7 +308,7 @@ function parse_de_index($return)
                         }
                     }
                 }
-            } else if ($aContainer->strIdentifier == "de_index_research") {
+            } else if ($aContainer->strIdentifier == "de_index_research") {          //Forschung
 
                 //aktuell laufende Forschung aktualisieren
                 //ToDo: sobald IWacc Tabelle vorhanden Einträge dahin verschieben
@@ -372,7 +371,8 @@ function parse_de_index($return)
                 foreach ($aContainer->objResultData->aGeb as $msg) {
                     //! Mac: @todo: laufende Gebäude auswerten, ggf. aus Sitting entfernen
                 }
-            } else if ($aContainer->strIdentifier == "de_index_schiff") {
+            } else if ($aContainer->strIdentifier == "de_index_schiff") {         //Werften
+                new dBug($aContainer);
                 foreach ($aContainer->objResultData->aSchiff as $plan) {
                     foreach ($plan as $ship_types) {
                         //! Mac: @todo: laufende Schiffe auswerten, ggf. aus Sitting entfernen oder Aufträge schieben

@@ -51,22 +51,27 @@ function getIncomingsTables()
 
         <?php
         while ($row = $db->db_fetch_array($result)) {
-            if (($row['saved']=="0") AND ($row['recalled']=='0')) {
-				$color1 = "#FF6347";
-				$color2 = "#FF6347";
-			}
-			else if (($row['saved']=='1') AND ($row['recalled']=='0')) {
-				$color1 = "#7FFF00";
-				$color2 = "#FF6347";
-			}
-			else if (($row['saved']=='0') AND ($row['recalled']=='1')) {
-				$color1 = "#7FFF00";
-				$color2 = "#7FFF00";
-			}
-			else if (($row['saved']=='1') AND ($row['recalled']=='1')) {
-				$color1 = "#7FFF00";
-				$color2 = "#7FFF00";
-			}
+            if (($row['saved'] == "0") AND ($row['recalled'] == '0')) {
+
+                $color1 = "#FF6347";
+                $color2 = "#FF6347";
+
+            } else if (($row['saved'] == '1') AND ($row['recalled'] == '0')) {
+
+                $color1 = "#7FFF00";
+                $color2 = "#FF6347";
+
+            } else if (($row['saved'] == '0') AND ($row['recalled'] == '1')) {
+
+                $color1 = "#7FFF00";
+                $color2 = "#7FFF00";
+
+            } else if (($row['saved'] == '1') AND ($row['recalled'] == '1')) {
+
+                $color1 = "#7FFF00";
+                $color2 = "#7FFF00";
+
+            }
 			
 			?>
             <tbody>
@@ -175,23 +180,28 @@ function getIncomingsTables()
 
         <?php
         while ($row = $db->db_fetch_array($result)) {
-            
-			if (($row['saved']=="0") AND ($row['recalled']=='0')) {
-				$color1 = "#FF6347";
-				$color2 = "#FF6347";
-			}
-			else if (($row['saved']=='1') AND ($row['recalled']=='0')) {
-				$color1 = "#7FFF00";
-				$color2 = "#FF6347";
-			}
-			else if (($row['saved']=='0') AND ($row['recalled']=='1')) {
-				$color1 = "#7FFF00";
-				$color2 = "#7FFF00";
-			}
-			else if (($row['saved']=='1') AND ($row['recalled']=='1')) {
-				$color1 = "#7FFF00";
-				$color2 = "#7FFF00";
-			}
+
+            if (($row['saved'] == "0") AND ($row['recalled'] == '0')) {
+
+                $color1 = "#FF6347";
+                $color2 = "#FF6347";
+
+            } else if (($row['saved'] == '1') AND ($row['recalled'] == '0')) {
+
+                $color1 = "#7FFF00";
+                $color2 = "#FF6347";
+
+            } else if (($row['saved'] == '0') AND ($row['recalled'] == '1')) {
+
+                $color1 = "#7FFF00";
+                $color2 = "#7FFF00";
+
+            } else if (($row['saved'] == '1') AND ($row['recalled'] == '1')) {
+
+                $color1 = "#7FFF00";
+                $color2 = "#7FFF00";
+
+            }
 			
 			?>
             <tbody>

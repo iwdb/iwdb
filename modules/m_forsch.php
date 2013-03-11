@@ -152,11 +152,12 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 //
 // -> Und hier beginnt das eigentliche Modul
 
-global $db, $db_tb_user_research, $db_tb_research;
+global $db, $db_tb_user_research, $db_tb_research, $db_tb_user;
 
 doc_title('aktuell laufende Forschungen');
 
-$sql = "SELECT `user`, `rId`, `date`, `time` FROM `" . $db_tb_user_research . "` ORDER BY `date` ASC;";
+//$sql = "SELECT `user`, `rId`, `date`, `time` FROM `" . $db_tb_user_research . "` ORDER BY `date` ASC;";
+$sql = "SELECT * FROM " . $db_tb_user_research . " LEFT JOIN " . $db_tb_user . " ON " . $db_tb_user_research . ".user = " . $db_tb_user . ".id WHERE " . $db_tb_user . ".sitten='1' ORDER BY date ASC;";
 $result_user_research = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
@@ -201,7 +202,8 @@ $data = array();
 	<tr>
 		<td style="background-color: <?php echo $color ?>">
 			<?php
-			echo $row_user_research['user'];
+			echo "<a href='index.php?action=sitterlogins&sitterlogin=" . urlencode($row_user_research['user']) . "' target='_blank'><img src='" . BILDER_PATH . "user-login.gif' alt='L' title='Einloggen'>";
+			echo "&emsp;" . $row_user_research['user'];
 			?>
 		</td>
 		<td>

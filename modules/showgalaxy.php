@@ -278,7 +278,7 @@ if ($newpreset) {
         }
     }
     if (($order3 !== $order2) AND ($order3 !== $order1)) {
-        if ($order2 === 'Koordinaten') {
+        if ($order3 === 'Koordinaten') {
             $order .= ", coords_gal " . $order3_d . ", coords_sys " . $order3_d . ", coords_planet " . $order3_d;
         } else {
             $order .= ', ' . $order3 . " " . $order3_d;

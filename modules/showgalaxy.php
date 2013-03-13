@@ -82,23 +82,23 @@ $sys_start = (int)getVar('sys_start');
 $sys_end = (int)getVar('sys_end');
 
 $objekt_type = array(
-    "%"           => "Alle",
-    "---"         => "unbewohnt",
-    "bewohnt"     => "bewohnt",
-    "Kolonie"     => "Kolonie",
-    "%basis"      => "alle Basen",
-    "Kampfbasis"  => "Kampfbasis",
-    "Sammelbasis" => "Sammelbasis"
+    "%",
+    "---",
+    "bewohnt",
+    "Kolonie",
+    "%basis",
+    "Kampfbasis",
+    "Sammelbasis"
 );
 $objekt = ensureValue(getVar('objekt'), $objekt_type, "%");
 
 $typ_type = array(
-    "%"            => "Alle",
-    "Steinklumpen" => "Steinklumpen",
-    "Asteroid"     => "Asteroid",
-    "Eisplanet"    => "Eisplanet",
-    "Gasgigant"    => "Gasgigant",
-    "Nichts"       => "Nichts"
+    "%",
+    "Steinklumpen",
+    "Asteroid",
+    "Eisplanet",
+    "Gasgigant",
+    "Nichts"
 );
 $typ = ensureValue(getVar('typ'), $typ_type, "%");
 
@@ -140,10 +140,10 @@ $presetname1 = $db->escape(getVar('presetname1'));
 $presetname2 = $db->escape(getVar('presetname2'));
 
 $ansichten = array(
-    "auto"       => "automatisch",
-    "geologisch" => "geologisch",
-    "taktisch"   => "taktisch",
-    "beide"      => "geologisch und taktisch"
+    "auto",
+    "geologisch",
+    "taktisch",
+    "beide"
 );
 $ansicht = ensureValue(getVar('ansicht'), $ansichten, "auto");
 

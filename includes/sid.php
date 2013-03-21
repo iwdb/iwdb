@@ -135,7 +135,7 @@ if (!empty($action) AND (($action == "memberlogin2"))) {
 }
 
 if ($user_id === false) {
-    // not yet logged in and logindata given lets sleep a bit ^^
+    // not yet logged in and inputdata given lets sleep a bit ^^
     if (!empty($_REQUEST)) {
         sleep(1);
     }

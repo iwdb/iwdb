@@ -20,12 +20,12 @@
     ExpiresDefault "access plus 1 hour"
 
     # Medien sie sich wohl nie aendern 1 Jahr cachen
-    <FilesMatch "\.(flv|ico|pdf|avi|mov|ppt|doc|mp3|wmv|wav)$">
+    <FilesMatch "\.(ico|pdf|mp3|oga)$">
         ExpiresDefault "access plus 1 year"
     </FilesMatch>
 
     # Bilder und Flashzeug 1 Monat cachen
-    <FilesMatch "\.(gif|jpg|jpeg|png|swf)$">
+    <FilesMatch "\.(gif|jpg|jpeg|png)$">
         ExpiresDefault "access plus 1 month"
     </FilesMatch>
 
@@ -40,7 +40,7 @@
     </FilesMatch>
 
     # kein cachen dynamischer Seiten
-    <FilesMatch "\.(php|cgi|pl)$">
+    <FilesMatch "\.(php)$">
         ExpiresActive Off
     </FilesMatch>
 </ifmodule>

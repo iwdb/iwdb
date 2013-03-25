@@ -150,9 +150,8 @@ if (!empty($editgebaeude)) {
     <?php
     }
     if (!empty($editgebaeude)) {
-        $sql = "UPDATE " . $db_tb_user . " SET gebaeude='" . $inactive . "' WHERE sitterlogin = '" . $sitterlogin . "'";
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $db->db_update($db_tb_user, array('gebaeude' => $inactive), "WHERE sitterlogin = '" . $sitterlogin . "'")
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
     }
     ?>
     <table class="table_format" style="width: 90%;">

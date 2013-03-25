@@ -49,9 +49,6 @@ function dauer($zeit)
 
 $editgebaeude = getVar('editgebaeude');
 if (!empty($editgebaeude)) {
-    $sql = "UPDATE " . $db_tb_user . " SET gebaeude='" . $inactive . "' WHERE id = '" . $id . "'";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     echo "<div class='system_notification'>Gebäudeeinstellung aktualisiert.</div>";
 }
 ?>
@@ -151,6 +148,11 @@ if (!empty($editgebaeude)) {
         </table>
         <br>
     <?php
+    }
+    if (!empty($editgebaeude)) {
+        $sql = "UPDATE " . $db_tb_user . " SET gebaeude='" . $inactive . "' WHERE sitterlogin = '" . $sitterlogin . "'";
+        $result = $db->db_query($sql)
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     }
     ?>
     <table class="table_format" style="width: 90%;">

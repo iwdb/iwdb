@@ -1349,7 +1349,7 @@ if (!empty($params['edit'])) {
     echo '<input type="hidden" name="edit" value="' . $params['edit'] . '">' . "\n";
     echo "</b>";
     foreach ($view['edit'] as $key => $field) {
-        next_row("windowbg2 top");
+        next_row("windowbg2 top", "style='width:30%'");
         echo $field['title'];
         if (isset($field['desc'])) {
             echo '<br><i>' . $field['desc'] . '</i>';

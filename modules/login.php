@@ -39,7 +39,7 @@ include "./menustyles/doc_default.php";
 
 doc_title('Login');
 
-if ((isset($login_id)) AND ($login_ok === false) AND ($action != "memberlogout2") AND (!empty($login_id) AND (!empty($login_password)))) {
+if (($login_ok === false) AND (!empty($login_id) AND (!empty($login_password)))) {
     echo "<div class='system_warning'>Falscher Benutzername oder Passwort!</div><br>\n";
 
     if ($wronglogins >= $config_wronglogins) {

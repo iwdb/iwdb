@@ -40,7 +40,7 @@ if (!defined('IRA')) {
 global $db, $db_tb_sid, $db_tb_user, $db_tb_wronglogin;
 
 // get user ip
-$user_ip      = $_SERVER['REMOTE_ADDR'];
+$user_ip = $_SERVER['REMOTE_ADDR'];
 $user_ip_hash = sha1($user_ip);
 
 // delete old sids from sid table //
@@ -48,13 +48,9 @@ $sql = "DELETE FROM `{$db_tb_sid}` WHERE `date`<" . (CURRENT_UNIX_TIME - $config
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not delete old sids.', '', __FILE__, __LINE__, $sql);
 
-$user_id  = false;
+$user_id = false;
 $login_ok = false;
-$sid      = false;
-
-$debug = false;
-$debugmessage = 'User-IP: ' . $user_ip . ' ';
-$debugmessage .= 'Cookiedaten: ' . print_r($_COOKIE, true) . '<br>';
+$sid = false;
 
 if (isset($_COOKIE[$config_cookie_name])) {
     $sid = $db->escape($_COOKIE[$config_cookie_name]);
@@ -62,73 +58,73 @@ if (isset($_COOKIE[$config_cookie_name])) {
     $user_id = useSID($sid, $user_ip_hash);
 }
 
-if (!empty($action) AND (($action == "memberlogin2"))) {
-
+if ($user_id === false) {       //keine (gültige) Session vorhanden
     $login_id = $db->escape(getVar('login_id'));
+    $login_password = $db->escape(getVar('login_password'));
 
-    $returndata = loginUser($login_id, getVar('login_password'));
+    if ((!empty($action)) AND (($action == "memberlogin2")) AND (!empty($login_id) AND (!empty($login_password)))) {
 
-    if (!empty($returndata['id'])) {
-        $user_id  = $returndata['id'];
-        $login_ok = true;
+        $returndata = loginUser($login_id, $login_password);
 
-        $sid = randomstring($config_sid_string, $config_sid_length);
+        if (!empty($returndata['id'])) {
+            $user_id = $returndata['id'];
 
-        $SQLdata = array(
-            'sid'  => $sid,
-            'ip'   => $user_ip_hash,
-            'date' => CURRENT_UNIX_TIME,
-            'id'   => $user_id
-        );
-        $db->db_insertupdate($db_tb_sid, $SQLdata)
-            or error(GENERAL_ERROR, 'Could not insert sid!', '', __FILE__, __LINE__);
+            //SessionID erzeugen und in der DB speichern
+            $sid = randomstring($config_sid_string, $config_sid_length);
 
-        if (getVar('login_cookie')) {
-            $result = setcookie($config_cookie_name, $sid, (CURRENT_UNIX_TIME + $config_cookie_timeout), null, null, false, true);
-            if (!$result) {
-                exit('Setzen des permanenten Cookies fehlgeschlagen!');
-            } elseif ($debug) {
-                $debugmessage .= 'Permanentes Cookie gesetzt.<br>';
+            $SQLdata = array(
+                'sid' => $sid,
+                'ip' => $user_ip_hash,
+                'date' => CURRENT_UNIX_TIME,
+                'id' => $user_id
+            );
+            $db->db_insertupdate($db_tb_sid, $SQLdata)
+                or error(GENERAL_ERROR, 'Could not insert sid!', '', __FILE__, __LINE__);
+
+            //SessionID im Cookie speichern
+            if (getVar('login_cookie')) {
+                $result = setcookie($config_cookie_name, $sid, (CURRENT_UNIX_TIME + $config_cookie_timeout), null, null, false, true);
+                if (!$result) {
+                    exit('Setzen des permanenten Cookies fehlgeschlagen!');
+                }
+            } else {
+                $result = setcookie($config_cookie_name, $sid, 0, null, null, false, true);
+                if (!$result) {
+                    exit('Setzen des temporären Cookies fehlgeschlagen!');
+                }
             }
+
         } else {
-            $result = setcookie($config_cookie_name, $sid, 0, null, null, false, true);
-            if (!$result) {
-                exit('Setzen des temporären Cookies fehlgeschlagen!');
-            } elseif ($debug) {
-                $debugmessage .= 'Temporäres Cookie gesetzt.<br>';
-            }
-        }
+            $user_id = false;
 
-    } else {
-        $user_id = false;
+            $wronglogins = $returndata['wronglogins'];
 
-        $wronglogins = $returndata['wronglogins'];
+            // update wrong login table //
+            $SQLdata = array(
+                'user' => $login_id,
+                'date' => CURRENT_UNIX_TIME,
+                'ip' => $user_ip
+            );
+            $db->db_insert($db_tb_wronglogin, $SQLdata)
+                or error(GENERAL_ERROR, 'Could not update wrong login information.', '', __FILE__, __LINE__);
 
-        // update wrong login table //
-        $SQLdata = array(
-            'user' => $login_id,
-            'date' => CURRENT_UNIX_TIME,
-            'ip'   => $user_ip
-        );
-        $db->db_insert($db_tb_wronglogin, $SQLdata)
-            or error(GENERAL_ERROR, 'Could not update wrong login information.', '', __FILE__, __LINE__);
+            if ($wronglogins == $config_wronglogins) {
+                $ips = '';
+                $sql = "SELECT `ip` FROM `{$db_tb_wronglogin}` WHERE `user` LIKE '" . $login_id . "';";
+                $result_u = $db->db_query($sql)
+                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                $wronglogins = $db->db_num_rows($result_u);
+                while ($row_u = $db->db_fetch_array($result_u)) {
+                    $ips .= $row_u['ip'] . "\n";
+                }
 
-        if ($wronglogins == $config_wronglogins) {
-            $ips = '';
-            $sql = "SELECT `ip` FROM `{$db_tb_wronglogin}` WHERE `user` LIKE '" . $login_id . "';";
-            $result_u = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-            $wronglogins = $db->db_num_rows($result_u);
-            while ($row_u = $db->db_fetch_array($result_u)) {
-                $ips .= $row_u['ip'] . "\n";
-            }
+                $message = "Anzahl maximaler falscher Logins bei '".htmlspecialchars($login_id, ENT_QUOTES, 'UTF-8')."' erreicht!\n";
+                $message .= "Login-IPs:\n";
+                $message .= $ips;
 
-            $message = "Anzahl maximaler falscher Logins bei $login_id erreicht!\n";
-            $message .= "Login-IPs:\n";
-            $message .= $ips;
-
-            if (!mail($config_mailto, "Login Error at " . $config_allytitle, $message)) {
-                echo "<div class='system_warning'>Fehler beim Mailverschicken</div>";
+                if (!mail($config_mailto, "Login Error at " . $config_allytitle, $message)) {
+                    echo "<div class='system_warning'>Fehler beim Mailverschicken</div>";
+                }
             }
         }
     }
@@ -161,55 +157,47 @@ if ($login_ok) {
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     $row = $db->db_fetch_array($result);
 
-    $user_status          = $row['status'];
-    $user_allianz         = $row['allianz'];
-    $user_password        = $row['password'];
-    $user_sitterlogin     = $row['sitterlogin'];
-    $user_sitterskin      = $row['sitterskin'];
-    $user_planibilder     = $row['planibilder'];
-    $user_gebbilder       = $row['gebbilder'];
-    $user_adminsitten     = $row['adminsitten'];
-    $user_gebaeude        = $row['gebaeude'];
-    $user_peitschen       = $row['peitschen'];
-    $user_gengebmod       = $row['gengebmod'];
-    $user_genmaurer       = $row['genmaurer'];
-    $user_genbauschleife  = $row['genbauschleife'];
-    $user_sitterpwd       = $row['sitterpwd'];
-    $user_sitten          = $row['sitten'];
-    $user_rules           = $row['rules'];
-    $user_menu_default    = $row['menu_default'];
-    $user_gal_start       = $row['gal_start'];
-    $user_gal_end         = $row['gal_end'];
-    $user_sys_start       = $row['sys_start'];
-    $user_sys_end         = $row['sys_end'];
-    $user_buddlerfrom     = $row['buddlerfrom'];
-    $user_fremdesitten    = $row['fremdesitten'];
+    $user_status = $row['status'];
+    $user_allianz = $row['allianz'];
+    $user_password = $row['password'];
+    $user_sitterlogin = $row['sitterlogin'];
+    $user_sitterskin = $row['sitterskin'];
+    $user_planibilder = $row['planibilder'];
+    $user_gebbilder = $row['gebbilder'];
+    $user_adminsitten = $row['adminsitten'];
+    $user_gebaeude = $row['gebaeude'];
+    $user_peitschen = $row['peitschen'];
+    $user_gengebmod = $row['gengebmod'];
+    $user_genmaurer = $row['genmaurer'];
+    $user_genbauschleife = $row['genbauschleife'];
+    $user_sitterpwd = $row['sitterpwd'];
+    $user_sitten = $row['sitten'];
+    $user_rules = $row['rules'];
+    $user_menu_default = $row['menu_default'];
+    $user_gal_start = $row['gal_start'];
+    $user_gal_end = $row['gal_end'];
+    $user_sys_start = $row['sys_start'];
+    $user_sys_end = $row['sys_end'];
+    $user_buddlerfrom = $row['buddlerfrom'];
+    $user_fremdesitten = $row['fremdesitten'];
     $user_vonfremdesitten = $row['vonfremdesitten'];
-    $user_uniprop         = $row['uniprop'];
+    $user_uniprop = $row['uniprop'];
 
 } else {
     // fill in some variables, so that these variables ar not
     // unknown to the rest of the script
-    $user_adminsitten     = SITTEN_DISABLED;
-    $user_password        = "";
-    $user_sitten          = "0";
-    $user_fremdesitten    = "0";
+    $user_adminsitten = SITTEN_DISABLED;
+    $user_password = "";
+    $user_sitten = "0";
+    $user_fremdesitten = "0";
     $user_vonfremdesitten = "0";
-    $user_allianz         = "";
+    $user_allianz = "";
 }
-
-if (($debug) AND $action !== 'memberlogout2') {
-    if (strpos($_SERVER['SCRIPT_NAME'], 'index.php')) {
-        echo "<span style='color:#DDDDDD;'>".$debugmessage."</span";
-    }
-}
-unset($debug);
-unset($debugmessage);
 
 //sid mit dieser ip gültig?
 function useSID($sid, $ip_hash)
 {
-    global $db, $db_tb_sid, $debugmessage;
+    global $db, $db_tb_sid;
 
     $sql = "SELECT `id` FROM `{$db_tb_sid}` WHERE `ip`='" . $ip_hash . "' AND `sid`='" . $sid . "'";
     $result = $db->db_query($sql)
@@ -217,31 +205,18 @@ function useSID($sid, $ip_hash)
     $row_sid = $db->db_fetch_array($result);
 
     if (!empty($row_sid['id'])) {
+
         //Cookiedaten sind gültig -> Zeit der letzten DB Nutzung aktualisieren
-        $db->db_update($db_tb_sid, array('date' => CURRENT_UNIX_TIME), "WHERE `id`='".$row_sid['id']."'")
+        $db->db_update($db_tb_sid, array('date' => CURRENT_UNIX_TIME), "WHERE `id`='" . $row_sid['id'] . "'")
             or error(GENERAL_ERROR, 'Could not update sid!', '', __FILE__, __LINE__);
 
         return $row_sid['id'];
+
     } else {
+
         //Cookiedaten ungültig
-
-        $sql = "SELECT `id`, `ip` FROM `{$db_tb_sid}` WHERE `sid`='" . $sid . "'";
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-        $row_sid = $db->db_fetch_array($result);
-        if (!empty($row_sid['id'])) {
-            $debugmessage .= 'sid vorhanden aber mit anderer ip: '.$row_sid['ip'].' <-> '.$ip_hash.'<br>';
-        } else {
-            $sql = "SELECT `sid` FROM `{$db_tb_sid}` WHERE `ip`='" . $ip_hash . "'";
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-            $row_sid = $db->db_fetch_array($result);
-            if (!empty($row_sid['sid'])) {
-                $debugmessage .= 'Eintrag mit der ip vorhanden aber mit anderer sessionid? '.$row_sid['sid'].' <-> '.$sid.'<br>';
-            }
-        }
-
         return false;
+
     }
 }
 
@@ -263,7 +238,7 @@ function loginUser($login_id, $password)
     $sql = "SELECT COUNT(*) AS 'wronglogins' FROM `{$db_tb_wronglogin}` WHERE `user` LIKE '" . $login_id . "';";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-    $row         = $db->db_fetch_array($result);
+    $row = $db->db_fetch_array($result);
     $wronglogins = $row['wronglogins'];
 
     $sql = "SELECT `id`, `password` FROM " . $db_tb_user;

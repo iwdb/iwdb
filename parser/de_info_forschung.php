@@ -37,6 +37,8 @@ if (!defined('DEBUG_LEVEL')) {
 
 function parse_de_info_forschung($return)
 {
+    debug_var("input", $return);
+
     $scan_data = array();
     $research  = $return->objResultData;
 

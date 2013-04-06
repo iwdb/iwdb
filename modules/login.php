@@ -48,7 +48,6 @@ if (($login_ok === false) AND (!empty($login_id) AND (!empty($login_password))))
             round($config_wronglogin_timeout / HOUR) .
             " Stunden gesperrt.<br>" .
             "Daten wurden an den Admin übermittelt.</div><br>\n";
-
     }
 }
 ?>

@@ -123,7 +123,6 @@ if ((($user_adminsitten == SITTEN_BOTH) || ($user_adminsitten == SITTEN_ONLY_LOG
         }
     }
     ?>
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="css/style.css" rel="stylesheet" type="text/css">
     <script src="javascript/jquery-1.9.1.min.js"></script>

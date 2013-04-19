@@ -88,14 +88,14 @@ var cssdropdown = {
         var edgeoffset = 0;
         var windowedge;
         if (whichedge === "rightedge") {
-            windowedge = document.all && !window.opera ? this.standardbody.scrollLeft + this.standardbody.clientWidth - 15 : window.pageXOffset + window.innerWidth - 15
+            windowedge = document.all && !window.opera ? this.standardbody.scrollLeft + this.standardbody.clientWidth - 15 : window.pageXOffset + window.innerWidth - 15;
             var dropmenuW = this.dropmenuobj.offsetWidth;
             if (windowedge - this.dropmenuobj.x < dropmenuW) { //move menu to the left?
                 edgeoffset = dropmenuW - obj.offsetWidth;
             }
         } else {
             var topedge = document.all && !window.opera ? this.standardbody.scrollTop : window.pageYOffset;
-            windowedge = document.all && !window.opera ? this.standardbody.scrollTop + this.standardbody.clientHeight - 15 : window.pageYOffset + window.innerHeight - 18
+            windowedge = document.all && !window.opera ? this.standardbody.scrollTop + this.standardbody.clientHeight - 15 : window.pageYOffset + window.innerHeight - 18;
             var dropmenuH = this.dropmenuobj._trueheight;
             if (windowedge - this.dropmenuobj.y < dropmenuH) { //move up?
                 edgeoffset = dropmenuH + obj.offsetHeight;
@@ -230,7 +230,7 @@ var cssdropdown = {
             } //end inner for
         } //end outer for
         if (this.enableiframeshim && document.all && !window.XDomainRequest && !this.iframeshimadded) { //enable iframe shim in IE5.5 thru IE7?
-            document.write('<IFRAME id="iframeshim" src="about:blank" frameBorder="0" scrolling="no" style="left:0; top:0; position:absolute; display:none;z-index:90; background: transparent;"></IFRAME>')
+            document.write('<IFRAME id="iframeshim" src="about:blank" frameBorder="0" scrolling="no" style="left:0; top:0; position:absolute; display:none;z-index:90; background: transparent;"></IFRAME>');
             this.shimobject = document.getElementById("iframeshim"); //reference iframe object
             this.shimobject.style.filter = 'progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=0)';
             this.iframeshimadded = true;

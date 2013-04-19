@@ -557,10 +557,10 @@ $result = $db->db_query($sql)
 $research_data = $db->db_fetch_array($result);
 $db->db_free_result($result);
 
-$td1 = "\n  <tr>\n    <td class='windowbg2' style='width: 20%;'" .
+$td1 = "\n  <tr>\n    <td class='windowbg2 table_format_noborder' style='width: 20%;'" .
     " valign='top'><div class='doc_blue'>";
 $td2 = "</div></td>\n" .
-    "    <td class='windowbg1' valign='top'>\n";
+    "    <td class='windowbg1 table_format_noborder' valign='top'>\n";
 
 echo "<br>\n";
 echo "<table class='table_format' style='width: 60%;'>\n";

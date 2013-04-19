@@ -39,13 +39,13 @@ if (!defined('DEBUG_LEVEL')) {
 
 function parse_de_index($return)
 {
-    global $db, $db_tb_scans, $db_tb_user_research, $selectedusername, $scan_datas, $db_tb_params, $db_tb_bestellung, $db_tb_sitterauftrag;
+    global $db, $db_tb_scans, $db_tb_user_research, $selectedusername, $scan_datas, $db_tb_params, $db_tb_bestellung, $db_tb_sitterauftrag, $db_tb_research;
 
     if ($return->objResultData->bOngoingResearch == false) { // keine laufende Forschung
 
-        $SQLdata = array (
+    	$SQLdata = array (
             'user' => $selectedusername,
-            'rId'  => 0,
+            'rId'  => 272,
             'date' => '',
             'time' => CURRENT_UNIX_TIME
         );
@@ -372,7 +372,7 @@ function parse_de_index($return)
                     //! Mac: @todo: laufende Gebäude auswerten, ggf. aus Sitting entfernen
                 }
             } else if ($aContainer->strIdentifier == "de_index_schiff") {         //Werften
-                new dBug($aContainer);
+                //new dBug($aContainer);
                 foreach ($aContainer->objResultData->aSchiff as $plan) {
                     foreach ($plan as $ship_types) {
                         //! Mac: @todo: laufende Schiffe auswerten, ggf. aus Sitting entfernen oder Aufträge schieben

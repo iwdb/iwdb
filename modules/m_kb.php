@@ -271,7 +271,7 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 //
 // -> Und hier beginnt das eigentliche Modul
 ?>
-    <script language="JavaScript" type="text/javascript">
+    <script type="text/javascript">
         function Collapse(what) {
             var collapseImage = document.getElementById("collapse_" + what);
 

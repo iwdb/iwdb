@@ -275,7 +275,7 @@ echo '<br>';
 foreach ($categories as $category => $value) {
 	echo "<br>";
 	?>
-	<table class="table_hovertable">
+	<table class="table_hovertable" style="width: 95%;">
 		<?php
 		$count = count($categories_buildings[$category]);
 		?>

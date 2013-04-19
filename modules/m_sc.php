@@ -159,13 +159,13 @@ doc_title('Sondenkalkulator');
     <tr>
         <td class='windowbg2' style='width: 100px;'>SD01:</td>
         <td class='windowbg1'>
-            <input type='number' min='0' max='9999' id='SD01' value='0'' oninput="SondenRechnen()">
+            <input type='number' min='0' max='9999' id='SD01' value='0' oninput="SondenRechnen()">
         </td>
     </tr>
     <tr>
         <td class='windowbg2' style='width: 100px;'>SD02:</td>
         <td class='windowbg1'>
-            <input type='number' min='0' max='9999' id='SD02' value='0'' oninput="SondenRechnen()">
+            <input type='number' min='0' max='9999' id='SD02' value='0' oninput="SondenRechnen()">
         </td>
     </tr>
 </table>

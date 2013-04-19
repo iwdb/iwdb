@@ -659,7 +659,7 @@ if ($newpreset) {
             }
             if (strlen($rating_eisen_tt) > 0) {
                 ?>
-                <td><b>Rating<br>Techteam<br>Eisen</td>
+                <td>Rating<br>Techteam<br>Eisen</td>
             <?php
             }
             if (strlen($rating_chemie_tt) > 0) {

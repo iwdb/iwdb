@@ -471,8 +471,9 @@ if (!empty($erledigt)) {
                                     type="submit" value="speichern" name="B1">
                             </td>
                         </tr>
+                	</table>
                 </form>
-                </table>
+                
                 <br>
                 <br>
             <?php

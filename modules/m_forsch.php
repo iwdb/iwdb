@@ -296,7 +296,7 @@ if(isset($_POST['formSubmit']) ) {
 	<?php
 	}
 	?>
-	<table>
+	</table>
 <?php		
 }
 ?>

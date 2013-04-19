@@ -6,8 +6,6 @@ define('APPLICATION_PATH_URL', dirname($_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_
 
 require_once("includes/bootstrap.php");
 
-$sort_only_by_time = true;
-
 if (empty($sid) || empty($user_sitterlogin) || !($user_adminsitten == SITTEN_BOTH || $user_adminsitten == SITTEN_ONLY_LOGINS) || $user_id == "guest") {
     header("Location: " . APPLICATION_PATH_RELATIVE);
     exit;
@@ -65,7 +63,7 @@ while ($row = $db->db_fetch_array($result)) {
         $user['dauersittendue'] = false;
     }
 
-    $url = 'http://icewars.de/index.php?action=login&name=' . urlencode($row['id']);
+    $url = 'http://icewars.de/index.php?action=login&name=' . $row['id'];
     $url .= '&pswd=' . $row['sitterpwd'];
     if (!empty($serverskin)) {
         $url .= '&serverskin=1';
@@ -96,28 +94,22 @@ while ($row = $db->db_fetch_array($result)) {
                 $user['sitterorder']['text'] = 'Sitten';
         }
     */
-
     $sql = "SELECT * FROM " . $db_tb_lieferung . " WHERE user_to='" . $row['id'] . "' AND art IN ('Angriff','Sondierung','Sondierung (Schiffe/Def/Ress)','Sondierung (Gebäude/Ress)') AND time>" . (CURRENT_UNIX_TIME - (15 * MINUTE)) . " ORDER BY time DESC";
     $result_angriff = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     while ($row_angriff = $db->db_fetch_array($result_angriff)) {
         if ($row_angriff['time'] > (CURRENT_UNIX_TIME - ($row_angriff['art'] == 'Angriff' ? (15 * MINUTE) : (5 * MINUTE)))) {
-            $key = $row_angriff['art'] == 'Angriff' ? 'attack' : 'probe';
-
+            $key          = $row_angriff['art'] == 'Angriff' ? 'attack' : 'probe';
             $user[$key][] = array(
                 'coords' => $row_angriff['coords_to_gal'] . ':' . $row_angriff['coords_to_sys'] . ':' . $row_angriff['coords_to_planet'],
                 'time'   => $row_angriff['time'],
                 'from'   => $row_angriff['user_from'],
             );
-
-            if ($sort_only_by_time !== true) {
-                if (!isset($user['next_date']) || $user['next_date'] > ($row_angriff['time'] + (15 * MINUTE))) {
-                    $user['next_date'] = $row_angriff['time'];
-                }
-
-                if ($user['next_status'] > $status[$key]) {
-                    $user['next_status'] = $status[$key];
-                }
+            if (!isset($user['next_date']) || $user['next_date'] > ($row_angriff['time'] + (15 * MINUTE))) {
+                $user['next_date'] = $row_angriff['time'];
+            }
+            if ($user['next_status'] > $status[$key]) {
+                $user['next_status'] = $status[$key];
             }
         }
     }
@@ -222,14 +214,17 @@ if (empty($login)) {
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 }
 
-?>
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="utf-8">
-    <title>Icewars</title>
-    <script>
-        var redirectURL = "<?php
+// Select page mode
+switch ($mode) {
+    case 'index':
+        ?>
+        <!DOCTYPE html>
+        <html lang="de">
+        <head>
+            <meta charset="utf-8">
+            <title>Icewars</title>
+            <script>
+                var redirectURL = "<?php
 
 	if ($redirect == 'planiress') {
 	    echo 'http://sandkasten.icewars.de/game/index.php?action=wirtschaft&typ=planiress';
@@ -242,95 +237,108 @@ if (empty($login)) {
     }
 
 ?>";
-        function redirect(id) {
-            if (redirectURL.length) {
-                var contentFrameElement = document.getElementById(id);
-                var url = redirectURL;
-                redirectURL = "";
-                contentFrameElement.src = url;
-            }
+                function setRedirection(url) {
+                    redirectURL = url;
+                }
+                function redirect(id) {
+                    if (redirectURL.length) {
+                        contentFrameElement = document.getElementById(id);
+                        url = redirectURL;
+                        redirectURL = "";
+                        contentFrameElement.src = url;
+                    }
 
-        }
-    </script>
-    <style>
-        html,
-        body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden;
-            color: #ffffff;
-            background: #111111 url(bilder/bg_space3.png);
-        }
+                }
+            </script>
+        </head>
+        <frameset rows="0,*" cols="*" frameborder="YES" border="0" framespacing="0">
+            <frame src="?mode=top" name="topFrame" scrolling="NO" noresize>
+            <frameset rows="*" cols="300,*" framespacing="0" frameborder="YES" border="0">
+                <frame src="?mode=left&redirect=<?php echo $redirect;  echo !empty($login) ? "&login=$login" : "";  echo !empty($action) ? "&action=$action" : "";  echo "&allianz=$allianz"?>" name="left" id="left" scrolling="YES">
+                <frame src="<?php echo $mainurl ?>" name="main" id="main" onload="redirect(this.id)">
+            </frameset>
+        </frameset>
+        <noframes>
+            <body>
+            </body>
+        </noframes>
+        </html>
+        <?php
+        break;
+    case 'left':
+        ?>
+        <html>
+        <head>
+            <style type="text/css">
+                * {
+                    font-family: verdana, serif;
+                    font-size: 11px;
+                }
 
-        * {
-            font-family: verdana, serif;
-            font-size: 11px;
-        }
+                body {
+                    color: #ffffff;
+                    background: #111111 url(bilder/bg_space3.png);
+                }
 
-        a:link {
-            color: #bbbbbb;
-        }
+                a:link {
+                    color: #bbbbbb;
+                }
 
-        a:visited {
-            color: #bbbbbb;
-        }
+                a:visited {
+                    color: #bbbbbb;
+                }
 
-        body, table, tr, td, form {
-            margin: 0;
-            padding: 0;
-        }
+                body, table, tr, td, form {
+                    margin: 0;
+                    padding: 0;
+                }
 
-        .attack {
-            color: #ff0000;
-        }
+                .attack {
+                    color: #ff0000;
+                }
 
-        .probe {
-            color: #cc9900;
-        }
+                .probe {
+                    color: #cc9900;
+                }
 
-        .loggedin {
-            color: #33AA33;
-        }
+                .loggedin {
+                    color: #33AA33;
+                }
 
-        .dursitting {
-            color: #ff00ff;
-        }
+                .dursitting {
+                    color: #ff00ff;
+                }
 
-        .dursitting_time {
-            color: #bbbbbb;
-        }
+                .dursitting_time {
+                    color: #bbbbbb;
+                }
 
-        .dursitting_due {
-            color: #ff00ff;
-        }
+                .dursitting_due {
+                    color: #ff00ff;
+                }
 
-        .time_critical {
-            color: #ff0000;
-        }
+                .time_critical {
+                    color: #ff0000;
+                }
 
-        .time_warning {
-            color: #cc9900;
-        }
+                .time_warning {
+                    color: #cc9900;
+                }
 
-        .time_normal {
-            color: #bbbbbb;
-        }
+                .time_normal {
+                    color: #bbbbbb;
+                }
 
-        .time {
-            color: #990066;
-        }
-
-    </style>
-</head>
-<body>
-<div style="width: 100%; height:100%">
-    <div style="width: 250px; height: 100%; float: left; overflow: auto;">
-
+                .time {
+                    color: #990066;
+                }
+            </style>
+        </head>
+        <body onLoad="start();">
         <table>
             <tr>
                 <td>
-                    <select id="redirectPage" onchange="location.href='browser.php?redirect=' + options[selectedIndex].value + '&login=<?php echo $user['id']; echo "&allianz=$allianz" ?>';">
+                    <select id="redirectPage" onchange="parent.document.getElementById('left').src = '?mode=index&redirect=' + options[selectedIndex].value + '&login=<?php echo $user['id']; echo "&allianz=$allianz" ?>';">
                         <option value="">(Startseite)</option>
                         <option value="planiress"<?php echo $redirect == 'planiress' ? ' selected' : '' ?>>
                             Kolo-/Ressübersicht
@@ -346,13 +354,26 @@ if (empty($login)) {
                         </option>
                     </select>
                 </td>
+                <!--<tr>
+                <td nowrap width="100%">
+                    <a href='?action=own<?php echo "&allianz=$allianz" ?>' target='_top'>Eigener Spieler</a><br>
+					<a href='http://176.9.109.187/' target='main'>Icewars-Notlogin</a>
+                </td>
+                <td nowrap>
+                </td>
+            --></tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                </td>
             </tr>
         </table>
         <br>
         <?php
         if (isset($login_user)) {
             ?>
-            <form>
+            <form target="_top">
                 <?php
                 echo isset($login_user['alliance']) ? '[' . $login_user['alliance'] . ']' : '';
                 echo $login_user['id'];
@@ -386,7 +407,7 @@ if (empty($login)) {
                 <input type="hidden" name="action" value="newscan">
                 <input type="hidden" name="seluser" value="<?php echo $login_user['id'] ?>">
                 Neuer Bericht:<br>
-                <textarea id="reportText" name="text" rows="2" cols="30"></textarea><br>
+                <textarea id="reportText" name="text" rows="2" cols="40"></textarea><br>
                 <input id="reportSave" type="submit" value="Speichern" name="B1" class="submit">
             </form>
         <?php } ?>
@@ -401,14 +422,12 @@ if (empty($login)) {
                 </td>
             </tr>
         </table>
-        <?php
-        foreach ($view as $user) {
-            ?>
+        <?php    foreach ($view as $user) { ?>
             <table>
                 <tr>
                     <td width="100%">
                         <?php
-                        echo "<a href='browser.php?redirect={$redirect}&login={$user['id']}&allianz={$allianz}'>$user[id]</a>";
+                        echo "<a href='?mode=index&redirect={$redirect}&login={$user['id']}&allianz={$allianz}' target='_top'>$user[id]</a>";
                         ?>
                     </td>
                     <?php
@@ -434,10 +453,10 @@ if (empty($login)) {
                         <td width="100%">
                             <?php
                             if (!empty($user['attack']) AND count($user['attack']) > 0) {
-                                echo "<div class='attack'>Angriff von " . $user['attack'][0]['from'] . " auf " . $user['attack'][0]['coords'] . " um " . $user['next_date_text'] ."</div>";
+                                echo "<div class='attack'>Angriff von " . $user['attack'][0]['from'] . " auf " . $user['attack'][0]['coords'] . "</div>";
                             }
                             if (!empty($user['probe']) AND count($user['probe']) > 0) {
-                                echo "<div class='probe'>Sondierung von " . $user['probe'][0]['from'] . " auf " . $user['probe'][0]['coords'] . " um " . $user['next_date_text'] ."</div>";
+                                echo "<div class='probe'>Sondierung von " . $user['probe'][0]['from'] . " auf " . $user['probe'][0]['coords'] . "</div>";
                             }
                             if ($user['lastsitterloggedin']) {
                                 echo "<div class='loggedin'>" . $user['lastsitteruser'] . " ist eingeloggt</div>";
@@ -455,10 +474,11 @@ if (empty($login)) {
             }
         }
         ?>
-    </div>
-    <div style="margin-left: 250px; height: 100%;">
-        <iframe src="<?php echo $mainurl; ?>" sandbox="allow-forms allow-scripts" name="main" id="main" onload="redirect(this.id)" style="width: 100%; height: 100%; border: 0;"></iframe>
-    </div>
-</div>
-</body>
-</html>
+        </body>
+        </html>
+        <?php
+        break;
+    default:
+        doc_message("Fehler: Unbekannter Modus '" . $mode . "'");
+}
+?>

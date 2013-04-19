@@ -45,6 +45,12 @@ function parse_de_info_forschung($return)
     $scan_data['research']    = $research->strResearchName;
     $scan_data['description'] = $research->strResearchComment;
     $scan_data['addcost']     = '';
+    if (!empty($research->aCosts)) {
+        foreach ($research->aCosts as $costRess) {
+            $scan_data['addcost'] .= $costRess['strResourceName'].': '.$costRess['iResourceCount'].', ';
+        }
+        $scan_data['addcost'] = substr($scan_data['addcost'], 0, -2);
+    }
     $scan_data['FP']          = $research->iFP;
     $scan_data['gebiet']      = $research->strAreaName;
 

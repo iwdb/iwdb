@@ -999,6 +999,11 @@ abbr {
     text-align: center;
 }
 
+table.zentriert {
+    margin-left:auto; 
+    margin-right:auto;
+}
+
 /* veraltet */
 
 .doc_title {

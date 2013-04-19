@@ -252,7 +252,7 @@ echo "</div>";
     </tr>
 </table>
 <script src="javascript/menu_default.js"></script>
-<table align="center" style="width:100%;">
+<table class="zentriert" style="width:100%;">
     <tr>
         <td width="12%" valign="top" class='doc_menu'>
             <?php
@@ -360,6 +360,6 @@ echo "</div>";
         </td>
         <td width="2%">&nbsp;</td>
         <td width="86%" valign="top" align="center">
-            <table class="doc_main" align="center">
+            <table class="doc_main zentriert">
                 <tr>
                     <td class="doc_main" align="center">

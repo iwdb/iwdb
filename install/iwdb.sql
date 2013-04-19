@@ -211,7 +211,7 @@ CREATE TABLE IF NOT EXISTS `prefix_gebaeude` (
   `name` varchar(100) NOT NULL DEFAULT '',
   `category` varchar(50) NOT NULL DEFAULT '',
   `idcat` int(5) NOT NULL DEFAULT '0',
-  `inactive` char(1) NOT NULL DEFAULT '',
+  `inactive` char(1) NOT NULL DEFAULT '0',
   `dauer` int(7) NOT NULL DEFAULT '0',
   `bild` varchar(40) NOT NULL DEFAULT '',
   `info` text NOT NULL,

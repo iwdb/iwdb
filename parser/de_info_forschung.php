@@ -44,6 +44,7 @@ function parse_de_info_forschung($return)
 
     $scan_data['research']    = $research->strResearchName;
     $scan_data['description'] = $research->strResearchComment;
+
     $scan_data['addcost']     = '';
     if (!empty($research->aCosts)) {
         foreach ($research->aCosts as $costRess) {
@@ -51,6 +52,7 @@ function parse_de_info_forschung($return)
         }
         $scan_data['addcost'] = substr($scan_data['addcost'], 0, -2);
     }
+
     $scan_data['FP']          = $research->iFP;
     $scan_data['gebiet']      = $research->strAreaName;
 
@@ -101,6 +103,7 @@ function update_research($scan_data)
     }
 
     echo "<div class='system_notification'>Update der Forschung " . $scan_data['research'] . "</div>\n";
+
     // Forschungsgebiet heraussuchen
     $sql = "SELECT ID FROM `{$db_tb_researchfield}` WHERE `name`='" . $scan_data['gebiet'] . "';";
     $result = $db->db_query($sql)
@@ -259,6 +262,7 @@ function find_building_id($name)
 {
     global $db, $db_tb_gebaeude;
 
+    $name = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
     $name = $db->escape($name);
 
     // Änderungen für Gebäude, die bereits unter anderem Namen in der DB sind.
@@ -273,28 +277,17 @@ function find_building_id($name)
     $name = str_replace("kleiner chemischer Fabrikkomplex", "Chemiekomplex", $name);
     $name = str_replace("Katzeundmausabwehrstockproduktionsfabrik", "Katze und Maus Stock Abwehrfabrik", $name);
 
-    // Try without entities first, before inserting a new one.
-    $name2 = html_entity_decode($name);
-
-    $sql3 = "SELECT `ID` FROM `{$db_tb_gebaeude}` WHERE `name`='" . $name2 . "';";
-    $result = $db->db_query($sql3)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql3);
+    $sql = "SELECT `ID` FROM `{$db_tb_gebaeude}` WHERE name='" . $name . "';";
+    $result = $db->db_query($sql)
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     $row = $db->db_fetch_array($result);
-
-    // Find first building identifier (with entities)
-    if (empty($row)) {
-        $sql = "SELECT `ID` FROM `{$db_tb_gebaeude}` WHERE name='" . $name . "';";
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-        $row = $db->db_fetch_array($result);
-    }
 
     if (!empty($row)) {
 
         return $row['ID'];
 
     } else {
-        // Not found, so insert new (with entities this time)
+        // Not found, so insert new
         $result = $db->db_insert($db_tb_gebaeude, array('name' => $name))
             or error(GENERAL_ERROR, 'Could not insert geb information.', '', __FILE__, __LINE__);
 

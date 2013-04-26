@@ -1,6 +1,6 @@
 <?php
 /*****************************************************************************
- * m_incomings.php                                                           *
+ * m_forum_iw.php                                                           *
  *****************************************************************************
  * Iw DB: Icewars geoscan and sitter database                                *
  * Open-Source Project started by Robert Riess (robert@riess.net)            *
@@ -29,41 +29,44 @@
  *                                                                           *
  *****************************************************************************/
 
-//direktes Aufrufen verhindern
-if (!defined('IRA')) {
-    header('HTTP/1.1 403 forbidden');
-    exit;
+// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde. 
+//    Kann unberechtigte Systemzugriffe verhindern.
+if (basename($_SERVER['PHP_SELF']) != "index.php") { 
+	echo "Hacking attempt...!!"; 
+	exit; 
 }
 
 //****************************************************************************
 //
-// -> Name des Moduls, ist notwendig für die Benennung der zugehörigen
+// -> Name des Moduls, ist notwendig für die Benennung der zugehoerigen
 //    Config.cfg.php
 // -> Das m_ als Beginn des Datreinamens des Moduls ist Bedingung für 
 //    eine Installation über das Menü
 //
-$modulname = "m_incomings";
+$modulname  = "m_forum_iw";
 
 //****************************************************************************
 //
-// -> Titel des Moduls
+// -> Menütitel des Moduls der in der Navigation dargestellt werden soll.
 //
-$modultitle = "Incomings";
+$modultitle = "Icewars-Forum";
 
 //****************************************************************************
 //
 // -> Status des Moduls, bestimmt wer dieses Modul über die Navigation 
-//    ausführen darf. Mögliche Werte:
-//    - ""      <- nix = jeder, 
+//    ausfuehren darf. Moegliche Werte:
+//    - "jeder"      <- nix = jeder, 
 //    - "admin" <- na wer wohl
 //
-$modulstatus = "";
+$modulstatus = "jeder";
 
 //****************************************************************************
 //
-// -> Beschreibung des Moduls, wie es in der Menü-Übersicht angezeigt wird.
+// -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
 //
-$moduldesc = "Anzeige der Incomings (Sondierung/Angriff) auf die eigene Allianz";
+$moduldesc = 
+  "Zeigt das IW-Forum in einem Frame an".
+	"und hat sonst keine Funktion";
 
 //****************************************************************************
 //
@@ -72,35 +75,8 @@ $moduldesc = "Anzeige der Incomings (Sondierung/Angriff) auf die eigene Allianz"
 //
 function workInstallDatabase()
 {
-    global $db, $db_prefix;
-
-    $sqlscript = array(
-        "CREATE TABLE IF NOT EXISTS `{$db_prefix}incomings` (
-        `koords_to` VARCHAR(11) NOT NULL COMMENT 'Zielcoords',
-        `name_to` VARCHAR(50) NOT NULL COMMENT 'Zielspieler',
-        `allianz_to` VARCHAR(50) NOT NULL COMMENT 'Zielallianz',
-        `koords_from` VARCHAR(11) NOT NULL COMMENT 'Angreiferkoords',
-        `name_from` VARCHAR(50) NOT NULL COMMENT 'Angreiferspieler',
-        `allianz_from` VARCHAR(50) NOT NULL COMMENT 'Angreiferallianz',
-        `art` VARCHAR(100) NOT NULL COMMENT 'Angriff oder Sondierung',
-        `arrivaltime` INT(10) UNSIGNED NOT NULL COMMENT 'Unixzeitstempel der Ankunft der Sondierung/Att',
-        `listedtime` INT(10) UNSIGNED NOT NULL COMMENT 'Unixzeitstempel des Eintrags',
-        `saved` TINYINT( 1 ) NOT NULL DEFAULT '0',
-        `savedUpdateTime` INT(10) UNSIGNED DEFAULT NULL COMMENT 'Unixzeitstempel des Saveflug der Schiffe',
-        `recalled` TINYINT( 1 ) NOT NULL DEFAULT '0',
-        `recalledUpdateTime` INT(10) UNSIGNED DEFAULT NULL COMMENT 'Unixzeitstempel des Recall der Schiffe',
-        PRIMARY KEY (`arrivaltime`,`koords_to`, `koords_from` , `art`)
-        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Tabelle für Incomings';
-        ",
-    );
-    foreach ($sqlscript as $sql) {
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not install incomings-table.', '', __FILE__, __LINE__, $sql);
-    }
-    echo "<div class='system_success'>Installation: Datenbankänderungen = <b>OK</b></div>";
-
+    //nothing here
 }
-
 //****************************************************************************
 //
 // Function workUninstallDatabase is creating all menu entries needed for
@@ -113,7 +89,7 @@ function workInstallMenu()
 
     $menu             = getVar('menu');
     $submenu          = getVar('submenu');
-    $menuetitel       = "Incomings #incomings"; // -> Menütitel in der Navigation, #incomings wird gegen die Anzahl ersetzt
+    $menuetitel       = "IW-Forum";
     $actionparameters = "";
 
     insertMenuItem($menu, $submenu, $menuetitel, $modulstatus, $actionparameters);
@@ -131,10 +107,6 @@ function workInstallMenu()
 //
 function workInstallConfigString()
 {
-    /*  global $config_gameversion;
-      return
-        "\$v04 = \" <div class=\\\"doc_lightred\\\">(V " . $config_gameversion . ")</div>\";";
-    */
 }
 
 //****************************************************************************
@@ -144,18 +116,7 @@ function workInstallConfigString()
 //
 function workUninstallDatabase()
 {
-    global $db, $db_tb_incomings;
-
-    $sqlscript = array(
-        "DROP TABLE " . $db_tb_incomings . ";",
-    );
-
-    foreach ($sqlscript as $sql) {
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-    }
-    echo "<div class='system_success'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
-
+    //nothing here
 }
 
 //****************************************************************************
@@ -170,61 +131,46 @@ function workUninstallDatabase()
 // Anstatt "Mein.Server" natürlich deinen Server angeben und default 
 // durch den Dateinamen des Moduls ersetzen.
 //
-if (!empty($_REQUEST['was'])) {
-    //  -> Nur der Admin darf Module installieren. (Meistens weiss er was er tut)
-    if ($user_status != "admin") {
-        die('Hacking attempt...');
-    }
+if( !empty($_REQUEST['was'])) {
+  //  -> Nur der Admin darf Module installieren. (Meistens weiss er was er tut)
+  if ( $user_status != "admin" ) 
+		die('Hacking attempt...');
 
-    echo "<h2>Installationsarbeiten am Modul " . $modulname . " (" . $_REQUEST['was'] . ")</h2>\n";
+  echo "<div class='system_notification'>Installationsarbeiten am Modul " . $modulname . 
+	     " ("  . $_REQUEST['was'] . ")</div>\n";
 
-    include("./includes/menu_fn.php");
+  if (!@include("./includes/menu_fn.php")) 
+	  die( "Cannot load menu functions" );
 
-    // Wenn ein Modul administriert wird, soll der Rest nicht mehr
-    // ausgeführt werden.
-    return;
+  // Wenn ein Modul administriert wird, soll der Rest nicht mehr 
+  // ausgeführt werden.
+  return;
 }
 
-if (!@include("./config/" . $modulname . ".cfg.php")) {
-    die("Error:<br><b>Cannot load " . $modulname . " - configuration!</b>");
+if (!@include("./config/".$modulname.".cfg.php")) { 
+	die( "Error:<br><b>Cannot load ".$modulname." - configuration!</b>");
 }
 
 //****************************************************************************
 //
 // -> Und hier beginnt das eigentliche Modul
 
-global $db, $db_prefix, $db_tb_incomings, $db_tb_user;
-
-// Titelzeile
-doc_title('Incomings');
-echo "Anzeige der laufenden Sondierungen und Angriffe auf uns";
-echo " 	 <br />\n";
-echo " 	 <br />\n";
-
 ?>
-<div id='incomings_tabellen_container'></div>
-<table class='borderless'>
-    <tr>
-        <td>
-            <?php
-            echo "<img src='" . BILDER_PATH . "kolo.png'> = Kolonie";
-            ?>
-        </td>
-        <td>
-            <?php
-            echo "<img src='" . BILDER_PATH . "ress_basis.png'> = Ressourcensammelbasis";
-            ?>
-        </td>
-        <td>
-            <?php
-            echo "<img src='" . BILDER_PATH . "artefakt_basis.png'> = Artefaktsammelbasis";
-            ?>
-        </td>
-        <td>
-            <?php
-            echo "<img src='" . BILDER_PATH . "kampf_basis.png'> = Kampfbasis";
-            ?>
-        </td>
-    </tr>
-</table>
-<script src="javascript/m_incomings.js"></script>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+       "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>Kilrathy IWDB - Icewarsforum iframe</title>
+</head>
+<body>
+
+<h1>Icewars-Forum</h1>
+
+<iframe src="http://www.icewars-forum.de" name="Icewars-Forum_in_a_box" width="900" height="800">
+  <p>Ihr Browser kann leider keine eingebetteten Frames anzeigen:
+  Sie können die eingebettete Seite über den folgenden Verweis
+  aufrufen: <a href="http://www.icewars-forum.de">Icewars-Forum</a></p>
+</iframe>
+</body>
+</html>

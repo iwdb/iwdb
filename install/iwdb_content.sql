@@ -1,14 +1,4 @@
--- phpMyAdmin SQL Dump
--- version 3.4.5
--- http://www.phpmyadmin.net
---
--- Host: localhost
--- Erstellungszeit: 25. Apr 2012 um 01:18
--- Server Version: 5.5.16
--- PHP-Version: 5.3.8
-
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -335,7 +325,8 @@ INSERT INTO `prefix_menu` (`id`, `menu`, `submenu`, `active`, `title`, `status`,
 (22, 3, 0, 1, 'Bestellung', '', '', '', 1, 0),
 (23, 6, 3, 1, 'Planeten ohne Scans', '', 'showgalaxy&withoutscan=1', 'n', 0, 0),
 (24, 6, 4, 1, 'Reservierte Planeten', '', 'showgalaxy&reserv=1&ansicht=geologisch  	', 'n', 0, 0),
-(25, 2, 5, 1, 'Browser', '', 'browser.php', 'y', 0, 1);
+(25, 2, 5, 1, 'Browser', '', 'browser.php', 'y', 0, 1),
+(26, 7, 2, 1, 'laufende Sondierungen #sondierungen', '', 'm_raid&view=overview&allistatus=own&sondierung=1', 'n', 0, 0);
 -- --------------------------------------------------------
 
 --
@@ -367,7 +358,10 @@ INSERT INTO `prefix_params` (`name`, `value`, `text`) VALUES
 ('sound_login', '1', ''),
 ('sound_standard', '1', ''),
 ('bericht_fuer_sitter', '1', ''),
-('bericht_fuer_rang', 'all', '');
+('bericht_fuer_rang', 'all', ''),
+('automatic_creds_order', 'false', ''),
+('automatic_creds_order_minvalue', '500000', ''),
+('automatic_creds_order_minpayout', '2000000', '');
 
 -- --------------------------------------------------------
 
@@ -376,9 +370,6 @@ INSERT INTO `prefix_params` (`name`, `value`, `text`) VALUES
 --
 
 INSERT INTO `prefix_parsemenu` (`ersetze`, `durch`, `varorstr`) VALUES
-('M~B', 'anznachrichten', 'var'),
-('N~S', 'anznews', 'var'),
-('#', 'anzauftrag', 'var'),
 ('M~B', 'anznachrichten', 'var'),
 ('N~S', 'anznews', 'var'),
 ('#', 'anzauftrag', 'var');
@@ -680,8 +671,8 @@ INSERT INTO `prefix_research2building` (`rId`, `bId`, `lvl`) VALUES
 (2, 17, 0),
 (2, 18, 0),
 (3, 38, 0),
-(3, 39, 0),
 (3, 40, 0),
+(3, 254, 0),
 (4, 1, 0),
 (4, 2, 0),
 (4, 3, 0),
@@ -693,7 +684,7 @@ INSERT INTO `prefix_research2building` (`rId`, `bId`, `lvl`) VALUES
 (10, 7, 0),
 (17, 138, 0),
 (18, 8, 0),
-(20, 9, 0),
+(20, 252, 0),
 (22, 111, 7),
 (22, 111, 8),
 (22, 111, 9),
@@ -708,14 +699,14 @@ INSERT INTO `prefix_research2building` (`rId`, `bId`, `lvl`) VALUES
 (34, 12, 0),
 (36, 100, 0),
 (36, 101, 0),
-(36, 102, 0),
 (36, 103, 0),
 (36, 104, 0),
 (36, 105, 0),
 (36, 106, 0),
 (36, 107, 0),
 (36, 108, 0),
-(36, 109, 0),
+(36, 257, 0),
+(36, 258, 0),
 (38, 45, 0),
 (38, 45, 1),
 (38, 45, 2),
@@ -769,9 +760,9 @@ INSERT INTO `prefix_research2building` (`rId`, `bId`, `lvl`) VALUES
 (115, 111, 1),
 (115, 111, 2),
 (115, 130, 0),
-(116, 27, 0),
 (116, 28, 0),
 (116, 29, 0),
+(116, 253, 0),
 (117, 32, 0),
 (118, 30, 0),
 (118, 31, 0),
@@ -786,10 +777,10 @@ INSERT INTO `prefix_research2building` (`rId`, `bId`, `lvl`) VALUES
 (129, 132, 0),
 (131, 73, 0),
 (131, 74, 0),
-(131, 75, 0),
 (131, 76, 0),
 (131, 77, 0),
 (131, 78, 0),
+(131, 255, 0),
 (133, 131, 0),
 (142, 50, 0),
 (144, 51, 0),
@@ -817,7 +808,7 @@ INSERT INTO `prefix_research2building` (`rId`, `bId`, `lvl`) VALUES
 (193, 89, 0),
 (193, 89, 1),
 (194, 141, 0),
-(196, 88, 0),
+(196, 256, 0),
 (203, 90, 0),
 (204, 134, 0),
 (208, 91, 0),
@@ -858,57 +849,57 @@ INSERT INTO `prefix_research2building` (`rId`, `bId`, `lvl`) VALUES
 --
 
 INSERT INTO `prefix_research2prototype` (`rid`, `pid`) VALUES
-(28, 7),
-(55, 4),
-(58, 39),
-(59, 49),
-(124, 29),
-(132, 28),
-(135, 40),
-(139, 18),
-(140, 20),
-(141, 26),
-(143, 13),
-(157, 25),
-(159, 11),
-(161, 47),
-(170, 48),
-(172, 15),
-(175, 12),
-(176, 34),
-(177, 37),
-(179, 24),
-(180, 33),
-(181, 31),
-(184, 46),
-(187, 43),
-(188, 44),
-(189, 41),
-(190, 42),
-(197, 36),
-(198, 38),
-(200, 16),
-(201, 23),
-(202, 32),
-(207, 35),
-(213, 45),
-(214, 19),
-(215, 51),
-(216, 17),
-(217, 3),
-(218, 14),
-(221, 30),
-(223, 8),
-(224, 9),
-(225, 10),
-(226, 27),
-(227, 6),
-(228, 21),
-(230, 5),
-(231, 22),
-(232, 2),
-(269, 50),
-(271, 1);
+(28, 91),
+(55, 80),
+(58, 64),
+(59, 67),
+(124, 73),
+(132, 18),
+(135, 72),
+(139, 68),
+(140, 66),
+(141, 2),
+(143, 1),
+(157, 81),
+(159, 158),
+(161, 76),
+(170, 78),
+(172, 300),
+(175, 92),
+(176, 74),
+(177, 79),
+(179, 62),
+(180, 12),
+(181, 7),
+(184, 71),
+(187, 86),
+(188, 83),
+(189, 85),
+(190, 82),
+(197, 77),
+(198, 70),
+(200, 75),
+(201, 65),
+(202, 10),
+(207, 13),
+(213, 88),
+(214, 6),
+(215, 99),
+(216, 5),
+(217, 100),
+(218, 159),
+(221, 9),
+(223, 157),
+(224, 16),
+(225, 4),
+(226, 63),
+(227, 101),
+(228, 160),
+(230, 14),
+(231, 8),
+(232, 103),
+(269, 84),
+(271, 102);
 
 -- --------------------------------------------------------
 
@@ -1061,7 +1052,6 @@ INSERT INTO `prefix_research2research` (`rOld`, `rNew`) VALUES
 (85, 68),
 (85, 84),
 (85, 108),
-(85, 238),
 (86, 84),
 (86, 259),
 (87, 138),
@@ -1149,7 +1139,6 @@ INSERT INTO `prefix_research2research` (`rOld`, `rNew`) VALUES
 (137, 140),
 (137, 141),
 (138, 137),
-(138, 149),
 (138, 180),
 (138, 181),
 (138, 182),

@@ -58,7 +58,7 @@ $modultitle = "Icewars-Forum";
 //    - "jeder"      <- nix = jeder, 
 //    - "admin" <- na wer wohl
 //
-$modulstatus = "jeder";
+$modulstatus = "";
 
 //****************************************************************************
 //

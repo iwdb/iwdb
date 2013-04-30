@@ -52,7 +52,7 @@ function parse_de_forschung($return)
     $akt_forschung = 0;
     $akt_date      = 0;
 
-    if (count($return->objResultData->aResearchsResearched) > 1) { //! ausgeklappte/vollstaendige Forschungsseite -> vollst. Reset der Daten
+    if (count($return->objResultData->aResearchsResearched) > 2) { //! ausgeklappte/vollstaendige Forschungsseite -> vollst. Reset der Daten
         $sql = "DELETE FROM
                     $db_tb_research2user
                 WHERE

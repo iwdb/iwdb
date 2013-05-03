@@ -36,7 +36,6 @@ if (!defined('IRA')) {
 //****************************************************************************
 
 $newlog = getVar('newlog');
-
 if (!empty($newlog)) {
     $sitterlogin = getVar('sitterlogin');
     $auftrag     = getVar('auftrag');
@@ -73,9 +72,6 @@ while ($row = $db->db_fetch_array($result)) {
     $sitterlogins[] = $row['sitterlogin'];
 }
 
-if (!empty($newlog)) {
-    echo "<div class='system_notification'>Auftrag gespeichert.</div>";
-}
 $count = 0;
 $sql = "SELECT sitterlogin, sitterpwd, sitten, sitterpunkte, peitschen, sittercomment FROM " . $db_tb_user . " WHERE sittercomment <> '' ORDER BY sitterlogin ASC";
 $result = $db->db_query($sql)
@@ -83,12 +79,9 @@ $result = $db->db_query($sql)
 $anz = $db->db_num_rows($result);
 if (!empty($anz)) {
     ?>
-    <br>
-
-    <br>
-    <table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 90%;'>
+    <table id='permanent_sitterorders_table' class='table_format' style='width: 90%;'>
         <tr>
-            <td class='titlebg' colspan='4' align='center'>
+            <td class='titlebg center' colspan='4'>
                 <b>Daueraufträge</b>
             </td>
         </tr>
@@ -150,39 +143,38 @@ if (!empty($anz)) {
             }
             ?>
             <tr>
-                <td class='windowbg<?php echo $num;?>' valign='top'>
+                <td class='windowbg<?php echo $num;?> top'>
                     <?php
                     if ($user_status == "admin") {
-                        echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($data) . "&sid=" . $sid . "'>" . $data . "</a>";
+                        echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($data) . "'>" . $data . "</a>";
                     } else {
                         echo $data;
                     }
-                    echo $users_sitterpunkte_anz[$key]; echo ($users_sitterpunkte[$key] > (3 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star1.gif' alt='star1' style='border:0;vertical-align:middle;'>" : (($users_sitterpunkte[$key] > (2 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star2.gif' alt='star2' style='border:0;vertical-align:middle;'>" : (($users_sitterpunkte[$key] > round($row_avg['AVG(sitterpunkte)'])) ? "<img src='bilder/star3.gif' alt='star3' style='border:0;vertical-align:middle;'>" : ""));?>
+                    echo $users_sitterpunkte_anz[$key]; echo ($users_sitterpunkte[$key] > (3 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='".BILDER_PATH."star1.gif' alt='star1' class='middle;'>" : (($users_sitterpunkte[$key] > (2 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='".BILDER_PATH."star2.gif' alt='star2' class='middle;'>" : (($users_sitterpunkte[$key] > round($row_avg['AVG(sitterpunkte)'])) ? "<img src='".BILDER_PATH."star3.gif' alt='star3' class='middle;'>" : ""));?>
                 </td>
-                <td class='windowbg<?php echo $num;?>' valign='top'>
+                <td class='windowbg<?php echo $num;?> top'>
                     <?php echo nl2br(convert_bbcode($users_sittercomment[$key])); echo ($users_sitterpeitschen[$key] == '1') ? "<br><br><i>Meister d. Peitschen</i>" : "";?>
                 </td>
-                <td class='windowbg<?php echo $num;?>' valign='middle' align='center'>
+                <td class='windowbg<?php echo $num;?> center middle'>
                     <?php
                     if (!empty($users_logged_in[$key])) {
                         echo $users_logged_in[$key] . ' ist eingeloggt';
                     } else {
-                        echo "<a href='index.php?action=sitterlogins&sitterlogin=" . urlencode($data) . "&sid=" . $sid . "' target='_blank'>[einloggen]</a>";
+                        echo "<a href='index.php?action=sitterlogins&sitterlogin=" . urlencode($data) . "' target='_blank'>[einloggen]</a>";
                     }
                     ?>
                     <br><a href="javascript:Collapse('d<?php echo $key;?>');"><img src="bilder/plus.gif" alt="" id="collapse_d<?php echo $key;?>"></a>
                 </td>
-                <td class='windowbg<?php echo $num;?>' valign='top'>
+                <td class='windowbg<?php echo $num;?> top'>
                     <?php echo (empty($users_lastlogin_user[$key])) ? "" : strftime(CONFIG_DATETIMEFORMAT, $users_lastlogin[$key]) . " - " . $users_lastlogin_user[$key];?>
                 </td>
             </tr>
             <tr id='row_d<?php echo $key;?>' style='display: none;'>
-                <td colspan='4' class='windowbg1' valign='top' align='center' style='width: 100%;'>
-                    <form method='POST' action='index.php?action=sitterliste&sid=<?php echo $sid;?>'
-                          enctype='multipart/form-data'>
-                        <table border='0' cellpadding='4' cellspacing='0' class='bordercolor'>
+                <td colspan='4' class='windowbg1 center top' style='width: 100%;'>
+                    <form method='POST' action='index.php?action=sitterliste' enctype='multipart/form-data'>
+                        <table class='table_format'>
                             <tr>
-                                <td colspan='2' class='windowbg1' align='center'>
+                                <td colspan='2' class='windowbg1 center'>
                                     <b>Sitteraktivität</b>
                                 </td>
                             </tr>
@@ -198,11 +190,11 @@ if (!empty($anz)) {
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan='2' class='windowbg1' align='center'>
+                                <td colspan='2' class='windowbg1 center'>
                                     <input type="hidden" name="newlog" value="true"><input type="hidden"
                                                                                            name="sitterlogin"
                                                                                            value="<?php echo $data;?>"><input
-                                        type="submit" value="speichern" name="B1" class="submit">
+                                        type="submit" value="speichern" name="B1">
                                 </td>
                             </tr>
                         </table>

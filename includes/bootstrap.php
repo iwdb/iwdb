@@ -16,7 +16,7 @@
 error_reporting(E_ALL | E_STRICT);
 ini_set("display_errors", '1');
 libxml_use_internal_errors(true);
-$error = '';                 //veraltet
+$error = '';
 
 //set some standards
 date_default_timezone_set('Europe/Berlin');
@@ -34,7 +34,7 @@ define("MINUTE", 60);
 define("HOUR", 60 * MINUTE);
 define("DAY", 24 * HOUR);
 
-// veraltet
+// veraltetete Zeitdefinitionen
 $config_date = CURRENT_UNIX_TIME;
 $MINUTES = MINUTE;
 $HOURS = HOUR;
@@ -43,43 +43,45 @@ $DAYS = DAY;
 // some other constants
 // ToDo: clean them up
 define('DEBUG', true);
-define('LOG_DB_QUERIES', false);
+define('IWDB_LOG_DB_QUERIES', false);
 define('IRA', true);
 define('NEBULA', true);
-define('SPECIALSEARCH', true);
 define('ALLY_MEMBERS_ON_MAP', true);
-define('GENERAL_ERROR', 'GENERAL_ERROR'); //veraltet
-define("DB_MAX_INSERTS", 1000);
+define('GENERAL_ERROR', 'GENERAL_ERROR');
+define("DB_MAX_INSERTS", 500);
+
 define('SITTEN_DISABLED', 2);
 define('SITTEN_ONLY_NEWTASKS', 0);
 define('SITTEN_ONLY_LOGINS', 3);
 define('SITTEN_BOTH', 1);
 
+require_once 'config/config.php'; //IWDB Einstellungen
+require_once 'config/configally.php'; //Allianzeinstellungen
 require_once 'includes/dBug.php'; //bessere Debugausgabe
 require_once 'includes/debug.php'; //Debug Funktionen
 require_once 'includes/function.php'; //sonstige Funktionen
-require_once 'includes/db_mysql.php';
+require_once 'includes/db_mysql.php';  //DB Klasse
 require_once 'parser/parser_help.php'; //ausgelagerte Parserhilfsfunktionen
-require_once 'config/configsql.php'; //Datenbank Zugangsdaten laden
+require_once 'config/configsql.php'; //Datenbank Zugangsdaten
 
 //DB Verbindung herstellen
 $db = new db();
-$link_id = $db->db_connect($db_host, $db_user, $db_pass, $db_name)
-    or error(GENERAL_ERROR, 'Could not connect to database.', '', __FILE__, __LINE__);
+$link_id = $db->db_connect($db_host, $db_user, $db_pass, $db_name);
+if ($link_id == false) {
+    exit('Could not connect to database.');
+}
+
 
 // Tabellennamen - Definition des Einstiegsnamens
 $db_tb_iwdbtabellen = $db_prefix . "iwdbtabellen";
 
 // Die restlichen Tabellennamen werden aus der DB gelesen.
-$sql    = "SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '$db_name' AND table_name LIKE '$db_prefix%'";
+$sql    = "SELECT `table_name` FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `table_schema` = '$db_name' AND `table_name` LIKE '$db_prefix%';";
 $result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     $tbname    = "db_tb_" . mb_substr($row['table_name'], mb_strlen($db_prefix));
     ${$tbname} = $row['table_name'];
 }
-
-require_once 'config/config.php'; //IWDB Einstellungen
-require_once 'config/configally.php'; //Allianzeinstellungen
 
 $action = preg_replace('/[^a-zA-Z0-9_-]/', '', mb_substr(getVar('action'), 0, 100)); //get and filter actionstring (limited to 100 chars)
 if (empty($action)) {
@@ -88,10 +90,10 @@ if (empty($action)) {
 
 require_once("includes/sid.php");
 
-$sql = "SELECT gesperrt FROM " . $db_tb_user . " WHERE id = '" . $user_id . "'";
+$sql = "SELECT `gesperrt` FROM `{$db_tb_user}` WHERE `id` = '{$user_id}';";
 $result_g = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    or error(GENERAL_ERROR, 'Could not query user information.', '', __FILE__, __LINE__, $sql);
 $row_g = $db->db_fetch_array($result_g);
-if ($row_g['gesperrt'] == 1) {
-    die ('<div style="text-align:center;color:red">ihr Account ist gesperrt worden!</div>');
+if ($row_g['gesperrt']) {
+    die ('<div style="text-align:center;color:red">Dein Account ist gesperrt worden!</div>');
 }

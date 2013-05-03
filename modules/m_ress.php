@@ -78,7 +78,7 @@ $moduldesc =
 function workInstallDatabase()
 {
     /*
-    global $db, $db_prefix, $db_tb_iwdbtabellen, $db_tb_parser;
+    global $db, $db_prefix;
 
       $sqlscript = array(
         "CREATE TABLE " . $db_prefix . "ressuebersicht( " .
@@ -98,11 +98,6 @@ function workInstallDatabase()
         "`bev_q` float default NULL, " .
         "PRIMARY KEY  (`user`))",
 
-        "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-        " VALUES('ressuebersicht')",
-
-        "INSERT INTO " . $db_tb_parser . "(modulename,recognizer,message) VALUES " .
-        "('production', 'Ressourcenkoloübersicht', 'Produktionsübersicht')"
       );
 
       foreach($sqlscript as $sql) {
@@ -149,15 +144,10 @@ function workInstallConfigString()
 function workUninstallDatabase()
 {
     /*
-    global $db, $db_tb_ressuebersicht, $db_tb_parser;
+    global $db, $db_tb_ressuebersicht;
 
       $sqlscript = array(
         "DROP TABLE " . $db_tb_ressuebersicht,
-
-        "DELETE FROM " . $db_tb_iwdbtabellen .
-        " WHERE `name`='ressuebersicht'",
-
-        "DELETE FROM " . $db_tb_parser . " WHERE modulename='production'"
       );
 
       foreach($sqlscript as $sql) {
@@ -203,9 +193,7 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 
 function make_link($order, $ordered)
 {
-    global $sid;
-    echo "<a href='index.php?action=m_ress&order=" . $order . "&ordered=" . $ordered .
-        "&sid=$sid''> <img src='bilder/" . $ordered . ".gif' alt='" . $ordered . "'> </a>";
+    echo "<a href='index.php?action=m_ress&order=" . $order . "&ordered=" . $ordered . "'> <img src='".BILDER_PATH."" . $ordered . ".gif' alt='" . $ordered . "'> </a>";
 }
 
 //bestehende zeit holen
@@ -216,14 +204,10 @@ $row = $db->db_fetch_array($result);
 
 $switch = $row['switch'];
 
-//zeit ändern?
+//Zeit ändern?
 ?>
     <form action="index.php?action=m_ress" method="post">
-        <p>Anzeigen der Produktion für <input type="text" name="switch" size="3"> Stunden <input type="submit"
-                                                                                                 value="speichern"
-                                                                                                 name="form"
-                                                                                                 class="submit">
-        </p>
+        <p>Anzeigen der Produktion für <input type="text" name="switch" size="3"> Stunden <input type="submit" value="speichern" name="form"></p>
     </form>
 <?php
 
@@ -244,73 +228,73 @@ doc_title("sowie Bevölkerungsdaten");
 
 start_table();
 
-start_row("titlebg", "style='width:9%' align='center' nowrap='nowrap'");
+start_row("titlebg center", "style='width:9%'");
 make_link("user", "asc");
 echo "<b>User</b>";
 make_link("user", "desc");
 echo "<br>";
 
-next_cell("titlebg", "style='width:9%' align='center' nowrap='nowrap'");
+next_cell("titlebg center", "style='width:9%'");
 make_link("datum", "asc");
 echo "<b>Einlesezeit</b>";
 make_link("datum", "desc");
 
-next_cell("titlebg", "style='width:9%' align='center'");
+next_cell("titlebg center", "style='width:9%'");
 make_link("eisen", "asc");
 echo "<b>Eisen</b>";
 make_link("eisen", "desc");
 
-next_cell("titlebg", "style='width:9%' align='center'");
+next_cell("titlebg center", "style='width:9%'");
 make_link("stahl", "asc");
 echo "<b>Stahl</b>";
 make_link("stahl", "desc");
 
-next_cell("titlebg", "style='width:9%' align='center'");
+next_cell("titlebg center", "style='width:9%'");
 make_link("vv4a", "asc");
 echo "<b>VV4A</b>";
 make_link("vv4a", "desc");
 
-next_cell("titlebg", "style='width:9%' align='center'");
+next_cell("titlebg center", "style='width:9%'");
 make_link("chem", "asc");
 echo "<b>Chemie</b>";
 make_link("chem", "desc");
 
-next_cell("titlebg", "style='width:9%' align='center'");
+next_cell("titlebg center", "style='width:9%'");
 make_link("eis", "asc");
 echo "<b>Eis</b>";
 make_link("eis", "desc");
 
-next_cell("titlebg", "style='width:9%' align='center'");
+next_cell("titlebg center", "style='width:9%'");
 make_link("wasser", "asc");
 echo "<b>Wasser</b>";
 make_link("wasser", "desc");
 
-next_cell("titlebg", "style='width:9%' align='center'");
+next_cell("titlebg center", "style='width:9%'");
 make_link("energie", "asc");
 echo "<b>Energie</b>";
 make_link("energie", "desc");
 
-next_cell("titlebg", "style='width:9%' align='center'");
+next_cell("titlebg center", "style='width:9%'");
 make_link("fp_ph", "asc");
 echo "<b>FP</b>";
 make_link("fp_ph", "desc");
 
-next_cell("titlebg", "style='width:9%' align='center'");
+next_cell("titlebg center", "style='width:9%'");
 make_link("credits", "asc");
 echo "<b>Credits</b>";
 make_link("credits", "desc");
 
-next_cell("titlebg", "style='width:9%' align='center'");
+next_cell("titlebg center", "style='width:9%'");
 make_link("bev_a", "asc");
 echo "<b>Hartz IV</b>";
 make_link("bev_a", "desc");
 
-next_cell("titlebg", "style='width:9%' align='center'");
+next_cell("titlebg center", "style='width:9%'");
 make_link("bev_g", "asc");
 echo "<b>Volk</b>";
 make_link("bev_g", "desc");
 
-next_cell("titlebg", "style='width:3%' align='center'");
+next_cell("titlebg center", "style='width:3%'");
 make_link("bev_q", "asc");
 echo "<b>Quote</b>";
 make_link("bev_q", "desc");
@@ -341,46 +325,46 @@ $result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     $color = getScanAgeColor($row['datum']);
 
-    next_row("windowbg1", " nowrap='nowrap'");
+    next_row("windowbg1");
     echo $row['user'] . "<br>";
 
     next_cell("windowbg1", "style='background-color:" . $color . "' nowrap='nowrap'");
-    echo strftime("%d.%m.%y %H:%M:%S", $row['datum']);
+    echo strftime(CONFIG_DATETIMEFORMAT, $row['datum']);
 
-    next_cell("windowbg1", "align='right'");
+    next_cell("windowbg1 right");
     echo number_format($row['eisen'] * $switch, 0, ',', '.');
 
-    next_cell("windowbg1", "align='right'");
+    next_cell("windowbg1 right");
     echo number_format($row['stahl'] * $switch, 0, ',', '.');
 
-    next_cell("windowbg1", "align='right'");
+    next_cell("windowbg1 right");
     echo number_format($row['vv4a'] * $switch, 0, ',', '.');
 
-    next_cell("windowbg1", "align='right'");
+    next_cell("windowbg1 right");
     echo number_format($row['chem'] * $switch, 0, ',', '.');
 
-    next_cell("windowbg1", "align='right'");
+    next_cell("windowbg1 right");
     echo number_format($row['eis'] * $switch, 0, ',', '.');
 
-    next_cell("windowbg1", "align='right'");
+    next_cell("windowbg1 right");
     echo number_format($row['wasser'] * $switch, 0, ',', '.');
 
-    next_cell("windowbg1", "align='right'");
+    next_cell("windowbg1 right");
     echo number_format($row['energie'] * $switch, 0, ',', '.');
 
-    next_cell("windowbg1", "align='right'");
+    next_cell("windowbg1 right");
     echo number_format($row['fp_ph'] * $switch, 0, ',', '.');
 
-    next_cell("windowbg1", "align='right'");
+    next_cell("windowbg1 right");
     echo number_format($row['credits'] * $switch, 0, ',', '.');
 
-    next_cell("windowbg1", "align='right'");
+    next_cell("windowbg1 right");
     echo number_format($row['bev_a'], 0, ',', '.');
 
-    next_cell("windowbg1", "align='right'");
+    next_cell("windowbg1 right");
     echo number_format($row['bev_g'], 0, ',', '.');
 
-    next_cell("windowbg1", "align='right'");
+    next_cell("windowbg1 right");
     echo number_format($row['bev_q'], 2, ',', '.');
 }
 
@@ -394,43 +378,43 @@ $sql    = "SELECT sum(`eisen`) as eisen , sum(`stahl`) as stahl, sum(`vv4a`) as 
     " FROM " . $db_tb_ressuebersicht;
 $result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
-    next_row("titlebg", "align='center' style='background-color:\$FFFFFF' colspan='2' nowrap='nowrap'");
+    next_row("titlebg center", "style='background-color:\$FFFFFF' colspan='2'");
     echo "Gesamt:";
 
-    next_cell("windowbg1", "align='right'");
+    next_cell("windowbg1 right");
     echo number_format($row['eisen'] * $switch, 0, ',', '.');
 
-    next_cell("windowbg1", "align='right'");
+    next_cell("windowbg1 right");
     echo number_format($row['stahl'] * $switch, 0, ',', '.');
 
-    next_cell("windowbg1", "align='right'");
+    next_cell("windowbg1 right");
     echo number_format($row['vv4a'] * $switch, 0, ',', '.');
 
-    next_cell("windowbg1", "align='right'");
+    next_cell("windowbg1 right");
     echo number_format($row['chem'] * $switch, 0, ',', '.');
 
-    next_cell("windowbg1", "align='right'");
+    next_cell("windowbg1 right");
     echo number_format($row['eis'] * $switch, 0, ',', '.');
 
-    next_cell("windowbg1", "align='right'");
+    next_cell("windowbg1 right");
     echo number_format($row['wasser'] * $switch, 0, ',', '.');
 
-    next_cell("windowbg1", "align='right'");
+    next_cell("windowbg1 right");
     echo number_format($row['energie'] * $switch, 0, ',', '.');
 
-    next_cell("windowbg1", "align='right'");
+    next_cell("windowbg1 right");
     echo number_format($row['fp_ph'] * $switch, 0, ',', '.');
 
-    next_cell("windowbg1", "align='right'");
+    next_cell("windowbg1 right");
     echo number_format($row['credits'] * $switch, 0, ',', '.');
 
-    next_cell("windowbg1", "align='right'");
+    next_cell("windowbg1 right");
     echo number_format($row['bev_a'], 0, ',', '.');
 
-    next_cell("windowbg1", "align='right'");
+    next_cell("windowbg1 right");
     echo number_format($row['bev_g'], 0, ',', '.');
 
-    next_cell("windowbg1", "align='right'");
+    next_cell("windowbg1 right");
     echo "&Oslash;" . number_format($row['bev_q'], 2, ',', '.');
 }
 end_row();
@@ -479,7 +463,7 @@ foreach ($fleeterlist as $key => $value) {
 
     start_table();
 
-    start_row("titlebg", "align='center' colspan='13'");
+    start_row("titlebg center", "colspan='13'");
     if ($fleetername == $value['sitterlogin']) {
         echo "<b>Fleeter: " . $fleetername . "</b>";
     } else {
@@ -487,66 +471,66 @@ foreach ($fleeterlist as $key => $value) {
     }
     echo "<br>";
 
-    next_row("titlebg", "style='width:9%' align='center' nowrap='nowrap'");
+    next_row("titlebg center", "style='width:9%'");
     make_link("user", "asc");
     echo "<b>User</b>";
     make_link("user", "desc");
     echo "<br>";
 
-    next_cell("titlebg", "style='width:9%' align='center' nowrap='nowrap'");
+    next_cell("titlebg center", "style='width:9%'");
     make_link("datum", "asc");
     echo "<b>Einlesezeit</b>";
     make_link("datum", "desc");
 
-    next_cell("titlebg", "style='width:9%' align='center'");
+    next_cell("titlebg center", "style='width:9%'");
     make_link("eisen", "asc");
     echo "<b>Eisen</b>";
     make_link("eisen", "desc");
 
-    next_cell("titlebg", "style='width:9%' align='center'");
+    next_cell("titlebg center", "style='width:9%'");
     make_link("stahl", "asc");
     echo "<b>Stahl</b>";
     make_link("stahl", "desc");
 
-    next_cell("titlebg", "style='width:9%' align='center'");
+    next_cell("titlebg center", "style='width:9%'");
     make_link("vv4a", "asc");
     echo "<b>VV4A</b>";
     make_link("vv4a", "desc");
 
-    next_cell("titlebg", "style='width:9%' align='center'");
+    next_cell("titlebg center", "style='width:9%'");
     make_link("chem", "asc");
     echo "<b>Chemie</b>";
     make_link("chem", "desc");
 
-    next_cell("titlebg", "style='width:9%' align='center'");
+    next_cell("titlebg center", "style='width:9%'");
     make_link("eis", "asc");
     echo "<b>Eis</b>";
     make_link("eis", "desc");
 
-    next_cell("titlebg", "style='width:9%' align='center'");
+    next_cell("titlebg center", "style='width:9%'");
     make_link("wasser", "asc");
     echo "<b>Wasser</b>";
     make_link("wasser", "desc");
 
-    next_cell("titlebg", "style='width:9%' align='center'");
+    next_cell("titlebg center", "style='width:9%'");
     make_link("energie", "asc");
     echo "<b>Energie</b>";
     make_link("energie", "desc");
 
-    next_cell("titlebg", "style='width:9%' align='center'");
+    next_cell("titlebg center", "style='width:9%'");
     make_link("fp_ph", "asc");
     echo "<b>FP</b>";
     make_link("fp_ph", "desc");
 
-    next_cell("titlebg", "style='width:9%' align='center'");
+    next_cell("titlebg center", "style='width:9%'");
     make_link("credits", "asc");
     echo "<b>Credits</b>";
     make_link("credits", "desc");
 
-    next_cell("titlebg", "style='width:9%' align='center'");
+    next_cell("titlebg center", "style='width:9%'");
     echo "<b>Spieltyp</b>";
 
-    next_cell("titlebg", "style='width:9%' align='center'");
+    next_cell("titlebg center", "style='width:9%'");
     echo "<b>Staatsform</b>";
 
     // Anzeigen der Daten im Browser
@@ -572,37 +556,37 @@ foreach ($fleeterlist as $key => $value) {
         next_cell("windowbg1", "style='background-color:" . $color . "' nowrap='nowrap'");
         echo strftime("%d.%m.%y<br>%H:%M:%S", $row['datum']);
 
-        next_cell("windowbg1", "align='right'");
-        echo number_format($row['eisen'] * $switch, 0, '.', ',');
+        next_cell("windowbg1 right");
+        echo number_format($row['eisen'] * $switch, 0, ',', '.');
 
-        next_cell("windowbg1", "align='right'");
-        echo number_format($row['stahl'] * $switch, 0, '.', ',');
+        next_cell("windowbg1 right");
+        echo number_format($row['stahl'] * $switch, 0, ',', '.');
 
-        next_cell("windowbg1", "align='right'");
-        echo number_format($row['vv4a'] * $switch, 0, '.', ',');
+        next_cell("windowbg1 right");
+        echo number_format($row['vv4a'] * $switch, 0, ',', '.');
 
-        next_cell("windowbg1", "align='right'");
-        echo number_format($row['chem'] * $switch, 0, '.', ',');
+        next_cell("windowbg1 right");
+        echo number_format($row['chem'] * $switch, 0, ',', '.');
 
-        next_cell("windowbg1", "align='right'");
-        echo number_format($row['eis'] * $switch, 0, '.', ',');
+        next_cell("windowbg1 right");
+        echo number_format($row['eis'] * $switch, 0, ',', '.');
 
-        next_cell("windowbg1", "align='right'");
-        echo number_format($row['wasser'] * $switch, 0, '.', ',');
+        next_cell("windowbg1 right");
+        echo number_format($row['wasser'] * $switch, 0, ',', '.');
 
-        next_cell("windowbg1", "align='right'");
-        echo number_format($row['energie'] * $switch, 0, '.', ',');
+        next_cell("windowbg1 right");
+        echo number_format($row['energie'] * $switch, 0, ',', '.');
 
-        next_cell("windowbg1", "align='right'");
-        echo number_format($row['fp_ph'] * $switch, 0, '.', ',');
+        next_cell("windowbg1 right");
+        echo number_format($row['fp_ph'] * $switch, 0, ',', '.');
 
-        next_cell("windowbg1", "align='right'");
-        echo number_format($row['credits'] * $switch, 0, '.', ',');
+        next_cell("windowbg1 right");
+        echo number_format($row['credits'] * $switch, 0, ',', '.');
 
-        next_cell("windowbg1", "align='right'");
+        next_cell("windowbg1 right");
         echo $row['budflesol'];
 
-        next_cell("windowbg1", "align='right'");
+        next_cell("windowbg1 right");
         echo NumToStaatsform($row['staatsform']);
     }
 
@@ -624,38 +608,38 @@ foreach ($fleeterlist as $key => $value) {
     $result = $db->db_query($sql);
 
     while ($row = $db->db_fetch_array($result)) {
-        next_row("titlebg", "align='center' style='background-color:\$FFFFFF' colspan='2\ nowrap='nowrap'");
+        next_row("titlebg center", "style='background-color:#FFFFFF' colspan='2'");
         echo "Gesamt";
 
 
-        next_cell("windowbg1", "align='right'");
-        echo number_format($row['eisen'] * $switch, 0, '.', ',');
+        next_cell("windowbg1 right");
+        echo number_format($row['eisen'] * $switch, 0, ',', '.');
 
-        next_cell("windowbg1", "align='right'");
-        echo number_format($row['stahl'] * $switch, 0, '.', ',');
+        next_cell("windowbg1 right");
+        echo number_format($row['stahl'] * $switch, 0, ',', '.');
 
-        next_cell("windowbg1", "align='right'");
-        echo number_format($row['vv4a'] * $switch, 0, '.', ',');
+        next_cell("windowbg1 right");
+        echo number_format($row['vv4a'] * $switch, 0, ',', '.');
 
-        next_cell("windowbg1", "align='right'");
-        echo number_format($row['chem'] * $switch, 0, '.', ',');
+        next_cell("windowbg1 right");
+        echo number_format($row['chem'] * $switch, 0, ',', '.');
 
-        next_cell("windowbg1", "align='right'");
-        echo number_format($row['eis'] * $switch, 0, '.', ',');
+        next_cell("windowbg1 right");
+        echo number_format($row['eis'] * $switch, 0, ',', '.');
 
-        next_cell("windowbg1", "align='right'");
-        echo number_format($row['wasser'] * $switch, 0, '.', ',');
+        next_cell("windowbg1 right");
+        echo number_format($row['wasser'] * $switch, 0, ',', '.');
 
-        next_cell("windowbg1", "align='right'");
-        echo number_format($row['energie'] * $switch, 0, '.', ',');
+        next_cell("windowbg1 right");
+        echo number_format($row['energie'] * $switch, 0, ',', '.');
 
-        next_cell("windowbg1", "align='right'");
-        echo number_format($row['fp_ph'] * $switch, 0, '.', ',');
+        next_cell("windowbg1 right");
+        echo number_format($row['fp_ph'] * $switch, 0, ',', '.');
 
-        next_cell("windowbg1", "align='right'");
-        echo number_format($row['credits'] * $switch, 0, '.', ',');
+        next_cell("windowbg1 right");
+        echo number_format($row['credits'] * $switch, 0, ',', '.');
 
-        next_cell("titlebg", "align='center' style='background-color:\$FFFFFF' colspan='2'");
+        next_cell("titlebg center", "style='background-color:#FFFFFF' colspan='2'");
         echo "Gesamt";
     }
     end_row();

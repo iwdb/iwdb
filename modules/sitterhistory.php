@@ -34,17 +34,15 @@ if (!defined('IRA')) {
 }
 
 //****************************************************************************
+//genutzte globale Variablen
+global $user_sitterlogin, $user_status, $db, $db_tb_sitterlog;
 
 if ($user_adminsitten == SITTEN_DISABLED) {
     die('Hacking attempt...');
 }
 
-$limit = getVar('limit');
-if (empty($limit)) {
-    $limit = 20;
-}
-
-$selecteduser = getVar('selecteduser');
+$limit = filter_int(getVar('limit'), 20, 1, 250);
+$selecteduser = validAccname(getVar('selecteduser'));
 if (empty($selecteduser)) {
     $selecteduser = $user_sitterlogin;
 }
@@ -53,51 +51,50 @@ doc_title("Sitterhistorie von " . $selecteduser);
 
 start_form("sitterhistory");
 echo "<input type='hidden' name='selecteduser' value='" . $selecteduser . "'>\n";
-echo "maximal: <input type='text' name='limit' value='" . $limit . "' style='width: 50;'>\n";
+echo "maximal: <input type='number' name='limit' value='" . $limit . "' min='1' max='250' style='width: 5em;'> Einträge\n";
 echo "<input type='submit' value='anzeigen' name='B1' class='submit'>\n";
 end_form();
 ?>
-<table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">
-    <tr>
-        <td class="titlebg" colspan="4" align="center">
+<br>
+<table class="table_hovertable" style="width: 90%;">
+    <tr class="titlebg center">
+        <th colspan="4">
             <b>Was andere bei <?php echo $selecteduser;?> gemacht haben:</b>
-        </td>
+        </th>
     </tr>
-    <tr>
-        <td class="titlebg" style="width:20%;">
+    <tr class="titlebg left">
+        <th style="width:15%;">
             <b>Username</b>
-        </td>
-        <td class="titlebg" style="width:15%;">
+        </th>
+        <th class="center" style="width:20%;">
             <b>Zeit</b>
-        </td>
-        <td class="titlebg" style="width:65%;">
+        </th>
+        <th style="width:65%;">
             <b>Auftrag</b>
-        </td>
+        </th>
     </tr>
     <?php
     // Auftraege durchgehen //
-    $sql = "SELECT * FROM " . $db_tb_sitterlog . " WHERE sitterlogin = '" .
-        $selecteduser . "' ORDER BY date DESC LIMIT " . $limit;
+    $sql = "SELECT `fromuser`, `date`, `action` FROM `{$db_tb_sitterlog}` WHERE `sitterlogin` = '" . $selecteduser . "' ORDER BY `date` DESC LIMIT " . $limit;
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
     while ($row = $db->db_fetch_array($result)) {
         ?>
-        <tr>
-            <td class="windowbg1">
+        <tr class="windowbg1 left">
+            <td>
                 <?php
                 if ($user_status == "admin") {
-                    echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($row['fromuser']) .
-                        "&sid=" . $sid . "'>" . $row['fromuser'] . "</a>";
+                    echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($row['fromuser']) . "'>" . $row['fromuser'] . "</a>";
                 } else {
                     echo $row['fromuser'];
                 }
                 ?>
             </td>
-            <td class="windowbg1">
+            <td>
                 <?php echo strftime(CONFIG_DATETIMEFORMAT, $row['date']);?>
             </td>
-            <td class="windowbg1">
+            <td>
                 <?php echo convert_bbcode($row['action']);?>
             </td>
         </tr>
@@ -107,45 +104,44 @@ end_form();
 </table>
 <br>
 <br>
-<table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">
-    <tr>
-        <td class="titlebg" colspan="4" align="center">
+<table class="table_hovertable" style="width: 90%;">
+    <tr class="titlebg center">
+        <th colspan="4">
             <b>Was <?php echo $selecteduser;?> bei anderen gemacht hat</b>
-        </td>
+        </th>
     </tr>
-    <tr>
-        <td class="titlebg" style="width:20%;">
+    <tr class="titlebg left">
+        <th style="width:15%;">
             <b>Username</b>
-        </td>
-        <td class="titlebg" style="width:15%;">
+        </th>
+        <th class="center" style="width:20%;">
             <b>Zeit</b>
-        </td>
-        <td class="titlebg" style="width:65%;">
+        </th>
+        <th style="width:65%;">
             <b>Auftrag</b>
-        </td>
+        </th>
     </tr>
     <?php
     // Aufträge durchgehen //
-    $sql = "SELECT * FROM " . $db_tb_sitterlog . " WHERE fromuser = '" . $selecteduser . "' ORDER BY date DESC LIMIT " . $limit;
+    $sql = "SELECT `sitterlogin`, `date`, `action` FROM `{$db_tb_sitterlog}` WHERE `fromuser` = '" . $selecteduser . "' ORDER BY `date` DESC LIMIT " . $limit;
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     while ($row = $db->db_fetch_array($result)) {
         ?>
-        <tr>
-            <td class="windowbg1">
+        <tr class="windowbg1 left">
+            <td>
                 <?php
-                if ($user_status == "admin") {
-                    echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($row['sitterlogin']) .
-                        "&sid=" . $sid . "'>" . $row['sitterlogin'] . "</a>";
+                if ($user_status === "admin") {
+                    echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($row['sitterlogin']) . "'>" . $row['sitterlogin'] . "</a>";
                 } else {
                     echo $row['sitterlogin'];
                 }
                 ?>
             </td>
-            <td class="windowbg1">
+            <td>
                 <?php echo strftime(CONFIG_DATETIMEFORMAT, $row['date']);?>
             </td>
-            <td class="windowbg1">
+            <td>
                 <?php echo convert_bbcode($row['action']);?>
             </td>
         </tr>

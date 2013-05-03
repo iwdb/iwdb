@@ -1,0 +1,105 @@
+/**
+* Stylesheet für m_kb.php
+*/
+
+p {
+    font-family: Arial, serif;
+    font-size: 12px;
+    color: black;
+    background-color: #fff;
+    text-align: left;
+}
+
+table, tr, td {
+    font-family: Arial, serif;
+    font-size: 12px;
+    color: black;
+    white-space: nowrap;
+    empty-cells: show;
+}
+
+/* freund/feind Hintergrund */
+.wfreund {
+    background-color: #EDFFED;
+    font-size: 12px;
+}
+
+.wfreund2 {
+    background-color: #DCEEDC;
+    font-size: 12px;
+}
+
+.wfreundf {
+    background-color: #A9BBA9;
+    font-size: 12px;
+}
+
+.wfeind {
+    background-color: #FFEDED;
+    font-size: 12px;
+}
+
+.wfeind2 {
+    background-color: #EEDCDC;
+    font-size: 12px;
+}
+
+.wfeindf {
+    background-color: #BBA9A9;
+    font-size: 12px;
+}
+
+/* Einmaurer */
+.maurer {
+    font-weight: bold;
+    font-style: italic;
+    font-size: 9pt;
+}
+
+/* Summen */
+.summen {
+    font-weight: bold;
+}
+
+.doc_gray {
+    color: gray;
+}
+
+/* Input KB-Parser Checkbox */
+.Check {
+    padding: 0;
+    margin: 0;
+    height: 12px;
+}
+
+/* Links */
+.kb {
+    font-weight: bold;
+    font-style: italic;
+    font-size: 12px;
+}
+
+.kb:link {
+    text-decoration: none;
+    color: #0000ff;
+}
+
+.kb:visited {
+    text-decoration: none;
+    color: #000099;
+}
+
+.kb:hover {
+    text-decoration: none;
+    color: #000011;
+}
+
+.kb:active {
+    text-decoration: none;
+    color: #007700;
+}
+
+a.kb:focus {
+    text-decoration: none;
+    color: #007700;
+}

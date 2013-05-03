@@ -151,43 +151,15 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 
 //****************************************************************************
 
-// Titelzeile
 doc_title('Kampfbasen');
 
-// Stammdaten abfragen
-$config = array();
+// aktuelle Spielerauswahl ermitteln
+$params['playerSelection'] = getVar('playerSelection');
 
-$sql = "SELECT * FROM $db_tb_gebaeude";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query scans_historie information.', '', __FILE__, __LINE__, $sql);
-while ($row = $db->db_fetch_array($result)) {
-    $buildings[$row['name']] = array(
-        "id"   => $row['id'],
-        "bild" => $row['bild']
-    );
-}
-
-// Spieler und Teams abfragen
-$users                    = array();
-$teams                    = array();
-$teams['(Alle)']          = '(Alle)';
-$teams['(Nur Fleeter)']   = '(Nur Fleeter)';
-$teams['(Nur Cash Cows)'] = '(Nur Cash Cows)';
-$teams['(Nur Buddler)']   = '(Nur Buddler)';
-$sql                      = "SELECT * FROM " . $db_tb_user;
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-while ($row = $db->db_fetch_array($result)) {
-    $users[$row['id']] = $row['id'];
-    if (!empty($row['buddlerfrom'])) {
-        $teams[$row['buddlerfrom']] = $row['buddlerfrom'];
-    }
-}
-$config['users'] = $users;
-$config['teams'] = $teams;
-
-// Parameter ermitteln
-$params['team'] = getVar('team');
+// Auswahlarray zusammenbauen
+$playerSelectionOptions = array();
+$playerSelectionOptions['(Alle)'] = '(Alle)';
+$playerSelectionOptions += getAllyAccTypesSelect() + getAllyTeamsSelect();
 
 // Abfrage ausführen
 $sql = "SELECT  $db_tb_user.id AS 'user',
@@ -205,124 +177,150 @@ $sql = "SELECT  $db_tb_user.id AS 'user',
 		 (SELECT $db_tb_schiffe.anzahl
 		  FROM $db_tb_schiffe
 		  WHERE $db_tb_schiffe.user=$db_tb_user.id
-		    AND $db_tb_schiffe.schiff=7) AS 'alpha',
+		    AND $db_tb_schiffe.schiff=7) AS 'numKBalpha',
 		 (SELECT $db_tb_schiffe.anzahl
 		  FROM $db_tb_schiffe
 		  WHERE $db_tb_schiffe.user=$db_tb_user.id
-		    AND $db_tb_schiffe.schiff=72) AS 'beta',
+		    AND $db_tb_schiffe.schiff=72) AS 'numKBbeta',
 		 (SELECT $db_tb_schiffe.anzahl
 		  FROM $db_tb_schiffe
 		  WHERE $db_tb_schiffe.user=$db_tb_user.id
-		    AND $db_tb_schiffe.schiff=100) AS 'gamma',
+		    AND $db_tb_schiffe.schiff=100) AS 'numKBgamma',
 		 
 		 (SELECT COUNT($db_tb_scans.coords)
 		  FROM $db_tb_scans
 		  WHERE $db_tb_scans.user=$db_tb_user.id
 		    AND $db_tb_scans.objekt='Kampfbasis') AS 'base'";
 $sql .= " FROM $db_tb_user";
-if (isset($params['team'])) {
-    if ($params['team'] == '(Nur Fleeter)') {
-        $sql .= " WHERE " . $db_tb_user . ".budflesol='Fleeter'";
-    } elseif ($params['team'] == '(Nur Cash Cows)') {
-        $sql .= " WHERE " . $db_tb_user . ".budflesol='Cash Cow'";
-    } elseif ($params['team'] == '(Nur Buddler)') {
-        $sql .= " WHERE " . $db_tb_user . ".budflesol='Buddler'";
-    } elseif ($params['team'] != '(Alle)') {
-        $sql .= " WHERE " . $db_tb_user . ".buddlerfrom='" . $params['team'] . "'";
-    }
-}
+$sql .= " WHERE " . sqlPlayerSelection($params['playerSelection']);
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query scans_historie information.', '', __FILE__, __LINE__, $sql);
 
-// Auswahlfelder
-echo "<form method='POST' action='' enctype='multipart/form-data'>";
-echo "<p align='center'>";
-echo "Team: ";
-echo "<select name='team'>";
-foreach ($config['teams'] as $team) {
-    echo "<option value='$team'";
-    if ($team == $params['team']) {
-        echo " selected";
-    }
-    echo ">$team</option>";
-}
-echo "</select>";
-echo "</p>";
-echo "<input type='submit' name='submit' value='anzeigen'/>";
-echo "</form>";
-
-start_table();
-start_row("titlebg", "nowrap style='width:0%' align='center' colspan='8'");
-echo "<b>Kampfbasen</b>";
-start_row("windowbg2", "nowrap style='width:0%' align='center'");
-echo "Spieler";
-next_cell("windowbg2", "nowrap style='width:0%' align='center'");
-echo "Typ";
-next_cell("windowbg2", "nowrap style='width:0%' align='center'");
-echo "orbitale Dockingsysteme";
-next_cell("windowbg2", "nowrap style='width:0%' align='center'");
-echo "Kampfbasenverwaltung";
-next_cell("windowbg2", "nowrap style='width:0%' align='center'");
-echo "Kampfbasen";
-next_cell("windowbg2", "nowrap style='width:0%' align='center'");
-echo "# Basen";
-next_cell("windowbg2", "nowrap style='width:0%' align='center'");
-echo "Diff Soll";
-
-
-// Abfrage auswerten
-while ($row = $db->db_fetch_array($result)) {
-    start_row("windowbg1", "nowrap style='width:0%' align='left'");
-    echo $row['user'];
-    next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-    echo $row['typ'];
-    next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-    if (!empty($row['research'])) {
-        echo "erforscht";
-    } else {
-        echo "-";
-    }
-    next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-    if (!empty($row['count'])) {
-        echo "Stufe " . $row['count'];
-    } else if (!empty($row['research'])) {
-        echo "Keine";
-    } else {
-        echo "-";
-    }
-    next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-    echo $row['base'] . "/" . ($row['count'] + 2);
-    /*
-    if (!empty($row['base']))  {
-        echo $row['base'] . "/" . ($row['count']+2);
-    } else
-        echo "0/2";*/
-    next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-    if (!empty($row['alpha'])) {
-        $one = $row['alpha'];
-    } else {
-        $one = 0;
-    }
-    if (!empty($row['beta'])) {
-        $two = $row['beta'];
-    } else {
-        $two = 0;
-    }
-    if (!empty($row['gamma'])) {
-        $three = $row['gamma'];
-    } else {
-        $three = 0;
-    }
-
-    echo $one . "/" . $two . "/" . $three;
-
-
-    next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-    echo (($one + $two + $three) + $row['base'] - ($row['count'] + 2));
-
-    end_row();
-}
-end_table();
-
+// Spielerauswahl Dropdown erstellen
+echo "<div class='playerSelectionbox'>";
+echo "Auswahl: ";
+echo makeField(
+    array(
+         "type"   => 'select',
+         "values" => $playerSelectionOptions,
+         "value"  => $params['playerSelection'],
+         "onchange" => "location.href='index.php?action=m_kampfbasen&amp;playerSelection='+this.options[this.selectedIndex].value",
+    ), 'playerSelection'
+);
+echo '</div><br>';
 
 ?>
+<table class="table_hovertable">
+	<thead>
+		<tr>
+			<th>
+				Spieler
+			</th>
+			<th>
+				Typ
+			</th>
+			<th>
+				orbitale Dockingsysteme
+			</th>
+			<th>
+				Kampfbasenverwaltung
+			</th>
+			<th>
+				KBs<br>aufgestellt
+			</th>
+			<th>
+                <abbr title="KB Alpha / KB Beta / KB Gamma">KBs<br>im Acc</abbr>
+			</th>
+			<th>
+				Diff Soll
+			</th>
+		</tr>
+	</thead>
+	
+	<?php
+	while ($row = $db->db_fetch_array($result)) {
+	?>
+	<tbody>
+		<tr>
+			<td>
+				<?php echo $row['user']; ?>
+			</td>
+			<td>
+				<?php echo $row['typ']; ?>
+			</td>
+			<td>
+				<?php
+				if (!empty($row['research']) OR (!empty($row['count']))) {
+                    echo "<span class='doc_green'>erforscht</span>";
+				} else {
+                    echo "<span class='doc_red'>nicht erforscht</span>";
+				}
+				?>
+			</td>
+			<td>
+				<?php
+				if (!empty($row['count'])) {
+					echo "Stufe " . $row['count'];
+				} else if (!empty($row['research'])) {
+					echo "<span class='doc_red'>Keine</span>";
+				} else {
+					echo "<span class='doc_red'>-</span>";
+				}
+				?>
+			</td>
+			<td>
+				<?php
+                $abbrstring = $row['base'] . ' von ' . ($row['count'] + 2);
+                echo "<abbr title='$abbrstring'>";
+                echo $row['base'] . "/" . ($row['count'] + 2);
+                echo '</abbr>';
+				?>
+			</td>
+			<td>
+                <?php
+                $abbrstring = '';
+                if (!empty($row['numKBalpha'])) {
+                    $numKBalpha = $row['numKBalpha'];
+                    $abbrstring .= $row['numKBalpha'] . 'x KB Alpha, ';
+                } else {
+                    $numKBalpha = 0;
+                }
+                if (!empty($row['numKBbeta'])) {
+                    $numKBbeta = $row['numKBbeta'];
+                    $abbrstring .= $row['numKBbeta'] . 'x KB Beta, ';
+                } else {
+                    $numKBbeta = 0;
+                }
+                if (!empty($row['numKBgamma'])) {
+                    $numKBgamma = $row['numKBgamma'];
+                    $abbrstring .= $row['numKBgamma'] . 'x KB Gamma, ';
+                } else {
+                    $numKBgamma = 0;
+                }
+                if (!empty($abbrstring)) {
+                    $abbrstring = substr($abbrstring, 0, -2) . " = " . ($numKBalpha + $numKBbeta + $numKBgamma) . ' gesamt';
+                } else {
+                    $abbrstring = 'keine';
+                }
+                echo "<abbr title='$abbrstring'>";
+                echo $numKBalpha . '/' . $numKBbeta . '/' . $numKBgamma;
+                echo '</abbr>';
+                ?>
+			</td>
+			<td>
+				<?php
+                $diffSoll = (($numKBalpha + $numKBbeta + $numKBgamma) + $row['base'] - ($row['count'] + 2));
+                if ($diffSoll < 0) {
+                    echo "<span class='doc_red'>$diffSoll</span>";
+                } else {
+                    echo $diffSoll;
+                }
+                ?>
+			</td>
+		</tr>
+	</tbody>
+	<?php
+	}
+	?>
+</table>
+<br>

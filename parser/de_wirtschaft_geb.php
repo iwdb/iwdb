@@ -63,8 +63,8 @@ function parse_de_wirtschaft_geb($return)
                 $sql .= "," . $aCoords[2];
                 $sql .= ",'" . $return->objResultData->aKolos[$coords]->strObjectType . "'";
                 $sql .= ",'" . $AccName . "'";
-                $sql .= ",'" . $area->strAreaName . "'";
-                $sql .= ",'" . $building->strBuildingName . "'";
+                $sql .= ",'" . htmlspecialchars($area->strAreaName, ENT_QUOTES, 'UTF-8') . "'";
+                $sql .= ",'" . htmlspecialchars($building->strBuildingName, ENT_QUOTES, 'UTF-8') . "'";
                 $sql .= "," . $count;
                 $sql .= "," . CURRENT_UNIX_TIME . "),
                     ";

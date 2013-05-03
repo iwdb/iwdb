@@ -36,31 +36,38 @@ if (!defined('IRA')) {
 //****************************************************************************
 
 $sitterlogin = getVar('sitterlogin');
-if ($sitterlogin === false) {
+$id = getVar('id');
+if (empty($id)) {
+    $id = $user_id;
+    if (!empty($sitterlogin)) {     //masel: vorläufig
+        $id = $sitterlogin;
+    } else {
+        $sitterlogin = $user_sitterlogin;
+    }
+}
+
+if (($id !== $user_id) and ($user_status !== "admin")) {
+    $id = $user_id;
     $sitterlogin = $user_sitterlogin;
 }
 ?>
     <br>
-    <table border="0" cellpadding="0" cellspacing="1" class="bordercolor">
+    <table class="table_format">
         <tr>
-            <td class="menutop" align="center">
-                <a href="index.php?action=profile&sitterlogin=<?php echo urlencode($sitterlogin);?>&sid=<?php echo $sid;?>">Einstellungen</a>
+            <td class="menutop center">
+                <a href="index.php?action=profile&id=<?php echo urlencode($id);?>&sitterlogin=<?php echo urlencode($sitterlogin);?>">Einstellungen</a>
             </td>
-            <td class="menutop" align="center">
-                <a href="index.php?action=profile&sitterlogin=<?php echo urlencode($sitterlogin);?>&uaction=editplaneten&sid=<?php echo $sid;?>">eigene
-                    Planeten</a>
+            <td class="menutop center">
+                <a href="index.php?action=profile&id=<?php echo urlencode($id);?>&sitterlogin=<?php echo urlencode($sitterlogin);?>&uaction=editplaneten">Planeten</a>
             </td>
-            <td class="menutop" align="center">
-                <a href="index.php?action=profile&sitterlogin=<?php echo urlencode($sitterlogin);?>&uaction=editpresets&sid=<?php echo $sid;?>">eigene
-                    Presets</a>
+            <td class="menutop center">
+                <a href="index.php?action=profile&id=<?php echo urlencode($id);?>&sitterlogin=<?php echo urlencode($sitterlogin);?>&uaction=editpresets">Presets</a>
             </td>
-            <td class="menutop" align="center">
-                <a href="index.php?action=profile&sitterlogin=<?php echo urlencode($sitterlogin);?>&uaction=gebaeude&sid=<?php echo $sid;?>">Gebäude
-                    ausblenden</a>
+            <td class="menutop center">
+                <a href="index.php?action=profile&id=<?php echo urlencode($id);?>&sitterlogin=<?php echo urlencode($sitterlogin);?>&uaction=gebaeude">Gebäude ausblenden</a>
             </td>
         </tr>
     </table>
-    <br>
     <br>
 <?php
 

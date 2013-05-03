@@ -123,8 +123,10 @@ if ($anzahl > 0) {
     $anz_sondierungen = "";
 }
 
+echo "<div id='iwdb_notices'>";
+
 if (isset($db_tb_incomings)) {
-    $sql = "SELECT COUNT(*) AS 'anzahl' FROM $db_tb_incomings WHERE (art='Sondierung (Schiffe/Def/Ress)' OR art='Sondierung (Gebäude/Ress)') AND timestamp >" . (CURRENT_UNIX_TIME - 5 * MINUTE);
+    $sql = "SELECT COUNT(*) AS 'anzahl' FROM $db_tb_incomings WHERE (art='Sondierung (Schiffe/Def/Ress)' OR art='Sondierung (Gebäude/Ress)') AND arrivaltime >" . (CURRENT_UNIX_TIME - 5 * MINUTE);
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     $row = $db->db_fetch_array($result);
@@ -133,7 +135,7 @@ if (isset($db_tb_incomings)) {
     $db->db_free_result($result);
     $anz_incomings1 = $anzahl;
 
-    $sql = "SELECT COUNT(*) AS 'anzahl' FROM $db_tb_incomings WHERE art='Angriff' AND timestamp >" . (CURRENT_UNIX_TIME - 15 * MINUTE);
+    $sql = "SELECT COUNT(*) AS 'anzahl' FROM $db_tb_incomings WHERE art='Angriff' AND arrivaltime >" . (CURRENT_UNIX_TIME - 15 * MINUTE);
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     $row  = $db->db_fetch_array($result);
@@ -159,16 +161,7 @@ if (!empty($user_sitterlogin)) {
         or error(GENERAL_ERROR, 'Could not query NewUniXmlTime information.', '', __FILE__, __LINE__, $sql);
     $row = $db->db_fetch_array($result);
     if (!empty($row['NewUniXmlTime']) AND ($row['NewUniXmlTime'] <= CURRENT_UNIX_TIME)) {
-        ?>
-        <br>
-        <table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
-            <tr>
-                <td align='center' style='color:red; font-weight:bold; font-size:1.5em;'>
-                    Der Universumsscan als XML Datei steht zur Verfügung!
-                </td>
-            </tr>
-        </table>
-    <?php
+        echo "<div style='color:red; font-weight:bold; font-size:1.5em; border: 2px solid red; padding: 2px; margin: 5px 0px;'>Der Universumsscan als XML Datei steht zur Verfügung!</div>";
     }
 }
 //Warnung für nicht eingelesene Ressourcenkoloübersicht seit 24 Stunden
@@ -177,16 +170,7 @@ $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row = $db->db_fetch_array($result);
 if ($row['time'] < (CURRENT_UNIX_TIME - 24 * HOUR)) {
-    ?>
-    <br>
-    <table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
-        <tr>
-            <td align='center' style='color:red; font-weight:bold; font-size:1.5em;'>
-                Die Ressourcenkoloübersicht wurde seit 24h nicht mehr aktualisiert!
-            </td>
-        </tr>
-    </table>
-<?php
+    echo "<div style='color:red; font-weight:bold; font-size:1.5em; border: 2px solid red; padding:2px; margin: 5px 0px;'>Deine Ressourcenkoloübersicht wurde seit 24h nicht mehr aktualisiert!</div>";
 }
 
 // Warnung nicht eingelesene Highscore seit 24 Stunden
@@ -195,16 +179,7 @@ $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row = $db->db_fetch_array($result);
 if ($row['time'] < (CURRENT_UNIX_TIME - 24 * HOUR)) {
-    ?>
-    <br>
-    <table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
-        <tr>
-            <td align='center' style='color:red; font-weight:bold; font-size:1.5em;'>
-                Die Highscore wurde seit über 24h nicht mehr aktualisiert!
-            </td>
-        </tr>
-    </table>
-<?php
+    echo "<div style='color:red; font-weight:bold; font-size:1.5em; border: 2px solid red; padding:2px; margin: 5px 0px;'>Die Highscore wurde seit über 24h nicht mehr aktualisiert!</div>";
 }
 
 //Warnung für nicht eingelesene Schiffsübersicht seit 48 Stunden
@@ -213,16 +188,7 @@ $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row = $db->db_fetch_array($result);
 if ($row['lastshipscan'] < (CURRENT_UNIX_TIME - 48 * HOUR)) {
-    ?>
-    <br>
-    <table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
-        <tr>
-            <td align='center' style='color:red; font-weight:bold; font-size:1.5em;'>
-                Die Schiffsübersicht wurde seit 48h nicht mehr aktualisiert!
-            </td>
-        </tr>
-    </table>
-<?php
+    echo "<div style='color:red; font-weight:bold; font-size:1.5em; border: 2px solid red; padding:2px; margin: 5px 0px;'>Deine Schiffsübersicht wurde seit 48h nicht mehr aktualisiert!</div>";
 }
 
 //Warnung für nicht eingelesene Gebäudeübersicht seit 48 Stunden
@@ -231,35 +197,17 @@ $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row = $db->db_fetch_array($result);
 if ($row['time'] < (CURRENT_UNIX_TIME - 48 * HOUR)) {
-    ?>
-    <br>
-    <table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
-        <tr>
-            <td align='center' style='color:red; font-weight:bold; font-size:1.5em;'>
-                Die Gebäudeübersicht wurde seit 48h nicht mehr aktualisiert!
-            </td>
-        </tr>
-    </table>
-<?php
+    echo "<div style='color:red; font-weight:bold; font-size:1.5em; border: 2px solid red; padding:2px; margin: 5px 0px;'>Deine Gebäudeübersicht wurde seit 48h nicht mehr aktualisiert!</div>";
 }
 
-// Warnung nicht eingelesene Allikasse seit 24 Stunden
+// Warnung nicht eingelesene Allikasse seit 72 Stunden
 $sql = "SELECT UNIX_TIMESTAMP(MAX(time_of_insert)) AS time FROM `" . $db_tb_kasse_content . '`;';
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row = $db->db_fetch_array($result);
 
-if ((CURRENT_UNIX_TIME - 24 * HOUR) > $row['time']) {
-    ?>
-    <br>
-    <table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
-        <tr>
-            <td align='center' style='color:red; font-weight:bold; font-size:1.5em;'>
-                Die Allianzkasse wurde seit über 24h nicht mehr aktualisiert!
-            </td>
-        </tr>
-    </table>
-<?php
+if ((CURRENT_UNIX_TIME - 72 * HOUR) > $row['time']) {
+    echo "<div style='color:red; font-weight:bold; font-size:1.5em; border: 2px solid red; padding:2px; margin: 5px 0px;'>Die Allianzkasse wurde seit über 72h nicht mehr aktualisiert!</div>";
 }
 
 // Warnung nicht eingelesene Mitgliederliste seit 96 Stunden
@@ -268,55 +216,43 @@ $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row = $db->db_fetch_array($result);
 if ($row['time'] < (CURRENT_UNIX_TIME - 96 * HOUR)) {
-    ?>
-    <br>
-    <table width="95%" border="2" cellspacing="0" cellpadding="1" bordercolor="red">
-        <tr>
-            <td align='center' style='color:red; font-weight:bold; font-size:1.5em;'>
-                Die Mitgliederliste wurde seit über 96h nicht mehr aktualisiert!
-            </td>
-        </tr>
-    </table>
-<?php
+    echo "<div style='color:red; font-weight:bold; font-size:1.5em; border: 2px solid red; padding:2px; margin: 5px 0px;'>Die Mitgliederliste wurde seit über 96h nicht mehr aktualisiert!</div>";
 }
 
+echo "</div>";
 ?>
-<table width="95%" border="0" cellspacing="0" cellpadding="1">
+<table style='width:100%; margin:0.5em 0; border: 0;'>
     <tr>
-        <td class="doc_greeting" width="20%">Hallo, <?php echo $user_id;?>.</td>
-        <td class="doc_greeting" width="20%">
-            Online: <?php echo ($counter_guest + $counter_member) . " (" . $online_member . ")";?></td>
-        <td class="doc_mainmenu" width="60%">
+        <td id="doc_greeting">Hallo, <?php echo $user_id;?>.</td>
+        <td id="doc_usersonline"></td>
+        <td id="doc_mainmenu">
+
+            <a href="index.php"><img
+                    src="bilder/icon_mini_home.gif" width="12" height="13"
+                    alt="Startseite">&nbsp;<span>Startseite</span></a> |
+            <a href="index.php?action=memberlogout2"><img
+                    src="bilder/icon_mini_login.gif" width="12" height="13"
+                    alt="login">&nbsp;<span>logout</span></a> |
+            <a href="index.php?action=profile"><img
+                    src="bilder/icon_mini_profile.gif" width="12" height="13"
+                    alt="profil">&nbsp;<span>profil</span></a> |
+            <a href="index.php?action=help&topic=<?php echo $action;?>"><img
+                    src="bilder/icon_mini_search.gif" width="12" height="13"
+                    alt="profile">&nbsp;<span>hilfe</span></a>
             <?php
-            if ($user_id <> "guest") {
-                ?>
-                <a href="index.php?sid=<?php echo $sid;?>"><img
-                        src="bilder/icon_mini_home.gif" width="12" height="13"
-                        alt="Startseite" border="0" align="middle"> Startseite</a> |
-                <a href="index.php?action=memberlogout2&sid=<?php echo $sid;?>"><img
-                        src="bilder/icon_mini_login.gif" width="12" height="13"
-                        alt="login" border="0" align="middle"> logout</a> |
-                <a href="index.php?action=profile&sid=<?php echo $sid;?>"><img
-                        src="bilder/icon_mini_profile.gif" width="12" height="13"
-                        alt="profil" border="0" align="middle"> profil</a> |
-                <a href="index.php?action=help&topic=<?php echo $action;?>&sid=<?php echo $sid;?>"><img
-                        src="bilder/icon_mini_search.gif" width="12" height="13"
-                        alt="profile" border="0" align="middle"> hilfe</a>
-            <?php
-            }
+
             if ($user_status == "admin") {
                 ?>
-                | <a href="index.php?action=admin&sid=<?php echo $sid;?>"><img src="bilder/icon_mini_members.gif"
-                                                                               width="12" height="13" alt="admin"
-                                                                               border="0" align="middle"> admin</a>
+                |
+                <a href="index.php?action=admin"><img src="bilder/icon_mini_members.gif" width="12" height="13" alt="admin">&nbsp;<span>admin</span></a>
             <?php
             }
             ?>
         </td>
     </tr>
 </table>
-<p>&nbsp;</p>
-<table width="95%" border="0" cellspacing="0" cellpadding="0">
+<script src="javascript/menu_default.js"></script>
+<table class="zentriert" style="width:100%;">
     <tr>
         <td width="12%" valign="top" class='doc_menu'>
             <?php
@@ -394,7 +330,7 @@ if ($row['time'] < (CURRENT_UNIX_TIME - 96 * HOUR)) {
                             " </tr>\n" .
                             " <tr>\n";
                     } else {
-                        // Kein Hauptmenu. Eintraege in einzelne Tabellenzelle zusammenfassen.
+                        // Kein Hauptmenu. Einträge in einzelne Tabellenzelle zusammenfassen.
                         if ($insidetable == 0) {
                             echo " <td class='menu'>\n";
                             $insidetable = 1;
@@ -402,7 +338,7 @@ if ($row['time'] < (CURRENT_UNIX_TIME - 96 * HOUR)) {
 
                         if ($row['extlink'] == "n") {
                             // interner Link
-                            echo "<a href='index.php?sid=" . $sid . "&action=" . $row['action'] . "'>" . $title . "</a>";
+                            echo "<a href='index.php?action=" . $row['action'] . "'>" . $title . "</a>";
                         } else {
                             // externer Link
                             echo "<a href='" . $row['action'] . "' target=_new>" . $title . "</a>";
@@ -424,6 +360,6 @@ if ($row['time'] < (CURRENT_UNIX_TIME - 96 * HOUR)) {
         </td>
         <td width="2%">&nbsp;</td>
         <td width="86%" valign="top" align="center">
-            <table class="doc_main" align="center">
+            <table class="doc_main zentriert">
                 <tr>
                     <td class="doc_main" align="center">

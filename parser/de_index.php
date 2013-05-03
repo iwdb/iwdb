@@ -39,20 +39,19 @@ if (!defined('DEBUG_LEVEL')) {
 
 function parse_de_index($return)
 {
-    global $db, $db_tb_scans, $db_tb_user_research, $selectedusername, $scan_datas, $db_tb_params, $db_tb_bestellung, $db_tb_sitterauftrag;
+    global $db, $db_tb_scans, $db_tb_user_research, $selectedusername, $scan_datas, $db_tb_params, $db_tb_bestellung, $db_tb_sitterauftrag, $db_tb_research;
 
     if ($return->objResultData->bOngoingResearch == false) { // keine laufende Forschung
 
-        $sql = "INSERT INTO `$db_tb_user_research` "
-            . "(`user`, `rId`, `date`, `time`) VALUES "
-            . "('{$selectedusername}', 0, '', " . CURRENT_UNIX_TIME . ") "
-            . " ON DUPLICATE KEY UPDATE "
-            . "`rId` = 0, "
-            . "`date` = '', "
-            . "`time` = " . CURRENT_UNIX_TIME . ";";
+    	$SQLdata = array (
+            'user' => $selectedusername,
+            'rId'  => 272,
+            'date' => '',
+            'time' => CURRENT_UNIX_TIME
+        );
 
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not update researchtime.', '', __FILE__, __LINE__, $sql);
+        $result = $db->db_insertupdate($db_tb_user_research, $SQLdata)
+            or error(GENERAL_ERROR, 'Could not update researchtime.', '', __FILE__, __LINE__);
 
         //# alle Forschungsaufträge des Spielers anpassen
 
@@ -76,8 +75,8 @@ function parse_de_index($return)
 
     foreach ($return->objResultData->aContainer as $aContainer) {
         if ($aContainer->bSuccessfullyParsed) {
-            if ($aContainer->strIdentifier == "de_index_fleet") {
-                $fleetType = $aContainer->objResultData->strType; //! own OR opposite
+            if ($aContainer->strIdentifier == "de_index_fleet") {                  //Flotten
+                $fleetType = $aContainer->objResultData->strType; //own OR opposite
 
                 $flottentyp = "";
                 if ($fleetType == "own") {
@@ -145,7 +144,7 @@ function parse_de_index($return)
                             $scan_data['time'] = $msg->iAnkunft;
                         }
 
-                        if (!isset($scan_data['user_to']) || empty($scan_data['user_to'])) {
+                        if (empty($scan_data['user_to'])) {
                             $scan_data['user_to'] = "";
 
                             $sql = "SELECT user FROM " . $db_tb_scans;
@@ -160,7 +159,7 @@ function parse_de_index($return)
                             }
                             debug_var('user_to', $scan_data['user_to']);
                         }
-                        if (!isset($scan_data['user_from']) || empty($scan_data['user_from'])) {
+                        if (empty($scan_data['user_from'])) {
                             // Von
                             $sql = "SELECT user FROM " . $db_tb_scans;
                             $sql .= " WHERE coords_gal=" . $scan_data['coords_from_gal'];
@@ -195,7 +194,7 @@ function parse_de_index($return)
                         save_data($scan_data);
                         $scan_datas[] = $scan_data;
                     } else {
-                        //echo "<font color='red'>unknown transfer_type detected: " .$tf_type."</font>";
+                        //echo "<div style='color:red;'>unknown transfer_type detected: " .$tf_type."</div>";
                         continue;
                     }
                 }
@@ -309,7 +308,7 @@ function parse_de_index($return)
                         }
                     }
                 }
-            } else if ($aContainer->strIdentifier == "de_index_research") {
+            } else if ($aContainer->strIdentifier == "de_index_research") {          //Forschung
 
                 //aktuell laufende Forschung aktualisieren
                 //ToDo: sobald IWacc Tabelle vorhanden Einträge dahin verschieben
@@ -372,7 +371,8 @@ function parse_de_index($return)
                 foreach ($aContainer->objResultData->aGeb as $msg) {
                     //! Mac: @todo: laufende Gebäude auswerten, ggf. aus Sitting entfernen
                 }
-            } else if ($aContainer->strIdentifier == "de_index_schiff") {
+            } else if ($aContainer->strIdentifier == "de_index_schiff") {         //Werften
+                //new dBug($aContainer);
                 foreach ($aContainer->objResultData->aSchiff as $plan) {
                     foreach ($plan as $ship_types) {
                         //! Mac: @todo: laufende Schiffe auswerten, ggf. aus Sitting entfernen oder Aufträge schieben
@@ -479,14 +479,15 @@ function save_data($scan_data)
 
             //Löschen der Einträge älter als 20 min in der Tabelle incomings, es sollen nur aktuelle Sondierungen und Angriffe eingetragen sein
             //ToDo : evtl Trennung Sondierung und Angriffe, damit die Sondierungen früher entfernt sind
-            $sql = "DELETE FROM $db_tb_incomings WHERE timestamp<" . (CURRENT_UNIX_TIME - 20 * MINUTE);
+            $sql = "DELETE FROM $db_tb_incomings WHERE arrivaltime<" . (CURRENT_UNIX_TIME - 20 * MINUTE);
             $result = $db->db_query($sql)
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
             if (($allianz_to === $config_allytag) AND ($scan_data['time'] > (CURRENT_UNIX_TIME - 20 * MINUTE))) { //nur incomings auf die eigene Ally und maximal 20 min in der Vergangenheit?
                 $koords_from = $scan_data['coords_from_gal'] . ":" . $scan_data['coords_from_sys'] . ":" . $scan_data['coords_from_planet'];
                 $koords_to   = $scan_data['coords_to_gal'] . ":" . $scan_data['coords_to_sys'] . ":" . $scan_data['coords_to_planet'];
-                $sql         = "INSERT INTO $db_tb_incomings (koords_to,name_to,allianz_to,koords_from,name_from,allianz_from,art,timestamp) VALUES ('" . $koords_to . "','" . $scan_data['user_to'] . "','" . $allianz_to . "','" . $koords_from . "','" . $scan_data['user_from'] . "','" . (GetAllianceByUser($scan_data['user_from'])) . "','" . $scan_data['art'] . "','" . $scan_data['time'] . "') ON DUPLICATE KEY UPDATE timestamp=timestamp;"; //ON DUPLICATE KEY UPDATE timestamp=timestamp entspricht ON DUPLICATE KEY "DO NOTHING"
+
+                $sql = "INSERT INTO $db_tb_incomings (koords_to,name_to,allianz_to,koords_from,name_from,allianz_from,art,arrivaltime,listedtime) VALUES ('" . $koords_to . "','" . $scan_data['user_to'] . "','" . $allianz_to . "','" . $koords_from . "','" . $scan_data['user_from'] . "','" . (GetAllianceByUser($scan_data['user_from'])) . "','" . $scan_data['art'] . "'," . $scan_data['time'] . ", ".CURRENT_UNIX_TIME.") ON DUPLICATE KEY UPDATE arrivaltime=arrivaltime;"; //ON DUPLICATE KEY UPDATE timestamp=timestamp entspricht ON DUPLICATE KEY "DO NOTHING"
                 debug_var('sql', $sql);
                 $result = $db->db_query($sql)
                     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -514,13 +515,13 @@ function display_de_index()
         echo "Aktionen";
 
         foreach ($scan_datas as $scan_data) {
-            next_row("windowbg1", "valign=top nowrap");
+            next_row("windowbg1 top");
             echo $scan_data['coords_to_gal'] . ":" . $scan_data['coords_to_sys'] . ":" . $scan_data['coords_to_planet'];
-            next_cell("windowbg1", "valign=top nowrap");
+            next_cell("windowbg1 top");
             echo $scan_data['coords_from_gal'] . ":" . $scan_data['coords_from_sys'] . ":" . $scan_data['coords_from_planet'];
-            next_cell("windowbg1", "valign=top nowrap");
-            echo strftime("%d.%m.%Y %H:%M:%S", $scan_data['time']);
-            next_cell("windowbg1", "valign=top width=100%;");
+            next_cell("windowbg1 top");
+            echo strftime(CONFIG_DATETIMEFORMAT, $scan_data['time']);
+            next_cell("windowbg1 top", "style='width:100%;'");
             echo $scan_data['art'] . "<br>";
 
             if (isset($scan_data['pos'])) {

@@ -37,36 +37,36 @@ if (!defined('IRA')) {
 
 doc_title('Planetenliste');
 ?>
-<table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">
-    <tr>
-        <td class="titlebg" style="width:15%;">
-            <a href="index.php?action=planeten&order=coords&ordered=asc&sid=<?php echo $sid;?>"><img
+<table class="table_hovertable" style="width: 90%;">
+    <tr class="titlebg">
+        <th style="width:15%;">
+            <a href="index.php?action=planeten&order=coords&ordered=asc"><img
                     src="bilder/asc.gif" alt="asc"></a>
             <b>Koordinaten</b>
-            <a href="index.php?action=planeten&order=coords&ordered=desc&sid=<?php echo $sid;?>"><img
+            <a href="index.php?action=planeten&order=coords&ordered=desc"><img
                     src="bilder/desc.gif" alt="desc"></a>
-        </td>
-        <td class="titlebg" style="width:20%;">
-            <a href="index.php?action=planeten&order=t2.sitterlogin&ordered=asc&sid=<?php echo $sid;?>"><img
+        </th>
+        <th style="width:20%;">
+            <a href="index.php?action=planeten&order=t2.sitterlogin&ordered=asc"><img
                     src="bilder/asc.gif" alt="asc"></a>
             <b>Username</b>
-            <a href="index.php?action=planeten&order=t2.sitterlogin&ordered=desc&sid=<?php echo $sid;?>"><img
+            <a href="index.php?action=planeten&order=t2.sitterlogin&ordered=desc"><img
                     src="bilder/desc.gif" alt="desc"></a>
-        </td>
-        <td class="titlebg" style="width:40%;">
-            <a href="index.php?action=planeten&order=t1.planetenname&ordered=asc&sid=<?php echo $sid;?>"><img
+        </th>
+        <th style="width:40%;">
+            <a href="index.php?action=planeten&order=t1.planetenname&ordered=asc"><img
                     src="bilder/asc.gif" alt="asc"></a>
             <b>Planetenname</b>
-            <a href="index.php?action=planeten&order=t1.planetenname&ordered=desc&sid=<?php echo $sid;?>"><img
+            <a href="index.php?action=planeten&order=t1.planetenname&ordered=desc"><img
                     src="bilder/desc.gif" alt="desc"></a>
-        </td>
-        <td class="titlebg" style="width:25%;">
-            <a href="index.php?action=planeten&order=t2.budflesol&ordered=asc&sid=<?php echo $sid;?>"><img
+        </th>
+        <th style="width:25%;">
+            <a href="index.php?action=planeten&order=t2.budflesol&ordered=asc"><img
                     src="bilder/asc.gif" alt="asc"></a>
             <b>Spielart</b>
-            <a href="index.php?action=planeten&order=t2.budflesol&ordered=desc&sid=<?php echo $sid;?>"><img
+            <a href="index.php?action=planeten&order=t2.budflesol&ordered=desc"><img
                     src="bilder/desc.gif" alt="desc"></a>
-        </td>
+        </th>
     </tr>
     <?php
     $order = getVar('order');
@@ -100,20 +100,20 @@ doc_title('Planetenliste');
         }
         ?>
         <tr>
-            <td class="windowbg<?php echo $num;?>">
-                <a href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=auto&sid=<?php echo $sid;?>"><?php echo $row['coords'];?></a>
+            <td class="left">
+                <a href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=auto"><?php echo $row['coords'];?></a>
             </td>
-            <td class="windowbg<?php echo $num;?>">
+            <td class="left">
                 <?php
                 if ($user_status == "admin") {
-                    echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($row['sitterlogin']) . "&sid=" . $sid . "'>" . $row['sitterlogin'] . "</a>";
+                    echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($row['sitterlogin']) . "'>" . $row['sitterlogin'] . "</a>";
                 } else {
                     echo $row['sitterlogin'];
                 }
                 ?>
             </td>
-            <td class="windowbg<?php echo $num;?>">
-                <a href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=auto&sid=<?php echo $sid;?>">
+            <td class="left">
+                <a href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=auto">
                     <div class='doc_<?php
                     if ($row['objekt'] == "Kolonie") {
                         echo "black";
@@ -142,7 +142,7 @@ doc_title('Planetenliste');
                     </div>
                 </a>
             </td>
-            <td class="windowbg<?php echo $num;?>">
+            <td class="left">
                 <?php echo $row['budflesol']; echo ($row['buddlerfrom']) ? " von: " . $row['buddlerfrom'] : "";?>
             </td>
         </tr>

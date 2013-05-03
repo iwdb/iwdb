@@ -75,7 +75,7 @@ $moduldesc =
 function workInstallDatabase()
 {
     /*
-      global $db, $db_prefix, $db_tb_iwdbtabellen, $db_tb_parser;
+      global $db, $db_prefix;
 
       $sqlscript = array(
         "CREATE TABLE " . $db_prefix . "kasse_content
@@ -99,14 +99,6 @@ function workInstallDatabase()
          `allianz` varchar( 50 ) NOT NULL,
           UNIQUE KEY ( `payedfrom`,  `payedto`, `amount`, `time_of_pay`)
             );",
-        "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-        " VALUES('kasse_incoming')",
-        "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-        " VALUES('kasse_content')",
-        "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-        " VALUES('kasse_outgoing')",
-        "INSERT INTO " . $db_tb_parser . "(`modulename`, `recognizer`,`message`)" .
-        " VALUES('kasse', 'Standardbeitrag', 'Allianzkasse')"
       );
 
       foreach($sqlscript as $sql) {
@@ -159,16 +151,12 @@ function workInstallConfigString()
 //
 /*
 function workUninstallDatabase() {
-  global $db, $db_tb_iwdbtabellen, $db_tb_kasse_content, $db_tb_kasse_incoming, $db_tb_kasse_outgoing, $db_tb_parser;
+  global $db, $db_tb_kasse_content, $db_tb_kasse_incoming, $db_tb_kasse_outgoing;
 
   $sqlscript = array(
     "DROP TABLE " . $db_tb_kasse_content . ";",
-    "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='kasse_content';",
     "DROP TABLE " . $db_tb_kasse_incoming . ";",
-    "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='kasse_incoming';",
     "DROP TABLE " . $db_tb_kasse_outgoing . ";",
-    "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='kasse_outgoing';",
-    "DELETE FROM " . $db_tb_parser . " WHERE modulename='kasse';"
   );
 
   foreach($sqlscript as $sql) {
@@ -260,7 +248,7 @@ if (strtolower($user_status) == 'admin' && getVar('allianz')) {
 }
 
 //url fürs sortieren wieder zusammensetzen
-$url = "index.php?action=m_kasse&sid=$sid&type=$type&today=$today&tomonth=$tomonth&toyear=$toyear&fromday=$fromday&frommonth=$frommonth&fromyear=$fromyear&allianz=$allianz";
+$url = "index.php?action=m_kasse&type=$type&today=$today&tomonth=$tomonth&toyear=$toyear&fromday=$fromday&frommonth=$frommonth&fromyear=$fromyear&allianz=$allianz";
 
 doc_title("Allianzkasse");
 
@@ -303,7 +291,6 @@ if (strtolower($user_status) == 'admin') {
     }
 }
 
-echo "<input type='hidden' name='sid' value='" . $sid . "'>\n";
 echo "<input type='hidden' name='action' value='" . $modulname . "'>\n";
 echo "<p>";
 echo "<select name='type' size=1>\n";
@@ -367,26 +354,26 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
     }
     $whereclause .= "1";
 
-    echo "<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 30em;'>";
-    start_row("titlebg", "style='width:40%' align='center' colspan='2'");
+    echo "<table class='table_format' style='width: 30em;'>";
+    start_row("titlebg center", "style='width:40%' colspan='2'");
     echo "  <b>Wer hat Credits bekommen?</b>\n";
-    next_row("windowbg2", "style='width:60%' align='center'");
-    echo "<a href='$url&order=payedto&ordered=asc'> <img src='./bilder/asc.gif' alt='asc'> </a>";
+    next_row("windowbg2 center", "style='width:60%'");
+    echo "<a href='$url&order=payedto&ordered=asc'> <img src='".BILDER_PATH."asc.gif' alt='asc'> </a>";
     echo "Empfänger";
-    echo "<a href='$url&order=payedto&ordered=desc'> <img src='./bilder/desc.gif' alt='desc'> </a>";
-    next_cell("windowbg2", "align='center'");
-    echo "<a href='$url&order=sumof&ordered=asc'> <img src='./bilder/asc.gif' alt='asc'> </a>";
+    echo "<a href='$url&order=payedto&ordered=desc'> <img src='".BILDER_PATH."desc.gif' alt='desc'> </a>";
+    next_cell("windowbg2 center");
+    echo "<a href='$url&order=sumof&ordered=asc'> <img src='".BILDER_PATH."asc.gif' alt='asc'> </a>";
     echo "Summe der ausgezahlten Credits";
-    echo "<a href='$url&order=sumof&ordered=desc'> <img src='./bilder/desc.gif' alt='desc'> </a>";
+    echo "<a href='$url&order=sumof&ordered=desc'> <img src='".BILDER_PATH."desc.gif' alt='desc'> </a>";
 
     $sql = "SELECT payedto, sum(amount) as sumof FROM " . $db_tb_kasse_outgoing . " WHERE allianz='" . $allianz . "' " . $whereclause . " GROUP BY payedto " . $order;
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
     while ($row = $db->db_fetch_array($result)) {
-        next_row("windowbg1", "style='width:60%' align='left'");
+        next_row("windowbg1 left", "style='width:60%'");
         echo $row['payedto'];
-        next_cell("windowbg1", "align='right'");
+        next_cell("windowbg1 right");
         echo number_format($row['sumof'], 0, ',', '.');
     }
     end_row();
@@ -404,17 +391,17 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
     }
     $whereclause .= "1";
 
-    echo "<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 30em;'>";
-    start_row("titlebg", "style='width:40%' align='center' colspan='2'");
+    echo "<table class='table_format' style='width: 30em;'>";
+    start_row("titlebg center", "style='width:40%' colspan='2'");
     echo "  <b>Wer hat Credits ausgezahlt?</b>\n";
-    next_row("windowbg2", "style='width:60%' align='center'");
-    echo "<a href='$url&order=payedfrom&ordered=asc'> <img src='./bilder/asc.gif' alt='asc'> </a>";
+    next_row("windowbg2 center", "style='width:60%'");
+    echo "<a href='$url&order=payedfrom&ordered=asc'> <img src='".BILDER_PATH."asc.gif' alt='asc'> </a>";
     echo "Auszahlender";
-    echo "<a href='$url&order=payedfrom&ordered=desc'> <img src='./bilder/desc.gif' alt='desc'> </a>";
-    next_cell("windowbg2", "align='center'");
-    echo "<a href='$url&order=sumof&ordered=asc'> <img src='./bilder/asc.gif' alt='asc'> </a>";
+    echo "<a href='$url&order=payedfrom&ordered=desc'> <img src='".BILDER_PATH."desc.gif' alt='desc'> </a>";
+    next_cell("windowbg2 center");
+    echo "<a href='$url&order=sumof&ordered=asc'> <img src='".BILDER_PATH."asc.gif' alt='asc'> </a>";
     echo "Summe der ausgezahlten Credits";
-    echo "<a href='$url&order=sumof&ordered=desc'> <img src='./bilder/desc.gif' alt='desc'> </a>";
+    echo "<a href='$url&order=sumof&ordered=desc'> <img src='".BILDER_PATH."desc.gif' alt='desc'> </a>";
 
     $sql = "SELECT payedfrom, sum(amount) as sumof FROM " . $db_tb_kasse_outgoing . " WHERE allianz='" . $allianz . "' " . $whereclause . " GROUP BY payedfrom " . $order;
     $result = $db->db_query($sql)
@@ -422,9 +409,9 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
 
     while ($row = $db->db_fetch_array($result)) {
 
-        next_row("windowbg1", "style='width:60%' align='left'");
+        next_row("windowbg1 left", "style='width:60%'");
         echo $row['payedfrom'];
-        next_cell("windowbg1", "align='right'");
+        next_cell("windowbg1 right");
         echo number_format($row['sumof'], 0, ',', '.');
     }
     end_row();
@@ -443,21 +430,21 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
     $whereclause .= "1";
 
     start_table();
-    start_row("titlebg", "style='width:40%' align='center' colspan='3'");
+    start_row("titlebg center", "style='width:40%' colspan='3'");
     echo "  <b>Wer hat Credits bekommen?</b>\n";
-    next_row("windowbg2", "style='width:40%' align='center'");
-    echo "<a href='$url&rder=payedfrom&ordered=asc'> <img src='./bilder/asc.gif' alt='asc'> </a>";
+    next_row("windowbg2 center", "style='width:40%'");
+    echo "<a href='$url&rder=payedfrom&ordered=asc'> <img src='".BILDER_PATH."asc.gif' alt='asc'> </a>";
     echo "Auszahlender";
-    echo "<a href='$url&order=payedfrom&ordered=desc'> <img src='./bilder/desc.gif' alt='desc'> </a>";
-    next_cell("windowbg2", "style='width:40%' align='center'");
-    echo "<a href='$url&order=payedto&ordered=asc'> <img src='./bilder/asc.gif' alt='asc'> </a>";
+    echo "<a href='$url&order=payedfrom&ordered=desc'> <img src='".BILDER_PATH."desc.gif' alt='desc'> </a>";
+    next_cell("windowbg2 center", "style='width:40%'");
+    echo "<a href='$url&order=payedto&ordered=asc'> <img src='".BILDER_PATH."asc.gif' alt='asc'> </a>";
     echo "Empfänger";
-    echo "<a href='$url&order=payedto&ordered=desc'> <img src='./bilder/desc.gif' alt='desc'> </a>";
+    echo "<a href='$url&order=payedto&ordered=desc'> <img src='".BILDER_PATH."desc.gif' alt='desc'> </a>";
     ;
-    next_cell("windowbg2", "align='center'");
-    echo "<a href='$url&order=sumof&ordered=asc'> <img src='./bilder/asc.gif' alt='asc'> </a>";
+    next_cell("windowbg2 center");
+    echo "<a href='$url&order=sumof&ordered=asc'> <img src='".BILDER_PATH."asc.gif' alt='asc'> </a>";
     echo "Summe der ausgezahlten Credits";
-    echo "<a href='$url&order=sumof&ordered=desc'> <img src='./bilder/desc.gif' alt='desc'> </a>";
+    echo "<a href='$url&order=sumof&ordered=desc'> <img src='".BILDER_PATH."desc.gif' alt='desc'> </a>";
 
 
     $sql = "SELECT payedfrom, payedto, sum(amount) as sumof FROM " . $db_tb_kasse_outgoing . " WHERE allianz='$allianz' $whereclause GROUP BY payedfrom, payedto $order";
@@ -465,11 +452,11 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
     while ($row = $db->db_fetch_array($result)) {
-        next_row("windowbg1", "style='width:40%' align='left'");
+        next_row("windowbg1 left", "style='width:40%'");
         echo $row['payedfrom'];
-        next_cell("windowbg1", "style='width:40%' align='left'");
+        next_cell("windowbg1 left", "style='width:40%'");
         echo $row['payedto'];
-        next_cell("windowbg1", "align='right'");
+        next_cell("windowbg1 right");
         echo number_format($row['sumof'], 0, ',', '.');
     }
     end_row();
@@ -488,17 +475,17 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
     }
     $whereclause .= "1";
 
-    echo "<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 30em;'>";
-    start_row("titlebg", "style='width:40%' align='center' colspan='3'");
+    echo "<table class='table_format' style='width: 30em;'>";
+    start_row("titlebg center", "style='width:40%' colspan='3'");
     echo "  <b>Kasseninhalt</b>\n";
-    next_row("windowbg2", "style='width:40%' align='center'");
-    echo "<a href='$url&order=time_of_insert&ordered=asc'> <img src='./bilder/asc.gif' alt='asc'> </a>";
+    next_row("windowbg2 center", "style='width:40%'");
+    echo "<a href='$url&order=time_of_insert&ordered=asc'> <img src='".BILDER_PATH."asc.gif' alt='asc'> </a>";
     echo "Datum";
-    echo "<a href='$url&order=time_of_insert&ordered=desc'> <img src='./bilder/desc.gif' alt='desc'> </a>";
-    next_cell("windowbg2", "align='center'");
-    echo "<a href='$url&order=amount&ordered=asc'> <img src='./bilder/asc.gif' alt='asc'> </a>";
+    echo "<a href='$url&order=time_of_insert&ordered=desc'> <img src='".BILDER_PATH."desc.gif' alt='desc'> </a>";
+    next_cell("windowbg2 center");
+    echo "<a href='$url&order=amount&ordered=asc'> <img src='".BILDER_PATH."asc.gif' alt='asc'> </a>";
     echo "Inhalt der Allianzkasse";
-    echo "<a href='$url&order=amount&ordered=desc'> <img src='./bilder/desc.gif' alt='desc'> </a>";
+    echo "<a href='$url&order=amount&ordered=desc'> <img src='".BILDER_PATH."desc.gif' alt='desc'> </a>";
 
     $sql = "SELECT amount, time_of_insert FROM " . $db_tb_kasse_content . " WHERE allianz='$allianz' $whereclause ORDER BY time_of_insert ASC";
     $result = $db->db_query($sql)
@@ -507,10 +494,10 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
     while ($row = $db->db_fetch_array($result)) {
         $time  = strtotime($row['time_of_insert']);
         $time1 = strftime("%d.%m.%y %H:%M", $time);
-        next_row("windowbg1", "style='width:50%' align='left'");
+        next_row("windowbg1 left", "style='width:50%'");
 
         echo $time1;
-        next_cell("windowbg1", "align='right'");
+        next_cell("windowbg1 right");
         echo number_format($row['amount'], 2, ',', '.');
     }
     end_row();
@@ -528,26 +515,26 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
     }
     $whereclause .= "1";
 
-    echo "<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 30em;'>";
-    start_row("titlebg", "style='width:40%' align='center' colspan='3'");
+    echo "<table class='table_format' style='width: 30em;'>";
+    start_row("titlebg center", "style='width:40%' colspan='3'");
     echo "  <b>Wer hat Credits bekommen?</b>\n";
-    next_row("windowbg2", "style='width:40%' align='center'");
-    echo "<a href='$url&order=user&ordered=asc'> <img src='./bilder/asc.gif' alt='asc'> </a>";
+    next_row("windowbg2 center", "style='width:40%'");
+    echo "<a href='$url&order=user&ordered=asc'> <img src='".BILDER_PATH."asc.gif' alt='asc'> </a>";
     echo "Einzahler";
-    echo "<a href='$url&order=user&ordered=desc'> <img src='./bilder/desc.gif' alt='desc'> </a>";
-    next_cell("windowbg2", "align='center'");
-    echo "<a href='$url&order=sumof&ordered=asc'> <img src='./bilder/asc.gif' alt='asc'> </a>";
+    echo "<a href='$url&order=user&ordered=desc'> <img src='".BILDER_PATH."desc.gif' alt='desc'> </a>";
+    next_cell("windowbg2 center");
+    echo "<a href='$url&order=sumof&ordered=asc'> <img src='".BILDER_PATH."asc.gif' alt='asc'> </a>";
     echo "Summe der eingezahlten Credits";
-    echo "<a href='$url&order=sumof&ordered=desc'> <img src='./bilder/desc.gif' alt='desc'> </a>";
+    echo "<a href='$url&order=sumof&ordered=desc'> <img src='".BILDER_PATH."desc.gif' alt='desc'> </a>";
 
     $sql = "SELECT user, sum(amount) as sumof FROM " . $db_tb_kasse_incoming . " WHERE allianz='$allianz' $whereclause GROUP BY user $order";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
     while ($row = $db->db_fetch_array($result)) {
-        next_row("windowbg1", "style='width:60%' align='left'");
+        next_row("windowbg1 left", "style='width:60%'");
         echo $row['user'];
-        next_cell("windowbg1", "align='right'");
+        next_cell("windowbg1 right");
         echo number_format($row['sumof'], 2, ',', '.');
     }
     end_row();

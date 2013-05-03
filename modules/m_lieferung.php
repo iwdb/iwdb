@@ -78,17 +78,7 @@ $moduldesc = "Zeigt Informationen zu anfliegenden Lieferungen an";
 //
 function workInstallDatabase()
 {
-    global $db, $db_prefix, $db_tb_iwdbtabellen;
-
-    $sqlscript = array();
-
-    foreach ($sqlscript as $sql) {
-        echo "<br>" . $sql;
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-    }
-
-    echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
+    //nothing here
 }
 
 //****************************************************************************
@@ -126,16 +116,7 @@ function workInstallConfigString()
 //
 function workUninstallDatabase()
 {
-    global $db, $db_tb_gebaeude_spieler, $db_tb_iwdbtabellen;
-
-    $sqlscript = array();
-
-    foreach ($sqlscript as $sql) {
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-    }
-
-    echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
+    //nothing here
 }
 
 //****************************************************************************
@@ -178,7 +159,7 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 $params = array(
     'view'        => getVar('view'),
     'order'       => getVar('order'),
-    'orderd'      => getVar('orderd'),
+    'orderd'      => ensureSortDirection(getVar('orderd')),
     'expand'      => getVar('expand'),
     'filter_team' => getVar('filter_team'),
     'user_from'   => getVar('user_from'),
@@ -191,9 +172,6 @@ if (empty($params['view'])) {
 }
 if (empty($params['order'])) {
     $params['order'] = 'time';
-}
-if ($params['orderd'] != 'asc' && $params['orderd'] != 'desc') {
-    $params['orderd'] = 'asc';
 }
 if (empty($params['filter_team'])) //$params['filter_team'] = $user_buddlerfrom;
 {
@@ -246,11 +224,11 @@ if (isset($params['filter_team'])) {
         $sql .= ")";
     }
 }
-if (isset($params['user_from']) && !empty($params['user_from']) && $params['user_from'] != '(Alle)') {
+if (!empty($params['user_from']) && $params['user_from'] != '(Alle)') {
     $sql .= " AND $db_tb_lieferung.user_from=";
     $sql .= "'" . $params['user_from'] . "'";
 }
-if (isset($params['user_to']) && !empty($params['user_to']) && $params['user_to'] != '(Alle)') {
+if (!empty($params['user_to']) && $params['user_to'] != '(Alle)') {
     $sql .= " AND $db_tb_lieferung.user_to=";
     $sql .= "'" . $params['user_to'] . "'";
 }
@@ -346,32 +324,32 @@ if (isset($results)) {
 }
 
 // Team Dropdown
-echo '<form method="POST" action="' . makeurl(array()) . '" enctype="multipart/form-data"><p align=\"center\">';
+echo "<form method='POST' action='" . makeurl(array()) . "' enctype='multipart/form-data'><p class='center'>";
 echo 'Team: ';
-echo makefield(array("type"  => 'select',
+echo makeField(array("type"  => 'select',
                     "values" => $config['teams'],
                     "value"  => $params['filter_team']
                ), 'filter_team'
 );
 echo ' Start: ';
-echo makefield(array("type" => 'select', "values" => $config['users'], "value" => $params['user_from']), 'user_from');
+echo makeField(array("type" => 'select', "values" => $config['users'], "value" => $params['user_from']), 'user_from');
 echo ' Ziel: ';
-echo makefield(array("type" => 'select', "values" => $config['users'], "value" => $params['user_to']), 'user_to');
+echo makeField(array("type" => 'select', "values" => $config['users'], "value" => $params['user_to']), 'user_to');
 echo ' <input type="submit" name="submit" value="anzeigen"/>';
 echo "</form><br><br>\n";
 
 // Daten ausgeben
 start_table(100);
-start_row("titlebg", "nowrap valign=top");
+start_row("titlebg top");
 foreach ($view['headers'] as $headercolumnname => $headercolumnspan) {
     next_cell("titlebg", "nowrap colspan=$headercolumnspan valign=top");
     echo "<b>" . $headercolumnname . "</b>";
 }
-next_cell("titlebg", 'nowrap valign=top');
+next_cell("titlebg top");
 echo '&nbsp;';
-start_row("windowbg2", "nowrap valign=top");
+start_row("windowbg2 top");
 foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
-    next_cell("windowbg2", "nowrap valign=top");
+    next_cell("windowbg2 top");
     $orderkey = $viewcolumnkey;
     if (isset($view['sortcolumns'][$orderkey])) {
         $orderkey = $view['sortcolumns'][$orderkey];
@@ -381,7 +359,7 @@ foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
              'order'  => $orderkey,
              'orderd' => 'asc'
         ),
-        "<img src=\"./bilder/asc.gif\" border=\"0\">"
+        "<img src='".BILDER_PATH."asc.gif'>"
     );
     echo $viewcolumnname;
     echo makelink(
@@ -389,7 +367,7 @@ foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
              'order'  => $orderkey,
              'orderd' => 'desc'
         ),
-        "<img src=\"./bilder/desc.gif\" border=\"0\">"
+        "<img src='".BILDER_PATH."desc.gif'>"
     );
 }
 next_cell("windowbg2");
@@ -421,23 +399,23 @@ foreach ($data as $row) {
     }
     // Editbuttons ausgeben
     if (isset($view['edit'])) {
-        next_cell("windowbg1", 'nowrap valign=top');
+        next_cell("windowbg1 top");
         if (!isset($row['allow_edit']) || $row['allow_edit']) {
             echo makelink(
                 array('edit' => $key),
-                "<img src=\"bilder/file_edit_s.gif\" border=\"0\" alt=\"bearbeiten\">"
+                "<img src='".BILDER_PATH."file_edit_s.gif' alt='bearbeiten'>"
             );
         }
         if (!isset($row['allow_delete']) || $row['can_delete']) {
             echo makelink(
                 array('delete' => $key),
-                "<img src=\"bilder/file_delete_s.gif\" border=\"0\" onclick=\"return confirmlink(this, 'Datensatz wirklich löschen?')\" alt=\"löschen\">"
+                "<img src='".BILDER_PATH."file_delete_s.gif' onclick=\"return confirmlink(this, 'Datensatz wirklich löschen?')\" alt='löschen'>"
             );
         }
     }
     // Markierbuttons ausgeben
-    next_cell("windowbg1", 'nowrap valign=top');
-    //echo "<input type=\"checkbox\" name=\"mark_" . $index++ . "\" value=\"" . $key . "\"";
+    next_cell("windowbg1 top");
+    //echo "<input type='checkbox' name='mark_" . $index++ . "' value='" . $key . "'";
     //if (getVar("mark_all"))
     //	echo " checked";
     //echo ">";
@@ -447,11 +425,11 @@ foreach ($data as $row) {
         echo "<b>" . $expand['title'] . "</b>";
         next_row('windowbg2', '');
         foreach ($expand['columns'] as $expandcolumnkey => $expandcolumnname) {
-            next_cell("windowbg2", "nowrap valign=top");
+            next_cell("windowbg2 top");
             echo $expandcolumnname;
         }
         if (isset($view['edit'])) {
-            next_cell("windowbg2", 'nowrap valign=top');
+            next_cell("windowbg2 top");
             echo '&nbsp;';
         }
         next_cell("windowbg2");
@@ -459,11 +437,11 @@ foreach ($data as $row) {
         foreach ($row['expand'] as $expand_row) {
             next_row('windowbg1', 'nowrap valign=center style="background-color: white;"');
             foreach ($expand['columns'] as $expandcolumnkey => $expandcolumnname) {
-                next_cell("windowbg1", "nowrap valign=top");
+                next_cell("windowbg1 top");
                 echo $expand_row[$expandcolumnkey];
             }
             if (isset($view['edit'])) {
-                next_cell("windowbg1", 'nowrap valign=top');
+                next_cell("windowbg1 top");
                 echo '&nbsp;';
             }
         }
@@ -490,7 +468,7 @@ foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
     }
 
 }
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 end_table();
 
 //****************************************************************************
@@ -568,49 +546,6 @@ function sort_data_cmp($a, $b)
 
 // ****************************************************************************
 //
-// Erstellt ein Formularfeld.
-function makefield($field, $key)
-{
-    switch ($field['type']) {
-        case 'text':
-            $html = '<input type="text" name="' . $key . '" value="' . $field['value'] . '"';
-            if (isset($field['style'])) {
-                $html .= ' style="' . $field['style'] . '"';
-            }
-            $html .= '>';
-            break;
-        case 'select':
-            $html = '<select name="' . $key . '">';
-            foreach ($field['values'] as $key => $value) {
-                $html .= '<option value="' . $key . '"';
-                if (isset($field['value']) && $field['value'] == $key) {
-                    $html .= ' selected';
-                }
-                $html .= '>' . $value . '</option>';
-            }
-            $html .= '</select>';
-            break;
-        case 'area':
-            $html = '<textarea name="' . $key . '" rows="' . $field['rows'] . '" cols="' . $field['cols'] . '">';
-            $html .= $field['value'];
-            $html .= '</textarea>';
-            break;
-        case 'checkbox':
-            $html = '<input type="checkbox" name="' . $key . '" value="1"';
-            if ($field['value']) {
-                $html .= ' checked';
-            }
-            if (isset($field['style'])) {
-                $html .= ' style="' . $field['style'] . '"';
-            }
-            $html .= '>';
-            break;
-    }
-    return $html;
-}
-
-// ****************************************************************************
-//
 // Erzeugt einen Modul-Link.
 function makelink($newparams, $content)
 {
@@ -622,10 +557,9 @@ function makelink($newparams, $content)
 // Erzeugt eine Modul-URL.
 function makeurl($newparams)
 {
-    global $modulname, $sid, $params;
+    global $modulname, $params;
 
     $url = 'index.php?action=' . $modulname;
-    $url .= '&sid=' . $sid;
     $mergeparams = array_merge($params, $newparams);
     foreach ($mergeparams as $paramkey => $paramvalue) {
         $url .= '&' . $paramkey . '=' . $paramvalue;
@@ -633,5 +567,3 @@ function makeurl($newparams)
 
     return $url;
 }
-
-?>

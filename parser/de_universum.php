@@ -1,11 +1,8 @@
 <?php
-
+//direktes Aufrufen verhindern
 if (!defined('IRA')) {
-    die('Hacking attempt...');
-}
-
-if (!defined('DEBUG_LEVEL')) {
-    define('DEBUG_LEVEL', 0);
+    header('HTTP/1.1 403 forbidden');
+    exit;
 }
 
 require_once("de_xml.php"); //unixml-parser input_unixml ist dort

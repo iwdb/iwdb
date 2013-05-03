@@ -31,218 +31,125 @@
 
 //direktes Aufrufen verhindern
 if (!defined('IRA')) {
-    header('HTTP/1.1 404 not found');
+    header('HTTP/1.1 403 forbidden');
     exit;
 }
 
 //****************************************************************************
 
-global $db, $db_tb_sid, $db_prefix, $db_tb_user;
+global $db, $db_tb_sid, $db_tb_user, $db_tb_wronglogin;
 
 // get user ip
-$client_ip = $_SERVER['REMOTE_ADDR'];
+$user_ip      = $_SERVER['REMOTE_ADDR'];
+$user_ip_hash = sha1($user_ip);
 
-if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-    if (preg_match("/^([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)/", $_SERVER['HTTP_X_FORWARDED_FOR'], $ip_list)) {
-        $private_ip = array('/^0\./', '/^127\.0\.0\.1/', '/^192\.168\..*/', '/^172\.16\..*/', '/^10.\.*/', '/^224.\.*/', '/^240.\.*/');
-        $client_ip  = preg_replace($private_ip, $client_ip, $ip_list[1]);
-    }
-}
-$user_ip = encode_ip($client_ip);
-// get sid //
-$sid = getVar('sid');
-
-// delete old ips from sid table //
-$sql = "DELETE FROM " . $db_tb_sid . " WHERE date<" . ($config_date - $config_sid_timeout);
+// delete old sids from sid table //
+$sql = "DELETE FROM `{$db_tb_sid}` WHERE `date`<" . (CURRENT_UNIX_TIME - $config_sid_timeout);
 $result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    or error(GENERAL_ERROR, 'Could not delete old sids.', '', __FILE__, __LINE__, $sql);
 
-// get user id //
-$user_id = '';
+$user_id  = false;
+$login_ok = false;
+$sid      = false;
 
-$sql = "SELECT id FROM " . $db_tb_sid . " WHERE ip='" . $user_ip . "'";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-$row_ip = $db->db_num_rows($result);
+if (isset($_COOKIE[$config_cookie_name])) {
+    $sid = $db->escape($_COOKIE[$config_cookie_name]);
 
-$sql = "SELECT id, sid FROM " . $db_tb_sid . " WHERE (ip='" . $user_ip . "' AND sid='" . $sid . "')";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-$row_sid = $db->db_fetch_array($result);
-
-if (isset($row_sid['id'])) {
-    $user_id = $row_sid['id'];
-} else {
-    $sid = randomstring($config_sid_string, $config_sid_length);
-    // cookie is ok -> login
-    if (isset($_COOKIE[$config_cookie_name])) {
-        $cookie = $_COOKIE[$config_cookie_name];
-    }
-    if (!empty($cookie)) {
-        list($cookie_id, $cookie_password) = explode(';', $cookie);
-        //check_username, damit man keine fremden zeichen in cookie id und password übers cookie einfügen kann
-        $alert = check_username($cookie_id);
-        if (!empty($alert)) {
-            die ($alert);
-        }
-        $alert = check_username($cookie_password);
-        if (!empty($alert)) {
-            die ($alert);
-        }
-        $sql = "SELECT id, password FROM " . $db_tb_user . " WHERE (id='" . $cookie_id . "' AND password='" . $cookie_password . "' AND password<>'')";
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-        $row = $db->db_fetch_array($result);
-
-        if (isset($row['id'])) {
-            $user_id = $row['id'];
-            $sql     = "UPDATE " . $db_tb_user . " SET logindate='" . $config_date . "' WHERE id='" . $row['id'] . "'";
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-        }
-    }
+    $user_id = useSID($sid, $user_ip_hash);
 }
 
-if (!empty($action) AND (($action == "memberlogin2") OR ($action == "memberlogout2"))) {
-    // check given userdata //
-
-    // Erst mal den Benutzernamen so holen, wie er ?bergeben wird. Dann
-    // auf Gueltigkeit pruefen (und eventuell abkratzen).
-    $login_id = $db->escape(getVar('login_id', true));
-    $alert    = check_username($login_id);
-    if (!empty($alert)) {
-        die ($alert);
-    }
-
-    // Benutzerdaten noch mal holen, aber diesmal mit htmlentities encodiert.
+if ($user_id === false) { //keine gültige Session vorhanden
     $login_id       = $db->escape(getVar('login_id'));
-    $login_password = getVar('login_password');
-    $login_cookie   = getVar('login_cookie');
+    $login_password = $db->escape(getVar('login_password'));
+    $login_cookie   = (bool)getVar('login_cookie');
 
-    // count wrong logins //
-    $sql = "DELETE FROM " . $db_tb_wronglogin . " WHERE date<" . ($config_date - $config_wronglogin_timeout);
-    $result_u = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    if ((!empty($action)) AND (($action == "memberlogin2")) AND (!empty($login_id) AND (!empty($login_password)))) {
 
-    $sql = "SELECT ip FROM " . $db_tb_wronglogin . " WHERE user LIKE '" . $login_id . "'";
-    $result_u = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-    $wronglogins = $db->db_num_rows($result_u);
+        $returndata = loginUser($login_id, $login_password);
 
-    $ips = '';
-    while ($row_u = $db->db_fetch_array($result_u)) {
-        $ips .= $row_u['ip'] . "<br>\n";
-    }
+        if (!empty($returndata['id'])) { //Logindaten korrekt
+            $user_id = $returndata['id'];
 
-    $sql = "SELECT id, password FROM " . $db_tb_user;
-    $sql .= " WHERE (id='" . $login_id . "'";
-    $sql .= " AND password='" . md5($login_password) . "' AND password<>''";
-    $sql .= ")";
+            //SessionID erzeugen und in der DB speichern
+            $sid = randomstring($config_sid_string, $config_sid_length);
 
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-    $row = $db->db_fetch_array($result);
+            $SQLdata = array(
+                'sid'  => $sid,
+                'ip'   => $user_ip_hash,
+                'date' => CURRENT_UNIX_TIME,
+                'id'   => $user_id
+            );
+            $db->db_insertupdate($db_tb_sid, $SQLdata)
+                or error(GENERAL_ERROR, 'Could not insert sid!', '', __FILE__, __LINE__);
 
-    if ((isset($row['id'])) && ($wronglogins < $config_wronglogins)) {
-        $user_id = $row['id'];
-        $sql     = "UPDATE " . $db_tb_user . " SET logindate='" . $config_date . "' WHERE id='" . $row['id'] . "'";
-        $result  = $db->db_query($sql);
-        // login with cookie if set //
-        if ($login_cookie == 1) {
-            #    		setcookie($config_cookie_name, $login_id . ';' . $login_password, ( $config_date + $config_cookie_timeout ), '', '', 0);
-            setcookie($config_cookie_name, $login_id . ';' . md5($login_password), ($config_date + $config_cookie_timeout), '', '', 0);
-            ${$config_cookie_name} = $login_id . ';' . md5($login_password);
-        }
-        $login_ok = true;
-        $sql      = "DELETE FROM " . $db_tb_wronglogin . " WHERE user = '" . $login_id . "'";
-        $result_u = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-    } else {
-        // update wrong login table //
-        if ($login_id != "") {
-            $sql = "INSERT INTO " . $db_tb_wronglogin . " (user, date, ip) VALUES ('" . $login_id . "', '" . $config_date . "', '" . $client_ip . "')";
-            $result_u = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-
-            if (empty($wronglogins)) {
-                $wronglogins = 1;
+            //SessionID im Cookie speichern
+            if ($login_cookie) {
+                $result = setcookie($config_cookie_name, $sid, (CURRENT_UNIX_TIME + $config_cookie_timeout), null, null, false, true);
+                if (!$result) {
+                    exit('Setzen des permanenten Cookies fehlgeschlagen!');
+                }
             } else {
-                ++$wronglogins;
+                $result = setcookie($config_cookie_name, $sid, 0, null, null, false, true);
+                if (!$result) {
+                    exit('Setzen des temporären Cookies fehlgeschlagen!');
+                }
+            }
 
-                if ($wronglogins == $config_wronglogins) {
-                    $message = '
-<html>
-<head>
- <title>Login Error</title>
-</head>
-<body>
-<font face=verdana,arial size=2><b>Login Error at ' . APPLICATION_PATH_ABSOLUTE . '</b><br><br>
-Username: ' . $login_id . '<br>
-Date: ' . strftime(CONFIG_DATETIMEFORMAT, CURRENT_UNIX_TIME) . '<br>
-IPs:<br>' . $ips . $client_ip . '</font>
-</table>
-</body>
-</html>';
+        } else { //Logindaten falsch
+            $user_id = false;
 
-                    $mail_head =
-                        "MIME-Version: 1.0\r\n" .
-                            "Content-type: text/html; charset=iso-8859-1\r\n" .
-                            "To: " . $config_mailto_id . " <" . $config_mailto . ">\r\n";
-                    "From: " . $config_mailname . " <" . $config_mailfrom . ">\r\n";
+            $wronglogins = $returndata['wronglogins'];
 
-                    @mail($config_mailto, "Login Error at " . APPLICATION_PATH_ABSOLUTE, $message, $mail_head);
+            // Eintrag in die Tabelle der falschen Logins
+            $SQLdata = array(
+                'user' => $login_id,
+                'date' => CURRENT_UNIX_TIME,
+                'ip'   => $user_ip
+            );
+            $db->db_insert($db_tb_wronglogin, $SQLdata)
+                or error(GENERAL_ERROR, 'Could not update wrong login information.', '', __FILE__, __LINE__);
+
+            if ($wronglogins === $config_wronglogins) {
+                $ips = '';
+                $sql = "SELECT `ip` FROM `{$db_tb_wronglogin}` WHERE `user` LIKE '" . $login_id . "';";
+                $result_u = $db->db_query($sql)
+                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                $wronglogins = $db->db_num_rows($result_u);
+                while ($row_u = $db->db_fetch_array($result_u)) {
+                    $ips .= $row_u['ip'] . "\n";
+                }
+
+                $subject = "Login Error at " . $config_allytitle;
+                $message = "Anzahl maximaler falscher Logins bei '" . htmlspecialchars($login_id, ENT_QUOTES, 'UTF-8') . "' erreicht!\n";
+                $message .= "Login-IPs:\n";
+                $message .= $ips;
+
+                if (!mail($config_mailto, $subject, $message)) {
+                    echo "<div class='system_warning'>Fehler beim Mailverschicken</div>";
                 }
             }
         }
-
-        $user_id  = 'guest';
-        $login_ok = false;
-        // delete cookie at logout or wrong userdata //
-        if (isset($HTTP_COOKIE_VARS[$config_cookie_name])) {
-            setcookie($config_cookie_name, '', $config_date, '', '', 0);
-            ${$config_cookie_name} = '';
-        }
     }
 }
 
-//Cookie leeren wenn Logout
-if (!empty($action) AND ($action == "memberlogout2")) {
-    setcookie($config_cookie_name, '', time() - 3600, '', '', 0);
-}
-
-// not yet logged in //
-if (!$user_id) {
-    $user_id = 'guest';
-}
-if (isset($row_sid['sid'])) {
-    // delete all entries with user ID but not SID
-    $sql = "DELETE FROM " . $db_tb_sid . " WHERE (id<>'guest' AND id='" . $user_id . "' AND sid<>'" . $sid . "')";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-
-    $sql = "UPDATE " . $db_tb_sid . " SET sid='" . $sid . "', ip='" . $user_ip . "', date='" . $config_date . "', id='" . $user_id . "' WHERE sid='" . $row_sid['sid'] . "'";
+if ($user_id === false) {
+    // not yet logged in and inputdata given lets sleep a bit ^^
+    if (!empty($_REQUEST)) {
+        sleep(1);
+    }
 } else {
-    $sql = "DELETE FROM " . $db_tb_sid . " WHERE (id='guest' AND ip='" . $user_ip . "')";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $login_ok = true;
+}
 
-    // SID unknwon -> create new //
-    $sql = "SELECT sid FROM " . $db_tb_sid . " WHERE (id='" . $user_id . "' AND id<>'guest')";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-    $row_id = $db->db_fetch_array($result);
-
-    if (isset($row_id['sid'])) {
-        $sql = "UPDATE " . $db_tb_sid . " SET sid='" . $sid . "', ip='" . $user_ip . "', date='" . $config_date . "', id='" . $user_id . "' WHERE sid='" . $row_id['sid'] . "'";
-    } else {
-        $sql = "INSERT INTO " . $db_tb_sid . " (sid, ip, date, id) VALUES ('" . $sid . "','" . $user_ip . "', '" . $config_date . "', '" . $user_id . "')";
+//Cookie löschen wenn Logout oder falsche Anmeldedaten
+if ((!empty($action) AND ($action === "memberlogout2")) OR ($login_ok === false)) {
+    if (isset($_COOKIE[$config_cookie_name])) {
+        setcookie($config_cookie_name, '', 1, null, null, false, true);
     }
 }
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
 // get user status //
-$user_allianz = "";
-if ($user_id <> 'guest') {
+if ($login_ok) {
     $sql = "SELECT status, allianz, password, sitterlogin, sitterskin, rules, sitterpwd," .
         " sitten, planibilder, gebbilder, adminsitten, gebaeude, peitschen," .
         " gengebmod, genbauschleife, genmaurer, menu_default," .
@@ -257,17 +164,17 @@ if ($user_id <> 'guest') {
     $user_password        = $row['password'];
     $user_sitterlogin     = $row['sitterlogin'];
     $user_sitterskin      = $row['sitterskin'];
+    $user_rules           = $row['rules'];
+    $user_sitterpwd       = $row['sitterpwd'];
+    $user_sitten          = $row['sitten'];
     $user_planibilder     = $row['planibilder'];
     $user_gebbilder       = $row['gebbilder'];
     $user_adminsitten     = $row['adminsitten'];
     $user_gebaeude        = $row['gebaeude'];
     $user_peitschen       = $row['peitschen'];
     $user_gengebmod       = $row['gengebmod'];
-    $user_genmaurer       = $row['genmaurer'];
     $user_genbauschleife  = $row['genbauschleife'];
-    $user_sitterpwd       = $row['sitterpwd'];
-    $user_sitten          = $row['sitten'];
-    $user_rules           = $row['rules'];
+    $user_genmaurer       = $row['genmaurer'];
     $user_menu_default    = $row['menu_default'];
     $user_gal_start       = $row['gal_start'];
     $user_gal_end         = $row['gal_end'];
@@ -286,24 +193,78 @@ if ($user_id <> 'guest') {
     $user_sitten          = "0";
     $user_fremdesitten    = "0";
     $user_vonfremdesitten = "0";
+    $user_allianz         = "";
 }
-// set online counter //
-$counter_guest = 0;
-$counter_member = 0;
-$online_member = '';
-$sql = "SELECT id FROM " . $db_tb_sid . " WHERE date>" . ($config_date - $config_counter_timeout);
-if (!$user_fremdesitten) {
-    $sql .= " AND (SELECT allianz FROM " . $db_tb_user . " WHERE " . $db_tb_sid . ".id=" . $db_tb_user . ".id)='" . $user_allianz . "'";
-}
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'General_error_query', '', __FILE__, __LINE__, $sql);
-while ($row = $db->db_fetch_array($result)) {
-    if ($row['id'] == 'guest') {
-        $counter_guest++;
+
+//sid mit dieser ip gültig?
+function useSID($sid, $ip_hash)
+{
+    global $db, $db_tb_sid;
+
+    $sql = "SELECT `id` FROM `{$db_tb_sid}` WHERE `ip`='" . $ip_hash . "' AND `sid`='" . $sid . "'";
+    $result = $db->db_query($sql)
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $row_sid = $db->db_fetch_array($result);
+
+    if (!empty($row_sid['id'])) {
+
+        //Cookiedaten sind gültig -> Zeit der letzten DB Nutzung aktualisieren
+        $db->db_update($db_tb_sid, array('date' => CURRENT_UNIX_TIME), "WHERE `id`='" . $row_sid['id'] . "'")
+            or error(GENERAL_ERROR, 'Could not update sid!', '', __FILE__, __LINE__);
+
+        return $row_sid['id'];
+
     } else {
-        $counter_member++;
-        $online_member .= (empty($online_member)) ? $row['id'] : ", " . $row['id'];
+
+        //Cookiedaten ungültig
+        return false;
+
     }
 }
 
-global $sid;
+//User mit den Daten versuchen einzuloggen
+function loginUser($login_id, $password)
+{
+    global $db, $db_tb_wronglogin, $config_wronglogin_timeout, $db_tb_user, $config_wronglogins;
+
+    $password_hash = md5($password);
+
+    $returnData = array();
+
+    // zu alte falsche Logins löschen
+    $sql = "DELETE FROM `{$db_tb_wronglogin}` WHERE `date`<" . (CURRENT_UNIX_TIME - $config_wronglogin_timeout);
+    $result = $db->db_query($sql)
+        or error(GENERAL_ERROR, 'Could not delete wrong login information.', '', __FILE__, __LINE__, $sql);
+
+    // Anzahl der falschen Logins des Nutzers holen
+    $sql = "SELECT COUNT(*) AS 'wronglogins' FROM `{$db_tb_wronglogin}` WHERE `user` LIKE '" . $login_id . "';";
+    $result = $db->db_query($sql)
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $row = $db->db_fetch_array($result);
+    $wronglogins = $row['wronglogins'];
+
+    $sql = "SELECT `id`, `password` FROM " . $db_tb_user;
+    $sql .= " WHERE (`id`='" . $login_id . "'";
+    $sql .= " AND `password`='" . $password_hash . "' AND `password`<>''";
+    $sql .= ")";
+    $result = $db->db_query($sql)
+        or error(GENERAL_ERROR, 'Could not query user information.', '', __FILE__, __LINE__, $sql);
+    $row = $db->db_fetch_array($result);
+    if ((!empty($row['id'])) AND ($wronglogins < $config_wronglogins)) {
+        $returnData['id'] = $row['id'];
+
+        //Einlogzeit aktualisieren
+        $db->db_update($db_tb_user, array('logindate' => CURRENT_UNIX_TIME), "WHERE `id`='" . $row['id'] . "'")
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+
+        //falsche Logins löschen
+        $sql = "DELETE FROM `{$db_tb_wronglogin}` WHERE `user` = '" . $login_id . "';";
+        $result_u = $db->db_query($sql)
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
+    } else {
+        $returnData['wronglogins'] = $wronglogins + 1;
+    }
+
+    return $returnData;
+}

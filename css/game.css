@@ -1,0 +1,146 @@
+/**
+* Stylesheet für game.php
+*/
+
+body {
+    font-family: verdana, serif;
+    font-size: 11px;
+    color: #ffffff;
+    background: #111111 url(../bilder/bg_space3.png);
+    padding-left: 8px;
+    padding-top: 5px;
+    margin: 0;
+}
+
+.ueberschrift {
+    font-weight: 700;
+}
+
+.nowrap {
+    white-space: nowrap;
+}
+
+td.ueberschrift {
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+table {
+    background-color: #111111;
+}
+
+th {
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 700;
+    text-align: center;
+    vertical-align: top;
+    background: #000000 url(../bilder/bg_space3.png);
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+td {
+    color: #ffffff;
+    font-size: 10px;
+    vertical-align: top;
+    background: #000000 url(../bilder/bg_space3.png);
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+a:link {
+    color: #bbbbbb;
+}
+
+a:visited {
+    color: #bbbbbb;
+}
+
+input, select, textarea {
+    background-color: #555555;
+    color: #ffffff;
+    font-size: 12px;
+}
+
+body, table, tr, td, form {
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+}
+
+.left {
+    text-align: left !important;
+}
+
+.center {
+    text-align: center !important;
+}
+
+.right {
+    text-align: right !important;
+}
+
+.top {
+    vertical-align: top !important;
+}
+
+.middle {
+    vertical-align: middle !important;
+}
+
+.bottom {
+    vertical-align: bottom !important;
+}
+
+.universum {
+    border-top: #59626e 1px dotted;
+    border-right: #59626e 1px dotted;
+}
+
+.universum-spacer {
+    border-top: #59626e 1px dotted;
+}
+
+.universum-row {
+    background-image: url(../bilder/bg_space2.png);
+}
+
+.universum-row-selected {
+    background-image: url(../bilder/gruen.png);
+}
+
+.universum-row-own {
+    background-image: url(../bilder/rot.png);
+}
+
+.universum-row-nap {
+    background-image: url(../bilder/gelb.png);
+}
+
+.universum-row-noraid {
+    background-image: url(../bilder/gelb.png);
+}
+
+.alliance-own {
+    color: green;
+}
+
+.alliance-nap {
+    color: red;
+}
+
+.alliance-noraid {
+    color: yellow;
+}
+
+input {
+    color: #ffffff;
+    background-color: #555555;
+}
+
+.planet-enemy {
+    background-image: url(../bilder/rot.png);
+}

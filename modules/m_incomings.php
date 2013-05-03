@@ -57,7 +57,7 @@ $modultitle = "Incomings";
 //    - ""      <- nix = jeder, 
 //    - "admin" <- na wer wohl
 //
-$modulstatus = "admin";
+$modulstatus = "";
 
 //****************************************************************************
 //
@@ -72,26 +72,30 @@ $moduldesc = "Anzeige der Incomings (Sondierung/Angriff) auf die eigene Allianz"
 //
 function workInstallDatabase()
 {
-    global $db, $db_prefix, $db_tb_iwdbtabellen;
+    global $db, $db_prefix;
 
     $sqlscript = array(
         "CREATE TABLE IF NOT EXISTS `{$db_prefix}incomings` (
-        `koords_to` varchar(11) NOT NULL,
-        `name_to` varchar(50) NOT NULL,
-        `allianz_to` varchar(50) NOT NULL,
-        `koords_from` varchar(11) NOT NULL,
-        `name_from` varchar(50) NOT NULL,
-        `allianz_from` varchar(50) NOT NULL,
-        `art` varchar(100) NOT NULL COMMENT 'Angriff oder Sondierung',
-        `timestamp` int(10) unsigned NOT NULL COMMENT 'Zeitstempel Sondierung',
-        PRIMARY KEY (`timestamp`,`koords_to`, `koords_from` , `art`)
+        `koords_to` VARCHAR(11) NOT NULL COMMENT 'Zielcoords',
+        `name_to` VARCHAR(50) NOT NULL COMMENT 'Zielspieler',
+        `allianz_to` VARCHAR(50) NOT NULL COMMENT 'Zielallianz',
+        `koords_from` VARCHAR(11) NOT NULL COMMENT 'Angreiferkoords',
+        `name_from` VARCHAR(50) NOT NULL COMMENT 'Angreiferspieler',
+        `allianz_from` VARCHAR(50) NOT NULL COMMENT 'Angreiferallianz',
+        `art` VARCHAR(100) NOT NULL COMMENT 'Angriff oder Sondierung',
+        `arrivaltime` INT(10) UNSIGNED NOT NULL COMMENT 'Unixzeitstempel der Ankunft der Sondierung/Att',
+        `listedtime` INT(10) UNSIGNED NOT NULL COMMENT 'Unixzeitstempel des Eintrags',
+        `saved` TINYINT( 1 ) NOT NULL DEFAULT '0',
+        `savedUpdateTime` INT(10) UNSIGNED DEFAULT NULL COMMENT 'Unixzeitstempel des Saveflug der Schiffe',
+        `recalled` TINYINT( 1 ) NOT NULL DEFAULT '0',
+        `recalledUpdateTime` INT(10) UNSIGNED DEFAULT NULL COMMENT 'Unixzeitstempel des Recall der Schiffe',
+        PRIMARY KEY (`arrivaltime`,`koords_to`, `koords_from` , `art`)
         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Tabelle für Incomings';
         ",
-        "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" . " VALUES('incomings')"
     );
     foreach ($sqlscript as $sql) {
         $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            or error(GENERAL_ERROR, 'Could not install incomings-table.', '', __FILE__, __LINE__, $sql);
     }
     echo "<div class='system_success'>Installation: Datenbankänderungen = <b>OK</b></div>";
 
@@ -140,11 +144,10 @@ function workInstallConfigString()
 //
 function workUninstallDatabase()
 {
-    global $db, $db_tb_iwdbtabellen, $db_tb_incomings;
+    global $db, $db_tb_incomings;
 
     $sqlscript = array(
         "DROP TABLE " . $db_tb_incomings . ";",
-        "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='incomings';"
     );
 
     foreach ($sqlscript as $sql) {
@@ -198,163 +201,30 @@ echo "Anzeige der laufenden Sondierungen und Angriffe auf uns";
 echo " 	 <br />\n";
 echo " 	 <br />\n";
 
-//Löschen der Einträge in der Tabelle incomings, es sollen nur aktuelle Sondierungen und Angriffe eingetragen sein
-//ToDo : evtl Trennung Sondierung und Angriffe, damit die Sondierungen früher entfernt sind
-$sql = "DELETE FROM " . $db_tb_incomings . " WHERE timestamp<" . (CURRENT_UNIX_TIME - 20 * 60);
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not delete incomings information.', '', __FILE__, __LINE__, $sql);
-
-$sql = "SELECT * FROM " . $db_tb_incomings . " WHERE art = 'Sondierung (Schiffe/Def/Ress)' OR art = 'Sondierung (Gebäude/Ress)' ORDER BY timestamp ASC";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query incomings information.', '', __FILE__, __LINE__, $sql);
-
-$data = array();
-
-//Tabelle für die Sondierungen	
-start_table();
-start_row("titlebg", "align='center' colspan='6'");
-echo "<b>Sondierungen</b>";
-next_row("titlebg", "nowrap style='width:0%' align='center' ");
-echo "<b>Wer wird sondiert?</b>";
-next_cell("titlebg", "nowrap style='width:0%' align='center'");
-echo "<b>Zielplanet</b>";
-next_cell("titlebg", "nowrap style='width:0%' align='center'");
-echo "<b>Wer sondiert?</b>";
-next_cell("titlebg", "nowrap style='width:0%' align='center'");
-echo "<b>Von wo wird sondiert?</b>";
-next_cell("titlebg", "nowrap style='width:0%' align='center'");
-echo "<b>Zeitpunkt</b>";
-next_cell("titlebg", "nowrap style='width:0%' align='center'");
-echo "<b>Art der Sondierung</b>";
-
-while ($row = $db->db_fetch_array($result)) {
-
-    next_row("windowbg1", "nowrap style='width:0%' align='left'");
-    echo $row['name_to'];
-
-    next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-    $objekt = GetObjectByCoords($row['koords_to']);
-    if ($objekt == 'Kolonie') {
-        echo "<img src='bilder/kolo.png'>";
-    } else if ($objekt == 'Sammelbasis') {
-        echo "<img src='bilder/ress_basis.png'>";
-    } else if ($objekt == 'Artefaktbasis') {
-        echo "<img src='bilder/artefakt_basis.png'>";
-    } else if ($objekt == 'Kampfbasis') {
-        echo "<img src='bilder/kampf_basis.png'>";
-    }
-    echo $row['koords_to'];
-
-    next_cell("windowbg1", "nowrap style='width:0%' align='center'");
-    if (!empty($row['allianz_from'])) {
-        echo ($row['name_from'] . " [" . $row['allianz_from'] . "]");
-    } else {
-        echo $row['name_from'];
-    }
-
-    next_cell("windowbg1", "nowrap style='width:0%' align='center'");
-    $objekt = GetObjectByCoords($row['koords_from']);
-    if ($objekt == 'Kolonie') {
-        echo "<img src='bilder/kolo.png'>";
-    } else if ($objekt == 'Sammelbasis') {
-        echo "<img src='bilder/ress_basis.png'>";
-    } else if ($objekt == 'Artefaktbasis') {
-        echo "<img src='bilder/artefakt_basis.png'>";
-    } else if ($objekt == 'Kampfbasis') {
-        echo "<img src='bilder/kampf_basis.png'>";
-    }
-    echo $row['koords_from'];
-
-    next_cell("windowbg1", "nowrap style='width:0%' align='center'");
-    echo strftime("%d.%m.%y %H:%M:%S", $row['timestamp']);
-
-    next_cell("windowbg1", "nowrap style='width:0%' align='center'");
-    echo $row['art'];
-
-}
-end_row();
-end_table();
-
-echo " 	 <br />\n";
-echo " 	 <br />\n";
-
-$sql = "SELECT * FROM " . $db_tb_incomings . " WHERE art = 'Angriff' ORDER BY timestamp DESC";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query incomings information.', '', __FILE__, __LINE__, $sql);
-
-$data = array();
-
-//Tabelle für die Angriffe	
-start_table();
-start_row("titlebg", "align='center' colspan='5'");
-echo "<b>Angriffe</b>";
-next_row("titlebg", "nowrap style='width:0%' align='center'");
-echo "<b>Wer wird angegriffen?</b>";
-next_cell("titlebg", "nowrap style='width:0%' align='center'");
-echo "<b>Zielplanet</b>";
-next_cell("titlebg", "nowrap style='width:0%' align='center'");
-echo "<b>Wer greift an?</b>";
-next_cell("titlebg", "nowrap style='width:0%' align='center'");
-echo "<b>Von wo wird angegriffen?</b>";
-next_cell("titlebg", "nowrap style='width:0%' align='center'");
-echo "<b>Zeitpunkt</b>";
-
-while ($row = $db->db_fetch_array($result)) {
-
-    next_row("windowbg1", "nowrap style='width:0%' align='center'");
-    echo $row['name_to'];
-
-    next_cell("windowbg1", "nowrap style='width:0%' align='center'");
-    $objekt = GetObjectByCoords($row['koords_to']);
-    if ($objekt == 'Kolonie') {
-        echo "<img src='bilder/kolo.png'>";
-    } else if ($objekt == 'Sammelbasis') {
-        echo "<img src='bilder/ress_basis.png'>";
-    } else if ($objekt == 'Artefaktbasis') {
-        echo "<img src='bilder/artefakt_basis.png'>";
-    } else if ($objekt == 'Kampfbasis') {
-        echo "<img src='bilder/kampf_basis.png'>";
-    }
-    echo $row['koords_to'];
-
-    next_cell("windowbg1", "nowrap style='width:0%' align='center'");
-    if (!empty($row['allianz_from'])) {
-        echo ($row['name_from'] . " [" . $row['allianz_from'] . "]");
-    } else {
-        echo $row['name_from'];
-    }
-
-    next_cell("windowbg1", "nowrap style='width:0%' align='center'");
-    $objekt = GetObjectByCoords($row['koords_from']);
-    if ($objekt == 'Kolonie') {
-        echo "<img src='bilder/kolo.png'>";
-    } else if ($objekt == 'Sammelbasis') {
-        echo "<img src='bilder/ress_basis.png'>";
-    } else if ($objekt == 'Artefaktbasis') {
-        echo "<img src='bilder/artefakt_basis.png'>";
-    } else if ($objekt == 'Kampfbasis') {
-        echo "<img src='bilder/kampf_basis.png'>";
-    }
-    echo $row['koords_from'];
-
-    next_cell("windowbg1", "nowrap style='width:0%' align='center'");
-    echo strftime("%d.%m.%y %H:%M:%S", $row['timestamp']);
-}
-end_row();
-end_table();
-
-echo " 	 <br />\n";
-echo " 	 <br />\n";
-
-//Legende, weil es immer noch IW-Spieler gibt, die nichts mit den Symbolen anfangen können 
-start_table();
-start_row("windowbg1", "nowrap style='width:0%' align='center'");
-echo "<img src='bilder/kolo.png'> = Kolonie";
-next_cell("windowbg1", "nowrap style='width:0%' align='center'");
-echo "<img src='bilder/ress_basis.png'> = Ressourcensammelbasis";
-next_cell("windowbg1", "nowrap style='width:0%' align='center'");
-echo "<img src='bilder/artefakt_basis.png'> = Artefaktsammelbasis";
-next_cell("windowbg1", "nowrap style='width:0%' align='center'");
-echo "<img src='bilder/kampf_basis.png'> = Kampfbasis";
-end_row();
-end_table();
+?>
+<div id='incomings_tabellen_container'></div>
+<table class='borderless'>
+    <tr>
+        <td>
+            <?php
+            echo "<img src='" . BILDER_PATH . "kolo.png'> = Kolonie";
+            ?>
+        </td>
+        <td>
+            <?php
+            echo "<img src='" . BILDER_PATH . "ress_basis.png'> = Ressourcensammelbasis";
+            ?>
+        </td>
+        <td>
+            <?php
+            echo "<img src='" . BILDER_PATH . "artefakt_basis.png'> = Artefaktsammelbasis";
+            ?>
+        </td>
+        <td>
+            <?php
+            echo "<img src='" . BILDER_PATH . "kampf_basis.png'> = Kampfbasis";
+            ?>
+        </td>
+    </tr>
+</table>
+<script src="javascript/m_incomings.js"></script>

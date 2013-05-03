@@ -75,7 +75,7 @@ $moduldesc =
 function workInstallDatabase()
 {
     /*
-        global $db, $db_prefix, $db_tb_iwdbtabellen;
+        global $db, $db_prefix;
 
         $sqlscript = array(
             "ALTER TABLE `" . $db_prefix . "gebaeude` ADD `info` TEXT NOT NULL ," .
@@ -95,13 +95,6 @@ function workInstallDatabase()
             "ADD `MaximaleAnzahl` INT( 3 ) NOT NULL ," .
             "ADD `typ` VARCHAR( 5 ) NOT NULL ",
 
-        "INSERT INTO " . $db_tb_parser . "(modulename,recognizer,message) VALUES " .
-        "('building', 'Gebäudeinfo: ', 'Gebäude')"
-
-            /*"UPDATE `gebaeude` SET `name` = 'Kraftwerk (Solar) (orbital)' WHERE `id` =23 LIMIT 1 ",
-
-        "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-        " VALUES('neuername')"
       );
 
         foreach($sqlscript as $sql) {
@@ -156,21 +149,11 @@ function workInstallConfigString()
 function workUninstallDatabase()
 {
     /*
-    global $db, $db_prefix, $db_tb_iwdbtabellen;
+    global $db, $db_prefix;
 
-        $sqlscript = array(
-            "ALTER TABLE `" . $db_prefix . "gebaeude` " .
-            "CHANGE `category` `category` VARCHAR( 50 ) NOT NULL DEFAULT '' ",
-
-            "DELETE FROM " . $db_tb_parser . " WHERE modulename='building' "
-
-            /*  global $db, $db_tb_iwdbtabellen, $db_tb_neuername;
-            $sqlscript = array(
-            "DROP TABLE " . $db_tb_neuername . ";",
-            "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='neuername';"
-            );
-
-      );
+    $sqlscript = array(
+        "ALTER TABLE `" . $db_prefix . "gebaeude`  CHANGE `category` `category` VARCHAR( 50 ) NOT NULL DEFAULT '' ",
+    );
 
     foreach ($sqlscript as $sql) {
         $result = $db->db_query($sql)
@@ -221,9 +204,9 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 
 doc_title('Gebäude');
 
-global $db, $db_tb_gebaeude, $user_sitterlogin, $db_prefix, $show_building, $sid, $db_tb_research2user, $db_tb_gebaeude2user;
+global $db, $db_tb_gebaeude, $user_sitterlogin, $show_building, $db_tb_research2user, $db_tb_gebaeude2user;
 
-if (isset($show_building) AND !empty($show_building)) {
+if (!empty($show_building)) {
 
     $id = $show_building;
 
@@ -257,12 +240,12 @@ if (empty($id)) {
         ?>
         <tr>
             <td><?php if (!empty($rowB['bild'])) { ?> <a
-                    href="index.php?action=m_building&show_building=<?php echo $rowB['id']?>&sid=<?php echo $sid;?>"><img
+                    href="index.php?action=m_building&show_building=<?php echo $rowB['id']?>"><img
                         src="bilder/gebs/<?php echo $rowB['bild'];?>.jpg"></a> <?php } else { ?> <a
-                    href="index.php?action=m_building&show_building=<?php echo $rowB['id']?>&sid=<?php echo $sid;?>"><img
+                    href="index.php?action=m_building&show_building=<?php echo $rowB['id']?>"><img
                         src="bilder/gebs/blank.jpg"></a> <?php } ?></td>
             <td><a
-                    href="index.php?action=m_building&show_building=<?php echo $rowB['id']?>&sid=<?php echo $sid;?>"><?php echo $rowB['name'];?></a>
+                    href="index.php?action=m_building&show_building=<?php echo $rowB['id']?>"><?php echo $rowB['name'];?></a>
             </td>
         </tr>
     <?php
@@ -332,49 +315,48 @@ if (empty($id)) {
         $img = '<img src="bilder/gebs/' . $rowB['bild'] . '.jpg" alt="">';
     }
     ?>
-    <table class="bordercolor" style="width: 60%;" border="0"
-           cellpadding="4" cellspacing="1">
+    <table class='table_format' style='width: 60%;'>
     <tbody>
     <tr>
 
-        <td class="windowbg2" valign="middle" align="center"><?php echo $img;?></td>
-        <td class="windowbg2" valign="middle" align="center">
+        <td class="windowbg2 center middle"><?php echo $img;?></td>
+        <td class="windowbg2 center middle">
             <div class="doc_title"><span class="bigtext"><?php echo $build['name'];?></span></div>
         </td>
     </tr>
 
     <tr>
-        <td class="windowbg2" style="width: 20%;" valign="top">
+        <td class="windowbg2 top" style="width: 20%;">
             <div class="doc_blue">Beschreibung:</div>
         </td>
-        <td class="windowbg1" valign="top"><?php echo $build['besch'];?></td>
+        <td class="windowbg1 top"><?php echo $build['besch'];?></td>
     </tr>
     <?php
     if ($typ != 'pteur' AND $typ != 'gteur') {
         ?>
         <tr>
-            <td class="windowbg2" style="width: 20%;" valign="top">
+            <td class="windowbg2 top" style="width: 20%;">
                 <div class="doc_blue">Kosten:</div>
             </td>
-            <td class="windowbg1" valign="top">
+            <td class="windowbg1 top">
                 <?php echo $rowB['Kosten'];?>
             </td>
         </tr>
 
         <tr>
-            <td class="windowbg2" style="width: 20%;" valign="top">
+            <td class="windowbg2 top" style="width: 20%;">
                 <div class="doc_blue">Dauer:</div>
             </td>
-            <td class="windowbg1" valign="top">
+            <td class="windowbg1 top">
                 <?php echo $build['dauer'];?>
             </td>
         </tr>
 
         <tr>
-            <td class="windowbg2" style="width: 20%;" valign="top">
+            <td class="windowbg2 top" style="width: 20%;">
                 <div class="doc_blue">bringt:</div>
             </td>
-            <td class="windowbg1" valign="top">
+            <td class="windowbg1 top">
                 <?php echo $rowB['bringt'];?>
             </td>
         </tr>
@@ -382,7 +364,7 @@ if (empty($id)) {
     } else {
         ?>
         <tr>
-            <td class="windowbg1" colspan="2" valign="top"><?php echo $teuer;?> in
+            <td class="windowbg1 top" colspan="2"><?php echo $teuer;?> in
                 Stufen teurer werdendes Gebäude.
             </td>
         </tr>
@@ -390,48 +372,48 @@ if (empty($id)) {
     }
     ?>
     <tr>
-        <td class="windowbg2" style="width: 20%;" valign="top">
+        <td class="windowbg2 top" style="width: 20%;" >
             <div class="doc_blue">kostet:</div>
         </td>
-        <td class="windowbg1" valign="top">
+        <td class="windowbg1 top">
             <?php echo $rowB['kostet'];?>
         </td>
     </tr>
 
     <tr>
-        <td class="windowbg2" style="width: 20%;" valign="top">
+        <td class="windowbg2 top" style="width: 20%;" >
             <div class="doc_blue">Highscorepunkte:</div>
         </td>
-        <td class="windowbg1" valign="top">
+        <td class="windowbg1 top">
             <?php echo $rowB['Punkte'];?>
         </td>
     </tr>
     <?php if (!empty($build['kolotyp'])) { ?>
         <tr>
-            <td class="windowbg2" style="width: 20%;" valign="top">
+            <td class="windowbg2 top" style="width: 20%;" >
                 <div class="doc_blue">benötigter Kolotyp:</div>
             </td>
-            <td class="windowbg1" valign="top">
+            <td class="windowbg1 top">
                 <?php echo $build['kolotyp'];?>
             </td>
         </tr>
     <?php }  if (!empty($build['planityp'])) { ?>
         <tr>
-            <td class="windowbg2" style="width: 20%;" valign="top">
+            <td class="windowbg2 top" style="width: 20%;" >
                 <div class="doc_blue">benötigter Kolotyp:</div>
             </td>
-            <td class="windowbg1" valign="top">
+            <td class="windowbg1 top">
                 <?php echo $build['planityp'];?>
             </td>
         </tr>
     <?php } ?>
     <tr>
-        <td class="windowbg2" style="width: 20%;" valign="top">
+        <td class="windowbg2 top" style="width: 20%;" >
             <div class="doc_blue">Benötigte<br>
                 Forschungen:
             </div>
         </td>
-        <td class="windowbg1" valign="top"><?php
+        <td class="windowbg1 top"><?php
             $nresearch = preg_split('<br>', $rowB['n_research']);
 
             foreach ($nresearch as $research) {
@@ -441,16 +423,15 @@ if (empty($id)) {
                 $research = trim($research);
 
 
-                $sqlR = "SELECT id FROM " . $db_prefix . "research WHERE name = '" . $research . "' ";
+                $sqlR = "SELECT id FROM `{$db_tb_research}` WHERE `name` = '" . $research . "';";
                 $resultR = $db->db_query($sqlR)
                     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlR);
                 $rowR  = $db->db_fetch_array($resultR);
                 $resid = $rowR['id'];
 
-                if (isset($resid) AND !empty($resid)) {
+                if (!empty($resid)) {
 
-                    $sql = "SELECT * FROM " . $db_prefix . "research2user WHERE rid=" . $resid .
-                        " AND userid='" . $user_sitterlogin . "'";
+                    $sql = "SELECT * FROM `{$db_tb_research2user}` WHERE `rid`=" . $resid . " AND `userid`='" . $user_sitterlogin . "';";
                     $result = $db->db_query($sql)
                         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
@@ -466,7 +447,7 @@ if (empty($id)) {
 
                     echo '<img src="bilder/point.gif" alt="a point o.O">';
                     echo '&nbsp;';
-                    echo '<a href="index.php?action=m_research&researchid=' . $resid . '&sid=' . $sid . '">' . $colorme_on . $research . $colorme_off . '</a>';
+                    echo '<a href="index.php?action=m_research&researchid=' . $resid . '">' . $colorme_on . $research . $colorme_off . '</a>';
                     echo '<br>';
 
                 } else {
@@ -487,12 +468,12 @@ if (empty($id)) {
             ?></td>
     </tr>
     <tr>
-        <td class="windowbg2" style="width: 20%;" valign="top">
+        <td class="windowbg2 top" style="width: 20%;" >
             <div class="doc_blue">Ermöglicht<br>
                 Forschungen:
             </div>
         </td>
-        <td class="windowbg1" valign="top"><?php
+        <td class="windowbg1 top"><?php
             $nresearch = preg_split('<br>', $rowB['e_research']);
 
             foreach ($nresearch as $research) {
@@ -501,16 +482,15 @@ if (empty($id)) {
                 $research = str_replace('\n', '', $research);
                 $research = trim($research);
 
-                $sqlR = "SELECT id FROM " . $db_prefix . "research WHERE name = '" . $research . "' ";
+                $sqlR = "SELECT `id` FROM `{$db_tb_research}` WHERE `name` = '" . $research . "';";
                 $resultR = $db->db_query($sqlR)
                     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlR);
                 $rowR  = $db->db_fetch_array($resultR);
                 $resid = $rowR['id'];
 
-                if (isset($resid) AND !empty($resid)) {
+                if (!empty($resid)) {
 
-                    $sql = "SELECT * FROM " . $db_prefix . "research2user WHERE rid=" . $resid .
-                        " AND userid='" . $user_sitterlogin . "'";
+                    $sql = "SELECT * FROM `{$db_tb_research2user}` WHERE `rid`=" . $resid ." AND `userid`='" . $user_sitterlogin . "';";
                     $result = $db->db_query($sql)
                         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
@@ -527,7 +507,7 @@ if (empty($id)) {
                     if (!empty($research)) {
                         echo '<img src="bilder/point.gif" alt="a point o.O">';
                         echo '&nbsp;';
-                        echo '<a href="index.php?action=m_research&researchid=' . $resid . '&sid=' . $sid . '">' . $colorme_on . $research . $colorme_off . '</a>';
+                        echo '<a href="index.php?action=m_research&researchid=' . $resid . '">' . $colorme_on . $research . $colorme_off . '</a>';
                         echo '<br>';
                     }
 
@@ -552,12 +532,12 @@ if (empty($id)) {
             ?></td>
     </tr>
     <tr>
-        <td class="windowbg2" style="width: 20%;" valign="top">
+        <td class="windowbg2 top" style="width: 20%;" >
             <div class="doc_blue">Benötigte<br>
                 Gebäude:
             </div>
         </td>
-        <td class="windowbg1" valign="top"><?php
+        <td class="windowbg1 top"><?php
             $ngebaeude = preg_split('<br>', $rowB['n_building']);
 
             foreach ($ngebaeude as $gebaeude) {
@@ -566,7 +546,7 @@ if (empty($id)) {
                 $gebaeude = str_replace('\n', '', $gebaeude);
                 $gebaeude = trim($gebaeude);
 
-                $sqlR = "SELECT id FROM " . $db_prefix . "gebaeude WHERE name = '" . $gebaeude . "' ";
+                $sqlR = "SELECT `id` FROM `{$db_tb_gebaeude}` WHERE `name` = '" . $gebaeude . "';";
                 $resultR = $db->db_query($sqlR)
                     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlR);
                 $rowR  = $db->db_fetch_array($resultR);
@@ -576,9 +556,7 @@ if (empty($id)) {
 
                     echo '<img src="bilder/point.gif" alt="a point o.O">';
                     echo '&nbsp;';
-
-                    echo '<a href="index.php?action=m_building&show_building=' . $resid . '&sid=' . $sid . '">' . $gebaeude . '</a>';
-
+                    echo '<a href="index.php?action=m_building&show_building=' . $resid . '">' . $gebaeude . '</a>';
                     echo '<br>';
 
                 }
@@ -587,12 +565,12 @@ if (empty($id)) {
             ?></td>
     </tr>
     <tr>
-        <td class="windowbg2" style="width: 20%;" valign="top">
+        <td class="windowbg2 top" style="width: 20%;" >
             <div class="doc_blue">Ermöglicht<br>
                 Gebäude:
             </div>
         </td>
-        <td class="windowbg1" valign="top"><?php
+        <td class="windowbg1 top"><?php
             $ngebaeude = preg_split('<br>', $rowB['e_building']);
 
             foreach ($ngebaeude as $gebaeude) {
@@ -601,7 +579,7 @@ if (empty($id)) {
                 $gebaeude = str_replace('\n', '', $gebaeude);
                 $gebaeude = trim($gebaeude);
 
-                $sqlR = "SELECT id FROM " . $db_prefix . "gebaeude WHERE name = '" . $gebaeude . "' ";
+                $sqlR = "SELECT `id` FROM `{$db_tb_gebaeude}` WHERE `name` = '" . $gebaeude . "';";
                 $resultR = $db->db_query($sqlR)
                     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlR);
                 $rowR  = $db->db_fetch_array($resultR);
@@ -611,9 +589,7 @@ if (empty($id)) {
 
                     echo '<img src="bilder/point.gif" alt="a point o.O">';
                     echo '&nbsp;';
-
-                    echo '<a href="index.php?action=m_building&show_building=' . $resid . '&sid=' . $sid . '">' . $gebaeude . '</a>';
-
+                    echo '<a href="index.php?action=m_building&show_building=' . $resid . '">' . $gebaeude . '</a>';
                     echo '<br>';
 
                 }

@@ -41,13 +41,6 @@ $skins = array(
     "0" => "User Skin"
 );
 
-$spieltyp = array(
-    "Solo"     => "Solo",
-    "Buddler"  => "Buddler",
-    "Fleeter"  => "Fleeter",
-    "Cash Cow" => "Cash Cow"
-);
-
 $adminsittens = array(
     SITTEN_DISABLED      => "Sitterbereich deaktiviert",
     SITTEN_ONLY_NEWTASKS => "kann Sitteraufträge erstellen, darf keine anderen sitten",
@@ -72,67 +65,58 @@ while ($datei1 = readdir($fp6)) {
 
 closedir($fp6);
 
-doc_title('Profil');
+doc_title('Profil von ' . $id);
 
-$id = getVar('id');
-$edit = getVar('edit');
-
-if (($sitterlogin <> "") && ($edit == "true") && (($sitterlogin == $user_sitterlogin) || ($user_status == "admin"))) {
-    $userd['password']     = getVar('password');
-    $userd['passwordwdhl'] = getVar('passwordwdhl');
+$editprofile = getVar('editprofile');
+if (!empty($editprofile) AND (($id === $user_id) OR ($user_status === "admin"))) {
+    $userd['newpassword']     = getVar('newpassword');
+    $userd['newpasswordwdhl'] = getVar('newpasswordwdhl');
     $userd['email']        = getVar('email');
+    $userd['allianz']      = getVar('allianz');
+    $userd['squad']        = getVar('squad');
 
-    $userd['gal_start'] = getVar('gal_start');
-    $userd['gal_end']   = getVar('gal_end');
-    $userd['sys_start'] = getVar('sys_start');
-    $userd['sys_end']   = getVar('sys_end');
-    $userd['allianz']   = getVar('allianz');
-    $userd['preset']    = getVar('preset');
-    $userd['squad']     = getVar('squad');
-    $userd['grav_von']  = getVar('grav_von');
-    $userd['grav_bis']  = getVar('grav_bis');
+    $userd['grav_von'] = (float)getVar('grav_von');
+    $userd['grav_bis'] = (float)getVar('grav_bis');
+    list($userd['grav_von'], $userd['grav_bis']) = sortValuesInc($userd['grav_von'], $userd['grav_bis']);
 
-    $userd['staatsform'] = getVar('staatsform');
+    $userd['gal_start'] = (int)getVar('gal_start');
+    $userd['gal_end']   = (int)getVar('gal_end');
+    list($userd['gal_start'], $userd['gal_end']) = sortValuesInc($userd['gal_start'], $userd['gal_end']);
 
-    $userd['NewUniXmlTime'] = strtotime(getVar('NewUniXmlTime')) ? strtotime(getVar('NewUniXmlTime')) : null;
+    $userd['sys_start'] = (int)getVar('sys_start');
+    $userd['sys_end']   = (int)getVar('sys_end');
+    list($userd['sys_start'], $userd['sys_end']) = sortValuesInc($userd['sys_start'], $userd['sys_end']);
 
-    $userd['grav_von'] = str_replace(",", ".", $userd['grav_von']);
-    $userd['grav_bis'] = str_replace(",", ".", $userd['grav_bis']);
-
-    $userd['geopunkte'] = getVar('geopunkte');
-    $userd['syspunkte'] = getVar('syspunkte');
-
-    $userd['sitterpwd']     = getVar('sitterpwd');
-    $userd['sitterpwdwdhl'] = getVar('sitterpwdwdhl');
-
-    $userd['sitterskin']     = getVar('sitterskin');
-    $userd['sitterpunkte']   = getVar('sitterpunkte');
+    $userd['preset'] = getVar('preset');
+    //sitten
+    $userd['adminsitten']    = (int)getVar('adminsitten');
+    $userd['sitten']         = (bool)getVar('sitten');
+    $userd['newsitterpwd']      = getVar('newsitterpwd');
+    $userd['newsitterpwdwdhl']  = getVar('newsitterpwdwdhl');
+    $userd['sitterskin']     = (int)getVar('sitterskin');
     $userd['sittercomment']  = getVar('sittercomment');
-    $userd['sitten']         = getVar('sitten');
-    $userd['adminsitten']    = getVar('adminsitten');
-    $userd['genbauschleife'] = getVar('genbauschleife');
-    $userd['genmaurer']      = getVar('genmaurer');
-    $userd['iwsa']           = getVar('iwsa');
-    $userd['gengebmod']      = getVar('gengebmod');
-    $userd['gengebmod']      = str_replace(",", ".", $userd['gengebmod']);
-
-    $userd['peitschen']   = getVar('peitschen');
-    $userd['budflesol']   = getVar('budflesol');
-    $userd['buddlerfrom'] = getVar('buddlerfrom');
-
-    $userd['ikea'] = getVar('ikea');
-
-    $userd['gesperrt'] = getVar('gesperrt');
-
-    $userd['planibilder']  = getVar('planibilder');
-    $userd['gebbilder']    = getVar('gebbilder');
-    $userd['status']       = getVar('status');
-    $userd['menu_default'] = getVar('menu_default');
-
-    $userd['color'] = getVar('color');
-
-    $userd['sound']   = getVar('sound');
-    $userd['uniprop'] = getVar('uniprop');
+    $userd['sound']          = (int)getVar('sound');
+    $userd['peitschen']      = (bool)getVar('peitschen');
+    $userd['ikea']           = getVar('ikea');
+    $userd['genbauschleife'] = (bool)getVar('genbauschleife');
+    $userd['genmaurer']      = (bool)getVar('genmaurer');
+    $userd['gengebmod']      = (float)getVar('gengebmod');
+    $userd['iwsa']           = (bool)getVar('iwsa');
+    //sonstiges
+    $userd['budflesol']     = getVar('budflesol');
+    $userd['buddlerfrom']   = getVar('buddlerfrom');
+    $userd['color']         = getVar('color');
+    $userd['staatsform']    = getVar('staatsform');
+    $userd['NewUniXmlTime'] = strtotime(getVar('NewUniXmlTime')) ? strtotime(getVar('NewUniXmlTime')) : null;
+    $userd['planibilder']   = (bool)getVar('planibilder');
+    $userd['gebbilder']     = (bool)getVar('gebbilder');
+    $userd['sitterpunkte']  = (int)getVar('sitterpunkte');
+    $userd['geopunkte']     = (int)getVar('geopunkte');
+    $userd['syspunkte']     = (int)getVar('syspunkte');
+    $userd['status']        = getVar('status');
+    $userd['gesperrt']      = (bool)getVar('gesperrt');
+    $userd['menu_default']  = getVar('menu_default');
+    $userd['uniprop']       = (bool)getVar('uniprop');
 
     if ($user_status != "admin") {
         unset($userd['status']);
@@ -144,68 +128,61 @@ if (($sitterlogin <> "") && ($edit == "true") && (($sitterlogin == $user_sitterl
         unset($userd['allianz']);
     }
 
-    if ($user_status == "admin") {
+    if ($user_status === "admin") {
         $userd['id'] = $id;
     }
 
     // Testet ob das Passwort sicher ist
-    if (!empty($userd['password'])) {
-        $alert = secure_password($userd['password']);
+    if (!empty($userd['newpassword'])) {
+        $alert = secure_password($userd['newpassword']);
 
         if (!empty($alert)) {
             echo "<br><div class='system_error'>" . $alert . "</div>";
-            unset($userd['password']);
-            unset($userd['passwordwdhl']);
         } else {
-            if ($userd['password'] != $userd['passwordwdhl']) {
-                echo "<br><div class='system_error'>Passwörter stimmen nicht überein! Passwort zurückgesetzt.</div>";
-                unset($userd['password']);
-                unset($userd['passwordwdhl']);
+            if ($userd['newpassword'] != $userd['newpasswordwdhl']) {
+                echo "<br><div class='system_error'>Passwörter stimmen nicht überein! IWDB Passwort NICHT geändert.</div>";
             } else {
-                unset($userd['passwordwdhl']);
-                $userd['password'] = md5($userd['password']);
+                $userd['password'] = md5($userd['newpassword']);
             }
         }
-    } else {
-        unset($userd['password']);
-        unset($userd['passwordwdhl']);
     }
+    unset($userd['newpassword']);
+    unset($userd['newpasswordwdhl']);
 
-    if ($userd['sitterpwd'] != $userd['sitterpwdwdhl']) {
-        echo "<br><div class='system_error'>Sitterpasswörter stimmen nicht überein! Passwort zurückgesetzt.</div>";
-        unset($userd['sitterpwd']);
-        unset($userd['sitterpwdwdhl']);
-    } else {
-        unset($userd['sitterpwdwdhl']);
-    }
+    if ($userd['newsitterpwd'] != $userd['newsitterpwdwdhl']) {
 
-    if ($userd['sitterpwd'] == '' OR $userd['sitterpwd'] == '***') {
-        unset($userd['sitterpwd']);
+        echo "<br><div class='system_error'>Sitterpasswörter stimmen nicht überein! Sitterpasswort NICHT geändert.</div>";
+
     } else {
-        $userd['sitterpwd'] = MD5($userd['sitterpwd']);
+        if (!empty($userd['newsitterpwd']) AND $userd['newsitterpwd'] !== '***') {
+            $userd['sitterpwd'] = MD5($userd['newsitterpwd']);
+        }
     }
+    unset($userd['newsitterpwd']);
+    unset($userd['newsitterpwdwdhl']);
+
 
     if (getVar('deleteSitterpass') == '1' AND getVar('deleteSitterpasswdh') == '1') {
         $userd['sitterpwd'] = '';
         echo "<br><div class='system_notification'>Sitterpasswörter gelöscht.</div>";
     }
 
-    $result = $db->db_update($db_tb_user, $userd, "WHERE sitterlogin='" . $sitterlogin . "'")
+    $result = $db->db_update($db_tb_user, $userd, "WHERE `id`='{$id}';")
         or error(GENERAL_ERROR, 'Could not update user information.', '', __FILE__, __LINE__);
     echo "<div class='system_notification'>Userdaten aktualisiert.</div>";
 
-    $sql = "SELECT t1.* FROM " . $db_tb_sitterauftrag . " as t1 LEFT JOIN " . $db_tb_sitterauftrag . " as t2 ON t1.id = t2.refid WHERE t2.refid is null AND t1.user='" . $sitterlogin . "'";
+    $sql = "SELECT t1.* FROM " . $db_tb_sitterauftrag . " as t1 LEFT JOIN " . $db_tb_sitterauftrag . " as t2 ON t1.id = t2.refid WHERE t2.refid is null AND t1.user='" . $id . "'";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     while ($row = $db->db_fetch_array($result)) {
         if ($row['typ'] == "Gebaeude") {
-            dates($row['id'], $sitterlogin);
+            dates($row['id'], $id);
         }
     }
 }
 
 $groups = array();
-$sql = "SELECT * FROM $db_tb_group";
+$sql = "SELECT * FROM `$db_tb_group`;";
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 while ($row = $db->db_fetch_array($result)) {
@@ -221,7 +198,7 @@ if (isset($selectedgroups) && is_array($selectedgroups)) {
         $groups[$selectedgroup]["selected"] = true;
     }
 }
-if ($edit == true && $user_status == "admin") {
+if (!empty($editprofile) && $user_status === "admin") {
     $sql = "DELETE FROM $db_tb_group_user WHERE $db_tb_group_user.`user_id`='" . $id . "'";
     $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -233,7 +210,7 @@ if ($edit == true && $user_status == "admin") {
         }
     }
 } else {
-    $sql = "SELECT * FROM $db_tb_group_user WHERE $db_tb_group_user.`user_id`='" . $sitterlogin . "'";
+    $sql = "SELECT * FROM `{$db_tb_group_user}` WHERE `{$db_tb_group_user}`.`user_id`='{$id}';";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     while ($row = $db->db_fetch_array($result)) {
@@ -241,11 +218,10 @@ if ($edit == true && $user_status == "admin") {
     }
 }
 
-$sql = "SELECT * FROM " . $db_tb_user . " WHERE sitterlogin = '" . $sitterlogin . "'";
+$sql = "SELECT * FROM `{$db_tb_user}` WHERE `id` = '{$id}';";
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row = $db->db_fetch_array($result);
-
 foreach ($row as $key => $data) {
     ${$key} = $data;
 }
@@ -254,15 +230,6 @@ if (!empty($sitterpwd)) {
     $sitterpwdsp = '***';
 } else {
     $sitterpwdsp = '';
-}
-
-//auslesen aller Memebr
-$alluser = array();
-$sqlM = "SELECT id FROM " . $db_tb_user;
-$resultM = $db->db_query($sqlM)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
-while ($rowM = $db->db_fetch_array($resultM)) {
-    $alluser[] = $rowM['id'];
 }
 
 $sel0 = '';
@@ -300,8 +267,8 @@ switch ($sound) {
 
 ?>
 <br>
-<form method="POST" action="index.php?action=profile&sid=<?php echo $sid;?>" enctype="multipart/form-data">
-<table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 80%;">
+<form method="POST" action="index.php?action=profile" enctype="multipart/form-data">
+<table class="table_format" style="width: 80%;">
 <tr>
     <td colspan="2" class="titlebg">
         <b>Daten:</b>
@@ -314,7 +281,7 @@ switch ($sound) {
     </td>
     <td class="windowbg1">
         <?php
-        if ($user_status == "admin") {
+        if ($user_status === "admin") {
             echo "<input type='text' name='id' value='$id' style='width: 25em'>\n";
         } else {
             echo "<input type='hidden' name='id' value='$id'>\n";
@@ -328,7 +295,7 @@ switch ($sound) {
         <span style="font-style:italic;">Dein Loginpasswort.</span>
     </td>
     <td class="windowbg1">
-        <input type="password" name="password" value="" style="width: 25em">
+        <input type="password" name="newpassword" autocomplete="off" value="" style="width: 25em">
     </td>
 </tr>
 <tr>
@@ -337,7 +304,7 @@ switch ($sound) {
         <span style="font-style:italic;">Passwort zur Sicherheit wiederholen.</span>
     </td>
     <td class="windowbg1">
-        <input type="password" name="passwordwdhl" value="" style="width: 25em">
+        <input type="password" name="newpasswordwdhl" autocomplete="off" value="" style="width: 25em">
     </td>
 </tr>
 <tr>
@@ -356,7 +323,7 @@ switch ($sound) {
     </td>
     <td class="windowbg1">
         <?php
-        if ($user_status == "admin") {
+        if ($user_status === "admin") {
             echo "<input type='text' name='allianz' value='$allianz' style='width: 25em'>\n";
         } else {
             echo $allianz;
@@ -379,8 +346,10 @@ switch ($sound) {
         <span style="font-style:italic;">Trage hier den Bereich der Gravitation ein, die du besiedeln kannst.</span>
     </td>
     <td class="windowbg1">
-        von <input type="text" name="grav_von" value="<?php echo $grav_von;?>" style="width: 5em" maxlength="3"> bis
-        <input type="text" name="grav_bis" value="<?php echo $grav_bis;?>" style="width: 5em" maxlength="3">
+        von
+        <input type="number" min="0" max="12" step="0.1" name="grav_von" value="<?php echo $grav_von;?>" style="width: 5em" maxlength="3">
+        bis
+        <input type="number" min="0" max="12" step="0.1" name="grav_bis" value="<?php echo $grav_bis;?>" style="width: 5em" maxlength="3">
     </td>
 </tr>
 <tr>
@@ -389,8 +358,10 @@ switch ($sound) {
         <span style="font-style:italic;">Trage hier den Bereich der Galaxien ein, die du sehen kannst.</span>
     </td>
     <td class="windowbg1">
-        von <input type="text" name="gal_start" value="<?php echo $gal_start;?>" style="width: 5em"> bis
-        <input type="text" name="gal_end" value="<?php echo $gal_end;?>" style="width: 5em">
+        von
+        <input type="number" min="<?php echo $config_map_galaxy_min;?>" max="<?php echo $config_map_galaxy_max;?>" name="gal_start" value="<?php echo $gal_start;?>" style="width: 5em">
+        bis
+        <input type="number" min="<?php echo $config_map_galaxy_min;?>" max="<?php echo $config_map_galaxy_max;?>" name="gal_end" value="<?php echo $gal_end;?>" style="width: 5em">
     </td>
 </tr>
 <tr>
@@ -399,8 +370,10 @@ switch ($sound) {
         <span style="font-style:italic;">Trage hier den Bereich der Systeme ein, die du sehen kannst.</span>
     </td>
     <td class="windowbg1">
-        von <input type="text" name="sys_start" value="<?php echo $sys_start;?>" style="width: 5em"> bis
-        <input type="text" name="sys_end" value="<?php echo $sys_end;?>" style="width: 5em">
+        von
+        <input type="number" min="<?php echo $config_map_system_min;?>" max="<?php echo $config_map_system_max;?>" name="sys_start" value="<?php echo $sys_start;?>" style="width: 5em">
+        bis
+        <input type="number" min="<?php echo $config_map_system_min;?>" max="<?php echo $config_map_system_max;?>" name="sys_end" value="<?php echo $sys_end;?>" style="width: 5em">
     </td>
 </tr>
 <tr>
@@ -411,7 +384,7 @@ switch ($sound) {
     <td class="windowbg1">
         <select name="preset" style="width: 100px;">
             <?php
-            $sql = "SELECT id, name FROM " . $db_tb_preset . " WHERE (fromuser = '" . $user_sitterlogin . "' OR fromuser = '') ORDER BY fromuser, name";
+            $sql = "SELECT id, name FROM " . $db_tb_preset . " WHERE (fromuser = '" . $id . "' OR fromuser = '') ORDER BY fromuser, name";
             $result = $db->db_query($sql)
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
             while ($row = $db->db_fetch_array($result)) {
@@ -433,7 +406,7 @@ switch ($sound) {
     </td>
     <td class="windowbg1">
         <?php
-        if ($user_status == "admin") {
+        if ($user_status === "admin") {
             echo "<select name='adminsitten'>\n";
             foreach ($adminsittens as $key => $data) {
                 echo ($adminsitten == $key) ? " <option value='" . $key . "' selected>" . $data . "</option>\n" : " <option value='" . $key . "'>" . $data . "</option>\n";
@@ -451,7 +424,10 @@ switch ($sound) {
         <span style="font-style:italic;">Sollen andere deinen Account sitten können? (Aufträge kannst du auch wenn deaktiviert erstellen.)</span>
     </td>
     <td class="windowbg1">
-        <input type="checkbox" name="sitten" value="1"<?php echo ($sitten) ? " checked" : "";?>>
+        <select name="sitten">
+            <option value="" <?php echo ($sitten) ? '' : 'selected';?>>nein</option>
+            <option value="1" <?php echo ($sitten) ? 'selected' : '';?>>ja</option>
+        </select>
     </td>
 </tr>
 <tr>
@@ -469,8 +445,8 @@ switch ($sound) {
         <span style="font-style:italic;">Dein Sitterpasswort in Icewars.</span>
     </td>
     <td class="windowbg1">
-        <input type="password" name="sitterpwd" value="<?php echo $sitterpwdsp;?>" style="width: 25em">
-        Null:
+        <input type="password" name="newsitterpwd" value="<?php echo $sitterpwdsp;?>" style="width: 25em">
+        löschen?
         <input type="checkbox" name="deleteSitterpass" value="1">
     </td>
 </tr>
@@ -479,8 +455,8 @@ switch ($sound) {
         Sitterpasswort Wiederholung:
     </td>
     <td class="windowbg1">
-        <input type="password" name="sitterpwdwdhl" value="<?php echo $sitterpwdsp;?>" style="width: 25em">
-        Null:
+        <input type="password" name="newsitterpwdwdhl" value="<?php echo $sitterpwdsp;?>" style="width: 25em">
+        löschen?
         <input type="checkbox" name="deleteSitterpasswdh" value="1">
     </td>
 </tr>
@@ -490,33 +466,14 @@ switch ($sound) {
         <span style="font-style:italic;">Welchen Skin möchtest du beim Sitten verwenden?</span>
     </td>
     <td class="windowbg1">
-        <select name="sitterskin">
-            <?php
-            foreach ($skins as $key => $data) {
-                echo ($sitterskin == $key) ? " <option value='" . $key . "' selected>" . $data . "</option>\n" : " <option value='" . $key . "'>" . $data . "</option>\n";
-            }
-            ?>
-        </select>
-    </td>
-</tr>
-<tr>
-    <td class="windowbg2" style="width:30%;">
-        Sitterpunkte:<br>
-        <span style="font-style:italic;">So viele Punkte hast du schon fürs Sitten erhalten.</span>
-    </td>
-    <td class="windowbg1">
         <?php
-        if ($user_status == "admin") {
-            echo "<input type='text' name='sitterpunkte' value='$sitterpunkte' style='width: 5em'>\n";
-        } else {
-            echo $sitterpunkte;
-        }
-        $sql = "SELECT AVG(sitterpunkte) FROM " . $db_tb_user . " WHERE sitterpunkte <> 0";
-        $result_avg = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-        $row_avg = $db->db_fetch_array($result_avg);
-
-        echo "Durchschnitt: " . round($row_avg['AVG(sitterpunkte)']);
+        echo makeField(
+            array(
+                 "type"   => 'select',
+                 "values" => $skins,
+                 "value"  => $sitterskin,
+            ), 'sitterskin'
+        );
         ?>
     </td>
 </tr>
@@ -527,8 +484,8 @@ switch ($sound) {
     </td>
     <td class="windowbg1">
         <?php
-        if ($user_status == "admin") {
-            echo "<textarea name='sittercomment' id='sittercomment' rows='3' cols='50'>$sittercomment</textarea>\n";
+        if ($user_status === "admin") {
+            echo "<textarea name='sittercomment' id='sittercomment' rows='5' cols='50'>$sittercomment</textarea>\n";
             echo bbcode_buttons('sittercomment');
         } else {
             echo $sittercomment;
@@ -542,7 +499,7 @@ switch ($sound) {
         <span style="font-style:italic;">Wie möchtest du bei Sitteraufträgen zusätzlich benachrichtigt werden?</span>
     </td>
     <td class="windowbg1">
-        <select name="sound" size="1">
+        <select name="sound">
             <?php
             foreach ($asound as $key => $menu) {
                 echo "<option value='$key' " . ${'sel' . $key} . ">" . $asound[$key] . "</option>";
@@ -554,60 +511,81 @@ switch ($sound) {
 <tr>
     <td class="windowbg2">
         Meister der Peitschen?:<br>
-        <span style="font-style:italic;">Wenn du die Genetikoption hast, bitte Haken setzen.</span>
+        <span style="font-style:italic;">Wenn du die Genetikoption hast, bitte auswählen.</span>
     </td>
     <td class="windowbg1">
-        <input type="checkbox" name="peitschen" value="1"<?php echo ($peitschen) ? " checked" : "";?>>
+        <select name="peitschen">
+            <option value="" <?php echo ($peitschen) ? '' : 'selected';?>>nein</option>
+            <option value="1" <?php echo ($peitschen) ? 'selected' : '';?>>ja</option>
+        </select>
     </td>
 </tr>
-<?php
-$nchecked = 'checked="checked"';
-$lchecked = '';
-$mchecked = '';
-if ($ikea == 'L') {
-    $nchecked = '';
-    $lchecked = 'checked="checked"';
-} elseif ($ikea == 'M') {
-    $nchecked = '';
-    $mchecked = 'checked="checked"';
-}
-?>
 <tr>
     <td class="windowbg2">
         Ikea?:<br>
         <span style="font-style:italic;">Wenn du die Genetikoption hast, bitte auswählen.</span>
     </td>
     <td class="windowbg1">
-        <input type="radio" name="ikea" value="" <?php echo $nchecked;?>>kein Ikea&nbsp;
-        <input type="radio" name="ikea" value="L" <?php echo $lchecked;?>>Lehrling&nbsp;
-        <input type="radio" name="ikea" value="M" <?php echo $mchecked;?>>Meister&nbsp;
+        <?php
+        echo makeField(
+            array(
+                 "type"   => 'select',
+                 "values" => array('' => 'kein Ikea', 'L' => 'Lehrling des IKEA', 'M' => 'Meister des IKEA'),
+                 "value"  => $ikea,
+            ), 'ikea'
+        );
+        ?>
     </td>
 </tr>
 <tr>
     <td class="windowbg2">
         Ich will mehr Zeit?:<br>
-        <span style="font-style:italic;">Wenn du die Genetikoption hast, bitte Haken setzen.</span>
+        <span style="font-style:italic;">Wenn du die Genetikoption hast, bitte auswählen.</span>
     </td>
     <td class="windowbg1">
-        <input type="checkbox" name="genbauschleife" value="1"<?php echo ($genbauschleife) ? " checked" : "";?>>
+        <?php
+        echo makeField(
+            array(
+                 "type"   => 'select',
+                 "values" => array('0' => 'nein', '1' => 'ja'),
+                 "value"  => $genbauschleife,
+            ), 'genbauschleife'
+        );
+        ?>
     </td>
 </tr>
 <tr>
     <td class="windowbg2">
         Der Einmaurer?:<br>
-        <span style="font-style:italic;">Wenn du die Genetikoption hast, bitte Haken setzen.</span>
+        <span style="font-style:italic;">Wenn du die Genetikoption hast, bitte auswählen.</span>
     </td>
     <td class="windowbg1">
-        <input type="checkbox" name="genmaurer" value="1"<?php echo ($genmaurer) ? " checked" : "";?>>
+        <?php
+        echo makeField(
+            array(
+                 "type"   => 'select',
+                 "values" => array('0' => 'nein', '1' => 'ja'),
+                 "value"  => $genmaurer,
+            ), 'genmaurer'
+        );
+        ?>
     </td>
 </tr>
 <tr>
     <td class="windowbg2">
         Bau auf Bau auf Bau auf Bau auf?:<br>
-        <span style="font-style:italic;">Stelle hier deinen Gebäudebaudauermodifikator ein (Standard 1).</span>
+        <span style="font-style:italic;">Stelle hier deinen Gebäudebaudauermodifikator ein (Standard +-0%).</span>
     </td>
     <td class="windowbg1">
-        <input type="text" name="gengebmod" value="<?php echo $gengebmod;?>" style="width: 5em">
+        <?php
+        echo makeField(
+            array(
+                 "type"   => 'select',
+                 "values" => array('0.90' => '-10%', '0.95' => '-5%', '1.00' => '+-0%', '1.05' => '+5%', '1.10' => '+10%'),
+                 "value"  => $gengebmod,
+            ), 'gengebmod'
+        );
+        ?>
     </td>
 </tr>
 <tr>
@@ -617,7 +595,15 @@ if ($ikea == 'L') {
      Wichtig wegen FP!</span>
     </td>
     <td class="windowbg1">
-        <input type="checkbox" name="iwsa" value="1" <?php echo ($iwsa) ? " checked" : "";?>>
+        <?php
+        echo makeField(
+            array(
+                 "type"   => 'select',
+                 "values" => array('0' => 'nein', '1' => 'ja'),
+                 "value"  => $iwsa,
+            ), 'iwsa'
+        );
+        ?>
     </td>
 </tr>
 <tr>
@@ -631,22 +617,25 @@ if ($ikea == 'L') {
         <span style="font-style:italic;">Hier deinen Spieltyp eintragen. Wenn du Buddler bist, bitte noch das 2. Feld ausfüllen (ansonsten leer lassen).</span>
     </td>
     <td class="windowbg1">
-        <select name="budflesol">
-            <?php
-            foreach ($spieltyp as $key => $data) {
-                echo ($budflesol == $key) ? " <option value='" . $key . "' selected>" . $data . "</option>\n" : " <option value='" . $key . "'>" . $data . "</option>\n";
-            }
-            ?>
-        </select>
-        von
-        <select name="buddlerfrom">
-            <option value="">---</option>
-            <?php
-            foreach ($alluser as $auser) {
-                echo ($buddlerfrom == $auser) ? " <option value='" . $auser . "' selected>" . $auser . "</option>\n" : " <option value='" . $auser . "'>" . $auser . "</option>\n";
-            }
-            ?>
-        </select>
+        <?php
+        echo makeField(
+            array(
+                 "type"   => 'select',
+                 "values" => getAllAccTypes(),
+                 "value"  => $budflesol,
+            ), 'budflesol'
+        );
+
+        echo 'von';
+
+        echo makeField(
+            array(
+                 "type"   => 'select',
+                 "values" => array('' => '---') + getAllyAccs(),
+                 "value"  => $buddlerfrom,
+            ), 'buddlerfrom'
+        );
+        ?>
     </td>
 </tr>
 <tr>
@@ -655,7 +644,7 @@ if ($ikea == 'L') {
         <span style="font-style:italic;">Sollest du Fleeter sein, trage hier eine Farbe für deine Buddler ein (Format: #RRGGBB)</span>
     </td>
     <td class="windowbg1">
-        <input type="text" name="color" size="8" maxlength="7" value="<?php echo $color;?>">
+        <input type="text" name="color" pattern="#?[0-9a-fA-F]{0,6}" size="8" maxlength="7" value="<?php echo $color;?>">
     </td>
 </tr>
 <tr>
@@ -664,13 +653,15 @@ if ($ikea == 'L') {
         <span style="font-style:italic;">Deine Staatsform.</span>
     </td>
     <td class="windowbg1">
-        <select name="staatsform">
-            <?php
-            foreach ($staatsformen as $key => $data) {
-                echo ($staatsform == $key) ? " <option value='" . $key . "' selected>" . $data . "</option>\n" : " <option value='" . $key . "'>" . $data . "</option>\n";
-            }
-            ?>
-        </select>
+        <?php
+        echo makeField(
+            array(
+                 "type"   => 'select',
+                 "values" => $staatsformen,
+                 "value"  => $staatsform,
+            ), 'staatsform'
+        );
+        ?>
     </td>
 </tr>
 <tr>
@@ -685,11 +676,18 @@ if ($ikea == 'L') {
 <tr>
     <td class="windowbg2">
         Planetenbilder anzeigen?:<br>
-        <span
-            style="font-style:italic;">Sollen Bilder, den Planetentypen entsprechend in der Karte angezeigt werden?</span>
+        <span style="font-style:italic;">Sollen Bilder, den Planetentypen entsprechend in der Karte angezeigt werden?</span>
     </td>
     <td class="windowbg1">
-        <input type="checkbox" name="planibilder" value="1"<?php echo ($planibilder) ? " checked" : "";?>>
+        <?php
+        echo makeField(
+            array(
+                 "type"   => 'select',
+                 "values" => array('0' => 'nein', '1' => 'ja'),
+                 "value"  => $planibilder,
+            ), 'planibilder'
+        );
+        ?>
     </td>
 </tr>
 <tr>
@@ -698,7 +696,36 @@ if ($ikea == 'L') {
         <span style="font-style:italic;">Sollen Gebäudebilder beim Erstellen eines Auftrages und bei "Gebäude ausblenden" angezeigt werden?</span>
     </td>
     <td class="windowbg1">
-        <input type="checkbox" name="gebbilder" value="1"<?php echo ($gebbilder) ? " checked" : "";?>>
+        <?php
+        echo makeField(
+            array(
+                 "type"   => 'select',
+                 "values" => array('0' => 'nein', '1' => 'ja'),
+                 "value"  => $gebbilder,
+            ), 'gebbilder'
+        );
+        ?>
+    </td>
+</tr>
+<tr>
+    <td class="windowbg2" style="width:30%;">
+        Sitterpunkte:<br>
+        <span style="font-style:italic;">So viele Punkte hast du schon fürs Sitten erhalten.</span>
+    </td>
+    <td class="windowbg1">
+        <?php
+        if ($user_status === "admin") {
+            echo "<input type='text' pattern='[0-9]*' name='sitterpunkte' value='$sitterpunkte' style='width: 5em'>\n";
+        } else {
+            echo $sitterpunkte;
+        }
+        $sql = "SELECT AVG(sitterpunkte) FROM " . $db_tb_user . " WHERE sitterpunkte <> 0";
+        $result_avg = $db->db_query($sql)
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $row_avg = $db->db_fetch_array($result_avg);
+
+        echo "Durchschnitt: " . round($row_avg['AVG(sitterpunkte)']);
+        ?>
     </td>
 </tr>
 <tr>
@@ -708,8 +735,8 @@ if ($ikea == 'L') {
     </td>
     <td class="windowbg1">
         <?php
-        if ($user_status == "admin") {
-            echo "<input type='text' name='geopunkte' value='$geopunkte' style='width: 5em;'>\n";
+        if ($user_status === "admin") {
+            echo "<input type='text' pattern='[0-9]*' name='geopunkte' value='$geopunkte' style='width: 5em;'>\n";
         } else {
             echo $geopunkte;
         }
@@ -723,8 +750,8 @@ if ($ikea == 'L') {
     </td>
     <td class="windowbg1">
         <?php
-        if ($user_status == "admin") {
-            echo "<input type='text' name='syspunkte' value='$syspunkte' style='width: 5em;'>\n";
+        if ($user_status === "admin") {
+            echo "<input type='text' pattern='[0-9]*' name='syspunkte' value='$syspunkte' style='width: 5em;'>\n";
         } else {
             echo $syspunkte;
         }
@@ -732,7 +759,7 @@ if ($ikea == 'L') {
     </td>
 </tr>
 <?php
-if ($user_status == "admin") {
+if ($user_status === "admin") {
     ?>
     <tr>
         <td class="windowbg2">
@@ -760,19 +787,19 @@ if ($user_status == "admin") {
         Menü-Darstellung:
     </td>
     <td class="windowbg1">
-        <select name="menu_default" style="width: 100">
-            <?php
-            foreach ($menustyles as $key => $data) {
-                echo ($menu_default == $key)
-                    ? "    <option value='" . $key . "' selected>" . $data . "</option>\n"
-                    : "    <option value='" . $key . "'>" . $data . "</option>\n";
-            }
-            ?>
-        </select>
+        <?php
+        echo makeField(
+            array(
+                 "type"   => 'select',
+                 "values" => $menustyles,
+                 "value"  => $menu_default,
+            ), 'menu_default'
+        );
+        ?>
     </td>
 </tr>
 <?php
-if ($user_status == "admin") {
+if ($user_status === "admin") {
     ?>
     <tr>
         <td class="windowbg2">
@@ -812,21 +839,20 @@ if ($user_status == "admin") {
     </td>
 </tr>
 <tr>
-    <td colspan="2" class="titlebg" align="center">
-        <input type="hidden" name="edit" value="true"><input type="submit" value="speichern" name="B1" class="submit">
+    <td colspan="2" class="titlebg center">
+        <input type="submit" value="speichern" name="editprofile">
     </td>
 </tr>
 </table>
 </form>
 <?php
-if (($user_status == "admin") && ($sitterlogin != $user_sitterlogin)) {
+if (($user_status === "admin") && ($id !== $user_id)) {
     ?>
     <br><br>
     <div class='doc_centered_blue'>Account löschen</div>
     <br>
-    <a href="index.php?action=deluser&sitterlogin=<?php echo urlencode($sitterlogin);?>&sid=<?php echo $sid;?>"
-       onclick="return confirmlink(this, 'Account wirklich loeschen?')">[jetzt
-        löschen]</a>
+    <a href="index.php?action=deluser&sitterlogin=<?php echo urlencode($sitterlogin);?>"
+       onclick="return confirmlink(this, 'Account wirklich löschen?')">[jetzt löschen]</a>
 <?php
 }
 ?>

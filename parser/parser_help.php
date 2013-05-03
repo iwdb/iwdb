@@ -7,7 +7,7 @@ if (!defined('IRA')) {
 function ResetPlaniedata($updatetime)
 {
     //ungültige planSchiff/Deff/Ressscanberichte löschen (Änderung Planettyp oder Objekttyp oder username zur angegebenen Zeit)
-    global $db_prefix, $db;
+    global $db, $db_tb_scans;
 
     $data = array(
         "eisen"           => null,
@@ -32,13 +32,13 @@ function ResetPlaniedata($updatetime)
         "gebscantime"     => null
     );
 
-    $db->db_update("{$db_prefix}scans", $data, "WHERE `userchange_time` = {$updatetime} OR `typchange_time` = {$updatetime}  OR `objektchange_time` = {$updatetime};")
+    $db->db_update($db_tb_scans, $data, "WHERE `userchange_time` = {$updatetime} OR `typchange_time` = {$updatetime}  OR `objektchange_time` = {$updatetime};")
         or error(GENERAL_ERROR, 'DB ResetPlaniedata Fehler!', '', __FILE__, __LINE__, '');
 }
 
 function ResetGeodata($updatetime)
 {
-    global $db_prefix, $db;
+    global $db, $db_tb_scans;
 
     $data = array(
         "eisengehalt"       => null,
@@ -61,14 +61,14 @@ function ResetGeodata($updatetime)
     );
 
     //Query um ungültige Geodaten zu löschen (nach Änderung Planettyp zur angegebenen Zeit)
-    $db->db_update("{$db_prefix}scans", $data, "WHERE `typchange_time`={$updatetime};")
+    $db->db_update($db_tb_scans, $data, "WHERE `typchange_time`={$updatetime};")
         or error(GENERAL_ERROR, 'DB ResetGeodata Fehler!', '', __FILE__, __LINE__, '');
 
     //Zuweisen neuer Planiebilder
     //planet_pic = 0-29 bei Steinklumpen, 0-19 bei Asteroid oder Gasgigant oder Eisplanet, wird bei Typ "nichts" ignoriert
     //shadow_pic = 0-2 wird bei Planietyp "Asteroid" oder "Nichts" ignoriert
     //bg_pic = 0-3
-    $sql = "UPDATE `{$db_prefix}scans`
+    $sql = "UPDATE `{$db_tb_scans}`
            SET `planet_pic` = IF(STRCMP(`typ`,'Steinklumpen'),ROUND( RAND() * 19),ROUND( RAND() * 29)), `shadow_pic` = ROUND( RAND() * 2), `bg_pic` = ROUND( RAND() * 3) 
            WHERE typchange_time = {$updatetime};";
 
@@ -80,13 +80,13 @@ function ResetGeodata($updatetime)
 function AddAllychangetoHistory($updatetime)
 {
     //Allianzänderungen in Historytabele übertragen
-    global $db_prefix, $db;
+    global $db, $db_tb_spielerallychange, $db_tb_spieler;
 
-    $sql = "INSERT INTO `{$db_prefix}spielerallychange` (`NAME`, `fromally`, `toally`, `TIME`)
+    $sql = "INSERT INTO `{$db_tb_spielerallychange}` (`NAME`, `fromally`, `toally`, `TIME`)
             SELECT `NAME`, `exallianz`, `allianz`, `allychange_time`
-            FROM `{$db_prefix}spieler`
+            FROM `{$db_tb_spieler}`
             WHERE `allychange_time` = {$updatetime}
-            ON DUPLICATE KEY UPDATE `{$db_prefix}spielerallychange`.`name`=`{$db_prefix}spielerallychange`.`name`";
+            ON DUPLICATE KEY UPDATE `{$db_tb_spielerallychange}`.`name`=`{$db_tb_spielerallychange}`.`name`";     //means ON DUPLICATE KEY 'DO NOTHING'
 
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'DB AddAllychangetoHistory Fehler!', '', __FILE__, __LINE__, $sql);
@@ -96,18 +96,18 @@ function AddAllychangetoHistory($updatetime)
 function SyncAllies($updatetime)
 {
     //aktuelle Allianzen in Kartendaten übertragen
-    global $db_prefix, $db;
+    global $db, $db_tb_spieler, $db_tb_scans;
 
-    $sql = "UPDATE `{$db_prefix}spieler`, `{$db_prefix}scans`
-            SET `{$db_prefix}scans`.`allianz` = `{$db_prefix}spieler`.`allianz`
-            WHERE `{$db_prefix}spieler`.`name` = `{$db_prefix}scans`.`user`
-            AND `{$db_prefix}spieler`.playerupdate_time = {$updatetime};";
+    $sql = "UPDATE `{$db_tb_spieler}`, `{$db_tb_scans}`
+            SET `{$db_tb_scans}`.`allianz` = `{$db_tb_spieler}`.`allianz`
+            WHERE `{$db_tb_spieler}`.`name` = `{$db_tb_scans}`.`user`
+            AND `{$db_tb_spieler}`.playerupdate_time = {$updatetime};";
 
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'DB TransferAllytoScans Fehler!', '', __FILE__, __LINE__, $sql);
 
     //Allianz für nicht mehr vorhandene Spieler löschen
-    $sql = "UPDATE `{$db_prefix}scans` SET `allianz` = '' WHERE `userchange_time` = {$updatetime} AND `USER` = '';";
+    $sql = "UPDATE `{$db_tb_scans}` SET `allianz` = '' WHERE `userchange_time` = {$updatetime} AND `USER` = '';";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'DB AllyDelete Fehler!', '', __FILE__, __LINE__, $sql);
 }
@@ -132,7 +132,7 @@ function GetNameByCoords($coords)
         return '';
     }
 
-    $sql = "SELECT user FROM " . $db_tb_scans . " WHERE coords = '$coords'";
+    $sql = "SELECT `user` FROM `{$db_tb_scans}` WHERE `coords` = '$coords';";
 
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -161,7 +161,7 @@ function GetAllianceByUser($username)
         return '';
     }
 
-    $sql = "SELECT DISTINCT allianz FROM " . $db_tb_scans . " WHERE user = '$username'";
+    $sql = "SELECT DISTINCT `allianz` FROM `{$db_tb_scans}` WHERE `user` = '$username';";
 
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -176,10 +176,29 @@ function GetObjectByCoords($coords)
     if (empty($coords)) {
         return '';
     }
-    $sql = "SELECT objekt FROM " . $db_tb_scans . " WHERE coords = '$coords'";
+    $sql = "SELECT `objekt` FROM `{$db_tb_scans}` WHERE `coords` = '$coords';";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     $row = $db->db_fetch_array($result);
 
     return $row['objekt'];
+}
+
+function GetObjectPictureByCoords($coords)
+{
+
+    $objekt = GetObjectByCoords($coords);
+    $objectPicture = '';
+
+    if ($objekt == 'Kolonie') {
+        $objectPicture = "<img src='" . BILDER_PATH . "kolo.png'>";
+    } else if ($objekt == 'Sammelbasis') {
+        $objectPicture = "<img src='" . BILDER_PATH . "ress_basis.png'>";
+    } else if ($objekt == 'Artefaktbasis') {
+        $objectPicture = "<img src='" . BILDER_PATH . "artefakt_basis.png'>";
+    } else if ($objekt == 'Kampfbasis') {
+        $objectPicture = "<img src='" . BILDER_PATH . "kampf_basis.png'>";
+    }
+
+    return $objectPicture;
 }

@@ -63,9 +63,9 @@ $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
 while ($row = $db->db_fetch_array($result)) {
-    start_row("windowbg1", "valign='top'");
+    start_row("windowbg1 top");
     echo $row['user'];
-    next_cell("windowbg1", "valign='top'");
+    next_cell("windowbg1 top");
 
     $sql = "SELECT ip, date FROM " . $db_tb_wronglogin .
         " WHERE user = '" . $row['user'] . "'";
@@ -76,10 +76,10 @@ while ($row = $db->db_fetch_array($result)) {
         echo "<b>" . $row_ip['ip'] . "</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" .
             strftime("%H:%M:%S am %d.%m.", $row_ip['date']) . "<br>\n";
     }
-    next_cell("windowbg1", "valign='top'");
+    next_cell("windowbg1 top");
     echo "<a href='index.php?action=admin&uaction=wronglogin&user=" . urlencode($row['user']) .
-        "&sid=" . $sid . "' onclick=\"return confirmlink(this, 'Loginsperre wirklich " .
-        "löschen?')\"><img src='bilder/file_delete_s.gif' " .
+        "' onclick=\"return confirmlink(this, 'Loginsperre wirklich " .
+        "löschen?')\"><img src='".BILDER_PATH."file_delete_s.gif' " .
         "alt='löschen'></a>\n";
     end_row();
 }

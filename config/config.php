@@ -39,18 +39,27 @@ if (!defined('IRA')) {
 }
 
 // ***************************************************************************
-//  Ab hier sind Angaben die nicht unbedingt geändert werden muessen.
+//  Ab hier sind Angaben die nicht unbedingt geändert werden müssen.
 //
+//allgemeine Pfadangaben
+define('BILDER_PATH', "bilder/");
+define('GEBAEUDE_BILDER_PATH', BILDER_PATH."gebs/");
+define('BANNER_PATH', BILDER_PATH."banner/");
+define('TECHTREE_BILDER_PATH', BILDER_PATH."techtree/");
+//für evl aktuellere techtrees
+//define('TECHTREE_BILDER_PATH', "//wuz.php-friends.de/techtree/");
 
-// Farben in der Karte der Allianzen (own - eigene Allianz/Wings, NAP, iNAP, VB, Krieg)
-$config_allianzstatus           = array();
-$config_allianzstatus['own']    = "#C4F493";
-$config_allianzstatus['wing']   = "#E6F6A5";
-$config_allianzstatus['NAP']    = "#7C9CF1";
-$config_allianzstatus['iNAP']   = "#8DADF2";
-$config_allianzstatus['VB']     = "#4A71D5";
-$config_allianzstatus['Krieg']  = "#E84528";
-$config_allianzstatus['noraid'] = "#DD9911";
+// Farben in der Karte der Allianzen
+$config_allianzstatus            = array();
+$config_allianzstatus['own']     = "#C4F493";
+$config_allianzstatus['wing']    = "#E6F6A5";
+$config_allianzstatus['NAP']     = "#7C9CF1";
+$config_allianzstatus['iNAP']    = "#8DADF2";
+$config_allianzstatus['VB']      = "#4A71D5";
+$config_allianzstatus['iVB']     = "#4A71D5";
+$config_allianzstatus['Krieg']   = "#E84528";
+$config_allianzstatus['imKrieg'] = "#FFC080";
+$config_allianzstatus['noraid']  = "#DD9911";
 
 // Farben von Stargates, Schwarze Loecher, reservierten Planeten
 $config_color                  = array();
@@ -61,6 +70,16 @@ $config_color['first24h']      = "#00AACC";
 $config_color['last24']        = "#00AACC"; //veraltet
 $config_color['unscanned']     = "#4B4B00";
 $config_color['scanoutdated']  = "#FF0000";
+
+//ToDo: In die IWDB-Einstellungen verschieben?
+$aSpieltypen = array(
+    "Solo",
+    "Allrounder",
+    "Buddler" => array("Eisenbuddler", "Chembuddler", "Eisbuddler"),
+    "Wandler" => array("Stahlwandler", "VV4A Wandler", "Wasser Wandler"),
+    "Fleeter",
+    "Cash Cow"
+);
 
 // Zeit, wie lange die SID aktuell bleibt (in Sekunden)
 $config_sid_timeout = 1 * HOUR;
@@ -78,10 +97,10 @@ $config_password_string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1
 $config_cookie_name = "iwdb";
 
 // Zeit, wie lange das Cookie gueltig ist in Sekunden
-$config_cookie_timeout = 365 * DAY;
+$config_cookie_timeout = 14 * DAY;
 
 // Zeit, wie lange ein User als online angezeigt wird in Sekunden
-$config_counter_timeout = 4 * MINUTE;
+$config_counter_timeout = 10 * MINUTE;
 
 // Zeit, wie lange ein Username gesperrt wird nach x falschen Loginversuchen in Sekunden
 $config_wronglogin_timeout = 6 * HOUR;

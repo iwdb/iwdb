@@ -260,7 +260,7 @@ if (!empty($universum) || !empty($flotteversenden)) {
         }
     } while (!empty($current));
     $results[] = "<div class='system_notification'>Zielliste gespeichert.</div><br>";
-    $redirect  = 'game.php?sid=' . $sid . '&name=' . $name;
+    $redirect  = 'game.php?name=' . $name;
     if (!empty($universum)) {
         $redirect .= '&view=universum';
     } else {
@@ -402,7 +402,7 @@ if (empty($edit['reserveraidhours'])) {
 $edit['reserveraiduntil'] = strftime("%d.%m.%Y %H:%M", (CURRENT_UNIX_TIME + ($edit['reserveraidhours'] * HOUR)));
 
 // Edit-Daten löschen
-if (isset($params['delete']) && !empty($params['delete'])) {
+if (!empty($params['delete'])) {
     $explode = explode(":", $params['delete']);
     $sql     = "UPDATE " . $db_tb_scans;
     $sql .= " SET reserveraid=NULL, reserveraiduser=NULL";
@@ -465,14 +465,13 @@ $editview = array(
         'desc'  => 'Wieviele Stunden soll das Ziel reserviert werden?',
         'type'  => 'text',
         'value' => $edit['reserveraidhours'],
-        'style' => 'width: 70;',
+        'style' => 'width: 5em;',
     ),
     'reserveraiduntil' => array(
         'title' => 'Reserviert bis',
         'desc'  => 'Wie lange ist das Ziel reserviert?',
         'type'  => 'label',
         'value' => $edit['reserveraiduntil'],
-        'style' => 'width: 110;',
     ),
 );
 
@@ -532,7 +531,7 @@ if (isset($redirect)) {
 // Suchmaske oder Daten ausgeben?
 if (empty($params['view'])) {
     // Form beginnen
-    start_form($modulname . "&amp;sid=" . $sid);
+    start_form($modulname);
     // Tabelle beginnen
     start_table();
     // Bereich
@@ -665,7 +664,7 @@ if (empty($params['view'])) {
     }
     echo "</select>";
     // Schaltflächen
-    next_row("titlebg", "align='center' colspan='2'");
+    next_row("titlebg center", "colspan='2'");
     echo "<input type='submit' value='suchen' name='searchtargets' class='submit'>\n";
     // Tabelle beenden
     end_table();
@@ -971,7 +970,7 @@ if (empty($params['view'])) {
         $angriff_time = "";
         $angriff_from = "";
         if (!empty($db_tb_lieferung)) {
-            $sql_angriff = "SELECT art, user_from, time, schiffe FROM " . $db_tb_lieferung . " WHERE";
+            $sql_angriff = "SELECT art, user_from, coords_from_gal, coords_from_sys, coords_from_planet, time, schiffe FROM " . $db_tb_lieferung . " WHERE";
             $sql_angriff .= " coords_to_gal=" . $row['coords_gal'] . " AND";
             $sql_angriff .= " coords_to_sys=" . $row['coords_sys'] . " AND";
             $sql_angriff .= " coords_to_planet=" . $row['coords_planet'] . " AND";
@@ -982,10 +981,10 @@ if (empty($params['view'])) {
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
             while ($row_angriff = $db->db_fetch_array($result_angriff)) {
                 if ($row_angriff['art'] == 'Angriff') {
-                    $comment .= "<div style='color: red'>Angriff von " . $row_angriff['user_from'] . " bis " . strftime(CONFIG_DATETIMEFORMAT, $row_angriff['time']) . "</div>";
+                    $comment .= "<div style='color: red'>Angriff von " . $row_angriff['user_from'] . " von " . $row_angriff['coords_from_gal'] . ":" . $row_angriff['coords_from_sys'] . ":" . $row_angriff['coords_from_planet'] . " aus bis " . strftime(CONFIG_DATETIMEFORMAT, $row_angriff['time']) . "</div>";
                     $text_color = "color: red;";
                 } else {
-                    $comment .= "<div style='color: #CC6600'>Sondierung von " . $row_angriff['user_from'] . " bis " . strftime(CONFIG_DATETIMEFORMAT, $row_angriff['time']) . " mit " . $row_angriff['schiffe'] . "</div>";
+                    $comment .= "<div style='color: #CC6600'>Sondierung von " . $row_angriff['user_from'] . " von " . $row_angriff['coords_from_gal'] . ":" . $row_angriff['coords_from_sys'] . ":" . $row_angriff['coords_from_planet'] . " aus bis " . strftime(CONFIG_DATETIMEFORMAT, $row_angriff['time']) . " mit " . $row_angriff['schiffe'] . "</div>";
                     if (empty($text_color) || $text_color = "color: #808080;") {
                         $text_color = "color: #CC6600";
                     }
@@ -995,7 +994,7 @@ if (empty($params['view'])) {
         // Datensatz ist aufgeklappt?
         $expanded = $params['expand'] == $key;
         // Letzte Scantime
-        $last_scan = $row['time'];
+        $last_scan = null;
         if (($row['geoscantime'] > $last_scan && !empty($row['geoscantime'])) || empty($last_scan)) {
             $last_scan = $row['geoscantime'];
         }
@@ -1252,29 +1251,11 @@ if (empty($params['view'])) {
 
     usort($data, "sort_data_cmp");
     // Daten ausgeben
-    echo '
-        <script language="JavaScript" type="text/javascript"><!--
-        function Collapse(what) {
-            var collapseImage = document.getElementById("collapse_" + what);
-            var collapseRow = document.getElementById("row_" + what);
-            if (!collapseImage)
-                return;
-            if (collapseRow.style.display == "") {
-                collapseRow.style.display = "none";
-                collapseImage.src = "bilder/plus.gif";
-            } else {
-                collapseRow.style.display = "";
-                collapseImage.src = "bilder/minus.gif";
-            }
-        }
-        // --></script>
-            ';
-
     start_table();
-    start_row("titlebg", "nowrap valign=top");
+    start_row("titlebg top center nowrap");
     foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
         if (!isset($view['group'][$viewcolumnkey]) && !isset($filters[$viewcolumnkey])) {
-            next_cell("titlebg", "nowrap valign=top");
+            next_cell("titlebg top center nowrap");
             $orderkey = $viewcolumnkey;
             if (isset($view['sortcolumns'][$orderkey])) {
                 $orderkey = $view['sortcolumns'][$orderkey];
@@ -1284,7 +1265,7 @@ if (empty($params['view'])) {
                      'order'  => $orderkey,
                      'orderd' => 'asc'
                 ),
-                "<img src='./bilder/asc.gif'>"
+                "<img src='".BILDER_PATH."asc.gif'>"
             );
             echo '<b>' . $viewcolumnname . '</b>';
             echo makelink(
@@ -1292,15 +1273,15 @@ if (empty($params['view'])) {
                      'order'  => $orderkey,
                      'orderd' => 'desc'
                 ),
-                "<img src='./bilder/desc.gif'>"
+                "<img src='".BILDER_PATH."desc.gif'>"
             );
         }
     }
     if (isset($view['edit'])) {
-        next_cell("titlebg", 'nowrap valign=top');
+        next_cell("titlebg top");
         echo '&nbsp;';
     }
-    next_cell("titlebg", 'nowrap valign=top');
+    next_cell("titlebg top");
     echo '&nbsp;';
     echo '<form method="POST">';
     $index           = 0;
@@ -1319,45 +1300,45 @@ if (empty($params['view'])) {
 
         echo '<input type="hidden" name="target_' . $index . '" value="' . $key . '"/>';
         if (isset($row['row_style'])) {
-            next_row("windowbg1", 'nowrap valign=center style="' . $row['row_style'] . '"');
+            next_row("windowbg1 center", 'style="' . $row['row_style'] . '"');
         } else {
-            next_row("windowbg1", 'nowrap valign=center');
+            next_row("windowbg1 center");
         }
         // Schaltfläche zum auf-/zuklappen
-        echo "<a href=\"javascript:Collapse('" . $key . "');\"><img src='bilder/plus.gif' alt='' id='collapse_" . $key . "'></a>";
+        echo "<a href=\"javascript:Collapse('" . $key . "');\"><img src='".BILDER_PATH."plus.gif' alt='+' id='collapse_" . $key . "'></a>";
         foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
             if (isset($row[$viewcolumnkey . '_style'])) {
-                next_cell("windowbg1", 'nowrap valign=center style="' . $row[$viewcolumnkey . '_style'] . '"');
+                next_cell("windowbg1 center", 'style="' . $row[$viewcolumnkey . '_style'] . '"');
             } elseif (isset($row['row_style'])) {
-                next_cell("windowbg1", 'nowrap valign=center style="' . $row['row_style'] . '"');
+                next_cell("windowbg1 center", 'style="' . $row['row_style'] . '"');
             } else {
-                next_cell("windowbg1", 'nowrap valign=center');
+                next_cell("windowbg1 center");
             }
             echo format_value($row, $viewcolumnkey, $row[$viewcolumnkey]);
         }
         // Editbuttons ausgeben
         if (isset($view['edit'])) {
             if (isset($row['row_style'])) {
-                next_cell("windowbg1", 'nowrap valign=center style="' . $row['row_style'] . '"');
+                next_cell("windowbg1 center", 'style="' . $row['row_style'] . '"');
             } else {
-                next_cell("windowbg1", 'nowrap valign=center');
+                next_cell("windowbg1 center");
             }
             if (!isset($row['allow_edit']) || $row['allow_edit']) {
                 echo makelink(
                     array('edit' => $key),
-                    "<img src='bilder/file_edit_s.gif' alt='bearbeiten'>"
+                    "<img src='".BILDER_PATH."file_edit_s.gif' alt='bearbeiten'>"
                 );
             }
             if (!isset($row['allow_delete']) || $row['allow_delete']) {
                 echo makelink(
                     array('delete' => $key),
-                    "<img src='bilder/file_delete_s.gif' onclick='return confirmlink(this, '" .
+                    "<img src='".BILDER_PATH."file_delete_s.gif' onclick='return confirmlink(this, '" .
                         (isset($view['deletetitle']) ? $view['deletetitle'] : 'Datensatz') . " wirklich löschen?')' alt='loeschen'>"
                 );
             }
         }
         // Markierbuttons ausgeben
-        next_cell("windowbg1", 'nowrap valign=top');
+        next_cell("windowbg1 top");
         echo '<input type="checkbox" name="mark_' . $key . '" ';
         if (getVar("mark_all")) {
             echo 'value=true checked';
@@ -1365,9 +1346,9 @@ if (empty($params['view'])) {
         echo '>';
         // Kommentarbereich ausgeben
         if (!empty($row['comment'])) {
-            next_row("", "style='border-width: 0; margin: 0 0 0 0; padding: 4 4 4 4; background-color: white;'");
+            next_row("", "style='border-width: 0; margin: 0; padding: 4px; background-color: white;'");
             echo "";
-            next_cell("windowbg1", "style='border-width: 0; margin: 0 0 0 0; padding: 4 4 4 4; background-color: white;' nowrap valign=center", count($view['columns']) + 1);
+            next_cell("windowbg1 center", "style='border-width: 0; margin: 0; padding: 4px; background-color: white;'", count($view['columns']) + 1);
             echo "";
             start_table();
             echo $row['comment'];
@@ -1381,7 +1362,7 @@ if (empty($params['view'])) {
         echo "<td colspan='23'>";
         start_table();
         if (!empty($row['schiffscantime']) OR !empty($row['gebscantime'])) {
-            start_row("titlebg", "nowrap valign=top", 2);
+            start_row("titlebg top", "", 2);
             echo '<b>auf Lager:</b>';
             next_row("windowbg2", "style='width: 20%'");
             echo 'Eisen:';
@@ -1411,7 +1392,7 @@ if (empty($params['view'])) {
             echo 'Energie:';
             next_cell("windowbg1");
             echo number_format((float)$row['energie'], 0, ",", '.');
-            start_row("titlebg", "nowrap valign=top", 2);
+            start_row("titlebg top", "", 2);
             echo '<b>benötigte Frachtkapazität:</b>';
             next_row("windowbg2", "style='width: 20%'");
             echo 'Klasse 1:';
@@ -1434,25 +1415,25 @@ if (empty($params['view'])) {
             echo ", " . number_format((float)ceil($kapazitaet / 250000), 0, ",", '.') . " Seepferdchen)";
         }
         if (!empty($row['geb'])) {
-            start_row("titlebg", "nowrap valign=top", 2);
+            start_row("titlebg top", "", 2);
             echo '<b>Gebäude:</b>';
             next_row("windowbg1", "", 2);
             echo $row['geb'];
         }
         if (!empty($row['plan'])) {
-            start_row("titlebg", "nowrap valign=top", 2);
+            start_row("titlebg top", "", 2);
             echo '<b>planetare Flotte:</b>';
             next_row("windowbg1", "", 2);
             echo $row['plan'];
         }
         if (!empty($row['stat'])) {
-            start_row("titlebg", "nowrap valign=top", 2);
+            start_row("titlebg top", "", 2);
             echo '<b>stationierte Flotte:</b>';
             next_row("windowbg1", "", 2);
             echo $row['stat'];
         }
         if (!empty($row['def'])) {
-            start_row("titlebg", "nowrap valign=top", 2);
+            start_row("titlebg top", "", 2);
             echo '<b>Verteidigung:</b>';
             next_row("windowbg1", "", 2);
             echo $row['def'];
@@ -1467,46 +1448,50 @@ if (empty($params['view'])) {
     if ($to_much_results) {
         echo "<br><div class='system_notification'>Es wurden nur die ersten {$max_results} Ergebnisse angezeigt. Bitte die Suche weiter einschränken.</div><br>";
     }
-    echo '<table border="0" cellpadding="2" cellspacing="1" style="width: 100%;">';
-    echo '<tr><td align="right">';
+    echo '<table class="table_format_noborder" style="width: 100%;">';
+    echo '<tr><td class="right">';
     echo makelink(array('mark_all' => true), "Alle auswählen");
     echo ' / ';
     echo makelink(array('mark_all' => false), "Auswahl entfernen");
     echo '</td>';
     echo '</tr>';
-    echo '<tr><td align="right">';
-    echo '<input type="submit" value="Universum" name="universum" class="submit"> ';
-    echo '<input type="submit" value="Flotte versenden" name="flotteversenden" class="submit">';
+    echo '<tr><td class="right">';
+    echo '<input type="submit" value="Universum" name="universum"> ';
+    echo '<input type="submit" value="Flotte versenden" name="flotteversenden">';
     echo '</td>';
     echo '</table>';
     echo '</form>';
     // Legende ausgeben
-    echo '<br><table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">';
+    echo '<br><table class="table_format" style="width: 90%;">';
     echo '<tr>';
-    echo '<td style="width: 30; background-color: #C4F493;"></td>';
-    echo '<td class="windowbg1" style="width: 70;">own</td>';
-    echo '<td style="width: 30; background-color: #E6F6A5;"></td>';
-    echo '<td class="windowbg1" style="width: 70;">wing</td>';
-    echo '<td style="width: 30; background-color: #7C9CF1;"></td>';
-    echo '<td class="windowbg1" style="width: 70;">NAP</td>';
-    echo '<td style="width: 30; background-color: #8DADF2;"></td>';
-    echo '<td class="windowbg1" style="width: 70;">iNAP</td>';
-    echo '<td style="width: 30; background-color: #4A71D5;"></td>';
-    echo '<td class="windowbg1" style="width: 70;">VB</td>';
-    echo '<td style="width: 30; background-color: #E84528;"></td>';
-    echo '<td class="windowbg1" style="width: 70;">Krieg</td>';
-    echo '<td style="width: 30; background-color: #CCBB11;"></td>';
-    echo '<td class="windowbg1" style="width: 70;">noraid</td>';
-    echo '<td class="windowbg1" style="width: 70; color: #808080;">Reserviert</td>';
-    echo '<td class="windowbg1" style="width: 70; color: #FF0000;">Angriff</td>';
+    echo '<td style="width: 30px; background-color: '.$config_allianzstatus['own'] .';"></td>';
+    echo '<td class="windowbg1" style="width: 70px;">own</td>';
+    echo '<td style="width: 30px; background-color: '.$config_allianzstatus['wing'].';"></td>';
+    echo '<td class="windowbg1" style="width: 70px;">wing</td>';
+    echo '<td style="width: 30px; background-color: '.$config_allianzstatus['NAP'].';"></td>';
+    echo '<td class="windowbg1" style="width: 70px;">NAP</td>';
+    echo '<td style="width: 30px; background-color: '.$config_allianzstatus['iNAP'].';"></td>';
+    echo '<td class="windowbg1" style="width: 70px;">iNAP</td>';
+    echo '<td style="width: 30px; background-color: '.$config_allianzstatus['VB'].';"></td>';
+    echo '<td class="windowbg1" style="width: 70px;">VB</td>';
+    echo '<td style="width: 30px; background-color: '.$config_allianzstatus['iVB'].';"></td>';
+    echo '<td class="windowbg1" style="width: 70px;">iVB</td>';
+    echo '<td style="width: 30px; background-color: '.$config_allianzstatus['Krieg'].';"></td>';
+    echo '<td class="windowbg1" style="width: 70px;">Krieg</td>';
+    echo '<td style="width: 30px; background-color: '.$config_allianzstatus['imKrieg'].';"></td>';
+    echo '<td class="windowbg1" style="width: 70px;">im Krieg</td>';
+    echo '<td style="width: 30px; background-color: '.$config_allianzstatus['noraid'].';"></td>';
+    echo '<td class="windowbg1" style="width: 70px;">noraid</td>';
+    echo '<td class="windowbg1" style="width: 70px; color: #808080;">Reserviert</td>';
+    echo '<td class="windowbg1" style="width: 70px; color: #FF0000;">Angriff</td>';
     echo '</tr>';
     echo '</table>';
     // Maske ausgeben
-    if (isset($params['edit']) && !empty($params['edit'])) {
+    if (!empty($params['edit'])) {
         echo '<br>';
         echo '<form method="POST" action="' . makeurl(array()) . '" enctype="multipart/form-data"><p>' . "\n";
         start_table();
-        next_row("titlebg", 'nowrap valign=top colspan=2');
+        next_row("titlebg top", 'colspan=2');
         if (!isset($view['edittitle'])) {
             echo "<b>" . $view['title'];
         } else {
@@ -1516,7 +1501,7 @@ if (empty($params['view'])) {
         echo '<input type="hidden" name="edit" value="' . $params['edit'] . '">' . "\n";
         echo "</b>";
         foreach ($view['edit'] as $key => $field) {
-            next_row('windowbg2', 'nowrap valign=top');
+            next_row("windowbg2 top", "style='width:15%;'");
             echo $field['title'];
             if (isset($field['desc'])) {
                 echo '<br><i>' . $field['desc'] . '</i>';
@@ -1528,15 +1513,15 @@ if (empty($params['view'])) {
                     if (!$first) {
                         echo '&nbsp;';
                     }
-                    echo makefield($field, $key);
+                    echo makeField($field, $key);
                     $first = false;
                 }
             } else {
-                echo makefield($field, $key);
+                echo makeField($field, $key);
             }
         }
-        next_row('titlebg', 'align=center colspan=2');
-        echo '<input type="submit" value="speichern" name="button_edit" class="submit"> ';
+        next_row('titlebg center', 'colspan=2');
+        echo '<input type="submit" value="speichern" name="button_edit"> ';
         end_table();
         echo '</form>';
     }
@@ -1591,7 +1576,7 @@ function sort_data_cmp($a, $b)
 // Spalte formatieren
 function format_value($row, $name, $value)
 {
-    global $view, $sid, $params;
+    global $params;
     if ($value == '---') {
         return $value;
     }
@@ -1601,52 +1586,51 @@ function format_value($row, $name, $value)
                 array(
                      "view" => $params['view'],
                      "user" => $value,
-                     "sid"  => $sid,
                 ), $value, true
             );
         case 'coords':
         case 'gal':
         case 'sys':
         case 'pla':
-            return "<a href='index.php?action=showplanet&amp;coords=" . $row['coords'] . "&amp;ansicht=auto&amp;sid=" . $sid . "'>" . $value . "</a>";
+            return "<a href='index.php?action=showplanet&amp;coords=" . $row['coords'] . "&amp;ansicht=auto'>" . $value . "</a>";
         case 'planetentyp':
             if ($value == "Steinklumpen") {
-                return "<a href='' title='Steinklumpen'>S</a>";
+                return "<abbr title='Steinklumpen'>S</abbr>";
             } elseif ($value == 'Asteroid') {
-                return "<a href='' title='Steinklumpen'>A</a>";
+                return "<abbr title='Steinklumpen'>A</abbr>";
             } elseif ($value == 'Gasgigant') {
-                return "<a href='' title='Steinklumpen'>G</a>";
+                return "<abbr title='Steinklumpen'>G</abbr>";
             } elseif ($value == 'Eisplanet') {
-                return "<a href='' title='Steinklumpen'>E</a>";
+                return "<abbr title='Steinklumpen'>E</abbr>";
             } else {
                 return $value;
             }
             break;
         case 'objekttyp':
             if ($value == 'Kolonie') {
-                return "<alt title='Kolonie'><img src='bilder/kolo.png'></a>";
+                return "<img src='".BILDER_PATH."kolo.png' title='Kolonie' alt='K'>";
             } elseif ($value == 'Sammelbasis') {
-                return "<alt title='Sammelbasis'><img src='bilder/ress_basis.png'></a>";
+                return "<img src='".BILDER_PATH."ress_basis.png' title='Sammelbasis' alt='SB'>";
             } elseif ($value == 'Kampfbasis') {
-                return "<alt title='Kampfbasis'><img src='bilder/kampf_basis.png'></a>";
+                return "<img src='".BILDER_PATH."kampf_basis.png' title='Kampfbasis' alt='KB'>";
             } elseif ($value == 'Artefaktbasis') {
-                return "<alt title='Artefaktbasis'><img src='bilder/artefakt_basis.png'></a>";
+                return "<img src='".BILDER_PATH."artefakt_basis.png' title='Artefaktbasis' alt='AB'>";
             }
             break;
         case 'eisen':
-            return "<alt title='" . number_format((float)$value, 0, ",", '.') . " Eisen'>" . makeAmount($value) . "</a>";
+            return "<abbr title='" . number_format((float)$value, 0, ",", '.') . " Eisen'>" . makeAmount($value) . "</abbr>";
         case 'stahl':
-            return "<alt title='" . number_format((float)$value, 0, ",", '.') . " Stahl'>" . makeAmount($value) . "</a>";
+            return "<abbr title='" . number_format((float)$value, 0, ",", '.') . " Stahl'>" . makeAmount($value) . "</abbr>";
         case 'vv4a':
-            return "<alt title='" . number_format((float)$value, 0, ",", '.') . " VV4A'>" . makeAmount($value) . "</a>";
+            return "<abbr title='" . number_format((float)$value, 0, ",", '.') . " VV4A'>" . makeAmount($value) . "</abbr>";
         case 'chemie':
-            return "<alt title='" . number_format((float)$value, 0, ",", '.') . " Chemie'>" . makeAmount($value) . "</a>";
+            return "<abbr title='" . number_format((float)$value, 0, ",", '.') . " Chemie'>" . makeAmount($value) . "</abbr>";
         case 'eis':
-            return "<alt title='" . number_format((float)$value, 0, ",", '.') . " Eis'>" . makeAmount($value) . "</a>";
+            return "<abbr title='" . number_format((float)$value, 0, ",", '.') . " Eis'>" . makeAmount($value) . "</abbr>";
         case 'wasser':
-            return "<alt title='" . number_format((float)$value, 0, ",", '.') . " Wasser'>" . makeAmount($value) . "</a>";
+            return "<abbr title='" . number_format((float)$value, 0, ",", '.') . " Wasser'>" . makeAmount($value) . "</abbr>";
         case 'energie':
-            return "<alt title='" . number_format((float)$value, 0, ",", '.') . " Energie'>" . makeAmount($value) . "</a>";
+            return "<abbr title='" . number_format((float)$value, 0, ",", '.') . " Energie'>" . makeAmount($value) . "</abbr>";
         case 'ress':
             /*$title = "";
             if (!empty($row['eisen']))
@@ -1671,13 +1655,13 @@ function format_value($row, $name, $value)
                 return '';
             }
 
-            return "<alt title='" . $row['schiffe'] . "'>" . number_format((float)$value, 0, ',', '.') . "</a>";
+            return "<abbr title='" . $row['schiffe'] . "'>" . number_format((float)$value, 0, ',', '.') . "</abbr>";
         case 'deff_pla':
             if (is_null($value)) {
                 return '';
             }
 
-            return "<alt title='" . $row['anlagen'] . "'>" . number_format((float)$value, 0, ',', '.') . "</a>";
+            return "<abbr title='" . $row['anlagen'] . "'>" . number_format((float)$value, 0, ',', '.') . "</abbr>";
         case 'tsonden':
         case 'x13sonden':
             if (substr($value, 0, 1) == ">") {
@@ -1704,22 +1688,26 @@ function format_value($row, $name, $value)
                 return '<span class="ranking_red">' . makeduration($value) . '</span>';
             }
         case 'last_scan':
-            $result = "<table width='100%'><tr><td nowrap width='100%'>";
+            $result = "<div class='nowrap borderless'>";
+
             if (!empty($row['geoscantime'])) {
-                $result .= "<alt title='Geoscan vor " . makeduration($row['geoscantime']) . "'><img src='bilder/scann_geo.png'></alt> ";
+                $result .= "<img src='".BILDER_PATH."scann_geo.png' class='middle' title='Geoscan vor " . makeduration($row['geoscantime']) . "'>";
             }
             if (!empty($row['schiffscantime'])) {
-                $result .= "<alt title='Schiffscan vor " . makeduration($row['schiffscantime']) . "'><img src='bilder/scann_schiff.png'></alt> ";
+                $result .= "<img src='".BILDER_PATH."scann_schiff.png' class='middle' title='Schiffscan vor " . makeduration($row['schiffscantime']) . "'>";
             }
             if (!empty($row['gebscantime'])) {
-                $result .= "<alt title='Gebäudescan vor " . makeduration($row['gebscantime']) . "'><img src='bilder/scann_geb.png'></alt> ";
+                $result .= "<img src='".BILDER_PATH."scann_geb.png' class='middle' title='Gebäudescan vor " . makeduration($row['gebscantime']) . "'>";
             }
-            if ($row['last_scan'] == $row['fehlscantime']) {
-                $result .= '</td><td nowrap><span class="ranking_red">' . makeduration($row['last_scan']) . '</span>';
-            } else {
-                $result .= '</td><td nowrap><span class="ranking_green">' . makeduration($row['last_scan']) . '</span>';
+
+            if(!empty($row['last_scan'])) {
+                if ($row['last_scan'] == $row['fehlscantime']) {
+                    $result .= '<span class="ranking_red middle borderless">' . makeduration($row['last_scan']) . '</span>';
+                } else {
+                    $result .= '<span class="ranking_green middle borderless">' . makeduration($row['last_scan']) . '</span>';
+                }
             }
-            $result .= "</td></tr></table>";
+            $result .= "</div>";
 
             return $result;
         case 'last_raid':
@@ -1767,58 +1755,6 @@ function row_color($row)
 
 // ****************************************************************************
 //
-// Erstellt ein Formularfeld.
-function makefield($field, $key)
-{
-    $html = '';
-    switch ($field['type']) {
-        case 'label':
-            $html = '<span';
-            if (isset($field['style'])) {
-                $html .= ' style="' . $field['style'] . '"';
-            }
-            $html .= '>' . $field['value'] . '</span>';
-            break;
-        case 'text':
-            $html = '<input type="text" name="' . $key . '" value="' . $field['value'] . '"';
-            if (isset($field['style'])) {
-                $html .= ' style="' . $field['style'] . '"';
-            }
-            $html .= '>';
-            break;
-        case 'select':
-            $html = '<select name="' . $key . '">';
-            foreach ($field['values'] as $key => $value) {
-                $html .= '<option value="' . $key . '"';
-                if (isset($field['value']) && $field['value'] == $key) {
-                    $html .= ' selected';
-                }
-                $html .= '>' . $value . '</option>';
-            }
-            $html .= '</select>';
-            break;
-        case 'area':
-            $html = '<textarea name="' . $key . '" rows="' . $field['rows'] . '" cols="' . $field['cols'] . '">';
-            $html .= $field['value'];
-            $html .= '</textarea>';
-            break;
-        case 'checkbox':
-            $html = '<input type="checkbox" name="' . $key . '" value="1"';
-            if ($field['value']) {
-                $html .= ' checked';
-            }
-            if (isset($field['style'])) {
-                $html .= ' style="' . $field['style'] . '"';
-            }
-            $html .= '>';
-            break;
-    }
-
-    return $html;
-}
-
-// ****************************************************************************
-//
 // Erzeugt einen Modul-Link.
 function makelink($newparams, $content, $nomerge = false)
 {
@@ -1830,10 +1766,9 @@ function makelink($newparams, $content, $nomerge = false)
 // Erzeugt eine Modul-URL.
 function makeurl($newparams, $nomerge = false)
 {
-    global $modulname, $sid, $params;
+    global $modulname, $params;
 
     $url = 'index.php?action=' . $modulname;
-    $url .= '&amp;sid=' . $sid;
     if ($nomerge) {
         $mergeparams = $newparams;
     } elseif (is_array($newparams)) {

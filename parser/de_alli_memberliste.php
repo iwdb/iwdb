@@ -38,8 +38,9 @@ if (!defined('DEBUG_LEVEL')) {
 function parse_de_alli_memberliste($result)
 {
     //Allianz des User auslesen der geparsed wird
-    global $user_id, $db, $db_prefix;
-    $sql = "SELECT allianz FROM " . $db_prefix . "user WHERE id='" . $user_id . "';";
+    global $user_id, $db, $db_tb_user;
+
+    $sql = "SELECT `allianz` FROM `{$db_tb_user}` WHERE id='" . $user_id . "';";
     $sqlres = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     $row     = $db->db_fetch_array($sqlres);
@@ -48,7 +49,7 @@ function parse_de_alli_memberliste($result)
 
     //! bisherige Member der Allianz suchen
     $oldMember = array();
-    $sql       = "SELECT sitterlogin FROM " . $db_prefix . "user WHERE allianz = '" . $allianz . "'";
+    $sql       = "SELECT `sitterlogin` FROM `{$db_tb_user}` WHERE allianz = '" . $allianz . "'";
     $sqlres = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     while ($row = $db->db_fetch_array($sqlres)) {

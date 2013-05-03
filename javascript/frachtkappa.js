@@ -2,9 +2,9 @@
  für m_frachtkappa.php
  */
 
-window.setInterval("FrachtkappaRechnen()", 500);
-function FrachtkappaRechnen() {
-    "use strict";
+"use strict";
+
+function frachtkappaRechnen() {
     var class1kappa_benoetigt, class1kappa_vorhanden, class1kappa_nochbenoetigt, class2kappa_benoetigt, class2kappa_vorhanden, class2kappa_nochbenoetigt;
 
     class1kappa_benoetigt = (document.getElementById('eisen').value * 1)
@@ -42,3 +42,5 @@ function FrachtkappaRechnen() {
     document.getElementById('waschbaertext').firstChild.data = number_format(Math.ceil(class2kappa_nochbenoetigt / 50000), 0, ',', '.');
     document.getElementById('seepferdchentext').firstChild.data = number_format(Math.ceil(class2kappa_nochbenoetigt / 250000), 0, ',', '.');
 }
+
+setInterval(function () {frachtkappaRechnen(); }, 500);

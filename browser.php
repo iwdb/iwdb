@@ -23,8 +23,10 @@ $status = array(
 );
 
 $allianz = getVar("allianz");
-if (!$user_fremdesitten) {
+if ($user_fremdesitten == false) {
     $allianz = $user_allianz;
+} else {
+    $allianz = '';
 }
 
 // Get avaible sitter logins
@@ -157,6 +159,8 @@ if ($action == 'own') {
 
 if (isset($_REQUEST['redirect'])) {
     $redirect = $_REQUEST['redirect'];
+} else {
+    $redirect = '';
 }
 
 $logout = getVar('logout');
@@ -250,7 +254,7 @@ switch ($mode) {
         <frameset rows="0,*" cols="*" frameborder="YES" border="0" framespacing="0">
             <frame src="?mode=top" name="topFrame" scrolling="NO" noresize>
             <frameset rows="*" cols="300,*" framespacing="0" frameborder="YES" border="0">
-                <frame src="?mode=left&redirect=<?php echo $redirect;  echo !empty($login) ? "&login=$login" : "";  echo !empty($action) ? "&action=$action" : "";  echo !empty($allianz) ? "&allianz=$allianz" : "" ?>" name="left" id="left" scrolling="YES">
+                <frame src="?mode=left&redirect=<?php echo $redirect;  echo !empty($login) ? "&login=$login" : "";  echo !empty($action) ? "&action=$action" : "";  echo "&allianz=$allianz"?>" name="left" id="left" scrolling="YES">
                 <frame src="<?php echo $mainurl ?>" name="main" id="main" onload="redirect(this.id)">
             </frameset>
         </frameset>
@@ -334,7 +338,7 @@ switch ($mode) {
         <table>
             <tr>
                 <td>
-                    <select id="redirectPage" onchange="parent.document.getElementById('left').src = '?mode=index&redirect=' + options[selectedIndex].value + '&login=<?php echo $user['id'];  echo !empty($allianz) ? "&allianz=$allianz" : "" ?>';">
+                    <select id="redirectPage" onchange="parent.document.getElementById('left').src = '?mode=index&redirect=' + options[selectedIndex].value + '&login=<?php echo $user['id']; echo "&allianz=$allianz" ?>';">
                         <option value="">(Startseite)</option>
                         <option value="planiress"<?php echo $redirect == 'planiress' ? ' selected' : '' ?>>
                             Kolo-/Ressübersicht
@@ -352,8 +356,8 @@ switch ($mode) {
                 </td>
                 <!--<tr>
                 <td nowrap width="100%">
-                    <a href="?action=own<?php echo !empty($allianz) ? "&allianz=$allianz" : "" ?>" target="_top">Eigener Spieler</a><br>
-					<a href="http://176.9.109.187/" target="main">Icewars-Notlogin</a>
+                    <a href='?action=own<?php echo "&allianz=$allianz" ?>' target='_top'>Eigener Spieler</a><br>
+					<a href='http://176.9.109.187/' target='main'>Icewars-Notlogin</a>
                 </td>
                 <td nowrap>
                 </td>
@@ -422,7 +426,9 @@ switch ($mode) {
             <table>
                 <tr>
                     <td width="100%">
-                        <a href="?mode=index&redirect=<?php echo $redirect ?>&login=<?php echo $user['id'];  echo !empty($allianz) ? "&allianz=$allianz" : "" ?>" target="_top"><?php echo $user['id']; ?></a>
+                        <?php
+                        echo "<a href='?mode=index&redirect={$redirect}&login={$user['id']}&allianz={$allianz}' target='_top'>$user[id]</a>";
+                        ?>
                     </td>
                     <?php
                     if (isset($user['next_date_text'])) {

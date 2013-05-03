@@ -53,8 +53,19 @@ if (!empty($order)) {
     }
 }
 
+// aktuelle Auswahl ermitteln
+$params['playerSelection'] = getVar('playerSelection');
+
+// Auswahlarray zusammenbauen
+$playerSelectionOptions = array();
+$playerSelectionOptions['(Alle)'] = '(Alle)';
+$playerSelectionOptions += getAllyAccTypesSelect() + getAllyTeamsSelect() + getAllyAccs();
+
+//Schiffsanzahlen holen
 $sql = "SELECT user FROM " . $db_tb_schiffe .
-    "," . $db_tb_user . " WHERE " . $db_tb_schiffe . ".user=" . $db_tb_user . ".id AND " . $db_tb_user . ".allianz='" . $user_allianz . "' GROUP BY user ORDER BY user DESC";
+    "," . $db_tb_user . " WHERE " . $db_tb_schiffe . ".user=" . $db_tb_user . ".id AND " . $db_tb_user . ".allianz='" . $user_allianz . "'";
+$sql .= " AND " . sqlPlayerSelection($params['playerSelection']);
+$sql .= "GROUP BY user ORDER BY user DESC";
 $result_schiffe = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
@@ -93,6 +104,19 @@ foreach ($users as $userx) {
 
 doc_title('Schiffsübersicht');
 
+// Spielerauswahl Dropdown erstellen
+echo "<div class='playerSelectionbox'>";
+echo "Auswahl: ";
+echo makeField(
+    array(
+         "type"   => 'select',
+         "values" => $playerSelectionOptions,
+         "value"  => $params['playerSelection'],
+         "onchange" => "location.href='index.php?action=schiffe&amp;playerSelection='+this.options[this.selectedIndex].value",
+    ), 'playerSelection'
+);
+echo '</div><br>';
+
 $sql = "SELECT typ FROM " . $db_tb_schiffstyp . " GROUP BY typ ORDER BY typ asc";
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -107,32 +131,27 @@ while ($row = $db->db_fetch_array($result)) {
 
     $schiffsanz = $db->db_num_rows($result_schiffe);
 
-    echo "<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 90%;'>\n";
+    echo "<table class='table_format' style='width: 90%;'>\n";
     echo " <tr>\n";
-    echo "  <td class='titlebg' align='center' colspan='" . ($schiffsanz + 1) . "'>\n";
+    echo "  <td class='titlebg center' colspan='" . ($schiffsanz + 1) . "'>\n";
     echo "   <b>" . ((empty($row['typ'])) ? "Sonstige" : $row['typ']) . "</b>\n";
     echo "  </td>\n";
     echo " </tr>\n";
     echo "\n";
     echo " <tr>\n";
     echo "  <td class='windowbg2' valign='bottom' style='width:15%'>\n";
-    echo "   <a href='index.php?action=schiffe&ordered=asc&sid=" . $sid . "'>" .
-        "<img src='bilder/asc.gif'></a>" .
-        "  Username  " .
-        "<a href='index.php?action=schiffe&ordered=desc&sid=" . $sid . "'>" .
-        "<img src='bilder/desc.gif'></a>\n";
+    echo "   <a href='index.php?action=schiffe&ordered=asc'>" .
+        "<img src='".BILDER_PATH."asc.gif'></a>" .
+        "<br>Username<br>" .
+        "<a href='index.php?action=schiffe&ordered=desc'>" .
+        "<img src='".BILDER_PATH."desc.gif'></a>\n";
     echo "  </td>\n";
 
     while ($row_schiffe = $db->db_fetch_array($result_schiffe)) {
         $schiffe[] = $row_schiffe['id'];
 
-        echo "  <td class='windowbg2' align='center' " .
-            "valign='bottom' style='width:" . (85 / $schiffsanz) . "%'>\n";
-        echo "    <a href='index.php?action=schiffe&order=" . $row_schiffe['id'] .
-            "&ordered=asc&sid=" . $sid . "'><img src='bilder/asc.gif'></a>\n";
-        echo $row_schiffe['abk'];
-        echo "    <a href='index.php?action=schiffe&order=" . $row_schiffe['id'] .
-            "&ordered=desc&sid=" . $sid . "'><img src='bilder/desc.gif'></a>\n";
+        echo "  <td class='windowbg2 center bottom'>\n";
+        echo "    <a href='index.php?action=schiffe&order={$row_schiffe['id']}&ordered=asc'><img src='".BILDER_PATH."asc.gif'></a><br>{$row_schiffe['abk']}<br><a href='index.php?action=schiffe&order={$row_schiffe['id']}&ordered=desc'><img src='".BILDER_PATH."desc.gif'></a>\n";
         echo "  </td>\n";
     }
     echo " </tr>\n";
@@ -147,7 +166,7 @@ while ($row = $db->db_fetch_array($result)) {
             or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
         $row_anzahl = $db->db_fetch_array($result_anzahl);
-        echo "    <td class='windowbg2' align='right'>" . $row_anzahl['gesamtanzahl'] . "</td>\n";
+        echo "    <td class='windowbg2 right'>" . $row_anzahl['gesamtanzahl'] . "</td>\n";
     }
     echo " </tr>\n";
 
@@ -162,7 +181,7 @@ while ($row = $db->db_fetch_array($result)) {
             $result_anzahl = $db->db_query($sql)
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
             $row_anzahl = $db->db_fetch_array($result_anzahl);
-            $shipprint .= "   <td class='windowbg1' align='right'>" .
+            $shipprint .= "   <td class='windowbg1 right'>" .
                 $row_anzahl['anzahl'] . "</td>\n";
             $shipcount .= $row_anzahl['anzahl'];
         }
@@ -175,7 +194,7 @@ while ($row = $db->db_fetch_array($result)) {
 
             if ($user_status == "admin") {
                 echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($userx) .
-                    "&sid=" . $sid . "'>" . $userx . "</a>";
+                    "'>" . $userx . "</a>";
             } else {
                 echo $userx;
             }

@@ -130,7 +130,7 @@ function removeConfig()
 //
 function createMenu()
 {
-    global $db, $db_tb_menu, $sid, $modulname;
+    global $db, $db_tb_menu, $modulname;
 
     if (empty($modulname)) {
         die("Der übergebene Modulname ist leer. Prüfe bitte den Quelltext des Moduls.");
@@ -160,7 +160,7 @@ function createMenu()
                 if ($insidetable == 0) {
                     echo "  <td class='menu'>";
                 }
-                echo "<form name='form' action='index.php?action=" . $modulname . "&was=install2&sid=" . $sid . "' method='post'>\n";
+                echo "<form name='form' action='index.php?action=" . $modulname . "&was=install2' method='post'>\n";
                 echo " <input type='hidden' name='menu' value=" . $lastmenu . ">\n";
                 $submenu = $lastsubmenu + 1;
                 echo " <input type='hidden' name='submenu' value=" . $submenu . ">\n";
@@ -202,7 +202,7 @@ function createMenu()
             echo "<td class='menu'>";
         }
         // Fuer das letzte Menu benoetigen wir auch noch einen Button.
-        echo "<form name='form' action='index.php?action=" . $modulname . "&was=install2&sid=" . $sid . "' method='post'>\n";
+        echo "<form name='form' action='index.php?action=" . $modulname . "&was=install2' method='post'>\n";
         echo " <input type='hidden' name='menu' value=" . $lastmenu . ">\n";
         $submenu = $lastsubmenu + 1;
         echo " <input type='hidden' name='submenu' value=" . $submenu . ">\n";
@@ -300,7 +300,7 @@ switch ($_REQUEST['was']) {
         // Erzeugung der Menue-Eintraege
         workInstallMenu();
 
-        echo "<form method='POST' action='index.php?action=admin_menue&sid=" . $sid . "'>\n";
+        echo "<form method='POST' action='index.php?action=admin_menue'>\n";
         echo " <input type='submit' value='Installation fertig stellen' name='fertig' class='submit'>\n";
         echo "</form>\n";
 
@@ -316,11 +316,11 @@ switch ($_REQUEST['was']) {
             "<br>\n" .
             "Soll die Deinstallation wirklich durchgeführt werden?\n";
         echo "<table width='100%'><tr><td align='right'>";
-        echo "<form method='POST' action='index.php?action=" . $modulname . "&was=uninstall2&sid=" . $sid . "'>\n";
+        echo "<form method='POST' action='index.php?action=" . $modulname . "&was=uninstall2'>\n";
         echo " <input type='submit' value='Ja, klar doch' name='fertig' class='submit' style='width: 200px'>\n";
         echo "</form>\n";
         echo "</td><td align='left'>";
-        echo "<form method='POST' action='index.php?action=admin_menue&sid=" . $sid . "'>\n";
+        echo "<form method='POST' action='index.php?action=admin_menue'>\n";
         echo " <input type='submit' value='Besser doch nicht' name='fertig' class='submit' style='width: 200px'>\n";
         echo "</form>\n";
         echo "</td></tr></table>";
@@ -334,7 +334,7 @@ switch ($_REQUEST['was']) {
         removeConfig();
 
         echo "<div class='system_notification'>Deinstallation: Abgeschlossen</div>";
-        echo "<form method='POST' action='index.php?action=admin_menue&sid=" . $sid . "'>\n";
+        echo "<form method='POST' action='index.php?action=admin_menue'>\n";
         echo " <input type='submit' value='Deinstallation fertig stellen' name='fertig' class='submit'>\n";
         echo "</form>\n";
 

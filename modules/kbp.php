@@ -19,7 +19,6 @@ if (isset($_POST['Eingabe'])) {
         preg_match_all('#www\.icewars\.de/portal/kb/de/kb\.php\?id=[\d]+&md_hash=[\w]{32}#', $_POST['Eingabe'], $kblinks);
 
         foreach ($kblinks[0] as $kblink) {
-            //echo $kblink.'<br>';
 
             $temp_daten = '';
 
@@ -30,6 +29,10 @@ if (isset($_POST['Eingabe'])) {
                     }
                     @fclose($handle);
                 }
+
+                $temp_daten = mb_convert_encoding($temp_daten, 'UTF-8',
+                    mb_detect_encoding($temp_daten, 'UTF-8, ISO-8859-1', true)
+                );
 
                 $suchen     = '#(\[tr\]\[td\])((?:kleine|mittlere|große|DN)(?: planetare| orbitale)? Werft)(\[/td\]\[td colspan=3\])([\d]+)(\[/td\]\[/tr\])#';
                 $ersetzen   = '$1[color=red]$2[/color]$3[color=red]$4[/color]$5';
@@ -61,10 +64,9 @@ if (isset($_POST['Eingabe'])) {
         }
 
         asort($daten['KBs']);
-
         echo 'Den unten stehenden Text per "copy\'n\'paste" in jedes beliebige Forum mit BB-Code-Support posten.<br><br>';
         foreach ($daten['KBs'] as $kb) {
-            echo htmlspecialchars($kb['Bericht'], 'UTF-8');
+            echo htmlspecialchars($kb['Bericht'], ENT_QUOTES, 'UTF-8');
             echo '<br>_______________________________________________________<br><br>';
         }
     }

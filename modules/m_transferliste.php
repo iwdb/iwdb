@@ -76,7 +76,7 @@ $moduldesc =
 function workInstallDatabase()
 {
     /*
-        global $db, $db_prefix, $db_tb_iwdbtabellen, $db_tb_parser, $db_tb_user;
+        global $db, $db_prefix, $db_tb_user;
 
       $sqlscript = array(
         "CREATE TABLE " . $db_prefix . "transferliste(" .
@@ -96,27 +96,17 @@ function workInstallDatabase()
 
         "ALTER TABLE " . $db_tb_user . " ADD `lasttransport` varchar(11) default NULL",
 
-        "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-        " VALUES('transferliste')",
-
         "CREATE TABLE `iwdb_transport_einstellungen` (" .
         "`id` int(11) NOT NULL auto_increment, " .
         "`name` varchar(30) collate utf8_unicode_ci NOT NULL, ".
         "`value` varchar(255) collate utf8_unicode_ci default NULL, ".
         "PRIMARY KEY  (`id`) ".
         ") ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=10 ",
-
-
-
-        "INSERT INTO " . $db_tb_parser . "(modulename,recognizer,message) VALUES " .
-        "('transferliste', 'eigener Transport angekommen', 'Transportbericht')"
       );
 
   foreach($sqlscript as $sql) {
     $result = $db->db_query($sql)
-      or error(GENERAL_ERROR,
-               'Could not query config information.', '',
-               __FILE__, __LINE__, $sql);
+      or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
   }
 
   echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
@@ -124,10 +114,10 @@ function workInstallDatabase()
     /*
   // Graph-Datei kopieren...
   if (!copy('graph.gif', 'graph_transport.gif')) {
-      echo "<div class='system_notification'>Installation: Dateikopie f&uuml;r den Graphen = <b>Fehlgeschlagen</b></div>";
+      echo "<div class='system_notification'>Installation: Dateikopie für den Graphen = <b>Fehlgeschlagen</b></div>";
       echo "Bitte manuell die Datei /graph.gif als /graph_transport.gif kopieren/hochladen.";
   } else {
-      echo "<div class='system_notification'>Installation: Dateikopie f&uuml;r den Graphen = <b>OK</b></div>";
+      echo "<div class='system_notification'>Installation: Dateikopie für den Graphen = <b>OK</b></div>";
   }
   // Rechte auf Graph-Datei setzen...
   if (!chmod ("graph_transport.gif", 0777)) {
@@ -211,20 +201,16 @@ function workInstallConfigString()
 function workUninstallDatabase()
 {
     /*
-      global $db, $db_tb_iwdbtabellen, $db_tb_parser, $db_tb_transferliste, $db_tb_user;
+      global $db, $db_tb_transferliste, $db_tb_user;
 
       $sqlscript = array(
         "DROP TABLE " . $db_tb_transferliste,
-        "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='transferliste'",
-        "DELETE FROM " . $db_tb_parser . " WHERE modulename='transferliste'",
         "ALTER TABLE " . $db_tb_user . " DROP `lasttransport`",
       );
 
   foreach($sqlscript as $sql) {
     $result = $db->db_query($sql)
-      or error(GENERAL_ERROR,
-               'Could not query config information.', '',
-               __FILE__, __LINE__, $sql);
+      or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
   }
 
   echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
@@ -232,10 +218,10 @@ function workUninstallDatabase()
     /*
   // Graph-Datei löschen...
   if (!unlink('graph_transport.gif')) {
-      echo "<div class='system_notification'>Deinstallation: Datei f&uuml;r den Graphen l&ouml;schen = <b>Fehlgeschlagen</b></div>";
-      echo "Bitte manuell die Datei /graph_transport.gif l&ouml;schen.";
+      echo "<div class='system_notification'>Deinstallation: Datei für den Graphen löschen = <b>Fehlgeschlagen</b></div>";
+      echo "Bitte manuell die Datei /graph_transport.gif löschen.";
   } else {
-      echo "<div class='system_notification'>Deinstallation: Datei f&uuml;r den Graphen l&ouml;schen = <b>OK</b></div>";
+      echo "<div class='system_notification'>Deinstallation: Datei für den Graphen löschen = <b>OK</b></div>";
   }*/
 }
 
@@ -281,7 +267,7 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 // werden kann. Fehlen dann diese Definitionen, koennen die Daten nicht
 // gelesen werden.
 
-global $sid, $db, $db_tb_transferliste;
+global $db, $db_tb_transferliste;
 
 $order      = getVar('order');
 $ordered    = getVar('ordered');
@@ -309,7 +295,7 @@ function make_link_transferday($styleclass, $order, $ordered, $buddler, $transfe
     echo "<table border='0' width='100%'>\n";
     echo "<tr>\n";
     $zeitmarke = $transferday - DAY;
-    echo "  <td align='left' class='" . $styleclass . "'><b>\n";
+    echo "  <td class='" . $styleclass . " left'><b>\n";
     make_link(
         "&lt;&lt; " . strftime(CONFIG_DATEFORMAT, $zeitmarke),
         array(
@@ -320,7 +306,7 @@ function make_link_transferday($styleclass, $order, $ordered, $buddler, $transfe
         )
     );
     echo "  </b></td>\n";
-    echo "  <td align='right' class='" . $styleclass . "'><b>\n";
+    echo "  <td class='" . $styleclass . " right'><b>\n";
     $zeitmarke = $transferday + DAY;
     make_link(
         strftime(CONFIG_DATEFORMAT, $zeitmarke) . " &gt;&gt;",
@@ -340,16 +326,14 @@ function make_link_transferday($styleclass, $order, $ordered, $buddler, $transfe
 //
 function make_order_link($order, $ordered, $parameters = array())
 {
-    global $sid;
     $link = "<a href='index.php?action=m_transferliste";
     $link .= "&order=" . $order;
     $link .= "&ordered=" . $ordered;
-    $link .= "&sid=" . $sid;
     foreach ($parameters as $parameter) {
         $link .= "&" . $parameter;
     }
     $link .= "'> ";
-    $link .= "  <img src='bilder/" . $ordered . ".gif' alt='" . $ordered . "'> ";
+    $link .= "  <img src='".BILDER_PATH."" . $ordered . ".gif' alt='" . $ordered . "'> ";
     $link .= "</a>";
     echo $link;
 }
@@ -358,9 +342,7 @@ function make_order_link($order, $ordered, $parameters = array())
 //
 function make_link($name, $parameters)
 {
-    global $sid;
     $link = "<a href='index.php?action=m_transferliste";
-    $link .= "&sid=" . $sid;
     foreach ($parameters as $parameter) {
         $link .= "&" . $parameter;
     }
@@ -373,8 +355,7 @@ function make_link($name, $parameters)
 //
 function build_graph_transfer($users, $fitthis, $date_min, $date_max, $typ)
 {
-    global $sid,
-           $db,
+    global $db,
            $order,
            $ordered,
            $fakt_eisen,
@@ -760,8 +741,7 @@ function build_graph_transfer($users, $fitthis, $date_min, $date_max, $typ)
 //
 function showbuddlertransfers($buddler, $transferday)
 {
-    global $sid,
-           $db,
+    global $db,
            $order,
            $ordered,
            $fakt_eisen,
@@ -784,64 +764,64 @@ function showbuddlertransfers($buddler, $transferday)
     }
 
     start_table();
-    /* start_row("windowbg1", "style='width:95%' align='center' colspan='10'");
+    /* start_row("windowbg1 center", "style='width:95%' colspan='10'");
       make_link_transferday("windowbg1",$order, $ordered, $buddler,$transferday); */
-    start_row("titlebg", "style='width:95%' align='center' colspan='10'");
+    start_row("titlebg center", "style='width:95%' colspan='10'");
     echo "<b>" . $buddler . "</b>";
-    next_row("windowbg2", "style='width:14%' align='center'");
+    next_row("windowbg2 center", "style='width:14%'");
     make_order_link("zeitmarke", "asc", array("selbuddler=" . $buddler, "seltransferday=" . $transferday));
     echo " Datum ";
     make_order_link("zeitmarke", "desc", array("selbuddler=" . $buddler, "seltransferday=" . $transferday));
     echo '<br>Empfänger';
-    next_cell("windowbg2", "style='width:9%' align='center'");
+    next_cell("windowbg2 center", "style='width:9%'");
     make_order_link("eisen", "asc", array("selbuddler=" . $buddler, "seltransferday=" . $transferday));
     echo '<br>';
     echo "Eisen";
     echo '<br>';
     make_order_link("eisen", "desc", array("selbuddler=" . $buddler, "seltransferday=" . $transferday));
-    next_cell("windowbg2", "style='width:9%' align='center'");
+    next_cell("windowbg2 center", "style='width:9%'");
     make_order_link("stahl", "asc", array("selbuddler=" . $buddler, "seltransferday=" . $transferday));
     echo '<br>';
     echo "Stahl";
     echo '<br>';
     make_order_link("stahl", "desc", array("selbuddler=" . $buddler, "seltransferday=" . $transferday));
-    next_cell("windowbg2", "style='width:9%' align='center'");
+    next_cell("windowbg2 center", "style='width:9%'");
     make_order_link("vv4a", "asc", array("selbuddler=" . $buddler, "seltransferday=" . $transferday));
     echo '<br>';
     echo "VV4A";
     echo '<br>';
     make_order_link("vv4a", "desc", array("selbuddler=" . $buddler, "seltransferday=" . $transferday));
-    next_cell("windowbg2", "style='width:9%' align='center'");
+    next_cell("windowbg2 center", "style='width:9%'");
     make_order_link("chem", "asc", array("selbuddler=" . $buddler, "seltransferday=" . $transferday));
     echo '<br>';
     echo "Chemie";
     echo '<br>';
     make_order_link("chem", "desc", array("selbuddler=" . $buddler, "seltransferday=" . $transferday));
-    next_cell("windowbg2", "style='width:9%' align='center'");
+    next_cell("windowbg2 center", "style='width:9%'");
     make_order_link("eis", "asc", array("selbuddler=" . $buddler, "seltransferday=" . $transferday));
     echo '<br>';
     echo "Eis";
     echo '<br>';
     make_order_link("eis", "desc", array("selbuddler=" . $buddler, "seltransferday=" . $transferday));
-    next_cell("windowbg2", "style='width:9%' align='center'");
+    next_cell("windowbg2 center", "style='width:9%'");
     make_order_link("wasser", "asc", array("selbuddler=" . $buddler, "seltransferday=" . $transferday));
     echo '<br>';
     echo "Wasser";
     echo '<br>';
     make_order_link("wasser", "desc", array("selbuddler=" . $buddler, "seltransferday=" . $transferday));
-    next_cell("windowbg2", "style='width:9%' align='center'");
+    next_cell("windowbg2 center", "style='width:9%'");
     make_order_link("energie", "asc", array("selbuddler=" . $buddler, "seltransferday=" . $transferday));
     echo '<br>';
     echo "Energie";
     echo '<br>';
     make_order_link("energie", "desc", array("selbuddler=" . $buddler, "seltransferday=" . $transferday));
-    next_cell("windowbg2", "style='width:9%' align='center'");
+    next_cell("windowbg2 center", "style='width:9%'");
     make_order_link("volk", "asc", array("selbuddler=" . $buddler, "seltransferday=" . $transferday));
     echo '<br>';
     echo "Volk";
     echo '<br>';
     make_order_link("volk", "desc", array("selbuddler=" . $buddler, "seltransferday=" . $transferday));
-    next_cell("windowbg2", "style='width:9%' align='center'");
+    next_cell("windowbg2 center", "style='width:9%'");
     make_order_link("punkte", "asc", array("selbuddler=" . $buddler, "seltransferday=" . $transferday));
     echo '<br>';
     echo "Punkte";
@@ -889,51 +869,51 @@ function showbuddlertransfers($buddler, $transferday)
         $volk += $row['volk'];
         $punkte += $row['punkte'];
 
-        next_row("windowbg1", "style='width:12%' align='left'");
+        next_row("windowbg1 left", "style='width:12%'");
         echo strftime(CONFIG_DATETIMEFORMAT, $row['zeitmarke']);
         echo '<br>' . $row['fleeter'];
-        next_cell("windowbg1", "style='width:10%' align='right'");
+        next_cell("windowbg1 right", "style='width:10%'");
         echo number_format($row['eisen'], 0, ',', '.');
-        next_cell("windowbg1", "style='width:10%' align='right'");
+        next_cell("windowbg1 right", "style='width:10%'");
         echo number_format($row['stahl'], 0, ',', '.');
-        next_cell("windowbg1", "style='width:10%' align='right'");
+        next_cell("windowbg1 right", "style='width:10%'");
         echo number_format($row['vv4a'], 0, ',', '.');
-        next_cell("windowbg1", "style='width:10%' align='right'");
+        next_cell("windowbg1 right", "style='width:10%'");
         echo number_format($row['chem'], 0, ',', '.');
-        next_cell("windowbg1", "style='width:10%' align='right'");
+        next_cell("windowbg1 right", "style='width:10%'");
         echo number_format($row['eis'], 0, ',', '.');
-        next_cell("windowbg1", "style='width:10%' align='right'");
+        next_cell("windowbg1 right", "style='width:10%'");
         echo number_format($row['wasser'], 0, ',', '.');
-        next_cell("windowbg1", "style='width:10%' align='right'");
+        next_cell("windowbg1 right", "style='width:10%'");
         echo number_format($row['energie'], 0, ',', '.');
-        next_cell("windowbg1", "style='width:10%' align='right'");
+        next_cell("windowbg1 right", "style='width:10%'");
         echo number_format($row['volk'], 0, ',', '.');
-        next_cell("windowbg1", "style='width:10%' align='right'");
+        next_cell("windowbg1 right", "style='width:10%'");
         echo number_format($row['punkte'], 0, ',', '.');
     }
 
-    next_row("windowbg2", "style='width:12%' align='left'");
+    next_row("windowbg2 left", "style='width:12%'");
     echo "Summe";
-    next_cell("windowbg2", "style='width:10%' align='right'");
+    next_cell("windowbg2 right", "style='width:10%'");
     echo number_format($eisen, 0, ',', '.');
-    next_cell("windowbg2", "style='width:10%' align='right'");
+    next_cell("windowbg2 right", "style='width:10%'");
     echo number_format($stahl, 0, ',', '.');
-    next_cell("windowbg2", "style='width:10%' align='right'");
+    next_cell("windowbg2 right", "style='width:10%'");
     echo number_format($vv4a, 0, ',', '.');
-    next_cell("windowbg2", "style='width:10%' align='right'");
+    next_cell("windowbg2 right", "style='width:10%'");
     echo number_format($chem, 0, ',', '.');
-    next_cell("windowbg2", "style='width:10%' align='right'");
+    next_cell("windowbg2 right", "style='width:10%'");
     echo number_format($eis, 0, ',', '.');
-    next_cell("windowbg2", "style='width:10%' align='right'");
+    next_cell("windowbg2 right", "style='width:10%'");
     echo number_format($wasser, 0, ',', '.');
-    next_cell("windowbg2", "style='width:10%' align='right'");
+    next_cell("windowbg2 right", "style='width:10%'");
     echo number_format($energie, 0, ',', '.');
-    next_cell("windowbg2", "style='width:10%' align='right'");
+    next_cell("windowbg2 right", "style='width:10%'");
     echo number_format($volk, 0, ',', '.');
-    next_cell("windowbg2", "style='width:10%' align='right'");
+    next_cell("windowbg2 right", "style='width:10%'");
     echo number_format($punkte, 0, ',', '.');
 
-    next_row("windowbg1", "style='width:95%' align='center' colspan='10'");
+    next_row("windowbg1 center", "style='width:95%' colspan='10'");
     make_link_transferday("windowbg1", $order, $ordered, $buddler, $transferday);
     end_row();
     end_table();
@@ -943,8 +923,7 @@ function showbuddlertransfers($buddler, $transferday)
 //
 function showbuddler($buddler)
 {
-    global $sid,
-           $db,
+    global $db,
            $order,
            $ordered,
            $fakt_eisen,
@@ -975,63 +954,63 @@ function showbuddler($buddler)
     }
 
     start_table();
-    start_row("titlebg", "style='width:95%' align='center' colspan='10'");
+    start_row("titlebg center", "style='width:95%' colspan='10'");
     echo "<b>" . $buddler . "</b>";
-    next_row("windowbg2", "style='width:14%' align='center'");
+    next_row("windowbg2 center", "style='width:14%'");
     make_order_link("zeitmarke", "asc", array("selbuddler=" . $buddler));
     echo '<br>';
     echo "Datum";
     echo '<br>';
     make_order_link("zeitmarke", "desc", array("selbuddler=" . $buddler));
-    next_cell("windowbg2", "style='width:9%' align='center'");
+    next_cell("windowbg2 center", "style='width:9%'");
     make_order_link("eisen", "asc", array("selbuddler=" . $buddler));
     echo '<br>';
     echo "Eisen";
     echo '<br>';
     make_order_link("eisen", "desc", array("selbuddler=" . $buddler));
-    next_cell("windowbg2", "style='width:9%' align='center'");
+    next_cell("windowbg2 center", "style='width:9%'");
     make_order_link("stahl", "asc", array("selbuddler=" . $buddler));
     echo '<br>';
     echo "Stahl";
     echo '<br>';
     make_order_link("stahl", "desc", array("selbuddler=" . $buddler));
-    next_cell("windowbg2", "style='width:9%' align='center'");
+    next_cell("windowbg2 center", "style='width:9%'");
     make_order_link("vv4a", "asc", array("selbuddler=" . $buddler));
     echo '<br>';
     echo "VV4A";
     echo '<br>';
     make_order_link("vv4a", "desc", array("selbuddler=" . $buddler));
-    next_cell("windowbg2", "style='width:9%' align='center'");
+    next_cell("windowbg2 center", "style='width:9%'");
     make_order_link("chem", "asc", array("selbuddler=" . $buddler));
     echo '<br>';
     echo "Chemie";
     echo '<br>';
     make_order_link("chem", "desc", array("selbuddler=" . $buddler));
-    next_cell("windowbg2", "style='width:9%' align='center'");
+    next_cell("windowbg2 center", "style='width:9%'");
     make_order_link("eis", "asc", array("selbuddler=" . $buddler));
     echo '<br>';
     echo "Eis";
     echo '<br>';
     make_order_link("eis", "desc", array("selbuddler=" . $buddler));
-    next_cell("windowbg2", "style='width:9%' align='center'");
+    next_cell("windowbg2 center", "style='width:9%'");
     make_order_link("wasser", "asc", array("selbuddler=" . $buddler));
     echo '<br>';
     echo "Wasser";
     echo '<br>';
     make_order_link("wasser", "desc", array("selbuddler=" . $buddler));
-    next_cell("windowbg2", "style='width:9%' align='center'");
+    next_cell("windowbg2 center", "style='width:9%'");
     make_order_link("energie", "asc", array("selbuddler=" . $buddler));
     echo '<br>';
     echo "Energie";
     echo '<br>';
     make_order_link("energie", "desc", array("selbuddler=" . $buddler));
-    next_cell("windowbg2", "style='width:9%' align='center'");
+    next_cell("windowbg2 center", "style='width:9%'");
     make_order_link("volk", "asc", array("selbuddler=" . $buddler));
     echo '<br>';
     echo "Volk";
     echo '<br>';
     make_order_link("volk", "desc", array("selbuddler=" . $buddler));
-    next_cell("windowbg2", "style='width:9%' align='center'");
+    next_cell("windowbg2 center", "style='width:9%'");
     make_order_link("punkte", "asc", array("selbuddler=" . $buddler));
     echo '<br>';
     echo "Punkte";
@@ -1081,7 +1060,7 @@ function showbuddler($buddler)
         $volk += $row['volk'];
         $punkte += $row['punkte'];
 
-        next_row("windowbg1", "style='width:12%' align='left'");
+        next_row("windowbg1 left", "style='width:12%'");
         make_link(
             strftime(CONFIG_DATEFORMAT, $row['zeitmarke']),
             array(
@@ -1089,45 +1068,45 @@ function showbuddler($buddler)
                  "seltransferday=" . $row['zeitmarke']
             )
         );
-        next_cell("windowbg1", "style='width:10%' align='right'");
+        next_cell("windowbg1 right", "style='width:10%'");
         echo number_format($row['eisen'], 0, ',', '.');
-        next_cell("windowbg1", "style='width:10%' align='right'");
+        next_cell("windowbg1 right", "style='width:10%'");
         echo number_format($row['stahl'], 0, ',', '.');
-        next_cell("windowbg1", "style='width:10%' align='right'");
+        next_cell("windowbg1 right", "style='width:10%'");
         echo number_format($row['vv4a'], 0, ',', '.');
-        next_cell("windowbg1", "style='width:10%' align='right'");
+        next_cell("windowbg1 right", "style='width:10%'");
         echo number_format($row['chem'], 0, ',', '.');
-        next_cell("windowbg1", "style='width:10%' align='right'");
+        next_cell("windowbg1 right", "style='width:10%'");
         echo number_format($row['eis'], 0, ',', '.');
-        next_cell("windowbg1", "style='width:10%' align='right'");
+        next_cell("windowbg1 right", "style='width:10%'");
         echo number_format($row['wasser'], 0, ',', '.');
-        next_cell("windowbg1", "style='width:10%' align='right'");
+        next_cell("windowbg1 right", "style='width:10%'");
         echo number_format($row['energie'], 0, ',', '.');
-        next_cell("windowbg1", "style='width:10%' align='right'");
+        next_cell("windowbg1 right", "style='width:10%'");
         echo number_format($row['volk'], 0, ',', '.');
-        next_cell("windowbg1", "style='width:10%' align='right'");
+        next_cell("windowbg1 right", "style='width:10%'");
         echo number_format($row['punkte'], 0, ',', '.');
     }
 
-    next_row("windowbg2", "style='width:12%' align='left'");
+    next_row("windowbg2 left", "style='width:12%'");
     echo "Summe";
-    next_cell("windowbg2", "style='width:10%' align='right'");
+    next_cell("windowbg2 right", "style='width:10%'");
     echo number_format($eisen, 0, ',', '.');
-    next_cell("windowbg2", "style='width:10%' align='right'");
+    next_cell("windowbg2 right", "style='width:10%'");
     echo number_format($stahl, 0, ',', '.');
-    next_cell("windowbg2", "style='width:10%' align='right'");
+    next_cell("windowbg2 right", "style='width:10%'");
     echo number_format($vv4a, 0, ',', '.');
-    next_cell("windowbg2", "style='width:10%' align='right'");
+    next_cell("windowbg2 right", "style='width:10%'");
     echo number_format($chem, 0, ',', '.');
-    next_cell("windowbg2", "style='width:10%' align='right'");
+    next_cell("windowbg2 right", "style='width:10%'");
     echo number_format($eis, 0, ',', '.');
-    next_cell("windowbg2", "style='width:10%' align='right'");
+    next_cell("windowbg2 right", "style='width:10%'");
     echo number_format($wasser, 0, ',', '.');
-    next_cell("windowbg2", "style='width:10%' align='right'");
+    next_cell("windowbg2 right", "style='width:10%'");
     echo number_format($energie, 0, ',', '.');
-    next_cell("windowbg2", "style='width:10%' align='right'");
+    next_cell("windowbg2 right", "style='width:10%'");
     echo number_format($volk, 0, ',', '.');
-    next_cell("windowbg2", "style='width:10%' align='right'");
+    next_cell("windowbg2 right", "style='width:10%'");
     echo number_format($punkte, 0, ',', '.');
 
     end_row();
@@ -1138,8 +1117,7 @@ function showbuddler($buddler)
 //
 function showallfleeters()
 {
-    global $sid,
-           $db,
+    global $db,
            $db_tb_transferliste,
            $fakt_eisen,
            $fakt_stahl,
@@ -1193,64 +1171,64 @@ function showallfleeters()
 
     while ($row = $db->db_fetch_array($result)) {
         start_table();
-        start_row("titlebg", "style='width:95%' align='center' colspan='10'");
+        start_row("titlebg center", "style='width:95%' colspan='10'");
         echo "<b>" . $row['fleeter'] . "</b>";
-        next_row("windowbg2", "style='width:14%' align='center'");
+        next_row("windowbg2 center", "style='width:14%'");
         make_order_link("buddler", "asc");
         echo '<br>';
         echo "Name";
         echo '<br>';
         make_order_link("buddler", "desc");
-        next_cell("windowbg2", "style='width:9%' align='center'");
+        next_cell("windowbg2 center", "style='width:9%'");
         make_order_link("eisen", "asc");
         echo '<br>';
         echo "Eisen";
         echo '<br>';
         make_order_link("eisen", "desc");
-        next_cell("windowbg2", "style='width:9%' align='center'");
+        next_cell("windowbg2 center", "style='width:9%'");
         make_order_link("stahl", "asc");
         echo '<br>';
         echo "Stahl";
         echo '<br>';
         make_order_link("stahl", "desc");
-        next_cell("windowbg2", "style='width:9%' align='center'");
+        next_cell("windowbg2 center", "style='width:9%'");
         make_order_link("vv4a", "asc");
         echo '<br>';
         echo "VV4A";
         echo '<br>';
         make_order_link("vv4a", "desc");
-        next_cell("windowbg2", "style='width:9%' align='center'");
+        next_cell("windowbg2 center", "style='width:9%'");
         make_order_link("chem", "asc");
         echo '<br>';
         echo "Chemie";
         echo '<br>';
         make_order_link("chem", "desc");
-        next_cell("windowbg2", "style='width:9%' align='center'");
+        next_cell("windowbg2 center", "style='width:9%'");
         make_order_link("eis", "asc");
         echo '<br>';
         echo "Eis";
         echo '<br>';
         make_order_link("eis", "desc");
-        next_cell("windowbg2", "style='width:9%' align='center'");
+        next_cell("windowbg2 center", "style='width:9%'");
         make_order_link("wasser", "asc");
         echo '<br>';
         echo "Wasser";
         echo '<br>';
         make_order_link("wasser", "desc");
-        next_cell("windowbg2", "style='width:10%' align='center'");
+        next_cell("windowbg2 center", "style='width:10%'");
         make_order_link("energie", "asc");
         echo '<br>';
         echo "Energie";
         echo '<br>';
         make_order_link("energie", "desc");
-        next_cell("windowbg2", "style='width:10%' align='center'");
+        next_cell("windowbg2 center", "style='width:10%'");
         make_order_link("volk", "asc");
         echo '<br>';
         echo "Volk";
         echo '<br>';
         make_order_link("volk", "desc");
         echo '<br>';
-        next_cell("windowbg2", "style='width:10%' align='center'");
+        next_cell("windowbg2 center", "style='width:10%'");
         make_order_link("punkte", "asc");
         echo '<br>';
         echo "Punkte";
@@ -1316,7 +1294,7 @@ function showallfleeters()
                 $color = scanAge($row_query['lasttransport']);
             }
 
-            next_row("windowbg1", "style='width:14%; background-color:" . $color . ";' align='left'");
+            next_row("windowbg1 left", "style='width:14%; background-color:" . $color . ";'");
             make_link(
                 $row2['buddler'],
                 array("selbuddler=" . $row2['buddler'])
@@ -1324,48 +1302,48 @@ function showallfleeters()
             // Ausgabe für LastTransport-Datum
             echo '<br>' . $tmp;
 
-            next_cell("windowbg1", "style='width:9%' align='right'");
+            next_cell("windowbg1 right", "style='width:9%'");
             echo number_format($row2['eisen'], 0, ',', '.');
-            next_cell("windowbg1", "style='width:9%' align='right'");
+            next_cell("windowbg1 right", "style='width:9%'");
             echo number_format($row2['stahl'], 0, ',', '.');
-            next_cell("windowbg1", "style='width:9%' align='right'");
+            next_cell("windowbg1 right", "style='width:9%'");
             echo number_format($row2['vv4a'], 0, ',', '.');
-            next_cell("windowbg1", "style='width:9%' align='right'");
+            next_cell("windowbg1 right", "style='width:9%'");
             echo number_format($row2['chem'], 0, ',', '.');
-            next_cell("windowbg1", "style='width:9%' align='right'");
+            next_cell("windowbg1 right", "style='width:9%'");
             echo number_format($row2['eis'], 0, ',', '.');
-            next_cell("windowbg1", "style='width:9%' align='right'");
+            next_cell("windowbg1 right", "style='width:9%'");
             echo number_format($row2['wasser'], 0, ',', '.');
-            next_cell("windowbg1", "style='width:9%' align='right'");
+            next_cell("windowbg1 right", "style='width:9%'");
             echo number_format($row2['energie'], 0, ',', '.');
-            next_cell("windowbg1", "style='width:9%' align='right'");
+            next_cell("windowbg1 right", "style='width:9%'");
             echo number_format($row2['volk'], 0, ',', '.');
-            next_cell("windowbg1", "style='width:9%' align='right'");
+            next_cell("windowbg1 right", "style='width:9%'");
             echo number_format($row2['punkte'], 0, ',', '.');
         }
 
-        next_row("windowbg2", "style='width:14%' align='left'");
+        next_row("windowbg2 left", "style='width:14%'");
         echo "Summe";
-        next_cell("windowbg2", "style='width:9%' align='right'");
+        next_cell("windowbg2 right", "style='width:9%'");
         echo number_format($eisen, 0, ',', '.');
-        next_cell("windowbg2", "style='width:9%' align='right'");
+        next_cell("windowbg2 right", "style='width:9%'");
         echo number_format($stahl, 0, ',', '.');
-        next_cell("windowbg2", "style='width:9%' align='right'");
+        next_cell("windowbg2 right", "style='width:9%'");
         echo number_format($vv4a, 0, ',', '.');
-        next_cell("windowbg2", "style='width:9%' align='right'");
+        next_cell("windowbg2 right", "style='width:9%'");
         echo number_format($chem, 0, ',', '.');
-        next_cell("windowbg2", "style='width:9%' align='right'");
+        next_cell("windowbg2 right", "style='width:9%'");
         echo number_format($eis, 0, ',', '.');
-        next_cell("windowbg2", "style='width:9%' align='right'");
+        next_cell("windowbg2 right", "style='width:9%'");
         echo number_format($wasser, 0, ',', '.');
-        next_cell("windowbg2", "style='width:9%' align='right'");
+        next_cell("windowbg2 right", "style='width:9%'");
         echo number_format($energie, 0, ',', '.');
-        next_cell("windowbg2", "style='width:9%' align='right'");
+        next_cell("windowbg2 right", "style='width:9%'");
         echo number_format($volk, 0, ',', '.');
-        next_cell("windowbg2", "style='width:9%' align='right'");
+        next_cell("windowbg2 right", "style='width:9%'");
         echo number_format($punkte, 0, ',', '.');
 
-        /*    next_row("windowbg1", "style='width:95%' align='right' colspan='10'");
+        /*    next_row("windowbg1 right", "style='width:95%' colspan='10'");
               make_link("Alle auswählen",
                         array("order=".$order,
                       "ordered=".$ordered,

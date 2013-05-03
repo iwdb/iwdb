@@ -73,15 +73,12 @@ $moduldesc = "Anzeige der Sondierungen (Schiffe/Gebs) auf die eigene Allianz";
 function workInstallDatabase()
 {
     /*
-    global $db, $db_prefix, $db_tb_iwdbtabellen;
+    global $db, $db_prefix;
 
     $sqlscript = array(
         "CREATE TABLE " . $db_prefix . "neuername
         (
         );",
-
-    "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-    " VALUES('neuername')"
     );
     foreach($sqlscript as $sql) {
         $result = $db->db_query($sql)
@@ -134,11 +131,10 @@ function workInstallConfigString()
 function workUninstallDatabase()
 {
     /*
-    global $db, $db_tb_iwdbtabellen, $db_tb_neuername;
+    global $db, $db_tb_neuername;
 
     $sqlscript = array(
         "DROP TABLE " . $db_tb_neuername . ";",
-        "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='neuername';"
     );
 
     foreach($sqlscript as $sql) {
@@ -200,46 +196,131 @@ $result = $db->db_query($sql)
 
 $data = array();
 
-start_table();
-start_row("titlebg", "nowrap style='width:0%' align='center' ");
-echo "<b>Wer wurde sondiert?</b>";
-next_cell("titlebg", "nowrap style='width:0%' align='center'");
-echo "<b>Zielplanet</b>";
-next_cell("titlebg", "nowrap style='width:0%' align='center'");
-echo "<b>Wer hat sondiert?</b>";
-next_cell("titlebg", "nowrap style='width:0%' align='center'");
-echo "<b>Von wo wurde sondiert?</b>";
-next_cell("titlebg", "nowrap style='width:0%' align='center'");
-echo "<b>Zeitpunkt</b>";
-next_cell("titlebg", "nowrap style='width:0%' align='center'");
-echo "<b>Art der Sondierung</b>";
-next_cell("titlebg", "nowrap style='width:0%' align='center'");
-echo "<b>Sondierung erfolgreich?</b>";
+?>
+<table class="table_hovertable">
+	<thead>
+		<tr>
+			<th>
+				Opfer
+			</th>
+			<th>
+				Zielplanet
+			</th>
+			<th>
+				Pösewicht
+			</th>
+			<th>
+				Ausgangsplanet
+			</th>
+			<th>
+				Zeitpunkt
+			</th>
+			<th>
+				Art
+			</th>
+			<th>
+				erfolgreich?
+			</th>
+		</tr>
+	</thead>
+	
+	<?php
+	while ($row = $db->db_fetch_array($result)) {
+	?>
+	<tbody>
+		<tr>
+			<td>
+				<?php echo $row['name_to']; ?>
+			</td>
+			<td>
+				<?php
+				$objekt = GetObjectByCoords($row['koords_to']);
+				if ($objekt == 'Kolonie') {
+					echo "<img src='".BILDER_PATH."kolo.png'>";
+				} else if ($objekt == 'Sammelbasis') {
+					echo "<img src='".BILDER_PATH."ress_basis.png'>";
+				} else if ($objekt == 'Artefaktbasis') {
+					echo "<img src='".BILDER_PATH."artefakt_basis.png'>";
+				} else if ($objekt == 'Kampfbasis') {
+					echo "<img src='".BILDER_PATH."kampf_basis.png'>";
+				}
+				echo $row['koords_to'];
+				?>
+			</td>
+			<td>
+				<?php
+				if (!empty($row['allianz_from'])) {
+					echo ($row['name_from'] . " [" . $row['allianz_from'] . "]");
+				} else {
+					echo $row['name_from'];
+				}
+				?>
+			</td>
+			<td>
+				<?php
+				$objekt = GetObjectByCoords($row['koords_from']);
+				if ($objekt == 'Kolonie') {
+					echo "<img src='".BILDER_PATH."kolo.png'>";
+				} else if ($objekt == 'Sammelbasis') {
+					echo "<img src='".BILDER_PATH."ress_basis.png'>";
+				} else if ($objekt == 'Artefaktbasis') {
+					echo "<img src='".BILDER_PATH."artefakt_basis.png'>";
+				} else if ($objekt == 'Kampfbasis') {
+					echo "<img src='".BILDER_PATH."kampf_basis.png'>";
+				}
+				echo $row['koords_from'];
+				?>
+			</td>
+			<td>
+				<?php
+				echo strftime(CONFIG_DATETIMEFORMAT, $row['timestamp']);
+				?>
+			</td>
+			<td>
+				<?php
+				if ($row['sondierung_art']=='schiffe')
+					echo "Schiffe";
+				else if ($row['sondierung_art']=='gebaeude')
+					echo "Gebäude";
+				?>
+			</td>
+			<td>
+				<?php
+				if ($row['erfolgreich'] == '0') {
+					echo "nein";
+				} else {
+					echo "ja";
+				}
+				?>
+			</td>
+		</tr>
+	</tbody>
+	<?php
+	}
+	?>
+</table>
 
-while ($row = $db->db_fetch_array($result)) {
-
-    next_row("windowbg1", "nowrap style='width:0%' align='left'");
-    echo $row['name_to'];
-    next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-    echo $row['koords_to'];
-    next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-    if (!empty($row['allianz_from'])) {
-        echo ($row['name_from'] . " [" . $row['allianz_from'] . "]");
-    } else {
-        echo $row['name_from'];
-    }
-    next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-    echo $row['koords_from'];
-    next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-    echo strftime("%d.%m.%y %H:%M:%S", $row['timestamp']);
-    next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-    echo $row['sondierung_art'];
-    next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-    if ($row['erfolgreich'] == '0') {
-        echo "nein";
-    } else {
-        echo "ja";
-    }
-}
-end_row();
-end_table();
+<table class='borderless'>
+	<tr>
+		<td>
+			<?php
+			echo "<img src='".BILDER_PATH."kolo.png'> = Kolonie";
+			?>
+		</td>
+		<td>
+			<?php
+			echo "<img src='".BILDER_PATH."ress_basis.png'> = Ressourcensammelbasis";
+			?>
+		</td>
+		<td>
+			<?php
+			echo "<img src='".BILDER_PATH."artefakt_basis.png'> = Artefaktsammelbasis";
+			?>
+		</td>
+		<td>
+			<?php
+			echo "<img src='".BILDER_PATH."kampf_basis.png'> = Kampfbasis";
+			?>
+		</td>
+	</tr>
+</table>

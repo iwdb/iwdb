@@ -173,13 +173,13 @@ if (file_exists("./config/m_research.cfg.php")) {
 
     // Array aller Evos ggf. anpassen
     $evoArray    = array();
-    $evoArray[0] = array('img' => 'blobtree-evo0.png');
-    $evoArray[1] = array('img' => 'blobtree-evo1.png', 'keyResearch' => 'Race into Space');
-    $evoArray[2] = array('img' => 'blobtree-evo2.png', 'keyResearch' => 'Interstellares Vordringen');
-    $evoArray[3] = array('img' => 'blobtree-evo3.png', 'keyResearch' => 'Aufnahme in die zivilisierten Welten');
-    $evoArray[4] = array('img' => 'blobtree-evo4.png', 'keyResearch' => 'Imperiale Gedanken');
-    $evoArray[5] = array('img' => 'blobtree-evo5.png', 'keyResearch' => 'Die Macht des Seins');
-    $evoArray[7] = array('img' => 'blobtree-evo7.png', 'keyResearch' => 'Verstehen der Zusammenhänge');
+    $evoArray[0] = array('img' => 'evo0.png');
+    $evoArray[1] = array('img' => 'evo1.png', 'keyResearch' => 'Race into Space');
+    $evoArray[2] = array('img' => 'evo2.png', 'keyResearch' => 'Interstellares Vordringen');
+    $evoArray[3] = array('img' => 'evo3.png', 'keyResearch' => 'Aufnahme in die zivilisierten Welten');
+    $evoArray[4] = array('img' => 'evo4.png', 'keyResearch' => 'Imperiale Gedanken');
+    $evoArray[5] = array('img' => 'evo5.png', 'keyResearch' => 'Die Macht des Seins');
+    $evoArray[7] = array('img' => 'evo7.png', 'keyResearch' => 'Verstehen der Zusammenhänge');
 
     $selectEvo = null;
 
@@ -231,13 +231,13 @@ if (file_exists("./config/m_research.cfg.php")) {
 
     echo "<div class='doc_big_black'>";
     if ($selectEvo > 0) {
-        echo "<a href='index.php?action=m_techtree&selectEvo=" . ($selectEvo - 1) . "&sid=" . $sid . "'><b>&lt;&lt;</b></a>\n"; // <<
+        echo "<a href='index.php?action=m_techtree&selectEvo=" . ($selectEvo - 1) . "'><b>&lt;&lt;</b></a>\n"; // <<
     }
 
     for ($evo = 0; $evo <= 7; $evo++) {
 
         if (array_key_exists($evo, $evoArray)) { //gibt es die Evo überhaupt?
-            echo "<a href='index.php?action=m_techtree&selectEvo=" . $evo . "&sid=" . $sid . "'>";
+            echo "<a href='index.php?action=m_techtree&selectEvo=" . $evo . "'>";
             if ($evo === $selectEvo) {
                 echo "<b>[" . $evo . "]</b>";
             } else {
@@ -248,11 +248,11 @@ if (file_exists("./config/m_research.cfg.php")) {
     }
 
     if ($selectEvo < 7) {
-        echo "<a href='index.php?action=m_techtree&selectEvo=" . ($selectEvo + 1) . "&amp;sid=" . $sid . "'><b>&gt;&gt;</b></a>\n"; // >>
+        echo "<a href='index.php?action=m_techtree&selectEvo=" . ($selectEvo + 1) . "'><b>&gt;&gt;</b></a>\n"; // >>
     }
     echo "</div>";
 
-    echo "<img src='bilder/techtree/" . $selectEvoImg . "'>";
+    echo "<img src='" . TECHTREE_BILDER_PATH . $selectEvoImg . "'>";
     echo "<br>";
     echo "Danke an H.G. Blob für die Grafiken der Techtrees. :)";
 }

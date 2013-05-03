@@ -47,12 +47,12 @@ if (@include("./config/m_research.cfg.php")) {
     }
 }
 
-function dauer($zeit)
+function dauer($dauer)
 {
-    $tage    = floor($zeit / DAY);
+    $tage    = floor($dauer / DAY);
     $return  = ($tage > 0) ? $tage . " Tage, " : "";
-    $stunden = floor(($zeit - $tage * DAY) / HOUR);
-    $minuten = ($zeit - $tage * DAY - $stunden * HOUR) / MINUTE;
+    $stunden = floor(($dauer - $tage * DAY) / HOUR);
+    $minuten = ($dauer - $tage * DAY - $stunden * HOUR) / MINUTE;
     $return .= str_pad($stunden, 2, "0", STR_PAD_LEFT) . ":" . str_pad($minuten, 2, "0", STR_PAD_LEFT);
 
     return $return;
@@ -777,7 +777,7 @@ if (!empty($umenu)) {
                     <?php
                     $typprev = '';
                     $schiff = '';
-                    $sql = "SELECT `typ`, `id`, `abk` FROM `{$db_tb_schiffstyp}` ORDER BY `typ` asc";
+                    $sql = "SELECT typ, id, abk FROM " . $db_tb_schiffstyp . " typ ORDER BY typ asc";
                     $result_schiff = $db->db_query($sql)
                         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
                     while ($row_schiff = $db->db_fetch_array($result_schiff)) {
@@ -948,11 +948,11 @@ if (!empty($umenu)) {
 //
 function fill_selection($selected_id)
 {
-    global $db, $db_tb_research, $db_tb_researchfield, $user_sitterlogin, $db_tb_research2user;
+    global $db, $db_tb_research, $db_tb_researchfield, $user_sitterlogin;
 
     $fields = array();
 
-    $sql = "SELECT `id`, `name` FROM `{$db_tb_researchfield}` ORDER BY `id`;";
+    $sql = "SELECT id, name FROM " . $db_tb_researchfield . " ORDER BY id";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
@@ -964,10 +964,10 @@ function fill_selection($selected_id)
     $where = "";
 
     if (!empty($user_sitterlogin)) {
-        $where = " WHERE NOT ID IN (SELECT `rID` FROM `{$db_tb_research2user}` WHERE `userid`='" . $user_sitterlogin . "')";
+        $where = " WHERE NOT ID IN (SELECT rID FROM research2user where userid='" . $user_sitterlogin . "')";
     }
 
-    $sql    = "SELECT `ID`, `name`, `gebiet` FROM " . $db_tb_research . $where . " ORDER BY `gebiet` ASC, `name` ASC;";
+    $sql    = "SELECT ID, name, gebiet FROM " . $db_tb_research . $where . " ORDER BY gebiet ASC, name ASC";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 

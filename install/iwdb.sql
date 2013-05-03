@@ -1,12 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 3.3.7deb7
--- http://www.phpmyadmin.net
---
--- Host: localhost
--- Erstellungszeit: 17. Mai 2012 um 22:45
--- Server Version: 5.5.24
--- PHP-Version: 5.3.13-1~dotdeb.0
-
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 
@@ -203,6 +194,26 @@ CREATE TABLE IF NOT EXISTS `prefix_def` (
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `prefix_fremdsondierung`
+--
+
+DROP TABLE IF EXISTS `prefix_fremdsondierung`;
+CREATE TABLE IF NOT EXISTS `prefix_fremdsondierung` (
+  `koords_to` varchar(11) NOT NULL,
+  `name_to` varchar(50) NOT NULL,
+  `allianz_to` varchar(50) NOT NULL,
+  `koords_from` varchar(11) NOT NULL,
+  `name_from` varchar(50) NOT NULL,
+  `allianz_from` varchar(50) NOT NULL,
+  `sondierung_art` enum('schiffe','gebaeude') NOT NULL COMMENT 'Schiffe oder Gebäude',
+  `timestamp` int(10) unsigned NOT NULL COMMENT 'Zeitstempel Sondierung',
+  `erfolgreich` int(1) DEFAULT '0' COMMENT '0=fail,1=success',
+  PRIMARY KEY (`timestamp`,`koords_to`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Tabelle eingegangener Sondierungen';
+
+-- --------------------------------------------------------
+
+--
 -- Tabellenstruktur für Tabelle `prefix_gebaeude`
 --
 
@@ -211,7 +222,7 @@ CREATE TABLE IF NOT EXISTS `prefix_gebaeude` (
   `name` varchar(100) NOT NULL DEFAULT '',
   `category` varchar(50) NOT NULL DEFAULT '',
   `idcat` int(5) NOT NULL DEFAULT '0',
-  `inactive` char(1) NOT NULL DEFAULT '',
+  `inactive` char(1) NOT NULL DEFAULT '0',
   `dauer` int(7) NOT NULL DEFAULT '0',
   `bild` varchar(40) NOT NULL DEFAULT '',
   `info` text NOT NULL,
@@ -226,11 +237,11 @@ CREATE TABLE IF NOT EXISTS `prefix_gebaeude` (
   `Kosten` varchar(200) NOT NULL DEFAULT '',
   `Punkte` int(5) NOT NULL DEFAULT '0',
   `MaximaleAnzahl` int(3) NOT NULL DEFAULT '0',
-  `typ` varchar(5) NOT NULL DEFAULT '',
+  `typ` varchar(10) NOT NULL DEFAULT '',
   `kostet` varchar(200) NOT NULL,
   `id_iw` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Gebäudekurzform' AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Gebäudekurzform' AUTO_INCREMENT=1;
 
 -- --------------------------------------------------------
 
@@ -250,25 +261,6 @@ CREATE TABLE IF NOT EXISTS `prefix_gebaeude_spieler` (
   `time` int(11) NOT NULL,
   PRIMARY KEY (`coords_gal`,`coords_sys`,`coords_planet`,`category`,`building`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Gebäudeuebersicht';
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `prefix_fremdsondierung`
---
-
-CREATE TABLE IF NOT EXISTS `prefix_fremdsondierung` (
-   `koords_to` varchar(11) NOT NULL,
-   `name_to` varchar(50) NOT NULL,
-   `allianz_to` varchar(50) NOT NULL,
-   `koords_from` varchar(11) NOT NULL,
-   `name_from` varchar(50) NOT NULL,
-   `allianz_from` varchar(50) NOT NULL,
-   `sondierung_art` ENUM( 'schiffe', 'gebaeude' ) NOT NULL COMMENT 'Schiffe oder Gebäude',
-   `timestamp` int(10) unsigned NOT NULL COMMENT 'Zeitstempel Sondierung',
-   `erfolgreich` int(1) DEFAULT '0' COMMENT '0=fail,1=success',
-PRIMARY KEY (`timestamp`,`koords_to`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Tabelle eingegangener Sondierungen';
 
 -- --------------------------------------------------------
 
@@ -540,13 +532,13 @@ CREATE TABLE IF NOT EXISTS `prefix_lager` (
   `bev_w` float DEFAULT NULL,
   `zufr` float DEFAULT NULL,
   `zufr_w` float DEFAULT NULL,
-  `eisen_soll` int DEFAULT NULL,
-  `stahl_soll` int DEFAULT NULL,
-  `vv4a_soll` int DEFAULT NULL,
-  `chem_soll` int DEFAULT NULL,
-  `eis_soll` int DEFAULT NULL,
-  `wasser_soll` int DEFAULT NULL,
-  `energie_soll` int DEFAULT NULL,
+  `eisen_soll` int(11) DEFAULT NULL,
+  `stahl_soll` int(11) DEFAULT NULL,
+  `vv4a_soll` int(11) DEFAULT NULL,
+  `chem_soll` int(11) DEFAULT NULL,
+  `eis_soll` int(11) DEFAULT NULL,
+  `wasser_soll` int(11) DEFAULT NULL,
+  `energie_soll` int(11) DEFAULT NULL,
   `eisen_baukosten` float NOT NULL,
   `stahl_baukosten` float NOT NULL,
   `vv4a_baukosten` float NOT NULL,
@@ -581,13 +573,14 @@ CREATE TABLE IF NOT EXISTS `prefix_lieferung` (
   `coords_to_planet` tinyint(4) NOT NULL DEFAULT '0',
   `user_from` varchar(30) DEFAULT NULL,
   `user_to` varchar(30) DEFAULT NULL,
-  `eisen` float DEFAULT NULL,
-  `stahl` float DEFAULT NULL,
-  `vv4a` float DEFAULT NULL,
-  `chem` float DEFAULT NULL,
-  `eis` float DEFAULT NULL,
-  `wasser` float DEFAULT NULL,
-  `energie` float DEFAULT NULL,
+  `eisen` int(10) unsigned NOT NULL DEFAULT '0',
+  `stahl` int(10) unsigned NOT NULL DEFAULT '0',
+  `vv4a` int(10) unsigned NOT NULL DEFAULT '0',
+  `chem` int(10) unsigned NOT NULL DEFAULT '0',
+  `eis` int(10) unsigned NOT NULL DEFAULT '0',
+  `wasser` int(10) unsigned NOT NULL DEFAULT '0',
+  `energie` int(10) unsigned NOT NULL DEFAULT '0',
+  `volk` int(10) unsigned NOT NULL DEFAULT '0',
   `art` varchar(255) DEFAULT NULL,
   `schiffe` text,
   PRIMARY KEY (`time`,`coords_from_gal`,`coords_from_sys`,`coords_from_planet`,`coords_to_gal`,`coords_to_sys`,`coords_to_planet`),
@@ -612,7 +605,7 @@ CREATE TABLE IF NOT EXISTS `prefix_menu` (
   `sittertyp` tinyint(4) NOT NULL DEFAULT '0',
   `sound` int(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Menüstruktur' AUTO_INCREMENT=26 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Menüstruktur' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -625,7 +618,7 @@ CREATE TABLE IF NOT EXISTS `prefix_merkmale` (
   `merkmal` varchar(30) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   UNIQUE KEY `merkmal` (`merkmal`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Planetenmerkmale zur Suche' AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Planetenmerkmale zur Suche' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -762,8 +755,7 @@ CREATE TABLE IF NOT EXISTS `prefix_raidview` (
   `g_eis` int(11) NOT NULL,
   `g_wasser` int(11) NOT NULL,
   `g_energie` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `coords` (`coords`,`date`)
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Raidberichte' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -953,6 +945,8 @@ CREATE TABLE IF NOT EXISTS `prefix_scans` (
   `astro_pic` tinyint(3) unsigned DEFAULT NULL,
   `shadow_pic` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `bg_pic` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `time_att` int(11) NOT NULL DEFAULT '0',
+  `att` text NOT NULL,
   PRIMARY KEY (`coords`),
   UNIQUE KEY `scans_coords_2` (`coords_gal`,`coords_sys`,`coords_planet`),
   KEY `scans_coords_gal` (`coords_gal`),
@@ -963,7 +957,29 @@ CREATE TABLE IF NOT EXISTS `prefix_scans` (
   KEY `typchange_time` (`typchange_time`),
   KEY `userchange_time` (`userchange_time`),
   KEY `objektchange_time` (`objektchange_time`),
-  KEY `typ` (`typ`)
+  KEY `typ` (`typ`),
+  KEY `time_2` (`time`),
+  KEY `typ_2` (`typ`),
+  KEY `typchange_time_2` (`typchange_time`),
+  KEY `userchange_time_2` (`userchange_time`),
+  KEY `objektchange_time_2` (`objektchange_time`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `prefix_scans_details`
+--
+
+DROP TABLE IF EXISTS `prefix_scans_details`;
+CREATE TABLE IF NOT EXISTS `prefix_scans_details` (
+  `coords` varchar(11) NOT NULL DEFAULT '',
+  `art` char(1) NOT NULL DEFAULT 'S',
+  `time` int(11) NOT NULL DEFAULT '0',
+  `plan` text NOT NULL,
+  `stat` text NOT NULL,
+  `def` text NOT NULL,
+  PRIMARY KEY (`coords`,`time`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1008,26 +1024,49 @@ CREATE TABLE IF NOT EXISTS `prefix_schiffstyp` (
   `abk` varchar(50) NOT NULL DEFAULT '',
   `typ` varchar(50) NOT NULL DEFAULT '',
   `bild` varchar(50) NOT NULL DEFAULT '',
-  `id_iw` int(11) DEFAULT NULL,
-  `kosten_eisen` int(11) NOT NULL,
-  `kosten_stahl` int(11) NOT NULL,
-  `kosten_vv4a` int(11) NOT NULL,
-  `kosten_chemie` int(11) NOT NULL,
-  `kosten_eis` int(11) NOT NULL,
-  `kosten_wasser` int(11) NOT NULL,
-  `kosten_energie` int(11) NOT NULL,
-  `angriff` int(11) NOT NULL,
-  `waffenklasse` varchar(30) NOT NULL,
-  `verteidigung` int(11) NOT NULL,
-  `panzerung_kinetisch` int(11) NOT NULL,
-  `panzerung_elektrisch` int(11) NOT NULL,
-  `panzerung_gravimetrisch` int(11) NOT NULL,
-  `dauer` int(11) NOT NULL,
-  `bestellbar` int(1) NOT NULL,
-  `klasse1` int(11) NOT NULL,
-  `klasse2` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `id_iw` smallint(5) unsigned DEFAULT NULL,
+  `kosten_eisen` int(10) unsigned DEFAULT NULL,
+  `kosten_stahl` int(10) unsigned DEFAULT NULL,
+  `kosten_vv4a` int(10) unsigned DEFAULT NULL,
+  `kosten_chemie` int(10) unsigned DEFAULT NULL,
+  `kosten_eis` int(10) unsigned DEFAULT NULL,
+  `kosten_wasser` int(10) unsigned DEFAULT NULL,
+  `kosten_energie` int(10) unsigned DEFAULT NULL,
+  `kosten_bev` int(10) unsigned DEFAULT NULL,
+  `GeschwindigkeitSol` mediumint(8) unsigned DEFAULT NULL,
+  `GeschwindigkeitGal` mediumint(8) unsigned DEFAULT NULL,
+  `canLeaveGalaxy` tinyint(1) DEFAULT NULL,
+  `canBeTransported` tinyint(1) DEFAULT NULL,
+  `VerbrauchChemie` smallint(5) unsigned DEFAULT NULL,
+  `VerbrauchEnergie` smallint(5) unsigned DEFAULT NULL,
+  `angriff` smallint(5) unsigned DEFAULT NULL,
+  `waffenklasse` varchar(30) DEFAULT NULL,
+  `verteidigung` smallint(5) unsigned DEFAULT NULL,
+  `panzerung_kinetisch` smallint(5) unsigned DEFAULT NULL,
+  `panzerung_elektrisch` smallint(5) unsigned DEFAULT NULL,
+  `panzerung_gravimetrisch` smallint(5) unsigned DEFAULT NULL,
+  `Schilde` smallint(5) unsigned DEFAULT NULL,
+  `accuracy` smallint(5) unsigned DEFAULT NULL,
+  `mobility` smallint(5) unsigned DEFAULT NULL,
+  `numEscort` smallint(5) unsigned DEFAULT NULL,
+  `EscortBonusAtt` float NOT NULL DEFAULT '1',
+  `EscortBonusDef` float NOT NULL DEFAULT '1',
+  `werftTyp` varchar(50) DEFAULT NULL,
+  `dauer` int(10) unsigned DEFAULT NULL,
+  `bestellbar` tinyint(1) NOT NULL DEFAULT '0',
+  `isTransporter` tinyint(1) DEFAULT NULL,
+  `klasse1` int(10) unsigned DEFAULT NULL,
+  `klasse2` int(10) unsigned DEFAULT NULL,
+  `bev` int(10) unsigned DEFAULT NULL,
+  `isCarrier` tinyint(1) DEFAULT NULL,
+  `shipKapa1` smallint(5) unsigned DEFAULT NULL,
+  `shipKapa2` smallint(5) unsigned DEFAULT NULL,
+  `shipKapa3` smallint(5) unsigned DEFAULT NULL,
+  `aktualisiert` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `schiff` (`schiff`),
+  UNIQUE KEY `id_iw` (`id_iw`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 -- --------------------------------------------------------
 
@@ -1159,14 +1198,14 @@ CREATE TABLE IF NOT EXISTS `prefix_univ_link` (
 CREATE TABLE IF NOT EXISTS `prefix_user` (
   `id` varchar(30) NOT NULL DEFAULT '',
   `staatsform` int(1) NOT NULL DEFAULT '0',
-  `password` varchar(40) NOT NULL DEFAULT 'de28f02c69edd288390997757d55543e',
+  `password` varchar(40) NOT NULL DEFAULT '36dd80d60af38df8614b87f74059e5da' COMMENT 'Icewars2013',
   `email` varchar(160) NOT NULL DEFAULT '',
   `status` varchar(10) NOT NULL DEFAULT '',
   `rules` char(1) NOT NULL DEFAULT '0',
   `logindate` int(11) NOT NULL DEFAULT '0',
   `allianz` varchar(30) NOT NULL DEFAULT '',
-  `grav_von` float NOT NULL DEFAULT '0',
-  `grav_bis` float NOT NULL DEFAULT '0',
+  `grav_von` float NOT NULL DEFAULT '0.5',
+  `grav_bis` float NOT NULL DEFAULT '2',
   `gal_start` char(2) NOT NULL DEFAULT '0',
   `gal_end` char(2) NOT NULL DEFAULT '0',
   `sys_start` char(3) NOT NULL DEFAULT '0',
@@ -1190,7 +1229,7 @@ CREATE TABLE IF NOT EXISTS `prefix_user` (
   `gengebmod` float NOT NULL DEFAULT '1',
   `genbauschleife` char(1) NOT NULL DEFAULT '',
   `genmaurer` char(1) NOT NULL DEFAULT '',
-  `budflesol` varchar(10) NOT NULL DEFAULT '',
+  `budflesol` varchar(50) NOT NULL DEFAULT '',
   `buddlerfrom` varchar(30) NOT NULL DEFAULT '',
   `rang` varchar(20) NOT NULL DEFAULT '',
   `gebp` int(12) NOT NULL DEFAULT '0',
@@ -1265,6 +1304,7 @@ CREATE TABLE IF NOT EXISTS `prefix_spieler` (
   `exallianz` varchar(50) DEFAULT NULL,
   `allychange_time` int(10) unsigned DEFAULT NULL,
   `staatsform` varchar(50) DEFAULT NULL,
+  `acctype` varchar(50) DEFAULT NULL,
   `status` varchar(50) NOT NULL,
   `dabeiseit` int(10) unsigned NOT NULL,
   `playerupdate_time` int(10) unsigned NOT NULL,
@@ -1292,3 +1332,23 @@ CREATE TABLE IF NOT EXISTS `prefix_spielerallychange` (
   PRIMARY KEY (`name`,`fromally`,`toally`,`time`),
   KEY `time` (`time`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- -------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `prefix_versand_auftrag`
+--
+
+DROP TABLE IF EXISTS `prefix_versand_auftrag`;
+CREATE TABLE IF NOT EXISTS `prefix_versand_auftrag` (
+  `user` varchar(30) NOT NULL,
+  `time` int(11) NOT NULL,
+  `pos` int(11) NOT NULL,
+  `reference` varchar(30) NOT NULL,
+  `art` varchar(20) NOT NULL,
+  PRIMARY KEY (`user`,`time`,`pos`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -39,26 +39,20 @@ include "./menustyles/doc_default.php";
 
 doc_title('Login');
 
-if ((isset($login_id)) && ($login_ok === false) && ($action != "memberlogout2")) {
-    echo "<div class='doc_warning'>Falscher Benutzername oder Passwort!</div>\n";
-
-    if ($wronglogins < $config_wronglogins) {
-        echo "<div class='doc_warning'>Du hast noch " . ($config_wronglogins - $wronglogins) . " Versuch(e).</div>\n";
-    }
+if (($login_ok === false) AND (!empty($login_id) AND (!empty($login_password)))) {
+    echo "<div class='system_warning'>Falscher Benutzername oder Passwort!</div><br>\n";
 
     if ($wronglogins >= $config_wronglogins) {
-        echo "<div class='doc_warning'>Du hast dich " . $wronglogins . " mal falsch eingeloggt! " .
-            "Einloggen für die nächsten " .
+        echo "<div class='system_warning'>Du hast dich zu oft falsch eingeloggt! " .
+            "Einloggen für ist die nächsten " .
             round($config_wronglogin_timeout / HOUR) .
             " Stunden gesperrt.<br>" .
-            "Daten wurden an den Admin übermittelt.</div>\n";
-
+            "Daten wurden an den Admin übermittelt.</div><br>\n";
     }
 }
 ?>
-<br>
 <form method='POST' action='index.php?action=memberlogin2' enctype='multipart/form-data'>
-    <table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style="margin: 0 auto;">
+    <table class='table_format' style="margin: 0 auto;">
         <tr>
             <td class='windowbg2'>Username:&nbsp;</td>
             <td class='windowbg1'><input style='width: 200px' type='text' name='login_id' required='required'></td>
@@ -69,12 +63,13 @@ if ((isset($login_id)) && ($login_ok === false) && ($action != "memberlogout2"))
         </tr>
         <tr>
             <td class='windowbg2'>Eingeloggt bleiben?</td>
-            <td class='windowbg1' align='center'><input type='checkbox' name='login_cookie' value='1'></td>
+            <td class='windowbg1 center'><input type='checkbox' name='login_cookie' value='1'></td>
         </tr>
         <tr>
-            <td class='titlebg' align='center' colspan='2'><input type='submit' value='lass mich rein' name='B1' class='submit'></td>
+            <td class='titlebg center' colspan='2'><input type='submit' value='lass mich rein' name='B1' class='submit'></td>
         </tr>
     </table>
 </form>
 <a href='index.php?action=password'>Passwort vergessen?</a>
+<br>
 <br>

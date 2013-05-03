@@ -119,7 +119,7 @@ Achja bei dem ganzen Chaos kamen 142 Leute ums Leben.
         // Lieferungen an sich selbst ignorieren
         // Manuell: DELETE FROM `prefix_transferliste` WHERE `buddler`=`fleeter`
         if (!empty($transfair_date) && $buddler == $fleeter) {
-            //doc_message("Bericht ".$transfair_date." vom ".strftime("%d.%m.%Y %H:%M:%S", $transfair_date)." ignoriert! - Absender und Empfänger sind identisch...");
+            //doc_message("Bericht ".$transfair_date." vom ".strftime(CONFIG_DATETIMEFORMAT, $transfair_date)." ignoriert! - Absender und Empfänger sind identisch...");
             ++$transp_skipped;
             continue;
         }
@@ -254,7 +254,7 @@ Achja bei dem ganzen Chaos kamen 142 Leute ums Leben.
         // Lieferungen an sich selbst ignorieren
         // Manuell: DELETE FROM `prefix_transferliste` WHERE `buddler`=`fleeter`
         if (!empty($transfair_date) && $buddler == $fleeter) {
-            //doc_message("Bericht ".$transfair_date." vom ".strftime("%d.%m.%Y %H:%M:%S", $transfair_date)." ignoriert! - Absender und Empfänger sind identisch...");
+            //doc_message("Bericht ".$transfair_date." vom ".strftime(CONFIG_DATETIMEFORMAT, $transfair_date)." ignoriert! - Absender und Empfänger sind identisch...");
             ++$transfair_skipped;
             continue;
         }
@@ -336,9 +336,9 @@ Achja bei dem ganzen Chaos kamen 142 Leute ums Leben.
 
 function finish_fehlscan($fehlscans)
 {
-    global $db, $db_tb_scans, $db_tb_lieferung, $sid;
+    global $db, $db_tb_scans, $db_tb_lieferung;
 
-    echo '<form id="fehlscan_form" method="POST" action="index.php?action=m_raid&sid=' . $sid . '" enctype="multipart/form-data"><p>' . "\n";
+    echo '<form id="fehlscan_form" method="POST" action="index.php?action=m_raid" enctype="multipart/form-data"><p>' . "\n";
     echo '<input type="hidden" name="fehlscan" id="fehlscan_count" value="' . count($fehlscans) . '">';
     echo '<tr class="windowbg1"\>';
     echo '<td colspan=2>';
@@ -419,7 +419,7 @@ function finish_fehlscan($fehlscans)
     echo "<input type='text' name='terminus_all' style='width: 5em'>";
     next_cell("windowbg3", "");
     echo "<input type='text' name='x13_all' style='width: 5em'>";
-    next_row("titlebg", "colspan='8' align='center'");
+    next_row("titlebg center", "colspan='8'");
     echo "<input type='submit' value='abspeichern' name='B1' class='submit'>";
     end_table();
     echo '</form>';

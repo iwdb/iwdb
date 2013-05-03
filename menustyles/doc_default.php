@@ -44,7 +44,7 @@ function doc_message($text)
 
 //******************************************************************************
 //
-function start_table($width = 90, $border = 0, $cellpadding = 4, $cellspacing = 1, $class = "bordercolor")
+function start_table($width = 90, $border = 0, $cellpadding = 4, $cellspacing = 1, $class = "table_format")
 {
     echo "<table border='" . $border . "' " .
         "cellpadding='" . $cellpadding . "' " .
@@ -145,7 +145,7 @@ function next_row($class = "", $extra = "", $columns = 1)
 
 //******************************************************************************
 //
-function start_form($action, $params = 0)
+function start_form($action, $params = '')
 {
     $html = "<form method='POST' action='";
     $html .= url($action, $params);
@@ -164,17 +164,15 @@ function end_form()
 //
 function action($action, $text)
 {
-    global $sid;
-    echo "<a href='index.php?action=" . $action . "&sid=" . $sid . "'>" . $text . "</a>\n";
+    echo "<a href='index.php?action=" . $action . "'>" . $text . "</a>\n";
 }
 
 //******************************************************************************
 //
-function url($action, $params = 0)
+function url($action, $params = '')
 {
-    global $sid;
-    $url = "index.php?action=" . $action . "&sid=" . $sid;
-    if (isset($params) && is_array($params)) {
+    $url = "index.php?action=" . $action;
+    if (is_array($params)) {
         foreach ($params as $key => $value) {
             if (is_array($value)) {
                 foreach ($value as $subkey => $subvalue) {
@@ -317,4 +315,96 @@ function make_table($view, $data)
         }
     }
     end_table();
+}
+
+//******************************************************************************
+//
+// Erstellt ein Formularfeld.
+function makeField($options, $name)
+{
+    switch ($options['type']) {
+        case 'label':
+            $html = '<span';
+            if (isset($options['style'])) {
+                $html .= ' style="' . $options['style'] . '"';
+            }
+            $html .= '>' . $options['value'] . '</span>';
+            break;
+        case 'text':
+            $html = '<input type="text" name="' . $name . '"';
+            if (isset($options['value'])) {
+                $html .= ' value="' . $options['value'] . '"';
+            }
+            if (isset($options['style'])) {
+                $html .= ' style="' . $options['style'] . '"';
+            }
+            $html .= '>';
+            break;
+        case 'hidden':
+            $html = '<input type="hidden" name="' . $name . '" value="' . $options['value'] . '"';
+            if (isset($options['style'])) {
+                $html .= ' style="' . $options['style'] . '"';
+            }
+            $html .= '>';
+            break;
+        case 'number':
+            $html = '<input type="number" name="' . $name . '"';
+            if (isset($options['id'])) {
+                $html .= ' id="' . $options['id'] . '"';
+            }
+            if (isset($options['value'])) {
+                $html .= ' value="' . $options['value'] . '"';
+            }
+            if (isset($options['onchange'])) {
+                $html .= ' onchange="' . $options['onchange'] . '"';
+            }
+            if (isset($options['min'])) {
+                $html .= ' min="' . $options['min'] . '"';
+            }
+            if (isset($options['max'])) {
+                $html .= ' max="' . $options['max'] . '"';
+            }
+            if (isset($options['style'])) {
+                $html .= ' style="' . $options['style'] . '"';
+            }
+            $html .= '>';
+            break;
+        case 'select':
+            $html = '<select name="' . $name . '"';
+            if (isset($options['id'])) {
+                $html .= ' id="' . $options['id'] . '"';
+            }
+            if (isset($options['onchange'])) {
+                $html .= ' onchange="' . $options['onchange'] . '"';
+            }
+            $html .= '>';
+            foreach ($options['values'] as $key => $value) {
+                $html .= '<option value="' . $key . '"';
+                if (isset($options['value']) && $options['value'] == $key) {
+                    $html .= ' selected';
+                }
+                $html .= '>' . $value . '</option>';
+            }
+            $html .= '</select>';
+            break;
+        case 'area':
+            $html = '<textarea name="' . $name . '" rows="' . $options['rows'] . '" cols="' . $options['cols'] . '">';
+            $html .= $options['value'];
+            $html .= '</textarea>';
+            break;
+        case 'checkbox':
+            $html = '<input type="checkbox" name="' . $name . '" value="1"';
+            if ($options['value']) {
+                $html .= ' checked';
+            }
+            if (isset($options['style'])) {
+                $html .= ' style="' . $options['style'] . '"';
+            }
+            $html .= '>';
+            break;
+        default:
+            $html = 'unbekanter typ ' . $options['type'];
+    }
+
+    return $html;
 }

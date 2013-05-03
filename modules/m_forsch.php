@@ -73,24 +73,7 @@ $moduldesc =
 //
 function workInstallDatabase()
 {
-    /*	global $db, $db_prefix, $db_tb_iwdbtabellen;
-
-      $sqlscript = array(
-        "CREATE TABLE " . $db_prefix . "neuername
-        (
-            );",
-
-        "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-        " VALUES('neuername')"
-      );
-      foreach($sqlscript as $sql) {
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR,
-                   'Could not query config information.', '',
-                   __FILE__, __LINE__, $sql);
-      }
-      echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
-    */
+    //nothing here
 }
 
 //****************************************************************************
@@ -101,55 +84,34 @@ function workInstallDatabase()
 //
 function workInstallMenu()
 {
-    global $modultitle, $modulstatus;
+    global $modultitle, $modulstatus, $_POST;
 
-    $menu    = getVar('menu');
-    $submenu = getVar('submenu');
-
-    $actionparamters = "";
-    insertMenuItem($menu, $submenu, $modultitle, $modulstatus, $actionparamters);
+    $actionparameters = "";
+    insertMenuItem($_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparameters);
     //
     // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
     //
-    // 	insertMenuItem( $menu+1, ($submenu+1), "Titel2", "hc", "&weissichnichtwas=1" );
+    // 	insertMenuItem( $_POST['menu'], ($_POST['submenu']+1), "Titel2", "hc", "&weissichnichtwas=1" );
     //
 }
 
 //****************************************************************************
 //
 // Function workInstallConfigString will return all the other contents needed 
-// for the configuration file
+// for the configuration file.
 //
 function workInstallConfigString()
 {
-    /*  global $config_gameversion;
-      return
-        "\$v04 = \" <div class=\\\"doc_lightred\\\">(V " . $config_gameversion . ")</div>\";";
-    */
 }
 
 //****************************************************************************
 //
 // Function workUninstallDatabase is creating all database entries needed for
-// removing this module. 
+// removing this module.
 //
 function workUninstallDatabase()
 {
-    /*  global $db, $db_tb_iwdbtabellen, $db_tb_neuername;
-
-      $sqlscript = array(
-        "DROP TABLE " . $db_tb_neuername . ";",
-        "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='neuername';"
-      );
-
-      foreach($sqlscript as $sql) {
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR,
-                   'Could not query config information.', '',
-                   __FILE__, __LINE__, $sql);
-      }
-      echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
-    */
+    //nothing here
 }
 
 //****************************************************************************
@@ -190,62 +152,151 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 //
 // -> Und hier beginnt das eigentliche Modul
 
-$sql = "SELECT * FROM " . $db_tb_user_research . " ORDER BY date ASC";
-$result = $db->db_query($sql)
+global $db, $db_tb_user_research, $db_tb_research, $db_tb_user;
+
+doc_title('aktuell laufende Forschungen');
+
+//$sql = "SELECT `user`, `rId`, `date`, `time` FROM `" . $db_tb_user_research . "` ORDER BY `date` ASC;";
+$sql = "SELECT * FROM " . $db_tb_user_research . " LEFT JOIN " . $db_tb_user . " ON " . $db_tb_user_research . ".user = " . $db_tb_user . ".id WHERE " . $db_tb_user . ".sitten='1' ORDER BY date ASC;";
+$result_user_research = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
 $data = array();
 
-start_table();
-start_row("titlebg", "nowrap style='width:0%' align='center' ");
-echo "<b>User</b>";
-next_cell("titlebg", "nowrap style='width:0%' align='center'");
-echo "<b>laufende Forschung</b>";
-next_cell("titlebg", "nowrap style='width:0%' align='center'");
-echo "<b>Forschung endet</b>";
-next_cell("titlebg", "nowrap style='width:0%' align='center'");
-echo "<b>Einlesezeitpunkt</b>";
-
-while ($row = $db->db_fetch_array($result)) {
-
-    $sql = "SELECT name FROM " . $db_tb_research . " WHERE id ='" . $row['rId'] . "'";
-    $result_forsch = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-    $row1 = $db->db_fetch_array($result_forsch);
-
-    if ($row['date'] != '0') {
-        if (($row['date'] > $row['time']) && ($row['date'] > CURRENT_UNIX_TIME)) {
-            $color = "#00FF00";
-        } else {
-            $color = "#FFA500";
-        }
-        $row['date'] = strftime("%d.%m.%y %H:%M:%S", $row['date']);
-    } else {
-        $row['date'] = '';
-        $color       = "#FF0000";
-    }
-
-    next_row("windowbg1", "style='background-color:" . $color . "' nowrap='nowrap' 'width:0%' align='left'");
-    echo $row['user'];
-    next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-    echo $row1['name'];
-    next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-    echo $row['date'];
-    next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-    echo strftime("%d.%m.%y %H:%M:%S", $row['time']);
-}
-end_row();
-end_table();
-// Legende ausgeben
 ?>
-<br>
-<table border="0" cellpadding="4" cellspacing="1" class="bordercolor">
-    <tr style="white-space:nowrap">
-        <td style="width: 3em; background-color: #00FF00;"></td>
-        <td class="windowbg1">Status aktuell</td>
-        <td style="width: 3em; background-color: #FF0000;"></td>
-        <td class="windowbg1">es wird nicht geforscht</td>
-        <td style="width: 3em; background-color: #FFA500;"></td>
-        <td class="windowbg1">Startseite muss neu eingelesen werden</td>
-    </tr>
+<table class='table_hovertable'>
+	<tr>
+		<th>
+			User
+		</th>
+		<th>
+			laufende Forschung
+		</th>
+		<th>
+			Forschung endet
+		</th>
+		<th>
+			Einlesezeitpunkt
+		</th>
+	</tr>
+	<?php
+	while ($row_user_research = $db->db_fetch_array($result_user_research)) {
+		$sql = "SELECT `name` FROM `" . $db_tb_research . "` WHERE `id` ='" . $row_user_research['rId'] . "';";
+		$result_research = $db->db_query($sql)
+			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+		$row_research = $db->db_fetch_array($result_research);
+
+		if (!empty($row_user_research['date'])) {
+			if (($row_user_research['date'] > $row_user_research['time']) && ($row_user_research['date'] > CURRENT_UNIX_TIME)) {
+				$color = "#00FF00";
+			} else {
+				$color = "#FFA500";
+			}
+            $row_user_research['date'] = strftime(CONFIG_DATETIMEFORMAT, $row_user_research['date']);
+		} else {
+            $row_user_research['date'] = '';
+			$color       = "#FF0000";
+		}
+	
+	?>
+	<tr>
+		<td style="background-color: <?php echo $color ?>">
+			<?php
+			echo "<a href='index.php?action=sitterlogins&sitterlogin=" . urlencode($row_user_research['user']) . "' target='_blank'><img src='" . BILDER_PATH . "user-login.gif' alt='L' title='Einloggen'>";
+			echo "&emsp;" . $row_user_research['user'];
+			?>
+		</td>
+		<td>
+			<?php
+			echo $row_research['name'];
+			?>
+		</td>
+		<td>
+			<?php
+			echo $row_user_research['date'];
+			?>
+		</td>
+		<td>
+			<?php
+			echo strftime(CONFIG_DATETIMEFORMAT, $row_user_research['time']);
+			?>
+		</td>
+	</tr>
+	<?php
+	}
+	?>
 </table>
+<br>
+<br>
+<table class='table_format_noborder'>
+	<tr>
+		<td style="width: 3em; background-color: #00FF00;"></td>
+		<td>
+			= Status aktuell
+		</td>
+		<td style="width: 3em; background-color: #FF0000;"></td>
+		<td>
+			= es wird nicht geforscht
+		</td>
+		<td style="width: 3em; background-color: #FFA500;"></td>
+		<td>
+			= Startseite muss neu eingelesen werden
+		</td>
+	</tr>
+</table>
+<br>
+<br>
+<?php
+doc_title('erforschte Forschungen eines Spielers anschauen');
+?>
+<form method="POST" action="" enctype="multipart/form-data"> 
+<select name="spieler">
+<option value ="">Spieler auswählen ...</option>
+<?php
+$sql = "SELECT id FROM " . $db_tb_user;
+$result = $db->db_query($sql)
+    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+while($row = mysql_fetch_object($result)) { 
+echo "<option>"; 
+echo $row->id; 
+echo "</option>";  
+} 
+?> 
+</select><br><br> 
+<input type="submit" name="formSubmit" value="und los" >
+</form>
+<br><br>
+<?php
+if(isset($_POST['formSubmit']) ) {
+	
+	echo "Bisher erforschte Forschungen von " . $_POST['spieler'] . " anschauen";
+	
+	$sql = "SELECT * FROM " . $db_tb_research2user . " WHERE userid = '" . $_POST['spieler'] . "'";
+	$result = $db->db_query($sql)
+		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+		
+	?>
+	<table class='table_hovertable' style='width:90%'>
+	<?php
+	
+	while ($row = $db->db_fetch_array($result)) {
+		$sql = "SELECT name FROM " . $db_tb_research . " WHERE id ='" . $row['rid'] . "'";
+		$result_forsch = $db->db_query($sql)
+			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+		$row1 = $db->db_fetch_array($result_forsch);
+
+?>
+	<tr>
+		<td>
+			<?php
+			echo $row1['name'];
+			?>
+		</td>
+	</tr>
+	<?php
+	}
+	?>
+	</table>
+<?php		
+}
+?>

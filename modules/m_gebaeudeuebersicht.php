@@ -76,7 +76,7 @@ $moduldesc = "Zeigt die Gebäudeübersicht an";
 function workInstallDatabase()
 {
     /*
-        global $db, $db_prefix, $db_tb_iwdbtabellen;
+        global $db, $db_prefix;
     
         $sqlscript = array(
             "CREATE TABLE `" . $db_prefix . "gebaeude_spieler` (" .
@@ -91,8 +91,6 @@ function workInstallDatabase()
             "`time` int(11) NOT NULL," .
             "PRIMARY KEY (`coords_gal`,`coords_sys`,`coords_planet`,`category`,`building`)" .
             ") COMMENT='Gebaeudeuebersicht'",
-            "INSERT INTO " . $db_tb_iwdbtabellen . " (`name`) VALUES ('gebaeude_spieler')",
-            "INSERT INTO " . $db_tb_parser . " (`modulename`,`recognizer`,`message`) VALUES ('gebaeudeuebersicht','Gebäude&uuml;bersicht','Gebäude&uuml;bersicht')",
         );
     
         foreach ($sqlscript as $sql) {
@@ -115,7 +113,7 @@ function workInstallMenu()
 {
     global $modultitle, $modulstatus, $_POST;
 
-    $actionparamters = "";
+    $actionparameters = "";
     insertMenuItem($_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparameters);
     //
     // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
@@ -142,12 +140,10 @@ function workInstallConfigString()
 function workUninstallDatabase()
 {
     /*
-    global $db, $db_tb_gebaeude_spieler, $db_tb_iwdbtabellen;
+    global $db, $db_tb_gebaeude_spieler;
 
         $sqlscript = array(
             "DROP TABLE " . $db_tb_gebaeude_spieler,
-            "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE `name`='gebaeude_spieler'",
-            "DELETE FROM " . $db_tb_parser . " WHERE `modulename`='gebaeudeuebersicht'",
         );
 
     foreach ($sqlscript as $sql) {
@@ -194,14 +190,13 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 }
 
 //****************************************************************************
+Global $db_tb_user, $db_tb_gebaeude_spieler, $db_tb_gebaeude, $db_tb_scans;
 
 // Titelzeile
 doc_title('Gebäudeübersicht');
 
-// Stammdaten abfragen
-$config = array();
-
-$sql = "SELECT * FROM $db_tb_gebaeude";
+//Gebäudedaten holen
+$sql = "SELECT `name`, `id`, `bild` FROM `{$db_tb_gebaeude}`;";
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query scans_historie information.', '', __FILE__, __LINE__, $sql);
 while ($row = $db->db_fetch_array($result)) {
@@ -211,30 +206,13 @@ while ($row = $db->db_fetch_array($result)) {
     );
 }
 
-// Spieler und Teams abfragen
-$users                    = array();
-$teams                    = array();
-$teams['(Alle)']          = '(Alle)';
-$teams['(Nur Fleeter)']   = '(Nur Fleeter)';
-$teams['(Nur Cash Cows)'] = '(Nur Cash Cows)';
-$teams['(Nur Buddler)']   = '(Nur Buddler)';
-$sql                      = "SELECT * FROM " . $db_tb_user;
-if (!$user_fremdesitten) {
-    $sql .= " WHERE allianz='" . $user_allianz . "'";
-}
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-while ($row = $db->db_fetch_array($result)) {
-    $users[$row['id']] = $row['id'];
-    if (!empty($row['buddlerfrom'])) {
-        $teams[$row['buddlerfrom']] = $row['buddlerfrom'];
-    }
-}
-$config['users'] = $users;
-$config['teams'] = $teams;
+// aktuelle Spielerauswahl ermitteln
+$params['playerSelection'] = getVar('playerSelection');
 
-// Parameter ermitteln
-$params['team'] = getVar('team');
+// Auswahlarray zusammenbauen
+$playerSelectionOptions = array();
+$playerSelectionOptions['(Alle)'] = '(Alle)';
+$playerSelectionOptions += getAllyAccTypesSelect() + getAllyTeamsSelect() + getAllyAccs();
 
 // Abfrage ausführen
 $sql = "SELECT $db_tb_gebaeude_spieler.coords_gal,
@@ -259,17 +237,7 @@ $sql = "SELECT $db_tb_gebaeude_spieler.coords_gal,
 $sql .= " FROM $db_tb_gebaeude_spieler";
 $sql .= ",$db_tb_user";
 $sql .= " WHERE $db_tb_user.id=user AND $db_tb_gebaeude_spieler.count!='0' AND $db_tb_gebaeude_spieler.kolo_typ='Kolonie'";
-if (isset($params['team'])) {
-    if ($params['team'] == '(Nur Fleeter)') {
-        $sql .= " AND " . $db_tb_user . ".budflesol='Fleeter'";
-    } elseif ($params['team'] == '(Nur Cash Cows)') {
-        $sql .= " AND " . $db_tb_user . ".budflesol='Cash Cow'";
-    } elseif ($params['team'] == '(Nur Buddler)') {
-        $sql .= " AND " . $db_tb_user . ".budflesol='Buddler'";
-    } elseif ($params['team'] != '(Alle)') {
-        $sql .= " AND " . $db_tb_user . ".buddlerfrom='" . $params['team'] . "'";
-    }
-}
+$sql .= " AND " . sqlPlayerSelection($params['playerSelection']);
 if (!$user_fremdesitten) {
     $sql .= " AND " . $db_tb_user . ".allianz='" . $user_allianz . "'";
 }
@@ -291,67 +259,104 @@ while ($row = $db->db_fetch_array($result)) {
         $data[$row['category']][$row['coords_gal'] . ":" . $row['coords_sys'] . ":" . $row['coords_planet']][$row['building']] = $row['count'];
     }
 }
-// Auswahlfelder
-echo "<form method='POST' action='' enctype='multipart/form-data'>";
-echo "<p align='center'>";
-echo "Team: ";
-echo "<select name='team'>";
-foreach ($config['teams'] as $team) {
-    echo "<option value='$team'";
-    if ($team == $params['team']) {
-        echo " selected";
-    }
-    echo ">$team</option>";
-}
-echo "</select>";
-echo "</p>";
-echo "<input type='submit' name='submit' value='anzeigen'/>";
-echo "</form>";
+
+// Spielerauswahl Dropdown erstellen
+echo "Auswahl: ";
+echo makeField(
+    array(
+         "type"   => 'select',
+         "values" => $playerSelectionOptions,
+         "value"  => $params['playerSelection'],
+         "onchange" => "location.href='index.php?action=m_gebaeudeuebersicht&amp;playerSelection='+this.options[this.selectedIndex].value",
+    ), 'playerSelection'
+);
+echo '<br>';
 
 foreach ($categories as $category => $value) {
-    echo "<br>";
-    start_table();
-    $count = count($categories_buildings[$category]);
-    start_row("titlebg", "nowrap style='width:0%' align='center' colspan='" . ($count + 3) . "'");
-    echo "<b>" . $category . "</b>";
-    next_row("windowbg2", "nowrap style='width:0%' align='center'");
-    echo "Spieler";
-    next_cell("windowbg2", "nowrap style='width:0%' align='center'");
-    echo "Koords";
-    next_cell("windowbg2", "nowrap style='width:100%' align='center'");
-    echo "Planet";
-    foreach ($categories_buildings[$category] as $building => $value) {
-        next_cell("windowbg2", "style='width:60px' align='center'");
-        if (isset($buildings[$building])) {
-            $image = $buildings[$building]['bild'];
-            $id    = $buildings[$building]['id'];
-        } else {
-            $image = 'blank';
-            $id    = 0;
-        }
-        echo "<a href='index.php?action=m_building&show_building=" . $id . "'>";
-        echo "<img src='bilder/gebs/" . $image . ".jpg' width='50' height='50' alt='" . $building . "'>";
-        echo "</a>";
-    }
-    foreach ($data[$category] as $coords => $planet_buildings) {
-        $color = getScanAgeColor($planet_buildings['time']);
-        next_row("windowbg1", "nowrap style='width:0%; background-color: $color' align='left'");
-        echo $planet_buildings['user'];
-        next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-        echo $coords;
-        next_cell("windowbg1", "nowrap style='width:0%' align='left'");
-        echo $planet_buildings['planet'];
-        foreach ($categories_buildings[$category] as $building => $value) {
-            next_cell("windowbg1", "align='center'");
-            if (isset($planet_buildings[$building])) {
-
-                echo $planet_buildings[$building];
-            } else {
-                echo "";
-            }
-        }
-    }
-    end_row();
-    end_table();
+	echo "<br>";
+	?>
+	<table class="table_hovertable" style="width: 95%;">
+		<?php
+		$count = count($categories_buildings[$category]);
+		?>
+		<caption><?php echo $category ?></caption>
+		<thead>
+			<tr>
+				<th>
+					Spieler
+				</th>
+				<th>
+					Koords
+				</th>
+				<th>
+					Planet
+				</th>
+				<?php
+				foreach ($categories_buildings[$category] as $building => $value) {
+					?>
+					<th>
+						<?php
+						if (isset($buildings[$building])) {
+							$image = $buildings[$building]['bild'];
+							$id    = $buildings[$building]['id'];
+						} else {
+							$image = 'blank';
+							$id    = 0;
+						}
+						echo "<a href='index.php?action=m_building&show_building=" . $id . "'>";
+						echo "<img src='".BILDER_PATH."gebs/" . $image . ".jpg' width='50' height='50' alt='" . $building . "'>";
+						echo "</a>";
+						?>
+					</th>
+				<?php
+				}
+				?>
+			</tr>
+		</thead>
+		
+		<?php
+		foreach ($data[$category] as $coords => $planet_buildings) {
+			$color = getScanAgeColor($planet_buildings['time']);
+			?>
+			<tbody>
+				<tr>
+					<td style='background-color: <?php echo $color ?>'>
+						<?php
+						echo $planet_buildings['user'];
+						?>
+					</td>
+					<td>
+						<?php
+						echo $coords;
+						?>
+					</td>
+					<td>
+						<?php
+						echo $planet_buildings['planet'];
+						?>
+					</td>
+					<?php
+					foreach ($categories_buildings[$category] as $building => $value) {
+						?>
+						<td>
+							<?php
+							if (isset($planet_buildings[$building])) {
+								echo $planet_buildings[$building];
+							} else {
+							    echo "";
+							}
+							?>
+						</td>
+					<?php
+					}
+					?>
+				</tr>
+			</tbody>
+		<?php
+		}
+		?>
+	</table>
+    <br>
+<?php
 }
 ?>

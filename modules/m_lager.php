@@ -79,7 +79,7 @@ $moduldesc = "Lagerübersicht zur Koordination von Logistikaufträgen im Buddler
 function workInstallDatabase()
 {
     /*
-        global $db, $db_prefix, $db_tb_iwdbtabellen, $db_tb_parser;
+        global $db, $db_prefix;
 
         $sqlscript = array(
             "CREATE TABLE `" . $db_prefix . "lager` (" .
@@ -133,9 +133,6 @@ function workInstallDatabase()
             "`time` int(11) NOT NULL," .
             "PRIMARY KEY (`coords_gal`,`coords_sys`,`coords_planet`)" .
             ") COMMENT='Lagerübersicht'",
-            "INSERT INTO " . $db_tb_iwdbtabellen . " (`name`) VALUES ('lager')",
-            "DELETE FROM " . $db_tb_parser . " WHERE recognizer='Ressourcenkolo&uuml;bersicht'",
-            "INSERT INTO " . $db_tb_parser . " (`modulename`,`recognizer`,`message`) VALUES ('resskolo','Ressourcenkolo&uuml;bersicht','Ressourcenkolo&uuml;bersicht')",
         );
 
         foreach ($sqlscript as $sql) {
@@ -185,12 +182,10 @@ function workInstallConfigString()
 function workUninstallDatabase()
 {
     /*
-        global $db, $db_tb_lager, $db_tb_iwdbtabellen;
+        global $db, $db_tb_lager;
 
         $sqlscript = array(
           "DROP TABLE " . $db_tb_lager,
-          "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE `name`='lager'",
-          "DELETE FROM " . $db_tb_parser . " WHERE `modulename`='resskolo'",
         );
 
         foreach ($sqlscript as $sql) {
@@ -223,9 +218,7 @@ if (!empty($_REQUEST['was'])) {
     echo "<br>Installationsarbeiten am Modul " . $modulname .
         " (" . $_REQUEST['was'] . ")<br><br>\n";
 
-    if (!@include("./includes/menu_fn.php")) {
-        die("Cannot load menu functions");
-    }
+    require_once "./includes/menu_fn.php";
 
     // Wenn ein Modul administriert wird, soll der Rest nicht mehr
     // ausgeführt werden.
@@ -240,15 +233,18 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 //
 // -> Und hier beginnt das eigentliche Modul
 
+//verschiedene genutzte globale Variablen
+global $db, $db_tb_scans, $db_tb_target, $db_tb_lieferung, $db_tb_lager, $db_tb_user, $user_sitterlogin;
+
 // Parameter ermitteln
 $params = array(
     'view'              => getVar('view'),
     'order'             => getVar('order'),
-    'orderd'            => getVar('orderd'),
+    'orderd'            => ensureSortDirection(getVar('orderd')),
     'edit'              => getVar('edit'),
     'delete'            => getVar('delete'),
     'expand'            => getVar('expand'),
-    'filter_who'        => getVar('filter_who'),
+    'playerSelection'   => getVar('playerSelection'),
     'forecast'          => getVar('forecast'),
     'advanced_forecast' => getVar('advanced_forecast'),
     'basen'             => getVar('basen'),
@@ -267,20 +263,17 @@ if (empty($params['view'])) {
 if (empty($params['order'])) {
     $params['order'] = 'user';
 }
-if ($params['orderd'] != 'asc' && $params['orderd'] != 'desc') {
-    $params['orderd'] = 'asc';
-}
 if (!empty($params['edit'])) {
     $params['expand'] = $params['edit'];
 }
-if (empty($params['filter_who'])) {
+if (empty($params['playerSelection'])) {
     if (!empty($user_buddlerfrom)) {
-        $params['filter_who'] = '(Team) ' . $user_buddlerfrom;
+        $params['playerSelection'] = '(Team) ' . $user_buddlerfrom;
     } else {
-        $params['filter_who'] = $user_sitterlogin;
+        $params['playerSelection'] = $user_sitterlogin;
     }
 } else {
-    $params['filter_who'] = $db->escape($params['filter_who']);
+    $params['playerSelection'] = $db->escape($params['playerSelection']);
 }
 
 // Zum Spiel weiterleiten
@@ -308,7 +301,7 @@ if (!empty($universum) || !empty($flotteversenden)) {
         }
     } while (!empty($current));
     $results[] = "<div class='system_notification'>Zielliste gespeichert.</div><br>";
-    $redirect  = 'game.php?sid=' . $sid . '&name=' . $name;
+    $redirect  = 'game.php?name=' . $name;
     if (!empty($universum)) {
         $redirect .= '&view=universum';
     } else {
@@ -316,32 +309,10 @@ if (!empty($universum) || !empty($flotteversenden)) {
     }
 }
 
-// Stammdaten abfragen
-$config = array();
-
 // Spieler und Teams abfragen
-$users                                   = array();
-$teams                                   = array();
-$config['filter_who']['(Alle)']          = '(Alle)';
-$config['filter_who']['(Nur Fleeter)']   = '(Nur Fleeter)';
-$config['filter_who']['(Nur Cash Cows)'] = '(Nur Cash Cows)';
-$config['filter_who']['(Nur Buddler)']   = '(Nur Buddler)';
-
-$sql = "SELECT * FROM " . $db_tb_user;
-if (!$user_fremdesitten) {
-    $sql .= " WHERE allianz='" . $user_allianz . "'";
-}
-debug_var('sql', $sql);
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-while ($row = $db->db_fetch_array($result)) {
-    $users[$row['id']] = $row['id'];
-    if (!empty($row['buddlerfrom'])) {
-        $teams['(Team) ' . $row['buddlerfrom']] = '(Team) ' . $row['buddlerfrom'];
-    }
-}
-//add teams and users to selectarray
-$config['filter_who'] = $config['filter_who'] + $teams + $users;
+$playerSelectionOptions = array();
+$playerSelectionOptions['(Alle)'] = '(Alle)';
+$playerSelectionOptions += getAllyAccTypesSelect() + getAllyTeamsSelect() + getAllyAccs();
 
 // Planeten des Spielers abfragen
 $sql = "SELECT * FROM " . $db_tb_scans . " WHERE user='" . $user_sitterlogin . "'";
@@ -389,11 +360,9 @@ if (isset($params['delete']) && $params['delete'] != '') {
     $params['edit']   = '';
 }
 
-debug_var('$params[\'filter_who\']', $params['filter_who']);
-
 // Filter festlegen
-if (!empty($params['filter_who'])) {
-    $filters['filter_who'] = $params['filter_who'];
+if (!empty($params['playerSelection'])) {
+    $filters['playerSelection'] = $params['playerSelection'];
 }
 
 // Button abfragen
@@ -401,6 +370,7 @@ $button_edit = getVar("button_edit");
 $button_add  = getVar("button_add");
 
 // Edit-Daten belegen
+$edit = array();
 if (!empty($button_edit) || !empty($button_add)) {
     foreach ($resses as $ress) {
         $edit[$ress . '_soll'] = (int)filter_number(getVar($ress . '_soll'));
@@ -428,6 +398,7 @@ if (count($edit_keys_explode) == 3) {
 }
 
 // Edit-Felder belegen
+$fields = array();
 foreach ($edit as $key => $value) {
     $fields[$key] = (is_numeric($value) ? $value : (empty($value) ? 'NULL' : "'" . $value . "'"));
 }
@@ -554,25 +525,13 @@ $sql .= " AND $db_tb_lager.coords_sys = $db_tb_scans.coords_sys";
 $sql .= " AND $db_tb_lager.coords_planet = $db_tb_scans.coords_planet";
 $sql .= " LEFT JOIN " . $db_tb_user;
 $sql .= " ON $db_tb_lager.user = $db_tb_user.id";
-if (isset($params['basen']) && !empty($params['basen'])) {
+if (!empty($params['basen'])) {
     $sql .= " WHERE ($db_tb_lager.kolo_typ='Kolonie' OR $db_tb_lager.kolo_typ='Sammelbasis' OR $db_tb_lager.kolo_typ='Kampfbasis'  OR $db_tb_lager.kolo_typ='Artefaktbasis')";
 } else {
     $sql .= " WHERE $db_tb_lager.kolo_typ='Kolonie'";
 }
-
-if (!empty($params['filter_who'])) {
-    if ($params['filter_who'] === '(Nur Fleeter)') {
-        $sql .= " AND $db_tb_user.budflesol='Fleeter'";
-    } elseif ($params['filter_who'] === '(Nur Cash Cows)') {
-        $sql .= " AND $db_tb_user.budflesol='Cash Cow'";
-    } elseif ($params['filter_who'] === '(Nur Buddler)') {
-        $sql .= " AND $db_tb_user.budflesol='Buddler'";
-    } elseif (strpos($params['filter_who'], '(Team) ') === 0) { //suchen nach einem Team
-        $sql .= " AND $db_tb_user.buddlerfrom='" . substr($params['filter_who'], 7) . "'";
-    } elseif ($params['filter_who'] !== '(Alle)') { //suchen nach einem einzelnen Spieler
-        $sql .= " AND $db_tb_user.id='" . $params['filter_who'] . "'";
-    }
-}
+$sql .= " AND " . sqlPlayerSelection($params['playerSelection']);
+$sql .= " AND $db_tb_user.sitten = '1' AND $db_tb_user.sitterpwd IS NOT NULL AND $db_tb_user.sitterpwd != ''";
 
 //Minimale und maximale Ressourcenbestände
 if (isset($params['ress']) && !empty($params['minimal'])) {
@@ -694,8 +653,10 @@ while ($row = $db->db_fetch_array($result)) {
         'wasser_style'      => 'background-color: ' . make_color($row, 'wasser') . '; text-align: right;',
         'energie_style'     => 'background-color: ' . make_color($row, 'energie') . '; text-align: right;',
     );
+
     // Expand-Daten abfragen
     if ($expanded) {
+        $expand_data = array();
         $expand_data['transfer']   = array(
             'coords'        => $row['coords_gal'] . ":" . $row['coords_sys'] . ":" . $row['coords_planet'],
             'user'          => $row['user'],
@@ -1071,11 +1032,14 @@ echo "<form method='POST' action='" . makeurl(array()) . "' enctype='multipart/f
 $params['basen']             = $basen;
 $params['rote_lager']        = $rote_lager;
 $params['advanced_forecast'] = $advanced_forecast;
-echo 'Auswahl: ';
-echo makefield(array("type"  => 'select',
-                    "values" => $config['filter_who'],
-                    "value"  => $params['filter_who']
-               ), 'filter_who'
+// Auswahl Dropdown
+echo "Auswahl: ";
+echo makeField(
+    array(
+         "type"   => 'select',
+         "values" => $playerSelectionOptions,
+         "value"  => $params['playerSelection'],
+    ), 'playerSelection'
 );
 echo ' Vorhersage: ';
 echo ' <input type="text" name="forecast" size="3" value="' . $params['forecast'] . '"/>';
@@ -1084,7 +1048,7 @@ echo ' <input type="checkbox" name="basen" value="1" ' . ($params['basen'] ? ' c
 echo ' mit Basen';
 // Minimal-Maximal Ressourcen einstellen
 echo '<br>Nach Ressourcen filtern:';
-echo makefield(array("type" => 'select', "values" => $resses_name, "value" => $params['ress']), 'ress');
+echo makeField(array("type" => 'select', "values" => $resses_name, "value" => $params['ress']), 'ress');
 echo ' Minimal: ';
 echo '<input type="text" name="minimal" size="6" value="' . $params['minimal'] . '"/>';
 echo ' Maximal: ';
@@ -1099,13 +1063,13 @@ echo "</form>\n";
 //Aktionsschaltflaechen
 echo '<div>';
 echo '<form method="POST" action="' . makeurl(array()) . '" enctype="multipart/form-data"><p>' . "\n";
-echo '<div style="width: 100%; text-align: right; margin-bottom: 6px">';
+echo '<div class= "right" style="width: 100%; margin-bottom: 6px">';
 echo '<input type="submit" name="flotteversenden" value="Flotte versenden"/>';
 echo '</div>';
 
 //Überschriften ausgeben
-echo '<table class="bordercolor" width="100%" cellspacing="1" cellpadding="4">';
-start_row("titlebg", "nowrap valign=top");
+echo '<table  class="table_format" id="lagertabelle">';
+start_row("titlebg top");
 foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
     if (!isset($view['group'][$viewcolumnkey]) && !isset($filters[$viewcolumnkey])) {
         $extra = 'nowrap valign=top';
@@ -1124,7 +1088,7 @@ foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
                  'order'  => $orderkey,
                  'orderd' => 'asc'
             ),
-            "<img src='./bilder/asc.gif'>"
+            "<img src='".BILDER_PATH."asc.gif'>"
         );
         echo '<b>' . $viewcolumnname . '</b>';
         echo makelink(
@@ -1132,15 +1096,15 @@ foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
                  'order'  => $orderkey,
                  'orderd' => 'desc'
             ),
-            "<img src='./bilder/desc.gif'>"
+            "<img src='".BILDER_PATH."desc.gif'>"
         );
     }
 }
 if (isset($view['edit'])) {
-    next_cell("titlebg", 'nowrap valign=top');
+    next_cell("titlebg top");
     echo '&nbsp;';
 }
-next_cell("titlebg", "nowrap valign=top");
+next_cell("titlebg top");
 
 //Initialisiere Summenzeilen
 $summe             = array();
@@ -1178,7 +1142,7 @@ foreach ($group_data as $groupkey => $group) {
             } else {
                 $border = '';
             }
-            next_row('windowbg1', 'style="white-space: nowrap; vertical-align=middle;' . $border . '"');
+            next_row('windowbg1 middle', 'style="' . $border . '"');
             echo makelink(
                 array('expand' => ($expanded ? '' : $key), 'edit' => ''),
                 '<img src="bilder/' . ($expanded ? 'point' : 'plus') . '.gif" alt="' . ($expanded ? 'zuklappen' : 'erweitern') . '">'
@@ -1208,15 +1172,15 @@ foreach ($group_data as $groupkey => $group) {
             }
             // Editbuttons ausgeben
             if (isset($view['edit'])) {
-                next_cell("windowbg1", 'style="white-space: nowrap; vertical-align=top;' . $border . '"');
+                next_cell("windowbg1 top", 'style="' . $border . '"');
                 if (!isset($row['allow_edit']) || $row['allow_edit']) {
                     echo makelink(
                         array('edit' => $key),
-                        "<img src='bilder/file_edit_s.gif' alt='bearbeiten'>"
+                        "<img src='".BILDER_PATH."file_edit_s.gif' alt='bearbeiten'>"
                     );
                 }
                 if (!isset($row['allow_delete']) || $row['can_delete']) {
-                    //echo makelink(array('delete' => $key), "<img src='bilder/file_delete_s.gif' onclick=\"return confirmlink(this, 'Datensatz wirklich löschen?')\" alt='löschen'>");
+                    //echo makelink(array('delete' => $key), "<img src='".BILDER_PATH."file_delete_s.gif' onclick=\"return confirmlink(this, 'Datensatz wirklich löschen?')\" alt='löschen'>");
                 }
             }
             //Markierung-Checkbox
@@ -1230,15 +1194,15 @@ foreach ($group_data as $groupkey => $group) {
                 next_row('windowbg2', '');
                 foreach ($expand['columns'] as $expandcolumnkey => $expandcolumnname) {
                     if (!isset($filters[$expandcolumnkey])) {
-                        next_cell("windowbg2", "nowrap valign=top");
+                        next_cell("windowbg2 top");
                         echo $expandcolumnname;
                     }
                 }
                 if (isset($view['edit'])) {
-                    next_cell("windowbg2", 'nowrap valign=top');
+                    next_cell("windowbg2 top");
                     echo '&nbsp;';
                 }
-                next_cell("windowbg2", 'nowrap valign=top');
+                next_cell("windowbg2 top");
                 echo '&nbsp;';
                 foreach ($expand_data as $expand_row) {
                     next_row('windowbg1', 'nowrap valign=center style="background-color: white;"');
@@ -1254,7 +1218,7 @@ foreach ($group_data as $groupkey => $group) {
                         }
                     }
                     if (isset($view['edit'])) {
-                        next_cell("windowbg1", 'nowrap valign=top');
+                        next_cell("windowbg1 top");
                         echo '&nbsp;';
                     }
                     next_cell('windowbg1', '');
@@ -1271,83 +1235,83 @@ next_row('windowbg2', 'nowrap valign=top colspan=' . (count($view['columns']) + 
 echo '<b>Summe</b>';
 next_row('windowbg1', 'nowrap valign=top style="background-color: white;"');
 echo '&nbsp;';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '<b>Lagerbestände</b>';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
 foreach ($resses as $ress_einzeln) {
-    next_cell("windowbg1", 'nowrap valign=top style="text-align: right;"');
+    next_cell("windowbg1 right top");
     echo format_value($summe, $ress_einzeln, $summe[$ress_einzeln]);
 }
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
-next_cell('windowbg1', 'nowrap valign=top style="background-color: white;"');
+next_cell('windowbg1 top', 'style="background-color: white;"');
 echo '&nbsp;';
-next_row('windowbg1', 'nowrap valign=top style="background-color: white;"');
+next_row('windowbg1 top', 'style="background-color: white;"');
 echo '&nbsp;';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '<b>Überschuss</b>';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
 foreach ($resses as $ress_einzeln) {
-    next_cell("windowbg1", 'nowrap valign=top style="text-align: right;"');
+    next_cell("windowbg1 right top");
     echo format_value($summe_ueberschuss, $ress_einzeln, $summe_ueberschuss[$ress_einzeln]);
 }
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
-next_cell('windowbg1', 'nowrap valign=top style="background-color: white;"');
+next_cell('windowbg1 top', 'style="background-color: white;"');
 echo '&nbsp;';
-next_row('windowbg1', 'nowrap valign=top style="background-color: white;"');
+next_row('windowbg1 top', 'style="background-color: white;"');
 echo '&nbsp;';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '<b>Bedarf</b>';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
 foreach ($resses as $ress_einzeln) {
-    next_cell("windowbg1", 'nowrap valign=top style="text-align: right;"');
+    next_cell("windowbg1 right top");
     echo format_value($summe_bedarf, $ress_einzeln, $summe_bedarf[$ress_einzeln]);
 }
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
-next_cell('windowbg1', 'nowrap valign=top style="background-color: white;"');
+next_cell('windowbg1 top', 'style="background-color: white;"');
 echo '&nbsp;';
-next_row('windowbg1', 'style="white-space: nowrap; vertical-align: top;"');
+next_row('windowbg1 top');
 echo '&nbsp;';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '<b>Gesamt</b>';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
 foreach ($resses as $ress_einzeln) {
-    next_cell("windowbg1", 'nowrap valign=top style="text-align: right;"');
+    next_cell("windowbg1 right top");
     echo format_value($summe_diff, $ress_einzeln, $summe_diff[$ress_einzeln]);
 }
-next_cell("windowbg1", 'nowrap valign=top');
+next_cell("windowbg1 top");
 echo '&nbsp;';
-next_cell('windowbg1', 'style="background-color: white; white-space: nowrap; vertical-align: top;"');
+next_cell('windowbg1 top', 'style="background-color: white;"');
 echo '&nbsp;';
 end_table();
 echo '</form>';
@@ -1356,7 +1320,7 @@ echo '</div>';
 // Legende ausgeben
 echo "
 <br>
-<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 90%;'>
+<table class='table_format' style='width: 90%;'>
 <tr style='white-space: nowrap;'>
 <td style='width: 30px; background-color: green;'></td>
 <td class='windowbg1' style='width: 70px;'>optimal</td>
@@ -1375,7 +1339,7 @@ echo "
 ";
 
 // Maske ausgeben
-if (isset($params['edit']) && !empty($params['edit'])) {
+if (!empty($params['edit'])) {
     echo '<br>';
     echo '<form method="POST" action="' . makeurl(array()) . '" enctype="multipart/form-data"><p>' . "\n";
     start_table();
@@ -1385,7 +1349,7 @@ if (isset($params['edit']) && !empty($params['edit'])) {
     echo '<input type="hidden" name="edit" value="' . $params['edit'] . '">' . "\n";
     echo "</b>";
     foreach ($view['edit'] as $key => $field) {
-        next_row('windowbg2', 'nowrap valign=top');
+        next_row("windowbg2 top", "style='width:30%'");
         echo $field['title'];
         if (isset($field['desc'])) {
             echo '<br><i>' . $field['desc'] . '</i>';
@@ -1393,19 +1357,19 @@ if (isset($params['edit']) && !empty($params['edit'])) {
         next_cell('windowbg1', 'style="width: 100%;"');
         if (is_array($field['type'])) {
             $first = true;
-            foreach ($field['type'] as $key => $field) {
+            foreach ($field['type'] as $typekey => $type) {
                 if (!$first) {
                     echo '&nbsp;';
                 }
-                echo makefield($field, $key);
+                echo makeField($type, $typekey);
                 $first = false;
             }
         } else {
-            echo makefield($field, $key);
+            echo makeField($field, $key);
         }
     }
-    next_row('titlebg', 'align=center colspan=2');
-    echo '<input type="submit" value="speichern" name="button_edit" class="submit"> ';
+    next_row('titlebg center', 'colspan=2');
+    echo '<input type="submit" value="speichern" name="button_edit"> ';
     end_table();
     echo '</form>';
 }
@@ -1450,7 +1414,8 @@ function make_color($row, $key)
 function format_value($row, $key, $value, $expand = false)
 {
     if ($row == null && $key == 'typ') {
-        return $value == 1 ? "Fleeter" : ($value == 2 ? "Cash Cow" : ($value == 3 ? "Buddler" : "Solo"));
+        //return $value == 1 ? "Fleeter" : ($value == 2 ? "Cash Cow" : ($value == 3 ? "Buddler" : "Solo"));
+		return $value == 1 ? "Fleeter" : ($value == 2 ? "Cash Cow" : ($value == 3 ? "Buddler" : ($value == 4 ? "Allrounder" : ($value == 5 ? "Wandler" : ($value == 6 ? "Stahlwandler" : ($value == 7 ? "VV4A Wandler" : "Solo"))))));
     }
     if ($key == 'user' && !$expand) {
         return $value . "<br>(" . make_duration($row['time']) . ")";
@@ -1562,52 +1527,6 @@ function sort_data_cmp($a, $b)
 
 // ****************************************************************************
 //
-// Erstellt ein Formularfeld.
-function makefield($field, $key)
-{
-    $html = '';
-    switch ($field['type']) {
-        case 'text':
-            $html = '<input type="text" name="' . $key . '" value="' . $field['value'] . '"';
-            if (isset($field['style'])) {
-                $html .= ' style="' . $field['style'] . '"';
-            }
-            $html .= '>';
-            break;
-        case 'select':
-            //example: makefield(array("type" => 'select', "values" => $config['filter_who'], "value" => $params['filter_who']), 'filter_who');
-            $html = '<select name="' . $key . '">';
-            foreach ($field['values'] as $key => $value) {
-                $html .= '<option value="' . $key . '"';
-                if (isset($field['value']) && $field['value'] === $key) {
-                    $html .= ' selected';
-                }
-                $html .= '>' . $value . '</option>';
-            }
-            $html .= '</select>';
-            break;
-        case 'area':
-            $html = '<textarea name="' . $key . '" rows="' . $field['rows'] . '" cols="' . $field['cols'] . '">';
-            $html .= $field['value'];
-            $html .= '</textarea>';
-            break;
-        case 'checkbox':
-            $html = '<input type="checkbox" name="' . $key . '" value="1"';
-            if ($field['value']) {
-                $html .= ' checked';
-            }
-            if (isset($field['style'])) {
-                $html .= ' style="' . $field['style'] . '"';
-            }
-            $html .= '>';
-            break;
-    }
-
-    return $html;
-}
-
-// ****************************************************************************
-//
 // Erzeugt einen Modul-Link.
 function makelink($newparams, $content)
 {
@@ -1619,10 +1538,9 @@ function makelink($newparams, $content)
 // Erzeugt eine Modul-URL.
 function makeurl($newparams)
 {
-    global $modulname, $sid, $params;
+    global $modulname, $params;
 
     $url = 'index.php?action=' . $modulname;
-    $url .= '&sid=' . $sid;
     if (is_array($newparams)) {
         $mergeparams = array_merge($params, $newparams);
     } else {

@@ -78,8 +78,7 @@ $moduldesc =
 function workInstallDatabase()
 {
     /*
-        global $db, $db_prefix, $db_tb_iwdbtabellen, $db_tb_parser,
-             $db_tb_sitterauftrag, $config_gameversion;
+        global $db, $db_prefix, $db_tb_sitterauftrag, $config_gameversion;
 
       $sqlscript = array(
         "CREATE TABLE " . $db_prefix . "building2building (" .
@@ -88,17 +87,11 @@ function workInstallDatabase()
         "  PRIMARY KEY (bOld,bNew)" .
         ") COMMENT='Gebaeude bOld ermöglicht Gebaeude bNew'",
 
-        "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-        " VALUES('building2building')",
-
         "CREATE TABLE " . $db_prefix . "building2research (" .
         "  bId int(10) unsigned NOT NULL default '0'," .
         "  rId int(10) unsigned NOT NULL default '0'," .
         "  PRIMARY KEY  (bId,rId)" .
         ") COMMENT='Gebaeude bId ermöglicht Forschung rId'",
-
-        "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-        " VALUES('building2research')",
 
         "CREATE TABLE " . $db_prefix . "research (" .
         "  ID int(10) unsigned NOT NULL auto_increment," .
@@ -119,9 +112,6 @@ function workInstallDatabase()
         "  UNIQUE KEY `name` (`name`)" .
         ") COMMENT='Forschungsinformation fuer Forschung Id'",
 
-        "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-        " VALUES('research')",
-
         "CREATE TABLE " . $db_prefix . "research2building (" .
         "  rId int(10) unsigned NOT NULL default '0'," .
         "  bId int(10) unsigned NOT NULL default '0'," .
@@ -129,17 +119,11 @@ function workInstallDatabase()
         "  PRIMARY KEY  (rId,bId,lvl)" .
         ") COMMENT='Forschung rId ermöglicht Gebaeude(stufe) bId'",
 
-        "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-        " VALUES('research2building')",
-
         "CREATE TABLE " . $db_prefix . "research2prototype (" .
         "  rid int(10) unsigned NOT NULL default '0'," .
         "  pid int(10) unsigned NOT NULL default '0'," .
         "  PRIMARY KEY  (rid,pid)" .
         ") COMMENT='Forschung rId ermöglicht Prototyp pId'",
-
-        "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-        " VALUES('research2prototype')",
 
         "CREATE TABLE " . $db_prefix . "research2research (" .
         "  rOld int(10) unsigned NOT NULL default '0'," .
@@ -147,26 +131,17 @@ function workInstallDatabase()
         "  PRIMARY KEY  (rOld,rNew)" .
         ") COMMENT='Forschung rOld ermöglicht Forschung rNew'",
 
-        "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-        " VALUES('research2research')",
-
         "CREATE TABLE " . $db_prefix . "research2user (" .
         "  rid int(10) unsigned NOT NULL default '0'," .
         "  userid varchar(30) NOT NULL default '0'," .
         "  PRIMARY KEY  (rid,userid)" .
         ") COMMENT='bereits erforschte Forschungen des Benutzers'",
 
-        "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-        " VALUES('research2user')",
-
         "CREATE TABLE " . $db_prefix . "researchfield (" .
         "  id int(10) unsigned NOT NULL auto_increment," .
         "  `name` varchar(50) NOT NULL default ''," .
         "  PRIMARY KEY  (id)" .
         ") COMMENT='Forschungsfelder'",
-
-        "INSERT INTO " . $db_tb_iwdbtabellen . "(`name`)" .
-        " VALUES('researchfield')",
 
         "INSERT INTO " . $db_prefix . "researchfield (id, name) VALUES " .
         "(0,'noch unbekannt')," .
@@ -199,10 +174,6 @@ function workInstallDatabase()
         "(1, " . find_the_building_id("kleines Haus") . ", 0)," .
         "(1, " . find_the_building_id("kleines Stahlwerk") . ", 0)," .
         "(1, " . find_the_building_id("Zelt") . ", 0)",
-
-        "INSERT INTO " . $db_tb_parser . "(modulename,recognizer,message) VALUES " .
-        "('research', 'Forschungsinfo: ', 'Forschungsbericht')," .
-        "('researchoverview', 'Erforschte Forschungen', 'Forschungsliste')",
 
         "ALTER TABLE " . $db_tb_sitterauftrag . " ADD resid INT DEFAULT '0' NOT NULL"
       );
@@ -263,7 +234,7 @@ function workInstallConfigString()
 function workUninstallDatabase()
 {
     /*
-      global $db, $db_tb_iwdbtabellen, $db_tb_parser, $db_tb_sitterauftrag,
+      global $db, $db_tb_sitterauftrag,
              $db_tb_building2building, $db_tb_building2research,
              $db_tb_research2research, $db_tb_research2building,
              $db_tb_research2prototype, $db_tb_research,
@@ -271,40 +242,19 @@ function workUninstallDatabase()
 
       $sqlscript = array(
         "DROP TABLE " . $db_tb_building2building,
-        "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='building2building'",
-
         "DROP TABLE " . $db_tb_building2research,
-        "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='building2research'",
-
         "DROP TABLE " . $db_tb_research,
-        "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='research'",
-
         "DROP TABLE " . $db_tb_research2building,
-        "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='research2building'",
-
         "DROP TABLE " . $db_tb_research2prototype,
-        "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='research2prototype'",
-
         "DROP TABLE " . $db_tb_research2research,
-        "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='research2research'",
-
         "DROP TABLE " . $db_tb_research2user,
-        "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='research2user'",
-
         "DROP TABLE " . $db_tb_researchfield,
-        "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE name='researchfield'",
-
-        "DELETE FROM " . $db_tb_parser . " WHERE modulename='research'" .
-        " OR modulename='researchoverview'",
-
         "ALTER TABLE " . $db_tb_sitterauftrag . " DROP COLUMN resid"
       );
 
       foreach($sqlscript as $sql) {
         $result = $db->db_query($sql)
-            or error(GENERAL_ERROR,
-                   'Could not query config information.', '',
-                   __FILE__, __LINE__, $sql);
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
       }
 
       echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
@@ -394,8 +344,7 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 // werden kann. Fehlen dann diese Definitionen, koennen die Daten nicht
 // gelesen werden.
 
-global $sid,
-       $db,
+global $db,
        $researchid,
        $db_tb_research,
        $db_tb_user,
@@ -416,7 +365,7 @@ $neededfpforresearch = 0;
 
 doc_title('Forschungsübersicht');
 echo "<form name='Formular' method='POST' action='index.php?action=" . $modulname .
-    "&sid=" . $sid . "' enctype='multipart/form-data' onsubmit='return false'>\n";
+    "' enctype='multipart/form-data' onsubmit='return false'>\n";
 echo "<select onchange='document.Formular.submit();' name='researchid' style='width: 400px;'>\n";
 echo fill_selection($resid);
 echo "</optgroup>\n";
@@ -434,7 +383,7 @@ if ($unknownonly == "on") {
 }
 echo "/>\n";
 echo "nur noch nicht erforschte Forschungen anzeigen";
-echo "</td><td valign='top'>";
+echo "</td><td class='top'>";
 echo " <input type='submit' onclick='document.Formular.submit();' name='ok' value='Anzeigen' />\n";
 echo "</td></tr></table>";
 echo " <input type='button' onclick='dblclick()' name='ssuchen' value='Suche:' /><br>\n";
@@ -608,13 +557,13 @@ $result = $db->db_query($sql)
 $research_data = $db->db_fetch_array($result);
 $db->db_free_result($result);
 
-$td1 = "\n  <tr>\n    <td class='windowbg2' style='width: 20%;'" .
+$td1 = "\n  <tr>\n    <td class='windowbg2 table_format_noborder' style='width: 20%;'" .
     " valign='top'><div class='doc_blue'>";
 $td2 = "</div></td>\n" .
-    "    <td class='windowbg1' valign='top'>\n";
+    "    <td class='windowbg1 table_format_noborder' valign='top'>\n";
 
 echo "<br>\n";
-echo "<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 60%;'>\n";
+echo "<table class='table_format' style='width: 60%;'>\n";
 echo "  <tr>\n";
 echo "    <td class='windowbg2' colspan='2'><div class='doc_blue'>\n";
 echo $research_data['name'];
@@ -715,7 +664,7 @@ if (strpos(find_resfield($research_data['gebiet']), "Prototypen") !== false) {
 
 echo "</table>\n";
 echo "<br>\n";
-echo "<table border='0' cellpadding='4' cellspacing='1' class='bordercolor' style='width: 60%;'>\n";
+echo "<table class='table_format' style='width: 60%;'>\n";
 echo " <tr>\n";
 echo "   <td class='windowbg2' colspan='2'><div class='doc_blue'>";
 if (!$unknownonly) {
@@ -776,7 +725,7 @@ function fill_selection($selected_id)
         $resname  = $research_data['name'];
         $resfield = $research_data['gebiet'];
 
-        if (strlen($resname) > 62) {
+        if (mb_strlen($resname) > 62) {
             $resname = substr($resname, 0, 60) . "~";
         }
 
@@ -827,7 +776,7 @@ function find_resfield($id)
 //
 function create_depends_on($resid)
 {
-    global $sid, $db, $db_tb_research2research, $db_tb_research, $v04,
+    global $db, $db_tb_research2research, $db_tb_research, $v04,
            $alphaorder, $config_gameversion, $modulname;
 
     $sql = "SELECT t1.rOld AS rid, t2.name AS rname, t2.gameversion AS gameversion FROM " .
@@ -844,10 +793,9 @@ function create_depends_on($resid)
         if ($lind !== false) {
             $retVal .= "<br>\n";
         }
-        $retVal .= "<img src='bilder/point.gif' alt='a point o.O'/>&nbsp;";
+        $retVal .= "<img src='".BILDER_PATH."point.gif' alt='a point o.O'/>&nbsp;";
         $retVal .= "<a href='index.php?action=" . $modulname .
             "&researchid=" . $research_data['rid'] .
-            "&sid=" . $sid .
             "&alphaorder=" . $alphaorder . "'>" .
             $research_data['rname'] . "</a>";
         if ($research_data['gameversion'] != $config_gameversion) {
@@ -866,7 +814,7 @@ function create_depends_on($resid)
 //
 function create_allows($resid)
 {
-    global $sid, $db, $db_tb_research2research, $modulname,
+    global $db, $db_tb_research2research, $modulname,
            $db_tb_research, $v04, $alphaorder, $config_gameversion;
 
     $sql = "SELECT t1.rNew AS rid, t2.name AS rname, t2.gebiet AS rgebiet," .
@@ -883,10 +831,10 @@ function create_allows($resid)
         if ($lind !== false) {
             $retVal .= "<br>\n";
         }
-        $retVal .= "<img src='bilder/point.gif' alt='a point o.O'/>&nbsp;";
+        $retVal .= "<img src='".BILDER_PATH."point.gif' alt='a point o.O'/>&nbsp;";
         $retVal .= "<a href='index.php?action=" . $modulname .
             "&researchid=" . $research_data['rid'] .
-            "&sid=" . $sid . "&alphaorder=" . $alphaorder . "'>";
+            "&alphaorder=" . $alphaorder . "'>";
         if ($research_data['rgebiet'] == 0) {
             $retVal .= "<span class='doc_red'>";
         }
@@ -923,10 +871,10 @@ function create_depends_on_building($resid)
         while (($research_data = $db->db_fetch_array($result)) !== false) {
             $retVal .= "<tr><td>";
             if (!empty($research_data['bbild'])) {
-                $retVal .= "<img src='bilder/gebs/" . $research_data['bbild'] .
+                $retVal .= "<img src='".BILDER_PATH."gebs/" . $research_data['bbild'] .
                     ".jpg' width='50' height='50' alt='" . $research_data['bname'] . "'/>";
             } else {
-                $retVal .= "<img src='bilder/gebs/blank.jpg' width='50' height='50' alt='blank'/>";
+                $retVal .= "<img src='".BILDER_PATH."gebs/blank.jpg' width='50' height='50' alt='blank'/>";
             }
             $retVal .= "</td><td>";
             $retVal .= $research_data['bname'];
@@ -964,9 +912,9 @@ function create_allows_building($resid, $isLevel)
         while (($research_data = $db->db_fetch_array($result)) !== false) {
             $retVal .= "<tr><td>";
             if (!empty($research_data['bbild'])) {
-                $retVal .= "<img src='bilder/gebs/" . $research_data['bbild'] . ".jpg' width='50' height='50' alt='" . $research_data['bname'] . "'/>";
+                $retVal .= "<img src='".BILDER_PATH."gebs/" . $research_data['bbild'] . ".jpg' width='50' height='50' alt='" . $research_data['bname'] . "'/>";
             } else {
-                $retVal .= "<img src='bilder/gebs/blank.jpg' width='50' height='50' alt='" . $research_data['bname'] . "'/>";
+                $retVal .= "<img src='".BILDER_PATH."gebs/blank.jpg' width='50' height='50' alt='" . $research_data['bname'] . "'/>";
             }
             $retVal .= "</td><td>";
             $retVal .= $research_data['bname'];
@@ -1001,9 +949,9 @@ function create_allows_prototype($resid)
         while (($research_data = $db->db_fetch_array($result)) !== false) {
             $retVal .= "<tr><td>";
             if (!empty($research_data['pbild'])) {
-                $retVal .= "<img src='bilder/ships/" . $research_data['pbild'] . ".jpg' width='70' height='70' alt='" . $research_data['pname'] . "'/>";
+                $retVal .= "<img src='".BILDER_PATH."ships/" . $research_data['pbild'] . ".jpg' width='70' height='70' alt='" . $research_data['pname'] . "'/>";
             } else {
-                $retVal .= "<img src='bilder/ships/blank.jpg' width='70' height='70' alt='Leider kein Bild vorhanden.'/>";
+                $retVal .= "<img src='".BILDER_PATH."ships/blank.jpg' width='70' height='70' alt='Leider kein Bild vorhanden.'/>";
             }
             $retVal .= "</td><td>";
             $retVal .= $research_data['pname'];
@@ -1019,7 +967,7 @@ function create_allows_prototype($resid)
 //
 function dependencies($resid)
 {
-    global $sid, $db, $db_tb_building2research, $db_tb_research2research, $alphaorder,
+    global $db, $db_tb_building2research, $db_tb_research2research, $alphaorder,
            $db_tb_research, $buildings, $researches, $v04, $unknownonly,
            $db_tb_research2user, $user_sitterlogin, $modulname, $config_gameversion;
 
@@ -1075,17 +1023,17 @@ function dependencies($resid)
 
     if ($gebiet > 0) {
         if (($unknownonly && $isresearched == false) || !$unknownonly) {
-            $retVal .= "<img src='bilder/point.gif' alt='a point o.O'/>&nbsp;";
+            $retVal .= "<img src='".BILDER_PATH."point.gif' alt='a point o.O'/>&nbsp;";
             $retVal .= "<a href='index.php?action=" . $modulname .
                 "&researchid=" . $resid .
-                "&sid=" . $sid . "&alphaorder=" . $alphaorder . "'>" .
+                "&alphaorder=" . $alphaorder . "'>" .
                 $colorme_on . $researches[$resid] . $colorme_off . "</a><br>";
         }
     } else {
-        $retVal .= "<img src='bilder/point.gif' alt='a point o.O'/>&nbsp;";
+        $retVal .= "<img src='".BILDER_PATH."point.gif' alt='a point o.O'/>&nbsp;";
         $retVal .= "<a href='index.php?action=" . $modulname .
             "&researchid=" . $resid .
-            "&sid=" . $sid . "&alphaorder=" . $alphaorder . "'><span class='doc_red'>" .
+            "&alphaorder=" . $alphaorder . "'><span class='doc_red'>" .
             $researches[$resid] . "</span></a><br>";
 
 
@@ -1109,11 +1057,14 @@ function getBuilding($bid)
     $retval = "";
     while (($research_data = $db->db_fetch_array($result)) !== false) {
         $retval .= "<tr>\n<td>";
+
         if (!empty($research_data['bild'])) {
-            $retval .= "<img src='bilder/gebs/" . $research_data['bild'] . ".jpg' width='50' height='50' alt='" . $research_data['name'] . "'/>";
+            $bild_url = GEBAEUDE_BILDER_PATH . $research_data['bild'] . ".jpg";
         } else {
-            $retval .= "<img src='bilder/gebs/blank.gif' width='50' height='50' alt='" . $research_data['name'] . "'/>";
+            $bild_url = GEBAEUDE_BILDER_PATH . "blank.gif";
         }
+        $retval .= "<img src='" . $bild_url . "' width='50' height='50' alt='" . $research_data['name'] . "'/>";
+
         $retval .= "</td>\n<td>";
         $retval .= $research_data['name'];
         $retval .= "</td>\n</tr>\n";

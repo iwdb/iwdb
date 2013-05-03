@@ -34,7 +34,7 @@ if (!defined('IRA')) {
 }
 
 //****************************************************************************
-global $sid, $db;
+global $db, $db_tb_scans, $user_sitterlogin, $user_status, $db_tb_allianzstatus, $user_planibilder;
 
 doc_title('Planet');
 
@@ -115,7 +115,7 @@ if (!empty($coords)) {
 }
 ?>
 <br>
-<table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 80%;">
+<table border="0" cellpadding="4" cellspacing="1" class="bordercolor left" style="width: 80%;">
 <?php
 if ($user_planibilder == "1") {
     $path = "bilder/planeten/200x200/";
@@ -143,11 +143,11 @@ if ($user_planibilder == "1") {
             break;
     }
     if ($row['objekt'] == "Schwarzes Loch") {
-        $path = 'bilder/planeten/200x200/schwarzesloch.jpg';
+        $path = BILDER_PATH.'planeten/200x200/schwarzesloch.jpg';
     }
     ?>
     <tr>
-        <td colspan="2" align="center"><img src="<?php echo $path;?>" alt="<?php echo $row['typ']?>"></td>
+        <td colspan="2" class="center"><img src="<?php echo $path;?>" alt="<?php echo $row['typ']?>"></td>
     </tr>
 <?php
 }
@@ -173,7 +173,7 @@ if ((($ansicht == "auto") && ($row['objekt'] != "---")) || ($ansicht == "taktisc
     <tr>
         <td class="windowbg2">Allianz:</td>
         <td class="windowbg1" style=" background-color: <?php echo $color;?>;"><a
-                href="index.php?action=showgalaxy&allianz=<?php echo $row['allianz'];?>&sid=<?php echo $sid;?>"><?php echo $row['allianz']; echo ((empty($row_status['status'])) || ($row_status['status'] == 'own')) ? "" : " (" . $row_status['status'] . ")";?></a>
+                href="index.php?action=showgalaxy&allianz=<?php echo $row['allianz'];?>"><?php echo $row['allianz']; echo ((empty($row_status['status'])) || ($row_status['status'] == 'own')) ? "" : " (" . $row_status['status'] . ")";?></a>
         </td>
     </tr>
     <tr>
@@ -202,15 +202,15 @@ if ((($ansicht == "auto") && ($row['objekt'] != "---")) || ($ansicht == "taktisc
             Absprachen, Tipps für Raider eingeben.</i></td>
     <td class="windowbg1">
 
-        <form method='POST' action='index.php?action=showplanet&coords=<?php echo $coords; ?>&sid=<?php echo $sid; ?>&ansicht=auto' enctype='multipart/form-data'>
-        <table border='0' cellpadding='5' cellspacing='0' class='bordercolor' style='width: 80%;' align='center'>
+        <form method='POST' action='index.php?action=showplanet&coords=<?php echo $coords; ?>&ansicht=auto' enctype='multipart/form-data'>
+        <table class='table_format center' style='width: 80%;'>
             <tr>
-                <td class='windowbg2' align='center'>
+                <td class='windowbg2'>
                     <textarea name='notice' rows='10' cols='80'><?php echo $notice; ?></textarea>
                 </td>
             </tr>
             <tr>
-                <td class='titlebg' align='center'>
+                <td class='titlebg'>
                     <input type='submit' name='submitnotice' value='Speichern' class='submit'>
                     &nbsp;&nbsp;
                     <input type='reset' class='submit'>
@@ -304,7 +304,7 @@ if ($row['objekt'] == "---") {
         <td colspan="2" class="titlebg"><b>Rating:</b></td>
     </tr>
     <tr>
-        <td colspan="2" class="windowbg2" align="center">
+        <td colspan="2" class="windowbg2 center">
             <b><?php echo (!empty($rating) ? "<div class='doc_big_black'>" . $rating : "<div class='doc_red'>Kein Rating berechenbar, neuer Geoscan erforderlich");?>
                 </div>
             </b></td>
@@ -313,8 +313,8 @@ if ($row['objekt'] == "---") {
         <td colspan="2" class="titlebg"><b>Reservieren:</b></td>
     </tr>
     <tr>
-        <td colspan="2" class="windowbg2" align="center">
-            <form method="POST" action="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&sid=<?php echo $sid;?>" enctype="multipart/form-data">
+        <td colspan="2" class="windowbg2 center">
+            <form method="POST" action="index.php?action=showplanet&coords=<?php echo $row['coords'];?>" enctype="multipart/form-data">
                 <?php
                 if (empty($row['reserviert'])) {
                     echo "Diesen Planeten für dich reservieren? <input type='checkbox' name='reservieren'>

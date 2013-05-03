@@ -45,12 +45,19 @@ class db
             $this->db_link_id = @mysql_connect($host, $user, $password);
         }
 
-        $this->query_count = 0;
-        $this->db_version  = @mysql_get_server_info();
-        $this->db_queries  = array();
-        mysql_set_charset('utf8', $this->db_link_id);
+        if ($this->db_link_id !== false) {
 
-        return ($this->db_link_id) ? (($this->db_select($database)) ? $this->db_link_id : false) : false;
+            $this->query_count = 0;
+            $this->db_version  = @mysql_get_server_info();
+            $this->db_queries  = array();
+            $this->db_select($database);
+
+            mysql_set_charset('utf8', $this->db_link_id);
+            return $this->db_link_id;
+
+        } else {
+            return false;
+        }
 
     }
 
@@ -85,7 +92,7 @@ class db
             $this->query_count++;
 
             //log queries if logging enabled
-            if (defined('DB_LOG') AND (DB_LOG === true)) {
+            if (defined('IWDB_LOG_DB_QUERIES') AND (IWDB_LOG_DB_QUERIES === true)) {
                 $this->db_queries[] = $query;
             }
 
@@ -104,7 +111,7 @@ class db
      * @param array  $data  Daten
      *
      * @throws Exception
-     * @return bool|resource Queryhandle bei Erfolg, false bei Fehler
+     * @return resource|bool Queryhandle bei Erfolg, boolean false bei Fehler
      *
      * @author masel
      */
@@ -121,8 +128,6 @@ class db
         //sql-query zusammenbauen
         foreach ($data as $key => $value) {
 
-            //Spaltenbezeichner ($key) nicht behandeln weil kein Userinput
-
             if ($value === null) {
                 $data[$key] = "NULL";
             } elseif ($value === false) { //boolean ist meist tinyint(1)
@@ -136,7 +141,7 @@ class db
                 }
                 $data[$key] = "'$value'";
             } elseif (!is_int($value) AND !is_float($value)){
-                throw new Exception('Invalid values!');
+                throw new Exception('Invalid value!');
             }
 
         }
@@ -145,6 +150,69 @@ class db
         $query .= "`) VALUES (";
         $query .= implode($data, ",");
         $query .= ");";
+
+        $this->query_result = $this->db_query($query, $this->db_link_id);
+
+        return $this->query_result;
+
+    }
+
+    /**
+     * function db_insert_multiple
+     *
+     * Fügt die Daten des übergebenen Arrays in die Datenbank ein.
+     *
+     * @param string $table       Tabellenbezeichner
+     * @param array  $columnnames Spaltenbezeichner
+     * @param array  $data        Daten
+     *
+     * @throws Exception
+     * @return resource|bool Queryhandle bei Erfolg, boolean false bei Fehler
+     *
+     * @author masel
+     */
+    function db_insert_multiple($table, $columnnames, $data)
+    {
+        unset($this->query_result);
+
+        if (empty($table) OR empty($columnnames) OR !is_array($columnnames) OR empty($data) OR !is_array($data)) {
+            return false;
+        }
+
+        $query = "INSERT INTO `" . $table . "` (";
+
+        //sql-query zusammenbauen
+
+        $query .= '`' . implode($columnnames, "`,`");
+        $query .= "`) VALUES";
+
+        foreach ($data as $datarow) {
+            foreach ($datarow as $key => $value) {
+
+                if ($value === null) {
+                    $datarow[$key] = "NULL";
+                } elseif ($value === false) { //boolean ist meist tinyint(1)
+                    $datarow[$key] = "0";
+                } elseif ($value === true) {
+                    $datarow[$key] = "1";
+                } elseif (is_string($value)) { //Wert ist String? -> escapen
+                    $value = mysql_real_escape_string($value, $this->db_link_id);
+                    if ($value === false) {
+                        throw new Exception('Value escaping failed!');
+                    }
+                    $datarow[$key] = "'$value'";
+                } elseif (!is_int($value) AND !is_float($value)){
+                    throw new Exception('Invalid values!');
+                }
+
+            }
+
+            $query .= " (";
+            $query .= implode($datarow, ",");
+            $query .= "),";
+        }
+
+        $query = mb_substr($query, 0, -1) . ';';
 
         $this->query_result = $this->db_query($query, $this->db_link_id);
 
@@ -170,8 +238,10 @@ class db
     {
         unset($this->query_result);
 
-        if (empty($table) OR empty($data) OR !is_array($data)) {
-            return false;
+        if (empty($table)) {
+            throw new Exception('invalid table!');
+        } elseif (empty($data) OR !is_array($data)) {
+            throw new Exception('invalid data!');
         }
 
         $query = "Update `" . $table . "` SET ";
@@ -180,8 +250,6 @@ class db
 
         //sql-query zusammenbauen
         foreach ($data as $key => $value) {
-
-            //Spaltenbezeichner ($key) nicht behandeln, ist kein Userinput
 
             if ($value === null) {
                 $value = "NULL";
@@ -239,8 +307,6 @@ class db
 
         //INSERT-Teil zusammenbauen
         foreach ($data as $key => $value) {
-
-            //Spaltenbezeichner ($key) nicht behandeln weil kein Userinput
 
             if ($value === null) {
                 $data[$key] = "NULL";

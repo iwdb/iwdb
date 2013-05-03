@@ -36,7 +36,7 @@
 $soundfile_normal = 'audio/auftrag.oga';
 $soundfile_wichtig = 'audio/auftrag.oga';
 
-global $sid, $db, $db_tb_sitterauftrag;
+global $db, $db_tb_sitterauftrag;
 
 //auslesen ob das Modul Sound haben darf
 $sqlM = "SELECT sound FROM " . $db_tb_menu . " WHERE action = '" . $action . "';";
@@ -60,7 +60,7 @@ if (empty($action) OR $action === 'memberlogin2') {
     }
 }
 
-if (!empty($user_id) AND ($user_id != 'guest') AND ($SitternoticeInModul)) {
+if (($login_ok) AND ($SitternoticeInModul)) {
     //was soll abgespielt werden?
     $sqlS = "SELECT sound FROM " . $db_tb_user . " WHERE id = '" . $user_id . "' ";
     $resultS = $db->db_query($sqlS)
@@ -73,8 +73,7 @@ if (!empty($user_id) AND ($user_id != 'guest') AND ($SitternoticeInModul)) {
     if (!empty($sitternotice_setting)) {
         if ($sitternotice_setting === 3 OR $sitternotice_setting === 4) { //blinkendes Fenster
             ?>
-            <script type="text/javascript">
-                <!--
+            <script>
                 function changebgcolor(color) {
                     if (document.getElementById("fadein1")) {
                         document.getElementById("fadein1").style.backgroundColor = color;
@@ -97,8 +96,6 @@ if (!empty($user_id) AND ($user_id != 'guest') AND ($SitternoticeInModul)) {
                     window.setTimeout(nerv_mich, 1000);
                 }
                 window.setTimeout(nerv_mich, 500);
-
-                //-->
             </script>
         <?php
         }
@@ -175,26 +172,26 @@ if (!empty($user_id) AND ($user_id != 'guest') AND ($SitternoticeInModul)) {
                             <?php
                             if (($iSitterauftraege == 1) AND ($iForschungsauftraege == 0)) {
                                 ?>
-                                <a href="index.php?sid=<?php echo $sid;?>&action=sitterliste"><span
+                                <a href="index.php?action=sitterliste"><span
                                         style="font-size: 1.8rem; color: Cyan;">Es ist ein Auftrag offen!</span></a>
                             <?php
                             }
                             if (($iSitterauftraege == 1) AND ($iForschungsauftraege == 1)) {
                                 ?>
-                                <a href="index.php?sid=<?php echo $sid;?>&action=sitterliste"><span
+                                <a href="index.php?action=sitterliste"><span
                                         style="font-size: 1.8rem; color: Cyan;">Es ist ein Forschungsauftrag offen!</span></a>
                             <?php
                             }
                             if (($iSitterauftraege > 1) AND ($iForschungsauftraege == 0)) {
                                 ?>
-                                <a href="index.php?sid=<?php echo $sid;?>&action=sitterliste"><span
+                                <a href="index.php?action=sitterliste"><span
                                         style="font-size: 1.8rem; color: Cyan;">Es sind <?php echo $iSitterauftraege;?>
                                         Aufträge offen!</span></a>
                             <?php
                             }
                             if (($iSitterauftraege > 1) AND ($iForschungsauftraege >= 1)) {
                                 ?>
-                                <a href="index.php?sid=<?php echo $sid;?>&action=sitterliste"><span
+                                <a href="index.php?action=sitterliste"><span
                                         style="font-size: 1.8rem; color: Cyan;">Es sind <?php echo $iSitterauftraege;?>
                                         Aufträge offen!</span></a>
                             <?php

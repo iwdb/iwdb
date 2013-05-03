@@ -156,28 +156,27 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 //
 // -> Und hier beginnt das eigentliche Modul
 
-global $sid;
 global $config_map_default_galaxy;
-global $config_map_galaxy_count;
+global $config_map_galaxy_max;
 
 
 //settings überprüfen und entsprechend setzen
 
-$galamin = getVar('galamin');
-$galamax = getVar('galamax');
-$gesamtmin = getVar('gesamtmin');
-$gesamtmax = getVar('gesamtmax');
-$order = getVar('order');
-$showfrom = getVar('showfrom');
-$showto = getVar('showto');
+$galamin   = (int)getVar('galamin');
+$galamax   = (int)getVar('galamax');
+$gesamtmin = (int)getVar('gesamtmin');
+$gesamtmax = (int)getVar('gesamtmax');
+$order     = (int)getVar('order');
+$showfrom  = (int)getVar('showfrom');
+$showto    = (int)getVar('showto');
 
-$galamin   = (is_numeric($galamin)) ? $galamin : 1; //Start-Position der Allys in der Gala, ab wann in den Galalisten angezeigt werden.
-$galamax   = (is_numeric($galamax)) ? $galamax : 10; //End-Position der Allys in der Gala, die in den Galalisten angezeigt werden.
-$gesamtmin = (is_numeric($gesamtmin)) ? $gesamtmin : 1; //Start-Position der Allys im Hasiversum, ab wann in der Gesamtliste angezeigt werden.
-$gesamtmax = (is_numeric($gesamtmax)) ? $gesamtmax : 35; //End-Position der allys im Hasiversum, die in der Gesamtliste angezeigt werden.
-$order     = (is_numeric($order) && $order >= 0 && $order <= 6) ? $order : 0; //Sortierung: 0 Steinklumpen, 1 Astro, 2 Gasgiga, 3 Eisi, 4 Pkte, 5 Pkte/Planni, 6 Kbs
-$showfrom  = (is_numeric($showfrom) && ($showfrom >= 1) && ($showfrom <= $config_map_galaxy_count)) ? $showfrom : ($config_map_default_galaxy - 2); //erste Gala, die angezeigt wird
-$showto    = (is_numeric($showto) && ($showto >= 1) && ($showto <= $config_map_galaxy_count)) ? $showto : ($config_map_default_galaxy + 2); //letzte Gala, die angezeigt wird
+$galamin   = (!empty($galamin)) ? $galamin : 1; //Start-Position der Allys in der Gala, ab wann in den Galalisten angezeigt werden.
+$galamax   = (!empty($galamax)) ? $galamax : 10; //End-Position der Allys in der Gala, die in den Galalisten angezeigt werden.
+$gesamtmin = (!empty($gesamtmin)) ? $gesamtmin : 1; //Start-Position der Allys im Hasiversum, ab wann in der Gesamtliste angezeigt werden.
+$gesamtmax = (!empty($gesamtmax)) ? $gesamtmax : 35; //End-Position der allys im Hasiversum, die in der Gesamtliste angezeigt werden.
+$order     = (($order >= 0) AND ($order <= 6)) ? $order : 0; //Sortierung: 0 Steinklumpen, 1 Astro, 2 Gasgiga, 3 Eisi, 4 Pkte, 5 Pkte/Planni, 6 Kbs
+$showfrom  = (($showfrom >= 1) AND ($showfrom <= $config_map_galaxy_max)) ? $showfrom : ($config_map_default_galaxy - 2); //erste Gala, die angezeigt wird
+$showto    = (($showto >= 1) AND ($showto <= $config_map_galaxy_max)) ? $showto : ($config_map_default_galaxy + 2); //letzte Gala, die angezeigt wird
 
 //erstmal alle besiedelten Planis aus der DB holen:
 $sql = "SELECT coords_gal, coords_sys, coords_planet, allianz, punkte, user, typ, objekt FROM " . $db_tb_scans . " WHERE objekt not like '---'";
@@ -297,7 +296,6 @@ if ($i === 0) {
     echo "<div class='doc_centered'>\n";
     echo "<form name='frm'>\n";
 
-    echo "<input type='hidden' name='sid' value='$sid'>\n";
     echo "<input type='hidden' name='action' value='$modulname'>\n";
     echo "<p>";
     echo "Statistiken anzeigen für Gala <input type='text' name='showfrom' value='$showfrom' size='4'>&nbsp;\n";
@@ -370,19 +368,19 @@ if ($i === 0) {
     array_multisort($sortar, SORT_NUMERIC, SORT_DESC, $sortarpkt, SORT_NUMERIC, SORT_DESC, $allylist);
 
     start_table();
-    start_row("titlebg", "style='width:95%' align='center' colspan='6'");
+    start_row("titlebg center", "style='width:95%' colspan='6'");
     echo "  <b>Bekanntes Hasiversum</b>\n";
-    next_row("windowbg2", "style='width:16%' align='center'");
+    next_row("windowbg2 center", "style='width:16%'");
     echo "Allianz";
-    next_cell("windowbg2", "style='width:12%' align='center'");
+    next_cell("windowbg2 center", "style='width:12%'");
     echo "Kolonien auf Steinklumpen";
-    next_cell("windowbg2", "style='width:12%' align='center'");
+    next_cell("windowbg2 center", "style='width:12%'");
     echo "Kolonien auf Asteroiden";
-    next_cell("windowbg2", "style='width:12%' align='center'");
+    next_cell("windowbg2 center", "style='width:12%'");
     echo "Kolonien auf Gasgiganten";
-    next_cell("windowbg2", "style='width:12%' align='center'");
+    next_cell("windowbg2 center", "style='width:12%'");
     echo "Kolonien auf Eisplaneten";
-    next_cell("windowbg2", "style='width:12%' align='center'");
+    next_cell("windowbg2 center", "style='width:12%'");
     echo "Kampfbasen";
 
     $i = 0;
@@ -392,21 +390,21 @@ if ($i === 0) {
             if ($ally == "") {
                 $ally = "<i>allylos</i>";
             }
-            next_row("windowbg2", "style='width:16%' align='left'");
+            next_row("windowbg2 left", "style='width:16%'");
             echo "$i. <a href='index.php?action=m_allystats&allianz=$ally'>$ally";
-            next_cell("windowbg1", "style='width:12%' align='right'");
+            next_cell("windowbg1 right", "style='width:12%'");
             echo  $allystats[0];
-            next_cell("windowbg1", "style='width:12%' align='right'");
+            next_cell("windowbg1 right", "style='width:12%'");
             echo  $allystats[1];
-            next_cell("windowbg1", "style='width:12%' align='right'");
+            next_cell("windowbg1 right", "style='width:12%'");
             echo  $allystats[2];
-            next_cell("windowbg1", "style='width:12%' align='right'");
+            next_cell("windowbg1 right", "style='width:12%'");
             echo  $allystats[3];
-#         next_cell("windowbg1", "style='width:12%' align='right'");
+#         next_cell("windowbg1 right", "style='width:12%'");
 #         echo  number_format($allystats[4], 0, ",", ".");
-#         next_cell("windowbg1", "style='width:12%' align='right'");
+#         next_cell("windowbg1 right", "style='width:12%'");
 #         echo  number_format($allystats[5], 2, ",", ".");
-            next_cell("windowbg1", "style='width:12%' align='right'");
+            next_cell("windowbg1 right", "style='width:12%'");
             echo  $allystats[6];
         }
         //echo "  <tr><td>". $ally . "</td><td>" . $allystats[0] . "</td><td>" . $allystats[1] . "</td><td>" . $allystats[2] . "</td><td>" . $allystats[3] . "</td><td>" . $allystats[4] . "</td><td>" . $allystats[5] . "</td></tr>\n";
@@ -426,23 +424,23 @@ if ($i === 0) {
 
             array_multisort($sortargal[$gala], SORT_NUMERIC, SORT_DESC, $sortargalpkt[$gala], SORT_NUMERIC, SORT_DESC, $galaallys); //sortieren nach plannipunkten
             start_table();
-            start_row("titlebg", "style='width:95%' align='center' colspan='10'");
+            start_row("titlebg center", "style='width:95%' colspan='10'");
             echo "  <b>Gala $gala </b>\n";
-            next_row("windowbg2", "style='width:16%' align='center'");
+            next_row("windowbg2 center", "style='width:16%'");
             echo "Allianz";
-            next_cell("windowbg2", "style='width:12%' align='center'");
+            next_cell("windowbg2 center", "style='width:12%'");
             echo "Kolonien auf Steinklumpen";
-            next_cell("windowbg2", "style='width:12%' align='center'");
+            next_cell("windowbg2 center", "style='width:12%'");
             echo "Kolonien auf Asteroiden";
-            next_cell("windowbg2", "style='width:12%' align='center'");
+            next_cell("windowbg2 center", "style='width:12%'");
             echo "Kolonien auf Gasgiganten";
-            next_cell("windowbg2", "style='width:12%' align='center'");
+            next_cell("windowbg2 center", "style='width:12%'");
             echo "Kolonien auf Eisplaneten";
-            next_cell("windowbg2", "style='width:12%' align='center'");
+            next_cell("windowbg2 center", "style='width:12%'");
             echo "Planetenpunkte";
-            next_cell("windowbg2", "style='width:12%' align='center'");
+            next_cell("windowbg2 center", "style='width:12%'");
             echo "Punkte pro Planet";
-            next_cell("windowbg2", "style='width:12%' align='center'");
+            next_cell("windowbg2 center", "style='width:12%'");
             echo "Kampfbasen";
 
             $i = 0;
@@ -452,21 +450,21 @@ if ($i === 0) {
                     if ($galaally == "") {
                         $galaally = "<i>allylos</i>";
                     }
-                    next_row("windowbg2", "style='width:16%' align='left'");
+                    next_row("windowbg2 left", "style='width:16%'");
                     echo "$i. <a href='index.php?action=m_allystats&allianz=$galaally'>$galaally</a>";
-                    next_cell("windowbg1", "style='width:12%' align='right'");
+                    next_cell("windowbg1 right", "style='width:12%'");
                     echo  $galaallystats[0];
-                    next_cell("windowbg1", "style='width:12%' align='right'");
+                    next_cell("windowbg1 right", "style='width:12%'");
                     echo  $galaallystats[1];
-                    next_cell("windowbg1", "style='width:12%' align='right'");
+                    next_cell("windowbg1 right", "style='width:12%'");
                     echo  $galaallystats[2];
-                    next_cell("windowbg1", "style='width:12%' align='right'");
+                    next_cell("windowbg1 right", "style='width:12%'");
                     echo  $galaallystats[3];
-                    next_cell("windowbg1", "style='width:12%' align='right'");
+                    next_cell("windowbg1 right", "style='width:12%'");
                     echo  number_format($galaallystats[4], 0, ",", ".");
-                    next_cell("windowbg1", "style='width:12%' align='right'");
+                    next_cell("windowbg1 right", "style='width:12%'");
                     echo  number_format($galaallystats[5], 2, ",", ".");
-                    next_cell("windowbg1", "style='width:12%' align='right'");
+                    next_cell("windowbg1 right", "style='width:12%'");
                     echo  $galaallystats[6];
                 }
                 if ($i == $galamax) {

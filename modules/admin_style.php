@@ -43,10 +43,11 @@ $submit = GetVar('submit');
 //submit existiert also neue Datei erstellen
 if (!empty($submit) AND !empty($daction) AND ($daction == 'send')) {
 
-    //datei löschen
-    //unlink("style2.css") or die ("Ich konnte die Datei nicht lesen!");
     // datei erstellen und zum schrieben öffnen
-    $fp = @fopen("style2.css", "w") or die ("Kann style2.css nicht öffnen.");
+    $fp = @fopen("css/style2.css", "w");
+    if ($fp == false) {
+        die ("Kann style2.css nicht öffnen.");
+    }
 
     //Standartzeug am Anfang in die Datei schreiben
     $newlines     = array();
@@ -56,7 +57,7 @@ if (!empty($submit) AND !empty($daction) AND ($daction == 'send')) {
     $newlines[3]  = '/* der erste Teil kann durch ein Modul ausgelesen werden */';
     $newlines[4]  = '/* deswegen dort nichts ändern! */';
     $newlines[5]  = '';
-    $newlines[6]  = '/* Diese Teil wurde automatsich erstellt */';
+    $newlines[6]  = '/* Diese Teil wurde automatisch erstellt */';
     $newlines[7]  = '/* Zeitcode: ' . strftime(CONFIG_DATETIMEFORMAT, CURRENT_UNIX_TIME) . ' */';
     $newlines[12] = '';
     foreach ($newlines as $newline) {
@@ -132,9 +133,13 @@ if (!empty($submit) AND !empty($daction) AND ($daction == 'send')) {
     //und die Datei wieder schließen, damit sie zum lesen wieder geöffnet werden kann
     fclose($fp);
 
-    //datei zum guten Schluss (also im Erfolgsfall) verschieben
-    if (!copy('style2.css', 'style.css')) {
-        die ("Date konnte nicht verschoben werden.\n");
+    //datei zum guten Schluss (also im Erfolgsfall) verschieben und die temporäre löschen
+    if (copy('css/style2.css', 'css/style.css')) {
+        if (!unlink("css/style2.css")) {
+            echo "<div class='system_error'>Date konnte nicht verschoben werden</div>";
+        }
+    } else {
+        echo "<div class='system_error'>Date konnte nicht verschoben werden</div>";
     }
 
 }
@@ -146,15 +151,18 @@ if ($action == 'default') {
 
     //Tabelle beginnen
     ?>
-    <form action='index.php?sid=<?php echo $sid;?>&action=admin&uaction=style&daction=send' method='post'>
-    <table width="100%">
+    <form action='index.php?action=admin&uaction=style&daction=send' method='post'>
+    <table style='width: 100%;'>
     <tr>
         <td colspan="4">&nbsp;</td>
     </tr>
 
     <?php
     // Datei öffnen
-    $fp = @fopen("style.css", "r") or die ("Kann Datei nicht lesen.");
+    $fp = @fopen("css/style.css", "r");
+    if ($fp == false) {
+        die ("Kann Datei nicht lesen.");
+    }
 
     //Daten resetten
     $num_eigenschaft = 0;
@@ -221,7 +229,7 @@ if ($action == 'default') {
             echo "</td>  \n";
             echo "</tr>  \n";
             echo "<tr>  \n";
-            echo "<td colspan='4' class='windowbg1' align='center'>  \n";
+            echo "<td colspan='4' class='windowbg1 center'>  \n";
             echo "<textarea cols='70' rows='100' name='row_other_value'>";
 
             $where = 350;
@@ -264,7 +272,7 @@ if ($action == 'default') {
             $line = str_replace('*/', '', $line);
 
             echo "<tr>  \n";
-            echo "<td colspan='4' class='windowbg1' align='center'>  \n";
+            echo "<td colspan='4' class='windowbg1 center'>  \n";
             echo "<input type='hidden' name='row_" . $num_eigenschaft . "_conf' value='" . $line . "'>";
             echo "<textarea cols='70' rows='20' name='row_" . $num_eigenschaft . "_value'>";
 

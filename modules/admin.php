@@ -37,19 +37,19 @@ if ($user_status != "admin" && $user_status != "hc") {
 if ($user_status == "admin") {
     echo "<br>\n";
     start_table(0, 0, 0, 1);
-    start_row("menutop", "style='text-align: center;'");
+    start_row("menutop center");
     action("admin&uaction=schiffstypen", "Schiffstypen");
-    next_cell("menutop", "style='text-align: center;'");
+    next_cell("menutop center");
     action("admin&uaction=gebaeude", "Gebäude");
-    next_cell("menutop", "style='text-align: center;'");
+    next_cell("menutop center");
     action("admin&uaction=allianzstatus", "Allianzstatus");
-    next_cell("menutop", "style='text-align: center;'");
+    next_cell("menutop center");
     action("admin&uaction=lastlogin", "letzte Logins");
-    next_cell("menutop", "style='text-align: center;'");
+    next_cell("menutop center");
     action("admin&uaction=wronglogin", "falsche Logins");
-    next_cell("menutop", "style='text-align: center;'");
+    next_cell("menutop center");
     action("admin&uaction=style", "Style");
-    next_cell("menutop", "style='text-align: center;'");
+    next_cell("menutop center");
     action("admin&uaction=einstellungen", "Einstellungen");
     end_row();
     end_table();

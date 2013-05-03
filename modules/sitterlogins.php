@@ -67,35 +67,37 @@ $result = $db->db_query($sql)
 while ($row = $db->db_fetch_array($result)) {
     $sitterlogins[] = $row['sitterlogin'];
 }
+
 doc_title('Sitterlogins');
+
 ?>
-<table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 95%;">
-    <tr>
-        <td class="titlebg" style="width:25%;">
-            <a href="index.php?action=sitterlogins&order=sitterlogin&ordered=asc&sid=<?php echo $sid;?>"><img
+<table class="table_format" style="width: 95%;">
+    <tr class="titlebg center">
+        <td style='width: 30%;'>
+            <a href="index.php?action=sitterlogins&order=sitterlogin&ordered=asc"><img
                     src="bilder/asc.gif" alt="asc"></a>
             <b>Username</b>
-            <a href="index.php?action=sitterlogins&order=sitterlogin&ordered=desc&sid=<?php echo $sid;?>"><img
+            <a href="index.php?action=sitterlogins&order=sitterlogin&ordered=desc"><img
                     src="bilder/desc.gif" alt="desc"></a>
         </td>
-        <td class="titlebg" style="width:15%;">
-            <a href="index.php?action=sitterlogins&order=sitterpunkte&ordered=asc&sid=<?php echo $sid;?>"><img
+        <td>
+            <a href="index.php?action=sitterlogins&order=sitterpunkte&ordered=asc"><img
                     src="bilder/asc.gif" alt="asc"></a>
             <b>Aktivität</b>
-            <a href="index.php?action=sitterlogins&order=sitterpunkte&ordered=desc&sid=<?php echo $sid;?>"><img
+            <a href="index.php?action=sitterlogins&order=sitterpunkte&ordered=desc"><img
                     src="bilder/desc.gif" alt="asc"></a>
         </td>
-        <td class="titlebg" style="width:30%;">
+        <td>
             <b>Sitterlogin</b>
         </td>
-        <td class="titlebg" style="width:30%;">
+        <td>
             <b>Besonderheiten</b>
         </td>
-        <td class="titlebg" style="width:30%;">
-            <a href="index.php?action=sitterlogins&order=lastlogin&ordered=asc&sid=<?php echo $sid;?>"><img
+        <td>
+            <a href="index.php?action=sitterlogins&order=lastlogin&ordered=asc"><img
                     src="bilder/asc.gif" alt="asc"></a>
             <b>letzter Login</b>
-            <a href="index.php?action=sitterlogins&order=lastlogin&ordered=desc&sid=<?php echo $sid;?>"><img
+            <a href="index.php?action=sitterlogins&order=lastlogin&ordered=desc"><img
                     src="bilder/desc.gif" alt="desc"></a>
         </td>
     </tr>
@@ -176,10 +178,10 @@ doc_title('Sitterlogins');
             }
             ?>
             <tr>
-                <td class="windowbg<?php echo $num;?>" valign="top">
+                <td class="windowbg<?php echo $num;?> top">
                     <?php
                     if ($user_status == "admin") {
-                        echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($data) . "&sid=" . $sid . "'>" . $data . "</a>";
+                        echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($data) . "'>" . $data . "</a>";
                     } else {
                         echo $data;
                     }
@@ -189,63 +191,63 @@ doc_title('Sitterlogins');
                     }
                     ?>
                 </td>
-                <td class="windowbg<?php echo $num;?>" valign="top">
-                    <?php echo ($users_sitterpunkte[$key] > (3 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star1.gif' alt='star1' style='border:0;vertical-align:middle;'>" : (($users_sitterpunkte[$key] > (2 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star2.gif' alt='star2' style='border:0;vertical-align:middle;'>" : (($users_sitterpunkte[$key] > round($row_avg['AVG(sitterpunkte)'])) ? "<img src='bilder/star3.gif'  alt='star3' style='border:0;vertical-align:middle;'>" : "")); echo $users_sitterpunkte_anz[$key];?>
+                <td class="windowbg<?php echo $num;?> top">
+                    <?php echo ($users_sitterpunkte[$key] > (3 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='".BILDER_PATH."star1.gif' alt='star1' class='middle'>" : (($users_sitterpunkte[$key] > (2 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='".BILDER_PATH."star2.gif' alt='star2' class='middle'>" : (($users_sitterpunkte[$key] > round($row_avg['AVG(sitterpunkte)'])) ? "<img src='".BILDER_PATH."star3.gif'  alt='star3' class='middle'>" : "")); echo $users_sitterpunkte_anz[$key];?>
                 </td>
-                <td class="windowbg<?php echo $num;?>" valign="top">
+                <td class="windowbg<?php echo $num;?> top">
                     <?php
                     if (!empty($users_logged_in[$key])) {
                         echo "<b><font color='#ff0000'>" . $users_logged_in[$key] . " ist eingeloggt </font></b>" .
-                            "<br/><a href='index.php?action=sitterlogins&sitterlogin=" . urlencode($data) . "&sid=" . $sid .
+                            "<br/><a href='index.php?action=sitterlogins&sitterlogin=" . urlencode($data) .
                             "' target='_blank' onclick='return confirmlink(this, " .
                             "'Jemand ist gerade im Account eingeloggt. Trotzdem einloggen?'" .
                             ")'>[trotzdem einloggen]</a>" .
-                            "<td class='windowbg" . $num . "' valign='top'>" .
-                            (($users_sitterpeitschen[$key] == "1") ? " <i>Meister d. Peitschen<br/></i>" : "") .
+                            "<td class='windowbg" . $num . " top'>" .
                             ((!empty($users_sitterstaatsform[$key])) ? " <i>Staatsform: " . NumToStaatsform($users_sitterstaatsform[$key]) . "</i><br/>" : "") .
-                            (($users_sitterikea[$key] == "M") ? " <i>Meister d. Ikea</i><br/>" : "") .
-                            (($users_sitterikea[$key] == "L") ? " <i>Lehrling d. Ikea</i><br/>" : "") .
-                            (($users_sitteriwsa[$key] == "1") ? " <i>IWSA/IWBP-Account<br/></i>" : "") .
+							(($users_sitterpeitschen[$key] == "1") ? " <i><font color=red>Meister der Peitschen</font></i><br/>" : "") .
+                            (($users_sitterikea[$key] == "M") ? " <i><font color=blue>Meister des Ikea</font></i><br/>" : "") .
+                            (($users_sitterikea[$key] == "L") ? " <i><font color=blue>Lehrling des Ikea</font></i><br/>" : "") .
+                            (($users_sitteriwsa[$key] == "1") ? " <i><font color=green>IWSA/IWBP-Account</font><br/></i>" : "") .
                             "</td>";
                     } elseif ((($user_status == "admin") OR ($user_status == "SV")) && (empty($users_sitten[$key]))) {
                         echo "<a href='index.php?action=sitterlogins&sitterlogin=" . urlencode($data) .
-                            "&sid=" . $sid . "' target='_blank' onclick='return confirmlink(this, " .
+                            "' target='_blank' onclick='return confirmlink(this, " .
                             "'Dieser User hat das Sitten deaktiviert. Trotzdem einloggen?'" .
                             ")'>[sitten deaktiviert - einloggen]</a> " .
                             "<a href='index.php?action=sitterauftrag&sitterid=" .
-                            urlencode($data) . "&sid=" . $sid . "'><img src='bilder/file_new_s.gif' " .
+                            urlencode($data) . "'><img src='".BILDER_PATH."file_new_s.gif' " .
                             "alt='Sitterauftrag erstellen' title='Sitterauftrag erstellen'></a>" .
                             " <a href='index.php?action=sitterhistory&selecteduser=" .
-                            urlencode($data) . "&sid=" . $sid . "'><img src='bilder/file_history.gif' " .
+                            urlencode($data) . "'><img src='".BILDER_PATH."file_history.gif' " .
                             "alt='Sitterhistorie anschauen' title='Sitterhistorie anschauen'></a>" .
-                            "<td class='windowbg" . $num . "' valign='top'>" .
-                            (($users_sitterpeitschen[$key] == "1") ? " <i>Meister d. Peitschen<br/></i>" : "") .
+                            "<td class='windowbg" . $num . " top'>" .
                             ((!empty($users_sitterstaatsform[$key])) ? " <i>Staatsform: " . NumToStaatsform($users_sitterstaatsform[$key]) . "</i><br/>" : "") .
-                            (($users_sitterikea[$key] == "M") ? " <i>Meister d. Ikea</i><br/>" : "") .
-                            (($users_sitterikea[$key] == "L") ? " <i>Lehrling d. Ikea</i><br/>" : "") .
-                            (($users_sitteriwsa[$key] == "1") ? " <i>IWSA/IWBP-Account<br/></i>" : "") .
+							(($users_sitterpeitschen[$key] == "1") ? " <i><font color=red>Meister der Peitschen</font></i><br/>" : "") .
+                            (($users_sitterikea[$key] == "M") ? " <i><font color=blue>Meister des Ikea</font></i><br/>" : "") .
+                            (($users_sitterikea[$key] == "L") ? " <i><font color=blue>Lehrling des Ikea</font></i><br/>" : "") .
+                            (($users_sitteriwsa[$key] == "1") ? " <i><font color=green>IWSA/IWBP-Account</font><br/></i>" : "") .
                             "</td>";
                     } else {
                         echo "<a href='index.php?action=sitterlogins&sitterlogin=" . urlencode($data) .
-                            "&sid=" . $sid . "' target='_blank'>[jetzt einloggen]</a>&nbsp;" .
+                            "' target='_blank'>[jetzt einloggen]</a>&nbsp;" .
                             "<a href='index.php?action=sitterauftrag&sitterid=" . urlencode($data) .
-                            "&sid=" . $sid . "'><img src='bilder/file_new_s.gif' " .
+                            "'><img src='".BILDER_PATH."file_new_s.gif' " .
                             "alt='Sitterauftrag erstellen' title='Sitterauftrag erstellen'></a>" .
                             " <a href='index.php?action=sitterhistory&selecteduser=" .
-                            urlencode($data) . "&sid=" . $sid . "'><img src='bilder/file_history.gif' " .
+                            urlencode($data) . "'><img src='".BILDER_PATH."file_history.gif' " .
                             "alt='Sitterhistorie anschauen' title='Sitterhistorie anschauen'></a>" .
-                            "<td class='windowbg" . $num . "' valign='top'>" .
-                            (($users_sitterpeitschen[$key] == "1") ? " <i>Meister d. Peitschen<br/></i>" : "") .
+                            "<td class='windowbg" . $num . " top'>" .
                             ((!empty($users_sitterstaatsform[$key])) ? " <i>Staatsform: " . NumToStaatsform($users_sitterstaatsform[$key]) . "</i><br/>" : "") .
-                            (($users_sitterikea[$key] == "M") ? " <i>Meister des Ikea</i><br/>" : "") .
-                            (($users_sitterikea[$key] == "L") ? " <i>Lehrling des Ikea</i><br/>" : "") .
-                            (($users_sitteriwsa[$key] == "1") ? " <i>IWSA/IWBP-Account<br/></i>" : "") .
+							(($users_sitterpeitschen[$key] == "1") ? " <i><font color=red>Meister der Peitschen</font></i><br/>" : "") .
+                            (($users_sitterikea[$key] == "M") ? " <i><font color=blue>Meister des Ikea</font></i><br/>" : "") .
+                            (($users_sitterikea[$key] == "L") ? " <i><font color=blue>Lehrling des Ikea</font></i><br/>" : "") .
+                            (($users_sitteriwsa[$key] == "1") ? " <i><font color=green>IWSA/IWBP-Account</font><br/></i>" : "") .
                             "</td>";
                     }
                     ?>
 
                 </td>
-                <td class="windowbg<?php echo $num;?>" valign="top" style="white-space:nowrap;">
+                <td class="windowbg<?php echo $num;?> top">
                     <?php echo (empty($users_lastlogin_user[$key])) ? "" : strftime(CONFIG_DATETIMEFORMAT, $users_lastlogin[$key]) . "<br> von: " . $users_lastlogin_user[$key];?>
                 </td>
             </tr>

@@ -6,5 +6,8 @@
 /test/
 /docs/
 /.idea/
+/.settings/
 graph.gif
 graph_transport.gif
+.buildpath
+.project

@@ -106,13 +106,13 @@ if (!empty($edit)) {
             $result_del = $db->db_query($sql)
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
         }
-        $alert = "<br><font color='#FF0000'><b>Auftrag gelöscht.</b></font><br>";
+        $alert .= "<div class='system_notification'>Auftrag gelöscht.</div>";
     } else {
         if (!empty($comment)) {
             $sql = "UPDATE " . $db_tb_sitterauftrag . " SET auftrag = '" . $row_last['auftrag'] . "\nvon " . $user_sitterlogin . ": " . $comment . "' WHERE id = '" . $auftragids[(count($auftragids) - 1)] . "'";
             $result = $db->db_query($sql)
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-            $alert .= "<br><font color='#FF0000'><b>Kommentar hinzugefügt.</b></font><br>";
+            $alert .= "<div class='system_notification'>Kommentar hinzugefügt.</div>";
         }
         if (!empty($date_parse)) {
             $date_parse = timeimport($date_parse, $row_first['planet']);
@@ -159,7 +159,7 @@ if (!empty($edit)) {
         }
 
         if (($date < CURRENT_UNIX_TIME - $config_sitterauftrag_timeout) || ($date_b1 < CURRENT_UNIX_TIME - $config_sitterauftrag_timeout) || ($date_b2 < CURRENT_UNIX_TIME - $config_sitterauftrag_timeout)) {
-            $alert .= "<br><font color='#FF0000'><b>Ungültiger Zeitpunkt.</b></font><br>";
+            $alert .= "<div class='system_error'>Ungültiger Zeitpunkt.</div>";
         } else {
             if ($row_first['bauschleife'] != "1") {
                 $date_b1 = $date;
@@ -173,7 +173,7 @@ if (!empty($edit)) {
             dates($auftragids[0], $row_first['user']);
 
             if (($date <> $row_first['date']) || ($date_b1 <> $row_first['date_b1']) || ($date_b2 <> $row_first['date_b2'])) {
-                $alert .= "<br><font color='#FF0000'><b>Zeit editiert.</b></font><br>";
+                $alert .= "<div class='system_notification'>Zeit editiert.</div>";
             }
         }
     }
@@ -277,7 +277,7 @@ if (!empty($erledigt)) {
                     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
             }
 
-            $alert = "<br><font color='#FF0000'><b>Auftrag als erledigt markiert.</b></font><br>";
+            $alert .= "<div class='system_notification'>Auftrag als erledigt markiert.</div>";
         } else {
             $bis_array  = array("bis:", "bis");
             $date       = str_replace($bis_array, "", getVar('date'));
@@ -325,9 +325,9 @@ if (!empty($erledigt)) {
             }
 
             if (empty($date) && empty($date_parse) && empty($date_b1) && empty($date_b2)) {
-                $alert = "<br><font color='#FF0000'><b>Bitte ausfüllen.</b></font><br>";
+                $alert .= "<div class='system_error'>Bitte ausfüllen.</div>";
             } else {
-                $alert = (($date < CURRENT_UNIX_TIME - $config_sitterauftrag_timeout) || ($date_b1 < CURRENT_UNIX_TIME - $config_sitterauftrag_timeout) || ($date_b2 < CURRENT_UNIX_TIME - $config_sitterauftrag_timeout)) ? "<br><font color='#FF0000'><b>Ungueltiger Zeitpunkt.</b></font><br>" : "";
+                $alert .= (($date < CURRENT_UNIX_TIME - $config_sitterauftrag_timeout) || ($date_b1 < CURRENT_UNIX_TIME - $config_sitterauftrag_timeout) || ($date_b2 < CURRENT_UNIX_TIME - $config_sitterauftrag_timeout)) ? "<div class='system_error'>Ungültiger Zeitpunkt.</div>" : "";
             }
 
             $sql = "SELECT bauschleife, refid FROM " . $db_tb_sitterauftrag . " WHERE id = '" . $erledigtids[(count($erledigtids) - 1)] . "'";
@@ -403,19 +403,19 @@ if (!empty($erledigt)) {
                         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
                 }
 
-                $alert = "<br><font color='#FF0000'><b>Auftrag als erledigt markiert.</b></font><br>";
+                $alert .= "<div class='system_notification'>Auftrag als erledigt markiert.</div>";
             }
 
             if ((empty($date)) && (empty($date_parse)) && ($count != 0)) {
                 ?>
-                <font style="font-size: 22px; color: #004466">Sitterauftragszeit aktualisieren</font><br>
+                <div style="font-size: 22px; color: #004466">Sitterauftragszeit aktualisieren</div>
                 <br>
                 Den Auftrag, den du eben erledigt hast, hat Folgeaufträge eingetragen.<br>
                 Bitte aktualisiere für diese die Zeit, indem du folgendes Formular ausfüllst.<br>
                 Danach wird der Auftrag als erledigt markiert. Danke.<br><br>
-                <form method="POST" action="index.php?action=sitterliste&sid=<?php echo $sid;?>"
+                <form method="POST" action="index.php?action=sitterliste"
                       enctype="multipart/form-data">
-                    <table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 60%;">
+                    <table class="table_format" style="width: 60%;">
                         <?php
                         if ($count > 1) {
                             ?>
@@ -466,58 +466,38 @@ if (!empty($erledigt)) {
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="2" class="titlebg" align="center">
+                            <td colspan="2" class="titlebg center">
                                 <input type="hidden" name="erledigt" value="<?php echo $erledigt;?>"><input
-                                    type="submit" value="speichern" name="B1" class="submit">
+                                    type="submit" value="speichern" name="B1">
                             </td>
                         </tr>
+                	</table>
                 </form>
-                </table><br><br>
+                
+                <br>
+                <br>
             <?php
             }
         }
     }
 }
-?>
-<script language="JavaScript" type="text/javascript"><!--
-    function Collapse(what) {
-        var collapseImage = document.getElementById("collapse_" + what);
-        var collapseRow = document.getElementById("row_" + what);
 
-        if (!collapseImage)
-            return;
+doc_title('Sitteraufträge');
 
-        if (collapseRow.style.display == "") {
-            collapseRow.style.display = "none";
-            collapseImage.src = "bilder/plus.gif";
-        }
-        else {
-            collapseRow.style.display = "";
-            collapseImage.src = "bilder/minus.gif";
-        }
-    }
-
-    function kopiere_zeit(id) {
-        document.getElementById("date_" + id).value = document.getElementById("date_b1_" + id).value;
-        document.getElementById("date_b2_" + id).value = document.getElementById("date_b1_" + id).value;
-    }
-    // --></script>
-
-<font style="font-size: 22px; color: #004466">Sitteraufträge</font><br>
-<?php
-echo (empty($alert)) ? "" : $alert;
+if (!empty($alert)) {
+ echo $alert;
+}
 
 // Start Dauerauftraege //
 include("dauerauftraege.php");
 // Ende Dauerauftraege //
 
 ?>
-<br>
-<table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">
+<table id='current_sitterorders_table' class='table_format' style='width: 90%;'>
 <tr>
-    <td class="titlebg" colspan="6" align="center">
+    <th class="titlebg center" colspan="6">
         <b>aktuelle Sitteraufträge</b>
-    </td>
+    </th>
 </tr>
 <tr>
     <td class="titlebg" style="width:20%;">
@@ -540,7 +520,7 @@ include("dauerauftraege.php");
     </td>
 </tr>
 <?php
-// Auftraege durchgehen //
+// Aufträge durchgehen //
 $sql = "SELECT AVG(sitterpunkte) FROM " . $db_tb_user . " WHERE sitterpunkte <> 0";
 $result_avg = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -574,8 +554,6 @@ $sql = "SELECT planetenname, dgmod FROM " . $db_tb_scans . " WHERE coords = '" .
 $result_planet = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row_planet = $db->db_fetch_array($result_planet);
-
-
 
 $row_act = $row;
 
@@ -662,13 +640,13 @@ if (isset($row_lastlogin)) {
     <td class="windowbg<?php echo $num;?>">
         <?php
         if ($user_status == "admin") {
-            echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($row['user']) . "&sid=" . $sid . "'>" . $row['user'] . "</a>";
+            echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($row['user']) . "'>" . $row['user'] . "</a>";
         } else {
             echo $row['user'];
         }
         ?>
         [<?php echo $users_sitterpunkte;?> + <?php echo $users_sitterpunkte_user;?>]
-        <?php echo (($users_sitterpunkte + $users_sitterpunkte_user) > (3 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star1.gif' alt='star1' style='border:0;vertical-align:middle;'>" : ((($users_sitterpunkte + $users_sitterpunkte_user) > (2 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star2.gif' alt='star2' style='border:0;vertical-align:middle;'>" : ((($users_sitterpunkte + $users_sitterpunkte_user) > (round($row_avg['AVG(sitterpunkte)']))) ? "<img src='bilder/star3.gif' alt='star3' style='border:0;vertical-align:middle;'>" : ""));
+        <?php echo (($users_sitterpunkte + $users_sitterpunkte_user) > (3 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='".BILDER_PATH."star1.gif' alt='star1' class='middle'>" : ((($users_sitterpunkte + $users_sitterpunkte_user) > (2 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='".BILDER_PATH."star2.gif' alt='star2' class='middle'>" : ((($users_sitterpunkte + $users_sitterpunkte_user) > (round($row_avg['AVG(sitterpunkte)']))) ? "<img src='".BILDER_PATH."star3.gif' alt='star3' class='middle'>" : ""));
         if (!empty($row['ByUser']) && ($row['user'] != $row['ByUser'])) {
             echo "<br>(eingestellt von " . $row['ByUser'] . ")";
         }
@@ -683,7 +661,7 @@ if (isset($row_lastlogin)) {
     <td class="windowbg<?php echo $num;?>">
         <?php echo convert_bbcode($row['auftrag']);?>
     </td>
-    <td class="windowbg<?php echo $num;?>" align="center">
+    <td class="windowbg<?php echo $num;?> center">
         <?php
 
         if (is_array($users_logged_in)) {
@@ -694,18 +672,18 @@ if (isset($row_lastlogin)) {
         }
 
         if (empty($users_logged_in)) {
-            echo "<a href='index.php?action=sitterlogins&sitterlogin=" . urlencode($row['user']) . "&sid=" . $sid . "' target='sitterbereich'>[einloggen]</a>";
+            echo "<a href='index.php?action=sitterlogins&sitterlogin=" . urlencode($row['user']) . "' target='sitterbereich'>[einloggen]</a>";
 
             if ($row['schieben'] == "1") {
                 echo "<a href='javascript:Collapse(" . $row['id'] . ");'>[schieben]</a>";
             } else {
-                echo "<a href='index.php?action=sitterliste&erledigt=" . $row['id'] . "&sid=" . $sid . "' onclick='return confirmlink(this, \"Auftrag wirklich erledigt?\")'>[erledigt]</a>";
+                echo "<a href='index.php?action=sitterliste&erledigt=" . $row['id'] . "' onclick='return confirmlink(this, \"Auftrag wirklich erledigt?\")'>[erledigt]</a>";
             }
         } else {
             echo $users_logged_in . " ist eingeloggt";
         }
 
-        echo "<br><a href='javascript:Collapse(" . $row['id'] . ");'><img src='bilder/plus.gif' alt='' id='collapse_" . $row['id'] . "'></a>";
+        echo "<br><a href='javascript:Collapse(" . $row['id'] . ");'><img src='".BILDER_PATH."plus.gif' alt='' id='collapse_" . $row['id'] . "'></a>";
 
         ?>
 
@@ -715,31 +693,31 @@ if (isset($row_lastlogin)) {
     </td>
 </tr>
 <tr id="row_<?php echo $row['id'];?>" style="display: none;">
-    <td colspan="6" class="windowbg1" valign="top" align="center" style="width: 100%;">
-        <form method="POST" action="index.php?action=sitterliste&sid=<?php echo $sid;?>" enctype="multipart/form-data">
-            <table border="0" cellpadding="4" cellspacing="0" class="bordercolor">
+    <td colspan="6" class="windowbg1 center" style="width: 100%;">
+        <form method="POST" action="index.php?action=sitterliste" enctype="multipart/form-data">
+			<table class="table_format_noborder left" style="margin: 0 auto;">
                 <tr>
-                    <td colspan="2" class="windowbg1" align="center">
+                    <td colspan="2" class="center">
                         <b>Kommentar hinzufügen</b>
                     </td>
                 </tr>
                 <tr>
-                    <td class="windowbg1">
+                    <td>
                         Kommentar:<br>
                         <i>Hier kannst du einen Kommentar<br>zu dem Auftrag hinzufügen.</i>
                     </td>
-                    <td class="windowbg1">
+                    <td>
                         <textarea name='comment' id='comment' rows='4' cols='25' style='width: 200px;'></textarea>
                         <?php echo bbcode_buttons('comment'); ?>
                     </td>
                 </tr>
                 <tr>
-                    <td class="windowbg1" colspan="2">
-                        <hr class="hr" size="1">
+                    <td colspan="2">
+                        <hr class="hr">
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2" class="windowbg1" align="center">
+                    <td colspan="2" class="center">
                         <b>Zeit aktualisieren</b>
                     </td>
                 </tr>
@@ -747,13 +725,13 @@ if (isset($row_lastlogin)) {
                 if ($bauschleifenlaenge >= 3) {
                     ?>
                     <tr>
-                        <td class="windowbg1">
+                        <td>
                             Zeit frühstens 2:
                         </td>
-                        <td class="windowbg1">
+                        <td>
                             <input type="text" name="date_b2" id="date_b2_<?php echo $row['id'];?>"
                                    value="<?php echo strftime(CONFIG_DATETIMEFORMAT, $row['date_b2']);?>"
-                                   style="width: 200;">
+                                   style="width: 150px;">
                         </td>
                     </tr>
                 <?php
@@ -762,13 +740,13 @@ if (isset($row_lastlogin)) {
                 if ($bauschleifenlaenge >= 2) {
                     ?>
                     <tr>
-                        <td class="windowbg1">
+                        <td>
                             Zeit frühstens 1:
                         </td>
-                        <td class="windowbg1">
+                        <td>
                             <input type="text" name="date_b1" id="date_b1_<?php echo $row['id'];?>"
                                    value="<?php echo strftime(CONFIG_DATETIMEFORMAT, $row['date_b1']);?>"
-                                   style="width: 120;">
+                                   style="width: 150px;">
                             <input type="button" name="kopieren" value="kopieren"
                                    onclick="kopiere_zeit('<?php echo $row['id'];?>');">
                         </td>
@@ -777,23 +755,22 @@ if (isset($row_lastlogin)) {
                 }
                 ?>
                 <tr>
-                    <td class="windowbg1">
+                    <td>
                         Zeit spätestens:<br>
                         <i>Zeit, zu der alle Bauschleifenaufträge auslaufen.</i>
                     </td>
-                    <td class="windowbg1">
+                    <td>
                         <input type="text" name="date" id="date_<?php echo $row['id'];?>"
                                value="<?php echo strftime(CONFIG_DATETIMEFORMAT, $row['date']);?>"
-                               style="width: 200;">
+                               style="width: 150px;">
                     </td>
                 </tr>
-
                 <tr>
-                    <td class="windowbg1">
+                    <td>
                         Zeiten + Variable:<br>
                         <i>Eingestellte Zeiten um ... verschieben</i>
                     </td>
-                    <td class="windowbg1">
+                    <td>
                         <select name="plus_stunden">
                             <?php
                             $time_stunden = 0;
@@ -814,32 +791,32 @@ if (isset($row_lastlogin)) {
                 </tr>
 
                 <tr>
-                    <td class="windowbg1">
+                    <td>
                         oder automatische Erkennung:<br>
                         <i>Aktuelle Bauliste aus Icewars kopieren.</i>
                     </td>
-                    <td class="windowbg1">
-                        <textarea name="date_parse" rows="4" cols="25" style="width: 200;"></textarea>
+                    <td>
+                        <textarea name="date_parse" rows="4" cols="25" style="width: 200px;"></textarea>
                     </td>
                 </tr>
                 <?php
                 if ($user_status == "admin") {
                     ?>
                     <tr>
-                        <td class="windowbg1" colspan="2">
-                            <hr class="hr" size="1">
+                        <td colspan="2">
+                            <hr class="hr">
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2" class="windowbg1" align="center">
+                        <td colspan="2" class="center">
                             <b>Auftrag löschen</b>
                         </td>
                     </tr>
                     <tr>
-                        <td class="windowbg1">
+                        <td>
                             Löschen bestätigen:
                         </td>
-                        <td class="windowbg1">
+                        <td>
                             <input type="checkbox" name="del" value="1">
                         </td>
                     </tr>
@@ -847,15 +824,14 @@ if (isset($row_lastlogin)) {
                 }
                 ?>
                 <tr>
-                    <td colspan="2" class="windowbg1" align="center">
-                        <input type="hidden" name="auftragid" value="<?php echo $row['id'];?>"><input type="hidden"
-                                                                                                      name="edit"
-                                                                                                      value="1"><input
-                            type="submit" value="speichern" name="B1" class="submit">
+                    <td colspan="2" class="center">
+                        <input type="hidden" name="auftragid" value="<?php echo $row['id'];?>">
+                        <input type="hidden" name="edit" value="1">
+                        <input type="submit" value="speichern" name="B1">
                     </td>
                 </tr>
-        </form>
-</table>
+			</table>
+		</form>
     </td>
     </tr>
 <?php
@@ -864,9 +840,9 @@ if (isset($row_lastlogin)) {
 </table>
 <br>
 <br>
-<table border="0" cellpadding="4" cellspacing="1" class="bordercolor" style="width: 90%;">
+<table id="next_sitterorders_table" class="table_format" style="width: 90%;">
     <tr>
-        <td class="titlebg" colspan="4" align="center">
+        <td class="titlebg center" colspan="4">
             <b>Sitteraufträge der nächsten <?php echo (round($config_sitterliste_timeout / 60 / 60));?> Stunden</b>
         </td>
     </tr>
@@ -921,7 +897,7 @@ if (isset($row_lastlogin)) {
             <td class="windowbg1">
                 <?php
                 if ($user_status == "admin") {
-                    echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($row['user']) . "&sid=" . $sid . "'>" . $row['user'] . "</a>";
+                    echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($row['user']) . "'>" . $row['user'] . "</a>";
                 } else {
                     echo $row['user'];
                 }

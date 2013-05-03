@@ -300,7 +300,7 @@ $svg .= '</g>' . "\n";
 // now draw the invisible clickable areas on the map locating to the maps page
 $svg .= '<g fill-opacity="0" style="cursor:pointer;" id="clickable areas">' . "\n";
 foreach ($existing_galas as $gala) {
-    $svg .= '<rect x="' . ($config_borderleft + 1 + ($config_linewidth)) . '" y="' . ($config_bordertop + (($gala - 1) * $config_lineheight)) . '" width="' . ($config_map_system_max * $config_linewidth) . '" height="' . $config_lineheight . '" onclick="self.location.href=\'index.php?action=karte&galaxy=' . $gala . '&sid=' . $sid . '\';return false;"/>' . "\n";
+    $svg .= '<rect x="' . ($config_borderleft + 1 + ($config_linewidth)) . '" y="' . ($config_bordertop + (($gala - 1) * $config_lineheight)) . '" width="' . ($config_map_system_max * $config_linewidth) . '" height="' . $config_lineheight . '" onclick="self.location.href=\'index.php?action=karte&galaxy=' . $gala . '\';return false;"/>' . "\n";
 }
 $svg .= '</g>' . "\n";
 
@@ -314,18 +314,18 @@ echo $svg;
 echo "<br>\n";
 echo "<br>\n";
 echo "<table style='border-spacing:0;'>\n";
-echo " <tr>\n";
+echo " <tr class='left'>\n";
 echo "  <td style='width: 4%; background-color: " . $config_color['Stargate'] . "'></td>\n";
-echo "  <td style='width: 10%; padding:4px; text-align: left;'>Stargate</td>\n";
+echo "  <td style='width: 10%; padding:4px;'>Stargate</td>\n";
 echo "  <td style='width: 4%; background-color: " . $config_color['SchwarzesLoch'] . "'></td>\n";
-echo "  <td style='width: 14%; padding:4px; text-align: left'>Schwarzes Loch</td>\n";
+echo "  <td style='width: 14%; padding:4px;'>Schwarzes Loch</td>\n";
 echo "  <td style='width: 4%; background-color: " . $config_color['first24h'] . "'></td>\n";
-echo "  <td style='width: 14%; padding:4px; text-align: left'>jünger 24 Stunden</td>\n";
+echo "  <td style='width: 14%; padding:4px;'>jünger 24 Stunden</td>\n";
 echo "  <td style='width: 4%; background-color: #00FF00'></td>\n";
-echo "  <td style='width: 14%; padding:4px; text-align: left'>älter 24 Stunden</td>\n";
+echo "  <td style='width: 14%; padding:4px;'>älter 24 Stunden</td>\n";
 echo "  <td style='width: 4%; background-color: #FFFF00'></td>\n";
-echo "  <td style='width: 14%; padding:4px; text-align: left'>" . (round($config_map_timeout / 2 / DAY)) . " Tage alt</td>\n";
+echo "  <td style='width: 14%; padding:4px;'>" . (round($config_map_timeout / 2 / DAY)) . " Tage alt</td>\n";
 echo "  <td style='width: 4%; background-color: " . $config_color['scanoutdated'] . "'></td>\n";
-echo "  <td style='width: 14%; padding:4px; text-align: left'>älter als " . (round($config_map_timeout / DAY)) . " Tage</td>\n";
+echo "  <td style='width: 14%; padding:4px;'>älter als " . (round($config_map_timeout / DAY)) . " Tage</td>\n";
 echo " </tr>\n";
 echo "</table>\n";

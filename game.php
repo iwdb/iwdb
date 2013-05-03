@@ -7,7 +7,7 @@ define('APPLICATION_PATH_URL', dirname($_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_
 require_once("includes/bootstrap.php");
 error_reporting(E_ALL & ~E_NOTICE);
 
-if (empty($sid) || empty($user_sitterlogin) || !($user_adminsitten == SITTEN_BOTH || $user_adminsitten == SITTEN_ONLY_LOGINS) || $user_id == "guest") {
+if (($login_ok === false) || empty($user_sitterlogin) || !($user_adminsitten == SITTEN_BOTH || $user_adminsitten == SITTEN_ONLY_LOGINS)) {
     header("Location: " . APPLICATION_PATH_RELATIVE);
     exit;
 }
@@ -17,25 +17,24 @@ if (!defined('DEBUG_LEVEL')) {
 }
 
 // Get request parameter
-$params = array(
-    'mode'   => getVar('mode'),
-    'action' => getVar('action'),
-);
-
-debug_var('name', $params['name'] = getVar('name'));
-debug_var('galaxy', $params['galaxy'] = getVar('galaxy'));
-debug_var('system', $params['system'] = getVar('system'));
-debug_var('planet', $params['planet'] = getVar('planet'));
-debug_var('view', $params['view'] = getVar('view'));
-debug_var('next', $params['next'] = getVar('next'));
-debug_var('next_galaxy', $params['next_galaxy'] = getVar('next_galaxy'));
-debug_var('next_system', $params['next_system'] = getVar('next_system'));
-debug_var('next_planet', $params['next_planet'] = getVar('next_planet'));
-debug_var('prev', $params['prev'] = getVar('prev'));
-debug_var('prev_galaxy', $params['prev_galaxy'] = getVar('prev_galaxy'));
-debug_var('prev_system', $params['prev_system'] = getVar('prev_system'));
-debug_var('prev_planet', $params['prev_planet'] = getVar('prev_planet'));
-debug_var('autocalc', $params['autocalc'] = getVar('autocalc'));
+$params = array();
+$params['mode'] = getVar('mode');
+$params['action'] = getVar('action');
+$params['name'] = getVar('name');
+$params['galaxy'] = getVar('galaxy');
+$params['system'] = getVar('system');
+$params['planet'] = getVar('planet');
+$params['view'] = getVar('view');
+$params['next'] = getVar('next');
+$params['next_galaxy'] = getVar('next_galaxy');
+$params['next_system'] = getVar('next_system');
+$params['next_planet'] = getVar('next_planet');
+$params['prev'] = getVar('prev');
+$params['prev_galaxy'] = getVar('prev_galaxy');
+$params['prev_system'] = getVar('prev_system');
+$params['prev_planet'] = getVar('prev_planet');
+$params['autocalc'] = getVar('autocalc');
+debug_var('params', $params);
 
 // Validate request parameter
 if (empty($params['mode'])) {
@@ -73,7 +72,7 @@ $data = array(
 );
 
 // Retrieve defence
-debug_var("sql", $sql = "SELECT * FROM $db_tb_def");
+debug_var("sql", $sql = "SELECT `name`, `id`, `abk`, `id_iw` FROM `{$db_tb_def}`;");
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 while ($row = $db->db_fetch_array($result)) {
@@ -85,7 +84,7 @@ while ($row = $db->db_fetch_array($result)) {
 }
 
 // Retrieve ships
-debug_var("sql", $sql = "SELECT * FROM $db_tb_schiffstyp");
+debug_var("sql", $sql = "SELECT `schiff`, `id_iw`, `abk` FROM `{$db_tb_schiffstyp}`;");
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 while ($row = $db->db_fetch_array($result)) {
@@ -99,11 +98,11 @@ while ($row = $db->db_fetch_array($result)) {
 // Retrieve target list
 $data['targets'] = array();
 
-$sql = 'SELECT *' .
+$sql = 'SELECT `coords_gal`, `coords_sys`, `coords_planet`' .
     ' FROM ' . $db_tb_target .
-    ' WHERE user="' . $user_sitterlogin . '"' .
-    ' AND name="' . $params['name'] . '"' .
-    ' ORDER BY coords_gal,coords_sys,coords_planet';
+    ' WHERE `user`="' . $user_sitterlogin . '"' .
+    ' AND `name`="' . $params['name'] . '"' .
+    ' ORDER BY `coords_gal`, `coords_sys`, `coords_planet`;';
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 while ($row = $db->db_fetch_array($result)) {
@@ -154,13 +153,13 @@ $data['url'] = array(
     'main'       => ($params['view'] == 'fleet_send'
         ? 'http://sandkasten.icewars.de/game/index.php?action=flotten_send&gal=' . $params['galaxy'] . "&sol=" . $params['system'] . '&pla=' . $params['planet']
         : 'http://sandkasten.icewars.de/game/index.php?action=universum&gal=' . $params['galaxy'] . "&sol=" . $params['system']),
-    'top'        => $_SERVER["SCRIPT_NAME"] . '?sid=' . $sid . '&name=' . $params['name'] . '&mode=top&view=' . $params['view'] . '&galaxy=' . $params['galaxy'] . '&system=' . $params['system'] . '&planet=' . $params['planet'] . '&autocalc=' . $params['autocalc'],
-    'right'      => $_SERVER["SCRIPT_NAME"] . '?sid=' . $sid . '&name=' . $params['name'] . '&mode=right&view=' . $params['view'] . '&galaxy=' . $params['galaxy'] . '&system=' . $params['system'],
-    'prev'       => $_SERVER["SCRIPT_NAME"] . '?sid=' . $sid . '&name=' . $params['name'] . '&action=prev&view=' . $params['view'] . '&galaxy=' . $data['targets_prev_gal'] . '&system=' . $data['targets_prev_sys'],
-    'next'       => $_SERVER["SCRIPT_NAME"] . '?sid=' . $sid . '&name=' . $params['name'] . '&action=next&view=' . $params['view'] . '&galaxy=' . $data['targets_next_gal'] . '&system=' . $data['targets_next_sys'],
-    'prevtarget' => $_SERVER["SCRIPT_NAME"] . '?sid=' . $sid . '&name=' . $params['name'] . '&view=fleet_send&galaxy=' . $data['target_prev_gal'] . '&system=' . $data['target_prev_sys'] . '&planet=' . $data['target_prev_planet'],
-    'nexttarget' => $_SERVER["SCRIPT_NAME"] . '?sid=' . $sid . '&name=' . $params['name'] . '&view=fleet_send&galaxy=' . $data['target_next_gal'] . '&system=' . $data['target_next_sys'] . '&planet=' . $data['target_next_planet'],
-    'uniview'    => $_SERVER["SCRIPT_NAME"] . '?sid=' . $sid . '&name=' . $params['name'] . '&view=universum&galaxy=' . $params['galaxy'] . '&system=' . $params['system'] . '&planet=' . $params['planet'],
+    'top'        => $_SERVER["SCRIPT_NAME"] . '?name=' . $params['name'] . '&mode=top&view=' . $params['view'] . '&galaxy=' . $params['galaxy'] . '&system=' . $params['system'] . '&planet=' . $params['planet'] . '&autocalc=' . $params['autocalc'],
+    'right'      => $_SERVER["SCRIPT_NAME"] . '?name=' . $params['name'] . '&mode=right&view=' . $params['view'] . '&galaxy=' . $params['galaxy'] . '&system=' . $params['system'],
+    'prev'       => $_SERVER["SCRIPT_NAME"] . '?name=' . $params['name'] . '&action=prev&view=' . $params['view'] . '&galaxy=' . $data['targets_prev_gal'] . '&system=' . $data['targets_prev_sys'],
+    'next'       => $_SERVER["SCRIPT_NAME"] . '?name=' . $params['name'] . '&action=next&view=' . $params['view'] . '&galaxy=' . $data['targets_next_gal'] . '&system=' . $data['targets_next_sys'],
+    'prevtarget' => $_SERVER["SCRIPT_NAME"] . '?name=' . $params['name'] . '&view=fleet_send&galaxy=' . $data['target_prev_gal'] . '&system=' . $data['target_prev_sys'] . '&planet=' . $data['target_prev_planet'],
+    'nexttarget' => $_SERVER["SCRIPT_NAME"] . '?name=' . $params['name'] . '&view=fleet_send&galaxy=' . $data['target_next_gal'] . '&system=' . $data['target_next_sys'] . '&planet=' . $data['target_next_planet'],
+    'uniview'    => $_SERVER["SCRIPT_NAME"] . '?name=' . $params['name'] . '&view=universum&galaxy=' . $params['galaxy'] . '&system=' . $params['system'] . '&planet=' . $params['planet'],
     'universum'  => 'http://sandkasten.icewars.de/game/index.php?action=universum&gal=' . $params['galaxy'] . "&sol=" . $params['system'],
 );
 
@@ -264,7 +263,7 @@ $data['shiptrans2'] = array(
 
 // Retrieve alliance status
 $data['alliancestatus'] = array();
-$sql = 'SELECT *' .
+$sql = 'SELECT `allianz`, `status`' .
     ' FROM ' . $db_tb_allianzstatus .
     ' WHERE name="' . $user_allianz . "'";
 $result = $db->db_query($sql)
@@ -315,15 +314,15 @@ while ($row = $db->db_fetch_array($result)) {
     // Scan failures
     if (hasFailScan($row) && hasOwner($row)) {
         if (!empty($row['terminus'])) {
-            $info['terminus'] = '<span style="font-weight : 700; color : #ff0000" title="Fehlscan mit ' . $row['terminus'] . ' Terminus Sonde">&gt;' . $row['terminus'] . '</span>';
+            $info['terminus'] = '<span style="font-weight:700; color:#ff0000" title="Fehlscan mit ' . $row['terminus'] . ' Terminus Sonde">&gt;' . $row['terminus'] . '</span>';
         } elseif (!empty($row['x13'])) {
-            $info['x13'] = '<span style="font-weight : 700; color : #ff0000" title="Fehlscan mit ' . $row['x13'] . ' X13 Sonde">&gt;' . $row['x13'] . '</span>';
+            $info['x13'] = '<span style="font-weight:700; color:#ff0000" title="Fehlscan mit ' . $row['x13'] . ' X13 Sonde">&gt;' . $row['x13'] . '</span>';
         }
     } elseif (hasShipScan($row) && hasOwner($row)) {
         $terminus         = ceil(($info['sd01'] / 1.2 + $info['sd02'] * 2.5 / 1.2 + 10));
         $x13              = ceil(($info['sd01'] / 2 + $info['sd02'] * 2.5 / 2 + 8));
-        $info['terminus'] = '<span style="font-weight : 700; color : #00ff00" title="min. ' . $terminus . ' Terminus Sonde">' . $terminus . '</span>';
-        $info['x13']      = '<span style="font-weight : 700; color : #00ff00" title="min. ' . $x13 . ' X13 Sonde">' . $x13 . '</span>';
+        $info['terminus'] = '<span style="font-weight:700; color:#00ff00" title="min. ' . $terminus . ' Terminus Sonde">' . $terminus . '</span>';
+        $info['x13']      = '<span style="font-weight:700; color:#00ff00" title="min. ' . $x13 . ' X13 Sonde">' . $x13 . '</span>';
     }
     $info['grav']     = isset($objects['SDI Gravitonbeam']) ? $objects['SDI Gravitonbeam'] : 0;
     $info['plasma']   = isset($objects['SDI Plasmalaser']) ? $objects['SDI Plasmalaser'] : 0;
@@ -362,7 +361,7 @@ while ($row = $db->db_fetch_array($result)) {
         );
     }
     // Link to simulator
-    $info['simulator'] = "sandkasten.icewars.de/game/index.php?action=simulator";
+    $info['simulator'] = "http://sandkasten.icewars.de/game/index.php?action=simulator";
     foreach ($objects as $key => $value) {
         if (isset($data['def'][$key])) {
             $info['simulator'] .= "&simu_def[" . $data['def'][$key]['id_iw'] . "]=" . $value;
@@ -371,7 +370,7 @@ while ($row = $db->db_fetch_array($result)) {
         }
     }
     // Link to fleet send view
-    $info['fleet_send'] = $_SERVER["SCRIPT_NAME"] . '?sid=' . $sid . '&name=' . $params['name'] . '&view=fleet_send&galaxy=' . $row['coords_gal'] . '&system=' . $row['coords_sys'] . '&planet=' . $row['coords_planet'];
+    $info['fleet_send'] = $_SERVER["SCRIPT_NAME"] . '?name=' . $params['name'] . '&view=fleet_send&galaxy=' . $row['coords_gal'] . '&system=' . $row['coords_sys'] . '&planet=' . $row['coords_planet'];
     // Calculate total defence
     $info['total'] = $shipattack + $info['def'];
     // Calculate rating
@@ -499,52 +498,7 @@ switch ($params['mode']) {
         ?>
         <html>
         <head>
-            <style type="text/css">
-                * {
-                    font-family: verdana;
-                    font-size: 11px;
-                }
-
-                body {
-                    color: #ffffff;
-                    background-color: #111111;
-                    background-image: url(bilder/bg_space3.png);
-                }
-
-                a:link {
-                    color: #bbbbbb;
-                }
-
-                a:visited {
-                    color: #bbbbbb;
-                }
-
-                body, table, tr, td, form {
-                    margin: 0 0 0 0;
-                    padding: 0 0 0 0;
-                }
-
-                input {
-                    color: #ffffff;
-                    background-color: #555555;
-                }
-
-                .planet-enemy {
-                    background-image: url(bilder/rot.png);
-                }
-
-                .alliance-own {
-                    color: #00ff00;
-                }
-
-                .alliance-nap {
-                    color: #ff0000;
-                }
-
-                .alliance-noraid {
-                    color: #ffff00;
-                }
-            </style>
+            <link href="css/game.css" rel="stylesheet" type="text/css">
             <script>
                 function transCalcOnLoad() {
                     <?php	if (!empty($data['planet'])) {
@@ -565,7 +519,7 @@ switch ($params['mode']) {
                     <?php		} 	} ?>
                 }
                 function transCalcSetRess(id, amount) {
-                    input = document.getElementById(id);
+                    var input = document.getElementById(id);
                     if (input)
                         if (amount == 0)
                             transCalcResetRess(id);
@@ -574,42 +528,59 @@ switch ($params['mode']) {
                     transCalcUpdate();
                 }
                 function transCalcResetRess(id) {
-                    input = document.getElementById(id);
+                    var input = document.getElementById(id);
                     if (input)
                         input.value = '';
                     transCalcUpdate();
                 }
                 function transCalcUpdate() {
-                    class1 = 0;
+                    var class1 = 0;
+                    var class2 = 0;
+                    var value;
+                    var result;
+
                     value = parseInt(document.getElementById('transCalcEisen').value);
                     class1 += isNaN(value) ? 0 : value;
+
                     value = parseInt(document.getElementById('transCalcStahl').value);
                     class1 += isNaN(value) ? 0 : value * 2;
+
                     value = parseInt(document.getElementById('transCalcChemie').value);
                     class1 += isNaN(value) ? 0 : value * 3;
+
                     value = parseInt(document.getElementById('transCalcVV4A').value);
                     class1 += isNaN(value) ? 0 : value * 4;
-                    class2 = 0;
+
                     value = parseInt(document.getElementById('transCalcEis').value);
                     class2 += isNaN(value) ? 0 : value * 2;
+
                     value = parseInt(document.getElementById('transCalcWasser').value);
                     class2 += isNaN(value) ? 0 : value * 2;
+
                     value = parseInt(document.getElementById('transCalcEnergie').value);
                     class2 += isNaN(value) ? 0 : value;
+
                     result = Math.ceil(class1 / 400000);
                     document.getElementById('transCalcFlughund').value = isNaN(result) ? '' : result;
+
                     result = Math.ceil(class1 / 75000);
                     document.getElementById('transCalcKamel').value = isNaN(result) ? '' : result;
+
                     result = Math.ceil(class1 / 20000);
                     document.getElementById('transCalcGorgol').value = isNaN(result) ? '' : result;
+
                     result = Math.ceil(class1 / 5000);
                     document.getElementById('transCalcSystrans').value = isNaN(result) ? '' : result;
+
                     result = Math.ceil(class2 / 250000);
                     document.getElementById('transCalcSeepferdchen').value = isNaN(result) ? '' : result;
+
                     result = Math.ceil(class2 / 50000);
                     document.getElementById('transCalcWaschbaer').value = isNaN(result) ? '' : result;
+
                     result = Math.ceil(class2 / 10000);
                     document.getElementById('transCalcEisbaer').value = isNaN(result) ? '' : result;
+
                     result = Math.ceil(class2 / 2000);
                     document.getElementById('transCalcLurch').value = isNaN(result) ? '' : result;
                 }
@@ -618,7 +589,6 @@ switch ($params['mode']) {
         <body onLoad="transCalcOnLoad()">
         <form target="_top">
         <input type="hidden" name="name" value="<?php echo $params['name'] ?>"/>
-        <input type="hidden" name="sid" value="<?php echo $sid ?>"/>
         <input type="hidden" name="view" value="<?php echo $params['view'] ?>"/>
         <input type="hidden" name="galaxy" value="<?php echo $params['galaxy'] ?>"/>
         <input type="hidden" name="system" value="<?php echo $params['system'] ?>"/>
@@ -638,16 +608,16 @@ switch ($params['mode']) {
                 <?php    if (!empty($data['planet'])) {
                     $planet = $data['planet'];
                     if (isColony($planet)) {
-                        echo "<img src='bilder/kolo.png' title='Kolonie'/>";
+                        echo "<img src='".BILDER_PATH."kolo.png' title='Kolonie'/>";
                     }
                     if (isBattleBase($planet)) {
-                        echo "<img src='bilder/kampf_basis.png' title='Kampfbasis'/>";
+                        echo "<img src='".BILDER_PATH."kampf_basis.png' title='Kampfbasis'/>";
                     }
                     if (isRessourceBase($planet)) {
-                        echo "<img src='bilder/ress_basis.png' title='Sammelbasis'/>";
+                        echo "<img src='".BILDER_PATH."ress_basis.png' title='Sammelbasis'/>";
                     }
                     if (isArtefactBase($planet)) {
-                        echo "<img src='bilder/artefakt_basis.png' title='Artefaktbasis'/>";
+                        echo "<img src='".BILDER_PATH."artefakt_basis.png' title='Artefaktbasis'/>";
                     }
                 } ?>
             <td nowrap>
@@ -665,49 +635,49 @@ switch ($params['mode']) {
             <td nowrap width="100%" align="left">
                 <?php    if (!empty($planet['transports'])) {
                     foreach ($planet['transports'] as $transport) {
-                        echo "<img src='bilder/raumschiff.png' title='".$transport['caption']."' />";
+                        echo "<img src='".BILDER_PATH."raumschiff.png' title='".$transport['caption']."' />";
                     }
                 } ?>
             </td>
             <td nowrap align="right" valign="top">
-                <a href="index.php?action=newscan&sid=<?php echo $sid ?>" target="_top">[ X ]</a>
+                <a href="index.php?action=newscan" target="_top">[ X ]</a>
             </td>
         </tr>
         <tr height="90px">
         <td colspan="5" valign="top" width="100%" nowrap>
-        <div style="float : left">
-            <div style="margin-right: 10px">
+        <div style="float:left">
+            <div style="margin-right:10px">
                 <img src="bilder/eisen.png" title="Eisen"/>
                 <?php echo formatAmount($planet['eisen']) ?>
             </div>
-            <div style="margin-right: 10px">
+            <div style="margin-right:10px">
                 <img src="bilder/stahl.png" title="Stahl"/>
                 <?php echo formatAmount($planet['stahl']) ?>
             </div>
-            <div style="margin-right: 10px">
+            <div style="margin-right:10px">
                 <img src="bilder/vv4a.png" title="VV4A"/>
                 <?php echo formatAmount($planet['vv4a']) ?>
             </div>
-            <div style="margin-right: 10px">
+            <div style="margin-right:10px">
                 <img src="bilder/chemie.png" title="chem. Elemente"/>
                 <?php echo formatAmount($planet['chem']) ?>
             </div>
-            <div style="margin-right: 10px">
+            <div style="margin-right:10px">
                 <img src="bilder/eis.png" title="Eis"/>
                 <?php echo formatAmount($planet['eis']) ?>
             </div>
-            <div style="margin-right: 10px">
+            <div style="margin-right:10px">
                 <img src="bilder/wasser.png" title="Wasser"/>
                 <?php echo formatAmount($planet['wasser']) ?>
             </div>
-            <div style="margin-right: 10px">
+            <div style="margin-right:10px">
                 <img src="bilder/energie.png" title="Energie"/>
                 <?php echo formatAmount($planet['energie']) ?>
             </div>
         </div>
         <?php    if (!isset($planet['stock'])) {
             foreach ($data['cat'] as $category) { ?>
-                <div style="float : left">
+                <div style="float:left">
                     <?php        foreach ($category as $key) {
                         if (!empty($planet[$key])) { ?>
                             <div>
@@ -720,10 +690,10 @@ switch ($params['mode']) {
                         <?php }
                     } ?>
                 </div>
-                <div style="float : left">
+                <div style="float:left">
                     <?php        foreach ($category as $key) {
                         if (!empty($planet[$key])) { ?>
-                            <div style="margin-left: 2px; margin-right: 10px">
+                            <div style="margin-left:2px; margin-right:10px">
                                 <?php echo $planet[$key] ?>
                             </div>
                         <?php }
@@ -731,19 +701,19 @@ switch ($params['mode']) {
                 </div>
             <?php }
         } ?>
-        <div style="float : left; width: 170px">
-            <div style="height : 25px;">
-                <div style="float : left; width : 50px; line-height : 25px; vertical-align: middle">
+        <div style="float:left; width:170px">
+            <div style="height:25px;">
+                <div style="float:left; width:50px; line-height:25px; vertical-align:middle">
                     Eisen
                 </div>
-                <div style="height : 100%; line-height : 25px; vertical-align: middle">
+                <div style="height:100%; line-height:25px; vertical-align:middle">
                     <a href="javascript:transCalcSetRess('transCalcEisen','<?php echo abs($planet['eisen']) ?>')">--&gt;</a>
                     <input id="transCalcEisen" type="text" name="eisen" size="6" onkeyup="transCalcUpdate()">
                     <a href="javascript:transCalcResetRess('transCalcEisen')">-x-</a>
                 </div>
             </div>
-            <div style="height : 25px;">
-                <div style="float : left; width : 50px; line-height : 25px; vertical-align: middle">
+            <div style="height:25px;">
+                <div style="float:left; width:50px; line-height:25px; vertical-align:middle">
                     Stahl
                 </div>
                 <div>
@@ -752,8 +722,8 @@ switch ($params['mode']) {
                     <a href="javascript:transCalcResetRess('transCalcStahl')">-x-</a>
                 </div>
             </div>
-            <div style="height : 25px">
-                <div style="float : left; width : 50px; line-height : 25px; vertical-align: middle">
+            <div style="height:25px">
+                <div style="float:left; width:50px; line-height:25px; vertical-align:middle">
                     Chemie
                 </div>
                 <div>
@@ -762,8 +732,8 @@ switch ($params['mode']) {
                     <a href="javascript:transCalcResetRess('transCalcChemie')">-x-</a>
                 </div>
             </div>
-            <div style="height : 25px">
-                <div style="float : left; width : 50px; line-height : 25px; vertical-align: middle">
+            <div style="height:25px">
+                <div style="float:left; width:50px; line-height:25px; vertical-align:middle">
                     VV4A
                 </div>
                 <div>
@@ -773,19 +743,19 @@ switch ($params['mode']) {
                 </div>
             </div>
         </div>
-        <div style="float : left; width: 170px">
-            <div style="height : 25px;">
-                <div style="float : left; width : 50px; line-height : 25px; vertical-align: middle">
+        <div style="float:left; width:170px">
+            <div style="height:25px;">
+                <div style="float:left; width:50px; line-height:25px; vertical-align:middle">
                     Eis
                 </div>
-                <div style="height : 100%; line-height : 25px; vertical-align: middle">
+                <div style="height:100%; line-height:25px; vertical-align:middle">
                     <a href="javascript:transCalcSetRess('transCalcEis','<?php echo abs($planet['eis']) ?>')">--&gt;</a>
                     <input id="transCalcEis" type="text" name="eis" size="6" onkeyup="transCalcUpdate()">
                     <a href="javascript:transCalcResetRess('transCalcEis')">-x-</a>
                 </div>
             </div>
-            <div style="height : 25px;">
-                <div style="float : left; width : 50px; line-height : 25px; vertical-align: middle">
+            <div style="height:25px;">
+                <div style="float:left; width:50px; line-height:25px; vertical-align:middle">
                     Wasser
                 </div>
                 <div>
@@ -794,8 +764,8 @@ switch ($params['mode']) {
                     <a href="javascript:transCalcResetRess('transCalcWasser')">-x-</a>
                 </div>
             </div>
-            <div style="height : 25px">
-                <div style="float : left; width : 50px; line-height : 25px; vertical-align: middle">
+            <div style="height:25px">
+                <div style="float:left; width:50px; line-height:25px; vertical-align:middle">
                     Energie
                 </div>
                 <div>
@@ -805,33 +775,33 @@ switch ($params['mode']) {
                 </div>
             </div>
         </div>
-        <div style="float : left; width: 120px">
-            <div style="height : 25px;">
-                <div style="float : left; width : 60px; line-height : 25px; vertical-align: middle">
+        <div style="float:left; width:120px">
+            <div style="height:25px;">
+                <div style="float:left; width:60px; line-height:25px; vertical-align:middle">
                     <a href="javascript:void(0)">Flughund</a>
                 </div>
-                <div style="height : 100%; line-height : 25px; vertical-align: middle">
+                <div style="height:100%; line-height:25px; vertical-align:middle">
                     <input id="transCalcFlughund" type="text" name="flughund" size="4">
                 </div>
             </div>
-            <div style="height : 25px">
-                <div style="float : left; width : 60px; line-height : 25px; vertical-align: middle">
+            <div style="height:25px">
+                <div style="float:left; width:60px; line-height:25px; vertical-align:middle">
                     <a href="javascript:void(0)">Kamel</a>
                 </div>
                 <div>
                     <input id="transCalcKamel" type="text" name="kamel" size="4">
                 </div>
             </div>
-            <div style="height : 25px;">
-                <div style="float : left; width : 60px; line-height : 25px; vertical-align: middle">
+            <div style="height:25px;">
+                <div style="float:left; width:60px; line-height:25px; vertical-align:middle">
                     <a href="javascript:void(0)">Gorgol</a>
                 </div>
                 <div>
                     <input id="transCalcGorgol" type="text" name="gorgol" size="4">
                 </div>
             </div>
-            <div style="height : 25px;">
-                <div style="float : left; width : 60px; line-height : 25px; vertical-align: middle">
+            <div style="height:25px;">
+                <div style="float:left; width:60px; line-height:25px; vertical-align:middle">
                     <a href="javascript:void(0)">Systrans</a>
                 </div>
                 <div>
@@ -839,33 +809,33 @@ switch ($params['mode']) {
                 </div>
             </div>
         </div>
-        <div style="float : left; width: 160px">
-            <div style="height : 25px;">
-                <div style="float : left; width : 90px; line-height : 25px; vertical-align: middle">
+        <div style="float:left; width:160px">
+            <div style="height:25px;">
+                <div style="float:left; width:90px; line-height:25px; vertical-align:middle">
                     <a href="javascript:void(0)">Seepferdchen</a>
                 </div>
-                <div style="height : 100%; line-height : 25px; vertical-align: middle">
+                <div style="height:100%; line-height:25px; vertical-align:middle">
                     <input id="transCalcSeepferdchen" type="text" name="flughund" size="4">
                 </div>
             </div>
-            <div style="height : 25px">
-                <div style="float : left; width : 90px; line-height : 25px; vertical-align: middle">
+            <div style="height:25px">
+                <div style="float:left; width:90px; line-height:25px; vertical-align:middle">
                     <a href="javascript:void(0)">Waschb&auml;r</a>
                 </div>
                 <div>
                     <input id="transCalcWaschbaer" type="text" name="kamel" size="4">
                 </div>
             </div>
-            <div style="height : 25px;">
-                <div style="float : left; width : 90px; line-height : 25px; vertical-align: middle">
+            <div style="height:25px;">
+                <div style="float:left; width:90px; line-height:25px; vertical-align:middle">
                     <a href="javascript:void(0)">Eisb&auml;r</a>
                 </div>
                 <div>
                     <input id="transCalcEisbaer" type="text" name="eisbaer" size="4">
                 </div>
             </div>
-            <div style="height : 25px;">
-                <div style="float : left; width : 90px; line-height : 25px; vertical-align: middle">
+            <div style="height:25px;">
+                <div style="float:left; width:90px; line-height:25px; vertical-align:middle">
                     <a href="javascript:void(0)">Lurch</a>
                 </div>
                 <div>
@@ -873,18 +843,18 @@ switch ($params['mode']) {
                 </div>
             </div>
         </div>
-        <div style="float : left">
+        <div style="float:left">
             <div>
                 <a href="<?php echo $data['url']['main'] ?>" target="main">Flotte versenden</a>
             </div>
             <div>
                 <a href="<?php echo $data['url']['uniview'] ?>" target="_top">Universum</a>
             </div>
-            <div style="margin-bottom: 12px">
+            <div style="margin-bottom:12px">
                 <a href="<?php echo $planet['simulator'] ?>" target="main">Simulator</a>
             </div>
             <?php    if (isset($data['target_prev_gal'])) { ?>
-                <div style="margin-bottom: 5px">
+                <div style="margin-bottom:5px">
                     <input type="submit" name="prev" value="&lt;&lt; Zur&uuml;ck"/>
                 </div>
             <?php }     if (isset($data['target_next_gal'])) { ?>
@@ -907,77 +877,12 @@ switch ($params['mode']) {
         ?>
         <html>
         <head>
-            <style type="text/css">
-                * {
-                    font-family: verdana;
-                    font-size: 11px;
-                }
-
-                body {
-                    color: #ffffff;
-                    background-color: #111111;
-                    background-image: url(bilder/bg_space3.png);
-                }
-
-                a:link {
-                    color: #bbbbbb;
-                }
-
-                a:visited {
-                    color: #bbbbbb;
-                }
-
-                body, table, tr, td, form {
-                    margin: 0 0 0 0;
-                    padding: 0 0 0 0;
-                }
-
-                .universum {
-                    border-top: #59626e 1px dotted;
-                    border-right: #59626e 1px dotted;
-                }
-
-                .universum-spacer {
-                    border-top: #59626e 1px dotted;
-                }
-
-                .universum-row {
-                    background-image: url(bilder/bg_space2.png);
-                }
-
-                .universum-row-selected {
-                    background-image: url(bilder/gruen.png);
-                }
-
-                .universum-row-own {
-                    background-image: url(bilder/rot.png);
-                }
-
-                .universum-row-nap {
-                    background-image: url(bilder/gelb.png);
-                }
-
-                .universum-row-noraid {
-                    background-image: url(bilder/gelb.png);
-                }
-
-                .alliance-own {
-                    color: green;
-                }
-
-                .alliance-nap {
-                    color: red;
-                }
-
-                .alliance-noraid {
-                    color: yellow;
-                }
-            </style>
+            <link href="css/game.css" rel="stylesheet" type="text/css">
         </head>
         <body>
         <table border="0" cellpadding="0" cellspacing="0" width="100%" height="177px">
             <tr>
-                <td align="right" nowrap>[<a href="index.php?action=newscan&sid=<?php echo $sid ?>" target="_top">X</a>]
+                <td align="right" nowrap>[<a href="index.php?action=newscan" target="_top">X</a>]
                 </td>
             </tr>
             <tr>
@@ -1023,23 +928,23 @@ switch ($params['mode']) {
             </td>
         </tr>
         <?php    foreach ($data['planets'] as $planet) {         if (isset($data['targets'][$planet['coords']])) {             if ($user_uniprop) { ?>
-        <tr class="universum-row-selected" height="71px" valign="top">
+        <tr class="universum-row-selected top" height="71px" >
             <?php            } else { ?>
-        <tr class="universum-row-selected" valign="top">
+        <tr class="universum-row-selected top" >
             <?php            }         } else {             if ($user_uniprop) { ?>
         <tr class="universum-row<?php echo !empty($planet['allianzstatus']) ? '-' . $planet['allianzstatus'] : '' ?>" height="71px" valign="top">
             <?php            } else { ?>
         <tr class="universum-row<?php echo !empty($planet['allianzstatus']) ? '-' . $planet['allianzstatus'] : '' ?>" valign="top">
             <?php            }         } ?>
-            <td class="universum" width="20px" align="center" valign="center">
+            <td class="universum center middle" style="width:20px">
                 <?php echo $planet['coords_planet'] ?>
             </td>
-            <td class="universum" width="20px" align="center" valign="center">
+            <td class="universum center middle" style="width:20px">
                 <?php echo formatTyp($planet['typ']) ?>
             </td>
-            <td class="universum" valign="top">
+            <td class="universum top">
                 <table>
-                    <tr valign="center">
+                    <tr class="middle">
                         <td nowrap>
                             <?php    if (isColony($planet)) { ?>
                                 <img src="bilder/kolo.png" title="Kolonie"/>
@@ -1088,37 +993,37 @@ switch ($params['mode']) {
                             } ?>
                         </td>
                         <?php    if (hasRaid($planet)) { ?>
-                            <td nowrap valign="center">
+                            <td nowrap class="middle">
                                 <a href="<?php echo $planet['raid_link'] ?>" target="main">Raid</a>
                             </td>
-                            <td nowrap valign="center">
+                            <td nowrap class="middle">
                                 <?php echo formatDuration($planet['raid_time'], 48 * 60) ?>
                             </td>
                         <?php }     if (hasFailScan($planet)) { ?>
                             <td nowrap>
                             </td>
-                            <td nowrap valign="center">
-                                <span style="color : #ff0000;" title="Fehlgeschlagene Sondierung"><?php echo formatDuration($planet['fehlscantime']) ?></span>
+                            <td nowrap class="middle">
+                                <span style="color:#ff0000;" title="Fehlgeschlagene Sondierung"><?php echo formatDuration($planet['fehlscantime']) ?></span>
                             </td>
                         <?php }     if (hasShipScan($planet)) { ?>
                             <td nowrap>
                                 <img src="bilder/scann_schiff.png" title="Schiffscan"/>
                             </td>
-                            <td nowrap valign="center">
+                            <td nowrap class="middle">
                                 <?php echo formatDuration($planet['schiffscantime'], 48 * 60) ?>
                             </td>
                         <?php }     if (hasGebScan($planet)) { ?>
-                            <td nowrap valign="top">
+                            <td nowrap class="top">
                                 <img src="bilder/scann_geb.png" title="Gebäudescan"/>
                             </td>
-                            <td nowrap valign="center">
+                            <td nowrap class="middle">
                                 4d
                             </td>
                         <?php }     if (hasGeoScan($planet)) { ?>
-                            <td nowrap valign="top">
+                            <td nowrap class="top">
                                 <img src="bilder/scann_geo.png" title="Geoscan"/>
                             </td>
-                            <td nowrap valign="center">
+                            <td nowrap class="middle">
                                 <?php echo formatDuration($planet['geoscantime']) ?>
                             </td>
                         <?php } ?>
@@ -1130,31 +1035,31 @@ switch ($params['mode']) {
                             <td nowrap>
                                 <img src="bilder/eisen.png" title="Eisen"/>
                             </td>
-                            <td valign="top" nowrap>
+                            <td class="top" nowrap>
                                 <?php echo formatAmount($planet["eisen"]) ?>
                             </td>
                             <td nowrap>
                                 <img src="bilder/stahl.png" title="Stahl"/>
                             </td>
-                            <td valign="top" nowrap>
+                            <td class="top" nowrap>
                                 <?php echo formatAmount($planet["stahl"]) ?>
                             </td>
                             <td nowrap>
                                 <img src="bilder/vv4a.png" title="VV4A"/>
                             </td>
-                            <td valign="top" nowrap>
+                            <td class="top" nowrap>
                                 <?php echo formatAmount($planet["vv4a"]) ?>
                             </td>
                             <td nowrap>
                                 <img src="bilder/chemie.png" title="chem. Elemente"/>
                             </td>
-                            <td valign="top" nowrap>
+                            <td class="top" nowrap>
                                 <?php echo formatAmount($planet["chemie"]) ?>
                             </td>
                             <td nowrap>
                                 <img src="bilder/eis.png" title="Eis"/>
                             </td>
-                            <td valign="top" nowrap>
+                            <td class="top" nowrap>
                                 <?php echo formatAmount($planet["eis"]) ?>
                             </td>
                             <td nowrap>
@@ -1166,10 +1071,10 @@ switch ($params['mode']) {
                             <td nowrap>
                                 <img src="bilder/energie.png" title="Energie"/>
                             </td>
-                            <td valign="top" nowrap>
+                            <td class="top" nowrap>
                                 <?php echo formatAmount($planet["energie"]) ?>
                             </td>
-                            <td nowrap width="100%">
+                            <td nowrap style="width:100%">
                             </td>
                             <td nowrap>
                                 <?php echo formatRating($planet["rating"]) ?>
@@ -1215,7 +1120,7 @@ switch ($params['mode']) {
             </td>
         </tr>
         <tr height="40px" valign="top">
-            <td class="universum-spacer" colspan="3" width="100%" height="40px" valign="top" nowrap>
+            <td class="universum-spacer top" colspan="3" width="100%" height="40px"  nowrap>
                 <table width="100%" height="40px" valign="top">
                     <tr height="40px" valign="top">
                         <td align="left" valign="top" nowrap>
@@ -1335,11 +1240,11 @@ function formatTyp($value)
 function formatRating($value)
 {
     if ($value < 100) {
-        $result = '<span style="color : #ff0000">';
+        $result = '<span style="color:#ff0000">';
     } elseif ($value >= 100 && $value < 999) {
-        $result = '<span style="color : #ffff00">';
+        $result = '<span style="color:#ffff00">';
     } else {
-        $result = '<span style="color : #00ff00">';
+        $result = '<span style="color:#00ff00">';
     }
     $result .= number_format($value, 0, ',', '.') . '%';
     $result .= '</span>';
@@ -1372,7 +1277,7 @@ function formatYield($yield)
 // Menge formatieren
 function formatAmount($amount)
 {
-    $pre  = $amount < 0 ? '<span style="color : red">' : '';
+    $pre  = $amount < 0 ? '<span style="color:red">' : '';
     $post = $amount < 0 ? '</span>' : '';
     if (abs($amount) > 1000) {
         return $pre . number_format(round($amount / 1000), 0, ",", '.') . "k" . $post;
@@ -1393,7 +1298,7 @@ function formatDuration($time, $minYellow = 0)
     $hours    = round($duration / HOUR);
     $minutes  = round($duration / MINUTE);
     if (!empty($minYellow)) {
-        $pre  = '<span style="color : ' . ($minutes >= $minRed ? '#ffff00' : '#00ff00') . '">';
+        $pre  = '<span style="color:' . ($minutes >= $minRed ? '#ffff00' : '#00ff00') . '">';
         $post = '</span>';
     } else {
         $pre  = '';

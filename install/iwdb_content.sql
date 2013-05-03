@@ -353,6 +353,7 @@ INSERT INTO `prefix_merkmale` (`id`, `merkmal`) VALUES
 --
 
 INSERT INTO `prefix_params` (`name`, `value`, `text`) VALUES
+('version', '0.8', ''),
 ('gesperrt', '0', ''),
 ('aktuellnews', '0', ''),
 ('sound_login', '1', ''),

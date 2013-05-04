@@ -246,6 +246,7 @@ $data = array();
 </table>
 <br>
 <br>
+
 <?php
 doc_title('erforschte Forschungen eines Spielers anschauen');
 ?>
@@ -276,9 +277,27 @@ if(isset($_POST['formSubmit']) ) {
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 		
 	?>
-	<table class='table_hovertable' style='width:90%'>
-	<?php
+	<script>
+$(document).ready(function() 
+    { 
+        $("#myTable").tablesorter(); 
+    } 
+);
+</script>
+	<table id='myTable' class='table_hovertable tablesorter' style='width:90%'>
 	
+	<thead>
+		<tr>
+			<th>
+				<?php
+				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
+				echo "Forschungsname";
+				?>
+			</th>
+		<tr>
+	</thead>
+	<tbody>
+	<?php
 	while ($row = $db->db_fetch_array($result)) {
 		$sql = "SELECT name FROM " . $db_tb_research . " WHERE id ='" . $row['rid'] . "'";
 		$result_forsch = $db->db_query($sql)
@@ -296,7 +315,9 @@ if(isset($_POST['formSubmit']) ) {
 	<?php
 	}
 	?>
+	</tbody>
 	</table>
 <?php		
 }
 ?>
+<script src="javascript/jquery.tablesorter.min.js"></script>

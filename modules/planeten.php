@@ -37,58 +37,52 @@ if (!defined('IRA')) {
 
 doc_title('Planetenliste');
 ?>
-<table class="table_hovertable" style="width: 90%;">
-    <tr class="titlebg">
-        <th style="width:15%;">
-            <a href="index.php?action=planeten&order=coords&ordered=asc"><img
-                    src="bilder/asc.gif" alt="asc"></a>
-            <b>Koordinaten</b>
-            <a href="index.php?action=planeten&order=coords&ordered=desc"><img
-                    src="bilder/desc.gif" alt="desc"></a>
-        </th>
-        <th style="width:20%;">
-            <a href="index.php?action=planeten&order=t2.sitterlogin&ordered=asc"><img
-                    src="bilder/asc.gif" alt="asc"></a>
-            <b>Username</b>
-            <a href="index.php?action=planeten&order=t2.sitterlogin&ordered=desc"><img
-                    src="bilder/desc.gif" alt="desc"></a>
-        </th>
-        <th style="width:40%;">
-            <a href="index.php?action=planeten&order=t1.planetenname&ordered=asc"><img
-                    src="bilder/asc.gif" alt="asc"></a>
-            <b>Planetenname</b>
-            <a href="index.php?action=planeten&order=t1.planetenname&ordered=desc"><img
-                    src="bilder/desc.gif" alt="desc"></a>
-        </th>
-        <th style="width:25%;">
-            <a href="index.php?action=planeten&order=t2.budflesol&ordered=asc"><img
-                    src="bilder/asc.gif" alt="asc"></a>
-            <b>Spielart</b>
-            <a href="index.php?action=planeten&order=t2.budflesol&ordered=desc"><img
-                    src="bilder/desc.gif" alt="desc"></a>
-        </th>
-    </tr>
-    <?php
-    $order = getVar('order');
-    $order = (empty($order)) ? "coords" : $order;
-    $ordered = getVar('ordered');
-    $ordered = (empty($ordered)) ? "ASC" : $ordered;
-
-    if ($order == "coords") {
-        $order = "t1.coords_gal " . $ordered . ", t1.coords_sys " . $ordered . ", t1.coords_planet";
-    }
-    if ($order == "t2.budflesol") {
-        $order = "t2.budflesol " . $ordered . ", t2.buddlerfrom";
-    }
-
+<script>
+$(document).ready(function() 
+    { 
+        $("#myTable").tablesorter(); 
+    } 
+);
+</script>
+<table id="myTable" class="table_hovertable tablesorter" style="width: 90%;">
+	<thead>
+		<tr class="titlebg">
+			<th style="width:15%;">
+				<?php
+				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
+				?>
+				<b>Koordinaten</b>
+			</th>
+			<th style="width:20%;">
+				<?php
+				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
+				?>
+				<b>Username</b> 
+			</th>
+			<th style="width:40%;">
+				<?php
+				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
+				?>
+				<b>Planetenname</b>
+           </th>
+			<th style="width:25%;">
+				<?php
+				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
+				?>
+				<b>Spielart</b>
+           </th>
+		</tr>
+	</thead>
+	</tbody>
+	<?php
     $sql = "SELECT * FROM " . $db_tb_scans . " AS t1 INNER JOIN " . $db_tb_user . " AS t2 WHERE t1.user=t2.sitterlogin";
     if (!$user_fremdesitten) {
-        $sql .= " AND t2.allianz='" . $user_allianz . "'";
+		$sql .= " AND t2.allianz='" . $user_allianz . "'";
     }
     $sql .= " AND t2.sitterlogin<>''";
-    $sql .= " ORDER BY " . $order . " " . $ordered;
+    
     $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
     $sitpre = "";
     $num = 0;
@@ -98,57 +92,59 @@ doc_title('Planetenliste');
             $num    = ($num == 1) ? 2 : 1;
             $sitpre = $row['sitterlogin'];
         }
-        ?>
-        <tr>
-            <td class="left">
-                <a href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=auto"><?php echo $row['coords'];?></a>
-            </td>
-            <td class="left">
-                <?php
+    ?>
+		<tr>
+			<td class="left">
+				<a href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=auto"><?php echo $row['coords'];?></a>
+			</td>
+			<td class="left">
+				<?php
                 if ($user_status == "admin") {
-                    echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($row['sitterlogin']) . "'>" . $row['sitterlogin'] . "</a>";
+					echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($row['sitterlogin']) . "'>" . $row['sitterlogin'] . "</a>";
                 } else {
                     echo $row['sitterlogin'];
                 }
                 ?>
-            </td>
-            <td class="left">
-                <a href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=auto">
-                    <div class='doc_<?php
-                    if ($row['objekt'] == "Kolonie") {
-                        echo "black";
-                    } else if ($row['objekt'] == "Kampfbasis") {
-                        echo "red";
-                    } else if ($row['objekt'] == "Sammelbasis") {
-                        echo "green";
-                    } else if ($row['objekt'] == "Artefaktbasis") {
-                        echo "blue";
-                    } else {
-                        echo "'black'";
-                    }
-                    ?>'><?php echo $row['planetenname'];?> (<?php
-                        if ($row['objekt'] == "Kolonie") {
-                            echo "K";
-                        } else if ($row['objekt'] == "Kampfbasis") {
-                            echo "B";
-                        } else if ($row['objekt'] == "Sammelbasis") {
-                            echo "S";
-                        } else if ($row['objekt'] == "Artefaktbasis") {
-                            echo "A";
-                        } else {
-                            echo "-";
-                        }
-                        ?>)
-                    </div>
-                </a>
-            </td>
-            <td class="left">
-                <?php echo $row['budflesol']; echo ($row['buddlerfrom']) ? " von: " . $row['buddlerfrom'] : "";?>
-            </td>
-        </tr>
-    <?php
+			</td>
+			<td class="left">
+				<a href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>&ansicht=auto">
+				<div class='doc_<?php
+					if ($row['objekt'] == "Kolonie") {
+						echo "black";
+					} else if ($row['objekt'] == "Kampfbasis") {
+						echo "red";
+					} else if ($row['objekt'] == "Sammelbasis") {
+						echo "green";
+					} else if ($row['objekt'] == "Artefaktbasis") {
+						echo "blue";
+					} else {
+						echo "'black'";
+					}
+					?>'><?php echo $row['planetenname'];?> (<?php
+					if ($row['objekt'] == "Kolonie") {
+						echo "K";
+					} else if ($row['objekt'] == "Kampfbasis") {
+						echo "B";
+					} else if ($row['objekt'] == "Sammelbasis") {
+						echo "S";
+					} else if ($row['objekt'] == "Artefaktbasis") {
+						echo "A";
+					} else {
+						echo "-";
+					}
+					?>)
+              </div>
+              </a>
+			</td>
+			<td class="left">
+				<?php echo $row['budflesol']; echo ($row['buddlerfrom']) ? " von: " . $row['buddlerfrom'] : "";?>
+			</td>
+		</tr>
+	<?php
     }
     ?>
+	</tbody>
 </table>
 <br/>
 <b>K = Kolonie, B = Kampfbasis, S = Sammelbasis, A = Artefaktbasis</b> 
+<script src="javascript/jquery.tablesorter.min.js"></script>

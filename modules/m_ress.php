@@ -225,200 +225,281 @@ if ($switch === 24) {
     doc_title("Verbrauch in " . $switch . " Stunde(n)");
 }
 doc_title("sowie Bevölkerungsdaten");
+?>
+	<script>
+$(document).ready(function() 
+    { 
+        $("#myTable").tablesorter(); 
+    } 
+);
+</script>
 
-start_table();
+<table id='myTable' class='table_hovertable tablesorter' style='width:100%'>
+	<thead>
+		<tr>
+			<th>
+				<?php
+				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
+				echo "<b>User</b>";
+				?>
+			</th>
+			<th>
+				<?php
+				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
+				echo "<b>Einlesezeit</b>";
+				?>
+			</th>
+			<th>
+				<?php
+				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
+				echo "<b>Eisen</b>";
+				?>
+			</th>
+			<th>
+				<?php
+				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
+				echo "<b>Stahl</b>";
+				?>
+			</th>
+			<th>
+				<?php
+				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
+				echo "<b>VV4A</b>";
+				?>
+			</th>
+			<th>
+				<?php
+				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
+				echo "<b>Chemie</b>";
+				?>
+			</th>
+			<th>
+				<?php
+				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
+				echo "<b>Eis</b>";
+				?>
+			</th>
+			<th>
+				<?php
+				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
+				echo "<b>Wasser</b>";
+				?>
+			</th>
+			<th>
+				<?php
+				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
+				echo "<b>Energie</b>";
+				?>
+			</th>
+			<th>
+				<?php
+				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
+				echo "<b>FP</b>";
+				?>
+			</th>
+			<th>
+				<?php
+				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
+				echo "<b>Credits</b>";
+				?>
+			</th>
+			<th>
+				<?php
+				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
+				echo "<b>Hartz IV</b>";
+				?>
+			</th>
+			<th>
+				<?php
+				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
+				echo "<b>Volk</b>";
+				?>
+			</th>
+			<th>
+				<?php
+				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
+				echo "<b>Quote</b>";
+				?>
+			</th>
+		</tr>
+	</thead>
+	</tbody>
 
-start_row("titlebg center", "style='width:9%'");
-make_link("user", "asc");
-echo "<b>User</b>";
-make_link("user", "desc");
-echo "<br>";
+	<?php
+	global $db, $db_tb_ressuebersicht;
 
-next_cell("titlebg center", "style='width:9%'");
-make_link("datum", "asc");
-echo "<b>Einlesezeit</b>";
-make_link("datum", "desc");
-
-next_cell("titlebg center", "style='width:9%'");
-make_link("eisen", "asc");
-echo "<b>Eisen</b>";
-make_link("eisen", "desc");
-
-next_cell("titlebg center", "style='width:9%'");
-make_link("stahl", "asc");
-echo "<b>Stahl</b>";
-make_link("stahl", "desc");
-
-next_cell("titlebg center", "style='width:9%'");
-make_link("vv4a", "asc");
-echo "<b>VV4A</b>";
-make_link("vv4a", "desc");
-
-next_cell("titlebg center", "style='width:9%'");
-make_link("chem", "asc");
-echo "<b>Chemie</b>";
-make_link("chem", "desc");
-
-next_cell("titlebg center", "style='width:9%'");
-make_link("eis", "asc");
-echo "<b>Eis</b>";
-make_link("eis", "desc");
-
-next_cell("titlebg center", "style='width:9%'");
-make_link("wasser", "asc");
-echo "<b>Wasser</b>";
-make_link("wasser", "desc");
-
-next_cell("titlebg center", "style='width:9%'");
-make_link("energie", "asc");
-echo "<b>Energie</b>";
-make_link("energie", "desc");
-
-next_cell("titlebg center", "style='width:9%'");
-make_link("fp_ph", "asc");
-echo "<b>FP</b>";
-make_link("fp_ph", "desc");
-
-next_cell("titlebg center", "style='width:9%'");
-make_link("credits", "asc");
-echo "<b>Credits</b>";
-make_link("credits", "desc");
-
-next_cell("titlebg center", "style='width:9%'");
-make_link("bev_a", "asc");
-echo "<b>Hartz IV</b>";
-make_link("bev_a", "desc");
-
-next_cell("titlebg center", "style='width:9%'");
-make_link("bev_g", "asc");
-echo "<b>Volk</b>";
-make_link("bev_g", "desc");
-
-next_cell("titlebg center", "style='width:3%'");
-make_link("bev_q", "asc");
-echo "<b>Quote</b>";
-make_link("bev_q", "desc");
-
-$order   = getVar('order');
-$ordered = getVar('ordered');
-
-if (empty($order)) {
-    $order = 'datum';
-}
-
-if (empty($ordered)) {
-    $ordered = 'asc';
-}
-
-global $db, $db_tb_ressuebersicht;
-
-// Anzeigen der Daten im Browser
-$sql = "SELECT `datum` , `user` , `eisen` , `stahl` , `vv4a` , `chem` , `eis` ," .
-    " `wasser` , `energie`, `fp_ph`, `credits`, `bev_a`, `bev_g`, `bev_q` FROM `" . $db_tb_ressuebersicht . "`";
-if (!$user_fremdesitten) {
-    $sql .= " WHERE (SELECT allianz FROM " . $db_tb_user . " WHERE id=" . $db_tb_ressuebersicht . ".user) = '" . $user_allianz . "'";
-}
-$sql .= " ORDER BY `" . $order . "` " . $ordered;
-$result = $db->db_query($sql);
+	// Anzeigen der Daten im Browser
+	$sql = "SELECT `datum` , `user` , `eisen` , `stahl` , `vv4a` , `chem` , `eis` ," .
+		" `wasser` , `energie`, `fp_ph`, `credits`, `bev_a`, `bev_g`, `bev_q` FROM `" . $db_tb_ressuebersicht . "`";
+	if (!$user_fremdesitten) {
+		$sql .= " WHERE (SELECT allianz FROM " . $db_tb_user . " WHERE id=" . $db_tb_ressuebersicht . ".user) = '" . $user_allianz . "'";
+	}
+	$result = $db->db_query($sql);
 
 
-while ($row = $db->db_fetch_array($result)) {
-    $color = getScanAgeColor($row['datum']);
+	while ($row = $db->db_fetch_array($result)) {
+		$color = getScanAgeColor($row['datum']);
 
-    next_row("windowbg1");
-    echo $row['user'] . "<br>";
-
-    next_cell("windowbg1", "style='background-color:" . $color . "' nowrap='nowrap'");
-    echo strftime(CONFIG_DATETIMEFORMAT, $row['datum']);
-
-    next_cell("windowbg1 right");
-    echo number_format($row['eisen'] * $switch, 0, ',', '.');
-
-    next_cell("windowbg1 right");
-    echo number_format($row['stahl'] * $switch, 0, ',', '.');
-
-    next_cell("windowbg1 right");
-    echo number_format($row['vv4a'] * $switch, 0, ',', '.');
-
-    next_cell("windowbg1 right");
-    echo number_format($row['chem'] * $switch, 0, ',', '.');
-
-    next_cell("windowbg1 right");
-    echo number_format($row['eis'] * $switch, 0, ',', '.');
-
-    next_cell("windowbg1 right");
-    echo number_format($row['wasser'] * $switch, 0, ',', '.');
-
-    next_cell("windowbg1 right");
-    echo number_format($row['energie'] * $switch, 0, ',', '.');
-
-    next_cell("windowbg1 right");
-    echo number_format($row['fp_ph'] * $switch, 0, ',', '.');
-
-    next_cell("windowbg1 right");
-    echo number_format($row['credits'] * $switch, 0, ',', '.');
-
-    next_cell("windowbg1 right");
-    echo number_format($row['bev_a'], 0, ',', '.');
-
-    next_cell("windowbg1 right");
-    echo number_format($row['bev_g'], 0, ',', '.');
-
-    next_cell("windowbg1 right");
-    echo number_format($row['bev_q'], 2, ',', '.');
-}
-
-end_row();
-
-// Gesamtanzeige
-$sql    = "SELECT sum(`eisen`) as eisen , sum(`stahl`) as stahl, sum(`vv4a`) as vv4a," .
-    " sum(`chem`) as chem, sum(`eis`) as eis, sum(`wasser`) as wasser," .
-    " sum(`energie`) as energie, sum(`fp_ph`) as fp_ph, sum(`credits`) as credits," .
-    " sum(`bev_a`) as bev_a, sum(`bev_g`) as bev_g, sum(`bev_q`)/count(`bev_a`) as bev_q" .
-    " FROM " . $db_tb_ressuebersicht;
-$result = $db->db_query($sql);
-while ($row = $db->db_fetch_array($result)) {
-    next_row("titlebg center", "style='background-color:\$FFFFFF' colspan='2'");
-    echo "Gesamt:";
-
-    next_cell("windowbg1 right");
-    echo number_format($row['eisen'] * $switch, 0, ',', '.');
-
-    next_cell("windowbg1 right");
-    echo number_format($row['stahl'] * $switch, 0, ',', '.');
-
-    next_cell("windowbg1 right");
-    echo number_format($row['vv4a'] * $switch, 0, ',', '.');
-
-    next_cell("windowbg1 right");
-    echo number_format($row['chem'] * $switch, 0, ',', '.');
-
-    next_cell("windowbg1 right");
-    echo number_format($row['eis'] * $switch, 0, ',', '.');
-
-    next_cell("windowbg1 right");
-    echo number_format($row['wasser'] * $switch, 0, ',', '.');
-
-    next_cell("windowbg1 right");
-    echo number_format($row['energie'] * $switch, 0, ',', '.');
-
-    next_cell("windowbg1 right");
-    echo number_format($row['fp_ph'] * $switch, 0, ',', '.');
-
-    next_cell("windowbg1 right");
-    echo number_format($row['credits'] * $switch, 0, ',', '.');
-
-    next_cell("windowbg1 right");
-    echo number_format($row['bev_a'], 0, ',', '.');
-
-    next_cell("windowbg1 right");
-    echo number_format($row['bev_g'], 0, ',', '.');
-
-    next_cell("windowbg1 right");
-    echo "&Oslash;" . number_format($row['bev_q'], 2, ',', '.');
-}
-end_row();
-end_table();
+    ?>
+		<tr>
+			<td>
+				<?php
+				echo $row['user'] . "<br>";
+				?>
+			</td>
+			<td style="background-color: <?php echo $color ?>">
+				<?php
+				echo strftime(CONFIG_DATETIMEFORMAT, $row['datum']);
+				?>
+			</td>
+			<td>
+				<?php
+				echo number_format($row['eisen'] * $switch, 0, ',', '.');
+				?>
+			</td>
+			<td>
+				<?php
+				echo number_format($row['stahl'] * $switch, 0, ',', '.');
+				?>
+			</td>
+			<td>
+				<?php
+				echo number_format($row['vv4a'] * $switch, 0, ',', '.');
+				?>
+			</td>
+			<td>
+				<?php
+				echo number_format($row['chem'] * $switch, 0, ',', '.');
+				?>
+			</td>
+			<td>
+				<?php
+				echo number_format($row['eis'] * $switch, 0, ',', '.');
+				?>
+			</td>
+			<td>
+				<?php
+				echo number_format($row['wasser'] * $switch, 0, ',', '.');
+				?>
+			</td>
+			<td>
+				<?php
+				echo number_format($row['energie'] * $switch, 0, ',', '.');
+				?>
+			</td>
+			<td>
+				<?php
+				echo number_format($row['fp_ph'] * $switch, 0, ',', '.');
+				?>
+			</td>
+			<td>
+				<?php
+				echo number_format($row['credits'] * $switch, 0, ',', '.');
+				?>
+			</td>
+			<td>
+				<?php
+				echo number_format($row['bev_a'], 0, ',', '.');
+				?>
+			</td>
+			<td>
+				<?php
+				echo number_format($row['bev_g'], 0, ',', '.');
+				?>
+			</td>
+			<td>
+				<?php
+				echo number_format($row['bev_q'], 2, ',', '.');
+				?>
+			</td>
+		</tr>
+	</tbody>		
+		<?php
+		}
+		// Gesamtanzeige
+		$sql = 	"SELECT sum(`eisen`) as eisen , sum(`stahl`) as stahl, sum(`vv4a`) as vv4a," .
+				" sum(`chem`) as chem, sum(`eis`) as eis, sum(`wasser`) as wasser," .
+				" sum(`energie`) as energie, sum(`fp_ph`) as fp_ph, sum(`credits`) as credits," .
+				" sum(`bev_a`) as bev_a, sum(`bev_g`) as bev_g, sum(`bev_q`)/count(`bev_a`) as bev_q" .
+				" FROM " . $db_tb_ressuebersicht;
+				$result = $db->db_query($sql);
+		while ($row = $db->db_fetch_array($result)) {
+		?>
+		<tfoot>
+		<tr class="titlebg center" "style='background-color:\$FFFFFF';">
+			<td colspan='2'>
+				<?php
+				echo "Gesamt:";
+				?>
+			</td>
+			<td>
+				<?php
+				echo number_format($row['eisen'] * $switch, 0, ',', '.');
+				?>
+			</td>
+			<td>
+				<?php
+				echo number_format($row['stahl'] * $switch, 0, ',', '.');
+				?>
+			</td>
+			<td>
+				<?php
+				echo number_format($row['vv4a'] * $switch, 0, ',', '.');
+				?>
+			</td>
+			<td>
+				<?php
+				echo number_format($row['chem'] * $switch, 0, ',', '.');
+				?>
+			</td>
+			<td>
+				<?php
+				echo number_format($row['eis'] * $switch, 0, ',', '.');
+				?>
+			</td>
+			<td>
+				<?php
+				echo number_format($row['wasser'] * $switch, 0, ',', '.');
+				?>
+			</td>
+			<td>
+				<?php
+				echo number_format($row['energie'] * $switch, 0, ',', '.');
+				?>
+			</td>
+			<td>
+				<?php
+				echo number_format($row['fp_ph'] * $switch, 0, ',', '.');
+				?>
+			</td>
+			<td>
+				<?php
+				echo number_format($row['credits'] * $switch, 0, ',', '.');
+				?>
+			</td>
+			<td>
+				<?php
+				echo number_format($row['bev_a'], 0, ',', '.');
+				?>
+			</td>
+			<td>
+				<?php
+				echo number_format($row['bev_g'], 0, ',', '.');
+				?>
+			</td>
+			<td>
+				<?php
+				echo "&Oslash;" . number_format($row['bev_q'], 2, ',', '.');
+				?>
+			</td>
+		</tr>
+		<?php
+		}
+		?>
+	</tfoot>
+</table>
+		
+<?php	
 
 // 
 // Erweiterung für Zusatz-Tabellen; sortiert nach Usern, die einem Fleeter zugeordnet sind
@@ -460,190 +541,272 @@ foreach ($fleeterlist as $key => $value) {
     $fleetername = $value['id'];
 
     echo "\n\n<br><br>\n\n";
+	?>
+	<table <table id='myTable' class='table_hovertable tablesorter' style='width:100%'>
+		<thead>
+			<tr class="titlebg center">
+				<th colspan='13'>
+					<?php
+					if ($fleetername == $value['sitterlogin']) {
+						echo "<b>Fleeter: " . $fleetername . "</b>";
+					} else {
+						echo "<b>Fleeter: " . $fleetername . "<br>(ingamenick &laquo;" . $value['sitterlogin'] . "&raquo;)</b>";
+					}
+					echo "<br>";
+					?>
+				</th>
+			</tr>
+			<tr>
+				<th>
+					<?php
+					echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
+					echo "<b>User</b>";
+					?>
+				</th>
+				<th>
+					<?php
+					echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
+					echo "<b>Einlesezeit</b>";
+					?>
+				</th>
+				<th>
+					<?php
+					echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
+					echo "<b>Eisen</b>";
+					?>
+				</th>
+				<th>
+					<?php
+					echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
+					echo "<b>Stahl</b>";
+					?>
+				</th>
+				<th>
+					<?php
+					echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
+					echo "<b>VV4A</b>";
+					?>
+				</th>
+				<th>
+					<?php
+					echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
+					echo "<b>Chemie</b>";
+					?>
+				</th>
+				<th>
+					<?php
+					echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
+					echo "<b>Eis</b>";
+					?>
+				</th>
+				<th>
+					<?php
+					echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
+					echo "<b>Wasser</b>";
+					?>
+				</th>
+				<th>
+					<?php
+					echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
+					echo "<b>Energie</b>";
+					?>
+				</th>
+				<th>
+					<?php
+					echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
+					echo "<b>FP</b>";
+					?>
+				</th>
+				<th>
+					<?php
+					echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
+					echo "<b>Credits</b>";
+					?>
+				</th>
+				<th>
+					<?php
+					echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
+					echo "<b>Spieltyp</b>";
+					?>
+				</th>
+				<th>
+					<?php
+					echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
+					echo "<b>Staatsform</b>";
+					?>
+				</th>
+			</tr>
+		</thead>
+		<?php    
 
-    start_table();
+		// Anzeigen der Daten im Browser
+		$sql3 = "SELECT
+					ro.datum, ro.user, ro.eisen, ro.stahl, ro.vv4a, ro.chem, ro.eis, ro.wasser, 
+					ro.energie, ro.fp_ph, ro.credits,
+					us.sitterlogin, us.buddlerfrom, us.budflesol, us.staatsform
+				FROM
+					" . $db_tb_ressuebersicht . " as ro, " . $db_tb_user . " as us
+				WHERE
+					ro.user = us.sitterlogin AND us.buddlerfrom = '" . $fleetername;
+				
+		$result3 = $db->db_query($sql3);
 
-    start_row("titlebg center", "colspan='13'");
-    if ($fleetername == $value['sitterlogin']) {
-        echo "<b>Fleeter: " . $fleetername . "</b>";
-    } else {
-        echo "<b>Fleeter: " . $fleetername . "<br>(ingamenick &laquo;" . $value['sitterlogin'] . "&raquo;)</b>";
-    }
-    echo "<br>";
+		while ($row = $db->db_fetch_array($result3)) {
+			$color = getScanAgeColor($row['datum']);
 
-    next_row("titlebg center", "style='width:9%'");
-    make_link("user", "asc");
-    echo "<b>User</b>";
-    make_link("user", "desc");
-    echo "<br>";
+        ?>
+		<tbody>
+			<tr>
+				<td>
+					<?php
+					echo $row['user'] . "<br>";
+					?>
+				</td>
+				<td style="background-color: <?php echo $color ?>">
+					<?php
+					echo strftime("%d.%m.%y<br>%H:%M:%S", $row['datum']);
+					?>
+				</td>
+				<td>
+					<?php
+					echo number_format($row['eisen'] * $switch, 0, ',', '.');
+					?>
+				</td>
+				<td>
+					<?php
+					echo number_format($row['stahl'] * $switch, 0, ',', '.');
+					?>
+				</td>
+				<td>
+					<?php
+					echo number_format($row['vv4a'] * $switch, 0, ',', '.');
+					?>
+				</td>
+				<td>
+					<?php
+					echo number_format($row['chem'] * $switch, 0, ',', '.');
+					?>
+				</td>
+				<td>
+					<?php
+					echo number_format($row['eis'] * $switch, 0, ',', '.');
+					?>
+				</td>
+				<td>
+					<?php
+					echo number_format($row['wasser'] * $switch, 0, ',', '.');
+					?>
+				</td>
+				<td>
+					<?php
+					echo number_format($row['energie'] * $switch, 0, ',', '.');
+					?>
+				</td>
+				<td>
+					<?php
+					echo number_format($row['fp_ph'] * $switch, 0, ',', '.');
+					?>
+				</td>
+				<td>
+					<?php
+					echo number_format($row['credits'] * $switch, 0, ',', '.');
+					?>
+				</td>
+				<td>
+					<?php
+					echo $row['budflesol'];
+					?>
+				</td>
+				<td>
+					<?php
+					echo NumToStaatsform($row['staatsform']);
+					?>
+				</td>
+			</tr>
+		</tbody>
+		<?php
+		}
+		// Gesamtanzeige
+		$sql = "SELECT
+					sum(ro.eisen) as eisen, sum(ro.stahl) as stahl, sum(ro.vv4a) as vv4a,
+					sum(ro.chem) as chem, sum(ro.eis) as eis, sum(ro.wasser) as wasser,
+					sum(ro.energie) as energie, sum(ro.fp_ph) as fp_ph,
+					sum(ro.credits) as credits, ro.user, us.sitterlogin, us.buddlerfrom
+				FROM
+					" . $db_tb_ressuebersicht . " as ro, " . $db_tb_user . " as us
+				WHERE
+					ro.user = us.sitterlogin AND us.buddlerfrom = '" . $fleetername . "'
+				GROUP BY
+					us.buddlerfrom";
 
-    next_cell("titlebg center", "style='width:9%'");
-    make_link("datum", "asc");
-    echo "<b>Einlesezeit</b>";
-    make_link("datum", "desc");
+		$result = $db->db_query($sql);
 
-    next_cell("titlebg center", "style='width:9%'");
-    make_link("eisen", "asc");
-    echo "<b>Eisen</b>";
-    make_link("eisen", "desc");
-
-    next_cell("titlebg center", "style='width:9%'");
-    make_link("stahl", "asc");
-    echo "<b>Stahl</b>";
-    make_link("stahl", "desc");
-
-    next_cell("titlebg center", "style='width:9%'");
-    make_link("vv4a", "asc");
-    echo "<b>VV4A</b>";
-    make_link("vv4a", "desc");
-
-    next_cell("titlebg center", "style='width:9%'");
-    make_link("chem", "asc");
-    echo "<b>Chemie</b>";
-    make_link("chem", "desc");
-
-    next_cell("titlebg center", "style='width:9%'");
-    make_link("eis", "asc");
-    echo "<b>Eis</b>";
-    make_link("eis", "desc");
-
-    next_cell("titlebg center", "style='width:9%'");
-    make_link("wasser", "asc");
-    echo "<b>Wasser</b>";
-    make_link("wasser", "desc");
-
-    next_cell("titlebg center", "style='width:9%'");
-    make_link("energie", "asc");
-    echo "<b>Energie</b>";
-    make_link("energie", "desc");
-
-    next_cell("titlebg center", "style='width:9%'");
-    make_link("fp_ph", "asc");
-    echo "<b>FP</b>";
-    make_link("fp_ph", "desc");
-
-    next_cell("titlebg center", "style='width:9%'");
-    make_link("credits", "asc");
-    echo "<b>Credits</b>";
-    make_link("credits", "desc");
-
-    next_cell("titlebg center", "style='width:9%'");
-    echo "<b>Spieltyp</b>";
-
-    next_cell("titlebg center", "style='width:9%'");
-    echo "<b>Staatsform</b>";
-
-    // Anzeigen der Daten im Browser
-    $sql3 = "SELECT
-                ro.datum, ro.user, ro.eisen, ro.stahl, ro.vv4a, ro.chem, ro.eis, ro.wasser, 
-                ro.energie, ro.fp_ph, ro.credits,
-                us.sitterlogin, us.buddlerfrom, us.budflesol, us.staatsform
-            FROM
-                " . $db_tb_ressuebersicht . " as ro, " . $db_tb_user . " as us
-            WHERE
-                ro.user = us.sitterlogin AND us.buddlerfrom = '" . $fleetername . "'
-            ORDER BY
-                `" . $order . "` " . $ordered;
-
-    $result3 = $db->db_query($sql3);
-
-    while ($row = $db->db_fetch_array($result3)) {
-        $color = getScanAgeColor($row['datum']);
-
-        next_row("windowbg1", " nowrap='nowrap'");
-        echo $row['user'] . "<br>";
-
-        next_cell("windowbg1", "style='background-color:" . $color . "' nowrap='nowrap'");
-        echo strftime("%d.%m.%y<br>%H:%M:%S", $row['datum']);
-
-        next_cell("windowbg1 right");
-        echo number_format($row['eisen'] * $switch, 0, ',', '.');
-
-        next_cell("windowbg1 right");
-        echo number_format($row['stahl'] * $switch, 0, ',', '.');
-
-        next_cell("windowbg1 right");
-        echo number_format($row['vv4a'] * $switch, 0, ',', '.');
-
-        next_cell("windowbg1 right");
-        echo number_format($row['chem'] * $switch, 0, ',', '.');
-
-        next_cell("windowbg1 right");
-        echo number_format($row['eis'] * $switch, 0, ',', '.');
-
-        next_cell("windowbg1 right");
-        echo number_format($row['wasser'] * $switch, 0, ',', '.');
-
-        next_cell("windowbg1 right");
-        echo number_format($row['energie'] * $switch, 0, ',', '.');
-
-        next_cell("windowbg1 right");
-        echo number_format($row['fp_ph'] * $switch, 0, ',', '.');
-
-        next_cell("windowbg1 right");
-        echo number_format($row['credits'] * $switch, 0, ',', '.');
-
-        next_cell("windowbg1 right");
-        echo $row['budflesol'];
-
-        next_cell("windowbg1 right");
-        echo NumToStaatsform($row['staatsform']);
-    }
-
-    end_row();
-
-    // Gesamtanzeige
-    $sql = "SELECT
-                sum(ro.eisen) as eisen, sum(ro.stahl) as stahl, sum(ro.vv4a) as vv4a,
-                sum(ro.chem) as chem, sum(ro.eis) as eis, sum(ro.wasser) as wasser,
-                sum(ro.energie) as energie, sum(ro.fp_ph) as fp_ph,
-                sum(ro.credits) as credits, ro.user, us.sitterlogin, us.buddlerfrom
-            FROM
-                " . $db_tb_ressuebersicht . " as ro, " . $db_tb_user . " as us
-            WHERE
-                ro.user = us.sitterlogin AND us.buddlerfrom = '" . $fleetername . "'
-            GROUP BY
-                us.buddlerfrom";
-
-    $result = $db->db_query($sql);
-
-    while ($row = $db->db_fetch_array($result)) {
-        next_row("titlebg center", "style='background-color:#FFFFFF' colspan='2'");
-        echo "Gesamt";
-
-
-        next_cell("windowbg1 right");
-        echo number_format($row['eisen'] * $switch, 0, ',', '.');
-
-        next_cell("windowbg1 right");
-        echo number_format($row['stahl'] * $switch, 0, ',', '.');
-
-        next_cell("windowbg1 right");
-        echo number_format($row['vv4a'] * $switch, 0, ',', '.');
-
-        next_cell("windowbg1 right");
-        echo number_format($row['chem'] * $switch, 0, ',', '.');
-
-        next_cell("windowbg1 right");
-        echo number_format($row['eis'] * $switch, 0, ',', '.');
-
-        next_cell("windowbg1 right");
-        echo number_format($row['wasser'] * $switch, 0, ',', '.');
-
-        next_cell("windowbg1 right");
-        echo number_format($row['energie'] * $switch, 0, ',', '.');
-
-        next_cell("windowbg1 right");
-        echo number_format($row['fp_ph'] * $switch, 0, ',', '.');
-
-        next_cell("windowbg1 right");
-        echo number_format($row['credits'] * $switch, 0, ',', '.');
-
-        next_cell("titlebg center", "style='background-color:#FFFFFF' colspan='2'");
-        echo "Gesamt";
-    }
-    end_row();
-
-    end_table();
-
+		while ($row = $db->db_fetch_array($result)) {
+        ?>
+		<tfoot>
+		<tr class="titlebg center" "style='background-color:\$FFFFFF';">
+			<td colspan='2'>
+				<?php
+				echo "Gesamt:";
+				?>
+			</td>
+			<td>
+				<?php
+				echo number_format($row['eisen'] * $switch, 0, ',', '.');
+				?>
+			</td>
+			<td>
+				<?php
+				echo number_format($row['stahl'] * $switch, 0, ',', '.');
+				?>
+			</td>
+			<td>
+				<?php
+				echo number_format($row['vv4a'] * $switch, 0, ',', '.');
+				?>
+			</td>
+			<td>
+				<?php
+				echo number_format($row['chem'] * $switch, 0, ',', '.');
+				?>
+			</td>
+			<td>
+				<?php
+				echo number_format($row['eis'] * $switch, 0, ',', '.');
+				?>
+			</td>
+			<td>
+				<?php
+				echo number_format($row['wasser'] * $switch, 0, ',', '.');
+				?>
+			</td>
+			<td>
+				<?php
+				echo number_format($row['energie'] * $switch, 0, ',', '.');
+				?>
+			</td>
+			<td>
+				<?php
+				echo number_format($row['fp_ph'] * $switch, 0, ',', '.');
+				?>
+			</td>
+			<td>
+				<?php
+				echo number_format($row['credits'] * $switch, 0, ',', '.');
+				?>
+			</td>
+			<td colspan='2'>
+				<?php
+				echo "Gesamt";
+				?>
+			</td>
+		</tr>
+	</tfoot>
+	<?php
+	}
+	?>
+</table>
+<?php
 }
+?>
+<script src="javascript/jquery.tablesorter.min.js"></script>

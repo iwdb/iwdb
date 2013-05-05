@@ -1004,6 +1004,22 @@ table.zentriert {
     margin-right:auto;
 }
 
+th.headerSortUp { 
+    background-image: url(../bilder/iwdb/small_asc.gif); 
+    background-color: #3399FF; 
+} 
+th.headerSortDown { 
+    background-image: url(../bilder/iwdb/small_desc.gif); 
+    background-color: #3399FF; 
+} 
+
+table.tablesorter thead tr .header {
+	background-image: url(../bilder/iwdb/bg.gif);
+	background-repeat: no-repeat;
+	background-position: center right;
+	cursor: pointer;
+}
+
 /* veraltet */
 
 .doc_title {

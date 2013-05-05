@@ -810,7 +810,7 @@ if (!empty($umenu)) {
     <?php
     }
     if ($typ != "Forschung") {
-        if (($db_user == "iwdb") && ($typ == "Sonstiges")) {
+        if ($typ == "Sonstiges") {
             ?>
             <tr>
                 <td class="windowbg2">

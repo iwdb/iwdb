@@ -267,6 +267,15 @@ echo "</option>";
 <input type="submit" name="formSubmit" value="und los" >
 </form>
 <br><br>
+
+<script>
+$(document).ready(function() 
+    { 
+        $("#myTable").tablesorter(); 
+    } 
+);
+</script>
+
 <?php
 if(isset($_POST['formSubmit']) ) {
 	
@@ -277,22 +286,12 @@ if(isset($_POST['formSubmit']) ) {
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 		
 	?>
-	<script>
-$(document).ready(function() 
-    { 
-        $("#myTable").tablesorter(); 
-    } 
-);
-</script>
-	<table id='myTable' class='table_hovertable tablesorter' style='width:90%'>
+	<table id='myTable' class='tablesorter' style='width:90%'>
 	
 	<thead>
 		<tr>
 			<th>
-				<?php
-				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
-				echo "Forschungsname";
-				?>
+				<b>Forschungsname</b>
 			</th>
 		<tr>
 	</thead>
@@ -304,14 +303,14 @@ $(document).ready(function()
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 		$row1 = $db->db_fetch_array($result_forsch);
 
-?>
-	<tr>
-		<td>
-			<?php
-			echo $row1['name'];
-			?>
-		</td>
-	</tr>
+		?>
+		<tr>
+			<td>
+				<?php
+				echo $row1['name'];
+				?>
+			</td>
+		</tr>
 	<?php
 	}
 	?>

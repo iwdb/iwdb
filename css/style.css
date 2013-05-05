@@ -1004,16 +1004,22 @@ table.zentriert {
     margin-right:auto;
 }
 
-th.headerSortUp { 
+.tablesorter.tablesorter-headerSortUp,
+.tablesorter.tablesorter-headerAsc,
+.tablesorter.headerSortUp { 
     background-image: url(../bilder/iwdb/small_asc.gif); 
     background-color: #3399FF; 
 } 
-th.headerSortDown { 
+.tablesorter.tablesorter-headerSortDown,
+.tablesorter.tablesorter-headerDesc,
+.tablesorter.headerSortDown { 
     background-image: url(../bilder/iwdb/small_desc.gif); 
     background-color: #3399FF; 
 } 
 
-table.tablesorter thead tr .header {
+.tablesorter.header,
+.tablesorter thead tr,
+.tablesorter.tablesorter-headerRow {
 	background-image: url(../bilder/iwdb/bg.gif);
 	background-repeat: no-repeat;
 	background-position: center right;

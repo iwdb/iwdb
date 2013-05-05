@@ -40,35 +40,23 @@ doc_title('Planetenliste');
 <script>
 $(document).ready(function() 
     { 
-        $("#myTable").tablesorter(); 
+        $("#myTable").tablesorter();
     } 
 );
 </script>
-<table id="myTable" class="table_hovertable tablesorter" style="width: 90%;">
+<table id="myTable" class="tablesorter" style="width: 90%;">
 	<thead>
 		<tr class="titlebg">
-			<th style="width:15%;">
-				<?php
-				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
-				?>
+			<th>
 				<b>Koordinaten</b>
 			</th>
-			<th style="width:20%;">
-				<?php
-				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
-				?>
+			<th>
 				<b>Username</b> 
 			</th>
-			<th style="width:40%;">
-				<?php
-				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
-				?>
+			<th>
 				<b>Planetenname</b>
            </th>
-			<th style="width:25%;">
-				<?php
-				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
-				?>
+			<th>
 				<b>Spielart</b>
            </th>
 		</tr>

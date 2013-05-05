@@ -191,12 +191,7 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 //
 // -> Und hier beginnt das eigentliche Modul
 
-function make_link($order, $ordered)
-{
-    echo "<a href='index.php?action=m_ress&order=" . $order . "&ordered=" . $ordered . "'> <img src='".BILDER_PATH."" . $ordered . ".gif' alt='" . $ordered . "'> </a>";
-}
-
-//bestehende zeit holen
+//bestehende Zeit holen
 
 $sql = "SELECT switch FROM $db_tb_user WHERE id = '{$user_id}';";
 $result = $db->db_query($sql);
@@ -234,92 +229,50 @@ $(document).ready(function()
 );
 </script>
 
-<table id='myTable' class='table_hovertable tablesorter' style='width:100%'>
+<table id='myTable' class='tablesorter' style='width:100%'>
 	<thead>
 		<tr>
 			<th>
-				<?php
-				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
-				echo "<b>User</b>";
-				?>
+				<b>User</b>
 			</th>
 			<th>
-				<?php
-				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
-				echo "<b>Einlesezeit</b>";
-				?>
+				<b>Einlesezeit</b>
 			</th>
 			<th>
-				<?php
-				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
-				echo "<b>Eisen</b>";
-				?>
+				<b>Eisen</b>
 			</th>
 			<th>
-				<?php
-				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
-				echo "<b>Stahl</b>";
-				?>
+				<b>Stahl</b>
 			</th>
 			<th>
-				<?php
-				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
-				echo "<b>VV4A</b>";
-				?>
+				<b>VV4A</b>
 			</th>
 			<th>
-				<?php
-				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
-				echo "<b>Chemie</b>";
-				?>
+				<b>Chemie</b>
 			</th>
 			<th>
-				<?php
-				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
-				echo "<b>Eis</b>";
-				?>
+				<b>Eis</b>
 			</th>
 			<th>
-				<?php
-				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
-				echo "<b>Wasser</b>";
-				?>
+				<b>Wasser</b>
 			</th>
 			<th>
-				<?php
-				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
-				echo "<b>Energie</b>";
-				?>
+				<b>Energie</b>
 			</th>
 			<th>
-				<?php
-				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
-				echo "<b>FP</b>";
-				?>
+				<b>FP</b>
 			</th>
 			<th>
-				<?php
-				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
-				echo "<b>Credits</b>";
-				?>
+				<b>Credits</b>
 			</th>
 			<th>
-				<?php
-				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
-				echo "<b>Hartz IV</b>";
-				?>
+				<b>Hartz IV</b>
 			</th>
 			<th>
-				<?php
-				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
-				echo "<b>Volk</b>";
-				?>
+				<b>Volk</b>
 			</th>
 			<th>
-				<?php
-				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
-				echo "<b>Quote</b>";
-				?>
+				<b>Quote</b>
 			</th>
 		</tr>
 	</thead>
@@ -542,7 +495,7 @@ foreach ($fleeterlist as $key => $value) {
 
     echo "\n\n<br><br>\n\n";
 	?>
-	<table <table id='myTable' class='table_hovertable tablesorter' style='width:100%'>
+	<table <table id='myTable' class='tablesorter' style='width:100%'>
 		<thead>
 			<tr class="titlebg center">
 				<th colspan='13'>
@@ -558,82 +511,43 @@ foreach ($fleeterlist as $key => $value) {
 			</tr>
 			<tr>
 				<th>
-					<?php
-					echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
-					echo "<b>User</b>";
-					?>
+					<b>User</b>
 				</th>
 				<th>
-					<?php
-					echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
-					echo "<b>Einlesezeit</b>";
-					?>
+					<b>Einlesezeit</b>
 				</th>
 				<th>
-					<?php
-					echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
-					echo "<b>Eisen</b>";
-					?>
+					<b>Eisen</b>
 				</th>
 				<th>
-					<?php
-					echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
-					echo "<b>Stahl</b>";
-					?>
+					<b>Stahl</b>
 				</th>
 				<th>
-					<?php
-					echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
-					echo "<b>VV4A</b>";
-					?>
+					<b>VV4A</b>
 				</th>
 				<th>
-					<?php
-					echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
-					echo "<b>Chemie</b>";
-					?>
+					<b>Chemie</b>
 				</th>
 				<th>
-					<?php
-					echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
-					echo "<b>Eis</b>";
-					?>
+					<b>Eis</b>
 				</th>
 				<th>
-					<?php
-					echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
-					echo "<b>Wasser</b>";
-					?>
+					<b>Wasser</b>
 				</th>
 				<th>
-					<?php
-					echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
-					echo "<b>Energie</b>";
-					?>
+					<b>Energie</b>
 				</th>
 				<th>
-					<?php
-					echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
-					echo "<b>FP</b>";
-					?>
+					<b>FP</b>
 				</th>
 				<th>
-					<?php
-					echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
-					echo "<b>Credits</b>";
-					?>
+					<b>Credits</b>
 				</th>
 				<th>
-					<?php
-					echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
-					echo "<b>Spieltyp</b>";
-					?>
+					<b>Spieltyp</b>
 				</th>
 				<th>
-					<?php
-					echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
-					echo "<b>Staatsform</b>";
-					?>
+					<b>Staatsform</b>
 				</th>
 			</tr>
 		</thead>
@@ -810,5 +724,3 @@ foreach ($fleeterlist as $key => $value) {
 }
 ?>
 <script src="javascript/jquery.tablesorter.min.js"></script>
-<link rel="stylesheet" href="css/blue/style.css" 
- type="text/css" media="print, projection, screen" />

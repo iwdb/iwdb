@@ -1004,26 +1004,85 @@ table.zentriert {
     margin-right:auto;
 }
 
-.tablesorter.tablesorter-headerSortUp,
-.tablesorter.tablesorter-headerAsc,
-.tablesorter.headerSortUp { 
-    background-image: url(../bilder/iwdb/small_asc.gif); 
-    background-color: #3399FF; 
-} 
-.tablesorter.tablesorter-headerSortDown,
-.tablesorter.tablesorter-headerDesc,
-.tablesorter.headerSortDown { 
-    background-image: url(../bilder/iwdb/small_desc.gif); 
-    background-color: #3399FF; 
-} 
+.tablesorter {
+	width: 100%;
+	background-color: #ffffff;
+	margin: 10px 0 15px;
+	text-align: left;
+	border-spacing: 0;
+	border: #000000 1px solid;
+	border-width: 1px 0 0 1px;
+}
 
-.tablesorter.header,
-.tablesorter thead tr,
-.tablesorter.tablesorter-headerRow {
-	background-image: url(../bilder/iwdb/bg.gif);
+.tablesorter th,
+.tablesorter td {
+	border: #000000 1px solid;
+	border-width: 0 1px 1px 0;
+}
+
+.tablesorter th,
+.tablesorter thead td {
+	font: bold 12px/18px Arial, Sans-serif;
+	color: #ffffff;
+	background-color: #4F94CD;
+	border-collapse: collapse;
+	padding: 4px;
+}
+
+.tablesorter tbody td,
+.tablesorter tfoot th,
+.tablesorter tfoot td {
+	padding: 4px;
+	vertical-align: top;
+}
+
+.tablesorter .header,
+.tablesorter .tablesorter-header {
+	background-image: url(../bilder/iwdb/table/white-unsorted.gif);
 	background-repeat: no-repeat;
 	background-position: center right;
+	padding: 4px 18px 4px 4px;
+	white-space: normal;
 	cursor: pointer;
+}
+
+.tablesorter .headerSortUp,
+.tablesorter .tablesorter-headerSortUp,
+.tablesorter .tablesorter-headerAsc {
+	background-color: #4F94CD;
+	background-image: url(../bilder/iwdb/table/white-asc.gif);
+}
+
+.tablesorter .headerSortDown,
+.tablesorter .tablesorter-headerSortDown,
+.tablesorter .tablesorter-headerDesc {
+	background-color: #4F94CD;
+	background-image: url(../bilder/iwdb/table/white-desc.gif);
+}
+
+.tablesorter thead .sorter-false {
+	background-image: none;
+	padding: 4px;
+}
+
+.tablesorter tfoot .tablesorter-headerSortUp,
+.tablesorter tfoot .tablesorter-headerSortDown,
+.tablesorter tfoot .tablesorter-headerAsc,
+.tablesorter tfoot .tablesorter-headerDesc {
+	background-image: none;
+}
+
+.tablesorter td {
+	color: #3d3d3d;
+	background-color: #ffffff;
+	padding: 4px;
+	vertical-align: top;
+}
+
+.tablesorter tbody > tr:hover > td,
+.tablesorter tbody > tr:hover + tr.tablesorter-childRow > td,
+.tablesorter tbody > tr:hover + tr.tablesorter-childRow + tr.tablesorter-childRow> td {
+	background: gold;
 }
 
 /* veraltet */

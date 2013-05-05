@@ -229,29 +229,29 @@ echo makeField(
 echo '</div><br>';
 
 ?>
-<table id='myTable' class='table_hovertable tablesorter'>
+<table id='myTable' class='tablesorter'>
 	<thead>
 		<tr>
 			<th>
-				Spieler
+				<b>Spieler</b>
 			</th>
 			<th>
-				Typ
+				<b>Typ</b>
 			</th>
 			<th>
-				orbitale Dockingsysteme
+				<b>orbitale Dockingsysteme</b>
 			</th>
 			<th>
-				Kampfbasenverwaltung
+				<b>Kampfbasenverwaltung</b>
 			</th>
 			<th>
-				KBs<br>aufgestellt
+				<b>KBs<br>aufgestellt</b>
 			</th>
 			<th>
-                <abbr title="KB Alpha / KB Beta / KB Gamma">KBs<br>im Acc</abbr>
+                <b><abbr title="KB Alpha / KB Beta / KB Gamma">KBs<br>im Acc</abbr></b>
 			</th>
 			<th>
-				Diff Soll
+				<b>Diff Soll</b>
 			</th>
 		</tr>
 	</thead>

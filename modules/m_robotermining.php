@@ -234,33 +234,32 @@ echo makeField(
 echo '</div><br>';
 
 ?>
-<table id='myTable' class='table_hovertable tablesorter'>
-	<caption>Robotermining</caption>
+<table id='myTable' class='tablesorter'>
 	<thead>
 		<tr>
 			<th>
-				Spieler
+				<b>Spieler</b>
 			</th>
 			<th>
-				Typ
+				<b>Typ</b>
 			</th>
 			<th>
-				Robotermining
+				<b>Robotermining</b>
 			</th>
 			<th>
-				Robominerzentrale
+				<b>Robominerzentrale</b>
 			</th>
 			<th>
-				Sammelbasen
+				<b>Sammelbasen</b>
 			</th>
 			<th>
-				Eisen /h
+				<b>Eisen /h</b>
 			</th>
 			<th>
-				Chemie /h
+				<b>Chemie /h</b>
 			</th>
 			<th>
-				Eis /h
+				<b>Eis /h</b>
 			</th>
 		</tr>
 	</thead>

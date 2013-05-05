@@ -162,15 +162,6 @@ $(window).load(function()
 );
 </script>
 <?php
-/*
-<script>
-$(document).ready(function() 
-    { 
-        $("#myTable").tablesorter(); 
-    } 
-);
-</script>
-*/
 // aktuelle Spielerauswahl ermitteln
 $params['playerSelection'] = getVar('playerSelection');
 
@@ -217,39 +208,23 @@ echo '</div><br>';
 
 ?>
 
-
-<table id='myTable' class='table_hovertable tablesorter'>
+<table id='myTable' class='tablesorter'>
 	<thead>
 		<tr>
 			<th>
-				<?php
-				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
-				echo "Spieler";
-				?>
+				<b>Spieler</b>
 			</th>
 			<th>
-				<?php
-				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
-				echo "Typ";
-				?>
+				<b>Typ</b>
 			</th>
 			<th>
-				<?php
-				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
-				echo "Suche nach neuen alten Sachen";
-				?>
+				<b>Suche nach neuen alten Sachen</b>
 			</th>
 			<th>
-				<?php
-				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
-				echo "Artefaktsammelbasencenter";
-				?>
+				<b>Artefaktsammelbasencenter</b>
 			</th>
 			<th>
-				<?php
-				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
-				echo "Artefaktsammelbasis";
-				?>
+				<b>Artefaktsammelbasis</b>
 			</th>
 		</tr>
 	</thead>
@@ -268,9 +243,9 @@ echo '</div><br>';
 			<td>
 				<?php
 				if (!empty($row['research'])) {
-                    echo "<span class='doc_green'>erforscht</span>";
+					echo "erforscht";
 				} else {
-					echo "<span class='doc_red'>nicht erforscht</span>";
+					echo "-";
 				}
 				?>
 			</td>
@@ -279,9 +254,9 @@ echo '</div><br>';
 				if (!empty($row['count'])) {
 					echo "Stufe " . $row['count'];
 				} else if (!empty($row['research'])) {
-					echo "<span class='doc_red'>Keine</span>";
+					echo "Keins";
 				} else {
-					echo "<span class='doc_red'>-</span>";
+					echo "-";
 				}
 				?>
 			</td>

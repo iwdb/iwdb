@@ -154,25 +154,6 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 // Titelzeile
 doc_title('Robotermining');
 
-?>
-<script>
-$(window).load(function() 
-    { 
-        $("#myTable").tablesorter(); 
-    } 
-);
-</script>
-<?php
-/*
-<script>
-$(document).ready(function() 
-    { 
-        $("#myTable").tablesorter(); 
-    } 
-);
-</script>
-*/
-
 // aktuelle Spielerauswahl ermitteln
 $params['playerSelection'] = getVar('playerSelection');
 
@@ -234,40 +215,42 @@ echo makeField(
 echo '</div><br>';
 
 ?>
-<table id='myTable' class='tablesorter'>
+<table class="table_hovertable">
+	<caption>Robotermining</caption>
 	<thead>
 		<tr>
 			<th>
-				<b>Spieler</b>
+				Spieler
 			</th>
 			<th>
-				<b>Typ</b>
+				Typ
 			</th>
 			<th>
-				<b>Robotermining</b>
+				Robotermining
 			</th>
 			<th>
-				<b>Robominerzentrale</b>
+				Robominerzentrale
 			</th>
 			<th>
-				<b>Sammelbasen</b>
+				Sammelbasen
 			</th>
 			<th>
-				<b>Eisen /h</b>
+				Eisen /h
 			</th>
 			<th>
-				<b>Chemie /h</b>
+				Chemie /h
 			</th>
 			<th>
-				<b>Eis /h</b>
+				Eis /h
 			</th>
 		</tr>
 	</thead>
+	<tbody>
 	
 	<?php
 	while ($row = $db->db_fetch_array($result)) {
 	?>
-	<tbody>
+	
 		<tr>
 			<td>
 				<?php echo $row['user']; ?>
@@ -340,10 +323,10 @@ echo '</div><br>';
 				?>
 			</td>
 		</tr>
-	</tbody>
+	
 	<?php
 	}
 	?>
+	</tbody>
 </table>
 <br>
-<script src="javascript/jquery.tablesorter.min.js"></script>

@@ -191,7 +191,12 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 //
 // -> Und hier beginnt das eigentliche Modul
 
-//bestehende Zeit holen
+function make_link($order, $ordered)
+{
+    echo "<a href='index.php?action=m_ress&order=" . $order . "&ordered=" . $ordered . "'> <img src='".BILDER_PATH."" . $ordered . ".gif' alt='" . $ordered . "'> </a>";
+}
+
+//bestehende zeit holen
 
 $sql = "SELECT switch FROM $db_tb_user WHERE id = '{$user_id}';";
 $result = $db->db_query($sql);
@@ -366,7 +371,7 @@ $(document).ready(function()
 				?>
 			</td>
 		</tr>
-	</tbody>		
+			
 		<?php
 		}
 		// Gesamtanzeige
@@ -378,12 +383,11 @@ $(document).ready(function()
 				$result = $db->db_query($sql);
 		while ($row = $db->db_fetch_array($result)) {
 		?>
+		</tbody>
 		<tfoot>
-		<tr class="titlebg center" "style='background-color:\$FFFFFF';">
+		<tr class='titlebg center'>
 			<td colspan='2'>
-				<?php
-				echo "Gesamt:";
-				?>
+				<b>Gesamt:</b>
 			</td>
 			<td>
 				<?php
@@ -551,6 +555,7 @@ foreach ($fleeterlist as $key => $value) {
 				</th>
 			</tr>
 		</thead>
+		<tbody>
 		<?php    
 
 		// Anzeigen der Daten im Browser
@@ -569,7 +574,7 @@ foreach ($fleeterlist as $key => $value) {
 			$color = getScanAgeColor($row['datum']);
 
         ?>
-		<tbody>
+		
 			<tr>
 				<td>
 					<?php
@@ -637,7 +642,7 @@ foreach ($fleeterlist as $key => $value) {
 					?>
 				</td>
 			</tr>
-		</tbody>
+		
 		<?php
 		}
 		// Gesamtanzeige
@@ -657,12 +662,11 @@ foreach ($fleeterlist as $key => $value) {
 
 		while ($row = $db->db_fetch_array($result)) {
         ?>
+		</tbody>
 		<tfoot>
-		<tr class="titlebg center" "style='background-color:\$FFFFFF';">
+		<tr class='titlebg center'>
 			<td colspan='2'>
-				<?php
-				echo "Gesamt:";
-				?>
+				<b>Gesamt:</b>
 			</td>
 			<td>
 				<?php

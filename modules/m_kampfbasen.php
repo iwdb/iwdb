@@ -153,25 +153,6 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 
 doc_title('Kampfbasen');
 
-?>
-<script>
-$(window).load(function() 
-    { 
-        $("#myTable").tablesorter(); 
-    } 
-);
-</script>
-<?php
-/*
-<script>
-$(document).ready(function() 
-    { 
-        $("#myTable").tablesorter(); 
-    } 
-);
-</script>
-*/
-
 // aktuelle Spielerauswahl ermitteln
 $params['playerSelection'] = getVar('playerSelection');
 
@@ -229,37 +210,37 @@ echo makeField(
 echo '</div><br>';
 
 ?>
-<table id='myTable' class='tablesorter'>
+<table class="table_hovertable">
 	<thead>
 		<tr>
 			<th>
-				<b>Spieler</b>
+				Spieler
 			</th>
 			<th>
-				<b>Typ</b>
+				Typ
 			</th>
 			<th>
-				<b>orbitale Dockingsysteme</b>
+				orbitale Dockingsysteme
 			</th>
 			<th>
-				<b>Kampfbasenverwaltung</b>
+				Kampfbasenverwaltung
 			</th>
 			<th>
-				<b>KBs<br>aufgestellt</b>
+				KBs<br>aufgestellt
 			</th>
 			<th>
-                <b><abbr title="KB Alpha / KB Beta / KB Gamma">KBs<br>im Acc</abbr></b>
+                <abbr title="KB Alpha / KB Beta / KB Gamma">KBs<br>im Acc</abbr>
 			</th>
 			<th>
-				<b>Diff Soll</b>
+				Diff Soll
 			</th>
 		</tr>
 	</thead>
-	
+	<tbody>
 	<?php
 	while ($row = $db->db_fetch_array($result)) {
 	?>
-	<tbody>
+	
 		<tr>
 			<td>
 				<?php echo $row['user']; ?>
@@ -337,10 +318,10 @@ echo '</div><br>';
                 ?>
 			</td>
 		</tr>
-	</tbody>
+	
 	<?php
 	}
 	?>
+	</tbody>
 </table>
 <br>
-<script src="javascript/jquery.tablesorter.min.js"></script>

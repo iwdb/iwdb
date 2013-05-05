@@ -228,11 +228,11 @@ echo '</div><br>';
 			</th>
 		</tr>
 	</thead>
-	
+	<tbody>
 	<?php
 	while ($row = $db->db_fetch_array($result)) {
 	?>
-	<tbody>
+	
 		<tr>
 			<td>
 				<?php echo $row['user']; ?>
@@ -272,10 +272,11 @@ echo '</div><br>';
 				?>
 			</td>
 		</tr>
-	</tbody>
+	
 	<?php
 	}
 	?>
+	</tbody>
 </table>
 <br>
 <script src="javascript/jquery.tablesorter.min.js"></script>

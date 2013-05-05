@@ -154,6 +154,25 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 // Titelzeile
 doc_title('Robotermining');
 
+?>
+<script>
+$(window).load(function() 
+    { 
+        $("#myTable").tablesorter(); 
+    } 
+);
+</script>
+<?php
+/*
+<script>
+$(document).ready(function() 
+    { 
+        $("#myTable").tablesorter(); 
+    } 
+);
+</script>
+*/
+
 // aktuelle Spielerauswahl ermitteln
 $params['playerSelection'] = getVar('playerSelection');
 
@@ -215,7 +234,7 @@ echo makeField(
 echo '</div><br>';
 
 ?>
-<table class="table_hovertable">
+<table id='myTable' class='table_hovertable tablesorter'>
 	<caption>Robotermining</caption>
 	<thead>
 		<tr>

@@ -153,6 +153,24 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 
 doc_title('Artefaktbasen');
 
+?>
+<script>
+$(window).load(function() 
+    { 
+        $("#myTable").tablesorter(); 
+    } 
+);
+</script>
+<?php
+/*
+<script>
+$(document).ready(function() 
+    { 
+        $("#myTable").tablesorter(); 
+    } 
+);
+</script>
+*/
 // aktuelle Spielerauswahl ermitteln
 $params['playerSelection'] = getVar('playerSelection');
 
@@ -198,23 +216,40 @@ echo makeField(
 echo '</div><br>';
 
 ?>
-<table class="table_hovertable">
+
+
+<table id='myTable' class='table_hovertable tablesorter'>
 	<thead>
 		<tr>
 			<th>
-				Spieler
+				<?php
+				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
+				echo "Spieler";
+				?>
 			</th>
 			<th>
-				Typ
+				<?php
+				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
+				echo "Typ";
+				?>
 			</th>
 			<th>
-				Suche nach neuen alten Sachen
+				<?php
+				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
+				echo "Suche nach neuen alten Sachen";
+				?>
 			</th>
 			<th>
-				Artefaktsammelbasencenter
+				<?php
+				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
+				echo "Artefaktsammelbasencenter";
+				?>
 			</th>
 			<th>
-				Artefaktsammelbasis
+				<?php
+				echo "<img src='" . BILDER_PATH . "sortierung.gif'>";
+				echo "Artefaktsammelbasis";
+				?>
 			</th>
 		</tr>
 	</thead>
@@ -233,9 +268,9 @@ echo '</div><br>';
 			<td>
 				<?php
 				if (!empty($row['research'])) {
-					echo "erforscht";
+                    echo "<span class='doc_green'>erforscht</span>";
 				} else {
-					echo "-";
+					echo "<span class='doc_red'>nicht erforscht</span>";
 				}
 				?>
 			</td>
@@ -244,9 +279,9 @@ echo '</div><br>';
 				if (!empty($row['count'])) {
 					echo "Stufe " . $row['count'];
 				} else if (!empty($row['research'])) {
-					echo "Keins";
+					echo "<span class='doc_red'>Keine</span>";
 				} else {
-					echo "-";
+					echo "<span class='doc_red'>-</span>";
 				}
 				?>
 			</td>
@@ -268,3 +303,4 @@ echo '</div><br>';
 	?>
 </table>
 <br>
+<script src="javascript/jquery.tablesorter.min.js"></script>

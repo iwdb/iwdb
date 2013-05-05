@@ -153,6 +153,25 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 
 doc_title('Kampfbasen');
 
+?>
+<script>
+$(window).load(function() 
+    { 
+        $("#myTable").tablesorter(); 
+    } 
+);
+</script>
+<?php
+/*
+<script>
+$(document).ready(function() 
+    { 
+        $("#myTable").tablesorter(); 
+    } 
+);
+</script>
+*/
+
 // aktuelle Spielerauswahl ermitteln
 $params['playerSelection'] = getVar('playerSelection');
 
@@ -210,7 +229,7 @@ echo makeField(
 echo '</div><br>';
 
 ?>
-<table class="table_hovertable">
+<table id='myTable' class='table_hovertable tablesorter'>
 	<thead>
 		<tr>
 			<th>

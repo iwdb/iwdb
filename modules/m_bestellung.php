@@ -273,6 +273,9 @@ while ($row = $db->db_fetch_array($result)) {
 $config['planeten'][] = "(anderer)";
 
 // Projekte abfragen
+$config['projects'] = array();
+$config['projects_prio'] = array();
+
 $sql = "SELECT name, prio FROM " . $db_tb_bestellung_projekt . " WHERE schiff=0 ORDER BY prio ASC";
 debug_var("sql", $sql);
 $result = $db->db_query($sql)
@@ -420,7 +423,7 @@ if (empty($edit['planet'])) {
     }
 }
 //Planetenkoordinaten füllen
-if (($edit['planet'] !== '(anderer)') AND ((($edit['coords_gal']) === '') OR ($edit['coords_sys'] === '') OR ($edit['coords_planet']) === '')) {
+if ((!empty($edit['planet'])) AND ($edit['planet'] !== '(anderer)') AND ((($edit['coords_gal']) === '') OR ($edit['coords_sys'] === '') OR ($edit['coords_planet']) === '')) {
     list($edit['coords_gal'], $edit['coords_sys'], $edit['coords_planet']) = explode(':', $edit['planet']);
 }
 

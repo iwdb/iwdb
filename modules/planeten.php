@@ -148,3 +148,5 @@ $(document).ready(function()
 <br/>
 <b>K = Kolonie, B = Kampfbasis, S = Sammelbasis, A = Artefaktbasis</b> 
 <script src="javascript/jquery.tablesorter.min.js"></script>
+<link rel="stylesheet" href="css/blue/style.css" 
+ type="text/css" media="print, projection, screen" />

@@ -810,3 +810,5 @@ foreach ($fleeterlist as $key => $value) {
 }
 ?>
 <script src="javascript/jquery.tablesorter.min.js"></script>
+<link rel="stylesheet" href="css/blue/style.css" 
+ type="text/css" media="print, projection, screen" />

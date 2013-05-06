@@ -90,74 +90,83 @@ if (!empty($graph)) {
 <?php
 }
 ?>
+<script>
+$(window).load(function() 
+    { 
+        $("#myTable").tablesorter(); 
+    } 
+);
+</script>
 <br>
-<table class="table_hovertable" style="width: 90%;">
+<table id='myTable' class='tablesorter' style='width: 90%;'>
+<thead>
 <tr>
     <?php
     if ($user_status == "admin") {
         ?>
-        <th style="width:8%;">
+        <th class='sorter-false' style='width:8%;'>
             &nbsp;
         </th>
         <?php
     }
     ?>
     <th style="width:8%;">
-        <a href="index.php?action=members&order=sitterlogin&ordered=asc"><img src="bilder/asc.gif" alt="asc"></a>
+        
         <b>Username</b>
-        <a href="index.php?action=members&order=sitterlogin&ordered=desc"><img src="bilder/desc.gif" alt="desc"></a><br>
-        <a href="index.php?action=members&order=budflesol&ordered=asc"><img src="bilder/asc.gif" alt="asc"></a>
+        
         <b>Spielart</b>
-        <a href="index.php?action=members&order=budflesol&ordered=desc"><img src="bilder/desc.gif" alt="desc"></a>
+        
     </th>
     <th style="width:8%;">
-        <a href="index.php?action=members&order=allianz&ordered=desc"><img src="bilder/desc.gif" alt="desc"></a><br>
+        
         <b>Alli</b><br>
-        <a href="index.php?action=members&order=allianz&ordered=asc"><img src="bilder/asc.gif" alt="asc"></a>
+        
     </th>
     <th style="width:8%;">
-        <a href="index.php?action=members&order=rang&ordered=desc"><img src="bilder/desc.gif" alt="desc"></a><br>
+        
         <b>Rang</b><br>
-        <a href="index.php?action=members&order=rang&ordered=asc"><img src="bilder/asc.gif" alt="asc"></a>
+        
     </th>
     <th style="width:8%;">
-        <a href="index.php?action=members&order=gebp&ordered=desc"><img src="bilder/desc.gif" alt="desc"></a><br>
+        
         <b>GebP</b><br>
-        <a href="index.php?action=members&order=gebp&ordered=asc"><img src="bilder/asc.gif" alt="asc"></a>
+        
     </th>
     <th style="width:8%;">
-        <a href="index.php?action=members&order=fp&ordered=desc"><img src="bilder/desc.gif" alt="desc"></a><br>
-        <b>FP</b><br><a href="index.php?action=members&order=fp&ordered=asc"><img src="bilder/asc.gif" alt="asc"></a>
+        
+        <b>FP</b><br>
     </th>
     <th style="width:8%;">
-        <a href="index.php?action=members&order=gesamtp&ordered=desc"><img src="bilder/desc.gif" alt="desc"></a><br>
+        
         <b>GesamtP</b><br>
-        <a href="index.php?action=members&order=gesamtp&ordered=asc"><img src="bilder/asc.gif" alt="asc"></a>
+        
     </th>
     <th style="width:8%;">
-        <a href="index.php?action=members&order=ptag&ordered=desc"><img src="bilder/desc.gif" alt="desc"></a><br>
+        
         <b>P/Tag</b><br>
-        <a href="index.php?action=members&order=ptag&ordered=asc"><img src="bilder/asc.gif" alt="asc"></a>
+        
     </th>
     <th style="width:10%;">
-        <a href="index.php?action=members&order=dabei&ordered=desc"><img src="bilder/desc.gif" alt="desc"></a><br>
+        
         <b>dabei seit</b><br>
-        <a href="index.php?action=members&order=dabei&ordered=asc"><img src="bilder/asc.gif" alt="asc"></a>
+        
     </th>
     <th style="width:20%;">
         <?php
         if ($user_status == "admin") {
-            echo '<a href="index.php?action=members&order=adminsitten&ordered=desc"><img src="bilder/desc.gif" alt="desc"></a> <b>Sitterrechte</b> <a href="index.php?action=members&order=adminsitten&ordered=asc"><img src="bilder/asc.gif" alt="asc"></a>';
-            echo '<br><a href="index.php?action=members&order=status&ordered=desc"><img src="bilder/desc.gif" alt="desc"></a> <b>Status</b> <a href="index.php?action=members&order=status&ordered=asc"><img src="bilder/asc.gif" alt="asc"></a>';
+            echo '<b>Sitterrechte</b>';
+            echo '<br><b>Status</b>';
         } else {
-            echo '<a href="index.php?action=members&order=titel&ordered=desc"><img src="bilder/desc.gif" alt="desc"></a><br><b>Titel</b><br><a href="index.php?action=members&order=titel&ordered=asc"><img src="bilder/asc.gif" alt="asc"></a>';
+            echo '<br><b>Titel</b><br>';
         }
         ?>
     </th>
-    <th style="width:2%;">
+    <th class='sorter-false' style='width:2%;'>
         &nbsp;
     </th>
 </tr>
+</thead>
+<tbody>
 <?php
 
 //die Fleeter mit ihren Farben auslesen
@@ -318,6 +327,7 @@ while ($row = $db->db_fetch_array($result)) {
 <?php
 }
 ?>
+<tbody>
 </table>
 <table class='table_format_members' style='width: 90%;'>
     <tr>
@@ -350,3 +360,4 @@ while ($row = $db->db_fetch_array($result)) {
     ?>
 </table>
 </form>
+<script src="javascript/jquery.tablesorter.min.js"></script>

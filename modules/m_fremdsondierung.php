@@ -197,37 +197,44 @@ $result = $db->db_query($sql)
 $data = array();
 
 ?>
-<table class="table_hovertable">
+<script>
+$(window).load(function() 
+    { 
+        $("#myTable").tablesorter(); 
+    } 
+);
+</script>
+<table id='myTable' class='tablesorter'>
 	<thead>
 		<tr>
 			<th>
-				Opfer
+				<b>Opfer</b>
 			</th>
 			<th>
-				Zielplanet
+				<b>Zielplanet</b>
 			</th>
 			<th>
-				Pösewicht
+				<b>Pösewicht</b>
 			</th>
 			<th>
-				Ausgangsplanet
+				<b>Ausgangsplanet</b>
 			</th>
 			<th>
-				Zeitpunkt
+				<b>Zeitpunkt</b>
 			</th>
 			<th>
-				Art
+				<b>Art</b>
 			</th>
 			<th>
-				erfolgreich?
+				<b>erfolgreich?</b>
 			</th>
 		</tr>
 	</thead>
-	
+	<tbody>
 	<?php
 	while ($row = $db->db_fetch_array($result)) {
 	?>
-	<tbody>
+	
 		<tr>
 			<td>
 				<?php echo $row['name_to']; ?>
@@ -294,10 +301,11 @@ $data = array();
 				?>
 			</td>
 		</tr>
-	</tbody>
+	
 	<?php
 	}
 	?>
+	</tbody>
 </table>
 
 <table class='borderless'>
@@ -324,3 +332,4 @@ $data = array();
 		</td>
 	</tr>
 </table>
+<script src="javascript/jquery.tablesorter.min.js"></script>

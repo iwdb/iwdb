@@ -55,10 +55,16 @@ echo "maximal: <input type='number' name='limit' value='" . $limit . "' min='1' 
 echo "<input type='submit' value='anzeigen' name='B1' class='submit'>\n";
 end_form();
 ?>
+<script>
+$(document).ready(function(){ 
+	$("table").tablesorter(); 
+});
+</script>
 <br>
-<table class="table_hovertable" style="width: 90%;">
-    <tr class="titlebg center">
-        <th colspan="4">
+<table class="tablesorter" style="width: 90%;">
+    <thead>
+	<tr class="titlebg center">
+        <th class='sorter-false' colspan="4">
             <b>Was andere bei <?php echo $selecteduser;?> gemacht haben:</b>
         </th>
     </tr>
@@ -73,6 +79,8 @@ end_form();
             <b>Auftrag</b>
         </th>
     </tr>
+	</thead>
+	<tbody>
     <?php
     // Auftraege durchgehen //
     $sql = "SELECT `fromuser`, `date`, `action` FROM `{$db_tb_sitterlog}` WHERE `sitterlogin` = '" . $selecteduser . "' ORDER BY `date` DESC LIMIT " . $limit;
@@ -101,12 +109,14 @@ end_form();
     <?php
     }
     ?>
+</tbody>
 </table>
 <br>
 <br>
-<table class="table_hovertable" style="width: 90%;">
-    <tr class="titlebg center">
-        <th colspan="4">
+<table class="tablesorter" style="width: 90%;">
+    <thead>
+	<tr class="titlebg center">
+        <th class='sorter-false' colspan="4">
             <b>Was <?php echo $selecteduser;?> bei anderen gemacht hat</b>
         </th>
     </tr>
@@ -121,6 +131,8 @@ end_form();
             <b>Auftrag</b>
         </th>
     </tr>
+	</thead>
+	<tbody>
     <?php
     // Aufträge durchgehen //
     $sql = "SELECT `sitterlogin`, `date`, `action` FROM `{$db_tb_sitterlog}` WHERE `fromuser` = '" . $selecteduser . "' ORDER BY `date` DESC LIMIT " . $limit;
@@ -148,5 +160,7 @@ end_form();
     <?php
     }
     ?>
+</tbody>
 </table>
 <br>
+<script src="javascript/jquery.tablesorter.min.js"></script>

@@ -18,7 +18,7 @@ function getIncomingsTables()
 
     //Tabelle für die Sondierungen
     ?>
-    <table class='table_hovertable' style='width:95%'>
+    <table class='tablesorter' style='width:95%'>
         <caption>Sondierungen</caption>
         <thead>
         <tr>
@@ -48,6 +48,7 @@ function getIncomingsTables()
             </th>
         </tr>
         </thead>
+		<tbody>
 
         <?php
         while ($row = $db->db_fetch_array($result)) {
@@ -74,7 +75,7 @@ function getIncomingsTables()
             }
 			
 			?>
-            <tbody>
+            
             <tr>
                 <td>
                     <?php
@@ -134,10 +135,11 @@ function getIncomingsTables()
                     ?>
                 </td>
             </tr>
-            </tbody>
+            
         <?php
         }
         ?>
+		</tbody>
     </table>
 
     <?php
@@ -150,7 +152,7 @@ function getIncomingsTables()
 
     //Tabelle für die Angriffe
     ?>
-    <table class='table_hovertable' style='width:95%'>
+    <table class='tablesorter' style='width:95%'>
         <caption>Angriffe</caption>
         <thead>
         <tr>
@@ -177,6 +179,7 @@ function getIncomingsTables()
             </th>
         </tr>
         </thead>
+		<tbody>
 
         <?php
         while ($row = $db->db_fetch_array($result)) {
@@ -204,7 +207,7 @@ function getIncomingsTables()
             }
 			
 			?>
-            <tbody>
+            
             <tr>
                 <td>
                     <?php
@@ -254,10 +257,11 @@ function getIncomingsTables()
                     ?>
                 </td>
             </tr>
-            </tbody>
+            
         <?php
         }
         ?>
+		</tbody>
     </table>
     <?php
 

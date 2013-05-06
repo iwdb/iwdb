@@ -164,7 +164,13 @@ $result_user_research = $db->db_query($sql)
 $data = array();
 
 ?>
-<table class='table_hovertable'>
+<script>
+$(document).ready(function(){ 
+	$("table").tablesorter(); 
+});
+</script>
+<table class='tablesorter'>
+	<thead>
 	<tr>
 		<th>
 			User
@@ -179,6 +185,8 @@ $data = array();
 			Einlesezeitpunkt
 		</th>
 	</tr>
+	</thead>
+	<tbody>
 	<?php
 	while ($row_user_research = $db->db_fetch_array($result_user_research)) {
 		$sql = "SELECT `name` FROM `" . $db_tb_research . "` WHERE `id` ='" . $row_user_research['rId'] . "';";
@@ -225,6 +233,7 @@ $data = array();
 	<?php
 	}
 	?>
+</tbody>
 </table>
 <br>
 <br>
@@ -268,13 +277,6 @@ echo "</option>";
 </form>
 <br><br>
 
-<script>
-$(document).ready(function() 
-    { 
-        $("#myTable").tablesorter(); 
-    } 
-);
-</script>
 
 <?php
 if(isset($_POST['formSubmit']) ) {
@@ -286,7 +288,7 @@ if(isset($_POST['formSubmit']) ) {
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 		
 	?>
-	<table id='myTable' class='tablesorter' style='width:90%'>
+	<table class='tablesorter' style='width:90%'>
 	
 	<thead>
 		<tr>

@@ -155,7 +155,7 @@ doc_title('Kampfbasen');
 
 ?>
 <script>
-$(window).load(function() 
+$(document).ready(function() 
     { 
         $("#myTable").tablesorter(); 
     } 

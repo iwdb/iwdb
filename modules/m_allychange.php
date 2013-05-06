@@ -156,6 +156,14 @@ global $db, $db_tb_spieler;
 doc_title("Allianzwechsler");
 echo "<div>Hier kann man sehen, welche Spieler in letzter Zeit die Ally gewechselt haben:</div><br>";
 
+?>
+<script>
+$(document).ready(function(){ 
+	$("table").tablesorter(); 
+});
+</script>
+<?php
+
 //Daten von
 $sql_updated = "SELECT MAX(`playerupdate_time`) AS updated FROM `{$db_tb_spieler}`;";
 $result = $db->db_query($sql_updated) or error(GENERAL_ERROR, 'Could not query player information.', '', __FILE__, __LINE__, $sql_updated);
@@ -166,13 +174,16 @@ if (empty($playerdata)) {
 } else {
     echo '<div class="textsmall">Daten von ' . strftime(CONFIG_DATETIMEFORMAT, $playerupdatetime) . '</div><br>';
     ?>
-    <table class="table_hovertable" style="width: 80%;">
-        <tr>
+    <table class="tablesorter" style="width: 80%;">
+       <thead> 
+		<tr>
             <th>Spieler</th>
             <th>von Allianz</th>
             <th>zu Allianz</th>
             <th>Zeitpunkt</th>
         </tr>
+		<thead>
+		<tbody>
         <?php
         // letzten 50 Allywechsel abfragen
         $sql = "SELECT name, fromally, toally, time FROM `{$db_tb_spielerallychange}` ORDER BY `time` DESC LIMIT 0,50";
@@ -197,6 +208,9 @@ if (empty($playerdata)) {
             echo "</tr>\n";
         }
         ?>
+	</tbody>
     </table>
-<?
+<?php
 }
+?>
+<script src="javascript/jquery.tablesorter.min.js"></script>

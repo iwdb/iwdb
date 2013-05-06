@@ -156,7 +156,7 @@ doc_title('Robotermining');
 
 ?>
 <script>
-$(window).load(function() 
+$(document).ready(function() 
     { 
         $("#myTable").tablesorter(); 
     } 

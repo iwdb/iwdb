@@ -155,7 +155,7 @@ doc_title('Artefaktbasen');
 
 ?>
 <script>
-$(window).load(function() 
+$(document).ready(function() 
     { 
         $("#myTable").tablesorter(); 
     } 

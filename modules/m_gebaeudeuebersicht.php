@@ -194,6 +194,13 @@ Global $db_tb_user, $db_tb_gebaeude_spieler, $db_tb_gebaeude, $db_tb_scans;
 
 // Titelzeile
 doc_title('Gebäudeübersicht');
+?>
+<script>
+$(document).ready(function(){ 
+	$("table").tablesorter(); 
+});
+</script>
+<?php
 
 //Gebäudedaten holen
 $sql = "SELECT `name`, `id`, `bild` FROM `{$db_tb_gebaeude}`;";
@@ -275,21 +282,21 @@ echo '<br>';
 foreach ($categories as $category => $value) {
 	echo "<br>";
 	?>
-	<table class="table_hovertable" style="width: 95%;">
+	<table class="tablesorter" style="width: 95%;">
 		<?php
 		$count = count($categories_buildings[$category]);
 		?>
-		<caption><?php echo $category ?></caption>
+		<caption class='titlebg'><?php echo $category ?></caption>
 		<thead>
 			<tr>
 				<th>
-					Spieler
+					<b>Spieler</b>
 				</th>
 				<th>
-					Koords
+					<b>Koords</b>
 				</th>
 				<th>
-					Planet
+					<b>Planet</b>
 				</th>
 				<?php
 				foreach ($categories_buildings[$category] as $building => $value) {
@@ -313,12 +320,12 @@ foreach ($categories as $category => $value) {
 				?>
 			</tr>
 		</thead>
-		
+		<tbody>
 		<?php
 		foreach ($data[$category] as $coords => $planet_buildings) {
 			$color = getScanAgeColor($planet_buildings['time']);
 			?>
-			<tbody>
+			
 				<tr>
 					<td style='background-color: <?php echo $color ?>'>
 						<?php
@@ -351,12 +358,14 @@ foreach ($categories as $category => $value) {
 					}
 					?>
 				</tr>
-			</tbody>
+			
 		<?php
 		}
 		?>
+	</tbody>
 	</table>
     <br>
 <?php
 }
 ?>
+<script src="javascript/jquery.tablesorter.min.js"></script>

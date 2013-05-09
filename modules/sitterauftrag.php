@@ -948,7 +948,7 @@ if (!empty($umenu)) {
 //
 function fill_selection($selected_id)
 {
-    global $db, $db_tb_research, $db_tb_researchfield, $user_sitterlogin, $db_tb_research2user;
+    global $id, $db, $db_tb_research, $db_tb_researchfield, $user_sitterlogin, $db_tb_research2user;
 
     $fields = array();
 

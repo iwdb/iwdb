@@ -948,7 +948,7 @@ if (!empty($umenu)) {
 //
 function fill_selection($selected_id)
 {
-    global $db, $db_tb_research, $db_tb_researchfield, $user_sitterlogin;
+    global $db, $db_tb_research, $db_tb_researchfield, $user_sitterlogin, $db_tb_research2user;
 
     $fields = array();
 
@@ -964,7 +964,7 @@ function fill_selection($selected_id)
     $where = "";
 
     if (!empty($user_sitterlogin)) {
-        $where = " WHERE NOT ID IN (SELECT rID FROM research2user where userid='" . $user_sitterlogin . "')";
+        $where = " WHERE NOT `ID` IN (SELECT `rID` FROM `{$db_tb_research2user}` WHERE `userid`='" . $id . "')";
     }
 
     $sql    = "SELECT ID, name, gebiet FROM " . $db_tb_research . $where . " ORDER BY gebiet ASC, name ASC";

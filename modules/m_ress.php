@@ -614,6 +614,84 @@ foreach ($fleeterlist as $key => $value) {
 			}
 			?>
 		</tbody>
+		<tfoot>
+		<?php
+		// Gesamtanzeige
+    $sql = "SELECT
+                sum(ro.eisen) as eisen, sum(ro.stahl) as stahl, sum(ro.vv4a) as vv4a,
+                sum(ro.chem) as chem, sum(ro.eis) as eis, sum(ro.wasser) as wasser,
+                sum(ro.energie) as energie, sum(ro.fp_ph) as fp_ph,
+                sum(ro.credits) as credits, ro.user, us.sitterlogin, us.buddlerfrom
+            FROM
+                " . $db_tb_ressuebersicht . " as ro, " . $db_tb_user . " as us
+            WHERE
+                ro.user = us.sitterlogin AND us.buddlerfrom = '" . $fleetername . "'
+            GROUP BY
+                us.buddlerfrom";
+
+    $result = $db->db_query($sql);
+
+    while ($row = $db->db_fetch_array($result)) {
+			?>
+			<tr class='titlebg center'>
+				<td colspan='2'>
+					<b>Gesamt:</b>
+				</td>
+				<td>
+					<?php
+					echo number_format($row['eisen'] * $switch, 0, ',', '.');
+					?>
+				</td>
+				<td>
+					<?php
+					echo number_format($row['stahl'] * $switch, 0, ',', '.');
+					?>
+				</td>
+				<td>
+					<?php
+					echo number_format($row['vv4a'] * $switch, 0, ',', '.');
+					?>
+				</td>
+				<td>
+					<?php
+					echo number_format($row['chem'] * $switch, 0, ',', '.');
+					?>
+				</td>
+				<td>
+					<?php
+					echo number_format($row['eis'] * $switch, 0, ',', '.');
+					?>
+				</td>
+				<td>
+					<?php
+					echo number_format($row['wasser'] * $switch, 0, ',', '.');
+					?>
+				</td>
+				<td>
+					<?php
+					echo number_format($row['energie'] * $switch, 0, ',', '.');
+					?>
+				</td>
+				<td>
+					<?php
+					echo number_format($row['fp_ph'] * $switch, 0, ',', '.');
+					?>
+				</td>
+				<td>
+					<?php
+					echo number_format($row['credits'] * $switch, 0, ',', '.');
+					?>
+				</td>
+				<td colspan='2'>
+					<b>Gesamt:</b>
+				</td>
+			</tr>
+		<?php
+		}
+		?>
+	</tfoot>
+		
+		
 	</table>
 <?php
 }

@@ -55,14 +55,14 @@ define('SITTEN_ONLY_NEWTASKS', 0);
 define('SITTEN_ONLY_LOGINS', 3);
 define('SITTEN_BOTH', 1);
 
-require_once 'config/config.php'; //IWDB Einstellungen
-require_once 'config/configally.php'; //Allianzeinstellungen
-require_once 'includes/dBug.php'; //bessere Debugausgabe
-require_once 'includes/debug.php'; //Debug Funktionen
-require_once 'includes/function.php'; //sonstige Funktionen
-require_once 'includes/db_mysql.php';  //DB Klasse
-require_once 'parser/parser_help.php'; //ausgelagerte Parserhilfsfunktionen
-require_once 'config/configsql.php'; //Datenbank Zugangsdaten
+require_once './config/config.php'; //IWDB Einstellungen
+require_once './config/configally.php'; //Allianzeinstellungen
+require_once './includes/dBug.php'; //bessere Debugausgabe
+require_once './includes/debug.php'; //Debug Funktionen
+require_once './includes/function.php'; //sonstige Funktionen
+require_once './includes/db_mysql.php';  //DB Klasse
+require_once './parser/parser_help.php'; //ausgelagerte Parserhilfsfunktionen
+require_once './config/configsql.php'; //Datenbank Zugangsdaten
 
 //DB Verbindung herstellen
 $db = new db();
@@ -88,7 +88,7 @@ if (empty($action)) {
     $action = $config_default_action;
 }
 
-require_once("includes/sid.php");
+require_once("./includes/sid.php");
 
 $sql = "SELECT `gesperrt` FROM `{$db_tb_user}` WHERE `id` = '{$user_id}';";
 $result_g = $db->db_query($sql)

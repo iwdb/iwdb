@@ -31,7 +31,7 @@ define('APPLICATION_PATH_ABSOLUTE', dirname(__FILE__));
 define('APPLICATION_PATH_RELATIVE', dirname($_SERVER['SCRIPT_NAME']));
 define('APPLICATION_PATH_URL', dirname($_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME']));
 
-require_once("includes/bootstrap.php");
+require_once("./includes/bootstrap.php");
 
 if ($login_ok) {
     $sqlIA = "SELECT `text`,`value` FROM `{$db_tb_params}` WHERE `name` = 'gesperrt' ";
@@ -131,7 +131,6 @@ if ((($user_adminsitten == SITTEN_BOTH) || ($user_adminsitten == SITTEN_ONLY_LOG
     <!--[if gte IE 9]><!-->
     <script src="javascript/jquery-2.0.0.min.js"></script>
     <!--<![endif]-->
-    <script src="javascript/jquery.tablesorter.min.js"></script>
 </head>
 <?php
 if (!getVar("nobody")) {
@@ -143,12 +142,14 @@ if (!getVar("nobody")) {
             <td style="text-align: center;" class="background">
                 <?php
                 //hier hin verschoben da der IE iwie imemr sonst Mist baut ^^
-                include ('includes/sitterfadein.php');
+                include ('./includes/sitterfadein.php');
 
                 if (!empty($config_banner)) {
                     echo "<div id='iwdb_logo'><img src={$config_banner} alt='banner' style='vertical-align: middle;'></div>";
                 }
+
                 }
+
                 if ( ($login_ok) && ($user_rules == "1") ) {
 
                     if (getVar("action") == "profile") {
@@ -275,6 +276,7 @@ if (!getVar("nobody")) {
     </tr>
     </table>
 </div>
+<script src="javascript/jquery.tablesorter.min.js"></script>
 <script src="javascript/misc.js"></script>
 </body>
 </html>

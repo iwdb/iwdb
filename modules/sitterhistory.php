@@ -55,11 +55,6 @@ echo "maximal: <input type='number' name='limit' value='" . $limit . "' min='1' 
 echo "<input type='submit' value='anzeigen' name='B1' class='submit'>\n";
 end_form();
 ?>
-<script>
-$(document).ready(function(){ 
-	$("table").tablesorter(); 
-});
-</script>
 <br>
 <table class="tablesorter" style="width: 90%;">
     <thead>
@@ -163,4 +158,3 @@ $(document).ready(function(){
 </tbody>
 </table>
 <br>
-<script src="javascript/jquery.tablesorter.min.js"></script>

@@ -236,3 +236,7 @@ function confirmlink(link, text) {
     var is_confirmed = confirm(text);
     return is_confirmed;
 }
+
+jQuery(document).ready(function () {
+    jQuery(".tablesorter").tablesorter();
+});

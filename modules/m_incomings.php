@@ -228,4 +228,3 @@ echo " 	 <br />\n";
     </tr>
 </table>
 <script src="javascript/m_incomings.js"></script>
-<script src="javascript/jquery.tablesorter.min.js"></script>

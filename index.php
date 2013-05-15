@@ -131,6 +131,7 @@ if ((($user_adminsitten == SITTEN_BOTH) || ($user_adminsitten == SITTEN_ONLY_LOG
     <!--[if gte IE 9]><!-->
     <script src="javascript/jquery-2.0.0.min.js"></script>
     <!--<![endif]-->
+    <script src="javascript/jquery.tablesorter.min.js"></script>
 </head>
 <?php
 if (!getVar("nobody")) {

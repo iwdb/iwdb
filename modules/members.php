@@ -90,15 +90,8 @@ if (!empty($graph)) {
 <?php
 }
 ?>
-<script>
-$(window).load(function() 
-    { 
-        $("#myTable").tablesorter(); 
-    } 
-);
-</script>
 <br>
-<table id='myTable' class='tablesorter' style='width: 90%;'>
+<table class='tablesorter' style='width: 90%;'>
 <thead>
 <tr>
     <?php
@@ -360,4 +353,3 @@ while ($row = $db->db_fetch_array($result)) {
     ?>
 </table>
 </form>
-<script src="javascript/jquery.tablesorter.min.js"></script>

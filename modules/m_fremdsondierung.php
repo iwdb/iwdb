@@ -197,14 +197,7 @@ $result = $db->db_query($sql)
 $data = array();
 
 ?>
-<script>
-$(window).load(function() 
-    { 
-        $("#myTable").tablesorter(); 
-    } 
-);
-</script>
-<table id='myTable' class='tablesorter'>
+<table class='tablesorter'>
 	<thead>
 		<tr>
 			<th>
@@ -332,4 +325,3 @@ $(window).load(function()
 		</td>
 	</tr>
 </table>
-<script src="javascript/jquery.tablesorter.min.js"></script>

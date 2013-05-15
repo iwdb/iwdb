@@ -153,15 +153,6 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 
 doc_title('Artefaktbasen');
 
-?>
-<script>
-$(document).ready(function() 
-    { 
-        $("#myTable").tablesorter(); 
-    } 
-);
-</script>
-<?php
 // aktuelle Spielerauswahl ermitteln
 $params['playerSelection'] = getVar('playerSelection');
 
@@ -208,7 +199,7 @@ echo '</div><br>';
 
 ?>
 
-<table id='myTable' class='tablesorter'>
+<table class='tablesorter'>
 	<thead>
 		<tr>
 			<th>
@@ -279,4 +270,3 @@ echo '</div><br>';
 	</tbody>
 </table>
 <br>
-<script src="javascript/jquery.tablesorter.min.js"></script>

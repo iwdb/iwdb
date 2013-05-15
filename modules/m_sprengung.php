@@ -85,7 +85,7 @@ function workInstallMenu()
 {
     global $modultitle, $modulstatus, $_POST;
 
-    $actionparamters = "";
+    $actionparameters = "";
     insertMenuItem($_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparameters);
     //
     // Weitere Wiederholungen fuer weitere Menue-Eintraege, z.B.
@@ -175,7 +175,7 @@ $(window).load(function()
 );
 </script>
 <br>
-<table id='myTable' class='tablesorter' style='width: 80%;'>
+<table class='tablesorter' style='width: 80%;'>
     <thead>
 	<tr>
         <th>Koords</th>
@@ -193,7 +193,7 @@ $(window).load(function()
 
     </tr>
 	</thead>
-	</tbody>
+	<tbody>
 <?php
 
 // SQL-Statement aufbauen
@@ -281,7 +281,6 @@ while ($row = $db->db_fetch_array($result)) {
     echo "    </td>\n";
     echo "  </tr>\n";
 }
-echo "</tbody>";
-echo "</table>";
 ?>
-<script src="javascript/jquery.tablesorter.min.js"></script>
+</tbody>
+</table>

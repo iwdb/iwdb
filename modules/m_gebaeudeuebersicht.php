@@ -194,13 +194,6 @@ Global $db_tb_user, $db_tb_gebaeude_spieler, $db_tb_gebaeude, $db_tb_scans;
 
 // Titelzeile
 doc_title('Gebäudeübersicht');
-?>
-<script>
-$(document).ready(function(){ 
-	$("table").tablesorter(); 
-});
-</script>
-<?php
 
 //Gebäudedaten holen
 $sql = "SELECT `name`, `id`, `bild` FROM `{$db_tb_gebaeude}`;";
@@ -367,5 +360,3 @@ foreach ($categories as $category => $value) {
     <br>
 <?php
 }
-?>
-<script src="javascript/jquery.tablesorter.min.js"></script>

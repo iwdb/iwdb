@@ -164,11 +164,6 @@ $result_user_research = $db->db_query($sql)
 $data = array();
 
 ?>
-<script>
-$(document).ready(function(){ 
-	$("table").tablesorter(); 
-});
-</script>
 <table class='tablesorter'>
 	<thead>
 	<tr>
@@ -321,4 +316,3 @@ if(isset($_POST['formSubmit']) ) {
 <?php		
 }
 ?>
-<script src="javascript/jquery.tablesorter.min.js"></script>

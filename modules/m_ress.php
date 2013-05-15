@@ -186,13 +186,8 @@ if ($switch === 24) {
     doc_title("Verbrauch in " . $switch . " Stunde(n)");
 }
 doc_title("sowie Bevölkerungsdaten");
-?>
-<script>
-$(document).ready(function(){ 
-	$("table").tablesorter(); 
-});
-</script>
 
+?>
 <table class='tablesorter' style='width:95%'>
 	<thead>
 		<tr>
@@ -695,5 +690,3 @@ foreach ($fleeterlist as $key => $value) {
 	</table>
 <?php
 }
-?>
-<script src="javascript/jquery.tablesorter.min.js"></script>

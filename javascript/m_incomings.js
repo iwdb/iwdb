@@ -89,6 +89,6 @@ jQuery(document).ready(function () {
             jQuery(this).prop('checked', !this.checked);        //Auswahl rückgängig machen, da Fehler beim übernehmen
         }
     });
-	
-	$("table").tablesorter();
+
+    jQuery(".tablesorter").tablesorter();
 });

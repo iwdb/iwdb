@@ -154,16 +154,6 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 // Titelzeile
 doc_title('Robotermining');
 
-?>
-<script>
-$(document).ready(function() 
-    { 
-        $("#myTable").tablesorter(); 
-    } 
-);
-</script>
-<?php
-
 // aktuelle Spielerauswahl ermitteln
 $params['playerSelection'] = getVar('playerSelection');
 
@@ -225,7 +215,7 @@ echo makeField(
 echo '</div><br>';
 
 ?>
-<table id='myTable' class='tablesorter'>
+<table class='tablesorter'>
 	<thead>
 		<tr>
 			<th>
@@ -339,4 +329,3 @@ echo '</div><br>';
 	</tbody>
 </table>
 <br>
-<script src="javascript/jquery.tablesorter.min.js"></script>

@@ -137,8 +137,8 @@ function workInstallDatabase() {
 //
 function workInstallMenu() {
     global $modultitle, $modulstatus, $_POST;
-		
-		$actionparamters = "";
+
+    $actionparameters = "";
   	insertMenuItem( $_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparameters );
 	  //
 	  // Weitere Wiederholungen fuer weitere Menü-Einträge, z.B.
@@ -246,8 +246,10 @@ case "top":
 	echo '<body bgcolor="#111111">';
 	
 	// Auftragsliste abrufen
-	debug_var("sql", $sql = "SELECT * FROM $db_tb_versand_auftrag WHERE user='" . $user_sitterlogin . "' AND time=" . $params['time']);
-	$result = $db->db_query($sql)
+    $auftraege = array();
+    $sql = "SELECT * FROM $db_tb_versand_auftrag WHERE user='" . $user_sitterlogin . "' AND time=" . $params['time'];
+	debug_var("sql", $sql);
+    $result = $db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 	while ($row = $db->db_fetch_array($result)) {
 		$auftraege[$row['pos']] = array(

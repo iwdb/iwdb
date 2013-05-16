@@ -7,17 +7,17 @@ function updateCoordsInput() {
     var strPlanet, strPlanetCoords, strPlanetCoordsGala, strPlanetCoordsSystem, strPlanetCoordsPlanet;
 
     strPlanet = document.getElementById('planetcoords_select').value;
-    if (strPlanet !== 0) {      //nicht '(anderer)' ausgewählt
+    if (strPlanet !== '0') {      //nicht '(anderer)' ausgewählt
         strPlanetCoords = strPlanet.split(' ')[0];
         strPlanetCoordsGala = strPlanetCoords.split(':')[0];
         strPlanetCoordsSystem = strPlanetCoords.split(':')[1];
         strPlanetCoordsPlanet = strPlanetCoords.split(':')[2];
-    }
 
-    //Koordinatenfelder ändern
-    document.getElementById('coords_gal_input').value = strPlanetCoordsGala;
-    document.getElementById('coords_sys_input').value = strPlanetCoordsSystem;
-    document.getElementById('coords_planet_input').value = strPlanetCoordsPlanet;
+        //Koordinatenfelder ändern
+        document.getElementById('coords_gal_input').value = strPlanetCoordsGala;
+        document.getElementById('coords_sys_input').value = strPlanetCoordsSystem;
+        document.getElementById('coords_planet_input').value = strPlanetCoordsPlanet;
+    }
 
 }
 

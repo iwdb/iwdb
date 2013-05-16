@@ -435,11 +435,8 @@ $sql = "SELECT *,
 		 (SELECT `$db_tb_bestellung_projekt`.`prio` FROM `$db_tb_bestellung_projekt` WHERE `$db_tb_bestellung_projekt`.`name`=`$db_tb_bestellung`.`project` AND `$db_tb_bestellung_projekt`.`schiff`=0) AS prio
 	 FROM $db_tb_bestellung";
 if (isset($params['playerSelection']) && $params['playerSelection'] != '(Alle)') {
-    if (strpos($params['playerSelection'], '(Team) ') === 0) { //suchen nach einem Team
-        $sql .= " WHERE (`{$db_tb_bestellung}`.`team`='" . $params['playerSelection'] . "' OR `{$db_tb_bestellung}`.`team` IS NULL OR `{$db_tb_bestellung}`.`team`='(Alle)')";
-    } else { //suchen nach einem einzelnen Spieler
-        $sql .= " WHERE (`{$db_tb_bestellung}`.`user`='" . $params['playerSelection'] . "' OR `{$db_tb_bestellung}`.`team` IS NULL OR `{$db_tb_bestellung}`.`team`='(Alle)')";
-    }
+    $sql .= " WHERE (`{$db_tb_bestellung}`.`team`='" . $params['playerSelection'] . "' OR `{$db_tb_bestellung}`.`team` IS NULL OR `{$db_tb_bestellung}`.`team`='(Alle)')";
+
     if (!$user_fremdesitten) {
         $sql .= " AND (SELECT `allianz` FROM `{$db_tb_user}` WHERE `{$db_tb_user}`.`id`=`{$db_tb_bestellung}`.`user`) = '" . $user_allianz . "'";
     }

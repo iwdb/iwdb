@@ -338,16 +338,15 @@ if (!empty($alert)) {
             <input type="checkbox" name="bauschleife" value="1"<?php echo ($user_peitschen) ? " checked" : "";?>>
         </td>
         <td class="windowbg1" style="width:15%;">
-            <textarea name='auftrag' id='auftrag' rows='2' cols='25' placeholder='Auftrag' required='required'
-                      style='width: 200px;'></textarea>
+            <textarea name='auftrag' id='auftrag' rows='2' cols='25' placeholder='Auftrag' required='required' style='width: 200px;'></textarea>
             <?php echo bbcode_buttons('auftrag'); ?>
         </td>
     </tr>
     <tr>
         <td class="titlebg center" colspan="4">
-            <input type="hidden" name="typ" value="Sonstiges"><input type="hidden" name="editauftrag"
-                                                                     value="true"><input type="submit" value="speichern"
-                                                                                         name="B1">
+            <input type="hidden" name="typ" value="Sonstiges">
+            <input type="hidden" name="editauftrag" value="true">
+            <input type="submit" value="speichern" name="B1">
         </td>
     </tr>
 </table>
@@ -623,12 +622,9 @@ if (!empty($umenu)) {
                 ?>
                 <select name="planet" style="width: 200px;">
                     <?php
-                    //if (!empty($planet) && isset($planets[$planet])) {
-
                         foreach ($planets as $key => $data) {
-                            echo ($planet == $key) ? " <option value='" . $key . "' selected>[" . $key . "] " . $data . "</option>\n" : " <option value='" . $key . "'>[" . $key . "] " . $data . "</option>\n";
+                            echo (!empty($planet) AND $planet == $key) ? " <option value='" . $key . "' selected>[" . $key . "] " . $data . "</option>\n" : " <option value='" . $key . "'>[" . $key . "] " . $data . "</option>\n";
                         }
-                    //}
                     ?>
                 </select>
             <?php
@@ -651,8 +647,7 @@ if (!empty($umenu)) {
                         echo "<input type='hidden' name='date_b2' value='" . (isset($date_b2) ? $date_b2 : "") . "'>" . (isset($date_b2) ? $date_b2 : "");
                     } else {
                         ?>
-                        <input type="text" name="date_b2" value="<?php echo (isset($date_b2) ? $date_b2 : "");?>"
-                               style="width: 200px;">
+                        <input type="text" name="date_b2" value="<?php echo (isset($date_b2) ? $date_b2 : "");?>" style="width: 200px;">
                     <?php
                     }
                     ?>  </td>
@@ -671,8 +666,7 @@ if (!empty($umenu)) {
                     echo "<input type='hidden' name='date_b1' value='" . (isset($date_b1) ? $date_b1 : "") . "'>" . (isset($date_b1) ? $date_b1 : "");
                 } else {
                     ?>
-                    <input type="text" name="date_b1" value="<?php echo (isset($date_b1) ? $date_b1 : "");?>"
-                           style="width: 200px;">
+                    <input type="text" name="date_b1" value="<?php echo (isset($date_b1) ? $date_b1 : "");?>" style="width: 200px;">
                 <?php
                 }
                 ?>  </td>
@@ -806,19 +800,17 @@ if (!empty($umenu)) {
         </tr>
     <?php
     }
-    if ($typ != "Forschung") {
-        if ($typ == "Sonstiges") {
-            ?>
-            <tr>
-                <td class="windowbg2">
-                    Schiebeauftrag?:
-                </td>
-                <td class="windowbg1">
-                    <input type="checkbox" name="schieben" value="1"<?php echo ($schieben) ? " checked" : "";?>>
-                </td>
-            </tr>
-        <?php
-        }
+    if ($typ == "Sonstiges") {
+        ?>
+        <tr>
+            <td class="windowbg2">
+                Schiebeauftrag?:
+            </td>
+            <td class="windowbg1">
+                <input type="checkbox" name="schieben" value="1"<?php echo ($schieben) ? " checked" : ""; ?>>
+            </td>
+        </tr>
+    <?php
     }
     if ($typ == "Gebaeude") {
         $bauschleifenmod = 1;
@@ -844,7 +836,7 @@ if (!empty($umenu)) {
                     $rownum = 0;
                     $colnum = 0;
 
-                    $sql = "SELECT * FROM " . $db_tb_gebaeude . " WHERE inactive = '0' ORDER BY category ASC, idcat ASC";
+                    $sql = "SELECT * FROM " . $db_tb_gebaeude . " WHERE inactive = '0' OR inactive != '' ORDER BY category ASC, idcat ASC;";
                     $result = $db->db_query($sql)
                         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 

@@ -1298,6 +1298,8 @@ function sqlPlayerSelection($playerSelection = '(Alle)')
 {
     global $db, $db_tb_user, $aSpieltypen;
 
+    $sql = '';
+
     if ((empty($playerSelection)) OR ($playerSelection === '(Alle)')) {
         $sql = $db_tb_user . ".sitterlogin LIKE '%'";
     } elseif (preg_match('/\(Team\)\s(.*)/', $playerSelection, $match)) {

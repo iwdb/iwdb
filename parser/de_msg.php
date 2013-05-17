@@ -108,8 +108,6 @@ Achja bei dem ganzen Chaos kamen 142 Leute ums Leben.
                 $name = "chem";
             } else if (strpos($name, "bev") !== false) {
                 $name = "volk";
-            } else if ($name == "Eisen") {
-                $resource['resource_name'] = "stahl";
             }
             $resource['resource_name'] = $name;
 
@@ -158,6 +156,7 @@ Achja bei dem ganzen Chaos kamen 142 Leute ums Leben.
                 " WHERE zeitmarke=" . $transfair_date .
                 " AND buddler='" . $buddler . "' AND fleeter='" . $fleeter . "'";
         }
+        var_dump($sql);
         $result = $db->db_query($sql)
             or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 

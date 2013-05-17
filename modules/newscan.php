@@ -38,15 +38,15 @@ $start = microtime(true);
 /*
 	Autoload system for plib parser
 */
+
+
 global $plibfiles;
 
 $plibfiles = array();
-function __autoload($class)
-{
+function __autoload($class) {
     global $plibfiles;
     if (empty($plibfiles)) {
-        function ReadTheDir($base)
-        {
+        function ReadTheDir($base) {
             global $plibfiles;
             $base = realpath($base) . DIRECTORY_SEPARATOR;
             $dir  = opendir($base);
@@ -69,8 +69,7 @@ function __autoload($class)
     }
 }
 
-function plural($singular)
-{
+function plural($singular) {
     if (preg_match('/.*sicht$/i', $singular)) {
         return ($singular . "en");
     }
@@ -90,6 +89,19 @@ function plural($singular)
     return $singular;
 }
 
+?>
+<script>
+$(document).ready(function(){
+	$("#text").bind('input propertychange', function() {
+		var checklength = $(this).val().length;
+		if(checklength){
+			$("form").submit();
+		}
+	});
+});
+</script>
+<?php
+
 if (empty($selectedusername)) {      //wurde noch nicht woanders eingestellt (z.B. von Sitterschleife)
     $selectedusername = getVar('seluser');
 }
@@ -105,11 +117,13 @@ if ($selectedusername === false) {
 if (!isset($sitterschleife)) {
 
     doc_title('Neuer Bericht');
-    echo "<form method='POST' action='index.php?action=newscan' enctype='multipart/form-data'>\n";
-    echo "<table class='table_format' style='width: 90%;'>\n";
-    echo " <tr>\n";
-    echo "  <td class='windowbg2 center'>\n";
-
+    ?>
+	<form id='nb' name='nb' method='POST' action='index.php?action=newscan' enctype='multipart/form-data'>
+		<table class='table_format' style='width: 90%;'>
+			<tr>
+				<td class='windowbg2 center'>
+	
+	<?php
     global $user_status, $user_sitten;
 
     $sqlP = "SELECT value FROM `{$db_tb_params}` WHERE name = 'bericht_fuer_rang';";
@@ -167,21 +181,22 @@ if (!isset($sitterschleife)) {
         }
         echo " 	 </select><br />\n";
     }
-
-    echo "   <textarea name='text' rows='14' cols='70'></textarea><br />\n";
-    echo " 	 <br />\n";
-    echo "   Für Hilfe bitte oben auf den \"Hilfe\" Button drücken.\n";
-	echo " 	 <br />\n";
-    echo "  </td>\n";
-    echo " </tr>\n";
-    echo " <tr>\n";
-    echo "  <td class='titlebg center'>\n";
-    echo "   <input type='submit' value='abspeichern' name='B1' class='submit'>\n";
-    echo "  </td>\n";
-    echo " </tr>\n";
-    echo "</table>\n";
-    echo "</form>\n";
-    echo "<br>";
+	?>
+					<textarea name='text' id='text' rows='14' cols='70'></textarea><br />
+					<br />
+					Für Hilfe bitte oben auf den "Hilfe" Button drücken.
+					<br />
+				</td>
+			</tr>
+			<tr>
+				<td class='titlebg center'>
+					<input type='submit' value='abspeichern' name='B1' id='B1' class='submit'>
+				</td>
+			</tr>
+		</table>
+    </form>
+    <br>
+	<?php
 }
 
 $textinput = getVar('text', true); // ungefilterten Bericht holen
@@ -299,35 +314,9 @@ if (!empty($textinput)) {
         }
     }
 
-    // Eigenkreation Start
-    //! Mac: erstmal rausgenommen, da es $ausgabe im Moment eh nicht gibt
-//	if (isset($ausgabe['KBs'])) {
-//	
-//		sort($ausgabe['KBs']); // sortieren nach Zeit
-//	
-//		echo '
-//			<table class="table_format" style="width: 90%;">
-//				<tr>
-//					<td colspan="2" class="windowbg2" style="font-size: 18px;">BBCode der Kampfberichte</td>
-//				</tr>
-//				<tr>
-//					<td class="windowbg1">';
-//		foreach($ausgabe['KBs'] as $key => $value) {
-//			if ($key != 0)
-//				echo '
-//					<br />_______________________________________________________<br /><br />';
-//			echo htmlspecialchars($value['Bericht'], 'UTF-8');
-//		}
-//		echo '
-//				</tr>
-//			</table><br />';
-// 	} 
-
     $stop  = microtime(true);
     $dauer = $stop - $start;
     echo '<br>Dauer: ' . round($dauer, 4) . ' sec<br>';
-
-    // Eigenkreation Ende
 
     return;
 }

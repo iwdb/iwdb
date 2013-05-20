@@ -78,7 +78,7 @@ function parse_de_wirtschaft_geb($return)
     }
 
     if ($count) {
-        echo "<div class='system_notification'>Gebäudeübersicht aktualisiert.</div>";
+        echo "<div class='system_notification'>Gebäudeübersicht für {$AccName} aktualisiert.</div>";
     }
 
     return;

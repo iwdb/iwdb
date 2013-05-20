@@ -980,26 +980,29 @@ function bbcode_buttons($id)
 
 function getAccNameFromKolos($aKolos)
 {
-    global $db, $db_tb_spieler;
+    global $db, $db_tb_scans;
 
-    foreach ($aKolos as $Kolo) {
-        //schauen ob Koordinaten als Hauptplanetenkoordinaten bekannt sind (nur bei Kolonien überprüfen)
-        if (!empty($Kolo->strObjectType) AND ($Kolo->strObjectType === 'Kolonie')) {
-            $Coords = $db->escape($Kolo->strCoords);
-
-            $sql = "SELECT `name` FROM `{$db_tb_spieler}` WHERE `Hauptplanet`='" . $Coords . "';";
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query homeplanet information.', '', __FILE__, __LINE__, $sql);
-
-            $row = $db->db_fetch_array($result);
-            if (!empty($row)) { //Besitzer gefunden
-                return $row['name'];
-            }
-        }
+    if (empty($aKolos)) {
+        return false;
     }
 
-    //nichts gefunden (nicht eingetragen)
-    return false;
+    $aKoloCoords = array();
+    foreach ($aKolos as $Kolo) {
+        $aKoloCoords[] = "'".$db->escape($Kolo->strCoords)."'";
+    }
+    $sqlKolos = implode(', ', $aKoloCoords);
+
+    $sql = "SELECT `user`, COUNT(`user`) AS playerkolos FROM `{$db_tb_scans}` WHERE `coords` IN ($sqlKolos) AND `objekt` = 'Kolonie' GROUP BY `user` ORDER BY playerkolos DESC LIMIT 1;";
+    $result = $db->db_query($sql)
+        or error(GENERAL_ERROR, 'Could not get planet infomation.', '', __FILE__, __LINE__, $sql);
+    $row = $db->db_fetch_array($result);
+
+    if (!empty($row['name'])) { //Besitzer gefunden
+        return $row['name'];
+    } else {             //nichts gefunden (nicht eingetragen)
+        return false;
+    }
+
 }
 
 function find_research_id($researchname, $hidenew = false)

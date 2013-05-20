@@ -991,14 +991,12 @@ function getAccNameFromKolos($aKolos)
         $aKoloCoords[] = "'".$db->escape($Kolo->strCoords)."'";
     }
     $sqlKolos = implode(', ', $aKoloCoords);
-
     $sql = "SELECT `user`, COUNT(`user`) AS playerkolos FROM `{$db_tb_scans}` WHERE `coords` IN ($sqlKolos) AND `objekt` = 'Kolonie' GROUP BY `user` ORDER BY playerkolos DESC LIMIT 1;";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not get planet infomation.', '', __FILE__, __LINE__, $sql);
     $row = $db->db_fetch_array($result);
-
-    if (!empty($row['name'])) { //Besitzer gefunden
-        return $row['name'];
+    if (!empty($row['user'])) { //Besitzer gefunden
+        return $row['user'];
     } else {             //nichts gefunden (nicht eingetragen)
         return false;
     }

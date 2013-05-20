@@ -41,10 +41,21 @@ function parse_de_index($return)
 {
     global $db, $db_tb_scans, $db_tb_user_research, $selectedusername, $scan_datas, $db_tb_params, $db_tb_bestellung, $db_tb_sitterauftrag, $db_tb_research;
 
+    //get Accname
+    $AccName = false;
+    foreach ($return->objResultData->aContainer as $aContainer) {
+        if (($aContainer->strIdentifier == "de_index_geb") AND ($aContainer->bSuccessfullyParsed)) {
+            $AccName = getAccNameFromKolos($aContainer->objResultData->aGeb);
+        }
+    }
+    if ($AccName === false) { //kein Eintrag gefunden -> ausgewählten Accname verwenden
+        $AccName = $selectedusername;
+    }
+
     if ($return->objResultData->bOngoingResearch == false) { // keine laufende Forschung
 
     	$SQLdata = array (
-            'user' => $selectedusername,
+            'user' => $AccName,
             'rId'  => 272,
             'date' => '',
             'time' => CURRENT_UNIX_TIME
@@ -56,21 +67,21 @@ function parse_de_index($return)
         //# alle Forschungsaufträge des Spielers anpassen
 
         //aktuellsten Forschungsauftrag holen
-        $result = $db->db_query("SELECT `date`, `date_b1`, `date_b2`, `resid` FROM `{$db_tb_sitterauftrag}` WHERE `user` = '{$selectedusername}' AND `typ` = 'Forschung' ORDER BY `date` ASC LIMIT 1;");
+        $result = $db->db_query("SELECT `date`, `date_b1`, `date_b2`, `resid` FROM `{$db_tb_sitterauftrag}` WHERE `user` = '{$AccName}' AND `typ` = 'Forschung' ORDER BY `date` ASC LIMIT 1;");
         if ($row = $db->db_fetch_array($result)) {
             $res_order_time_diff = $row['date'] - CURRENT_UNIX_TIME;
 
             if ($res_order_time_diff > 0) { //alle Forschungsaufträge liegen in der Zukunft -> alle vorziehen
 
-                $sql = "UPDATE `{$db_tb_sitterauftrag}` SET `date` = `date`-{$res_order_time_diff}, `date_b1` = `date_b1`-{$res_order_time_diff}, `date_b2` = `date_b2`-{$res_order_time_diff} WHERE `user` = '{$selectedusername}' AND `typ` = 'Forschung';";
+                $sql = "UPDATE `{$db_tb_sitterauftrag}` SET `date` = `date`-{$res_order_time_diff}, `date_b1` = `date_b1`-{$res_order_time_diff}, `date_b2` = `date_b2`-{$res_order_time_diff} WHERE `user` = '{$AccName}' AND `typ` = 'Forschung';";
                 $db->db_query($sql)
                     or error(GENERAL_ERROR, 'Could not update researchtime.', '', __FILE__, __LINE__, $sql);
-                debug_var("Forschungsanpassung", "Zeiten der Forschungsaufträge bei {$selectedusername} angepasst");
+                debug_var("Forschungsanpassung", "Zeiten der Forschungsaufträge bei {$AccName} angepasst");
 
             }
         }
 
-        echo "<div class='system_warning'>Es läuft keine Forschung bei {$selectedusername}!</div>";
+        echo "<div class='system_warning'>Es läuft keine Forschung bei {$AccName}!</div>";
     }
 
     foreach ($return->objResultData->aContainer as $aContainer) {
@@ -117,7 +128,7 @@ function parse_de_index($return)
 
                         $scan_data = array();
                         if ($fleetType == "own") {
-                            $scan_data['user_from'] = $selectedusername;
+                            $scan_data['user_from'] = $AccName;
                         } else {
                             $scan_data['user_from'] = $msg->strUserNameFrom;
                         }
@@ -199,7 +210,7 @@ function parse_de_index($return)
                     }
                 }
                 //! ende index_fleet
-            } else if (($aContainer->bSuccessfullyParsed) && ($aContainer->strIdentifier == "de_index_ressourcen")) {
+            } else if ($aContainer->strIdentifier == "de_index_ressourcen") {
                 //! Mac: @todo: Ressourcen auf dem aktuellen Planeten auswerten
 
                 //automatische Creditsbestellung
@@ -239,7 +250,7 @@ function parse_de_index($return)
                                         $creds_order         = Array();
                                         $creds_ordered_value = 0;
 
-                                        $sth = $db->db_query("SELECT `id`, `credits`, `offen_credits` FROM `{$db_tb_bestellung}` WHERE `user` = '" . $selectedusername . "' ORDER BY `time` ASC;");
+                                        $sth = $db->db_query("SELECT `id`, `credits`, `offen_credits` FROM `{$db_tb_bestellung}` WHERE `user` = '" . $AccName . "' ORDER BY `time` ASC;");
                                         while ($row = $db->db_fetch_array($sth)) {
                                             $creds_order[$row['id']] = Array('credits' => $row['credits'], 'offen_credits' => $row['offen_credits']);
                                             $creds_ordered_value     = $creds_ordered_value + $row['offen_credits'];
@@ -264,11 +275,11 @@ function parse_de_index($return)
                                             //keine vorliegenden Creditsbestellungen -> eine einfügen
                                             if (count($creds_order) === 0) {
                                                 $sql = "INSERT INTO `" . $db_tb_bestellung . "` (`user`, `team`, `coords_gal`, `coords_sys`, `coords_planet`, `project`, `text`, `time`, `eisen`, `stahl`, `chemie`, `vv4a`, `eis`, `wasser`, `energie`, `credits`, `volk`, `offen_eisen`, `offen_stahl`, `offen_chemie`, `offen_vv4a`, `offen_eis`, `offen_wasser`, `offen_energie`, `offen_credits`, `schiff`, `anzahl`, `prio`, `taeglich`, `time_created`, `erledigt`) VALUES
-                                                ('" . $selectedusername . "', '(Alle)', 0, 0, 0, 'Automatische Creditsbestellung', '', " . CURRENT_UNIX_TIME . ", 0, 0, 0, 0, 0, 0, 0, " . $creds_order_value . ", 0, 0, 0, 0, 0, 0, 0, 0, " . $creds_order_value . ", '', 0, 1, b'0', " . CURRENT_UNIX_TIME . ", 0);";
+                                                ('" . $AccName . "', '(Alle)', 0, 0, 0, 'Automatische Creditsbestellung', '', " . CURRENT_UNIX_TIME . ", 0, 0, 0, 0, 0, 0, 0, " . $creds_order_value . ", 0, 0, 0, 0, 0, 0, 0, 0, " . $creds_order_value . ", '', 0, 1, b'0', " . CURRENT_UNIX_TIME . ", 0);";
                                                 $db->db_query($sql)
                                                     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
-                                                doc_message('weniger als ' . number_format((float)$automatic_creds_order_minvalue, 0, ',', '.') . ' Credits bei ' . $selectedusername . ' -> ' . number_format((float)$creds_order_value, 0, ',', '.') . ' Credits automatisch bestellt');
+                                                doc_message('weniger als ' . number_format((float)$automatic_creds_order_minvalue, 0, ',', '.') . ' Credits bei ' . $AccName . ' -> ' . number_format((float)$creds_order_value, 0, ',', '.') . ' Credits automatisch bestellt');
 
                                             } else {
                                                 //vorliegende Creditsbestellungen zu gering -> aktuellste modifizieren
@@ -297,7 +308,7 @@ function parse_de_index($return)
                                                         }
                                                     }
 
-                                                    doc_message('weniger als ' . number_format((float)$automatic_creds_order_minvalue, 0, ',', '.') . ' Credits bei ' . $selectedusername . ' -> Creditsbestellung auf ' . number_format((float)$creds_order_value, 0, ',', '.') . ' erhöht');
+                                                    doc_message('weniger als ' . number_format((float)$automatic_creds_order_minvalue, 0, ',', '.') . ' Credits bei ' . $AccName . ' -> Creditsbestellung auf ' . number_format((float)$creds_order_value, 0, ',', '.') . ' erhöht');
 
                                                 }
                                             }
@@ -317,7 +328,7 @@ function parse_de_index($return)
 
                 $sql = "INSERT INTO `$db_tb_user_research` "
                     . "(`user`, `rId`, `date`, `time`) VALUES "
-                    . "('{$selectedusername}', {$research_id}, {$aContainer->objResultData->aResearch[0]->iResearchEnd}, " . CURRENT_UNIX_TIME . ") "
+                    . "('{$AccName}', {$research_id}, {$aContainer->objResultData->aResearch[0]->iResearchEnd}, " . CURRENT_UNIX_TIME . ") "
                     . " ON DUPLICATE KEY UPDATE "
                     . "`rId` = {$research_id}, "
                     . "`date` = {$aContainer->objResultData->aResearch[0]->iResearchEnd}, "
@@ -325,12 +336,12 @@ function parse_de_index($return)
 
                 $result = $db->db_query($sql)
                     or error(GENERAL_ERROR, 'Could not update research.', '', __FILE__, __LINE__, $sql);
-                debug_var("Forschungsanpassung", "Forschung bei {$selectedusername} aktualisiert");
+                debug_var("Forschungsanpassung", "Forschung bei {$AccName} aktualisiert");
 
                 //Zeitanpassung der nächsten Forschungssitteraufträge
 
                 //nächsten Forschungsauftrag holen
-                $sql = "SELECT `id`, `resid` FROM `{$db_tb_sitterauftrag}` WHERE `user` = '{$selectedusername}' AND `typ` = 'Forschung' ORDER BY `date` ASC LIMIT 1;";
+                $sql = "SELECT `id`, `resid` FROM `{$db_tb_sitterauftrag}` WHERE `user` = '{$AccName}' AND `typ` = 'Forschung' ORDER BY `date` ASC LIMIT 1;";
                 $result = $db->db_query($sql)
                     or error(GENERAL_ERROR, 'Could not get research information.', '', __FILE__, __LINE__, $sql);
 
@@ -342,7 +353,7 @@ function parse_de_index($return)
                     }
 
                     //nochmal nächsten Forschungsauftrag holen
-                    $sql = "SELECT `date` FROM `{$db_tb_sitterauftrag}` WHERE `user` = '{$selectedusername}' AND `typ` = 'Forschung' ORDER BY `date` ASC LIMIT 1;";
+                    $sql = "SELECT `date` FROM `{$db_tb_sitterauftrag}` WHERE `user` = '{$AccName}' AND `typ` = 'Forschung' ORDER BY `date` ASC LIMIT 1;";
                     $result = $db->db_query($sql)
                         or error(GENERAL_ERROR, 'Could not get next sitterorder.', '', __FILE__, __LINE__, $sql);
 
@@ -353,11 +364,11 @@ function parse_de_index($return)
 
                         if ($res_order_time_diff > 0) { //folgenden Forschungsaufträge liegen zu weit in der Zukunft -> alle vorziehen
 
-                            $sql = "UPDATE `{$db_tb_sitterauftrag}` SET `date` = `date`-".$res_order_time_diff.", `date_b1` = `date_b1`-".$res_order_time_diff.", `date_b2` = `date_b2`-".$res_order_time_diff." WHERE `user` = '{$selectedusername}' AND `typ` = 'Forschung';";
+                            $sql = "UPDATE `{$db_tb_sitterauftrag}` SET `date` = `date`-".$res_order_time_diff.", `date_b1` = `date_b1`-".$res_order_time_diff.", `date_b2` = `date_b2`-".$res_order_time_diff." WHERE `user` = '{$AccName}' AND `typ` = 'Forschung';";
                             $db->db_query($sql)
                                 or error(GENERAL_ERROR, 'Could not modify sitterorder.', '', __FILE__, __LINE__, $sql);
 
-                            debug_var("Forschungsanpassung", "Zeiten der Forschungsaufträge bei {$selectedusername} angepasst");
+                            debug_var("Forschungsanpassung", "Zeiten der Forschungsaufträge bei {$AccName} angepasst");
 
                         }
                     }
@@ -386,6 +397,8 @@ function parse_de_index($return)
             }
         }
     } //! for each container
+
+    echo "<div class='system_notification'>Startseite komplett geparsed für {$AccName}</div>\n";
 
 }
 

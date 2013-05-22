@@ -449,7 +449,7 @@ if (empty($edit['planet'])) {
 }
 
 //Planetenkoordinaten füllen
-if (($edit['planet'] !== '(anderer)') AND ((($edit['coords_gal']) === '') OR ($edit['coords_sys'] === '') OR ($edit['coords_planet']) === '')) {
+if ((!empty($edit['planet'])) AND ($edit['planet'] !== '(anderer)') AND ((($edit['coords_gal']) === '') OR ($edit['coords_sys'] === '') OR ($edit['coords_planet']) === '')) {
     list($edit['coords_gal'], $edit['coords_sys'], $edit['coords_planet']) = explode(':', $edit['planet']);
 }
 

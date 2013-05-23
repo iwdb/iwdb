@@ -168,9 +168,9 @@ echo "</form>\n";
 
 ?>
 <script>
-$(window).load(function() 
+$(document).ready(function () 
     { 
-        $("#myTable").tablesorter( {sortList: [[7,0], [0,0]]} ); 
+        $(".tablesorter").tablesorter( {sortList: [[7,0], [0,0]]} ); 
     } 
 );
 </script>
@@ -230,7 +230,9 @@ if ($sql_where != '') {
 
 $sql_where = " WHERE " . $sql_where . " reset_timestamp>0 AND geoscantime>0 AND objekt='---' ";
 
-$Limit = " Limit 100";
+$Limit = " Limit 400";
+
+$Order = " ORDER BY geoscantime ASC";
 
 // Abfrage ausführen
 $sql = "SELECT coords,typ,(eisengehalt/dgmod) AS Eisen_eff,(chemievorkommen/dgmod) AS Chem_eff,(eisdichte/dgmod) AS Eis_eff,lebensbedingungen,DGmod, (geoscantime + reset_timestamp) AS reset_timestamp_2 FROM " . $db_tb_scans . $sql_where . $Limit;

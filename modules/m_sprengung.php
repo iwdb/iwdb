@@ -178,7 +178,7 @@ echo "</form>\n";
         <th>Eis<br><span style="font-size:x-small">(eff)</span></th>
         <th>LB</th>
         <th>Gebäude-<br>dauer</th>
-        <th class="sorter-planieresettime">
+        <th class="sorter-attr-unixtime">
             Sprengung
             <br><span style="font-size:x-small">frühestens</span>
         </th>
@@ -259,7 +259,7 @@ while ($row = $db->db_fetch_array($result)) {
     echo "    <td>\n";
     echo "      " . $row['DGmod'] . "\n";
     echo "    </td>\n";
-    echo "    <td data-planieresettime='$row[reset_timestamp_2]'>\n";
+    echo "    <td data-unixtime='$row[reset_timestamp_2]'>\n";
 
     $reset_timestamp_first = ($row['reset_timestamp_2'] - DAY); //vorverlegen des Sprengdatums wegen +-24h
     if ($reset_timestamp_first > CURRENT_UNIX_TIME) {

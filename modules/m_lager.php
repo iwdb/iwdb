@@ -334,6 +334,13 @@ $resses_name = array('eisen'   => 'Eisen',
 );
 $resses      = array('eisen', 'stahl', 'vv4a', 'chem', 'eis', 'wasser', 'energie');
 
+$acc_typ_topgroups = array_keys ( $aSpieltypen );
+foreach ($acc_typ_topgroups as $key => $group) {
+    if (!is_array($aSpieltypen[$group])) {
+        $acc_typ_topgroups[$key] = $aSpieltypen[$group];
+    }
+}
+
 // Delete-Schlüssel aufbauen
 $delete_keys_explode = explode(":", $params['delete']);
 if (count($delete_keys_explode) == 3) {
@@ -607,10 +614,13 @@ $result = $db->db_query($sql)
 while ($row = $db->db_fetch_array($result)) {
     $key        = $row['coords_gal'] . ":" . $row['coords_sys'] . ":" . $row['coords_planet'];
     $expanded   = $params['expand'] == $key;
+
+    $acc_typ_hierarchy = array_get_value_recursive_up($row['budflesol'], $aSpieltypen);
+
     $data[$key] = array(
         'user'              => $row['user'],
         'team'              => $row['buddlerfrom'],
-        'typ'               => $row['budflesol'] == "Fleeter" ? 1 : ($row['budflesol'] == "Cash Cow" ? 2 : ($row['budflesol'] == "Buddler" ? 3 : 4)),
+        'typ'               => array_search($acc_typ_hierarchy[0], $acc_typ_topgroups),
         'coords'            => $row['coords_gal'] . ":" . $row['coords_sys'] . ":" . $row['coords_planet'],
         'name'              => $row['planetenname'],
         'sortierung'        => $row['sortierung'],
@@ -1413,9 +1423,10 @@ function make_color($row, $key)
 
 function format_value($row, $key, $value, $expand = false)
 {
+    global $acc_typ_topgroups;
+
     if ($row == null && $key == 'typ') {
-        //return $value == 1 ? "Fleeter" : ($value == 2 ? "Cash Cow" : ($value == 3 ? "Buddler" : "Solo"));
-		return $value == 1 ? "Fleeter" : ($value == 2 ? "Cash Cow" : ($value == 3 ? "Buddler" : ($value == 4 ? "Allrounder" : ($value == 5 ? "Wandler" : ($value == 6 ? "Stahlwandler" : ($value == 7 ? "VV4A Wandler" : "Solo"))))));
+		return $acc_typ_topgroups[$value];
     }
     if ($key == 'user' && !$expand) {
         return $value . "<br>(" . make_duration($row['time']) . ")";

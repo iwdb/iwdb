@@ -167,13 +167,6 @@ echo "  <input type='submit' value='los' name='B1' class='submit'>";
 echo "</form>\n";
 
 ?>
-<script>
-$(document).ready(function () 
-    { 
-        $(".tablesorter").tablesorter( {sortList: [[7,0], [0,0]]} ); 
-    } 
-);
-</script>
 <br>
 <table data-sortlist='[[7,0],[0,0]]' class='tablesorter' style='width: 80%;'>
     <thead>

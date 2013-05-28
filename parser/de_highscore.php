@@ -128,6 +128,28 @@ function save_playerdata($scan_data)
 {
     global $db, $db_tb_spieler;
 
+    $name                = $db->escape($scan_data['name']);
+    $allianz             = $db->escape($scan_data['allianz']);
+    $aktualisierungszeit = (int)$scan_data['pktupdate_time'];
+    $sql_player_update   = "INSERT INTO `{$db_tb_spieler}` (`name`, `allianz`, `playerupdate_time`) VALUES ('$name', '$allianz', $aktualisierungszeit)";
+
+    //bei schon vorhandenem Spieler in der DB prüfen auf Allianzänderung
+    $sql_player_update .= " ON DUPLICATE KEY UPDATE";
+    $sql_player_update .= " `allychange_time` = IF((STRCMP(VALUES(`allianz`), `allianz`) AND ((`allychange_time` IS NULL) OR ({$aktualisierungszeit} > `allychange_time`))), {$aktualisierungszeit}, `allychange_time`),"; //Allianzänderungszeit auf die des Scans setzen (wenn sie neuer bzw nicht vorhanden ist und sich die Allianz geändert hat), nachfolgende Abfragen können sich dann darauf beziehen
+    $sql_player_update .= " `exallianz` =   IF(((`allychange_time` = {$aktualisierungszeit}) AND (`playerupdate_time` < {$aktualisierungszeit})), `allianz`, `exallianz`),"; //exallianz aktualisieren
+    $sql_player_update .= " `allianzrang` = IF(((`allychange_time` = {$aktualisierungszeit}) AND (`playerupdate_time` < {$aktualisierungszeit})), NULL, `allianzrang`),"; //alten Allianzrang löschen
+    $sql_player_update .= " `allianz` =     IF(((`allychange_time` = {$aktualisierungszeit}) AND (`playerupdate_time` < {$aktualisierungszeit})), VALUES(`allianz`), `allianz`),"; //neue Allianz schreiben
+    $sql_player_update .= " `playerupdate_time` = IF((`playerupdate_time` < {$aktualisierungszeit}), {$aktualisierungszeit}, `playerupdate_time`);"; //Angabe des Updates der Spielerinformationen aktualisieren
+
+    $db->db_query($sql_player_update);
+
+    //Allianzänderungen in Historytabele übertragen
+    AddAllychangetoHistory($aktualisierungszeit);
+
+    //aktuelle Allianzen in alle Kartendaten übertragen
+    SyncAllies($aktualisierungszeit);
+
+    unset($scan_data['allianz']);
     $db->db_insertupdate($db_tb_spieler, $scan_data)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
 }

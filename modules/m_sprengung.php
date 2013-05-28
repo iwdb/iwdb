@@ -175,7 +175,7 @@ $(document).ready(function ()
 );
 </script>
 <br>
-<table class='tablesorter' style='width: 80%;'>
+<table data-sortlist='[[7,0],[0,0]]' class='tablesorter' style='width: 80%;'>
     <thead>
 	<tr>
         <th>Koords</th>
@@ -185,7 +185,7 @@ $(document).ready(function ()
         <th>Eis<br><span style="font-size:x-small">(eff)</span></th>
         <th>LB</th>
         <th>Gebäude-<br>dauer</th>
-        <th>
+        <th class="sorter-planieresetduration">
             Sprengung
             <br><span style="font-size:x-small">frühestens</span>
         </th>
@@ -268,7 +268,7 @@ while ($row = $db->db_fetch_array($result)) {
     echo "    <td>\n";
     echo "      " . $row['DGmod'] . "\n";
     echo "    </td>\n";
-    echo "    <td>\n";
+    echo "    <td data-planieresetduration='$row[reset_timestamp_2]'>\n";
 
     $reset_timestamp_first = ($row['reset_timestamp_2'] - DAY); //vorverlegen des Sprengdatums wegen +-24h
     if ($reset_timestamp_first > CURRENT_UNIX_TIME) {

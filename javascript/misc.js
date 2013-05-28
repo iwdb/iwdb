@@ -239,6 +239,19 @@ function confirmlink(link, text) {
 
 jQuery(document).ready(function () {
     jQuery(".tablesorter").tablesorter({
-		usNumberFormat : false 
-	});
+        usNumberFormat : false
+    });
+});
+
+jQuery.tablesorter.addParser({
+    id: 'planieresetduration',
+    is: function (s, table, cell) {
+        return false;             //kein autodetect des parsers, wird durch class 'sorter-planieresetduration' zugewiesen
+    },
+    format: function (s, table, cell, cellIndex) {
+        return jQuery(cell).attr('data-planieresetduration');         //Sprengzeit wird einfach im data-planieresetduration attribut übergeben und wir sortieren danach
+    },
+    // set the type to either numeric or text (text uses a natural sort function
+    // so it will work for everything, but numeric is faster for numbers
+    type: 'numeric'
 });

@@ -171,18 +171,14 @@ doc_title('Planet suchen');
 <tr>
     <td class="windowbg2" style="width: 40%;">Galaxie:<br>
         <i>In welchem Galaxiebereich sollen Planeten gesucht werden?</i></td>
-    <td class="windowbg1">von <input type="text" name="gal_start"
-                                     value="<?php echo ((isset($gal_start)) ? $gal_start : '')?>" style="width: 5em">
-        bis <input type="text" name="gal_end"
-                   value="<?php echo ((isset($gal_end)) ? $gal_end : '')?>" style="width: 5em"></td>
+    <td class="windowbg1">von <input type="text" name="gal_start" value="<?php echo ((isset($gal_start)) ? $gal_start : '')?>" style="width: 5em">
+        bis <input type="text" name="gal_end" value="<?php echo ((isset($gal_end)) ? $gal_end : '')?>" style="width: 5em"></td>
 </tr>
 <tr>
     <td class="windowbg2">System:<br>
         <i>In welchem Systemberich sollen Planeten gesucht werden?</i></td>
-    <td class="windowbg1">von <input type="text" name="sys_start"
-                                     value="<?php echo ((isset($sys_start)) ? $sys_start : '')?>" style="width: 5em">
-        bis <input type="text" name="sys_end"
-                   value="<?php echo ((isset($sys_end)) ? $sys_end : '')?>" style="width: 5em"></td>
+    <td class="windowbg1">von <input type="text" name="sys_start" value="<?php echo ((isset($sys_start)) ? $sys_start : '')?>" style="width: 5em">
+        bis <input type="text" name="sys_end" value="<?php echo ((isset($sys_end)) ? $sys_end : '')?>" style="width: 5em"></td>
 </tr>
 <tr>
     <td colspan="2" class="titlebg"><b>Eigenschaften:</b></td>
@@ -436,6 +432,7 @@ doc_title('Planet suchen');
 <tr>
     <td class="windowbg1 center" colspan="2">Ansicht:
         <?php
+            $ansicht = (isset($ansicht)) ? $ansicht : "auto";
             echo makeField(
                 array(
                      "type"   => 'select',
@@ -447,12 +444,10 @@ doc_title('Planet suchen');
     </td>
 </tr>
 <tr>
-    <td colspan="2" class="titlebg center"><input type="submit"
-                                                          value="OK" name="B1"></td>
+    <td colspan="2" class="titlebg center"><input type="submit" value="OK" name="B1"></td>
 </tr>
 <tr>
-    <td colspan="2" class="titlebg center">als Preset speichern? <input
-            type="checkbox" name="newpreset" value="1"> <?php
+    <td colspan="2" class="titlebg center">als Preset speichern? <input type="checkbox" name="newpreset" value="1"> <?php
         if ($user_status == "admin") {
             if ((isset($fromuser)) && ($fromuser == "")) {
                 echo "global? <input type='checkbox' name='global' value='1' checked>";
@@ -463,7 +458,6 @@ doc_title('Planet suchen');
         ?> <br>
         ändern: <select name="presetname1" style="width: 10em;">
             <?php
-
             if ($user_status === "admin") {
                 $sql = "SELECT id, name FROM " . $db_tb_preset . " WHERE fromuser = '" . $user_sitterlogin . "' OR fromuser = '' ORDER BY fromuser, name";
             } else {

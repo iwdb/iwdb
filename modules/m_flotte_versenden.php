@@ -162,21 +162,22 @@ function workInstallConfigString() {
 // removing this module. 
 //
 function workUninstallDatabase() {
-	global $db, $db_tb_bestellung, $db_tb_iwdbtabellen;
+    /*
+        global $db, $db_tb_bestellung, $db_tb_iwdbtabellen;
 
-	$sqlscript = array(
-	  "DROP TABLE " . $db_tb_bestellung,
-	  "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE `name`='bestellung'",
-	);
+        $sqlscript = array(
+          "DROP TABLE " . $db_tb_bestellung,
+          "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE `name`='bestellung'",
+        );
 
-/*
-	foreach ($sqlscript as $sql) {
-		$result = $db->db_query($sql)
-			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-	}
 
-	echo "<br>Deinstallation: Datenbankänderungen = <b>OK</b><br>";
-*/
+        foreach ($sqlscript as $sql) {
+            $result = $db->db_query($sql)
+                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        }
+
+        echo "<br>Deinstallation: Datenbankänderungen = <b>OK</b><br>";
+    */
 }
 
 //****************************************************************************

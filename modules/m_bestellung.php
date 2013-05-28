@@ -102,8 +102,6 @@ function workInstallDatabase()
             "`energie` int(7) default 0," .
             "`credits` int(7) default 0," .
             "`volk` int(7) default 0," .
-            "`schiff` varchar(50) default NULL," .
-            "`anzahl` int(7) default 1," .
             "`prio` int(4) NOT NULL default '1'," .
             "`taeglich` bit NOT NULL default 0," .
             "PRIMARY KEY  (`id`)" .
@@ -321,8 +319,6 @@ if ($button_edit OR $button_add) {
         'energie'       => (int)getVar('energie'),
         'volk'          => (int)getVar('volk'),
         'credits'       => (int)getVar('credits'),
-        'schiff'        => (int)getVar('schiff'),
-        'anzahl'        => (int)getVar('anzahl'),
     );
 } else {
     $edit = array(

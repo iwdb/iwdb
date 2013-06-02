@@ -265,7 +265,7 @@ while ($row = $db->db_fetch_array($result)) {
     if ($reset_timestamp_first > CURRENT_UNIX_TIME) {
         echo makeduration2(CURRENT_UNIX_TIME, $reset_timestamp_first) . " \n";
     } elseif (($reset_timestamp_first + 2 * DAY) > CURRENT_UNIX_TIME) { // 2 Tage Toleranz
-        echo "evl. seit " . makeduration2($reset_timestamp_first, CURRENT_UNIX_TIME) . " gesprengt\n";
+        echo "evtl. seit " . makeduration2($reset_timestamp_first, CURRENT_UNIX_TIME) . " gesprengt\n";
     } else {
         echo "wahrscheinlich gesprengt!"; //alles was drüber ist, ist wohl weg
     }

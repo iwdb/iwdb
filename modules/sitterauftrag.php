@@ -836,7 +836,7 @@ if (!empty($umenu)) {
                     $rownum = 0;
                     $colnum = 0;
 
-                    $sql = "SELECT * FROM " . $db_tb_gebaeude . " WHERE inactive = '0' OR inactive != '' ORDER BY category ASC, idcat ASC;";
+                    $sql = "SELECT * FROM " . $db_tb_gebaeude . " WHERE inactive = '0' ORDER BY category ASC, idcat ASC;";
                     $result = $db->db_query($sql)
                         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 

@@ -282,8 +282,9 @@ INSERT INTO `prefix_gebaeude` (`id`, `name`, `category`, `idcat`, `inactive`, `d
 (159, 'Techteam zur Erhöhung der Chemiedichte', '13. Sonstiges', 20, '0', 360, '', 'Dieses Gebäude kann nicht mehr gebaut werden, wenn eines der folgenden Gebäude gebaut wurde:<br>\r\nTechteam zur Erhöhung der Eisdichte<br>\r\nTechteam zur Erhöhung der Eisendichte', '', '', 'Kolonie<br>\r\nDieses Gebäude benötigt weitere komplexe Voraussetzungen', '', '', '', '', 'Fügt x Prozentpunkte zum Vorkommen chem. Elemente auf diesem Planeten hinzu. Dadurch wird mehr chem. Elemente pro Abbauanlage produziert. ', '', 0, 1, '', '', 283),
 (160, 'Techteam zur Erhöhung der Eisendichte', '13. Sonstiges', 30, '0', 0, '', '', '', '', '', '', '', '', '', '', '', 0, 0, '', '', 281),
 (161, 'Techteam zur Erhöhung der Eisdichte', '13. Sonstiges', 70, '0', 360, '', 'Dieses Gebäude kann nicht mehr gebaut werden, wenn eines der folgenden Gebäude gebaut wurde:<br>\r\nTechteam zur Erhöhung der Chemiedichte<br>\r\nTechteam zur Erhöhung der Eisendichte', '', '', 'Kolonie<br>Dieses Gebäude benötigt weitere komplexe Voraussetzungen', '', '', '', '', 'Fügt x Prozentpunkte zum Vorkommen Eis auf diesem Planeten hinzu. Dadurch wird mehr Eis pro Abbauanlage produziert. Wenn dieses Gebäude gebaut werden soll, dann muss dies innerhalb von 14 Tagen nach', '', 0, 1, '', '', 282),
-(162, 'Sandhügel mit Strand', ' 2. Bevölkerung', 130, '1', 0, '', '', '', '', '', '', '', '', '', '', '', 0, 0, '', '', 0),
-(163, '2 Zimmer Höhlenanlage mit Südblick', ' 2. Bevölkerung', 140, '1', 0, '', '', '', '', '', '', '', '', '', '', '', 0, 0, '', '', 0);
+(162, 'Sandhügel mit Strand', ' 2. Bevölkerung', 130, '1', 0, '', '', '', '', '', '', '', '', '', '', '', 0, 0, '', '', 59),
+(163, '2 Zimmer Höhlenanlage mit Südblick', ' 2. Bevölkerung', 140, '1', 0, '', '', '', '', '', '', '', '', '', '', '', 0, 0, '', '', 57),
+(164, 'tolle Baumhüttenanlage (mit extratollem Ausblick)', ' 2. Bevölkerung', 150, '1', 0, '', '', '', '', '', '', '', '', '', '', '', 0, 0, '', '', 58);
 
 -- --------------------------------------------------------
 

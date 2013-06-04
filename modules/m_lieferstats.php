@@ -179,7 +179,7 @@ $fak_ene	= 1;
 $fak_bev	= 0;
 
 ?>
-<table class='tablesorter'>
+<table data-sortlist='[[10,0],[0,0]]' class='tablesorter'>
 	<thead>
 		<tr class='center'>
 			<th class='sorter-false' colspan='11'>
@@ -219,7 +219,7 @@ $fak_bev	= 0;
 			<th>
 				<b>Bevölkerung</b>
 			</th>
-			<th>
+			<th class='{sortInitialOrder: 'desc'}'>
 				<b>Gesamtpunkte</b>
 			</th>
 		</tr>
@@ -334,7 +334,7 @@ $fak_ene	= 1;
 $fak_bev	= 0;
 
 ?>
-<table class='tablesorter'>
+<table data-sortlist='[[10,0],[0,0]]' data-sortInitialOrder='desc' class='tablesorter'>
 	<thead>
 		<tr class='center'>
 			<th class='sorter-false' colspan='11'>

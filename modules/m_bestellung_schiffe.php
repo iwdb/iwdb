@@ -905,6 +905,48 @@ echo "<input type=\"submit\" value=\"Flotte versenden\" name=\"flotte_versenden\
 end_table();
 end_form();
 
+$sql = "SELECT schiffstyp_id,SUM(offen) AS maxanz FROM " . $db_tb_bestellung_schiffe_pos . " WHERE offen!='' GROUP BY schiffstyp_id";
+$result = $db->db_query($sql)
+    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
+$data = array();
+?>
+<table class='tablesorter' style='width: 80%;'>
+	<thead>
+		<tr>
+			<th>
+				<b>Schiffstyp</b>
+			</th>
+			<th>
+				<b>Summe (offene Bestellungen)</b>
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+	
+	<?php
+	while ($row = $db->db_fetch_array($result)) {
+	?>
+		<tr>
+			<td>
+				<?php
+				$name=GetNameByID($row['schiffstyp_id']);
+				echo $name;
+				?>
+			</td>
+			<td>
+				<?php
+				echo $row['maxanz'];
+				?>
+			</td>
+		</tr>
+	<?php
+	}
+	?>
+	</tbody>
+</table>
+<?php
+
 // Maske ausgeben
 echo '<br>';
 echo '<form method="POST" action="' . makeurl(array()) . '" enctype="multipart/form-data"><p>' . "\n";
@@ -952,6 +994,7 @@ if (isset($params['edit']) && is_numeric($params['edit'])) {
 echo '<input type="submit" value="hinzufügen" name="button_add">';
 end_table();
 echo '</form>';
+
 ?>
     <script type="text/javascript" src="javascript/bestellung.js"></script>
 <?php
@@ -1094,4 +1137,20 @@ function makeurl($newparams)
     }
 
     return $url;
+}
+
+// **************************************************************************
+//
+// Gibt den Schiffsnamen zu einer Schiffs-ID zurück
+function GetNameByID($id) {
+	
+	global $db, $db_tb_schiffstyp;
+	
+	$sql = "SELECT `schiff` FROM `{$db_tb_schiffstyp}` WHERE `id` = '$id';";
+
+    $result = $db->db_query($sql)
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $row = $db->db_fetch_array($result);
+
+    return $row['schiff'];
 }

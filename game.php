@@ -498,7 +498,52 @@ switch ($params['mode']) {
         ?>
         <html>
         <head>
-            <link href="css/game.css" rel="stylesheet" type="text/css">
+            <style type="text/css">
+                * {
+                    font-family: verdana;
+                    font-size: 11px;
+                }
+
+                body {
+                    color: #ffffff;
+                    background-color: #111111;
+                    background-image: url(bilder/bg_space3.png);
+                }
+
+                a:link {
+                    color: #bbbbbb;
+                }
+
+                a:visited {
+                    color: #bbbbbb;
+                }
+
+                body, table, tr, td, form {
+                    margin: 0 0 0 0;
+                    padding: 0 0 0 0;
+                }
+
+                input {
+                    color: #ffffff;
+                    background-color: #555555;
+                }
+
+                .planet-enemy {
+                    background-image: url(bilder/rot.png);
+                }
+
+                .alliance-own {
+                    color: #00ff00;
+                }
+
+                .alliance-nap {
+                    color: #ff0000;
+                }
+
+                .alliance-noraid {
+                    color: #ffff00;
+                }
+            </style>
             <script>
                 function transCalcOnLoad() {
                     <?php	if (!empty($data['planet'])) {
@@ -877,7 +922,72 @@ switch ($params['mode']) {
         ?>
         <html>
         <head>
-            <link href="css/game.css" rel="stylesheet" type="text/css">
+            <style type="text/css">
+                * {
+                    font-family: verdana;
+                    font-size: 11px;
+                }
+
+                body {
+                    color: #ffffff;
+                    background-color: #111111;
+                    background-image: url(bilder/bg_space3.png);
+                }
+
+                a:link {
+                    color: #bbbbbb;
+                }
+
+                a:visited {
+                    color: #bbbbbb;
+                }
+
+                body, table, tr, td, form {
+                    margin: 0 0 0 0;
+                    padding: 0 0 0 0;
+                }
+
+                .universum {
+                    border-top: #59626e 1px dotted;
+                    border-right: #59626e 1px dotted;
+                }
+
+                .universum-spacer {
+                    border-top: #59626e 1px dotted;
+                }
+
+                .universum-row {
+                    background-image: url(bilder/bg_space2.png);
+                }
+
+                .universum-row-selected {
+                    background-image: url(bilder/gruen.png);
+                }
+
+                .universum-row-own {
+                    background-image: url(bilder/rot.png);
+                }
+
+                .universum-row-nap {
+                    background-image: url(bilder/gelb.png);
+                }
+
+                .universum-row-noraid {
+                    background-image: url(bilder/gelb.png);
+                }
+
+                .alliance-own {
+                    color: green;
+                }
+
+                .alliance-nap {
+                    color: red;
+                }
+
+                .alliance-noraid {
+                    color: yellow;
+                }
+            </style>
         </head>
         <body>
         <table border="0" cellpadding="0" cellspacing="0" width="100%" height="177px">
@@ -928,9 +1038,9 @@ switch ($params['mode']) {
             </td>
         </tr>
         <?php    foreach ($data['planets'] as $planet) {         if (isset($data['targets'][$planet['coords']])) {             if ($user_uniprop) { ?>
-        <tr class="universum-row-selected top" height="71px" >
+        <tr class='universum-row-selected top' height='71px' >
             <?php            } else { ?>
-        <tr class="universum-row-selected top" >
+        <tr class='universum-row-selected top' >
             <?php            }         } else {             if ($user_uniprop) { ?>
         <tr class="universum-row<?php echo !empty($planet['allianzstatus']) ? '-' . $planet['allianzstatus'] : '' ?>" height="71px" valign="top">
             <?php            } else { ?>

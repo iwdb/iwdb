@@ -15,3 +15,9 @@ UPDATE `prefix_gebaeude` SET `id_iw`='59' WHERE `prefix_gebaeude`.`id` =162;
 
 INSERT INTO `prefix_gebaeude` (`name`, `category`, `idcat`, `inactive`, `dauer`, `bild`, `info`, `n_building`, `n_research`, `n_kolotyp`, `n_planityp`, `e_research`, `e_building`, `zerstoert`, `bringt`, `Kosten`, `Punkte`, `MaximaleAnzahl`, `typ`, `kostet`, `id_iw`) VALUES
 ('tolle Baumhüttenanlage (mit extratollem Ausblick)', ' 2. Bevölkerung', 150, '1', 0, '', '', '', '', '', '', '', '', '', '', '', 0, 0, '', '', 58);
+
+
+--
+-- 05.06. : Standardmäßig Plani- und Gebbilder anzeigen
+--
+UPDATE `prefix_user` SET `planibilder`='1',`gebbilder`='1';

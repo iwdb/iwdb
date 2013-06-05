@@ -415,7 +415,7 @@ if (!empty($allianz)) {
                     next_cell("windowbg1 center", "style='background-color:" . $color . "'");
                     echo "<a href='index.php?action=showgalaxy&amp;sys_start=" . ($range * $rangewidth - $rangewidth + 1) .
                         "&amp;sys_end=" . ($range * $rangewidth) . "&amp;gal_start=" . $gala .
-                        "&amp;gal_end=" . $gala . "' >" . $planicount[$gala][$inrange]['Kolonie'] . "/" . $planicount[$gala][$inrange]['Sammelbasis'] . "/" . $planicount[$gala][$inrange]['Kampfbasis'] . "</a>\n";
+                        "&amp;gal_end=" . $gala . "' >" . $planicount[$gala][$inrange]['Kolonie'] . "/" . $planicount[$gala][$inrange]['Sammelbasis'] . "/" . $planicount[$gala][$inrange]['Kampfbasis'] . "/" . $planicount[$gala][$inrange]['Artefaktbasis'] ."</a>\n";
                     $range++;
                 }
             }
@@ -424,7 +424,7 @@ if (!empty($allianz)) {
         end_row();
         end_table();
 
-        echo "<b>Kolonien/Sammelbasen/Kampfbasen</b><br>";
+        echo "<b>Kolonien/Sammelbasen/Kampfbasen/Artefaktbasen</b><br>";
 
         //planiliste
         echo "<br>";
@@ -432,7 +432,7 @@ if (!empty($allianz)) {
         if (!empty($allianz) and $allianz !== '%' AND !empty($player)) {
 
             start_table();
-            start_row("titlebg center", "style='width:95%' colspan='4'");
+            start_row("titlebg center", "style='width:95%' colspan='5'");
             echo "<b>Spieler</b>";
 
             next_row("windowbg2 center", "style='width:15%'");
@@ -446,6 +446,9 @@ if (!empty($allianz)) {
 
             next_cell("windowbg2 center", "style='width:20%'");
             echo "Kampfbasen";
+			
+			next_cell("windowbg2 center", "style='width:20%'");
+            echo "Artefaktbasen";
 
             foreach ($player as $playername => $planis) {
                 next_row("windowbg3 center", "style='width:22%'");
@@ -523,6 +526,18 @@ if (!empty($allianz)) {
                 if (!empty($player[$playername]['Kampfbasis'])) {
                     start_table(100);
                     foreach ($player[$playername]['Kampfbasis'] as $planidata) {
+                        start_row("windowbg1 left", "style='width:100%'");
+                        echo $planidata['coordshtml'];
+                        end_row();
+                    }
+                    end_table();
+                } else {
+                    echo "-";
+                }
+				next_cell("windowbg1 left");
+                if (!empty($player[$playername]['Artefaktbasis'])) {
+                    start_table(100);
+                    foreach ($player[$playername]['Artefaktbasis'] as $planidata) {
                         start_row("windowbg1 left", "style='width:100%'");
                         echo $planidata['coordshtml'];
                         end_row();

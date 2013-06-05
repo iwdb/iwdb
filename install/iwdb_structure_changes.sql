@@ -32,3 +32,7 @@ ALTER TABLE  `prefix_bestellung` CHANGE  `time_created`  `time_created` INT UNSI
 ALTER TABLE  `prefix_bestellung` CHANGE  `erledigt`  `erledigt` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT  '0';
 ALTER TABLE  `prefix_bestellung` DROP `schiff`;
 ALTER TABLE  `prefix_bestellung` DROP `anzahl`;
+
+-- 05.06.2013 patsch : Plani- und Gebbilder standardmäßig anzeigen
+ALTER TABLE `prefix_user` CHANGE `planibilder` `planibilder` CHAR( 1 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '1';
+ALTER TABLE `prefix_user` CHANGE `gebbilder` `gebbilder` CHAR( 1 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '1';

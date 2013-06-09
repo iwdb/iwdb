@@ -174,7 +174,7 @@ if ($row['time'] < (CURRENT_UNIX_TIME - 24 * HOUR)) {
 }
 
 // Warnung nicht eingelesene Highscore seit 24 Stunden
-$sql = "SELECT MAX(time) AS time FROM `" . $db_tb_highscore . "`;";
+$sql = "SELECT MAX(time) AS time FROM `" . $db_tb_spieler . "`;";
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 $row = $db->db_fetch_array($result);

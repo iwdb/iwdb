@@ -36,3 +36,16 @@ ALTER TABLE  `prefix_bestellung` DROP `anzahl`;
 -- 05.06.2013 patsch : Plani- und Gebbilder standardmäßig anzeigen
 ALTER TABLE `prefix_user` CHANGE `planibilder` `planibilder` CHAR( 1 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '1';
 ALTER TABLE `prefix_user` CHANGE `gebbilder` `gebbilder` CHAR( 1 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '1';
+
+-- 09.06.2013 patsch : merging highscore- und spielertabelle
+ALTER TABLE `prefix_spieler` ADD `pos` int(12) DEFAULT NULL;
+ALTER TABLE `prefix_spieler` ADD `gebp` int(12) NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_spieler` ADD `fp` int(12) NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_spieler` ADD `gesamtp` int(12) NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_spieler` ADD `ptag` float NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_spieler` ADD `diff` int(12) DEFAULT NULL;
+ALTER TABLE `prefix_spieler` ADD `gebp_nodiff` int(12) NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_spieler` ADD `fp_nodiff` int(12) NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_spieler` ADD `time` int(12) NOT NULL DEFAULT '0';
+
+DROP TABLE `prefix_highscore`;

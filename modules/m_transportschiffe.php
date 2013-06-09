@@ -27,7 +27,7 @@
  *        https://handels-gilde.org/?www/forum/index.php;board=1099.0        *
  *                   https://github.com/iwdb/iwdb                            *
  *                                                                           *
- *****************************************************************************/
+ ****************************************************************************/
 
 //direktes Aufrufen verhindern
 if (!defined('IRA')) {
@@ -183,7 +183,7 @@ if (empty($params['order'])) {
 $params['playerSelection'] = getVar('playerSelection');
 
 if (!is_numeric($params['heimatgalaxy'])) {
-    $params['heimatgalaxy'] = $user_allianz == 'KEINE' ? 17 : 3;
+    $params['heimatgalaxy'] = $user_allianz == 'KEINE' ? 17 : $config_map_default_galaxy;
 }
 if (!is_numeric($params['heimatgalaxy_abdeckung_system_klasse1'])) {
     $params['heimatgalaxy_abdeckung_system_klasse1'] = 100;

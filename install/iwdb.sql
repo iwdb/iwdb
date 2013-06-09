@@ -304,28 +304,6 @@ CREATE TABLE IF NOT EXISTS `prefix_group_user` (
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `prefix_highscore`
---
-
-CREATE TABLE IF NOT EXISTS `prefix_highscore` (
-  `name` varchar(30) NOT NULL DEFAULT '',
-  `allianz` varchar(50) DEFAULT NULL,
-  `pos` int(12) DEFAULT NULL,
-  `gebp` int(12) NOT NULL DEFAULT '0',
-  `fp` int(12) NOT NULL DEFAULT '0',
-  `gesamtp` int(12) NOT NULL DEFAULT '0',
-  `ptag` float NOT NULL DEFAULT '0',
-  `diff` int(12) DEFAULT NULL,
-  `dabei_seit` int(12) NOT NULL DEFAULT '0',
-  `gebp_nodiff` int(12) NOT NULL DEFAULT '0',
-  `fp_nodiff` int(12) NOT NULL DEFAULT '0',
-  `time` int(12) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Tabellenstruktur für Tabelle `prefix_kasse_content`
 --
 
@@ -1312,6 +1290,15 @@ CREATE TABLE IF NOT EXISTS `prefix_spieler` (
   `ges_pkt` int(10) unsigned DEFAULT NULL,
   `pktupdate_time` int(10) unsigned DEFAULT NULL,
   `Hauptplanet` varchar(11) DEFAULT NULL COMMENT 'Hauptplanet des Spielers',
+  `pos` int(12) DEFAULT NULL,
+  `gebp` int(12) NOT NULL DEFAULT '0',
+  `fp` int(12) NOT NULL DEFAULT '0',
+  `gesamtp` int(12) NOT NULL DEFAULT '0',
+  `ptag` float NOT NULL DEFAULT '0',
+  `diff` int(12) DEFAULT NULL,
+  `gebp_nodiff` int(12) NOT NULL DEFAULT '0',
+  `fp_nodiff` int(12) NOT NULL DEFAULT '0',
+  `time` int(12) NOT NULL DEFAULT '0',
   PRIMARY KEY (`name`),
   KEY `allychange_time` (`allychange_time`),
   KEY `Hauptplanet` (`Hauptplanet`)

@@ -1,6 +1,6 @@
 <?php
 /*****************************************************************************
- * m_raid.php                                                                 *
+ * m_raid.php                                                                *
  *****************************************************************************
  * Iw DB: Icewars geoscan and sitter database                                *
  * Open-Source Project started by Robert Riess (robert@riess.net)            *
@@ -706,10 +706,10 @@ if (empty($params['view'])) {
     $sql_select .= "," . $db_tb_scans . ".rnb";
     $sql_from = " FROM " . $db_tb_scans;
     // LEFT JOIN auf Spielerinfo
-    $sql_select .= "," . $db_tb_highscore . ".pos";
-    $sql_select .= "," . $db_tb_highscore . ".gebp_nodiff";
-    $sql_select .= "," . $db_tb_highscore . ".dabei_seit";
-    $sql_from .= " LEFT JOIN " . $db_tb_highscore . " ON " . $db_tb_scans . ".user=" . $db_tb_highscore . ".name";
+    $sql_select .= "," . $db_tb_spieler . ".pos";
+    $sql_select .= "," . $db_tb_spieler . ".gebp_nodiff";
+    $sql_select .= "," . $db_tb_spieler . ".dabeiseit";
+    $sql_from .= " LEFT JOIN " . $db_tb_spieler . " ON " . $db_tb_scans . ".user=" . $db_tb_spieler . ".name";
     if (!empty($db_tb_raidview)) {
         $sql_select .= ",(SELECT date FROM " . $db_tb_raidview . " WHERE " . $db_tb_raidview . ".coords=" . $db_tb_scans . ".coords ORDER BY date DESC LIMIT 1) AS last_raid";
         $sql_select .= ",(SELECT link FROM " . $db_tb_raidview . " WHERE " . $db_tb_raidview . ".coords=" . $db_tb_scans . ".coords ORDER BY date DESC LIMIT 1) AS last_link";
@@ -862,12 +862,12 @@ if (empty($params['view'])) {
     // copper will 22 Tage :)
     if (!empty($params['no_noob'])) {
         $time = CURRENT_UNIX_TIME - 22 * DAY;
-        array_push($where, "(" . $db_tb_highscore . ".dabei_seit<" . $time . " OR " . $db_tb_highscore . ".dabei_seit IS NULL)");
+        array_push($where, "(" . $db_tb_spieler . ".dabeiseit<" . $time . " OR " . $db_tb_spieler . ".dabeiseit IS NULL)");
     }
     // Inaktiv
     if (!empty($params['inaktiv'])) {
         $time = CURRENT_UNIX_TIME - ($params['inaktiv']) * DAY;
-        array_push($where, "(" . $db_tb_highscore . ".gebp_nodiff<" . $time . " AND " . $db_tb_highscore . ".gebp_nodiff IS NOT NULL)");
+        array_push($where, "(" . $db_tb_spieler . ".gebp_nodiff<" . $time . " AND " . $db_tb_spieler . ".gebp_nodiff IS NOT NULL)");
     }
 
     // Angriff
@@ -903,6 +903,9 @@ if (empty($params['view'])) {
         array_push($where, "(" . $db_tb_scans . ".reserveraid>" . CURRENT_UNIX_TIME . " AND " . $db_tb_scans . ".reserveraiduser<>'" . $user_sitterlogin . "')");
     }
 
+	// SG rausfiltern
+	array_push($where, "(" . $db_tb_scans . ".user!='Dummy Acc')");
+	
     // WHERE-Clause aufbauen
     $first     = true;
     $sql_where = "";
@@ -1176,7 +1179,7 @@ if (empty($params['view'])) {
             'pos'               => $row['pos'],
             'planetentyp'       => $row['typ'],
             'objekttyp'         => $row['objekt'],
-            'dabei_seit'        => $row['dabei_seit'],
+            'dabeiseit'        => $row['dabeiseit'],
             'last_scan'         => $last_scan,
             'fehlscantime'      => $row['fehlscantime'],
             'schiffscantime'    => $row['schiffscantime'],
@@ -1224,7 +1227,7 @@ if (empty($params['view'])) {
             'tsonden'           => $tsonden,
             'x13sonden'         => $x13sonden,
             'allianz_style'     => $allianz_background_color,
-            'dabei_seit_style'  => "text-align: right; " . $text_color,
+            'dabeiseit_style'  => "text-align: right; " . $text_color,
             'last_scan_style'   => "text-align: right; " . $text_color,
             'last_raid_style'   => "text-align: right; " . $text_color,
             'inaktiv_style'     => "text-align: right; " . $text_color,
@@ -1678,7 +1681,7 @@ function format_value($row, $name, $value)
             } else {
                 return '<span class="ranking_green">' . makeduration($value) . '</span>';
             }
-        case 'dabei_seit':
+        case 'dabeiseit':
             $diff = CURRENT_UNIX_TIME - $value;
             if (($diff > DAY * 20) && ($diff <= DAY * 21)) {
                 return '<span class="ranking_yellow">' . makeduration($value) . '</span>';

@@ -53,7 +53,7 @@ function parse_de_highscore($result)
         $scan_data['allianz'] = $object_user->strAllianz;
 
         if ($bDateOfEntryVisible) {
-            $scan_data['dabei_seit'] = $object_user->iDabeiSeit;
+            $scan_data['dabeiseit'] = $object_user->iDabeiSeit;
         }
 
         if ($strHighscoreType === false) {              //Position ist nur bei Highscore aller Spieler gültig
@@ -98,12 +98,12 @@ function parse_de_highscore($result)
 
 function save_highscore($scan_data)
 {
-    global $db, $db_tb_highscore, $db_tb_scans;
+    global $db, $db_tb_scans, $db_tb_spieler;
 
     $scan_data["gebp_nodiff"] = $scan_data["time"];
     $scan_data["fp_nodiff"]   = $scan_data["time"];
 
-    $sql = "SELECT * FROM " . $db_tb_highscore . " WHERE name='" . $scan_data['name'] . "'";
+    $sql = "SELECT * FROM " . $db_tb_spieler . " WHERE name='" . $scan_data['name'] . "'";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     if ($row = $db->db_fetch_array($result)) {
@@ -115,7 +115,7 @@ function save_highscore($scan_data)
         }
     }
 
-    $db->db_insertupdate($db_tb_highscore, $scan_data)
+    $db->db_insertupdate($db_tb_spieler, $scan_data)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
 
     //Punkte in die Kartendaten übertragen

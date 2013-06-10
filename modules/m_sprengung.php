@@ -160,10 +160,11 @@ if ($sys_start > $sys_end) { // ggf Werte vertauschen
 // Titelzeile
 doc_title('Sprengungen');
 echo "<h4>Hier kann man sehen, wann Hasi die nächsten Planeten sprengt um neue Hyperraumumgehungsstraßen zu bauen:</h4>";
-echo "<form method='POST' action='index.php?action=" . $modulname . "' enctype='multipart/form-data'>\n";
+echo "<form method='GET'>\n";
+echo "  <input type='hidden' name='action' value='$modulname'>";
 echo "  Galaxie von: <input name='gal_start' value='" . $gal_start . "' style='width: 5em' type='number' min='" . $config_map_galaxy_min . "' max='" . $config_map_galaxy_max . "'> bis: <input name='gal_end' value='" . $gal_end . "' style='width: 5em' type='number' min='" . $config_map_galaxy_min . "' max='" . $config_map_galaxy_max . "'><br><br>";
 echo "  System von: <input name='sys_start' value='" . $sys_start . "' style='width: 5em' type='number' min='" . $config_map_system_min . "' max='" . $config_map_system_max . "'> bis: <input name='sys_end' value='" . $sys_end . "' style='width: 5em' type='number' min='" . $config_map_system_min . "' max='" . $config_map_system_max . "'><br><br>";
-echo "  <input type='submit' value='los' name='B1' class='submit'>";
+echo "  <input type='submit' value='los' class='submit'>";
 echo "</form>\n";
 
 ?>
@@ -178,10 +179,7 @@ echo "</form>\n";
         <th>Eis<br><span style="font-size:x-small">(eff)</span></th>
         <th>LB</th>
         <th>Gebäude-<br>dauer</th>
-        <th class="sorter-attr-unixtime">
-            Sprengung
-            <br><span style="font-size:x-small">frühestens</span>
-        </th>
+        <th class="sorter-attr-unixtime">Sprengung<br><span style="font-size:x-small">frühestens</span></th>
     </tr>
 	</thead>
 	<tbody>

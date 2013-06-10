@@ -214,6 +214,11 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 //
 // -> Und hier beginnt das eigentliche Modul
 
+//genutzte globale Variablen
+global $db, $db_tb_scans, $db_tb_user, $db_tb_bestellung_projekt, $db_tb_bestellung, $db_tb_lieferung;
+global $config_map_galaxy_min, $config_map_galaxy_max, $config_map_system_min, $config_map_system_max, $user_sitterlogin, $user_buddlerfrom;
+
+
 // Parameter ermitteln
 $params = array(
     'view'            => ensureValue(getVar('view'), array('bestellung'), 'bestellung'),
@@ -289,6 +294,7 @@ if (!empty($params['delete'])) {
     debug_var('sql', $sql);
     $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
     $results[]        = "<div class='system_notification'>Datensatz gelöscht.</div>";
     $params['delete'] = '';
     $params['edit']   = '';
@@ -372,7 +378,7 @@ if ($button_add) {
         or error(GENERAL_ERROR, 'Could not query order information.', '', __FILE__, __LINE__, $sql);
     $row = $db->db_fetch_array($result);
 
-    if ($row['Anzahl']>0) {
+    if ($row['Anzahl'] > 0) {
         $results[] = "<div class='system_notification'>Pro Planet kann nur eine Bestellung hinzugefügt werden.</div>";
     } else {
         $fields['time_created'] = CURRENT_UNIX_TIME;
@@ -392,6 +398,7 @@ if (!$button_edit AND !$button_add AND (!empty($params['edit']))) {
     debug_var('sql', $sql);
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
     if ($row = $db->db_fetch_array($result)) {
         foreach ($row as $name => $value) {
             $edit[$name] = $value;
@@ -491,6 +498,7 @@ while ($row = $db->db_fetch_array($result)) {
         debug_var("sql_lieferung", $sql_lieferung);
         $result_lieferung = $db->db_query($sql_lieferung)
             or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
         while ($row_lieferung = $db->db_fetch_array($result_lieferung)) {
             $coords_from                = $row_lieferung['coords_from_gal'] . ":" . $row_lieferung['coords_from_sys'] . ":" . $row_lieferung['coords_from_planet'];
             $key                        = $coords_from . "-" . $row_lieferung['time'];
@@ -626,29 +634,29 @@ $views = array(
                 'desc'  => 'Falls anderer Planet.',
                 'type'  => array(
                     'coords_gal'    => array(
-                        'id'    => 'coords_gal_input',
-                        'type'  => 'number',
-                        'min'   => $config_map_galaxy_min,
-                        'max'   => $config_map_galaxy_max,
-                        'style' => 'width: 5em',
-                        'value' => $edit['coords_gal'],
+                        'id'       => 'coords_gal_input',
+                        'type'     => 'number',
+                        'min'      => $config_map_galaxy_min,
+                        'max'      => $config_map_galaxy_max,
+                        'style'    => 'width: 5em',
+                        'value'    => $edit['coords_gal'],
                         'onchange' => 'updateCoordsSelect()'
                     ),
                     'coords_sys'    => array(
-                        'id'    => 'coords_sys_input',
-                        'type'  => 'number',
-                        'min'   => $config_map_system_min,
-                        'max'   => $config_map_system_max,
-                        'style' => 'width: 5em',
-                        'value' => $edit['coords_sys'],
+                        'id'       => 'coords_sys_input',
+                        'type'     => 'number',
+                        'min'      => $config_map_system_min,
+                        'max'      => $config_map_system_max,
+                        'style'    => 'width: 5em',
+                        'value'    => $edit['coords_sys'],
                         'onchange' => 'updateCoordsSelect()'
                     ),
                     'coords_planet' => array(
-                        'id'    => 'coords_planet_input',
-                        'type'  => 'number',
-                        'min'   => '1',
-                        'style' => 'width: 5em',
-                        'value' => $edit['coords_planet'],
+                        'id'       => 'coords_planet_input',
+                        'type'     => 'number',
+                        'min'      => '1',
+                        'style'    => 'width: 5em',
+                        'value'    => $edit['coords_planet'],
                         'onchange' => 'updateCoordsSelect()'
                     ),
                 ),
@@ -800,7 +808,7 @@ foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
              'order'  => $orderkey,
              'orderd' => 'asc'
         ),
-        "<img src='".BILDER_PATH."asc.gif'>"
+        "<img src='" . BILDER_PATH . "asc.gif'>"
     );
     echo '&nbsp;<b>' . $viewcolumnname . '</b>&nbsp;';
     echo makelink(
@@ -808,7 +816,7 @@ foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
              'order'  => $orderkey,
              'orderd' => 'desc'
         ),
-        "<img src='".BILDER_PATH."desc.gif'>"
+        "<img src='" . BILDER_PATH . "desc.gif'>"
     );
 }
 
@@ -841,25 +849,25 @@ foreach ($data as $row) {
         if (!isset($row['allow_edit']) || $row['allow_edit']) {
             echo makelink(
                 array('edit' => $key),
-                "<img src='".BILDER_PATH."file_edit_s.gif' alt='bearbeiten'>"
+                "<img src='" . BILDER_PATH . "file_edit_s.gif' alt='bearbeiten'>"
             );
         }
         if (!isset($row['allow_delete']) || $row['can_delete']) {
             echo makelink(
                 array('delete' => $key),
-                "<img src='".BILDER_PATH."file_delete_s.gif' onclick=\"return confirmlink(this, 'Datensatz wirklich löschen?')\" alt='löschen'>"
+                "<img src='" . BILDER_PATH . "file_delete_s.gif' onclick=\"return confirmlink(this, 'Datensatz wirklich löschen?')\" alt='löschen'>"
             );
         }
     }
-    
-	// Markierbuttons ausgeben
+
+    // Markierbuttons ausgeben
     next_cell("windowbg1 top");
     echo "<input type='checkbox' name='mark_" . $index++ . "' value='" . $key . "'";
     if (getVar("mark_all")) {
         echo " checked";
     }
     echo ">";
-	
+
     // Expandbereich ausgeben
     if (isset($expand) && $params['expand'] == $key && isset($row['expand']) && count($row['expand'])) {
         next_row('titlebg', 'colspan=' . (count($view['columns']) + 3));
@@ -925,11 +933,11 @@ foreach ($view['edit'] as $key => $field) {
     next_cell('windowbg1', 'style="width: 100%;"');
     if (is_array($field['type'])) {
         $first = true;
-        foreach ($field['type'] as $key => $field) {
+        foreach ($field['type'] as $key2 => $field2) {
             if (!$first) {
                 echo '&nbsp;';
             }
-            echo makeField($field, $key);
+            echo makeField($field2, $key2);
             $first = false;
         }
     } else {
@@ -1053,7 +1061,7 @@ function makeurl($newparams)
 {
     global $modulname, $params;
 
-    $url = 'index.php?action=' . $modulname;
+    $url         = 'index.php?action=' . $modulname;
     $mergeparams = array_merge($params, $newparams);
     foreach ($mergeparams as $paramkey => $paramvalue) {
         $url .= '&' . $paramkey . '=' . $paramvalue;

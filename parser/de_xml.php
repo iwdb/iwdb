@@ -302,12 +302,15 @@ function parse_sbxml($xmldata)
 
 function save_sbxml($scan_data)
 {
-    global $db, $db_tb_scans, $db_tb_sysscans, $db_tb_user, $selectedusername;
+    global $db, $db_tb_scans, $db_tb_user, $selectedusername;
+
+    $scan_coords = $scan_data['coords_gal'].':'.$scan_data['coords_sys'].':'.$scan_data['coords_planet'];
+
     $results = array();
-    debug_var("sql", $sql = "SELECT * FROM $db_tb_scans WHERE coords_gal=" . $scan_data['coords_gal'] . " AND coords_sys=" . $scan_data['coords_sys'] . " AND coords_planet=" . $scan_data['coords_planet']);
+    $sql = "SELECT * FROM `{$db_tb_scans}` WHERE `coords_gal`=" . $scan_data['coords_gal'] . " AND `coords_sys`=" . $scan_data['coords_sys'] . " AND `coords_planet`=" . $scan_data['coords_planet'];
     $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-    debug_var("row", $row = $db->db_fetch_array($result));
+        or error(GENERAL_ERROR, 'Could not query planet information.', '', __FILE__, __LINE__, $sql);
+    $row = $db->db_fetch_array($result);
 
     // vollständiger Scan?
     if (isset($scan_data['vollstaendig']) && $scan_data['vollstaendig'] == 1) {
@@ -318,57 +321,94 @@ function save_sbxml($scan_data)
         return $results;
     }
 
-    // Neuerer Scan vorhanden
-    if (!empty($row) && $row['time'] > $scan_data['time']) {
-        unset($scan_data['user']);
-        unset($scan_data['allianz']);
-        unset($scan_data['typ']);
-        unset($scan_data['objekt']);
-    }
-    // Neuerer Geoscan vorhanden
-    if (!empty($row) && isset($scan_data['geoscantime']) && $row['geoscantime'] >= $scan_data['geoscantime']) {
-        $results[] = "Neuerer oder aktueller Geoscan bereits vorhanden.";
-
-        return $results;
-    }
-    // Neuerer Schiffscan vorhanden
-    if (!empty($row) && isset($scan_data['schiffscantime']) && $row['schiffscantime'] >= $scan_data['schiffscantime']) {
-        $results[] = "Neuerer oder aktueller Schiffscan bereits vorhanden.";
-
-        return $results;
-    }
-    // Neuerer Gebscan vorhanden
-    if (!empty($row) && isset($scan_data['gebscantime']) && $row['gebscantime'] >= $scan_data['gebscantime']) {
-        $results[] = "Neuerer oder aktueller Gebäudescan bereits vorhanden.";
-
-        return $results;
-    }
     // Nebel vorhanden
     if (isset($scan_data['nebula'])) {
         //Nebel in sysscanstabelle wird von Systemscans aktualisert
 
         unset($scan_data['nebula']);
     }
-    // INSERT
-    if (empty($row)) {
-        $db->db_insert($db_tb_scans, $scan_data)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
-        $results[] = "Scan " . $scan_data['coords'] . " hinzugefügt.";
+    if (!empty($row)) {
 
-    } else {  // UPDATE
+        // Neuerer Geoscan vorhanden
+        if (!empty($scan_data['geoscantime']) && $row['geoscantime'] >= $scan_data['geoscantime']) {
+            $results[] = "Neuerer oder aktueller Geoscan bereits vorhanden.";
 
-        $where = " WHERE coords_gal=" . $scan_data['coords_gal'] . " AND coords_sys=" . $scan_data['coords_sys'] . " AND coords_planet=" . $scan_data['coords_planet'];
+            return $results;
+        }
+        // Neuerer Schiffscan vorhanden
+        if (!empty($scan_data['schiffscantime']) && $row['schiffscantime'] >= $scan_data['schiffscantime']) {
+            $results[] = "Neuerer oder aktueller Schiffscan bereits vorhanden.";
+
+            return $results;
+        }
+        // Neuerer Gebscan vorhanden
+        if (!empty($scan_data['gebscantime']) && $row['gebscantime'] >= $scan_data['gebscantime']) {
+            $results[] = "Neuerer oder aktueller Gebäudescan bereits vorhanden.";
+
+            return $results;
+        }
+
+        //nach einem Planettypwechel sind alle Scans des Planeten veraltet
+        if ($row['typ'] !== $scan_data['typ']) {
+            if ($scan_data['time'] > $row['time']) {
+                $scan_data['typchange_time'] = $scan_data['time'];
+                ResetGeodataByCoords($scan_coords);
+                ResetPlaniedataByCoords($scan_coords);
+            } else {
+                $results[] = "Scan veraltet.";
+
+                return $results;
+            }
+        }
+
+        //nach einem Objektwechsel sind Schiff- oder Geb-Scans des Planeten veraltet
+        if (($row['objekt'] !== $scan_data['objekt']) AND (isset($scan_data['gebscantime']) OR isset($scan_data['schiffscantime']))) {
+            if ($scan_data['time'] > $row['time']) {
+                $scan_data['objektchange_time'] = $scan_data['time'];
+                ResetPlaniedataByCoords($scan_coords);
+            } else {
+                $results[] = "Scan veraltet.";
+
+                return $results;
+            }
+        }
+
+        //nach einem userwechsel sind Schiff- oder Geb-Scans des Planeten veraltet
+        if (($row['user'] !== $scan_data['user']) AND (isset($scan_data['gebscantime']) OR isset($scan_data['schiffscantime']))) {
+            if ($scan_data['time'] > $row['time']) {
+                $scan_data['userchange_time'] = $scan_data['time'];
+                ResetPlaniedataByCoords($scan_coords);
+            } else {
+                $results[] = "Scan veraltet.";
+
+                return $results;
+            }
+        }
+
+        //Allianz ggf. aktualisieren
+        $scan_data['allianz'] = updateUserAlliance($scan_data['user'], $scan_data['allianz'], $scan_data['time']);
+
+        //Planetendaten aktualisieren
+        $where = " WHERE `coords_gal`=" . $scan_data['coords_gal'] . " AND `coords_sys`=" . $scan_data['coords_sys'] . " AND `coords_planet`=" . $scan_data['coords_planet'];
         $db->db_update($db_tb_scans, $scan_data, $where)
             or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
 
         $results[] = "Scan " . $scan_data['coords'] . " aktualisiert.";
 
+    } else {
+
+        // PLaneten-Eintrag noch nicht vorhanden -> Planeteninformationen einfügen
+        $db->db_insert($db_tb_scans, $scan_data)
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
+        $results[] = "Scan " . $scan_data['coords'] . " hinzugefügt.";
+
     }
 
     //Geoscanpunkt vergeben
     if (isset($scan_data['geoscantime'])) {
-        $sql1 = "UPDATE " . $db_tb_user . " SET geopunkte=geopunkte+1 " . " WHERE sitterlogin='" . $selectedusername . "'";
+        $sql1 = "UPDATE `{$db_tb_user}` SET `geopunkte`=`geopunkte`+1 WHERE `sitterlogin`='" . $selectedusername . "';";
         $result_u = $db->db_query($sql1)
             or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql1);
     }

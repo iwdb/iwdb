@@ -276,12 +276,12 @@ $data = array();
 				echo strftime(CONFIG_DATETIMEFORMAT, $row['timestamp']);
 				?>
 			</td>
-			<td>
+			<td class='center'>
 				<?php
 				if ($row['sondierung_art']=='schiffe')
-					echo "Schiffe";
+					echo "<img src='".BILDER_PATH."scann_schiff.png'>";
 				else if ($row['sondierung_art']=='gebaeude')
-					echo "Gebäude";
+					echo "<img src='".BILDER_PATH."scann_geb.png'>";
 				?>
 			</td>
 			<td>
@@ -321,6 +321,16 @@ $data = array();
 		<td>
 			<?php
 			echo "<img src='".BILDER_PATH."kampf_basis.png'> = Kampfbasis";
+			?>
+		</td>
+		<td>
+			<?php
+			echo "<img src='".BILDER_PATH."scann_schiff.png'> = Schiffscan";
+			?>
+		</td>
+		<td>
+			<?php
+			echo "<img src='".BILDER_PATH."scann_geb.png'> = Gebäudescan";
 			?>
 		</td>
 	</tr>

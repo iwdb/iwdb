@@ -607,7 +607,7 @@ $views = array(
             'team'   => 'Lieferant',
             'text'   => 'Text',
             'prio'   => 'Prio',
-            'time'   => 'Zeit',
+            'time'   => 'Lieferdatum',
             'menge'  => 'Menge',
             'offen'  => 'Offen',
         ),

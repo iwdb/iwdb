@@ -303,6 +303,8 @@ function GetNameByCoords($coords)
         return '';
     }
 
+    $coords = $db->escape($coords);
+
     $sql = "SELECT `user` FROM `{$db_tb_scans}` WHERE `coords` = '$coords';";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -334,7 +336,9 @@ function GetAllianceByUser($username)
         return '';
     }
 
-    $sql = "SELECT DISTINCT `allianz` FROM `{$db_tb_spieler}` WHERE `name` = '$username';";
+    $username = $db->escape($username);
+
+    $sql = "SELECT `allianz` FROM `{$db_tb_spieler}` WHERE `name` = '$username';";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     $row = $db->db_fetch_array($result);

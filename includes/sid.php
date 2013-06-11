@@ -39,11 +39,14 @@ if (!defined('IRA')) {
 
 global $db, $db_tb_sid, $db_tb_user, $db_tb_wronglogin;
 
-// get user ip
+// get user ip and ip-hash
 $user_ip      = $_SERVER['REMOTE_ADDR'];
 $user_ip_hash = sha1($user_ip);
 
-// delete old sids from sid table //
+//get hash of remoteagent string (limited to 100 chars)
+$userAgentHash = sha1(mb_substr(filter_input(INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH), 0, 100));
+
+// delete old sids from sid table
 $sql = "DELETE FROM `{$db_tb_sid}` WHERE `date`<" . (CURRENT_UNIX_TIME - $config_sid_timeout);
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not delete old sids.', '', __FILE__, __LINE__, $sql);
@@ -55,7 +58,7 @@ $sid      = false;
 if (isset($_COOKIE[$config_cookie_name])) {
     $sid = $db->escape($_COOKIE[$config_cookie_name]);
 
-    $user_id = useSID($sid, $user_ip_hash);
+    $user_id = useSID($sid, $user_ip_hash, $userAgentHash);
 }
 
 if ($user_id === false) { //keine gültige Session vorhanden
@@ -74,11 +77,17 @@ if ($user_id === false) { //keine gültige Session vorhanden
             $sid = randomstring($config_sid_string, $config_sid_length);
 
             $SQLdata = array(
-                'sid'  => $sid,
-                'ip'   => $user_ip_hash,
-                'date' => CURRENT_UNIX_TIME,
-                'id'   => $user_id
+                'sid'           => $sid,
+                'userAgentHash' => $userAgentHash,
+                'date'          => CURRENT_UNIX_TIME,
+                'id'            => $user_id
             );
+
+            //ip change not allowed -> save ip hash in sessiondata
+            if (empty($returndata['allow_ip_change'])) {
+                $SQLdata['ipHash'] = $user_ip_hash;
+            }
+
             $db->db_insertupdate($db_tb_sid, $SQLdata)
                 or error(GENERAL_ERROR, 'Could not insert sid!', '', __FILE__, __LINE__);
 
@@ -197,11 +206,11 @@ if ($login_ok) {
 }
 
 //sid mit dieser ip gültig?
-function useSID($sid, $ip_hash)
+function useSID($sid, $ipHash, $userAgentHash)
 {
     global $db, $db_tb_sid;
 
-    $sql = "SELECT `id` FROM `{$db_tb_sid}` WHERE `ip`='" . $ip_hash . "' AND `sid`='" . $sid . "'";
+    $sql = "SELECT `id` FROM `{$db_tb_sid}` WHERE `sid`='" . $sid . "' AND (`ipHash` IS NULL OR `ipHash`='" . $ipHash . "') AND `userAgentHash` = '" . $userAgentHash . "';";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     $row_sid = $db->db_fetch_array($result);
@@ -243,15 +252,16 @@ function loginUser($login_id, $password)
     $row = $db->db_fetch_array($result);
     $wronglogins = $row['wronglogins'];
 
-    $sql = "SELECT `id`, `password` FROM " . $db_tb_user;
+    $sql = "SELECT `id`, `allow_ip_change` FROM " . $db_tb_user;
     $sql .= " WHERE (`id`='" . $login_id . "'";
     $sql .= " AND `password`='" . $password_hash . "' AND `password`<>''";
-    $sql .= ")";
+    $sql .= ");";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query user information.', '', __FILE__, __LINE__, $sql);
     $row = $db->db_fetch_array($result);
     if ((!empty($row['id'])) AND ($wronglogins < $config_wronglogins)) {
-        $returnData['id'] = $row['id'];
+        $returnData['id']              = $row['id'];
+        $returnData['allow_ip_change'] = $row['allow_ip_change'];
 
         //Einlogzeit aktualisieren
         $db->db_update($db_tb_user, array('logindate' => CURRENT_UNIX_TIME), "WHERE `id`='" . $row['id'] . "'")

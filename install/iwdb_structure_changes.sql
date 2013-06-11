@@ -49,3 +49,9 @@ ALTER TABLE `prefix_spieler` ADD `fp_nodiff` int(12) NOT NULL DEFAULT '0';
 ALTER TABLE `prefix_spieler` ADD `time` int(12) NOT NULL DEFAULT '0';
 
 DROP TABLE `prefix_highscore`;
+
+-- 11.06.2013 masel : #209 IP-Wechsel erlauben
+ALTER TABLE  `prefix_sid` CHANGE  `ip`  `ipHash` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ;
+ALTER TABLE  `prefix_sid` ADD  `userAgentHash` VARCHAR( 100 ) NOT NULL  DEFAULT '' AFTER  `ip` ;
+
+ALTER TABLE  `prefix_user` ADD `allow_ip_change` TINYINT( 1 ) UNSIGNED NOT NULL  DEFAULT '0' AFTER  `email` ;

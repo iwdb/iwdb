@@ -1053,7 +1053,8 @@ CREATE TABLE IF NOT EXISTS `prefix_schiffstyp` (
 
 CREATE TABLE IF NOT EXISTS `prefix_sid` (
   `sid` varchar(50) NOT NULL DEFAULT '',
-  `ip` varchar(50) NOT NULL DEFAULT '',
+  `ipHash` varchar(100) DEFAULT NULL,
+  `userAgentHash` varchar(100) NOT NULL,
   `date` int(10) unsigned NOT NULL,
   `id` varchar(50) NOT NULL DEFAULT '',
   PRIMARY KEY (`sid`)
@@ -1177,6 +1178,7 @@ CREATE TABLE IF NOT EXISTS `prefix_user` (
   `staatsform` int(1) NOT NULL DEFAULT '0',
   `password` varchar(40) NOT NULL DEFAULT '36dd80d60af38df8614b87f74059e5da' COMMENT 'Icewars2013',
   `email` varchar(160) NOT NULL DEFAULT '',
+  `allow_ip_change` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `status` varchar(10) NOT NULL DEFAULT '',
   `rules` char(1) NOT NULL DEFAULT '0',
   `logindate` int(11) NOT NULL DEFAULT '0',

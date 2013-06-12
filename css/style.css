@@ -724,7 +724,17 @@ td[abbr=both] {
 #lagertabelle {
     width: 100%;
 }
-@media all and (max-width: 1400px) {
+@media all and (max-width: 1200px) {
+    #lagertabelle td {
+        font-size: 8px;
+    }
+}
+@media all and (min-width: 1200px) {
+    #lagertabelle td {
+        font-size: 9px;
+    }
+}
+@media all and (min-width: 1300px) {
     #lagertabelle td {
         font-size: 10px;
     }

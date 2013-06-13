@@ -50,14 +50,14 @@ function build_graph($users, $table, $user_col, $date_col, $value_col, $fitthis)
 	$value_max = $row['max(' . $value_col . ')'];
 	$value_min = $row['min(' . $value_col . ')'];
 	$value_grid = ($config_ysize - $config_bordertop - $config_borderbottom) / ($value_max);
-	switch ($value_col)
-	{
-		case "ptag" : $value_text = "P/Tag"; break;
-		case "gesamtp" : $value_text = "GesamtP"; break;
-		case "fp" : $value_text = "FP"; break;
-		case "gebp" : $value_text = "GebP"; break;
-		default:  $value_text = $value_col; break;
-	}
+    switch ($value_col)
+    {
+        case "ptag" : $value_text = "P/Tag"; break;
+        case "gesamtp" : $value_text = "GesamtP"; break;
+        case "fp" : $value_text = "FP"; break;
+        case "gebp" : $value_text = "GebP"; break;
+        default:  $value_text = $value_col; break;
+    }
 
 	$date_max = $row['max(' . $date_col . ')'];
 	$date_min = $row['min(' . $date_col . ')'];

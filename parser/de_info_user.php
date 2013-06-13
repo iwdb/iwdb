@@ -52,17 +52,17 @@ function parse_de_info_user($return)
         $row = $db->db_fetch_array($result);
 
         $data = array (
-            'name' => $playerinfo->strUserName,
-            'allianz' => $playerinfo->strUserAllianceTag,
-            'allianzrang' => $playerinfo->strUserAllianceJob,
-            'acctype' => $playerinfo->strAccType,
-            'dabeiseit' => $playerinfo->iEntryDate,
+            'name'              => $playerinfo->strUserName,
+            'allianz'           => $playerinfo->strUserAllianceTag,
+            'allianzrang'       => $playerinfo->strUserAllianceJob,
+            'acctype'           => $playerinfo->strAccType,
+            'dabeiseit'         => $playerinfo->iEntryDate,
             'playerupdate_time' => CURRENT_UNIX_TIME,
-            'geb_pkt' => $playerinfo->iGebPkt,
-            'forsch_pkt' => $playerinfo->iFP,
-            'ges_pkt' => ($playerinfo->iGebPkt + $playerinfo->iFP),
-            'pktupdate_time' => CURRENT_UNIX_TIME,
-            'Hauptplanet' => $playerinfo->strCoords,
+            'gebp'              => $playerinfo->iGebPkt,
+            'fp'                => $playerinfo->iFP,
+            'gesamtp'           => ($playerinfo->iGebPkt + $playerinfo->iFP),
+            'pktupdate_time'    => CURRENT_UNIX_TIME,
+            'Hauptplanet'       => $playerinfo->strCoords,
         );
 
         $db->db_insertupdate($db_tb_spieler, $data)

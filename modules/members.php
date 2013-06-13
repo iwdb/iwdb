@@ -47,10 +47,10 @@ doc_title('Memberliste');
 <form method="POST" action="index.php?action=members&graph=1" enctype="multipart/form-data">
 <?php
 $graph_typs = array(
-    "gesamtp" => "GesamtP",
-    "gebp"    => "GebP",
-    "fp"      => "FP",
-    "ptag"    => "P / Tag"
+    "ges_pkt"    => "GesamtP",
+    "geb_pkt"    => "GebP",
+    "forsch_pkt" => "FP",
+    "ptag"       => "P / Tag"
 );
 
 // Graph Ausgabe //
@@ -104,45 +104,29 @@ if (!empty($graph)) {
     }
     ?>
     <th style="width:8%;">
-        
         <b>Username</b>
-        
         <b>Spielart</b>
-        
     </th>
     <th style="width:8%;">
-        
         <b>Alli</b><br>
-        
     </th>
     <th style="width:8%;">
-        
         <b>Rang</b><br>
-        
     </th>
     <th style="width:8%;">
-        
         <b>GebP</b><br>
-        
     </th>
     <th style="width:8%;">
-        
         <b>FP</b><br>
     </th>
     <th style="width:8%;">
-        
         <b>GesamtP</b><br>
-        
     </th>
     <th style="width:8%;">
-        
         <b>P/Tag</b><br>
-        
     </th>
     <th style="width:10%;">
-        
         <b>dabei seit</b><br>
-        
     </th>
     <th style="width:20%;">
         <?php

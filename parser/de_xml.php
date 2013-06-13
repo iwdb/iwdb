@@ -1002,7 +1002,7 @@ function input_unixml($xml)
     $players_with_same_time_before = $row['Anzahl'];
 
 
-    $sql_planet_update_begin = "INSERT INTO `{$db_tb_scans}` (`coords`, `coords_gal`, `coords_sys`, `coords_planet`, `USER`, `userchange_time`, `planetenname`, `typ`, `typchange_time`, `objekt`, `objektchange_time`, `nebel`, `plaid`, `TIME`) VALUES ";
+    $sql_planet_update_begin = "INSERT INTO `{$db_tb_scans}` (`coords`, `coords_gal`, `coords_sys`, `coords_planet`, `user`, `userchange_time`, `planetenname`, `typ`, `typchange_time`, `objekt`, `objektchange_time`, `nebel`, `plaid`, `time`) VALUES ";
 
     //bei schon vorhandenem Planten in der DB werden einige Einträge selektiv ersetzt (Hinweis: Die Werte werden in Reihenfolge innerhalb des Queries nacheinander zugewiesen NICHT erst beim ende des kompletten Queries)
     $sql_planet_update_end = " ON DUPLICATE KEY UPDATE";
@@ -1017,7 +1017,7 @@ function input_unixml($xml)
     $sql_planet_update_end .= " `time` = IF({$aktualisierungszeit} > `time`, VALUES(`time`), `time`);";
     $sql_planet_update_end .= ";";
 
-    $sql_player_update_begin = "INSERT INTO `{$db_tb_spieler}` (`NAME`, `allianz`, `dabeiseit`, `playerupdate_time`) VALUES ";
+    $sql_player_update_begin = "INSERT INTO `{$db_tb_spieler}` (`name`, `allianz`, `dabeiseit`, `playerupdate_time`) VALUES ";
     //bei schon vorhandenem Spieler in der DB prüfen auf Allianzänderung
     $sql_player_update_end = " ON DUPLICATE KEY UPDATE";
     $sql_player_update_end .= " `allychange_time` = IF((STRCMP(VALUES(`allianz`), `allianz`) AND ((`allychange_time` IS NULL) OR ({$aktualisierungszeit} > `allychange_time`))), {$aktualisierungszeit}, `allychange_time`),"; //Allianzänderungszeit auf die des Scans setzen (wenn sie neuer bzw nicht vorhanden ist und sich die Allianz geändert hat), nachfolgende Abfragen können sich dann darauf beziehen
@@ -1026,7 +1026,7 @@ function input_unixml($xml)
     $sql_player_update_end .= " `allianz` =     IF(((`allychange_time` = {$aktualisierungszeit}) AND (`playerupdate_time` < {$aktualisierungszeit})), VALUES(`allianz`), `allianz`),"; //neue Allianz schreiben
     $sql_player_update_end .= " `playerupdate_time` = IF((`playerupdate_time` < {$aktualisierungszeit}), {$aktualisierungszeit}, `playerupdate_time`);"; //Angabe des Updates der Spielerinformationen aktualisieren
 
-    $sql_system_update_begin = "INSERT INTO `{$db_tb_sysscans}` (`id`, `gal`, `sys`, `objekt`, `DATE`, `nebula`) VALUES ";
+    $sql_system_update_begin = "INSERT INTO `{$db_tb_sysscans}` (`id`, `gal`, `sys`, `objekt`, `date`, `nebula`) VALUES ";
     $sql_system_update_end   = " ON DUPLICATE KEY UPDATE";
     //andere Daten sollten sich nicht ändern deshalb nur die Aktualisierung des Scandatums   
     $sql_system_update_end .= " `date` = IF(({$aktualisierungszeit} > `date`), {$aktualisierungszeit}, `date`);";

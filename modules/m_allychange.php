@@ -158,7 +158,8 @@ echo "<div>Hier kann man sehen, welche Spieler in letzter Zeit die Ally gewechse
 
 //Daten von
 $sql_updated = "SELECT MAX(`playerupdate_time`) AS updated FROM `{$db_tb_spieler}`;";
-$result = $db->db_query($sql_updated) or error(GENERAL_ERROR, 'Could not query player information.', '', __FILE__, __LINE__, $sql_updated);
+$result = $db->db_query($sql_updated)
+    or error(GENERAL_ERROR, 'Could not query player information.', '', __FILE__, __LINE__, $sql_updated);
 $playerdata = $db->db_fetch_array($result);
 $playerupdatetime = $playerdata['updated'];
 if (empty($playerdata)) {
@@ -167,36 +168,36 @@ if (empty($playerdata)) {
     echo '<div class="textsmall">Daten von ' . strftime(CONFIG_DATETIMEFORMAT, $playerupdatetime) . '</div><br>';
     ?>
     <table class="tablesorter" style="width: 80%;">
-       <thead> 
-		<tr>
-            <th>Spieler</th>
-            <th>von Allianz</th>
-            <th>zu Allianz</th>
-            <th>Zeitpunkt</th>
-        </tr>
-		<thead>
+        <thead>
+            <tr>
+                <th>Spieler</th>
+                <th>von Allianz</th>
+                <th>zu Allianz</th>
+                <th>Zeitpunkt</th>
+            </tr>
+		</thead>
 		<tbody>
         <?php
         // letzten 50 Allywechsel abfragen
-        $sql = "SELECT name, fromally, toally, time FROM `{$db_tb_spielerallychange}` ORDER BY `time` DESC LIMIT 0,50";
+        $sql = "SELECT `name`, `fromally`, `toally`, `time` FROM `{$db_tb_spielerallychange}` ORDER BY `time` DESC LIMIT 0,50";
         $result = $db->db_query($sql)
             or error(GENERAL_ERROR, 'Could not query scans_historie information.', '', __FILE__, __LINE__, $sql);
 
         // Abfrage auswerten
         while ($row = $db->db_fetch_array($result)) {
             echo "<tr>\n";
-            echo "<td>";
-            echo "<a href='index.php?action=showgalaxy&amp;user=" . urlencode($row['name']) . "&amp;exact=1'>" . $row['name'] . "</a>";
-            echo "</td>\n";
-            echo "<td>";
-            echo "<a href='index.php?action=m_allystats&allianz=" . $row['fromally'] . "'>" . $row['fromally'] . "</a>";
-            echo "</td>\n";
-            echo "<td>";
-            echo "<a href='index.php?action=m_allystats&allianz=" . $row['toally'] . "'>" . $row['toally'] . "</a>";
-            echo "</td>\n";
-            echo "<td>";
+            echo " <td>";
+            echo "  <a href='index.php?action=showgalaxy&amp;user=" . urlencode($row['name']) . "&amp;exact=1'>" . $row['name'] . "</a>";
+            echo " </td>\n";
+            echo " <td>";
+            echo "  <a href='index.php?action=m_allystats&allianz=" . $row['fromally'] . "'>" . $row['fromally'] . "</a>";
+            echo " </td>\n";
+            echo " <td>";
+            echo "  <a href='index.php?action=m_allystats&allianz=" . $row['toally'] . "'>" . $row['toally'] . "</a>";
+            echo " </td>\n";
+            echo " <td>";
             echo strftime(CONFIG_DATETIMEFORMAT, $row['time']);
-            echo "</td>\n";
+            echo " </td>\n";
             echo "</tr>\n";
         }
         ?>

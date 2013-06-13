@@ -109,15 +109,15 @@ if (!empty($allianz)) {
             $allianz = $db->escape($allianz);
         }
 
-        $sql = "SELECT count(name) as gesamt,
+        $sql = "SELECT count(`name`) as gesamt,
         SUM(IF(`staatsform` IS NULL OR `staatsform` = '', 1,0)) AS unbekannt,
         SUM(IF(`staatsform` = 'Barbar', 1,0)) AS Barbaren,
         SUM(IF(`staatsform` = 'Diktator', 1,0))  AS Diktatoren,
         SUM(IF(`staatsform` = 'Demokrat', 1,0))  AS Demokraten,
         SUM(IF(`staatsform` = 'Kommunist', 1,0)) AS Kommunisten,
         SUM(IF(`staatsform` = 'Monarch', 1,0))  AS Monarchen
-        FROM " . $db_tb_spieler . "
-        WHERE allianz LIKE '$allianz';";
+        FROM `{$db_tb_spieler}`
+        WHERE `allianz` LIKE '$allianz';";
 
         $result = $db->db_query($sql)
             or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -453,7 +453,7 @@ if (!empty($allianz)) {
             foreach ($player as $playername => $planis) {
                 next_row("windowbg3 center", "style='width:22%'");
 
-                $sql = "SELECT `staatsform`,`allianzrang`,`Hauptplanet`,`acctype`,`status`,`ges_pkt` FROM `{$db_tb_spieler}` WHERE `name` = '" . $playername . "';";
+                $sql = "SELECT `staatsform`,`allianzrang`,`Hauptplanet`,`acctype`,`status`,`gesamtp` FROM `{$db_tb_spieler}` WHERE `name` = '" . $playername . "';";
                 $result = $db->db_query($sql)
                     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
                 $row = $db->db_fetch_array($result);

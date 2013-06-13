@@ -862,7 +862,7 @@ if (empty($params['view'])) {
     // copper will 22 Tage :)
     if (!empty($params['no_noob'])) {
         $time = CURRENT_UNIX_TIME - 22 * DAY;
-        array_push($where, "(" . $db_tb_spieler . ".dabeiseit<" . $time . " OR " . $db_tb_spieler . ".dabeiseit IS NULL)");
+        array_push($where, "(" . $db_tb_spieler . ".dabeiseit<" . $time . " OR " . $db_tb_spieler . ".dabeiseit IS NOT NULL)");
     }
     // Inaktiv
     if (!empty($params['inaktiv'])) {

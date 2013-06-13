@@ -54,4 +54,7 @@ DROP TABLE `prefix_highscore`;
 ALTER TABLE  `prefix_sid` CHANGE  `ip`  `ipHash` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ;
 ALTER TABLE  `prefix_sid` ADD  `userAgentHash` VARCHAR( 100 ) NOT NULL  DEFAULT '' AFTER  `ipHash` ;
 
-ALTER TABLE  `prefix_user` ADD `allow_ip_change` TINYINT( 1 ) UNSIGNED NOT NULL  DEFAULT '0' AFTER  `email` ;
+ALTER TABLE  `prefix_user` ADD `allow_ip_change` TINYINT( 1 ) UNSIGNED NOT NULL  DEFAULT '0' AFTER  `email`;
+
+-- 13.06.2013 masel : #213
+ALTER TABLE  `prefix_spieler` CHANGE  `dabeiseit`  `dabeiseit` INT( 10 ) UNSIGNED NULL DEFAULT NULL ;

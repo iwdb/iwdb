@@ -1285,7 +1285,7 @@ CREATE TABLE IF NOT EXISTS `prefix_spieler` (
   `staatsform` varchar(50) DEFAULT NULL,
   `acctype` varchar(50) DEFAULT NULL,
   `status` varchar(50) NOT NULL,
-  `dabeiseit` int(10) unsigned NOT NULL,
+  `dabeiseit` int(10) unsigned DEFAULT NULL,
   `playerupdate_time` int(10) unsigned NOT NULL,
   `geb_pkt` int(10) unsigned DEFAULT NULL,
   `forsch_pkt` int(10) unsigned DEFAULT NULL,

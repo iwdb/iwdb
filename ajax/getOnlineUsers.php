@@ -18,7 +18,7 @@ function getOnlineUsers()
         $returnData['aOnlineMember'][] = $row['id'];
     }
 
-    $returnData['strOnlineMember'] = implode(",", $returnData['aOnlineMember']);
+    $returnData['strOnlineMember'] = implode(", ", $returnData['aOnlineMember']);
 
     return $returnData;
 }

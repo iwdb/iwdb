@@ -219,7 +219,7 @@ $fak_bev	= 0;
 			<th>
 				<b>Bevölkerung</b>
 			</th>
-			<th class='{sortInitialOrder: 'desc'}'>
+			<th class="{sortInitialOrder: 'desc'}">
 				<b>Gesamtpunkte</b>
 			</th>
 		</tr>

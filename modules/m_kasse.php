@@ -74,39 +74,7 @@ $moduldesc =
 
 function workInstallDatabase()
 {
-    /*
-      global $db, $db_prefix;
-
-      $sqlscript = array(
-        "CREATE TABLE " . $db_prefix . "kasse_content
-        (`amount` DECIMAL( 22,2 ) NOT NULL ,
-         `allianz` VARCHAR( 50 ) NOT NULL ,
-         `time_of_insert` DATE NOT NULL ,
-          UNIQUE KEY ( `allianz`, `time_of_insert`)
-            );",
-        "CREATE TABLE " . $db_prefix . "kasse_incoming
-        (`user` varchar( 30 ) NOT NULL,
-         `amount` decimal( 22,2 ) NOT NULL,
-         `time_of_insert` DATE NOT NULL,
-         `allianz` varchar( 50 ) NOT NULL,
-          UNIQUE KEY ( `user`,  `time_of_insert` )
-            );",
-        "CREATE TABLE " . $db_prefix . "kasse_outgoing
-        (`payedfrom` varchar( 30 ) NOT NULL,
-         `payedto` varchar( 30 ) NOT NULL,
-         `amount` bigint unsigned NOT NULL,
-         `time_of_pay` datetime NOT NULL,
-         `allianz` varchar( 50 ) NOT NULL,
-          UNIQUE KEY ( `payedfrom`,  `payedto`, `amount`, `time_of_pay`)
-            );",
-      );
-
-      foreach($sqlscript as $sql) {
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-      }
-      echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
-    */
+    //nothing here
 }
 
 //****************************************************************************
@@ -149,23 +117,11 @@ function workInstallConfigString()
 // Function workUninstallDatabase is creating all database entries needed for
 // removing this module. 
 //
-/*
-function workUninstallDatabase() {
-  global $db, $db_tb_kasse_content, $db_tb_kasse_incoming, $db_tb_kasse_outgoing;
-
-  $sqlscript = array(
-    "DROP TABLE " . $db_tb_kasse_content . ";",
-    "DROP TABLE " . $db_tb_kasse_incoming . ";",
-    "DROP TABLE " . $db_tb_kasse_outgoing . ";",
-  );
-
-  foreach($sqlscript as $sql) {
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '',__FILE__, __LINE__, $sql);
-  }
-  echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
+function workUninstallDatabase()
+{
+    //nothing here
 }
-*/
+
 //****************************************************************************
 //
 // Installationsroutine
@@ -207,10 +163,6 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 //getvariablen organisieren
 
 $type  = getVar('type') ? getVar('type') : 'payedto';
-$order = "";
-if (getVar('order') && getVar('ordered')) {
-    $order = "ORDER BY " . getVar('order') . " " . getVar('ordered');
-}
 
 if (getVar('fromday') && getVar('fromyear') && getVar('frommonth')) {
     $fromday   = sprintf('%02d', getVar('fromday'));
@@ -354,31 +306,53 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
     }
     $whereclause .= "1";
 
-    echo "<table class='table_format' style='width: 30em;'>";
-    start_row("titlebg center", "style='width:40%' colspan='2'");
-    echo "  <b>Wer hat Credits bekommen?</b>\n";
-    next_row("windowbg2 center", "style='width:60%'");
-    echo "<a href='$url&order=payedto&ordered=asc'> <img src='".BILDER_PATH."asc.gif' alt='asc'> </a>";
-    echo "Empfänger";
-    echo "<a href='$url&order=payedto&ordered=desc'> <img src='".BILDER_PATH."desc.gif' alt='desc'> </a>";
-    next_cell("windowbg2 center");
-    echo "<a href='$url&order=sumof&ordered=asc'> <img src='".BILDER_PATH."asc.gif' alt='asc'> </a>";
-    echo "Summe der ausgezahlten Credits";
-    echo "<a href='$url&order=sumof&ordered=desc'> <img src='".BILDER_PATH."desc.gif' alt='desc'> </a>";
-
-    $sql = "SELECT payedto, sum(amount) as sumof FROM " . $db_tb_kasse_outgoing . " WHERE allianz='" . $allianz . "' " . $whereclause . " GROUP BY payedto " . $order;
+    ?>
+	<table class='tablesorter' style='width:40%'>
+		<thead>
+			<tr class='center'>
+				<th data-sorter="false" colspan='2'>
+					<b>Wer hat Credits bekommen?</b>
+				</th>
+			</tr>
+			<tr>
+				<th>
+					Empfänger
+				</th>
+				<th>
+					Summe der ausgezahlten Credits
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+	
+	<?php
+		
+    $sql = "SELECT payedto, sum(amount) as sumof FROM " . $db_tb_kasse_outgoing . " WHERE allianz='" . $allianz . "' " . $whereclause . " GROUP BY payedto ";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
     while ($row = $db->db_fetch_array($result)) {
-        next_row("windowbg1 left", "style='width:60%'");
-        echo $row['payedto'];
-        next_cell("windowbg1 right");
-        echo number_format($row['sumof'], 0, ',', '.');
-    }
-    end_row();
-    end_table();
-
+    ?>
+			<tr>
+				<td>
+					<?php
+					echo $row['payedto'];
+					?>
+				</td>
+				<td class='right'>
+					<?php
+					echo number_format($row['sumof'], 0, ',', '.');
+					?>
+				</td>
+			</tr>
+			<?php
+			}
+			?>
+		</tbody>
+	</table>
+			
+	<?php
+		
 
 } else if ($type == 'payedfrom') { //ausrechnen, was die auszahler so ausbezahlt haben
 
@@ -391,33 +365,53 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
     }
     $whereclause .= "1";
 
-    echo "<table class='table_format' style='width: 30em;'>";
-    start_row("titlebg center", "style='width:40%' colspan='2'");
-    echo "  <b>Wer hat Credits ausgezahlt?</b>\n";
-    next_row("windowbg2 center", "style='width:60%'");
-    echo "<a href='$url&order=payedfrom&ordered=asc'> <img src='".BILDER_PATH."asc.gif' alt='asc'> </a>";
-    echo "Auszahlender";
-    echo "<a href='$url&order=payedfrom&ordered=desc'> <img src='".BILDER_PATH."desc.gif' alt='desc'> </a>";
-    next_cell("windowbg2 center");
-    echo "<a href='$url&order=sumof&ordered=asc'> <img src='".BILDER_PATH."asc.gif' alt='asc'> </a>";
-    echo "Summe der ausgezahlten Credits";
-    echo "<a href='$url&order=sumof&ordered=desc'> <img src='".BILDER_PATH."desc.gif' alt='desc'> </a>";
-
-    $sql = "SELECT payedfrom, sum(amount) as sumof FROM " . $db_tb_kasse_outgoing . " WHERE allianz='" . $allianz . "' " . $whereclause . " GROUP BY payedfrom " . $order;
+    ?>
+	<table class='tablesorter' style='width:40%'>
+		<thead>
+			<tr class='center'>
+				<th data-sorter="false" colspan='2'>
+					<b>Wer hat Credits ausgezahlt?</b>
+				</th>
+			</tr>
+			<tr>
+				<th>
+					Auszahlender
+				</th>
+				<th>
+					Summe der ausgezahlten Credits
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+	
+	<?php
+	
+	$sql = "SELECT payedfrom, sum(amount) as sumof FROM " . $db_tb_kasse_outgoing . " WHERE allianz='" . $allianz . "' " . $whereclause . " GROUP BY payedfrom ";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
     while ($row = $db->db_fetch_array($result)) {
-
-        next_row("windowbg1 left", "style='width:60%'");
-        echo $row['payedfrom'];
-        next_cell("windowbg1 right");
-        echo number_format($row['sumof'], 0, ',', '.');
-    }
-    end_row();
-    end_table();
-
-
+		?>
+			<tr>
+				<td>
+					<?php
+					echo $row['payedfrom'];
+					?>
+				</td>
+				<td class='right'>
+					<?php
+					echo number_format($row['sumof'], 0, ',', '.');
+					?>
+				</td>
+			</tr>
+			<?php
+			}
+			?>
+		</tbody>
+	</table>
+			
+	<?php
+	
 } else if ($type == 'payedfromto') { //ausrechnen, was die auszahler an jeden member ausbezahlt haben
 
     $whereclause = "AND ";
@@ -429,40 +423,61 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
     }
     $whereclause .= "1";
 
-    start_table();
-    start_row("titlebg center", "style='width:40%' colspan='3'");
-    echo "  <b>Wer hat Credits bekommen?</b>\n";
-    next_row("windowbg2 center", "style='width:40%'");
-    echo "<a href='$url&rder=payedfrom&ordered=asc'> <img src='".BILDER_PATH."asc.gif' alt='asc'> </a>";
-    echo "Auszahlender";
-    echo "<a href='$url&order=payedfrom&ordered=desc'> <img src='".BILDER_PATH."desc.gif' alt='desc'> </a>";
-    next_cell("windowbg2 center", "style='width:40%'");
-    echo "<a href='$url&order=payedto&ordered=asc'> <img src='".BILDER_PATH."asc.gif' alt='asc'> </a>";
-    echo "Empfänger";
-    echo "<a href='$url&order=payedto&ordered=desc'> <img src='".BILDER_PATH."desc.gif' alt='desc'> </a>";
-    ;
-    next_cell("windowbg2 center");
-    echo "<a href='$url&order=sumof&ordered=asc'> <img src='".BILDER_PATH."asc.gif' alt='asc'> </a>";
-    echo "Summe der ausgezahlten Credits";
-    echo "<a href='$url&order=sumof&ordered=desc'> <img src='".BILDER_PATH."desc.gif' alt='desc'> </a>";
-
-
-    $sql = "SELECT payedfrom, payedto, sum(amount) as sumof FROM " . $db_tb_kasse_outgoing . " WHERE allianz='$allianz' $whereclause GROUP BY payedfrom, payedto $order";
+	?>
+	<table class='tablesorter' style='width:60%'>
+		<thead>
+			<tr class='center'>
+				<th data-sorter="false" colspan='3'>
+					<b>Wer hat von wem Credits ausgezahlt bekommen?</b>
+				</th>
+			</tr>
+			<tr>
+				<th>
+					Auszahlender
+				</th>
+				<th>
+					Empfänger
+				</th>
+				<th>
+					Summe der ausgezahlten Credits
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+	
+	<?php
+	
+    $sql = "SELECT payedfrom, payedto, sum(amount) as sumof FROM " . $db_tb_kasse_outgoing . " WHERE allianz='$allianz' $whereclause GROUP BY payedfrom, payedto";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
-    while ($row = $db->db_fetch_array($result)) {
-        next_row("windowbg1 left", "style='width:40%'");
-        echo $row['payedfrom'];
-        next_cell("windowbg1 left", "style='width:40%'");
-        echo $row['payedto'];
-        next_cell("windowbg1 right");
-        echo number_format($row['sumof'], 0, ',', '.');
-    }
-    end_row();
-    end_table();
-
-
+    while ($row = $db->db_fetch_array($result)) {     
+		?>
+			<tr>
+				<td>
+					<?php
+					echo $row['payedfrom'];
+					?>
+				</td>
+				<td>
+					<?php
+					echo $row['payedto'];
+					?>
+				</td>
+				<td class='right'>
+					<?php
+					echo number_format($row['sumof'], 0, ',', '.');
+					?>
+				</td>
+			</tr>
+			<?php
+			}
+			?>
+		</tbody>
+	</table>
+			
+	<?php
+		
 } else if ($type == 'content') { //anzeigen, wie viel wann in der kasse war
 
 
@@ -475,18 +490,27 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
     }
     $whereclause .= "1";
 
-    echo "<table class='table_format' style='width: 30em;'>";
-    start_row("titlebg center", "style='width:40%' colspan='3'");
-    echo "  <b>Kasseninhalt</b>\n";
-    next_row("windowbg2 center", "style='width:40%'");
-    echo "<a href='$url&order=time_of_insert&ordered=asc'> <img src='".BILDER_PATH."asc.gif' alt='asc'> </a>";
-    echo "Datum";
-    echo "<a href='$url&order=time_of_insert&ordered=desc'> <img src='".BILDER_PATH."desc.gif' alt='desc'> </a>";
-    next_cell("windowbg2 center");
-    echo "<a href='$url&order=amount&ordered=asc'> <img src='".BILDER_PATH."asc.gif' alt='asc'> </a>";
-    echo "Inhalt der Allianzkasse";
-    echo "<a href='$url&order=amount&ordered=desc'> <img src='".BILDER_PATH."desc.gif' alt='desc'> </a>";
-
+	?>
+	<table class='tablesorter' style='width:40%'>
+		<thead>
+			<tr class='center'>
+				<th data-sorter="false" colspan='2'>
+					<b>Kasseninhalt</b>
+				</th>
+			</tr>
+			<tr>
+				<th>
+					Datum
+				</th>
+				<th>
+					Inhalt der Allianzkasse
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+	
+	<?php
+	
     $sql = "SELECT amount, time_of_insert FROM " . $db_tb_kasse_content . " WHERE allianz='$allianz' $whereclause ORDER BY time_of_insert ASC";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -494,15 +518,28 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
     while ($row = $db->db_fetch_array($result)) {
         $time  = strtotime($row['time_of_insert']);
         $time1 = strftime("%d.%m.%y %H:%M", $time);
-        next_row("windowbg1 left", "style='width:50%'");
-
-        echo $time1;
-        next_cell("windowbg1 right");
-        echo number_format($row['amount'], 2, ',', '.');
-    }
-    end_row();
-    end_table();
-
+        
+		?>
+			<tr>
+				<td>
+					<?php
+					echo $time1;
+					?>
+				</td>
+				<td class='right'>
+					<?php
+					echo number_format($row['amount'], 2, ',', '.');
+					?>
+				</td>
+			</tr>
+			<?php
+			}
+			?>
+		</tbody>
+	</table>
+			
+	<?php
+		
 } else if ($type == 'incoming') { //anzeigen, wer wie viel eingezahlt hat
 
 
@@ -515,28 +552,50 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
     }
     $whereclause .= "1";
 
-    echo "<table class='table_format' style='width: 30em;'>";
-    start_row("titlebg center", "style='width:40%' colspan='3'");
-    echo "  <b>Wer hat Credits bekommen?</b>\n";
-    next_row("windowbg2 center", "style='width:40%'");
-    echo "<a href='$url&order=user&ordered=asc'> <img src='".BILDER_PATH."asc.gif' alt='asc'> </a>";
-    echo "Einzahler";
-    echo "<a href='$url&order=user&ordered=desc'> <img src='".BILDER_PATH."desc.gif' alt='desc'> </a>";
-    next_cell("windowbg2 center");
-    echo "<a href='$url&order=sumof&ordered=asc'> <img src='".BILDER_PATH."asc.gif' alt='asc'> </a>";
-    echo "Summe der eingezahlten Credits";
-    echo "<a href='$url&order=sumof&ordered=desc'> <img src='".BILDER_PATH."desc.gif' alt='desc'> </a>";
-
-    $sql = "SELECT user, sum(amount) as sumof FROM " . $db_tb_kasse_incoming . " WHERE allianz='$allianz' $whereclause GROUP BY user $order";
+	?>
+	<table class='tablesorter' style='width:40%'>
+		<thead>
+			<tr class='center'>
+				<th data-sorter="false" colspan='2'>
+					<b>Wer hat Credits eingezahlt?</b>
+				</th>
+			</tr>
+			<tr>
+				<th>
+					Einzahler
+				</th>
+				<th>
+					Summe der eingezahlten Credits
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+	
+	<?php
+	
+    $sql = "SELECT user, sum(amount) as sumof FROM " . $db_tb_kasse_incoming . " WHERE allianz='$allianz' $whereclause GROUP BY user";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
     while ($row = $db->db_fetch_array($result)) {
-        next_row("windowbg1 left", "style='width:60%'");
-        echo $row['user'];
-        next_cell("windowbg1 right");
-        echo number_format($row['sumof'], 2, ',', '.');
-    }
-    end_row();
-    end_table();
+        ?>
+			<tr>
+				<td>
+					<?php
+					echo $row['user'];
+					?>
+				</td>
+				<td class='right'>
+					<?php
+					echo number_format($row['sumof'], 2, ',', '.');
+					?>
+				</td>
+			</tr>
+			<?php
+			}
+			?>
+		</tbody>
+	</table>
+			
+	<?php
 }

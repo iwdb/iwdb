@@ -233,10 +233,10 @@ echo '</div><br>';
 			</td>
 			<td>
 				<?php
-				if (!empty($row['research'])) {
-					echo "erforscht";
+				if (!empty($row['research']) OR (!empty($row['count']))) {
+                    echo "<span class='doc_green'>erforscht</span>";
 				} else {
-					echo "-";
+                    echo "<span class='doc_red'>nicht erforscht</span>";
 				}
 				?>
 			</td>
@@ -245,9 +245,9 @@ echo '</div><br>';
 				if (!empty($row['count'])) {
 					echo "Stufe " . $row['count'];
 				} else if (!empty($row['research'])) {
-					echo "Keins";
+					echo "<span class='doc_red'>Keine</span>";
 				} else {
-					echo "-";
+					echo "<span class='doc_red'>-</span>";
 				}
 				?>
 			</td>

@@ -274,10 +274,18 @@ function parse_de_index($return)
 
                                             //keine vorliegenden Creditsbestellungen -> eine einfügen
                                             if (count($creds_order) === 0) {
-                                                $sql = "INSERT INTO `" . $db_tb_bestellung . "` (`user`, `team`, `coords_gal`, `coords_sys`, `coords_planet`, `project`, `text`, `time`, `eisen`, `stahl`, `chemie`, `vv4a`, `eis`, `wasser`, `energie`, `credits`, `volk`, `offen_eisen`, `offen_stahl`, `offen_chemie`, `offen_vv4a`, `offen_eis`, `offen_wasser`, `offen_energie`, `offen_credits`, `prio`, `taeglich`, `time_created`, `erledigt`) VALUES
-                                                ('" . $AccName . "', '(Alle)', 0, 0, 0, 'Automatische Creditsbestellung', '', " . CURRENT_UNIX_TIME . ", 0, 0, 0, 0, 0, 0, 0, " . $creds_order_value . ", 0, 0, 0, 0, 0, 0, 0, 0, " . $creds_order_value . ", '', 0, " . CURRENT_UNIX_TIME . ", 0);";
-                                                $db->db_query($sql)
-                                                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                                                $SQLdata = array (
+                                                    'user' => $AccName,
+                                                    'team' => '(Alle)',
+                                                    'text' => 'Automatische Creditsbestellung',
+                                                    'time' => CURRENT_UNIX_TIME,
+                                                    'credits' => $creds_order_value,
+                                                    'offen_credits' => $creds_order_value,
+                                                    'time_created' => CURRENT_UNIX_TIME
+                                                );
+
+                                                $db->db_insert($db_tb_bestellung, $SQLdata)
+                                                    or error(GENERAL_ERROR, 'Could not insert credits order!', '', __FILE__, __LINE__);
 
                                                 doc_message('weniger als ' . number_format((float)$automatic_creds_order_minvalue, 0, ',', '.') . ' Credits bei ' . $AccName . ' -> ' . number_format((float)$creds_order_value, 0, ',', '.') . ' Credits automatisch bestellt');
 

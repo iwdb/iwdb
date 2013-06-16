@@ -187,6 +187,11 @@ $result_dnw = $db->db_query($sql_dnw)
 	OPTION.red{color:red}
 	OPTION.green{color:green}
 </STYLE>
+<script>
+	    jQuery(function ($) {
+    $('form').validatr();
+    });
+</script>
 
 <div id='container'>
 	<?php
@@ -201,6 +206,9 @@ $result_dnw = $db->db_query($sql_dnw)
 						<b>Werft</b>
 					</th>
 					<th>
+						<b>gültige Werte</b>
+					</th>
+					<th>
 						<b>Anzahl</b>
 					</th>
 					<th>
@@ -212,6 +220,9 @@ $result_dnw = $db->db_query($sql_dnw)
 				<tr>
 					<td>
 						<b>kleine planetare Werft</b>
+					</td>
+					<td class='center'>
+						0-30
 					</td>
 					<td>
 						<input type="number" name="anzahl_klplanw" min="0" max="30" step="1" value="0" placeholder="0-30">
@@ -231,6 +242,9 @@ $result_dnw = $db->db_query($sql_dnw)
 					<td>
 						<b>kleine orbitale Werft</b>
 					</td>
+					<td class='center'>
+						0-40
+					</td>
 					<td>
 						<input type="number" name="anzahl_klorw" min="0" max="40" step="1" value="0" placeholder="0-40">
 					</td>
@@ -248,6 +262,9 @@ $result_dnw = $db->db_query($sql_dnw)
 				<tr>
 					<td>
 						<b>mittlere planetare Werft</b>
+					</td>
+					<td class='center'>
+						0-15
 					</td>
 					<td>
 						<input type="number" name="anzahl_miplanw" min="0" max="15" step="1" value="0" placeholder="0-15">
@@ -267,6 +284,9 @@ $result_dnw = $db->db_query($sql_dnw)
 					<td>
 						<b>mittlere orbitale Werft</b>
 					</td>
+					<td class='center'>
+						0-15
+					</td>
 					<td>
 						<input type="number" name="anzahl_miorw" min="0" max="15" step="1" value="0" placeholder="0-15">
 					</td>
@@ -285,6 +305,9 @@ $result_dnw = $db->db_query($sql_dnw)
 					<td>
 						<b>große Werft</b>
 					</td>
+					<td class='center'>
+						0-6
+					</td>
 					<td>
 						<input type="number" name="anzahl_grw" min="0" max="30" step="1" value="0" placeholder="0-6">
 					</td>
@@ -302,6 +325,9 @@ $result_dnw = $db->db_query($sql_dnw)
 				<tr>
 					<td>
 						<b>DN Werft</b>
+					</td>
+					<td class='center'>
+						0-3
 					</td>
 					<td>
 						<input type="number" name="anzahl_dnw" min="0" max="30" step="1" value="0" placeholder="0-3">
@@ -531,12 +557,12 @@ $result_dnw = $db->db_query($sql_dnw)
 				($row5['energie']*$_POST['anzahl_grw'])+
 				($row6['energie']*$_POST['anzahl_dnw']);
 	$energie = ceil($energie*$staatsform_kosten*$_POST['gen2']*3600);
-	$bev =		($row1['kosten_bev']+
-				$row2['kosten_bev']+
-				$row3['kosten_bev']+
-				$row4['kosten_bev']+
-				$row5['kosten_bev']+
-				$row6['kosten_bev']);
+	$bev =		($row1['kosten_bev']*$_POST['anzahl_klplanw']+
+				$row2['kosten_bev']*$_POST['anzahl_klorw']+
+				$row3['kosten_bev']*$_POST['anzahl_miplanw']+
+				$row4['kosten_bev']*$_POST['anzahl_miorw']+
+				$row5['kosten_bev']*$_POST['anzahl_grw']+
+				$row6['kosten_bev']*$_POST['anzahl_dnw']);
 	
 	
 	?>
@@ -629,3 +655,4 @@ $result_dnw = $db->db_query($sql_dnw)
 		</tfoot>
 	</table>				
 </div>
+<script src="javascript/validatr.min.js"></script>

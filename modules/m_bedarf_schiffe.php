@@ -182,6 +182,12 @@ $result_dnw = $db->db_query($sql_dnw)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_dnw);
 		
 ?>
+
+<STYLE type="text/css">
+	OPTION.red{color:red}
+	OPTION.green{color:green}
+</STYLE>
+
 <div id='container'>
 	<?php
 	echo "<form method=\"POST\" action=\"index.php?action=" . $modulname .
@@ -334,8 +340,8 @@ $result_dnw = $db->db_query($sql_dnw)
 					<td>
 						<select name='staatsform'>
 							<option value="">--- Auswahl Staatsform ----</option>
-							<option value="Kommunist">Kommunist</option>
-							<option value="andere">andere</option>
+							<option value="Kommunist" class="green">Kommunist</option>
+							<option value="andere" class="red">andere</option>
 						</select>
 					</td>
 				</tr>
@@ -346,13 +352,13 @@ $result_dnw = $db->db_query($sql_dnw)
 					<td>
 						<select name='gen1'>
 							<option value="">--- Auswahl Genetikoption 1 ----</option>
-							<option value="1.2">+20%</option>
-							<option value="1.1">+10%</option>
+							<option value="1.2" class="red">+20%</option>
+							<option value="1.1" class="red">+10%</option>
 							<option value="1.0">+-0%</option>
-							<option value="0.95">-5%</option>
-							<option value="0.90">-10%</option>
-							<option value="0.80">-20%</option>
-							<option value="0.65">-35%</option>
+							<option value="0.95" class="green">-5%</option>
+							<option value="0.90" class="green">-10%</option>
+							<option value="0.80" class="green">-20%</option>
+							<option value="0.65" class="green">-35%</option>
 						</select>
 					</td>
 				</tr>
@@ -363,12 +369,12 @@ $result_dnw = $db->db_query($sql_dnw)
 					<td>
 						<select name='gen2'>
 							<option value="">--- Auswahl Genetikoption 2 ----</option>
-							<option value="1.2">+20%</option>
-							<option value="1.1">+10%</option>
+							<option value="1.2" class="red">+20%</option>
+							<option value="1.1" class="red">+10%</option>
 							<option value="1.0">+-0%</option>
-							<option value="0.90">-10%</option>
-							<option value="0.80">-20%</option>
-							<option value="0.70">-30%</option>
+							<option value="0.90" class="green">-10%</option>
+							<option value="0.80" class="green">-20%</option>
+							<option value="0.70" class="green">-30%</option>
 						</select>
 					</td>
 				</tr>
@@ -544,25 +550,25 @@ $result_dnw = $db->db_query($sql_dnw)
 			<tr class='windowbg2'>
 				<th>
 				</th>
-				<th>
+				<th style='width: 13%'>
 					<b>Eisen</b>
 				</th>
-				<th>
+				<th style='width: 13%'>
 					<b>Stahl</b>
 				</th>
-				<th>
+				<th style='width: 13%'>
 					<b>VV4A</b>
 				</th>
-				<th>
+				<th style='width: 13%'>
 					<b>Chemie</b>
 				</th>
-				<th>
+				<th style='width: 13%'>
 					<b>Eis</b>
 				</th>
-				<th>
+				<th style='width: 13%'>
 					<b>Wasser</b>
 				</th>
-				<th>
+				<th style='width: 13%'>
 					<b>Energie</b>
 				</th>
 			</tr>
@@ -574,37 +580,37 @@ $result_dnw = $db->db_query($sql_dnw)
 				</td>
 				<td class='right'>
 					<?php
-					echo $eisen;
+					echo "<font color='#FF0000'>", $eisen;
 					?>
 				</td>
 				<td class='right'>
 					<?php
-					echo $stahl;
+					echo "<font color='#FF0000'>", $stahl;
 					?>
 				</td>
 				<td class='right'>
 					<?php
-					echo $vv4a;
+					echo "<font color='#FF0000'>", $vv4a;
 					?>
 				</td>
 				<td class='right'>
 					<?php
-					echo $chemie;
+					echo "<font color='#FF0000'>", $chemie;
 					?>
 				</td>
 				<td class='right'>
 					<?php
-					echo $eis;
+					echo "<font color='#FF0000'>", $eis;
 					?>
 				</td>
 				<td class='right'>
 					<?php
-					echo $wasser;
+					echo "<font color='#FF0000'>", $wasser;
 					?>
 				</td>
 				<td class='right'>
 					<?php
-					echo $energie;
+					echo "<font color='#FF0000'>", $energie;
 					?>
 				</td>
 			</tr>
@@ -616,7 +622,7 @@ $result_dnw = $db->db_query($sql_dnw)
 				</td>
 				<td class='center'>
 					<?php
-					echo $bev;
+					echo "<font color='#008B00'>", $bev;
 					?>
 				</td>
 			</tr>

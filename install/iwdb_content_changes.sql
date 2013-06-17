@@ -21,3 +21,9 @@ INSERT INTO `prefix_gebaeude` (`name`, `category`, `idcat`, `inactive`, `dauer`,
 -- 05.06. : Standardmäßig Plani- und Gebbilder anzeigen
 --
 UPDATE `prefix_user` SET `planibilder`='1',`gebbilder`='1';
+
+--
+-- 17.06. : Einfügen der Stundenvorlage für Lagerbelegung
+--
+INSERT INTO `prefix_params` (`name` ,`value` ,`text`) VALUES
+('hour', '24', '');

@@ -398,6 +398,54 @@ if (isset($db_tb_bestellung)) {
 }
 
 /*****************************************************************************/
+/* Lagerbedarfsbelegung                                                      */
+/*****************************************************************************/
+
+if (GetVar('stunden_change')) {
+	$hour = GetVar('stunden');
+	
+	$sql = "INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('hour', '" . $hour . "') ON DUPLICATE KEY UPDATE `value`='" . $hour . "';";
+            $db->db_query($sql)
+                or error(GENERAL_ERROR, 'Could not update hour information.', '', __FILE__, __LINE__, $sql);
+}
+
+$sql = "SELECT `value`, `text` FROM `{$db_tb_params}` WHERE `name` = 'hour';";
+$result = $db->db_query($sql);
+$row = $db->db_fetch_array($result);
+$hour = $row['value'];
+
+?>
+<form method="POST" action="index.php?action=admin&uaction=einstellungen" enctype="multipart/form-data">
+	<table class="table_format" style="width: 95%;">
+		<thead>
+			<tr>
+				<th class="titlebg" colspan="2">
+					<b>Voreinstellung Stunden für Lagergrundbedarf</b>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td class='windowbg3'>
+					<b>Bedarfsberechnung mit wieviel Stunden?</b>
+				</td>
+				<td class="center">
+					<input type="number" name="stunden" min="1" max="400" step="1" value="<?php echo $hour ?>">
+				</td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr>
+				<th class="titlebg" colspan="2">
+					<input type="submit" value="ändern" name="stunden_change">
+				</th>
+			</tr>
+		</tfoot>
+	</table>
+</form>
+<br>
+<?php
+/*****************************************************************************/
 /* DB-Sperre Teil                                                            */
 /*****************************************************************************/
 

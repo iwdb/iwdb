@@ -22,8 +22,6 @@
  * Diese Erweiterung der ursprünglichen DB ist ein Gemeinschaftsprojekt von  *
  * IW-Spielern.                                                              *
  *                                                                           *
- * Autor: [GILDE]Thella (icewars@thella.de)                                  *
- *                                                                           *
  * Entwicklerforum/Repo:                                                     *
  *                                                                           *
  *        https://handels-gilde.org/?www/forum/index.php;board=1099.0        *
@@ -255,6 +253,14 @@ $params = array(
     'galaxie_min'       => getVar('galaxie_min'),
     'galaxie_max'       => getVar('galaxie_max'),
 );
+
+$numeisen=1;
+$numstahl=2;
+$numvv4a=3;
+$numchem=4;
+$numeis=5;
+$numwasser=6;
+$numenergie=7;
 
 // Parameter validieren
 if (empty($params['view'])) {
@@ -633,13 +639,13 @@ while ($row = $db->db_fetch_array($result)) {
         'wasser'            => $row['wasser'],
         'energie'           => $row['energie'],
         'time'              => $row['time'],
-        'eisen_soll'        => $row['eisen_soll'],
-        'stahl_soll'        => $row['stahl_soll'],
-        'vv4a_soll'         => $row['vv4a_soll'],
-        'chem_soll'         => $row['chem_soll'],
-        'eis_soll'          => $row['eis_soll'],
-        'wasser_soll'       => $row['wasser_soll'],
-        'energie_soll'      => $row['energie_soll'],
+        'eisen_soll'        => $row['eisen_soll']=lagersoll($numeisen, $row['coords_gal'], $row['coords_sys'], $row['coords_planet'], $row['eisen_prod'], $row['eisen_soll'], 0),
+        'stahl_soll'        => $row['stahl_soll']=lagersoll($numeisen, $row['coords_gal'], $row['coords_sys'], $row['coords_planet'], $row['stahl_prod'], $row['stahl_soll'], 0),
+        'vv4a_soll'         => $row['vv4a_soll']=lagersoll($numeisen, $row['coords_gal'], $row['coords_sys'], $row['coords_planet'], $row['vv4a_prod'], $row['vv4a_soll'], 0),
+		'chem_soll'         => $row['chem_soll']=lagersoll($numchem, $row['coords_gal'], $row['coords_sys'], $row['coords_planet'], $row['chem_prod'], $row['chem_soll'], $row['chem_lager']),
+        'eis_soll'          => $row['eis_soll']=lagersoll($numchem, $row['coords_gal'], $row['coords_sys'], $row['coords_planet'], $row['eis_prod'], $row['eis_soll'], $row['eis_lager']),
+        'wasser_soll'       => $row['wasser_soll']=lagersoll($numchem, $row['coords_gal'], $row['coords_sys'], $row['coords_planet'], $row['wasser_prod'], $row['wasser_soll'], $row['wasser_lager']),
+        'energie_soll'      => $row['energie_soll']=lagersoll($numchem, $row['coords_gal'], $row['coords_sys'], $row['coords_planet'], $row['energie_prod'], $row['energie_soll'], $row['energie_lager']),
         'eisen_soll_diff'   => $row['eisen_total'] - $row['eisen_soll'],
         'stahl_soll_diff'   => $row['stahl_total'] - $row['stahl_soll'],
         'vv4a_soll_diff'    => $row['vv4a_total'] - $row['vv4a_soll'],
@@ -1562,4 +1568,168 @@ function makeurl($newparams)
     }
 
     return $url;
+}
+// ****************************************************************************
+//
+// Update lager_soll.
+function lagersoll($ressart, $gal, $sys, $plan, $prod, $soll, $lager) {
+	
+	global $db, $db_tb_params, $db_tb_lager;
+	
+	$sql = $db->db_query("SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'hour';");
+    $row = $db->db_fetch_array($sql);
+	
+	switch ($ressart) {
+		case '1':
+			if ($prod<0) {
+				$bedarf=$row['value']*abs($prod);
+				
+				if ($soll<$bedarf) {
+					$soll=$bedarf;
+				}
+				
+				$SQLdata = array (
+					'eisen_soll' => $soll
+				);
+				$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
+                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+				
+			}
+			
+			break;
+		case '2':
+			if ($prod<0) {
+				$bedarf=$row['value']*abs($prod);
+				
+				if ($soll<$bedarf) {
+					$soll=$bedarf;
+				}
+				
+				$SQLdata = array (
+					'stahl_soll' => $soll
+				);
+				$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
+                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+				
+			}
+			break;
+		case '3':
+			if ($prod<0) {
+				$bedarf=$row['value']*abs($prod);
+				
+				if ($soll<$bedarf) {
+					$soll=$bedarf;
+				}
+				
+				$SQLdata = array (
+					'vv4a_soll' => $soll
+				);
+				$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
+                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+				
+			}
+			
+			break;
+		case '4':
+			if ($prod<0) {
+				$bedarf=$row['value']*abs($prod);
+				
+				if ($bedarf>$lager) {
+					$bedarf=$lager;
+				}
+				
+				if ($soll>$lager) {
+					$soll=$lager;
+				}
+				
+				if ($soll<$bedarf) {
+					$soll=$bedarf;
+				}
+				
+				$SQLdata = array (
+					'chem_soll' => $soll
+				);
+				$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
+                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+				
+			}
+			
+			break;
+		case '5':
+			if ($prod<0) {
+				$bedarf=$row['value']*abs($prod);
+				
+				if ($bedarf>$lager) {
+					$bedarf=$lager;
+				}
+				
+				if ($soll>$lager) {
+					$soll=$lager;
+				}
+				
+				if ($soll<$bedarf) {
+					$soll=$bedarf;
+				}
+				
+				$SQLdata = array (
+					'eis_soll' => $soll
+				);
+				$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
+                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+				
+			}
+			
+			break;
+		case '6':
+			if ($prod<0) {
+				$bedarf=$row['value']*abs($prod);
+				
+				if ($bedarf>$lager) {
+					$bedarf=$lager;
+				}
+				
+				if ($soll>$lager) {
+					$soll=$lager;
+				}
+				
+				if ($soll<$bedarf) {
+					$soll=$bedarf;
+				}
+				
+				$SQLdata = array (
+					'wasser_soll' => $soll
+				);
+				$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
+                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+				
+			}
+			
+			break;
+		case '7':
+			if ($prod<0) {
+				$bedarf=$row['value']*abs($prod);
+				
+				if ($bedarf>$lager) {
+					$bedarf=$lager;
+				}
+				
+				if ($soll>$lager) {
+					$soll=$lager;
+				}
+				
+				if ($soll<$bedarf) {
+					$soll=$bedarf;
+				}
+				
+				$SQLdata = array (
+					'energie_soll' => $soll
+				);
+				$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
+                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+				
+			}
+			
+			break;
+	}
+	return $soll;
 }

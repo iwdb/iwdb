@@ -363,7 +363,8 @@ INSERT INTO `prefix_params` (`name`, `value`, `text`) VALUES
 ('bericht_fuer_rang', 'all', ''),
 ('automatic_creds_order', 'false', ''),
 ('automatic_creds_order_minvalue', '500000', ''),
-('automatic_creds_order_minpayout', '2000000', '');
+('automatic_creds_order_minpayout', '2000000', ''),
+('hour', '24', '');
 
 -- --------------------------------------------------------
 

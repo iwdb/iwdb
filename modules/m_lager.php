@@ -76,71 +76,7 @@ $moduldesc = "Lagerübersicht zur Koordination von Logistikaufträgen im Buddler
 //
 function workInstallDatabase()
 {
-    /*
-        global $db, $db_prefix;
-
-        $sqlscript = array(
-            "CREATE TABLE `" . $db_prefix . "lager` (" .
-            "`user` varchar(30) NOT NULL," .
-            "`coords_gal` tinyint(4) NOT NULL," .
-            "`coords_sys` smallint(6) NOT NULL," .
-            "`coords_planet` tinyint(4) NOT NULL," .
-            "`kolo_typ` varchar(20) NOT NULL," .
-            "`eisen` float NOT NULL," .
-            "`eisen_prod` float NOT NULL," .
-            "`eisen_bunker` float NOT NULL," .
-            "`stahl` float NOT NULL," .
-            "`stahl_prod` float NOT NULL," .
-            "`stahl_bunker` float NOT NULL," .
-            "`vv4a` float NOT NULL," .
-            "`vv4a_prod` float NOT NULL," .
-            "`vv4a_bunker` float NOT NULL," .
-            "`chem` float NOT NULL," .
-            "`chem_prod` float NOT NULL," .
-            "`chem_lager` float NOT NULL," .
-            "`chem_bunker` float NOT NULL," .
-            "`eis` float NOT NULL," .
-            "`eis_prod` float NOT NULL," .
-            "`eis_lager` float NOT NULL," .
-            "`eis_bunker` float NOT NULL," .
-            "`wasser` float NOT NULL," .
-            "`wasser_prod` float NOT NULL," .
-            "`wasser_bunker` float NOT NULL," .
-            "`energie` float NOT NULL," .
-            "`energie_prod` float NOT NULL," .
-            "`energie_lager` float NOT NULL," .
-            "`energie_bunker` float NOT NULL," .
-            "`fp` float NULL," .
-            "`fp_b` float NULL," .
-            "`fp_m1` float NULL," .
-            "`fp_m2` float NULL," .
-            "`credits` float NULL," .
-            "`bev_a` float NULL," .
-            "`bev_g` float NULL," .
-            "`bev_q` float NULL," .
-            "`bev_w` float NULL," .
-            "`zufr` float NULL," .
-            "`zufr_w` float NULL," .
-            "`eisen_soll` float NULL," .
-            "`stahl_soll` float NULL," .
-            "`vv4a_soll` float NULL," .
-            "`chem_soll` float NULL," .
-            "`eis_soll` float NULL," .
-            "`wasser_soll` float NULL," .
-            "`energie_soll` float NULL," .
-            "`time` int(11) NOT NULL," .
-            "PRIMARY KEY (`coords_gal`,`coords_sys`,`coords_planet`)" .
-            ") COMMENT='Lagerübersicht'",
-        );
-
-        foreach ($sqlscript as $sql) {
-            echo "<br>" . $sql;
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-        }
-
-        echo "<br>Installation: Datenbankänderungen = <b>OK</b><br>";
-    */
+    //nothing here
 }
 
 //****************************************************************************
@@ -179,20 +115,7 @@ function workInstallConfigString()
 //
 function workUninstallDatabase()
 {
-    /*
-        global $db, $db_tb_lager;
-
-        $sqlscript = array(
-          "DROP TABLE " . $db_tb_lager,
-        );
-
-        foreach ($sqlscript as $sql) {
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-        }
-
-        echo "<br>Deinstallation: Datenbankänderungen = <b>OK</b><br>";
-    */
+    //nothing here
 }
 
 //****************************************************************************
@@ -639,13 +562,13 @@ while ($row = $db->db_fetch_array($result)) {
         'wasser'            => $row['wasser'],
         'energie'           => $row['energie'],
         'time'              => $row['time'],
-        'eisen_soll'        => $row['eisen_soll']=lagersoll($numeisen, $row['coords_gal'], $row['coords_sys'], $row['coords_planet'], $row['eisen_prod'], $row['eisen_soll'], 0),
-        'stahl_soll'        => $row['stahl_soll']=lagersoll($numeisen, $row['coords_gal'], $row['coords_sys'], $row['coords_planet'], $row['stahl_prod'], $row['stahl_soll'], 0),
-        'vv4a_soll'         => $row['vv4a_soll']=lagersoll($numeisen, $row['coords_gal'], $row['coords_sys'], $row['coords_planet'], $row['vv4a_prod'], $row['vv4a_soll'], 0),
+		'eisen_soll'        => $row['eisen_soll']=lagersoll($numeisen, $row['coords_gal'], $row['coords_sys'], $row['coords_planet'], $row['eisen_prod'], $row['eisen_soll'], 0),
+        'stahl_soll'        => $row['stahl_soll']=lagersoll($numstahl, $row['coords_gal'], $row['coords_sys'], $row['coords_planet'], $row['stahl_prod'], $row['stahl_soll'], 0),
+        'vv4a_soll'         => $row['vv4a_soll']=lagersoll($numvv4a, $row['coords_gal'], $row['coords_sys'], $row['coords_planet'], $row['vv4a_prod'], $row['vv4a_soll'], 0),
 		'chem_soll'         => $row['chem_soll']=lagersoll($numchem, $row['coords_gal'], $row['coords_sys'], $row['coords_planet'], $row['chem_prod'], $row['chem_soll'], $row['chem_lager']),
-        'eis_soll'          => $row['eis_soll']=lagersoll($numchem, $row['coords_gal'], $row['coords_sys'], $row['coords_planet'], $row['eis_prod'], $row['eis_soll'], $row['eis_lager']),
-        'wasser_soll'       => $row['wasser_soll']=lagersoll($numchem, $row['coords_gal'], $row['coords_sys'], $row['coords_planet'], $row['wasser_prod'], $row['wasser_soll'], $row['wasser_lager']),
-        'energie_soll'      => $row['energie_soll']=lagersoll($numchem, $row['coords_gal'], $row['coords_sys'], $row['coords_planet'], $row['energie_prod'], $row['energie_soll'], $row['energie_lager']),
+        'eis_soll'          => $row['eis_soll']=lagersoll($numeis, $row['coords_gal'], $row['coords_sys'], $row['coords_planet'], $row['eis_prod'], $row['eis_soll'], $row['eis_lager']),
+        'wasser_soll'       => $row['wasser_soll']=lagersoll($numwasser, $row['coords_gal'], $row['coords_sys'], $row['coords_planet'], $row['wasser_prod'], $row['wasser_soll'], $row['wasser_lager']),
+        'energie_soll'      => $row['energie_soll']=lagersoll($numenergie, $row['coords_gal'], $row['coords_sys'], $row['coords_planet'], $row['energie_prod'], $row['energie_soll'], $row['energie_lager']),
         'eisen_soll_diff'   => $row['eisen_total'] - $row['eisen_soll'],
         'stahl_soll_diff'   => $row['stahl_total'] - $row['stahl_soll'],
         'vv4a_soll_diff'    => $row['vv4a_total'] - $row['vv4a_soll'],
@@ -1638,10 +1561,6 @@ function lagersoll($ressart, $gal, $sys, $plan, $prod, $soll, $lager) {
 					$bedarf=$lager;
 				}
 				
-				if ($soll>$lager) {
-					$soll=$lager;
-				}
-				
 				if ($soll<$bedarf) {
 					$soll=$bedarf;
 				}
@@ -1661,10 +1580,6 @@ function lagersoll($ressart, $gal, $sys, $plan, $prod, $soll, $lager) {
 				
 				if ($bedarf>$lager) {
 					$bedarf=$lager;
-				}
-				
-				if ($soll>$lager) {
-					$soll=$lager;
 				}
 				
 				if ($soll<$bedarf) {
@@ -1688,10 +1603,6 @@ function lagersoll($ressart, $gal, $sys, $plan, $prod, $soll, $lager) {
 					$bedarf=$lager;
 				}
 				
-				if ($soll>$lager) {
-					$soll=$lager;
-				}
-				
 				if ($soll<$bedarf) {
 					$soll=$bedarf;
 				}
@@ -1711,10 +1622,6 @@ function lagersoll($ressart, $gal, $sys, $plan, $prod, $soll, $lager) {
 				
 				if ($bedarf>$lager) {
 					$bedarf=$lager;
-				}
-				
-				if ($soll>$lager) {
-					$soll=$lager;
 				}
 				
 				if ($soll<$bedarf) {

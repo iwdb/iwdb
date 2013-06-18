@@ -58,3 +58,6 @@ ALTER TABLE  `prefix_user` ADD `allow_ip_change` TINYINT( 1 ) UNSIGNED NOT NULL 
 
 -- 13.06.2013 masel : #213
 ALTER TABLE  `prefix_spieler` CHANGE  `dabeiseit`  `dabeiseit` INT( 10 ) UNSIGNED NULL DEFAULT NULL ;
+
+-- 18.06.2013 patsch : automatisches Setzen des Lagersollwertes im Profil ausschalten
+ALTER TABLE `prefix_user` ADD `autlager` TINYINT( 1 ) NOT NULL DEFAULT '1';

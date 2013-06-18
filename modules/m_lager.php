@@ -562,13 +562,13 @@ while ($row = $db->db_fetch_array($result)) {
         'wasser'            => $row['wasser'],
         'energie'           => $row['energie'],
         'time'              => $row['time'],
-		'eisen_soll'        => $row['eisen_soll']=lagersoll($numeisen, $row['coords_gal'], $row['coords_sys'], $row['coords_planet'], $row['eisen_prod'], $row['eisen_soll'], 0),
-        'stahl_soll'        => $row['stahl_soll']=lagersoll($numstahl, $row['coords_gal'], $row['coords_sys'], $row['coords_planet'], $row['stahl_prod'], $row['stahl_soll'], 0),
-        'vv4a_soll'         => $row['vv4a_soll']=lagersoll($numvv4a, $row['coords_gal'], $row['coords_sys'], $row['coords_planet'], $row['vv4a_prod'], $row['vv4a_soll'], 0),
-		'chem_soll'         => $row['chem_soll']=lagersoll($numchem, $row['coords_gal'], $row['coords_sys'], $row['coords_planet'], $row['chem_prod'], $row['chem_soll'], $row['chem_lager']),
-        'eis_soll'          => $row['eis_soll']=lagersoll($numeis, $row['coords_gal'], $row['coords_sys'], $row['coords_planet'], $row['eis_prod'], $row['eis_soll'], $row['eis_lager']),
-        'wasser_soll'       => $row['wasser_soll']=lagersoll($numwasser, $row['coords_gal'], $row['coords_sys'], $row['coords_planet'], $row['wasser_prod'], $row['wasser_soll'], $row['wasser_lager']),
-        'energie_soll'      => $row['energie_soll']=lagersoll($numenergie, $row['coords_gal'], $row['coords_sys'], $row['coords_planet'], $row['energie_prod'], $row['energie_soll'], $row['energie_lager']),
+		'eisen_soll'        => $row['eisen_soll']=lagersoll($row['user'], $numeisen, $row['coords_gal'], $row['coords_sys'], $row['coords_planet'], $row['eisen_prod'], $row['eisen_soll'], 0),
+        'stahl_soll'        => $row['stahl_soll']=lagersoll($row['user'], $numstahl, $row['coords_gal'], $row['coords_sys'], $row['coords_planet'], $row['stahl_prod'], $row['stahl_soll'], 0),
+        'vv4a_soll'         => $row['vv4a_soll']=lagersoll($row['user'], $numvv4a, $row['coords_gal'], $row['coords_sys'], $row['coords_planet'], $row['vv4a_prod'], $row['vv4a_soll'], 0),
+		'chem_soll'         => $row['chem_soll']=lagersoll($row['user'], $numchem, $row['coords_gal'], $row['coords_sys'], $row['coords_planet'], $row['chem_prod'], $row['chem_soll'], $row['chem_lager']),
+        'eis_soll'          => $row['eis_soll']=lagersoll($row['user'], $numeis, $row['coords_gal'], $row['coords_sys'], $row['coords_planet'], $row['eis_prod'], $row['eis_soll'], $row['eis_lager']),
+        'wasser_soll'       => $row['wasser_soll']=lagersoll($row['user'], $numwasser, $row['coords_gal'], $row['coords_sys'], $row['coords_planet'], $row['wasser_prod'], $row['wasser_soll'], $row['wasser_lager']),
+        'energie_soll'      => $row['energie_soll']=lagersoll($row['user'], $numenergie, $row['coords_gal'], $row['coords_sys'], $row['coords_planet'], $row['energie_prod'], $row['energie_soll'], $row['energie_lager']),
         'eisen_soll_diff'   => $row['eisen_total'] - $row['eisen_soll'],
         'stahl_soll_diff'   => $row['stahl_total'] - $row['stahl_soll'],
         'vv4a_soll_diff'    => $row['vv4a_total'] - $row['vv4a_soll'],
@@ -1495,12 +1495,18 @@ function makeurl($newparams)
 // ****************************************************************************
 //
 // Update lager_soll.
-function lagersoll($ressart, $gal, $sys, $plan, $prod, $soll, $lager) {
+function lagersoll($name, $ressart, $gal, $sys, $plan, $prod, $soll, $lager) {
 	
-	global $db, $db_tb_params, $db_tb_lager;
+	global $db, $db_tb_params, $db_tb_lager, $db_tb_user;
+	
+	$sql_lc = $db->db_query("SELECT `autlager` FROM `{$db_tb_user}` WHERE `id` = '" . $name . "';");
+	$result_lc = $db->db_fetch_array($sql_lc);
+	$lagerchange=$result_lc['autlager'];
 	
 	$sql = $db->db_query("SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'hour';");
     $row = $db->db_fetch_array($sql);
+	
+	if ($lagerchange=="1") {
 	
 	switch ($ressart) {
 		case '1':
@@ -1637,6 +1643,7 @@ function lagersoll($ressart, $gal, $sys, $plan, $prod, $soll, $lager) {
 			}
 			
 			break;
+	}
 	}
 	return $soll;
 }

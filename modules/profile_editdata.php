@@ -71,10 +71,9 @@ $editprofile = getVar('editprofile');
 if (!empty($editprofile) AND (($id === $user_id) OR ($user_status === "admin"))) {
     $userd['newpassword']     = getVar('newpassword');
     $userd['newpasswordwdhl'] = getVar('newpasswordwdhl');
-    $userd['email']           = getVar('email');
-    $userd['allow_ip_change'] = (bool)getVar('allow_ip_change');
-    $userd['allianz']         = getVar('allianz');
-    $userd['squad']           = getVar('squad');
+    $userd['email']        = getVar('email');
+    $userd['allianz']      = getVar('allianz');
+    $userd['squad']        = getVar('squad');
 
     $userd['grav_von'] = (float)getVar('grav_von');
     $userd['grav_bis'] = (float)getVar('grav_bis');
@@ -116,6 +115,7 @@ if (!empty($editprofile) AND (($id === $user_id) OR ($user_status === "admin")))
     $userd['syspunkte']     = (int)getVar('syspunkte');
     $userd['status']        = getVar('status');
     $userd['gesperrt']      = (bool)getVar('gesperrt');
+	$userd['autlager']		= (bool)getVar('autlager');
     $userd['menu_default']  = getVar('menu_default');
     $userd['uniprop']       = (bool)getVar('uniprop');
 
@@ -315,25 +315,6 @@ switch ($sound) {
     </td>
     <td class="windowbg1">
         <input type="email" name="email" value="<?php echo $email;?>" style="width: 25em">
-    </td>
-</tr>
-<tr>
-    <td class="windowbg2">
-        IP-Wechsel erlauben:<br>
-        <span style="font-style:italic;">Erlaubt das wechseln der IP während man eingeloggt ist.<br><span class="underline">Verringert die Sicherheit</span>, nur ändern wenn man immer wieder unbeabsichtigt ausgeloggt wird.</span>
-    </td>
-    <td class="windowbg1 noselect">
-        <label><span style='display: block;'>
-                <?php
-                echo makeField(
-                    array(
-                         "type"   => 'checkbox',
-                         "value"  => $allow_ip_change,
-                    ), 'allow_ip_change'
-                );
-                ?>
-            </span>
-        </label>
     </td>
 </tr>
 <tr>
@@ -802,6 +783,16 @@ if ($user_status === "admin") {
 <?php
 }
 ?>
+
+<tr>
+	<td class="windowbg2">
+        Automatische Einstellung Soll-Wert des Lagers?<br>
+		<span style="font-style:italic;">Für die PROs unter euch, die alles selber einstellen möchten im Lager</span>
+    </td>
+	<td class="windowbg1">
+            <input type="checkbox" name="autlager" value="1"<?php echo ($autlager) ? " checked" : "";?>>
+    </td>
+</tr>
 <tr>
     <td class="windowbg2">
         Menü-Darstellung:

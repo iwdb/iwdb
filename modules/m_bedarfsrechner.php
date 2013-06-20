@@ -897,7 +897,7 @@ if (!isset($_POST['schiffe_klplanw']) OR empty($_POST['schiffe_klplanw'])) {
 				($row6['eis']*$_POST['anzahl_dnw']);
 	$eis_schiff = ceil($eis_schiff*$staatsform_kosten*$_POST['gen2']*3600);
 	$eis_geb = ceil($row7['eis']*$_POST['gen4']*3600);
-	$eis = $eis_schiff+$eisen_geb;
+	$eis = $eis_schiff+$eis_geb;
 	$wasser_schiff =	($row1['wasser']*$_POST['anzahl_klplanw']*1.2)+
 				($row2['wasser']*$_POST['anzahl_klorw'])+
 				($row3['wasser']*$_POST['anzahl_miplanw']*1.2)+

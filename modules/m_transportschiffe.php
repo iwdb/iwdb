@@ -314,6 +314,15 @@ $sql .= " WHERE " . sqlPlayerSelection($params['playerSelection']);
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query scans_historie information.', '', __FILE__, __LINE__, $sql);
 
+$num_sys=1;
+$num_gorg=2;
+$num_kam=3;
+$num_flu=4;
+$num_lur=5;
+$num_eisb=6;
+$num_wasch=7;
+$num_see=8;	
+	
 // Abfrage auswerten
 $data = array();
 while ($row = $db->db_fetch_array($result)) {
@@ -391,14 +400,14 @@ while ($row = $db->db_fetch_array($result)) {
         $expand[] = array(
             "coords"                        => $row_detail['coords_gal'] . ":" . $row_detail['coords_sys'] . ":" . $row_detail['coords_planet'],
             "name"                          => $row_detail['planetenname'],
-            "systrans"                      => 0,
-            "lurch"                         => 0,
-            "gorgol"                        => 0,
-            "eisbaer"                       => 0,
-            "kamel"                         => 0,
-            "waschbaer"                     => 0,
-            "flughund"                      => 0,
-            "seepferd"                      => 0,
+            "systrans"                      => $anzahl=getSchiffeKolo($num_sys, $row_detail['coords_gal'], $row_detail['coords_sys'], $row_detail['coords_planet']),
+            "lurch"                         => $anzahl=getSchiffeKolo($num_lur, $row_detail['coords_gal'], $row_detail['coords_sys'], $row_detail['coords_planet']),
+            "gorgol"                        => $anzahl=getSchiffeKolo($num_gorg, $row_detail['coords_gal'], $row_detail['coords_sys'], $row_detail['coords_planet']),
+            "eisbaer"                       => $anzahl=getSchiffeKolo($num_eisb, $row_detail['coords_gal'], $row_detail['coords_sys'], $row_detail['coords_planet']),
+            "kamel"                         => $anzahl=getSchiffeKolo($num_kam, $row_detail['coords_gal'], $row_detail['coords_sys'], $row_detail['coords_planet']),
+            "waschbaer"                     => $anzahl=getSchiffeKolo($num_wasch, $row_detail['coords_gal'], $row_detail['coords_sys'], $row_detail['coords_planet']),
+            "flughund"                      => $anzahl=getSchiffeKolo($num_flu, $row_detail['coords_gal'], $row_detail['coords_sys'], $row_detail['coords_planet']),
+            "seepferd"                      => $anzahl=getSchiffeKolo($num_see, $row_detail['coords_gal'], $row_detail['coords_sys'], $row_detail['coords_planet']),
             "produktion_system_klasse1"     => 0,
             "produktion_system_klasse2"     => 0,
             "transporter_system_klasse1"    => 0,
@@ -821,6 +830,7 @@ echo "</form>\n";
 
 if ($params['soll']) {
     echo 'Berechnete Differenz der ben&ouml;tigten Transportschiffe:<br><br>';
+	echo 'Achtung : in der Detailansicht werden die benötigten Transen für 1x täglich liefern angezeigt !!!<br><br>';
 }
 
 // Daten ausgeben
@@ -1155,4 +1165,51 @@ function makeurl($newparams)
     }
 
     return $url;
+}
+
+// ****************************************************************************
+//
+// Schiffe Detailansicht
+function getSchiffeKolo ($transe, $gal, $sys, $plan) {
+	global $db, $db_tb_lager;
+	
+	$anzahl=0;
+	$klasse1=0;
+	$klasse2=0;
+	
+	$sql_prodde = "SELECT eisen_prod, stahl_prod, vv4a_prod, chem_prod, eis_prod, wasser_prod, energie_prod FROM `{$db_tb_lager}` WHERE (coords_gal=" . $gal . " AND coords_sys=" . $sys . " AND coords_planet=" . $plan .")";
+	$result_prodde = $db->db_query($sql_prodde)
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_prodde);
+	$row_prodde = $db->db_fetch_array($result_prodde);
+	
+	if ($row_prodde['eisen_prod']>0)
+		$klasse1=$klasse1+$row_prodde['eisen_prod']*100*24;
+		
+	if ($row_prodde['stahl_prod']>0)
+		$klasse1=$klasse1+($row_prodde['stahl_prod']*100*24*2);
+		
+	if ($row_prodde['vv4a_prod']>0)
+		$klasse1=$klasse1+($row_prodde['vv4a_prod']*100*24*4);
+		
+	if ($row_prodde['chem_prod']>0)
+		$klasse1=$klasse1+($row_prodde['chem_prod']*100*24*3);
+		
+	
+	if ($row_prodde['eis_prod']>0)
+		$klasse2=$klasse2+($row_prodde['eis_prod']*100*24*2);
+	if ($row_prodde['wasser_prod']>0)
+		$klasse2=$klasse2+($row_prodde['wasser_prod']*100*24*2);
+	if ($row_prodde['energie_prod']>0)
+		$klasse2=$klasse2+($row_prodde['energie_prod']*100*24);
+		
+	if 			($transe=="1") $anzahl=ceil($klasse1/5000);
+	else if	($transe=="2") $anzahl=ceil($klasse1/20000);
+	else if	($transe=="3") $anzahl=ceil($klasse1/75000);
+	else if	($transe=="4") $anzahl=ceil($klasse1/400000);
+	else if	($transe=="5") $anzahl=ceil($klasse2/2000);
+	else if	($transe=="6") $anzahl=ceil($klasse2/10000);
+	else if	($transe=="7") $anzahl=ceil($klasse2/50000);
+	else if	($transe=="8") $anzahl=ceil($klasse2/25000);
+	
+	return (ceil($anzahl/100));
 }

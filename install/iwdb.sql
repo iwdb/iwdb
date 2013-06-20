@@ -1010,6 +1010,7 @@ CREATE TABLE IF NOT EXISTS `prefix_schiffstyp` (
   `kosten_wasser` int(10) unsigned DEFAULT NULL,
   `kosten_energie` int(10) unsigned DEFAULT NULL,
   `kosten_bev` int(10) unsigned DEFAULT NULL,
+  `kosten_creds` int(10) unsigned DEFAULT NULL,
   `GeschwindigkeitSol` mediumint(8) unsigned DEFAULT NULL,
   `GeschwindigkeitGal` mediumint(8) unsigned DEFAULT NULL,
   `canLeaveGalaxy` tinyint(1) DEFAULT NULL,
@@ -1043,7 +1044,7 @@ CREATE TABLE IF NOT EXISTS `prefix_schiffstyp` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `schiff` (`schiff`),
   UNIQUE KEY `id_iw` (`id_iw`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -1337,6 +1338,31 @@ CREATE TABLE IF NOT EXISTS `prefix_versand_auftrag` (
   `art` varchar(20) NOT NULL,
   PRIMARY KEY (`user`,`time`,`pos`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `prefix_gebbaukosten`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_gebbaukosten` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL DEFAULT '',
+  `dauer` int(7) NOT NULL DEFAULT '0',
+  `kosten_eisen` int(10) unsigned DEFAULT NULL,
+  `kosten_stahl` int(10) unsigned DEFAULT NULL,
+  `kosten_vv4a` int(10) unsigned DEFAULT NULL,
+  `kosten_chemie` int(10) unsigned DEFAULT NULL,
+  `kosten_eis` int(10) unsigned DEFAULT NULL,
+  `kosten_wasser` int(10) unsigned DEFAULT NULL,
+  `kosten_energie` int(10) unsigned DEFAULT NULL,
+  `kosten_bev` int(10) unsigned DEFAULT NULL,
+  `kosten_creds` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Gebäudebaukosten einiger Gebäude für Ressbedarfsrechnung' AUTO_INCREMENT=1 ;
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

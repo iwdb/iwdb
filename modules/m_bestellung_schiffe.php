@@ -290,14 +290,25 @@ $config['schiffstypen'] = $schiffstypen;
 // Daten löschen
 if (!empty($params['delete'])) {
     
-	$sql_user = "SELECT `user` FROM `{$db_tb_bestellung_schiffe}` WHERE id=" . $params['delete'];
-	$result_user = $db->db_query($sql_user)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_user);
-	$row_user = $db->db_fetch_array($result_user);
-	$name = $row_user['user'];
-	$logtext = "<font color='#FF0000'><b>Schiffbestellung gelöscht von " . $user_sitterlogin . "</b></font>";
+	$sql = "SELECT `user`, `id` FROM `{$db_tb_bestellung_schiffe}` WHERE id=" . $params['delete'];
+	$result = $db->db_query($sql)
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+	$row = $db->db_fetch_array($result);
+	
+	$sql1 = "SELECT `offen` FROM `{$db_tb_bestellung_schiffe_pos}` WHERE `bestellung_id`=" . $row['id'];
+	$result1 = $db->db_query($sql1)
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql1);
+	$row1 = $db->db_fetch_array($result1);
+	
+	if ($row1['offen']=='0') {
+		$logtext = "<font color='#00EE00'><b>abgearbeitete Schiffbestellung gelöscht von " . $user_sitterlogin . "</b></font>";
+	}
+	else {
+		$logtext = "<font color='#FF0000'><b>Schiffbestellung gelöscht von " . $user_sitterlogin . "</b></font>";
+	}
+	
 	$SQLdata = array (
-		'sitterlogin' 	=> $name,
+		'sitterlogin' 	=> $row['user'],
 		'fromuser'		=> $user_sitterlogin,
 		'date'			=> CURRENT_UNIX_TIME,
 		'action'		=> $logtext

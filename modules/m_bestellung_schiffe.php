@@ -212,7 +212,7 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 // -> Und hier beginnt das eigentliche Modul
 
 //genutzte globale Variablen
-global $db, $db_tb_scans, $db_tb_user, $db_tb_bestellung_projekt, $db_tb_schiffstyp, $db_tb_bestellung_schiffe_pos, $db_tb_bestellung_schiffe, $db_tb_lieferung;
+global $db, $db_tb_scans, $db_tb_user, $db_tb_bestellung_projekt, $db_tb_schiffstyp, $db_tb_bestellung_schiffe_pos, $db_tb_bestellung_schiffe, $db_tb_lieferung, $db_tb_sitterlog;
 global $config_map_galaxy_min, $config_map_galaxy_max, $config_map_system_min, $config_map_system_max, $user_sitterlogin;
 
 // Parameter ermitteln
@@ -289,7 +289,14 @@ $config['schiffstypen'] = $schiffstypen;
 
 // Daten löschen
 if (!empty($params['delete'])) {
-    $sql = "DELETE FROM `" . $db_tb_bestellung_schiffe_pos . "` WHERE `bestellung_id`=" . $params['delete'];
+    
+	$sql_user = "SELECT user FROM " . $db_tb_bestellung_schiffe . " WHERE id=" . $params['delete'];
+	$result_user = $db->db_query($sql_user)
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_user);
+	$row_user = $db->db_fetch_array($result_user);
+	$name = $row_user['user'];
+	
+	$sql = "DELETE FROM `" . $db_tb_bestellung_schiffe_pos . "` WHERE `bestellung_id`=" . $params['delete'];
     debug_var('sql', $sql);
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -299,7 +306,13 @@ if (!empty($params['delete'])) {
     $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
-    $results[]        = "<div class='system_notification'>Datensatz gelöscht.</div><br>";
+    $logtext = "<font color='#FF0000'><b>Schiffbestellung gelöscht von " . $user_sitterlogin . "</b></font>";
+	$sql = "INSERT INTO " . $db_tb_sitterlog . " (sitterlogin, fromuser, date, action) VALUES ('" . $name . "', '" . $user_sitterlogin . "', '" . CURRENT_UNIX_TIME . "', '" . $logtext . "')";
+	debug_var('sql', $sql);
+	$db->db_query($sql)
+		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+		
+	$results[]        = "<div class='system_notification'>Datensatz gelöscht.</div><br>";
     $params['delete'] = '';
     $params['edit']   = '';
 }

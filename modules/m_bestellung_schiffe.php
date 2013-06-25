@@ -290,11 +290,20 @@ $config['schiffstypen'] = $schiffstypen;
 // Daten löschen
 if (!empty($params['delete'])) {
     
-	$sql_user = "SELECT user FROM " . $db_tb_bestellung_schiffe . " WHERE id=" . $params['delete'];
+	$sql_user = "SELECT `user` FROM `{$db_tb_bestellung_schiffe}` WHERE id=" . $params['delete'];
 	$result_user = $db->db_query($sql_user)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_user);
 	$row_user = $db->db_fetch_array($result_user);
 	$name = $row_user['user'];
+	$logtext = "<font color='#FF0000'><b>Schiffbestellung gelöscht von " . $user_sitterlogin . "</b></font>";
+	$SQLdata = array (
+		'sitterlogin' 	=> $name,
+		'fromuser'		=> $user_sitterlogin,
+		'date'			=> CURRENT_UNIX_TIME,
+		'action'		=> $logtext
+	);
+	$db->db_insert($db_tb_sitterlog, $SQLdata)
+      or error(GENERAL_ERROR, 'Could not insert log deleting ship order!', '', __FILE__, __LINE__);
 	
 	$sql = "DELETE FROM `" . $db_tb_bestellung_schiffe_pos . "` WHERE `bestellung_id`=" . $params['delete'];
     debug_var('sql', $sql);
@@ -305,12 +314,6 @@ if (!empty($params['delete'])) {
     debug_var('sql', $sql);
     $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-
-    $logtext = "<font color='#FF0000'><b>Schiffbestellung gelöscht von " . $user_sitterlogin . "</b></font>";
-	$sql = "INSERT INTO " . $db_tb_sitterlog . " (sitterlogin, fromuser, date, action) VALUES ('" . $name . "', '" . $user_sitterlogin . "', '" . CURRENT_UNIX_TIME . "', '" . $logtext . "')";
-	debug_var('sql', $sql);
-	$db->db_query($sql)
-		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 		
 	$results[]        = "<div class='system_notification'>Datensatz gelöscht.</div><br>";
     $params['delete'] = '';

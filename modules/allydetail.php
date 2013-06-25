@@ -501,7 +501,7 @@ if (!empty($allianz)) {
                             echo "<abbr title='Schiffscan von " . strftime(CONFIG_DATETIMEFORMAT, $planidata['schiffscantime']) . "'><img src='".BILDER_PATH."scann_schiff.png' class='middle'><span class='middle'>&thinsp;".makeShortDuration($planidata['schiffscantime']).'</span></abbr>';
                         }
                         if (!empty($planidata['gebscantime'])) {
-                            echo "<abbr title='Gebäudescan von " . strftime(CONFIG_DATETIMEFORMAT, $planidata['gebscantime']) . "'><img src='".BILDER_PATH."scann_geb.png' class='middle'><span class='middle'>&thinsp;".makeShortDuration($planidata['schiffscantime']).'</span></abbr>';
+                            echo "<abbr title='Gebäudescan von " . strftime(CONFIG_DATETIMEFORMAT, $planidata['gebscantime']) . "'><img src='".BILDER_PATH."scann_geb.png' class='middle'><span class='middle'>&thinsp;".makeShortDuration($planidata['gebscantime']).'</span></abbr>';
                         }
 
                         end_row();

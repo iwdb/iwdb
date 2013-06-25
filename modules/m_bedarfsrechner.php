@@ -271,6 +271,8 @@ if (!isset($_POST['schiffe_klplanw']) OR empty($_POST['schiffe_klplanw'])) {
 	$selectedValue_staatsform = $_POST['staatsform'];
 	$selectedValue_gen1 = $_POST['gen1'];
 	$selectedValue_gen2 = $_POST['gen2'];
+	$selectedValue_gen3 = $_POST['gen3'];
+	$selectedValue_gen4 = $_POST['gen4'];
 	$selectedValue_geb = $_POST['gebbau'];
 		
 ?>

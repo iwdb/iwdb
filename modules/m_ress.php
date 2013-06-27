@@ -156,10 +156,26 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 //****************************************************************************
 //
 // -> Und hier beginnt das eigentliche Modul
+global $db, $db_tb_user, $db_tb_ressuebersicht;
+?>
+<script>
+$(document).ready(function(){ 
+    $("table").tablesorter({
+		widgets: [ 'stickyHeaders' ],
+		
+		widgetOptions: {
+
+			// css class name applied to the sticky header row (tr)
+			stickyHeaders : 'tablesorter-stickyHeader'
+		}
+	});
+});
+</script>
+<?php
 
 //bestehende zeit holen
 
-$sql = "SELECT switch FROM $db_tb_user WHERE id = '{$user_id}';";
+$sql = "SELECT `switch` FROM `{$db_tb_user}` WHERE id = '{$user_id}';";
 $result = $db->db_query($sql);
 $row = $db->db_fetch_array($result);
 
@@ -168,7 +184,7 @@ $switch = $row['switch'];
 //Zeit ändern?
 ?>
     <form action="index.php?action=m_ress" method="post">
-        <p>Anzeigen der Produktion für <input type="text" name="switch" size="3"> Stunden <input type="submit" value="speichern" name="form"></p>
+        <p>Anzeigen der Produktion für <input type="number" name="switch" size="3" value="<?php $switch ?>"> Stunden <input type="submit" value="speichern" name="form"></p>
     </form>
 <?php
 
@@ -238,7 +254,6 @@ doc_title("sowie Bevölkerungsdaten");
 	</tbody>
 
 	<?php
-	global $db, $db_tb_ressuebersicht;
 
 	// Anzeigen der Daten im Browser
 	$sql = 	"SELECT `datum` , `user` , `eisen` , `stahl` , `vv4a` , `chem` , `eis` ," .

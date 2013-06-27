@@ -156,6 +156,23 @@ global $db, $db_tb_spieler;
 doc_title("Allianzwechsler");
 echo "<div>Hier kann man sehen, welche Spieler in letzter Zeit die Ally gewechselt haben:</div><br>";
 
+?>
+<script>
+$(document).ready(function(){ 
+    $("table").tablesorter({
+		
+		widgets: [ 'stickyHeaders' ],
+		
+		widgetOptions: {
+
+			// css class name applied to the sticky header row (tr)
+			stickyHeaders : 'tablesorter-stickyHeader'
+		}
+	});
+});
+</script>
+<?php
+
 //Daten von
 $sql_updated = "SELECT MAX(`playerupdate_time`) AS updated FROM `{$db_tb_spieler}`;";
 $result = $db->db_query($sql_updated)

@@ -160,6 +160,22 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 //
 // -> Und hier beginnt das eigentliche Modul
 
+?>
+<script>
+$(document).ready(function(){ 
+    $("table").tablesorter({
+		widgets: [ 'stickyHeaders' ],
+		
+		widgetOptions: {
+
+			// css class name applied to the sticky header row (tr)
+			stickyHeaders : 'tablesorter-stickyHeader'
+		}
+	});
+});
+</script>
+<?php
+
 //getvariablen organisieren
 
 $type  = getVar('type') ? getVar('type') : 'payedto';

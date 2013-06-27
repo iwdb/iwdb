@@ -38,13 +38,20 @@ if (!defined('IRA')) {
 doc_title('Planetenliste');
 ?>
 <script>
-$(document).ready(function() 
-    { 
-        $("#myTable").tablesorter();
-    } 
-);
+$(document).ready(function(){ 
+    $("table").tablesorter({
+		sortList: [[0,0], [1,0]],
+		widgets: [ 'stickyHeaders' ],
+		
+		widgetOptions: {
+
+			// css class name applied to the sticky header row (tr)
+			stickyHeaders : 'tablesorter-stickyHeader'
+		}
+	});
+});
 </script>
-<table id="myTable" class="tablesorter" style="width: 90%;">
+<table class="tablesorter" style="width: 90%;">
 	<thead>
 		<tr class="titlebg">
 			<th>

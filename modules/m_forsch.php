@@ -156,6 +156,22 @@ global $db, $db_tb_user_research, $db_tb_research, $db_tb_user;
 
 doc_title('aktuell laufende Forschungen');
 
+?>
+<script>
+$(document).ready(function(){ 
+    $("table").tablesorter({
+		widgets: [ 'stickyHeaders' ],
+		
+		widgetOptions: {
+
+			// css class name applied to the sticky header row (tr)
+			stickyHeaders : 'tablesorter-stickyHeader'
+		}
+	});
+});
+</script>
+<?php
+
 //$sql = "SELECT `user`, `rId`, `date`, `time` FROM `" . $db_tb_user_research . "` ORDER BY `date` ASC;";
 $sql = "SELECT * FROM " . $db_tb_user_research . " LEFT JOIN " . $db_tb_user . " ON " . $db_tb_user_research . ".user = " . $db_tb_user . ".id WHERE " . $db_tb_user . ".sitten='1' ORDER BY date ASC;";
 $result_user_research = $db->db_query($sql)

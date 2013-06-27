@@ -165,7 +165,6 @@ global $id, $db, $db_tb_schiffstyp, $db_tb_gebbaukosten;
 
 <script>
 $(document).ready(function() {
-	$('form').validatr();
 	$('#btn_reset').click(function(){
 		$(':input').not(':button, :submit, :reset, :hidden').val('');
 		$(':select').not(':button, :submit, :reset, :hidden').val('');
@@ -284,7 +283,7 @@ if (!isset($_POST['schiffe_klplanw']) OR empty($_POST['schiffe_klplanw'])) {
 	<br>
 	<?php
 	echo "<form method=\"POST\" action=\"index.php?action=" . $modulname .
-     "&sid=" . $sid . "\" enctype=\"multipart/form-data\">\n";
+     "&sid=" . $sid . "\" enctype=\"multipart/form-data\" onsubmit=\"return $(this).validate(jQueryFormLang);\">\n";
 	?>
 	<form method="POST" action="index.php?action=bedarf_schiffe" enctype="multipart/form-data">
 		<table id='belegung'>
@@ -1130,4 +1129,3 @@ if (!isset($_POST['schiffe_klplanw']) OR empty($_POST['schiffe_klplanw'])) {
 		</tfoot>
 	</table>				
 </div>
-<script src="javascript/validatr.min.js"></script>

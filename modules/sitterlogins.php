@@ -75,7 +75,15 @@ doc_title('Sitterlogins');
 <script>
 $(document).ready(function(){ 
     $("table").tablesorter({
-		sortList: [[0,0], [1,0]]
+		sortList: [[0,0], [1,0]],
+		
+		widgets: [ 'stickyHeaders' ],
+		
+		widgetOptions: {
+
+			// css class name applied to the sticky header row (tr)
+			stickyHeaders : 'tablesorter-stickyHeader'
+		}
 	});
 });
 </script>
@@ -238,4 +246,3 @@ $(document).ready(function(){
 	</tbody>
 </table>
 <br>
-<script src="javascript/jquery.tablesorter.min.js"></script>

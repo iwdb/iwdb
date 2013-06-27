@@ -31,6 +31,23 @@ if (!defined('IRA')) {
     die('Hacking attempt...');
 }
 
+?>
+<script>
+$(document).ready(function(){ 
+    $("table").tablesorter({
+		sortList: [[1,0]],
+		widgets: [ 'stickyHeaders' ],
+		
+		widgetOptions: {
+
+			// css class name applied to the sticky header row (tr)
+			stickyHeaders : 'tablesorter-stickyHeader'
+		}
+	});
+});
+</script>
+<?php
+
 $sql = "SELECT MAX(date) AS MDATE FROM " . $db_tb_punktelog;
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);

@@ -37,6 +37,22 @@ if (!defined('IRA')) {
 //genutzte globale Variablen
 global $user_sitterlogin, $user_status, $db, $db_tb_sitterlog;
 
+?>
+<script>
+$(document).ready(function(){ 
+    $("table").tablesorter({
+		widgets: [ 'stickyHeaders' ],
+		
+		widgetOptions: {
+
+			// css class name applied to the sticky header row (tr)
+			stickyHeaders : 'tablesorter-stickyHeader'
+		}
+	});
+});
+</script>
+<?php
+
 if ($user_adminsitten == SITTEN_DISABLED) {
     die('Hacking attempt...');
 }

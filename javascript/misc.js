@@ -238,7 +238,8 @@ function confirmlink(link, text) {
 }
 
 jQuery(document).ready(function () {
-    jQuery(".tablesorter").tablesorter({
+    jQuery('form').validatr();
+	jQuery(".tablesorter").tablesorter({
         usNumberFormat : false
     });
 });

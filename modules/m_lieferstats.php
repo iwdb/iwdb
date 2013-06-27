@@ -163,6 +163,26 @@ doc_title($modultitle);
 echo " 	 <br />\n";
 echo " 	 <br />\n";
 
+?>
+<script>
+$(document).ready(function(){ 
+    $("table").tablesorter({
+		sortList: [[10,0], [0,0]],
+		headers: {
+			10: { sortInitialOrder: 'desc' }
+		},
+		widgets: [ 'stickyHeaders' ],
+		
+		widgetOptions: {
+
+			// css class name applied to the sticky header row (tr)
+			stickyHeaders : 'tablesorter-stickyHeader'
+		}
+	});
+});
+</script>
+<?php
+
 $sql = "SELECT `sitterlogin`, `budflesol` FROM `" . $db_tb_user . "`";
 $result_sitterlogin = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -179,7 +199,7 @@ $fak_ene	= 1;
 $fak_bev	= 0;
 
 ?>
-<table data-sortlist='[[10,0],[0,0]]' class='tablesorter'>
+<table class='tablesorter'>
 	<thead>
 		<tr class='center'>
 			<th class='sorter-false' colspan='11'>
@@ -219,7 +239,7 @@ $fak_bev	= 0;
 			<th>
 				<b>Bevölkerung</b>
 			</th>
-			<th class="{sortInitialOrder: 'desc'}">
+			<th>
 				<b>Gesamtpunkte</b>
 			</th>
 		</tr>
@@ -334,7 +354,7 @@ $fak_ene	= 1;
 $fak_bev	= 0;
 
 ?>
-<table data-sortlist='[[10,0],[0,0]]' data-sortInitialOrder='desc' class='tablesorter'>
+<table class='tablesorter'>
 	<thead>
 		<tr class='center'>
 			<th class='sorter-false' colspan='11'>

@@ -75,32 +75,7 @@ $moduldesc = "Zeigt die Gebäudeübersicht an";
 
 function workInstallDatabase()
 {
-    /*
-        global $db, $db_prefix;
-    
-        $sqlscript = array(
-            "CREATE TABLE `" . $db_prefix . "gebaeude_spieler` (" .
-            "`coords_gal` tinyint(4) NOT NULL," .
-            "`coords_sys` smallint(6) NOT NULL," .
-            "`coords_planet` tinyint(4) NOT NULL," .
-            "`kolo_typ` varchar(20) NOT NULL," .
-            "`user` varchar(30) NOT NULL," .
-            "`category` varchar(100) NOT NULL," .
-            "`building` varchar(200) NOT NULL," .
-            "`count` smallint(6) NOT NULL," .
-            "`time` int(11) NOT NULL," .
-            "PRIMARY KEY (`coords_gal`,`coords_sys`,`coords_planet`,`category`,`building`)" .
-            ") COMMENT='Gebaeudeuebersicht'",
-        );
-    
-        foreach ($sqlscript as $sql) {
-            echo "<br>" . $sql;
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-        }
-    
-        echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
-    */
+    //nothing here
 }
 
 //****************************************************************************
@@ -139,20 +114,7 @@ function workInstallConfigString()
 
 function workUninstallDatabase()
 {
-    /*
-    global $db, $db_tb_gebaeude_spieler;
-
-        $sqlscript = array(
-            "DROP TABLE " . $db_tb_gebaeude_spieler,
-        );
-
-    foreach ($sqlscript as $sql) {
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-    }
-
-    echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
-    */
+    //nothing here
 }
 
 //****************************************************************************
@@ -194,6 +156,22 @@ Global $db_tb_user, $db_tb_gebaeude_spieler, $db_tb_gebaeude, $db_tb_scans;
 
 // Titelzeile
 doc_title('Gebäudeübersicht');
+
+?>
+<script>
+$(document).ready(function(){ 
+    $("table").tablesorter({
+		widgets: [ 'stickyHeaders' ],
+		
+		widgetOptions: {
+
+			// css class name applied to the sticky header row (tr)
+			stickyHeaders : 'tablesorter-stickyHeader'
+		}
+	});
+});
+</script>
+<?php
 
 //Gebäudedaten holen
 $sql = "SELECT `name`, `id`, `bild` FROM `{$db_tb_gebaeude}`;";

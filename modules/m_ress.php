@@ -175,7 +175,7 @@ $switch = $row['switch'];
 
 if (isset($_POST['switch'])) {
     $switch = (int)$_POST['switch'];
-    $db->db_update($db_tb_user, array('switch' => $switch), 'WHERE `id`=' . $user_id);
+    $db->db_update($db_tb_user, array('switch' => $switch), "WHERE `id`='" . $user_id . "'");
 }
 
 if (empty($switch) OR $switch < 1) {

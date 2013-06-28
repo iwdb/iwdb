@@ -74,7 +74,7 @@ if (!empty($username)) {
         <table class='table_format' style="margin: 0 auto;">
             <tr>
                 <td class='windowbg2'>Username:&nbsp;</td>
-                <td class='windowbg1'><input style='width: 200px' type='text' name='username' placeholder='IW-Login-Name'></td>
+                <td class='windowbg1'><input style='width: 200px' type='text' name='username' placeholder='IW-Login-Name' required='required'></td>
             </tr>
             <tr>
                 <td class='titlebg center' colspan='2'><input type='submit' value='OK' name='B1' class='submit'></td>

@@ -55,11 +55,11 @@ if (($login_ok === false) AND (!empty($login_id) AND (!empty($login_password))))
     <table class='table_format' style="margin: 0 auto;">
         <tr>
             <td class='windowbg2'>Username:&nbsp;</td>
-            <td class='windowbg1'><input style='width: 200px' type='text' name='login_id'></td>
+            <td class='windowbg1'><input style='width: 200px' type='text' name='login_id' required='required'></td>
         </tr>
         <tr>
             <td class='windowbg2'>Passwort:&nbsp;</td>
-            <td class='windowbg1'><input style='width: 200px' type='password' name='login_password'></td>
+            <td class='windowbg1'><input style='width: 200px' type='password' name='login_password' required='required'></td>
         </tr>
         <tr>
             <td class='windowbg2'>Eingeloggt bleiben?</td>

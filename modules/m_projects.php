@@ -79,25 +79,7 @@ $moduldesc = "Verwaltung von Projekten im Bestellsystem";
 //
 function workInstallDatabase()
 {
-    /*
-    global $db, $db_prefix;
-
-        $sqlscript = array(
-            "CREATE TABLE `" . $db_prefix . "bestellung_projekt" (" .
-              "`name` varchar(30) NOT NULL," .
-              "`prio` int(11) NOT NULL," .
-            "PRIMARY KEY  (`name`)" .
-            "),
-        );
-
-        foreach ($sqlscript as $sql) {
-            echo "<br>" . $sql;
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-        }
-
-    echo "<br>Installation: Datenbankänderungen = <b>OK</b><br>";
-    */
+    //nothing here
 }
 
 //****************************************************************************
@@ -136,20 +118,7 @@ function workInstallConfigString()
 //
 function workUninstallDatabase()
 {
-    /*
-    global $db, $db_tb_bestellung_projekt;
-
-    $sqlscript = array(
-        "DROP TABLE " . $db_tb_bestellung_projekt,
-    );
-
-    foreach ($sqlscript as $sql) {
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-    }
-
-    echo "<br>Deinstallation: Datenbankänderungen = <b>OK</b><br>";
-    */
+    //nothing here
 }
 
 //****************************************************************************
@@ -454,3 +423,4 @@ function makeurl($newparams)
 
     return $url;
 }
+?>

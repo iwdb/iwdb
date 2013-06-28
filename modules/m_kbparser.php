@@ -81,23 +81,7 @@ $moduldesc = "Ausgabe der Kampfberichte im BBCode";
 //
 function workInstallDatabase()
 {
-    /*
-        global $db, $db_prefix;
-
-        $sqlscript = array(
-        "CREATE TABLE " . $db_prefix . "forum
-        (
-            );",
-      );
-
-      foreach($sqlscript as $sql) {
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR,
-                   'Could not query config information.', '',
-                   __FILE__, __LINE__, $sql);
-      }
-      echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
-    */
+    //nothing here
 }
 
 //****************************************************************************
@@ -142,21 +126,7 @@ function workInstallConfigString()
 //
 function workUninstallDatabase()
 {
-    /*
-      global $db, $db_tb_neuername;
-
-      $sqlscript = array(
-        "DROP TABLE " . $db_tb_neuername . ";",
-      );
-
-      foreach($sqlscript as $sql) {
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR,
-                   'Could not query config information.', '',
-                   __FILE__, __LINE__, $sql);
-      }
-      echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
-    */
+    //nothing here
 }
 
 //****************************************************************************
@@ -211,7 +181,7 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 <body>
 
 <form action="index.php?action=kbp" method="post">
-    <textarea name="Eingabe" cols="80" rows="5"></textarea><br/>
+    <textarea name="Eingabe" cols="80" rows="5" placeholder="KB eingeben"></textarea><br/>
     <input type="submit" value="KB haben will!">
 </form>
 

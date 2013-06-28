@@ -125,12 +125,14 @@ if ((($user_adminsitten == SITTEN_BOTH) || ($user_adminsitten == SITTEN_ONLY_LOG
     ?>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="css/style.css" rel="stylesheet" type="text/css">
+	<link href="css/theme.blue.css" rel="stylesheet" type="text/css">
     <!--[if lt IE 9]>
     <script src="javascript/jquery-1.9.1.min.js"></script>
     <![endif]-->
     <!--[if gte IE 9]><!-->
     <script src="javascript/jquery-2.0.2.min.js"></script>
     <!--<![endif]-->
+	<script src="javascript/validatr.min.js"></script>
 </head>
 <?php
 if (!getVar("nobody")) {
@@ -277,6 +279,7 @@ if (!getVar("nobody")) {
     </table>
 </div>
 <script src="javascript/jquery.tablesorter.min.js"></script>
+<script src="javascript/jquery.tablesorter.widgets.min.js"></script>
 <script src="javascript/misc.js"></script>
 </body>
 </html>

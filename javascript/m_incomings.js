@@ -90,5 +90,13 @@ jQuery(document).ready(function () {
         }
     });
 
-    jQuery(".tablesorter").tablesorter();
+    jQuery("table").tablesorter({
+		widgets: [ 'stickyHeaders' ],
+		
+		widgetOptions: {
+
+			// css class name applied to the sticky header row (tr)
+			stickyHeaders : 'tablesorter-stickyHeader'
+		}
+	});
 });

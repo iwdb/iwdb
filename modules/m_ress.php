@@ -157,21 +157,6 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 //
 // -> Und hier beginnt das eigentliche Modul
 global $db, $db_tb_user, $db_tb_ressuebersicht;
-?>
-<script>
-$(document).ready(function(){ 
-    $("table").tablesorter({
-		widgets: [ 'stickyHeaders' ],
-		
-		widgetOptions: {
-
-			// css class name applied to the sticky header row (tr)
-			stickyHeaders : 'tablesorter-stickyHeader'
-		}
-	});
-});
-</script>
-<?php
 
 //bestehende zeit holen
 
@@ -190,7 +175,7 @@ $switch = $row['switch'];
 
 if (isset($_POST['switch'])) {
     $switch = (int)$_POST['switch'];
-    $db->db_update($db_tb_user, array('switch' => $switch), "WHERE `id`='" . $user_id . "'");
+    $db->db_update($db_tb_user, array('switch' => $switch), 'WHERE `id`=' . $user_id);
 }
 
 if (empty($switch) OR $switch < 1) {
@@ -204,7 +189,7 @@ if ($switch === 24) {
 doc_title("sowie Bevölkerungsdaten");
 
 ?>
-<table class='tablesorter' style='width:95%'>
+<table class='tablesorter-blue' style='width:95%'>
 	<thead>
 		<tr>
 			<th>
@@ -355,70 +340,70 @@ doc_title("sowie Bevölkerungsdaten");
 				$result = $db->db_query($sql);
 		while ($row = $db->db_fetch_array($result)) {
 			?>
-			<tr class='titlebg center'>
-				<td colspan='2'>
+			<tr class='center'>
+				<th colspan='2'>
 					<b>Gesamt:</b>
-				</td>
-				<td>
+				</th>
+				<th>
 					<?php
 					echo number_format($row['eisen'] * $switch, 0, ',', '.');
 					?>
-				</td>
-				<td>
+				</th>
+				<th>
 					<?php
 					echo number_format($row['stahl'] * $switch, 0, ',', '.');
 					?>
-				</td>
-				<td>
+				</th>
+				<th>
 					<?php
 					echo number_format($row['vv4a'] * $switch, 0, ',', '.');
 					?>
-				</td>
-				<td>
+				</th>
+				<th>
 					<?php
 					echo number_format($row['chem'] * $switch, 0, ',', '.');
 					?>
-				</td>
-				<td>
+				</th>
+				<th>
 					<?php
 					echo number_format($row['eis'] * $switch, 0, ',', '.');
 					?>
-				</td>
-				<td>
+				</th>
+				<th>
 					<?php
 					echo number_format($row['wasser'] * $switch, 0, ',', '.');
 					?>
-				</td>
-				<td>
+				</th>
+				<th>
 					<?php
 					echo number_format($row['energie'] * $switch, 0, ',', '.');
 					?>
-				</td>
-				<td>
+				</th>
+				<th>
 					<?php
 					echo number_format($row['fp_ph'] * $switch, 0, ',', '.');
 					?>
-				</td>
-				<td>
+				</th>
+				<th>
 					<?php
 					echo number_format($row['credits'] * $switch, 0, ',', '.');
 					?>
-				</td>
-				<td>
+				</th>
+				<th>
 					<?php
 					echo number_format($row['bev_a'], 0, ',', '.');
 					?>
-				</td>
-				<td>
+				</th>
+				<th>
 					<?php
 					echo number_format($row['bev_g'], 0, ',', '.');
 					?>
-				</td>
-				<td>
+				</th>
+				<th>
 					<?php
 					echo "&Oslash;" . number_format($row['bev_q'], 2, ',', '.');
 					?>
-				</td>
+				</th>
 			</tr>
 		<?php
 		}
@@ -478,7 +463,7 @@ foreach ($fleeterlist as $key => $value) {
     echo "\n\n<br><br>\n\n";
 	?>
 	
-    <table class='tablesorter' style='width:95%'>
+    <table class='tablesorter-blue' style='width:95%'>
 		<thead>
 			<tr class='titlebg center'>
 				<th class='sorter-false' colspan='13'>
@@ -705,3 +690,4 @@ foreach ($fleeterlist as $key => $value) {
 	</table>
 <?php
 }
+?>

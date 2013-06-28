@@ -75,59 +75,8 @@ $moduldesc =
 //
 function workInstallDatabase()
 {
-    /*
-        global $db, $db_prefix, $db_tb_user;
-
-      $sqlscript = array(
-        "CREATE TABLE " . $db_prefix . "transferliste(" .
-        " zeitmarke INT(11) NOT NULL, " .
-            " buddler VARCHAR(50) NOT NULL, " .
-        " fleeter VARCHAR(50) NOT NULL, " .
-            " eisen INT DEFAULT '0', " .
-            " stahl INT DEFAULT '0', " .
-            " vv4a INT DEFAULT '0', " .
-            " chem INT DEFAULT '0', " .
-            " eis INT DEFAULT '0', " .
-            " wasser INT DEFAULT '0', " .
-            " energie INT DEFAULT '0', " .
-            " volk INT DEFAULT '0', " .
-            " PRIMARY KEY (zeitmarke, buddler, fleeter) " .
-            ")",
-
-        "ALTER TABLE " . $db_tb_user . " ADD `lasttransport` varchar(11) default NULL",
-
-        "CREATE TABLE `iwdb_transport_einstellungen` (" .
-        "`id` int(11) NOT NULL auto_increment, " .
-        "`name` varchar(30) collate utf8_unicode_ci NOT NULL, ".
-        "`value` varchar(255) collate utf8_unicode_ci default NULL, ".
-        "PRIMARY KEY  (`id`) ".
-        ") ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=10 ",
-      );
-
-  foreach($sqlscript as $sql) {
-    $result = $db->db_query($sql)
-      or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-  }
-
-  echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
-  */
-    /*
-  // Graph-Datei kopieren...
-  if (!copy('graph.gif', 'graph_transport.gif')) {
-      echo "<div class='system_notification'>Installation: Dateikopie für den Graphen = <b>Fehlgeschlagen</b></div>";
-      echo "Bitte manuell die Datei /graph.gif als /graph_transport.gif kopieren/hochladen.";
-  } else {
-      echo "<div class='system_notification'>Installation: Dateikopie für den Graphen = <b>OK</b></div>";
-  }
-  // Rechte auf Graph-Datei setzen...
-  if (!chmod ("graph_transport.gif", 0777)) {
-      echo "<div class='system_notification'>Installation: Dateirechte auf den Graphen = <b>Fehlgeschlagen</b></div>";
-      echo "Bitte manuell die Datei /graph_transport.gif auf CHMOD 777 setzen.";
-  } else {
-      echo "<div class='system_notification'>Installation: Dateirechte auf den Graphen = <b>OK</b></div>";
-  }*/
+    //nothing here
 }
-
 
 //****************************************************************************
 //
@@ -200,29 +149,7 @@ function workInstallConfigString()
 //
 function workUninstallDatabase()
 {
-    /*
-      global $db, $db_tb_transferliste, $db_tb_user;
-
-      $sqlscript = array(
-        "DROP TABLE " . $db_tb_transferliste,
-        "ALTER TABLE " . $db_tb_user . " DROP `lasttransport`",
-      );
-
-  foreach($sqlscript as $sql) {
-    $result = $db->db_query($sql)
-      or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-  }
-
-  echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
-  */
-    /*
-  // Graph-Datei löschen...
-  if (!unlink('graph_transport.gif')) {
-      echo "<div class='system_notification'>Deinstallation: Datei für den Graphen löschen = <b>Fehlgeschlagen</b></div>";
-      echo "Bitte manuell die Datei /graph_transport.gif löschen.";
-  } else {
-      echo "<div class='system_notification'>Deinstallation: Datei für den Graphen löschen = <b>OK</b></div>";
-  }*/
+    //nothing here
 }
 
 //****************************************************************************

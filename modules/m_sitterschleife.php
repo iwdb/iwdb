@@ -11,10 +11,10 @@
  * 20.05.08 Quaki Startseite einlesen und auf Angriffe/Sondierung parsen     *
  * 24.05.08 Quaki Forschungsleerlauf/Bauleerlauf suchen und Auftrag anlegen  *
  * 02.06.08 Quaki time() -> $config_date                                     *
- * 13.09.08 Quaki newscan eingebaut                                             *
- * 04.10.08 Quaki Zeilenumbruch vor anderen Allianzen                         *
+ * 13.09.08 Quaki newscan eingebaut                                          *
+ * 04.10.08 Quaki Zeilenumbruch vor anderen Allianzen                        *
  * 07.10.08 Quaki U-Mod nicht in Sitterschleife anzeigen                     *
- * 20.05.09 Quaki Umbruch nach 20 Accounts                                     *
+ * 20.05.09 Quaki Umbruch nach 20 Accounts                                   *
  * 26.05.09 Quaki Immer mit letztem Fleeter anfangen                         *
  *****************************************************************************
  * This program is free software; you can redistribute it and/or modify it   *

@@ -153,23 +153,6 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 
 doc_title('Artefaktbasen');
 
-?>
-<script>
-$(document).ready(function(){ 
-    $("table").tablesorter({
-		sortList: [[0,0]],
-		widgets: [ 'stickyHeaders' ],
-		
-		widgetOptions: {
-
-			// css class name applied to the sticky header row (tr)
-			stickyHeaders : 'tablesorter-stickyHeader'
-		}
-	});
-});
-</script>
-<?php
-
 // aktuelle Spielerauswahl ermitteln
 $params['playerSelection'] = getVar('playerSelection');
 
@@ -216,7 +199,7 @@ echo '</div><br>';
 
 ?>
 
-<table class='tablesorter'>
+<table class='tablesorter-blue' {sortlist: [[0,0]]}>
 	<thead>
 		<tr>
 			<th>

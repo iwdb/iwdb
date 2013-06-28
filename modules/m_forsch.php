@@ -156,31 +156,14 @@ global $db, $db_tb_user_research, $db_tb_research, $db_tb_user;
 
 doc_title('aktuell laufende Forschungen');
 
-?>
-<script>
-$(document).ready(function(){ 
-    $("table").tablesorter({
-		widgets: [ 'stickyHeaders' ],
-		
-		widgetOptions: {
-
-			// css class name applied to the sticky header row (tr)
-			stickyHeaders : 'tablesorter-stickyHeader'
-		}
-	});
-});
-</script>
-<?php
-
-//$sql = "SELECT `user`, `rId`, `date`, `time` FROM `" . $db_tb_user_research . "` ORDER BY `date` ASC;";
-$sql = "SELECT * FROM " . $db_tb_user_research . " LEFT JOIN " . $db_tb_user . " ON " . $db_tb_user_research . ".user = " . $db_tb_user . ".id WHERE " . $db_tb_user . ".sitten='1' ORDER BY date ASC;";
+$sql = "SELECT * FROM `{$db_tb_user_research}` LEFT JOIN `{$db_tb_user}` ON `{$db_tb_user_research}`.`user` = `{$db_tb_user}`.`id` WHERE `{$db_tb_user}`.`sitten`='1' ORDER BY `date` ASC;";
 $result_user_research = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
 $data = array();
 
 ?>
-<table class='tablesorter'>
+<table class='tablesorter-blue' {sortlist: [[2,0]]}>
 	<thead>
 	<tr>
 		<th>
@@ -189,7 +172,7 @@ $data = array();
 		<th>
 			laufende Forschung
 		</th>
-		<th>
+		<th class="empty-top">
 			Forschung endet
 		</th>
 		<th>
@@ -200,7 +183,7 @@ $data = array();
 	<tbody>
 	<?php
 	while ($row_user_research = $db->db_fetch_array($result_user_research)) {
-		$sql = "SELECT `name` FROM `" . $db_tb_research . "` WHERE `id` ='" . $row_user_research['rId'] . "';";
+		$sql = "SELECT `name` FROM `{$db_tb_research}` WHERE `id` ='" . $row_user_research['rId'] . "';";
 		$result_research = $db->db_query($sql)
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 		$row_research = $db->db_fetch_array($result_research);
@@ -271,63 +254,61 @@ $data = array();
 doc_title('erforschte Forschungen eines Spielers anschauen');
 ?>
 <form method="POST" action="" enctype="multipart/form-data"> 
-<select name="spieler">
-<option value ="">Spieler auswählen ...</option>
-<?php
-$sql = "SELECT id FROM " . $db_tb_user;
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-while($row = mysql_fetch_object($result)) { 
-echo "<option>"; 
-echo $row->id; 
-echo "</option>";  
-} 
-?> 
-</select><br><br> 
-<input type="submit" name="formSubmit" value="und los" >
+	<select name="spieler">
+		<option value ="">Spieler auswählen ...</option>
+			<?php
+			$sql = "SELECT `id` FROM `{$db_tb_user}`";
+			$result = $db->db_query($sql)
+				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+			while ($row = mysql_fetch_object($result)) { 
+				echo "<option>"; 
+				echo $row->id; 
+				echo "</option>";  
+			} 
+			?> 
+	</select>
+	<br><br> 
+	<input type="submit" name="formSubmit" value="und los" >
 </form>
 <br><br>
 
 
 <?php
-if(isset($_POST['formSubmit']) ) {
-	
+if (isset($_POST['formSubmit']) ) {
 	echo "Bisher erforschte Forschungen von " . $_POST['spieler'] . " anschauen";
 	
-	$sql = "SELECT * FROM " . $db_tb_research2user . " WHERE userid = '" . $_POST['spieler'] . "'";
+	$sql = "SELECT * FROM `{$db_tb_research2user}` WHERE `userid` = '" . $_POST['spieler'] . "'";
 	$result = $db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 		
 	?>
-	<table class='tablesorter' style='width:90%'>
-	
-	<thead>
-		<tr>
-			<th>
-				<b>Forschungsname</b>
-			</th>
-		<tr>
-	</thead>
-	<tbody>
-	<?php
-	while ($row = $db->db_fetch_array($result)) {
-		$sql = "SELECT name FROM " . $db_tb_research . " WHERE id ='" . $row['rid'] . "'";
-		$result_forsch = $db->db_query($sql)
-			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-		$row1 = $db->db_fetch_array($result_forsch);
-
-		?>
-		<tr>
-			<td>
-				<?php
-				echo $row1['name'];
-				?>
-			</td>
-		</tr>
-	<?php
-	}
-	?>
-	</tbody>
+	<table class='tablesorter-blue' style='width:90%'>
+		<thead>
+			<tr>
+				<th>
+					<b>Forschungsname</b>
+				</th>
+			<tr>
+		</thead>
+		<tbody>
+			<?php
+			while ($row = $db->db_fetch_array($result)) {
+				$sql = "SELECT `name` FROM `{$db_tb_research}` WHERE `id` ='" . $row['rid'] . "'";
+				$result_forsch = $db->db_query($sql)
+					or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+				$row1 = $db->db_fetch_array($result_forsch);
+			?>
+			<tr>
+				<td>
+					<?php
+					echo $row1['name'];
+					?>
+				</td>
+			</tr>
+			<?php
+			}
+			?>
+		</tbody>
 	</table>
 <?php		
 }

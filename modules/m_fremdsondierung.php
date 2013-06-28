@@ -164,30 +164,15 @@ echo "Anzeige der Sondierungen auf uns in den letzten 14 Tagen";
 echo " 	 <br />\n";
 echo " 	 <br />\n";
 
-?>
-<script>
-$(document).ready(function(){ 
-    $("table").tablesorter({
-		widgets: [ 'stickyHeaders' ],
-		
-		widgetOptions: {
+global $db, $db_tb_fremdsondierung;
 
-			// css class name applied to the sticky header row (tr)
-			stickyHeaders : 'tablesorter-stickyHeader'
-		}
-	});
-});
-</script>
-<?php
-
-$sql = "SELECT * FROM " . $db_tb_fremdsondierung . " WHERE timestamp >" . (CURRENT_UNIX_TIME - 14 * DAY) . " ORDER BY timestamp DESC";
+$sql = "SELECT * FROM `{$db_tb_fremdsondierung}` WHERE `timestamp` >" . (CURRENT_UNIX_TIME - 14 * DAY) . " ORDER BY `timestamp` DESC";
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-
 $data = array();
 
 ?>
-<table class='tablesorter'>
+<table class='tablesorter-blue'>
 	<thead>
 		<tr>
 			<th>

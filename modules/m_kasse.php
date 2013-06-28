@@ -160,22 +160,6 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 //
 // -> Und hier beginnt das eigentliche Modul
 
-?>
-<script>
-$(document).ready(function(){ 
-    $("table").tablesorter({
-		widgets: [ 'stickyHeaders' ],
-		
-		widgetOptions: {
-
-			// css class name applied to the sticky header row (tr)
-			stickyHeaders : 'tablesorter-stickyHeader'
-		}
-	});
-});
-</script>
-<?php
-
 //getvariablen organisieren
 
 $type  = getVar('type') ? getVar('type') : 'payedto';
@@ -323,7 +307,7 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
     $whereclause .= "1";
 
     ?>
-	<table class='tablesorter' style='width:40%'>
+	<table class='tablesorter-blue' style='width:40%'>
 		<thead>
 			<tr class='center'>
 				<th data-sorter="false" colspan='2'>
@@ -382,7 +366,7 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
     $whereclause .= "1";
 
     ?>
-	<table class='tablesorter' style='width:40%'>
+	<table class='tablesorter-blue' style='width:40%'>
 		<thead>
 			<tr class='center'>
 				<th data-sorter="false" colspan='2'>
@@ -440,7 +424,7 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
     $whereclause .= "1";
 
 	?>
-	<table class='tablesorter' style='width:60%'>
+	<table class='tablesorter-blue' style='width:60%'>
 		<thead>
 			<tr class='center'>
 				<th data-sorter="false" colspan='3'>
@@ -507,7 +491,7 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
     $whereclause .= "1";
 
 	?>
-	<table class='tablesorter' style='width:40%'>
+	<table class='tablesorter-blue' style='width:40%'>
 		<thead>
 			<tr class='center'>
 				<th data-sorter="false" colspan='2'>
@@ -569,7 +553,7 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
     $whereclause .= "1";
 
 	?>
-	<table class='tablesorter' style='width:40%'>
+	<table class='tablesorter-blue' style='width:40%'>
 		<thead>
 			<tr class='center'>
 				<th data-sorter="false" colspan='2'>
@@ -612,6 +596,6 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
 			?>
 		</tbody>
 	</table>
-			
 	<?php
 }
+?>

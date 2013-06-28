@@ -286,19 +286,19 @@ if (!isset($_POST['schiffe_klplanw']) OR empty($_POST['schiffe_klplanw'])) {
      "&sid=" . $sid . "\" enctype=\"multipart/form-data\" onsubmit=\"return $(this).validate(jQueryFormLang);\">\n";
 	?>
 	<form method="POST" action="index.php?action=bedarf_schiffe" enctype="multipart/form-data">
-		<table id='belegung'>
+		<table id='belegung' class="table_format_noborder" style='width: 80%'>
 			<thead>
 				<tr>
-					<th>
+					<th data-sorter="false">
 						<b>Werft</b>
 					</th>
-					<th>
+					<th data-sorter="false">
 						<b>gültige Werte</b>
 					</th>
-					<th>
+					<th data-sorter="false">
 						<b>Anzahl</b>
 					</th>
-					<th>
+					<th data-sorter="false">
 						<b>Schiffe</b>
 					</th>
 				</tr>
@@ -469,17 +469,17 @@ if (!isset($_POST['schiffe_klplanw']) OR empty($_POST['schiffe_klplanw'])) {
 		<b>Gebäudeauswahl</b>
 		</div>
 		<br>
-		<table id='gebaude'>
+		<table id='gebaude' class='table_format_noborder' style='width: 80%'>
 			<thead>
 				<tr>
-					<th>
+					<th class='center'  data-sorter="false">
 						<b>Gebäude</b>
 					</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td>
+					<td class='center'>
 						<select name='gebbau'>
 							<option value="">--- Auswahl des Gebäudes ----</option>
 							<?php
@@ -504,13 +504,13 @@ if (!isset($_POST['schiffe_klplanw']) OR empty($_POST['schiffe_klplanw'])) {
 		<b>Genetikauswahl</b>
 		</div>
 		<br>
-		<table id='einstellungen'>
+		<table id='einstellungen' class='table_format_noborder' style='width: 80%'>
 			<thead>
 				<tr>
-					<th>
+					<th data-sorter="false">
 						<b>Einstellung</b>
 					</th>
-					<th>
+					<th data-sorter="false">
 						<b>Werte</b>
 					</th>
 				</tr>
@@ -769,10 +769,10 @@ if (!isset($_POST['schiffe_klplanw']) OR empty($_POST['schiffe_klplanw'])) {
 		<b>Ausgabe für x Stunden</b>
 		</div>
 		<br>
-		<table>
+		<table id='stundberechnung' class='table_format_noborder' style='width: 80%'>
 			<thead>
 				<tr>
-					<th class="center">
+					<th class="center" data-sorter="false">
 						<b> Anzahl der Stunden für die Berechnung</b>
 					</th>
 				</tr>
@@ -788,7 +788,7 @@ if (!isset($_POST['schiffe_klplanw']) OR empty($_POST['schiffe_klplanw'])) {
 		<br>
 		<br>
 		<br>
-		<table>
+		<table class='noborder' style='width: 20%'>
 			<thead>
 			</thead>
 			<tbody>
@@ -950,30 +950,30 @@ if (!isset($_POST['schiffe_klplanw']) OR empty($_POST['schiffe_klplanw'])) {
 	<table class='table_format' id='ressbedarf' style='width: 80%'>
 		<thead>
 			<tr class='windowbg2'>
-				<th>
+				<th data-sorter="false">
 				</th>
-				<th style='width: 9%'>
+				<th style='width: 9%' data-sorter="false">
 					<b>Eisen</b>
 				</th>
-				<th style='width: 9%'>
+				<th style='width: 9%' data-sorter="false">
 					<b>Stahl</b>
 				</th>
-				<th style='width: 9%'>
+				<th style='width: 9%' data-sorter="false">
 					<b>VV4A</b>
 				</th>
-				<th style='width: 9%'>
+				<th style='width: 9%' data-sorter="false">
 					<b>Chemie</b>
 				</th>
-				<th style='width: 9%'>
+				<th style='width: 9%' data-sorter="false">
 					<b>Eis</b>
 				</th>
-				<th style='width: 9%'>
+				<th style='width: 9%' data-sorter="false">
 					<b>Wasser</b>
 				</th>
-				<th style='width: 9%'>
+				<th style='width: 9%' data-sorter="false">
 					<b>Energie</b>
 				</th>
-				<th style='width: 9%'>
+				<th style='width: 9%' data-sorter="false">
 					<b>Credits</b>
 				</th>
 			</tr>

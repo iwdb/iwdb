@@ -72,23 +72,7 @@ doc_title('Sitterlogins');
 
 ?>
 
-<script>
-$(document).ready(function(){ 
-    $("table").tablesorter({
-		sortList: [[0,0], [1,0]],
-		
-		widgets: [ 'stickyHeaders' ],
-		
-		widgetOptions: {
-
-			// css class name applied to the sticky header row (tr)
-			stickyHeaders : 'tablesorter-stickyHeader'
-		}
-	});
-});
-</script>
-
-<table class='tablesorter' style='width: 95%'>
+<table class='tablesorter-blue' {sortlist: [[0,0],[1,0]]} style='width: 95%'>
     <thead>
 		<tr>
 			<th>

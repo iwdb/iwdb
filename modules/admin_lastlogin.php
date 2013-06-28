@@ -41,35 +41,57 @@ if ($user_status != "admin" && $user_status != "hc") {
 
 doc_title("Admin Loginzeit");
 
-start_table();
-start_row("windowbg2", "style='width:20%;'");
-echo "Username";
-next_cell("windowbg2", "style='width:20%;'");
-echo "letzter Login";
-next_cell("windowbg2", "style='width:60%;'");
-end_row();
+?>
+<table class='tablesorter-blue'>
+	<thead>
+		<tr>
+			<th>
+				<b>Username</b>
+			</th>
+			<th>
+				<b>letzter Login</b>
+			</th>
+			<th>
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php
+		$sql = "SELECT `id`, `logindate`, `password` FROM `{$db_tb_user}` ORDER BY `logindate`, `id`";
+		$result = $db->db_query($sql)
+			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
-$sql = "SELECT id, logindate, password FROM " . $db_tb_user . " ORDER BY logindate, id";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-
-while ($row = $db->db_fetch_array($result)) {
-    $nopassword    = (empty($row['password'])) ? " kein Passwort gesetzt" : "";
-    $logindate     = $row['logindate'];
-    $lastlogindate = (empty($logindate)) ? "noch nie"
-        : strftime(CONFIG_DATETIMEFORMAT, $logindate);
-    $lastloggedon  = (empty($logindate))
-        ? ""
-        : floor((CURRENT_UNIX_TIME - $logindate) / DAY) . " Tage her";
-
-    start_row("windowbg1");
-    echo "<a href='index.php?action=profile&id=" . urlencode($row['id']) . "'>" . $row['id'] . "</a>";
-    next_cell("windowbg1");
-    echo $lastlogindate;
-    next_cell("windowbg1");
-    echo $lastloggedon . $nopassword;
-    end_row();
-}
-end_table();
-unset($row);
+		while ($row = $db->db_fetch_array($result)) {
+			$nopassword    = (empty($row['password'])) ? " kein Passwort gesetzt" : "";
+			$logindate     = $row['logindate'];
+			$lastlogindate = (empty($logindate)) ? "noch nie"
+				: strftime(CONFIG_DATETIMEFORMAT, $logindate);
+			$lastloggedon  = (empty($logindate))
+				? ""
+				: floor((CURRENT_UNIX_TIME - $logindate) / DAY) . " Tage her";
+			?>
+			<tr>
+				<td>
+					<?php
+					echo "<a href='index.php?action=profile&id=" . urlencode($row['id']) . "'>" . $row['id'] . "</a>";
+					?>
+				</td>
+				<td>
+					<?php
+					echo $lastlogindate;
+					?>
+				</td>
+				<td>
+					<?php
+					echo $lastloggedon . $nopassword;
+					?>
+				</td>
+			</tr>
+		<?php
+		}
+		?>
+	</tbody>
+</table>
+<?php
 $db->db_free_result($result);
+?>

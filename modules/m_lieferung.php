@@ -567,3 +567,4 @@ function makeurl($newparams)
 
     return $url;
 }
+?>

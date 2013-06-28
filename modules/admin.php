@@ -48,8 +48,6 @@ if ($user_status == "admin") {
     next_cell("menutop center");
     action("admin&uaction=wronglogin", "falsche Logins");
     next_cell("menutop center");
-    action("admin&uaction=style", "Style");
-    next_cell("menutop center");
     action("admin&uaction=einstellungen", "Einstellungen");
     end_row();
     end_table();
@@ -72,9 +70,6 @@ switch ($uaction) {
         break;
     case "wronglogin":
         include("./modules/admin_wronglogin.php");
-        break;
-    case "style":
-        include("./modules/admin_style.php");
         break;
     case "einstellungen":
         include("./modules/admin_einstellungen.php");

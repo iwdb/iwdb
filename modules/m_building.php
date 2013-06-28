@@ -71,38 +71,9 @@ $moduldesc =
 // Function workInstallDatabase is creating all database entries needed for
 // installing this module.
 //
-
 function workInstallDatabase()
 {
-    /*
-        global $db, $db_prefix;
-
-        $sqlscript = array(
-            "ALTER TABLE `" . $db_prefix . "gebaeude` ADD `info` TEXT NOT NULL ," .
-            "ADD `n_building` TEXT NOT NULL ," .
-            "ADD `n_research` TEXT NOT NULL ," .
-            "ADD `n_kolotyp` TEXT NOT NULL ," .
-            "ADD `n_planityp` TEXT NOT NULL ," .
-            "ADD `e_research` TEXT NOT NULL ," .
-            "ADD `e_building` TEXT NOT NULL ," .
-            "ADD `zerstoert` TEXT NOT NULL ," .
-            "ADD `bringt` VARCHAR( 200 ) NOT NULL ," .
-            "ADD `kostet` VARCHAR( 200 ) NOT NULL ," .
-            "ADD `Kosten` VARCHAR( 200 ) NOT NULL ",
-
-            "ALTER TABLE `" . $db_prefix . "gebaeude` ADD `Punkte` INT( 5 ) NOT NULL ," .
-            "CHANGE `category` `category` VARCHAR( 50 ) NOT NULL DEFAULT ' 0. unbekannt' ," .
-            "ADD `MaximaleAnzahl` INT( 3 ) NOT NULL ," .
-            "ADD `typ` VARCHAR( 5 ) NOT NULL ",
-
-      );
-
-        foreach($sqlscript as $sql) {
-            $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-        }
-        echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
-    */
+    //nothing here
 }
 
 //****************************************************************************
@@ -145,22 +116,9 @@ function workInstallConfigString()
 // Function workUninstallDatabase is creating all database entries needed for
 // removing this module.
 //
-
 function workUninstallDatabase()
 {
-    /*
-    global $db, $db_prefix;
-
-    $sqlscript = array(
-        "ALTER TABLE `" . $db_prefix . "gebaeude`  CHANGE `category` `category` VARCHAR( 50 ) NOT NULL DEFAULT '' ",
-    );
-
-    foreach ($sqlscript as $sql) {
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-    }
-    echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
-    */
+    //nothing here
 }
 
 //****************************************************************************
@@ -600,5 +558,5 @@ if (empty($id)) {
     </tr>
     </table>
 <?php
-
 }
+?>

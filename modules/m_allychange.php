@@ -71,15 +71,7 @@ $moduldesc = "zeigt Allianzwechsel der Spieler";
 //
 function workInstallDatabase()
 {
-    global $db, $db_prefix;
-
-    /*	foreach ($sqlscript as $sql) {
-            echo "<br>" . $sql;
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-        }
-
-      echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";*/
+    //nothing here
 }
 
 //****************************************************************************
@@ -156,23 +148,6 @@ global $db, $db_tb_spieler;
 doc_title("Allianzwechsler");
 echo "<div>Hier kann man sehen, welche Spieler in letzter Zeit die Ally gewechselt haben:</div><br>";
 
-?>
-<script>
-$(document).ready(function(){ 
-    $("table").tablesorter({
-		
-		widgets: [ 'stickyHeaders' ],
-		
-		widgetOptions: {
-
-			// css class name applied to the sticky header row (tr)
-			stickyHeaders : 'tablesorter-stickyHeader'
-		}
-	});
-});
-</script>
-<?php
-
 //Daten von
 $sql_updated = "SELECT MAX(`playerupdate_time`) AS updated FROM `{$db_tb_spieler}`;";
 $result = $db->db_query($sql_updated)
@@ -184,7 +159,7 @@ if (empty($playerdata)) {
 } else {
     echo '<div class="textsmall">Daten von ' . strftime(CONFIG_DATETIMEFORMAT, $playerupdatetime) . '</div><br>';
     ?>
-    <table class="tablesorter" style="width: 80%;">
+    <table class="tablesorter-blue" style="width: 80%;">
         <thead>
             <tr>
                 <th>Spieler</th>

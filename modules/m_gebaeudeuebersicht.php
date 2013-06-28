@@ -157,22 +157,6 @@ Global $db_tb_user, $db_tb_gebaeude_spieler, $db_tb_gebaeude, $db_tb_scans;
 // Titelzeile
 doc_title('Gebäudeübersicht');
 
-?>
-<script>
-$(document).ready(function(){ 
-    $("table").tablesorter({
-		widgets: [ 'stickyHeaders' ],
-		
-		widgetOptions: {
-
-			// css class name applied to the sticky header row (tr)
-			stickyHeaders : 'tablesorter-stickyHeader'
-		}
-	});
-});
-</script>
-<?php
-
 //Gebäudedaten holen
 $sql = "SELECT `name`, `id`, `bild` FROM `{$db_tb_gebaeude}`;";
 $result = $db->db_query($sql)
@@ -253,11 +237,11 @@ echo '<br>';
 foreach ($categories as $category => $value) {
 	echo "<br>";
 	?>
-	<table class="tablesorter" style="width: 95%;">
+	<table class="tablesorter-blue" style="width: 95%;">
 		<?php
 		$count = count($categories_buildings[$category]);
 		?>
-		<caption class='titlebg'><?php echo $category ?></caption>
+		<caption><?php echo $category ?></caption>
 		<thead>
 			<tr>
 				<th>
@@ -338,3 +322,4 @@ foreach ($categories as $category => $value) {
     <br>
 <?php
 }
+?>

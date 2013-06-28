@@ -238,9 +238,14 @@ function confirmlink(link, text) {
 }
 
 jQuery(document).ready(function () {
-    jQuery('form').validatr();
-	jQuery(".tablesorter").tablesorter({
-        usNumberFormat : false
+	jQuery('form').validatr();
+	jQuery("table").tablesorter({
+        usNumberFormat : false,
+		widgets: [ 'stickyHeaders' ],
+		widgetOptions: {
+			stickyHeaders : 'tablesorter-stickyHeader'
+		},
+		theme : 'blue',
     });
 });
 

@@ -73,15 +73,7 @@ $moduldesc =
 //
 function workInstallDatabase()
 {
-    //	global $db, $db_tb_user;
-    //
-    //  $sql ="ALTER TABLE `" . $db_tb_user . "`" .
-    //	  " ADD `notice` text NOT NULL AFTER `titel`;";
-    //
-    //  $result = $db->db_query($sql)
-    //	  or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-
-    echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
+    //nothing here
 }
 
 //****************************************************************************
@@ -120,15 +112,7 @@ function workInstallConfigString()
 //
 function workUninstallDatabase()
 {
-    //	global $db, $db_tb_user;
-    //
-    //  $sql ="ALTER TABLE `" . $db_tb_user . "`" .
-    //	  " DROP COLUMN `notice`;";
-    //
-    //  $result = $db->db_query($sql)
-    //    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-
-    echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
+    //nothing here
 }
 
 //****************************************************************************
@@ -256,3 +240,4 @@ if (file_exists("./config/m_research.cfg.php")) {
     echo "<br>";
     echo "Danke an H.G. Blob für die Grafiken der Techtrees. :)";
 }
+?>

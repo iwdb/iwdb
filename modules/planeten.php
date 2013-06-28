@@ -37,23 +37,10 @@ if (!defined('IRA')) {
 
 doc_title('Planetenliste');
 ?>
-<script>
-$(document).ready(function(){ 
-    $("table").tablesorter({
-		sortList: [[0,0], [1,0]],
-		widgets: [ 'stickyHeaders' ],
-		
-		widgetOptions: {
 
-			// css class name applied to the sticky header row (tr)
-			stickyHeaders : 'tablesorter-stickyHeader'
-		}
-	});
-});
-</script>
-<table class="tablesorter" style="width: 90%;">
+<table data-sortlist="[[0,0],[1,0]]" class="tablesorter-blue" style="width: 90%;">
 	<thead>
-		<tr class="titlebg">
+		<tr>
 			<th>
 				<b>Koordinaten</b>
 			</th>
@@ -141,5 +128,4 @@ $(document).ready(function(){
 	</tbody>
 </table>
 <br/>
-<b>K = Kolonie, B = Kampfbasis, S = Sammelbasis, A = Artefaktbasis</b> 
-<script src="javascript/jquery.tablesorter.min.js"></script>
+<b>K = Kolonie, B = Kampfbasis, S = Sammelbasis, A = Artefaktbasis</b>

@@ -89,44 +89,9 @@ $moduldesc = "Flotten versenden aus dem Ziel-/Bestell-/Lagersystem.";
 // Function workInstallDatabase is creating all database entries needed for
 // installing this module. 
 //
-function workInstallDatabase() {
-	global $db, $db_prefix, $db_tb_iwdbtabellen;
-/*
-	$sqlscript = array(
-		"CREATE TABLE `" . $db_prefix . "bestellung` (" .
-		"`id` int(11) NOT NULL auto_increment," .
-		"`user` varchar(30) default NULL," .
-		"`team` varchar(30) default NULL," .
-		"`coords_gal` tinyint(4) NOT NULL," .
-		"`coords_sys` int(11) NOT NULL," .
-		"`coords_planet` tinyint(4) NOT NULL," .
-		"`text` varchar(254) NOT NULL," .
-		"`time` int(12) default NULL," .
-		"`eisen` int(7) default 0," .
-		"`stahl` int(7) default 0," .
-		"`chemie` int(7) default 0," .
-		"`vv4a` int(7) default 0," .
-		"`eis` int(7) default 0," .
-		"`wasser` int(7) default 0," .
-		"`energie` int(7) default 0," .
-		"`credits` int(7) default 0," .
-		"`volk` int(7) default 0," .
-		"`schiff` varchar(50) default NULL," .
-		"`anzahl` int(7) default 1," . 
-		"`prio` int(4) NOT NULL default '1'," .
-		"`taeglich` bit NOT NULL default 0," .
-		"PRIMARY KEY  (`id`)" .
-		") COMMENT='Bestellsystem' AUTO_INCREMENT=1",
-		"INSERT INTO " . $db_tb_iwdbtabellen . " (`name`) VALUES ('bestellung')",
-	);
-
-	foreach ($sqlscript as $sql) {
-		echo "<br>" . $sql;
-		$result = $db->db_query($sql)
-			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-	}
-*/
-	echo "<br>Installation: Datenbankänderungen = <b>OK</b><br>";
+function workInstallDatabase()
+{
+    //nothing here
 }
 
 //****************************************************************************
@@ -161,23 +126,9 @@ function workInstallConfigString() {
 // Function workUninstallDatabase is creating all database entries needed for
 // removing this module. 
 //
-function workUninstallDatabase() {
-    /*
-        global $db, $db_tb_bestellung, $db_tb_iwdbtabellen;
-
-        $sqlscript = array(
-          "DROP TABLE " . $db_tb_bestellung,
-          "DELETE FROM " . $db_tb_iwdbtabellen . " WHERE `name`='bestellung'",
-        );
-
-
-        foreach ($sqlscript as $sql) {
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-        }
-
-        echo "<br>Deinstallation: Datenbankänderungen = <b>OK</b><br>";
-    */
+function workUninstallDatabase()
+{
+    //nothing here
 }
 
 //****************************************************************************

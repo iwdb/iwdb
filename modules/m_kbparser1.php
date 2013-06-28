@@ -84,23 +84,7 @@ $moduldesc =
 //
 function workInstallDatabase()
 {
-    /*
-        global $db, $db_prefix;
-
-      $sqlscript = array(
-        "CREATE TABLE " . $db_prefix . "neuername
-        (
-            );",
-      );
-
-      foreach($sqlscript as $sql) {
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR,
-                   'Could not query config information.', '',
-                   __FILE__, __LINE__, $sql);
-      }
-      echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
-    */
+    //nothing here
 }
 
 //****************************************************************************
@@ -145,21 +129,7 @@ function workInstallConfigString()
 //
 function workUninstallDatabase()
 {
-    /*
-        global $db, $db_tb_neuername;
-
-      $sqlscript = array(
-        "DROP TABLE " . $db_tb_neuername . ";",
-      );
-
-      foreach($sqlscript as $sql) {
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR,
-                   'Could not query config information.', '',
-                   __FILE__, __LINE__, $sql);
-      }
-      echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
-    */
+    //nothing here
 }
 
 //****************************************************************************
@@ -289,7 +259,7 @@ if (empty($parsstatus) == true) //Angabe für die Datei
       		KB-Link:
     		</td>
     		<td  align="center">
-      			<input type="text" name="KBLink" value="" style="width:95%;">
+      			<input type="text" name="KBLink" value="" placeholder="KB-Link" style="width:95%;">
     		</td>
     		<td  align="center" width="50">
       			<input type="submit" value="Go" name="B1" width="45" style="color:#FFFFFF; background-color: #00688B;">
@@ -1408,3 +1378,4 @@ function file_get_contents_utf8($fn)
         mb_detect_encoding($content, 'UTF-8, ISO-8859-1', true)
     );
 }
+?>

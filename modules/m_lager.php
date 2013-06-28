@@ -1647,3 +1647,4 @@ function lagersoll($name, $ressart, $gal, $sys, $plan, $prod, $soll, $lager) {
 	}
 	return $soll;
 }
+?>

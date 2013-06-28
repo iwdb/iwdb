@@ -74,121 +74,10 @@ $moduldesc =
 // Function workInstallDatabase is creating all database entries needed for
 // installing this module.
 //
-
 function workInstallDatabase()
 {
-    /*
-        global $db, $db_prefix, $db_tb_sitterauftrag, $config_gameversion;
-
-      $sqlscript = array(
-        "CREATE TABLE " . $db_prefix . "building2building (" .
-        "  bOld int(10) unsigned NOT NULL default '0'," .
-        "  bNew int(10) unsigned NOT NULL default '0'," .
-        "  PRIMARY KEY (bOld,bNew)" .
-        ") COMMENT='Gebaeude bOld ermöglicht Gebaeude bNew'",
-
-        "CREATE TABLE " . $db_prefix . "building2research (" .
-        "  bId int(10) unsigned NOT NULL default '0'," .
-        "  rId int(10) unsigned NOT NULL default '0'," .
-        "  PRIMARY KEY  (bId,rId)" .
-        ") COMMENT='Gebaeude bId ermöglicht Forschung rId'",
-
-        "CREATE TABLE " . $db_prefix . "research (" .
-        "  ID int(10) unsigned NOT NULL auto_increment," .
-        "  `name` varchar(250) NOT NULL default ''," .
-        "  description text," .
-        "  FP int(10) unsigned NOT NULL default '0'," .
-        "  gebiet int(10) unsigned NOT NULL default '0'," .
-        "  highscore int(10) unsigned NOT NULL default '0'," .
-        "  addcost text," .
-        "  geblevels text," .
-        "  declarations text," .
-        "  defense text," .
-        "  objects text," .
-        "  genetics text," .
-        "  rlevel int(10) unsigned NOT NULL default '0'," .
-        "  gameversion varchar(10) NOT NULL default '" . $config_gameversion . "'," .
-        "  PRIMARY KEY  (ID)," .
-        "  UNIQUE KEY `name` (`name`)" .
-        ") COMMENT='Forschungsinformation fuer Forschung Id'",
-
-        "CREATE TABLE " . $db_prefix . "research2building (" .
-        "  rId int(10) unsigned NOT NULL default '0'," .
-        "  bId int(10) unsigned NOT NULL default '0'," .
-        "  lvl int(10) unsigned NOT NULL default '0'," .
-        "  PRIMARY KEY  (rId,bId,lvl)" .
-        ") COMMENT='Forschung rId ermöglicht Gebaeude(stufe) bId'",
-
-        "CREATE TABLE " . $db_prefix . "research2prototype (" .
-        "  rid int(10) unsigned NOT NULL default '0'," .
-        "  pid int(10) unsigned NOT NULL default '0'," .
-        "  PRIMARY KEY  (rid,pid)" .
-        ") COMMENT='Forschung rId ermöglicht Prototyp pId'",
-
-        "CREATE TABLE " . $db_prefix . "research2research (" .
-        "  rOld int(10) unsigned NOT NULL default '0'," .
-        "  rNew int(10) unsigned NOT NULL default '0'," .
-        "  PRIMARY KEY  (rOld,rNew)" .
-        ") COMMENT='Forschung rOld ermöglicht Forschung rNew'",
-
-        "CREATE TABLE " . $db_prefix . "research2user (" .
-        "  rid int(10) unsigned NOT NULL default '0'," .
-        "  userid varchar(30) NOT NULL default '0'," .
-        "  PRIMARY KEY  (rid,userid)" .
-        ") COMMENT='bereits erforschte Forschungen des Benutzers'",
-
-        "CREATE TABLE " . $db_prefix . "researchfield (" .
-        "  id int(10) unsigned NOT NULL auto_increment," .
-        "  `name` varchar(50) NOT NULL default ''," .
-        "  PRIMARY KEY  (id)" .
-        ") COMMENT='Forschungsfelder'",
-
-        "INSERT INTO " . $db_prefix . "researchfield (id, name) VALUES " .
-        "(0,'noch unbekannt')," .
-        "(1,'---')," .
-        "(2,'Chemie')," .
-        "(3,'Ethik')," .
-        "(4,'Evolution')," .
-        "(5,'Industrie')," .
-        "(6,'Informatik')," .
-        "(7,'Kolonisation')," .
-        "(8,'Militär')," .
-        "(9,'Physik')," .
-        "(10,'Prototypen')," .
-        "(11,'Raumfahrt')," .
-        "(12,'Unifragen')," .
-        "(13,'Wirtschaft')",
-
-        "INSERT INTO " . $db_prefix . "research(id, name, description, gebiet) VALUES " .
-        "(1, 'Basiswissen', 'Ist halt Basiswissen, ohne das lassen sich einige " .
-        "Gebäude einfach nicht bauen.', 1)",
-
-        "INSERT INTO " . $db_prefix . "research2building(rId,bId,lvl) VALUES " .
-        "(1, " . find_the_building_id("Hilfskiste Eis auspacken") . ", 0)," .
-        "(1, " . find_the_building_id("Hilfskiste Eisen auspacken") . ", 0)," .
-        "(1, " . find_the_building_id("Hilfskiste Energie auspacken") . ", 0)," .
-        "(1, " . find_the_building_id("Hilfskiste Stahl auspacken") . ", 0)," .
-        "(1, " . find_the_building_id("Hilfskiste Wasser auspacken") . ", 0)," .
-        "(1, " . find_the_building_id("kleine Eisenmine") . ", 0)," .
-        "(1, " . find_the_building_id("kleines Forschungslabor") . ", 0)," .
-        "(1, " . find_the_building_id("kleines Haus") . ", 0)," .
-        "(1, " . find_the_building_id("kleines Stahlwerk") . ", 0)," .
-        "(1, " . find_the_building_id("Zelt") . ", 0)",
-
-        "ALTER TABLE " . $db_tb_sitterauftrag . " ADD resid INT DEFAULT '0' NOT NULL"
-      );
-
-      foreach($sqlscript as $sql) {
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR,
-                   'Could not query config information.', '',
-                   __FILE__, __LINE__, $sql);
-      }
-      echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
-    */
+    //nothing here
 }
-
-
 
 //****************************************************************************
 //
@@ -230,35 +119,9 @@ function workInstallConfigString()
 // Function workUninstallDatabase is creating all database entries needed for
 // removing this module.
 //
-
 function workUninstallDatabase()
 {
-    /*
-      global $db, $db_tb_sitterauftrag,
-             $db_tb_building2building, $db_tb_building2research,
-             $db_tb_research2research, $db_tb_research2building,
-             $db_tb_research2prototype, $db_tb_research,
-             $db_tb_research2user,     $db_tb_researchfield;
-
-      $sqlscript = array(
-        "DROP TABLE " . $db_tb_building2building,
-        "DROP TABLE " . $db_tb_building2research,
-        "DROP TABLE " . $db_tb_research,
-        "DROP TABLE " . $db_tb_research2building,
-        "DROP TABLE " . $db_tb_research2prototype,
-        "DROP TABLE " . $db_tb_research2research,
-        "DROP TABLE " . $db_tb_research2user,
-        "DROP TABLE " . $db_tb_researchfield,
-        "ALTER TABLE " . $db_tb_sitterauftrag . " DROP COLUMN resid"
-      );
-
-      foreach($sqlscript as $sql) {
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-      }
-
-      echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
-    */
+    //nothing here
 }
 
 // ****************************************************************************
@@ -1087,5 +950,4 @@ function dependend_buildings($resid)
 
     return $retVal;
 }
-
 ?>

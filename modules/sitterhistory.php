@@ -37,22 +37,6 @@ if (!defined('IRA')) {
 //genutzte globale Variablen
 global $user_sitterlogin, $user_status, $db, $db_tb_sitterlog;
 
-?>
-<script>
-$(document).ready(function(){ 
-    $("table").tablesorter({
-		widgets: [ 'stickyHeaders' ],
-		
-		widgetOptions: {
-
-			// css class name applied to the sticky header row (tr)
-			stickyHeaders : 'tablesorter-stickyHeader'
-		}
-	});
-});
-</script>
-<?php
-
 if ($user_adminsitten == SITTEN_DISABLED) {
     die('Hacking attempt...');
 }
@@ -72,14 +56,14 @@ echo "<input type='submit' value='anzeigen' name='B1' class='submit'>\n";
 end_form();
 ?>
 <br>
-<table class="tablesorter" style="width: 90%;">
+<table class="tablesorter-blue" style="width: 90%;">
     <thead>
-	<tr class="titlebg center">
+	<tr class="center">
         <th class='sorter-false' colspan="4">
             <b>Was andere bei <?php echo $selecteduser;?> gemacht haben:</b>
         </th>
     </tr>
-    <tr class="titlebg left">
+    <tr class="left">
         <th style="width:15%;">
             <b>Username</b>
         </th>
@@ -100,7 +84,7 @@ end_form();
 
     while ($row = $db->db_fetch_array($result)) {
         ?>
-        <tr class="windowbg1 left">
+        <tr class="left">
             <td>
                 <?php
                 if ($user_status == "admin") {
@@ -124,14 +108,14 @@ end_form();
 </table>
 <br>
 <br>
-<table class="tablesorter" style="width: 90%;">
+<table class="tablesorter-blue" style="width: 90%;">
     <thead>
-	<tr class="titlebg center">
+	<tr class="center">
         <th class='sorter-false' colspan="4">
             <b>Was <?php echo $selecteduser;?> bei anderen gemacht hat</b>
         </th>
     </tr>
-    <tr class="titlebg left">
+    <tr class="left">
         <th style="width:15%;">
             <b>Username</b>
         </th>
@@ -151,7 +135,7 @@ end_form();
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     while ($row = $db->db_fetch_array($result)) {
         ?>
-        <tr class="windowbg1 left">
+        <tr class="left">
             <td>
                 <?php
                 if ($user_status === "admin") {

@@ -487,3 +487,4 @@ echo "  <td style='width: 100px;'>Von allem ein bissi was</td>\n";
 echo " </tr>\n";
 
 echo "</table>\n";
+?>

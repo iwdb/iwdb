@@ -71,38 +71,9 @@ $moduldesc =
 // Function workInstallDatabase is creating all database entries needed for
 // installing this module.
 //
-
 function workInstallDatabase()
 {
-    /*
-    global $db, $db_prefix;
-
-      $sqlscript = array(
-            "CREATE TABLE IF NOT EXISTS " . $db_prefix . "raidview ( " .
-          " id INT(11) NOT NULL auto_increment, " .
-          " coords VARCHAR(11) NOT NULL DEFAULT '', " .
-          " date  INT(12) NOT NULL DEFAULT '0', " .
-          " eisen INT(11) NOT NULL, " .
-          " stahl INT(11) NOT NULL, " .
-          " vv4a INT(11) NOT NULL, " .
-          " chemie INT(11) NOT NULL, " .
-          " eis INT(11) NOT NULL, " .
-          " link VARCHAR(90) NOT NULL, " .
-          " wasser INT(11) NOT NULL, " .
-          " energie INT(11) NOT NULL, " .
-          " `geraided` VARCHAR( 30 ) NOT NULL " .
-          " user VARCHAR(20) NOT NULL, " .
-          " PRIMARY KEY  (`id`), " .
-          " UNIQUE KEY `coords` (`coords`,`date`)" .
-            " ) COMMENT='Raidberichte';",
-      );
-
-    foreach ($sqlscript as $sql) {
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-    }
-    echo "<br>Installation: Datenbankänderungen = <b>OK</b><br>";
-    */
+    //nothing here
 }
 
 //****************************************************************************

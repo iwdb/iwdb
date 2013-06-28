@@ -78,41 +78,7 @@ $moduldesc = "Bestellsystem zur Koordination von Schiffsbestellungen.";
 //
 function workInstallDatabase()
 {
-    /*
-      global $db, $db_prefix;
-
-      $sqlscript = array(
-          "CREATE TABLE IF NOT EXISTS `" . $db_prefix . "bestellung_schiffe` (
-              `id` int(11) NOT NULL AUTO_INCREMENT,
-              `user` varchar(30) DEFAULT NULL,
-              `team` varchar(30) DEFAULT NULL,
-              `coords_gal` tinyint(4) NOT NULL,
-              `coords_sys` int(11) NOT NULL,
-              `coords_planet` tinyint(4) NOT NULL,
-              `project` varchar(30) NOT NULL,
-              `text` varchar(254) NOT NULL,
-              `time` int(12) DEFAULT NULL,
-              `time_created` int(12) NOT NULL,
-              `erledigt` int(1) NOT NULL DEFAULT '0',
-              PRIMARY KEY (`id`)
-              ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Bestellsystem' AUTO_INCREMENT=1",
-          "CREATE TABLE IF NOT EXISTS `" . $db_prefix . "bestellung_schiffe_pos` (
-              `bestellung_id` int(11) NOT NULL,
-              `schiffstyp_id` int(11) NOT NULL,
-              `menge` int(11) NOT NULL,
-              `offen` int(11) NOT NULL,
-              PRIMARY KEY (`bestellung_id`,`schiffstyp_id`)
-              ) ENGINE=MyISAM DEFAULT CHARSET=utf8;",
-      );
-
-      foreach ($sqlscript as $sql) {
-          echo "<br>" . $sql;
-          $result = $db->db_query($sql)
-              or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-      }
-
-      echo "<br>Installation: Datenbankänderungen = <b>OK</b><br>";
-  */
+    //nothing here
 }
 
 //****************************************************************************
@@ -153,24 +119,9 @@ function workInstallConfigString()
 // Function workUninstallDatabase is creating all database entries needed for
 // removing this module. 
 //
-
 function workUninstallDatabase()
 {
-    /*
-         global $db, $db_tb_bestellung;
-
-        $sqlscript = array(
-          "DROP TABLE " . $db_tb_bestellung,
-          "DROP TABLE " . $db_tb_bestellung_pos,
-        );
-
-        foreach ($sqlscript as $sql) {
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-        }
-
-        echo "<br>Deinstallation: Datenbankänderungen = <b>OK</b><br>";
-    */
+    //nothing here
 }
 
 //****************************************************************************

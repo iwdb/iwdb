@@ -18,36 +18,40 @@ function getIncomingsTables()
 
     //Tabelle für die Sondierungen
     ?>
-    <table class='tablesorter' style='width:95%'>
-        <caption>Sondierungen</caption>
-        <thead>
-        <tr>
-            <th>
-                Opfer
-            </th>
-            <th>
-                Zielplanet
-            </th>
-            <th>
-                Pösewicht
-            </th>
-            <th>
-                Ausgangsplanet
-            </th>
-            <th>
-                Zeitpunkt
-            </th>
-            <th>
-                Art der Sondierung
-            </th>
-            <th>
-                gesaved
-            </th>
-            <th>
-                recalled /<br>nichts zu tun
-            </th>
-        </tr>
-        </thead>
+	<table class='tablesorter-blue' style='width:95%'>
+		<thead>
+			<tr class='center'>
+				<th data-sorter="false" colspan='8'>
+					<b>Sondierungen</b>
+				</th>
+			</tr>
+			<tr>
+				<th>
+					<b>Opfer</b>
+				</th>
+				<th>
+					<b>Zielplanet</b>
+				</th>
+				<th>
+					<b>Pösewicht</b>
+				</th>
+				<th>
+					<b>Ausgangsplanet</b>
+				</th>
+				<th>
+					<b>Zeitpunkt</b>
+				</th>
+				<th>
+					<b>Art der Sondierung</b>
+				</th>
+				<th>
+					<b>gesaved</b>
+				</th>
+				<th>
+					<b>recalled /<br>nichts zu tun</b>
+				</th>
+			</tr>
+		</thead>
 		<tbody>
 
         <?php
@@ -76,47 +80,47 @@ function getIncomingsTables()
 			
 			?>
             
-            <tr>
-                <td>
-                    <?php
+			<tr>
+				<td>
+					<?php
                     echo "<a href='index.php?action=sitterlogins&sitterlogin=" . urlencode($row['name_to']) . "' target='_blank'><img src='" . BILDER_PATH . "user-login.gif' alt='L' title='Einloggen'>";
                     echo "&emsp;" . $row['name_to'];
                     echo "</a>";
                     ?>
-                </td>
-                <td>
-                    <?php
+				</td>
+				<td>
+					<?php
                     echo getObjectPictureByCoords($row['koords_to']);
                     echo $row['koords_to'];
                     ?>
-                </td>
-                <td>
-                    <?php
+				</td>
+				<td>
+					<?php
                     if (!empty($row['allianz_from'])) {
                         echo ($row['name_from'] . " [" . $row['allianz_from'] . "]");
                     } else {
                         echo $row['name_from'];
                     }
                     ?>
-                </td>
-                <td>
-                    <?php
+				</td>
+				<td>
+					<?php
                     echo getObjectPictureByCoords($row['koords_from']);
                     echo $row['koords_from'];
                     ?>
-                </td>
-                <td>
-                    <?php
+				</td>
+				<td>
+					<?php
                     echo strftime(CONFIG_DATETIMEFORMAT, $row['arrivaltime']);
                     ?>
-                </td>
-                <td>
-                    <?php
+				</td>
+				<td>
+					<?php
                     echo $row['art'];
                     ?>
-                </td>
-                <td style="background-color: <?php echo $color1 ?>">
-                    <?php
+				</td>
+				<td style="background-color: <?php echo $color1 ?>">
+					<?php
                     echo "<label><input type='checkbox' class='savedCheckbox' value='$row[koords_to]'";
                     if (!empty($row['saved'])) {
                         echo 'checked="checked"';
@@ -124,19 +128,18 @@ function getIncomingsTables()
                     echo "'>";
                     echo "</label>";
                     ?>
-                </td>
-                <td style="background-color: <?php echo $color2 ?>">
-                    <?php
+				</td>
+				<td style="background-color: <?php echo $color2 ?>">
+					<?php
                     echo "<input type='checkbox' class='recalledCheckbox' value='$row[koords_to]'";
                     if (!empty($row['recalled'])) {
                         echo 'checked="checked"';
                     }
                     echo "'>";
                     ?>
-                </td>
-            </tr>
-            
-        <?php
+				</td>
+			</tr> 
+		<?php
         }
         ?>
 		</tbody>
@@ -152,33 +155,37 @@ function getIncomingsTables()
 
     //Tabelle für die Angriffe
     ?>
-    <table class='tablesorter' style='width:95%'>
-        <caption>Angriffe</caption>
-        <thead>
-        <tr>
-            <th>
-                Opfer
-            </th>
-            <th>
-                Zielplanet
-            </th>
-            <th>
-                Pösewicht
-            </th>
-            <th>
-                Ausgangsplanet
-            </th>
-            <th>
-                Zeitpunkt
-            </th>
-            <th>
-                gesaved
-            </th>
-            <th>
-                recalled /<br>nichts zu tun
-            </th>
-        </tr>
-        </thead>
+    <table class='tablesorter-blue' style='width:95%'>
+		<thead>
+			<tr class='center'>
+				<th data-sorter="false" colspan='7'>
+					<b>Angriffe</b>
+				</th>
+			</tr> 
+			<tr>
+				<th>
+					<b>Opfer</b>
+				</th>
+				<th>
+					<b>Zielplanet</b>
+				</th>
+				<th>
+					<b>Pösewicht</b>
+				</th>
+				<th>
+					<b>Ausgangsplanet</b>
+				</th>
+				<th>
+					<b>Zeitpunkt</b>
+				</th>
+				<th>
+					<b>gesaved</b>
+				</th>
+				<th>
+					<b>recalled /<br>nichts zu tun</b>
+				</th>
+			</tr>
+		</thead>
 		<tbody>
 
         <?php
@@ -208,57 +215,56 @@ function getIncomingsTables()
 			
 			?>
             
-            <tr>
-                <td>
-                    <?php
+			<tr>
+				<td>
+					<?php
                     echo "<a href='index.php?action=sitterlogins&sitterlogin=" . urlencode($row['name_to']) . "' target='_blank'><img src='" . BILDER_PATH . "user-login.gif' alt='L' title='Einloggen'>";
                     echo "&emsp;" . $row['name_to'];
                     echo "</a>";
                     ?>
-                </td>
-                <td>
-                    <?php
+				</td>
+				<td>
+					<?php
                     echo getObjectPictureByCoords($row['koords_to']);
                     echo $row['koords_to'];
                     ?>
-                </td>
-                <td>
-                    <?php
+				</td>
+				<td>
+					<?php
                     if (!empty($row['allianz_from'])) {
                         echo ($row['name_from'] . " [" . $row['allianz_from'] . "]");
                     } else {
                         echo $row['name_from'];
                     }
                     ?>
-                </td>
-                <td>
-                    <?php
+				</td>
+				<td>
+					<?php
                     echo getObjectPictureByCoords($row['koords_from']);
                     echo $row['koords_from'];
                     ?>
-                </td>
-                <td><?php echo strftime(CONFIG_DATETIMEFORMAT, $row['arrivaltime']); ?></td>
-                <td style="background-color: <?php echo $color1 ?>">
-                    <?php
+				</td>
+				<td><?php echo strftime(CONFIG_DATETIMEFORMAT, $row['arrivaltime']); ?></td>
+				<td style="background-color: <?php echo $color1 ?>">
+					<?php
                     echo "<input type='checkbox' class='savedCheckbox' value='$row[koords_to]'";
                     if (!empty($row['saved'])) {
                         echo 'checked="checked"';
                     }
                     echo "'>";
                     ?>
-                </td>
-                <td style="background-color: <?php echo $color2 ?>">
-                    <?php
+				</td>
+				<td style="background-color: <?php echo $color2 ?>">
+					<?php
                     echo "<input type='checkbox' class='recalledCheckbox' value='$row[koords_to]'";
                     if (!empty($row['recalled'])) {
                         echo 'checked="checked"';
                     }
                     echo "'>";
                     ?>
-                </td>
-            </tr>
-            
-        <?php
+				</td>
+			</tr> 
+		<?php
         }
         ?>
 		</tbody>

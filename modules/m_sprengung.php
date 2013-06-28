@@ -145,26 +145,6 @@ if (!empty($_REQUEST['was'])) {
 
 //****************************************************************************
 
-?>
-<script>
-$(document).ready(function(){ 
-    $("table").tablesorter({
-		usNumberFormat : false,
-		sortInitialOrder: "asc",
-		sortList: [[7,0],[0,0]],
-		
-		widgets: [ 'stickyHeaders' ],
-		
-		widgetOptions: {
-
-			// css class name applied to the sticky header row (tr)
-			stickyHeaders : 'tablesorter-stickyHeader'
-		}
-	});
-});
-</script>
-<?php
-
 // Seitenparameter ermitteln und filtern
 $gal_start = filter_int(getVar('gal_start'), $user_gal_start, $config_map_galaxy_min, $config_map_galaxy_max);
 $gal_end = filter_int(getVar('gal_end'), $user_gal_end, $config_map_galaxy_min, $config_map_galaxy_max);
@@ -189,7 +169,7 @@ echo "</form>\n";
 
 ?>
 <br>
-<table class='tablesorter' style='width: 80%;'>
+<table data-sortlist="[[7,0],[0,0]]" class='tablesorter-blue sortInitialOrder-desc' style='width: 80%;'>
     <thead>
 	<tr>
         <th>Koords</th>

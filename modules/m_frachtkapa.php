@@ -291,5 +291,4 @@ doc_title('Frachtkapazitätenberechnung');
         <td class='windowbg2'>Seepferdchen</td>
     </tr>
 </table>
-
 <script src="javascript/frachtkappa.js"></script>

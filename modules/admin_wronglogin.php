@@ -46,42 +46,61 @@ if (!empty($user)) {
     $sql = "DELETE FROM " . $db_tb_wronglogin . " WHERE user='" . $user . "'";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-    doc_message("Loginsperre geloescht");
+    doc_message("Loginsperre gelöscht");
 }
 
 echo "<br>\n";
-start_table();
-start_row("windowbg2", "style='width:30%;'");
-echo "Username";
-next_cell("windowbg2", "style='width:30%;'");
-echo "IPs / Zeit";
-next_cell("windowbg2", "style='width:30%;'");
-end_row();
+?>
+<table class='tablesorter-blue'>
+	<thead>
+		<tr>
+			<th>
+				<b>Username</b>
+			</th>
+			<th>
+				<b>IPs / Zeit</b>
+			</th>
+			<th>
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php
+		$sql = "SELECT `user` FROM `{$db_tb_wronglogin}` GROUP BY `user`";
+		$result = $db->db_query($sql)
+			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
-$sql = "SELECT user FROM " . $db_tb_wronglogin . " GROUP BY user";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+		while ($row = $db->db_fetch_array($result)) {
+			?>
+			<tr>
+				<td>
+					<?php
+					echo $row['user'];
+					?>
+				</td>
+				<td>
+					<?php
+					$sql = "SELECT `ip`, `date` FROM `{$db_tb_wronglogin}` WHERE `user` = '" . $row['user'] . "'";
+					$result_ip = $db->db_query($sql)
+						or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
-while ($row = $db->db_fetch_array($result)) {
-    start_row("windowbg1 top");
-    echo $row['user'];
-    next_cell("windowbg1 top");
-
-    $sql = "SELECT ip, date FROM " . $db_tb_wronglogin .
-        " WHERE user = '" . $row['user'] . "'";
-    $result_ip = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-
-    while ($row_ip = $db->db_fetch_array($result_ip)) {
-        echo "<b>" . $row_ip['ip'] . "</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" .
-            strftime("%H:%M:%S am %d.%m.", $row_ip['date']) . "<br>\n";
-    }
-    next_cell("windowbg1 top");
-    echo "<a href='index.php?action=admin&uaction=wronglogin&user=" . urlencode($row['user']) .
-        "' onclick=\"return confirmlink(this, 'Loginsperre wirklich " .
-        "löschen?')\"><img src='".BILDER_PATH."file_delete_s.gif' " .
-        "alt='löschen'></a>\n";
-    end_row();
-}
-
-end_table();
+					while ($row_ip = $db->db_fetch_array($result_ip)) {
+						echo "<b>" . $row_ip['ip'] . "</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" .
+							strftime("%H:%M:%S am %d.%m.", $row_ip['date']) . "<br>\n";
+					}
+					?>
+				</td>
+				<td>
+					<?php
+					echo "<a href='index.php?action=admin&uaction=wronglogin&user=" . urlencode($row['user']) .
+						"' onclick=\"return confirmlink(this, 'Loginsperre wirklich " .
+						"löschen?')\"><img src='".BILDER_PATH."file_delete_s.gif' " .
+						"alt='löschen'></a>\n";
+					?>
+				</td>
+			</tr>
+		<?php
+		}
+		?>
+	</tbody>
+</table>

@@ -238,8 +238,7 @@ function confirmlink(link, text) {
 }
 
 jQuery(document).ready(function () {
-    jQuery('form').validatr();
-    jQuery("table").tablesorter({
+    jQuery('table').tablesorter({
         usNumberFormat: false,
         widgets: [ 'stickyHeaders' ],
         widgetOptions: {
@@ -247,39 +246,41 @@ jQuery(document).ready(function () {
         },
         theme: 'blue'
     });
-});
 
-//data-unixtime attribut sortierer, tablesorter vorher laden
-jQuery.tablesorter.addParser({
-    id: 'attr-unixtime',
-    is: function (s, table, cell) {
-        return false;             //kein autodetect des parsers, wird durch class 'attr-unixtime' zugewiesen
-    },
-    format: function (s, table, cell, cellIndex) {
-        return jQuery(cell).attr('data-unixtime');         //die jeweilige Unixzeit wird einfach im data-unixtime attribut übergeben und wir sortieren danach
-    },
-    type: 'numeric'
-});
+    //data-unixtime attribut sortierer, tablesorter vorher laden
+    jQuery.tablesorter.addParser({
+        id: 'attr-unixtime',
+        is: function (s, table, cell) {
+            return false;             //kein autodetect des parsers, wird durch class 'attr-unixtime' zugewiesen
+        },
+        format: function (s, table, cell, cellIndex) {
+            return jQuery(cell).attr('data-unixtime');         //die jeweilige Unixzeit wird einfach im data-unixtime attribut übergeben und wir sortieren danach
+        },
+        type: 'numeric'
+    });
 
-//deutsche validatr Fehlermeldungen, validatr vorher laden
-jQuery.validatr.messages = {
-    checkbox: 'Bitte Box anklicken wenn Du fortfahren möchtest.',
-    color: 'Bitte eine Farbe im Format #xxxxxx eingeben.',
-    email: {
-        single: 'Bitte eine eMail-Adresse eingeben.',
-        multiple: 'Bitte eine durch Kommata getrennte Liste von eMail-Adressen eingeben.'
-    },
-    pattern: 'Bitte das korrekte Format eingeben.',
-    radio: 'Bitte eine der Optionen auswählen.',
-    range: {
-        base: 'Bitte einen Wert vom Typ {{type}} eingeben.',
-        overflow: 'Bitte einen Wert vom Typ {{type}} größer oder gleich {{min}} eingeben.',
-        overUnder: 'Bitte einen Wert vom Typ {{type}} größer oder gleich {{min}}<br> und kleiner oder gleich {{max}} eingeben.',
-        invalid: 'Ungültiger Typus {{type}}',
-        underflow: 'Bitte einen Wert vom Typ {{type}} kleiner oder gleich {{max}} eingeben.'
-    },
-    required: 'Bitte dieses Feld ausfüllen.',
-    select: 'Bitte ein Element der Liste auswählen.',
-    time: 'Bitte eine Zeit im Format hh:mm:ss eingeben.',
-    url: 'Bitte eine URL eingeben.'
-};
+    jQuery('form').validatr();
+
+    //deutsche validatr Fehlermeldungen, validatr vorher laden
+    jQuery.validatr.messages = {
+        checkbox: 'Bitte Box anklicken wenn Du fortfahren möchtest.',
+        color: 'Bitte eine Farbe im Format #xxxxxx eingeben.',
+        email: {
+            single: 'Bitte eine eMail-Adresse eingeben.',
+            multiple: 'Bitte eine durch Kommata getrennte Liste von eMail-Adressen eingeben.'
+        },
+        pattern: 'Bitte das korrekte Format eingeben.',
+        radio: 'Bitte eine der Optionen auswählen.',
+        range: {
+            base: 'Bitte einen Wert vom Typ {{type}} eingeben.',
+            overflow: 'Bitte einen Wert vom Typ {{type}} größer oder gleich {{min}} eingeben.',
+            overUnder: 'Bitte einen Wert vom Typ {{type}} größer oder gleich {{min}}<br> und kleiner oder gleich {{max}} eingeben.',
+            invalid: 'Ungültiger Typus {{type}}',
+            underflow: 'Bitte einen Wert vom Typ {{type}} kleiner oder gleich {{max}} eingeben.'
+        },
+        required: 'Bitte dieses Feld ausfüllen.',
+        select: 'Bitte ein Element der Liste auswählen.',
+        time: 'Bitte eine Zeit im Format hh:mm:ss eingeben.',
+        url: 'Bitte eine URL eingeben.'
+    };
+});

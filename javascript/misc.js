@@ -238,14 +238,14 @@ function confirmlink(link, text) {
 }
 
 jQuery(document).ready(function () {
-	jQuery('form').validatr();
-	jQuery("table").tablesorter({
-        usNumberFormat : false,
-		widgets: [ 'stickyHeaders' ],
-		widgetOptions: {
-			stickyHeaders : 'tablesorter-stickyHeader'
-		},
-		theme : 'blue',
+    jQuery('form').validatr();
+    jQuery("table").tablesorter({
+        usNumberFormat: false,
+        widgets: [ 'stickyHeaders' ],
+        widgetOptions: {
+            stickyHeaders: 'tablesorter-stickyHeader'
+        },
+        theme: 'blue'
     });
 });
 
@@ -261,3 +261,26 @@ jQuery.tablesorter.addParser({
     // so it will work for everything, but numeric is faster for numbers
     type: 'numeric'
 });
+
+//deutsche validatr Fehlermeldungen, validatr vorher laden
+jQuery.validatr.messages = {
+    checkbox: 'Bitte Box anklicken wenn Du fortfahren möchtest.',
+    color: 'Bitte eine Farbe im Format #xxxxxx eingeben.',
+    email: {
+        single: 'Bitte eine eMail-Adresse eingeben.',
+        multiple: 'Bitte eine durch Kommata getrennte Liste von eMail-Adressen eingeben.'
+    },
+    pattern: 'Bitte das korrekte Format eingeben.',
+    radio: 'Bitte eine der Optionen auswählen.',
+    range: {
+        base: 'Bitte einen Wert vom Typ {{type}} eingeben.',
+        overflow: 'Bitte einen Wert vom Typ {{type}} größer oder gleich {{min}} eingeben.',
+        overUnder: 'Bitte einen Wert vom Typ {{type}} größer oder gleich {{min}}<br> und kleiner oder gleich {{max}} eingeben.',
+        invalid: 'Ungültiger Typus {{type}}',
+        underflow: 'Bitte einen Wert vom Typ {{type}} kleiner oder gleich {{max}} eingeben.'
+    },
+    required: 'Bitte dieses Feld ausfüllen.',
+    select: 'Bitte ein Element der Liste auswählen.',
+    time: 'Bitte eine Zeit im Format hh:mm:ss eingeben.',
+    url: 'Bitte eine URL eingeben.'
+};

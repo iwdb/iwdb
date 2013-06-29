@@ -132,7 +132,6 @@ if ((($user_adminsitten == SITTEN_BOTH) || ($user_adminsitten == SITTEN_ONLY_LOG
     <!--[if gte IE 9]><!-->
     <script src="javascript/jquery-2.0.2.min.js"></script>
     <!--<![endif]-->
-	<script src="javascript/validatr.min.js"></script>
 </head>
 <?php
 if (!getVar("nobody")) {
@@ -280,6 +279,7 @@ if (!getVar("nobody")) {
 </div>
 <script src="javascript/jquery.tablesorter.min.js"></script>
 <script src="javascript/jquery.tablesorter.widgets.min.js"></script>
+<script src="javascript/validatr.min.js"></script>
 <script src="javascript/misc.js"></script>
 </body>
 </html>

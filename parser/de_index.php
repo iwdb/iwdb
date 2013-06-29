@@ -41,6 +41,8 @@ function parse_de_index($return)
 {
     global $db, $db_tb_scans, $db_tb_user_research, $selectedusername, $scan_datas, $db_tb_params, $db_tb_bestellung, $db_tb_sitterauftrag, $db_tb_research;
 
+    debug_var('Input', $return);
+
     //get Accname
     $AccName = false;
     foreach ($return->objResultData->aContainer as $aContainer) {

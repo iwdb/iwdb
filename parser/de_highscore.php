@@ -107,10 +107,10 @@ function save_playerdata($scan_data)
 
     $sql_player_update .= " ON DUPLICATE KEY UPDATE";
     //Allianz ggf aktualisieren
-    $sql_player_update .= " `allychange_time` = IF((STRCMP(VALUES(`allianz`), `allianz`) AND ((`allychange_time` IS NULL) OR ({$aktualisierungszeit} > `allychange_time`))), {$aktualisierungszeit}, `allychange_time`),"; //Allianzänderungszeit auf die des Scans setzen (wenn sie neuer bzw nicht vorhanden ist und sich die Allianz geändert hat), nachfolgende Abfragen können sich dann darauf beziehen
+    $sql_player_update .= " `allychange_time` = IF((STRCMP(VALUES(`allianz`), `allianz`) AND ((`allychange_time` IS NULL) OR (`allychange_time` < {$aktualisierungszeit}))), {$aktualisierungszeit}, `allychange_time`),"; //Allianzänderungszeit auf die des Scans setzen (wenn sie neuer bzw nicht vorhanden ist und sich die Allianz geändert hat), nachfolgende Abfragen können sich dann darauf beziehen
     $sql_player_update .= " `exallianz` =   IF(((`allychange_time` = {$aktualisierungszeit}) AND (`playerupdate_time` < {$aktualisierungszeit})), `allianz`, `exallianz`),"; //exallianz aktualisieren
+    $sql_player_update .= " `allianz` =     IF(((`allychange_time` = {$aktualisierungszeit}) AND (`playerupdate_time` < {$aktualisierungszeit})), '{$allianz}', `allianz`),"; //neue Allianz schreiben
     $sql_player_update .= " `allianzrang` = IF(((`allychange_time` = {$aktualisierungszeit}) AND (`playerupdate_time` < {$aktualisierungszeit})), NULL, `allianzrang`),"; //alten Allianzrang löschen
-    $sql_player_update .= " `allianz` =     IF(((`allychange_time` = {$aktualisierungszeit}) AND (`playerupdate_time` < {$aktualisierungszeit})), VALUES(`allianz`), `allianz`),"; //neue Allianz schreiben
     $sql_player_update .= " `playerupdate_time` = IF((`playerupdate_time` < {$aktualisierungszeit}), {$aktualisierungszeit}, `playerupdate_time`),"; //Angabe des Updates der Spielerinformationen aktualisieren
     //Punktegleichheit ggf aktualisieren
     $sql_player_update .= " `gebp_nodiff` = IF((`gebp` = {$gebp}), `gebp_nodiff`, {$aktualisierungszeit}),"; //Angabe des Updates der Spielerinformationen aktualisieren
@@ -120,6 +120,7 @@ function save_playerdata($scan_data)
 
     //andere Spielerdaten eintragen
     unset($scan_data['allianz']);
+
     $db->db_insertupdate($db_tb_spieler, $scan_data)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
 

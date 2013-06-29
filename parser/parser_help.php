@@ -89,7 +89,7 @@ function ResetPlaniedataByCoords($coords)
     );
 
     $db->db_update($db_tb_scans, $data, "WHERE `coords` = '{$coords}';")
-        or error(GENERAL_ERROR, 'DB ResetPlaniedata Fehler!', '', __FILE__, __LINE__, '');
+        or error(GENERAL_ERROR, 'DB ResetPlaniedataByCoords Fehler!', '', __FILE__, __LINE__, '');
 }
 
 /**
@@ -171,7 +171,7 @@ function ResetGeodataByCoords($coords)
     );
 
     $db->db_update($db_tb_scans, $data, "WHERE `coords` = '{$coords}';")
-        or error(GENERAL_ERROR, 'DB ResetPlaniedata Fehler!', '', __FILE__, __LINE__, '');
+        or error(GENERAL_ERROR, 'DB ResetGeodataByCoords Fehler!', '', __FILE__, __LINE__, '');
 }
 
 /**
@@ -227,7 +227,7 @@ function AddAllychangetoHistoryByUser($name)
             ON DUPLICATE KEY UPDATE `{$db_tb_spielerallychange}`.`name`=`{$db_tb_spielerallychange}`.`name`"; //means ON DUPLICATE KEY 'DO NOTHING'
 
     $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'DB AddAllychangetoHistory Fehler!', '', __FILE__, __LINE__, $sql);
+        or error(GENERAL_ERROR, 'DB AddAllychangetoHistoryByUser Fehler!', '', __FILE__, __LINE__, $sql);
 }
 
 /**

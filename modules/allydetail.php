@@ -485,7 +485,7 @@ if (!empty($allianz)) {
                 next_cell("windowbg1 left");
                 if (!empty($player[$playername]['Kolonie'])) {
                     start_table(100, 0, 4, 1);
-                    //var_dump($player[$playername]['Kolonie']);
+
                     foreach ($player[$playername]['Kolonie'] as $coords => $planidata) {
                         start_row("windowbg1 left", "style='width:50%';");
                         if (!empty($row['Hauptplanet']) AND ($row['Hauptplanet'] == $coords)) {

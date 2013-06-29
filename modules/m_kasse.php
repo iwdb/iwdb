@@ -162,7 +162,7 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 
 //getvariablen organisieren
 
-$type  = getVar('type') ? getVar('type') : 'payedto';
+$type = getVar('type') ? getVar('type') : 'payedto';
 
 if (getVar('fromday') && getVar('fromyear') && getVar('frommonth')) {
     $fromday   = sprintf('%02d', getVar('fromday'));
@@ -198,9 +198,6 @@ if (strtolower($user_status) == 'admin' && getVar('allianz')) {
     $allianz = getVar('allianz');
     $allianz = urldecode($allianz);
 }
-
-//url fürs sortieren wieder zusammensetzen
-$url = "index.php?action=m_kasse&type=$type&today=$today&tomonth=$tomonth&toyear=$toyear&fromday=$fromday&frommonth=$frommonth&fromyear=$fromyear&allianz=$allianz";
 
 doc_title("Allianzkasse");
 

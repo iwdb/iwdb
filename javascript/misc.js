@@ -249,16 +249,15 @@ jQuery(document).ready(function () {
     });
 });
 
+//data-unixtime attribut sortierer, tablesorter vorher laden
 jQuery.tablesorter.addParser({
     id: 'attr-unixtime',
     is: function (s, table, cell) {
-        return false;             //kein autodetect des parsers, wird durch class 'sorter-planieresetduration' zugewiesen
+        return false;             //kein autodetect des parsers, wird durch class 'attr-unixtime' zugewiesen
     },
     format: function (s, table, cell, cellIndex) {
-        return jQuery(cell).attr('data-unixtime');         //Sprengzeit wird einfach im data-planieresetduration attribut übergeben und wir sortieren danach
+        return jQuery(cell).attr('data-unixtime');         //die jeweilige Unixzeit wird einfach im data-unixtime attribut übergeben und wir sortieren danach
     },
-    // set the type to either numeric or text (text uses a natural sort function
-    // so it will work for everything, but numeric is faster for numbers
     type: 'numeric'
 });
 

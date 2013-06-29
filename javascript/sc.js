@@ -6,9 +6,13 @@ function SondenRechnen() {
     "use strict";
     var X11Benoetigt, TerminusBenoetigt, X13Benoetigt;
 
-    //Limitieren des Input auf max 4 Stellen
-    document.getElementById('SD01').value = document.getElementById('SD01').value.slice(0, 4);
-    document.getElementById('SD02').value = document.getElementById('SD02').value.slice(0, 4);
+    //fix missing maxLength limitation on number inputs
+    if (document.getElementById('SD01').value.length > document.getElementById('SD01').maxLength) {
+        document.getElementById('SD01').value = document.getElementById('SD01').value.slice(0, document.getElementById('SD01').maxLength);
+    }
+    if (document.getElementById('SD02').value.length > document.getElementById('SD02').maxLength) {
+        document.getElementById('SD02').value = document.getElementById('SD02').value.slice(0, document.getElementById('SD02').maxLength);
+    }
 
     var AnzahlSD01 = +document.getElementById('SD01').value;
     var AnzahlSD02 = +document.getElementById('SD02').value;

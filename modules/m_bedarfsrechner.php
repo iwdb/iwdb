@@ -155,112 +155,119 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 
 doc_title('Ressbedarfsrechner');
 
-global $id, $db, $db_tb_schiffstyp, $db_tb_gebbaukosten;
+global $db, $db_tb_schiffstyp, $db_tb_gebbaukosten, $db_tb_scans, $db_tb_user, $user_sitterlogin;
 
 ?>
 <style type="text/css">
+	.hidden{display: none;}
 	option.red{color:red}
 	option.green{color:green}
 </style>
-
 <script>
-$(document).ready(function() {
+jQuery(document).ready(function() {
 	$('#btn_reset').click(function(){
 		$(':input').not(':button, :submit, :reset, :hidden').val('');
 		$(':select').not(':button, :submit, :reset, :hidden').val('');
 	});
 });
-</script>
+</script
 <?php
 
-$sql_klplanw = "SELECT schiff FROM `{$db_tb_schiffstyp}` WHERE `{$db_tb_schiffstyp}`.`werftTyp`='kleine' AND `{$db_tb_schiffstyp}`.`typ`!='admin' ORDER BY `{$db_tb_schiffstyp}`.`schiff` ASC";
+$sql_plani = "SELECT `coords` FROM `{$db_tb_scans}` WHERE `user`='" . $user_sitterlogin . "'";
+$result_plani = $db->db_query($sql_plani)
+	or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_plani);
+	
+$sql_klplanw = "SELECT `schiff` FROM `{$db_tb_schiffstyp}` WHERE `{$db_tb_schiffstyp}`.`werftTyp`='kleine' AND `{$db_tb_schiffstyp}`.`typ`!='admin' ORDER BY `{$db_tb_schiffstyp}`.`schiff` ASC";
 $result_klplanw = $db->db_query($sql_klplanw)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_klplanw);
+    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_klplanw);
 
-$sql_klorw = "SELECT schiff FROM `{$db_tb_schiffstyp}` WHERE `{$db_tb_schiffstyp}`.`werftTyp`='kleine' AND `{$db_tb_schiffstyp}`.`typ`!='admin' ORDER BY `{$db_tb_schiffstyp}`.`schiff` ASC";
+$sql_klorw = "SELECT `schiff` FROM `{$db_tb_schiffstyp}` WHERE `{$db_tb_schiffstyp}`.`werftTyp`='kleine' AND `{$db_tb_schiffstyp}`.`typ`!='admin' ORDER BY `{$db_tb_schiffstyp}`.`schiff` ASC";
 $result_klorw = $db->db_query($sql_klorw)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_klorw);
+    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_klorw);
 
-$sql_miorw = "SELECT schiff FROM `{$db_tb_schiffstyp}` WHERE `{$db_tb_schiffstyp}`.`werftTyp`='mittlere' AND `{$db_tb_schiffstyp}`.`typ`!='admin' ORDER BY `{$db_tb_schiffstyp}`.`schiff` ASC";
+$sql_miorw = "SELECT `schiff` FROM `{$db_tb_schiffstyp}` WHERE `{$db_tb_schiffstyp}`.`werftTyp`='mittlere' AND `{$db_tb_schiffstyp}`.`typ`!='admin' ORDER BY `{$db_tb_schiffstyp}`.`schiff` ASC";
 $result_miorw = $db->db_query($sql_miorw)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_miw);
+    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_miw);
 
-$sql_miw = "SELECT schiff FROM `{$db_tb_schiffstyp}` WHERE `{$db_tb_schiffstyp}`.`werftTyp`='mittlere' AND `{$db_tb_schiffstyp}`.`typ`!='admin' ORDER BY `{$db_tb_schiffstyp}`.`schiff` ASC";
+$sql_miw = "SELECT `schiff` FROM `{$db_tb_schiffstyp}` WHERE `{$db_tb_schiffstyp}`.`werftTyp`='mittlere' AND `{$db_tb_schiffstyp}`.`typ`!='admin' ORDER BY `{$db_tb_schiffstyp}`.`schiff` ASC";
 $result_miplanw = $db->db_query($sql_miw)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_miw);
+    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_miw);
 		
-$sql_grw = "SELECT schiff FROM `{$db_tb_schiffstyp}` WHERE `{$db_tb_schiffstyp}`.`werftTyp`='große' AND `{$db_tb_schiffstyp}`.`typ`!='admin' ORDER BY `{$db_tb_schiffstyp}`.`schiff` ASC";
+$sql_grw = "SELECT `schiff` FROM `{$db_tb_schiffstyp}` WHERE `{$db_tb_schiffstyp}`.`werftTyp`='große' AND `{$db_tb_schiffstyp}`.`typ`!='admin' ORDER BY `{$db_tb_schiffstyp}`.`schiff` ASC";
 $result_grw = $db->db_query($sql_grw)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_grw);
+    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_grw);
 		
-$sql_dnw = "SELECT schiff FROM `{$db_tb_schiffstyp}` WHERE `{$db_tb_schiffstyp}`.`werftTyp`='Dreadnought' AND `{$db_tb_schiffstyp}`.`typ`!='admin' ORDER BY `{$db_tb_schiffstyp}`.`schiff` ASC";
+$sql_dnw = "SELECT `schiff` FROM `{$db_tb_schiffstyp}` WHERE `{$db_tb_schiffstyp}`.`werftTyp`='Dreadnought' AND `{$db_tb_schiffstyp}`.`typ`!='admin' ORDER BY `{$db_tb_schiffstyp}`.`schiff` ASC";
 $result_dnw = $db->db_query($sql_dnw)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_dnw);
+    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_dnw);
 		
-$sql_geb = "SELECT name FROM `{$db_tb_gebbaukosten}` ORDER BY `{$db_tb_gebbaukosten}`.`name` ASC";
+$sql_geb = "SELECT `name` FROM `{$db_tb_gebbaukosten}` ORDER BY `{$db_tb_gebbaukosten}`.`name` ASC";
 $result_geb = $db->db_query($sql_geb)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_geb);
+    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_geb);
 		
 	
+if (!isset($_POST['auswahl_plani']) OR empty($_POST['auswahl_plani'])) {
+		$_POST['auswahl_plani']='';
+}
 if (!isset($_POST['schiffe_klplanw']) OR empty($_POST['schiffe_klplanw'])) {
 		$_POST['schiffe_klplanw']='';
-	}
-	if (!isset($_POST['schiffe_klorw']) OR empty($_POST['schiffe_klorw'])) {
-		$_POST['schiffe_klorw']='';
-	}
-	if (!isset($_POST['schiffe_miplanw']) OR empty($_POST['schiffe_miplanw'])) {
-		$_POST['schiffe_miplanw']='';
-	}
-	if (!isset($_POST['schiffe_miorw']) OR empty($_POST['schiffe_miorw'])) {
-		$_POST['schiffe_miorw']='';
-	}
-	if (!isset($_POST['schiffe_grw']) OR empty($_POST['schiffe_grw'])) {
-		$_POST['schiffe_grw']='';
-	}
-	if (!isset($_POST['schiffe_dnw']) OR empty($_POST['schiffe_dnw'])) {
-		$_POST['schiffe_dnw']='';
-	}
-	if (!isset($_POST['staatsform']) OR empty($_POST['staatsform'])) {
-		$_POST['staatsform']='';
-	}
-	if (!isset($_POST['anzahl_klplanw']) OR empty($_POST['anzahl_klplanw'])) {
-		$_POST['anzahl_klplanw']='0';
-	}
-	if (!isset($_POST['anzahl_klorw']) OR empty($_POST['anzahl_klorw'])) {
-		$_POST['anzahl_klorw']='0';
-	}
-	if (!isset($_POST['anzahl_miplanw']) OR empty($_POST['anzahl_miplanw'])) {
-		$_POST['anzahl_miplanw']='0';
-	}
-	if (!isset($_POST['anzahl_miorw']) OR empty($_POST['anzahl_miorw'])) {
-		$_POST['anzahl_miorw']='0';
-	}
-	if (!isset($_POST['anzahl_grw']) OR empty($_POST['anzahl_grw'])) {
-		$_POST['anzahl_grw']='0';
-	}
-	if (!isset($_POST['anzahl_dnw']) OR empty($_POST['anzahl_dnw'])) {
-		$_POST['anzahl_dnw']='0';
-	}
-	if (!isset($_POST['gen1']) OR empty($_POST['gen1'])) {
-		$_POST['gen1']='1';
-	}
-	if (!isset($_POST['gen2']) OR empty($_POST['gen2'])) {
-		$_POST['gen2']='1';
-	}
-	if (!isset($_POST['gen3']) OR empty($_POST['gen3'])) {
-		$_POST['gen3']='1';
-	}
-	if (!isset($_POST['gen4']) OR empty($_POST['gen4'])) {
-		$_POST['gen4']='1';
-	}
-	if (!isset($_POST['gebbau']) OR empty($_POST['gebbau'])) {
-		$_POST['gebbau']='';
-	}
-	if (!isset($_POST['ber_hour']) OR empty($_POST['ber_hour'])) {
-		$_POST['ber_hour']='36';
-	}
+}
+if (!isset($_POST['schiffe_klorw']) OR empty($_POST['schiffe_klorw'])) {
+	$_POST['schiffe_klorw']='';
+}
+if (!isset($_POST['schiffe_miplanw']) OR empty($_POST['schiffe_miplanw'])) {
+	$_POST['schiffe_miplanw']='';
+}
+if (!isset($_POST['schiffe_miorw']) OR empty($_POST['schiffe_miorw'])) {
+	$_POST['schiffe_miorw']='';
+}
+if (!isset($_POST['schiffe_grw']) OR empty($_POST['schiffe_grw'])) {
+	$_POST['schiffe_grw']='';
+}
+if (!isset($_POST['schiffe_dnw']) OR empty($_POST['schiffe_dnw'])) {
+	$_POST['schiffe_dnw']='';
+}
+if (!isset($_POST['staatsform']) OR empty($_POST['staatsform'])) {
+	$_POST['staatsform']='';
+}
+if (!isset($_POST['anzahl_klplanw']) OR empty($_POST['anzahl_klplanw'])) {
+	$_POST['anzahl_klplanw']='0';
+}
+if (!isset($_POST['anzahl_klorw']) OR empty($_POST['anzahl_klorw'])) {
+	$_POST['anzahl_klorw']='0';
+}
+if (!isset($_POST['anzahl_miplanw']) OR empty($_POST['anzahl_miplanw'])) {
+	$_POST['anzahl_miplanw']='0';
+}
+if (!isset($_POST['anzahl_miorw']) OR empty($_POST['anzahl_miorw'])) {
+	$_POST['anzahl_miorw']='0';
+}
+if (!isset($_POST['anzahl_grw']) OR empty($_POST['anzahl_grw'])) {
+	$_POST['anzahl_grw']='0';
+}
+if (!isset($_POST['anzahl_dnw']) OR empty($_POST['anzahl_dnw'])) {
+	$_POST['anzahl_dnw']='0';
+}
+if (!isset($_POST['gen1']) OR empty($_POST['gen1'])) {
+	$_POST['gen1']='1';
+}
+if (!isset($_POST['gen2']) OR empty($_POST['gen2'])) {
+	$_POST['gen2']='1';
+}
+if (!isset($_POST['gen3']) OR empty($_POST['gen3'])) {
+	$_POST['gen3']='1';
+}
+if (!isset($_POST['gen4']) OR empty($_POST['gen4'])) {
+	$_POST['gen4']='1';
+}
+if (!isset($_POST['gebbau']) OR empty($_POST['gebbau'])) {
+	$_POST['gebbau']='';
+}
+if (!isset($_POST['ber_hour']) OR empty($_POST['ber_hour'])) {
+	$_POST['ber_hour']='36';
+}
 	
-	
+	$selectedValue_auswahlplani = $_POST['auswahl_plani'];
 	$selectedValue_klplanschiffe = $_POST['schiffe_klplanw'];
 	$selectedValue_klorschiffe = $_POST['schiffe_klorw'];
 	$selectedValue_miplanschiffe = $_POST['schiffe_miplanw'];
@@ -277,16 +284,49 @@ if (!isset($_POST['schiffe_klplanw']) OR empty($_POST['schiffe_klplanw'])) {
 ?>
 
 <div id='container'>
-	<div  class='titlebg'>
-		<b>Schiffsauswahl</b>
-	</div>
-	<br>
 	<?php
 	echo "<form method=\"POST\" action=\"index.php?action=" . $modulname .
      "&sid=" . $sid . "\" enctype=\"multipart/form-data\" onsubmit=\"return $(this).validate(jQueryFormLang);\">\n";
 	?>
-	<form method="POST" action="index.php?action=bedarf_schiffe" enctype="multipart/form-data">
-		<table id='belegung' class="table_format_noborder" style='width: 80%'>
+		<div  class='titlebg'>
+		<b>Planetenauswahl</b>
+		</div>
+		<br>
+		<table id='planiauswahl' style='width: 80%'>
+			<thead>
+				<tr class='center'>
+					<th data-sorter="false">
+						<b>Planet</b>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td class='center'>	
+						<select name="auswahl_plani">
+							<option value="">--- Planiauswahl ---</option>
+							<?php
+							while ($row_plani = $db->db_fetch_array($result_plani)) {
+								echo' <option value="' . $row_plani["coords"] . '"';
+									if ($selectedValue_auswahlplani==$row_plani["coords"]) {
+										echo ' selected="selected"';
+									}
+								echo '>' . $row_plani["coords"] . '</option>';
+							}
+							?>
+						</select>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<br>
+		<br>
+		
+		<div  class='titlebg'>
+		<b>Schiffsauswahl</b>
+		</div>
+		<br>
+		<table id='belegung' style='width: 80%'>
 			<thead>
 				<tr>
 					<th data-sorter="false">
@@ -659,35 +699,35 @@ if (!isset($_POST['schiffe_klplanw']) OR empty($_POST['schiffe_klplanw'])) {
 						<select name='gen3'>		
 							<option value="1.1" class="red"
 							<?php
-								if ($selectedValue_gen2 == "1.1") {
+								if ($selectedValue_gen3 == "1.1") {
 									echo ' selected="selected"';
 								}
 							?>
 							>+10%</option>
 							<option value="1.05" class="red"
 							<?php
-								if ($selectedValue_gen2 == "1.05") {
+								if ($selectedValue_gen3 == "1.05") {
 									echo ' selected="selected"';
 								}
 							?>
 							>+5%</option>
 							<option value="1.00"
 							<?php
-								if ($selectedValue_gen2 == "1.00") {
+								if ($selectedValue_gen3 == "1.00") {
 									echo ' selected="selected"';
 								}
 							?>
 							>+-0%</option>
 							<option value="0.95" class="green"
 							<?php
-								if ($selectedValue_gen2 == "0.95") {
+								if ($selectedValue_gen3 == "0.95") {
 									echo ' selected="selected"';
 								}
 							?>
 							>-5%</option>
 							<option value="0.90" class="green"
 							<?php
-								if ($selectedValue_gen2 == "0.90") {
+								if ($selectedValue_gen3 == "0.90") {
 									echo ' selected="selected"';
 								}
 							?>
@@ -703,56 +743,56 @@ if (!isset($_POST['schiffe_klplanw']) OR empty($_POST['schiffe_klplanw'])) {
 						<select name='gen4'>		
 							<option value="1.25" class="red"
 							<?php
-								if ($selectedValue_gen2 == "1.25") {
+								if ($selectedValue_gen4 == "1.25") {
 									echo ' selected="selected"';
 								}
 							?>
 							>+25%</option>
 							<option value="1.1" class="red"
 							<?php
-								if ($selectedValue_gen2 == "1.1") {
+								if ($selectedValue_gen4 == "1.1") {
 									echo ' selected="selected"';
 								}
 							?>
 							>+10%</option>
 							<option value="1.00"
 							<?php
-								if ($selectedValue_gen2 == "1.00") {
+								if ($selectedValue_gen4 == "1.00") {
 									echo ' selected="selected"';
 								}
 							?>
 							>+-0%</option>
 							<option value="0.90" class="green"
 							<?php
-								if ($selectedValue_gen2 == "0.90") {
+								if ($selectedValue_gen4 == "0.90") {
 									echo ' selected="selected"';
 								}
 							?>
 							>-10%</option>
 							<option value="0.80" class="green"
 							<?php
-								if ($selectedValue_gen2 == "0.80") {
+								if ($selectedValue_gen4 == "0.80") {
 									echo ' selected="selected"';
 								}
 							?>
 							>-20%</option>
 							<option value="0.70" class="green"
 							<?php
-								if ($selectedValue_gen2 == "0.70") {
+								if ($selectedValue_gen4 == "0.70") {
 									echo ' selected="selected"';
 								}
 							?>
 							>-30%</option>
 							<option value="0.60" class="green"
 							<?php
-								if ($selectedValue_gen2 == "0.60") {
+								if ($selectedValue_gen4 == "0.60") {
 									echo ' selected="selected"';
 								}
 							?>
 							>-40%</option>
 							<option value="0.50" class="green"
 							<?php
-								if ($selectedValue_gen2 == "0.50") {
+								if ($selectedValue_gen4 == "0.50") {
 									echo ' selected="selected"';
 								}
 							?>
@@ -807,8 +847,15 @@ if (!isset($_POST['schiffe_klplanw']) OR empty($_POST['schiffe_klplanw'])) {
 	
 	<?php
 	
+	$sql9 = "SELECT `coords_gal`, `coords_sys`, `coords_planet` FROM `{$db_tb_scans}` WHERE `coords`='" . $_POST['auswahl_plani'] . "'";
+	$result9 = $db->db_query($sql9)
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql9);
+	$row9 = $db->db_fetch_array($result9);
 	
-	
+	$sql8 = "SELECT `eisen_prod`, `stahl_prod`, `vv4a_prod`, `chem_prod`, `eis_prod`, `wasser_prod`, `energie_prod` FROM `{$db_tb_lager}` WHERE (`coords_gal`='" . $row9['coords_gal'] . "' AND `coords_sys`='" . $row9['coords_sys'] . "' AND `coords_planet`='" . $row9['coords_planet'] . "')";
+	$result8 = $db->db_query($sql8)
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql8);
+	$row8 = $db->db_fetch_array($result8);
 	
 	$sql1 = "SELECT schiff, kosten_eisen/dauer AS eisen, kosten_stahl/dauer AS stahl, kosten_vv4a/dauer AS vv4a, kosten_chemie/dauer AS chemie, kosten_eis/dauer AS eis, kosten_wasser/dauer as wasser, kosten_energie/dauer as energie, kosten_bev, kosten_creds/dauer as creds FROM `{$db_tb_schiffstyp}` WHERE `{$db_tb_schiffstyp}`.`schiff`='" . $_POST['schiffe_klplanw'] . "'";
 	$result1 = $db->db_query($sql1)
@@ -854,68 +901,68 @@ if (!isset($_POST['schiffe_klplanw']) OR empty($_POST['schiffe_klplanw'])) {
 		$staatsform_kosten=1.0;
 	}
 				
-	$eisen_schiff =	($row1['eisen']*$_POST['anzahl_klplanw']*1.2)+
-				($row2['eisen']*$_POST['anzahl_klorw'])+
-				($row3['eisen']*$_POST['anzahl_miplanw']*1.2)+
-				($row4['eisen']*$_POST['anzahl_miorw'])+
-				($row5['eisen']*$_POST['anzahl_grw'])+
-				($row6['eisen']*$_POST['anzahl_dnw']);
+	$eisen_schiff =	($row1['eisen']/$_POST['gen1']*$_POST['anzahl_klplanw']*1.2)+
+				($row2['eisen']/$_POST['gen1']*$_POST['anzahl_klorw'])+
+				($row3['eisen']/$_POST['gen1']*$_POST['anzahl_miplanw']*1.2)+
+				($row4['eisen']/$_POST['gen1']*$_POST['anzahl_miorw'])+
+				($row5['eisen']/$_POST['gen1']*$_POST['anzahl_grw'])+
+				($row6['eisen']/$_POST['gen1']*$_POST['anzahl_dnw']);
 	$eisen_schiff = ceil($eisen_schiff*$staatsform_kosten*$_POST['gen2']*3600);
-	$eisen_geb = ceil($row7['eisen']*$_POST['gen4']*3600);
+	$eisen_geb = ceil($row7['eisen']/$_POST['gen3']*$_POST['gen4']*3600);
 	$eisen = $eisen_schiff+$eisen_geb;
 	$stahl_schiff =	($row1['stahl']*$_POST['anzahl_klplanw']*1.2)+
-				($row2['stahl']*$_POST['anzahl_klorw'])+
-				($row3['stahl']*$_POST['anzahl_miplanw']*1.2)+
-				($row4['stahl']*$_POST['anzahl_miorw'])+
-				($row5['stahl']*$_POST['anzahl_grw'])+
-				($row6['stahl']*$_POST['anzahl_dnw']);
+				($row2['stahl']/$_POST['gen1']*$_POST['anzahl_klorw'])+
+				($row3['stahl']/$_POST['gen1']*$_POST['anzahl_miplanw']*1.2)+
+				($row4['stahl']/$_POST['gen1']*$_POST['anzahl_miorw'])+
+				($row5['stahl']/$_POST['gen1']*$_POST['anzahl_grw'])+
+				($row6['stahl']/$_POST['gen1']*$_POST['anzahl_dnw']);
 	$stahl_schiff = ceil($stahl_schiff*$staatsform_kosten*$_POST['gen2']*3600);
-	$stahl_geb = ceil($row7['stahl']*$_POST['gen4']*3600);
+	$stahl_geb = ceil($row7['stahl']/$_POST['gen3']*$_POST['gen4']*3600);
 	$stahl = $stahl_schiff+$stahl_geb;
 	$vv4a_schiff =		($row1['vv4a']*$_POST['anzahl_klplanw']*1.2)+
-				($row2['vv4a']*$_POST['anzahl_klorw'])+
-				($row3['vv4a']*$_POST['anzahl_miplanw']*1.2)+
-				($row4['vv4a']*$_POST['anzahl_miorw'])+
-				($row5['vv4a']*$_POST['anzahl_grw'])+
-				($row6['vv4a']*$_POST['anzahl_dnw']);
+				($row2['vv4a']/$_POST['gen1']*$_POST['anzahl_klorw'])+
+				($row3['vv4a']/$_POST['gen1']*$_POST['anzahl_miplanw']*1.2)+
+				($row4['vv4a']/$_POST['gen1']*$_POST['anzahl_miorw'])+
+				($row5['vv4a']/$_POST['gen1']*$_POST['anzahl_grw'])+
+				($row6['vv4a']/$_POST['gen1']*$_POST['anzahl_dnw']);
 	$vv4a_schiff = ceil($vv4a_schiff*$staatsform_kosten*$_POST['gen2']*3600);
-	$vv4a_geb = ceil($row7['vv4a']*$_POST['gen4']*3600);
+	$vv4a_geb = ceil($row7['vv4a']/$_POST['gen3']*$_POST['gen4']*3600);
 	$vv4a = $vv4a_schiff+$vv4a_geb;
 	$chemie_schiff =	($row1['chemie']*$_POST['anzahl_klplanw']*1.2)+
-				($row2['chemie']*$_POST['anzahl_klorw'])+
-				($row3['chemie']*$_POST['anzahl_miplanw']*1.2)+
-				($row4['chemie']*$_POST['anzahl_miorw'])+
-				($row5['chemie']*$_POST['anzahl_grw'])+
-				($row6['chemie']*$_POST['anzahl_dnw']);
+				($row2['chemie']/$_POST['gen1']*$_POST['anzahl_klorw'])+
+				($row3['chemie']/$_POST['gen1']*$_POST['anzahl_miplanw']*1.2)+
+				($row4['chemie']/$_POST['gen1']*$_POST['anzahl_miorw'])+
+				($row5['chemie']/$_POST['gen1']*$_POST['anzahl_grw'])+
+				($row6['chemie']/$_POST['gen1']*$_POST['anzahl_dnw']);
 	$chemie_schiff = ceil($chemie_schiff*$staatsform_kosten*$_POST['gen2']*3600);
-	$chemie_geb = ceil($row7['chemie']*$_POST['gen4']*3600);
+	$chemie_geb = ceil($row7['chemie']/$_POST['gen3']*$_POST['gen4']*3600);
 	$chemie = $chemie_schiff+$chemie_geb;
 	$eis_schiff =		($row1['eis']*$_POST['anzahl_klplanw']*1.2)+
-				($row2['eis']*$_POST['anzahl_klorw'])+
-				($row3['eis']*$_POST['anzahl_miplanw']*1.2)+
-				($row4['eis']*$_POST['anzahl_miorw'])+
-				($row5['eis']*$_POST['anzahl_grw'])+
-				($row6['eis']*$_POST['anzahl_dnw']);
+				($row2['eis']/$_POST['gen1']*$_POST['anzahl_klorw'])+
+				($row3['eis']/$_POST['gen1']*$_POST['anzahl_miplanw']*1.2)+
+				($row4['eis']/$_POST['gen1']*$_POST['anzahl_miorw'])+
+				($row5['eis']/$_POST['gen1']*$_POST['anzahl_grw'])+
+				($row6['eis']/$_POST['gen1']*$_POST['anzahl_dnw']);
 	$eis_schiff = ceil($eis_schiff*$staatsform_kosten*$_POST['gen2']*3600);
-	$eis_geb = ceil($row7['eis']*$_POST['gen4']*3600);
+	$eis_geb = ceil($row7['eis']/$_POST['gen3']*$_POST['gen4']*3600);
 	$eis = $eis_schiff+$eis_geb;
 	$wasser_schiff =	($row1['wasser']*$_POST['anzahl_klplanw']*1.2)+
-				($row2['wasser']*$_POST['anzahl_klorw'])+
-				($row3['wasser']*$_POST['anzahl_miplanw']*1.2)+
-				($row4['wasser']*$_POST['anzahl_miorw'])+
-				($row5['wasser']*$_POST['anzahl_grw'])+
-				($row6['wasser']*$_POST['anzahl_dnw']);
+				($row2['wasser']/$_POST['gen1']*$_POST['anzahl_klorw'])+
+				($row3['wasser']/$_POST['gen1']*$_POST['anzahl_miplanw']*1.2)+
+				($row4['wasser']/$_POST['gen1']*$_POST['anzahl_miorw'])+
+				($row5['wasser']/$_POST['gen1']*$_POST['anzahl_grw'])+
+				($row6['wasser']/$_POST['gen1']*$_POST['anzahl_dnw']);
 	$wasser_schiff = ceil($wasser_schiff*$staatsform_kosten*$_POST['gen2']*3600);
-	$wasser_geb = ceil($row7['wasser']*$_POST['gen4']*3600);
+	$wasser_geb = ceil($row7['wasser']/$_POST['gen3']*$_POST['gen4']*3600);
 	$wasser = $wasser_schiff+$wasser_geb;
 	$energie_schiff =	($row1['energie']*$_POST['anzahl_klplanw']*1.2)+
-				($row2['energie']*$_POST['anzahl_klorw'])+
-				($row3['energie']*$_POST['anzahl_miplanw']*1.2)+
-				($row4['energie']*$_POST['anzahl_miorw'])+
-				($row5['energie']*$_POST['anzahl_grw'])+
-				($row6['energie']*$_POST['anzahl_dnw']);
+				($row2['energie']/$_POST['gen1']*$_POST['anzahl_klorw'])+
+				($row3['energie']/$_POST['gen1']*$_POST['anzahl_miplanw']*1.2)+
+				($row4['energie']/$_POST['gen1']*$_POST['anzahl_miorw'])+
+				($row5['energie']/$_POST['gen1']*$_POST['anzahl_grw'])+
+				($row6['energie']/$_POST['gen1']*$_POST['anzahl_dnw']);
 	$energie_schiff = ceil($energie_schiff*$staatsform_kosten*$_POST['gen2']*3600);
-	$energie_geb = ceil($row7['energie']*$_POST['gen4']*3600);
+	$energie_geb = ceil($row7['energie']/$_POST['gen3']*$_POST['gen4']*3600);
 	$energie = $energie_schiff+$energie_geb;
 	
 	$creds_schiff =	($row1['creds']*$_POST['anzahl_klplanw']*1.2)+
@@ -936,7 +983,13 @@ if (!isset($_POST['schiffe_klplanw']) OR empty($_POST['schiffe_klplanw'])) {
 				$row6['kosten_bev']*$_POST['anzahl_dnw']+
 				$row7['kosten_bev']);
 	
-	
+	$prod_eisen=$row8['eisen_prod'];
+	$prod_stahl=$row8['stahl_prod'];
+	$prod_vv4a=$row8['vv4a_prod'];
+	$prod_chem=$row8['chem_prod'];
+	$prod_eis=$row8['eis_prod'];
+	$prod_wasser=$row8['wasser_prod'];
+	$prod_energie=$row8['energie_prod'];
 	?>
 	<br>
 	<br>
@@ -947,9 +1000,113 @@ if (!isset($_POST['schiffe_klplanw']) OR empty($_POST['schiffe_klplanw'])) {
 		<b>Ausgabe Ressbedarf</b>
 	</div>
 	<br>
-	<table class='table_format' id='ressbedarf' style='width: 80%'>
+	<table class='table_format' id='prodde' style='width: 80%'>
 		<thead>
-			<tr class='windowbg2'>
+			<tr class='center'>
+				<th data-sorter="false" colspan='8'>
+					<b>Produktion</b>
+				</th>
+			</tr>
+			<tr>
+				<th data-sorter="false">
+				</th>
+				<th style='width: 9%' data-sorter="false">
+					<b>Eisen</b>
+				</th>
+				<th style='width: 9%' data-sorter="false">
+					<b>Stahl</b>
+				</th>
+				<th style='width: 9%' data-sorter="false">
+					<b>VV4A</b>
+				</th>
+				<th style='width: 9%' data-sorter="false">
+					<b>Chemie</b>
+				</th>
+				<th style='width: 9%' data-sorter="false">
+					<b>Eis</b>
+				</th>
+				<th style='width: 9%' data-sorter="false">
+					<b>Wasser</b>
+				</th>
+				<th style='width: 9%' data-sorter="false">
+					<b>Energie</b>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td class='windowbg3'>
+					<b>Produktion /h</b>
+				</td>
+				<td class='right'>
+					<?php
+					if ($prod_eisen>='0')	{
+						echo "<font color='#228B22'>", $prod_eisen;
+					}
+					else echo "<font color='#FF0000'>", $prod_eisen;
+					?>
+				</td>
+				<td class='right'>
+					<?php
+					if ($prod_stahl>='0')	{
+						echo "<font color='#228B22'>", $prod_stahl;
+					}
+					else echo"<font color='#FF0000'>", $prod_stahl;
+					?>
+				</td>
+				<td class='right'>
+					<?php
+					if ($prod_vv4a>='0')	{
+						echo "<font color='#228B22'>", $prod_vv4a;
+					}
+					else echo"<font color='#FF0000'>", $prod_vv4a;
+					?>
+				</td>
+				<td class='right'>
+					<?php
+					if ($prod_chem>='0')	{
+						echo "<font color='#228B22'>", $prod_chem;
+					}
+					else echo"<font color='#FF0000'>", $prod_chem;
+					?>
+				</td>
+				<td class='right'>
+					<?php
+					if ($prod_eis>='0')	{
+						echo "<font color='#228B22'>", $prod_eis;
+					}
+					else echo"<font color='#FF0000'>", $prod_eis;
+					?>
+				</td>
+				<td class='right'>
+					<?php
+					if ($prod_wasser>='0')	{
+						echo "<font color='#228B22'>", $prod_wasser;
+					}
+					else echo"<font color='#FF0000'>", $prod_wasser;
+					?>
+				</td>
+				<td class='right'>
+					<?php
+					if ($prod_energie>='0')	{
+						echo "<font color='#228B22'>", $prod_energie;
+					}
+					else echo"<font color='#FF0000'>", $prod_energie;
+					?>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<br>
+	
+	<table class='table_format' id='ressbedarf1' style='width: 80%'>
+		<thead>
+			<tr class='center'>
+				<th data-sorter="false" colspan='9'>
+					<b>reiner Bedarf</b>
+				</th>
+			</tr>
+			<tr>
 				<th data-sorter="false">
 				</th>
 				<th style='width: 9%' data-sorter="false">
@@ -985,37 +1142,151 @@ if (!isset($_POST['schiffe_klplanw']) OR empty($_POST['schiffe_klplanw'])) {
 				</td>
 				<td class='right'>
 					<?php
-					echo "<font color='#FF0000'>", $eisen;
+					echo "<font color='#1874CD'>", $eisen;
 					?>
 				</td>
 				<td class='right'>
 					<?php
-					echo "<font color='#FF0000'>", $stahl;
+					echo "<font color='#1874CD'>", $stahl;
 					?>
 				</td>
 				<td class='right'>
 					<?php
-					echo "<font color='#FF0000'>", $vv4a;
+					echo "<font color='#1874CD'>", $vv4a;
 					?>
 				</td>
 				<td class='right'>
 					<?php
-					echo "<font color='#FF0000'>", $chemie;
+					echo "<font color='#1874CD'>", $chemie;
 					?>
 				</td>
 				<td class='right'>
 					<?php
-					echo "<font color='#FF0000'>", $eis;
+					echo "<font color='#1874CD'>", $eis;
 					?>
 				</td>
 				<td class='right'>
 					<?php
-					echo "<font color='#FF0000'>", $wasser;
+					echo "<font color='#1874CD'>", $wasser;
 					?>
 				</td>
 				<td class='right'>
 					<?php
-					echo "<font color='#FF0000'>", $energie;
+					echo "<font color='#1874CD'>", $energie;
+					?>
+				</td>
+				<td class='right'>
+					<?php
+					echo "<font color='#1874CD'>", $creds;
+					?>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<br>
+	
+	<table class='table_format' id='ressbedarf' style='width: 80%'>
+		<thead>
+			<tr class='center'>
+				<th data-sorter="false" colspan='9'>
+					<b>effektiver Bedarf</b>
+				</th>
+			</tr>
+			<tr>
+				<th data-sorter="false">
+				</th>
+				<th style='width: 9%' data-sorter="false">
+					<b>Eisen</b>
+				</th>
+				<th style='width: 9%' data-sorter="false">
+					<b>Stahl</b>
+				</th>
+				<th style='width: 9%' data-sorter="false">
+					<b>VV4A</b>
+				</th>
+				<th style='width: 9%' data-sorter="false">
+					<b>Chemie</b>
+				</th>
+				<th style='width: 9%' data-sorter="false">
+					<b>Eis</b>
+				</th>
+				<th style='width: 9%' data-sorter="false">
+					<b>Wasser</b>
+				</th>
+				<th style='width: 9%' data-sorter="false">
+					<b>Energie</b>
+				</th>
+				<th style='width: 9%' data-sorter="false">
+					<b>Credits</b>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td class='windowbg3'>
+					<b>Ress /h</b>
+				</td>
+				<td class='right'>
+					<?php
+					$eisen_ges=ceil($prod_eisen-$eisen);
+					if ($eisen_ges<0) {
+						echo "<font color='#FF0000'>", abs($eisen_ges);
+					}
+					else echo "0";
+					?>
+				</td>
+				<td class='right'>
+					<?php
+					$stahl_ges=ceil($prod_stahl-$stahl);
+					if ($stahl_ges<0) {
+						echo "<font color='#FF0000'>", abs($stahl_ges);
+					}
+					else echo "0";
+					?>
+				</td>
+				<td class='right'>
+					<?php
+					$vv4a_ges=ceil($prod_vv4a-$vv4a);
+					if ($vv4a_ges<0) {
+						echo "<font color='#FF0000'>", abs($vv4a_ges);
+					}
+					else echo "0";
+					?>
+				</td>
+				<td class='right'>
+					<?php
+					$chem_ges=ceil($prod_chem-$chemie);
+					if ($chem_ges<0) {
+						echo "<font color='#FF0000'>", abs($chem_ges);
+					}
+					else echo "0";
+					?>
+				</td>
+				<td class='right'>
+					<?php
+					$eis_ges=ceil($prod_eis-$eis);
+					if ($eis_ges<0) {
+						echo "<font color='#FF0000'>", abs($eis_ges);
+					}
+					else echo "0";
+					?>
+				</td>
+				<td class='right'>
+					<?php
+					$wasser_ges=ceil($prod_wasser-$wasser);
+					if ($wasser_ges<0) {
+						echo "<font color='#FF0000'>", abs($wasser_ges);
+					}
+					else echo "0";
+					?>
+				</td>
+				<td class='right'>
+					<?php
+					$energie_ges=ceil($prod_energie-$energie);
+					if ($energie_ges<0) {
+						echo "<font color='#FF0000'>", abs($energie_ges);
+					}
+					else echo "0";
 					?>
 				</td>
 				<td class='right'>
@@ -1030,37 +1301,65 @@ if (!isset($_POST['schiffe_klplanw']) OR empty($_POST['schiffe_klplanw'])) {
 				</td>
 				<td class='right'>
 					<?php
-					echo "<font color='#FF0000'>", $eisen*24;
+					$eisen_ges=$eisen_ges*24;
+					if ($eisen_ges<0) {
+						echo "<font color='#FF0000'>", abs($eisen_ges);
+					}
+					else echo "0";
 					?>
 				</td>
 				<td class='right'>
 					<?php
-					echo "<font color='#FF0000'>", $stahl*24;
+					$stahl_ges=$stahl_ges*24;
+					if ($stahl_ges<0) {
+						echo "<font color='#FF0000'>", abs($stahl_ges);
+					}
+					else echo "0";
 					?>
 				</td>
 				<td class='right'>
 					<?php
-					echo "<font color='#FF0000'>", $vv4a*24;
+					$vv4a_ges=$vv4a_ges*24;
+					if ($vv4a_ges<0) {
+						echo "<font color='#FF0000'>", abs($vv4a_ges);
+					}
+					else echo "0";
 					?>
 				</td>
 				<td class='right'>
 					<?php
-					echo "<font color='#FF0000'>", $chemie*24;
+					$chem_ges=$chem_ges*24;
+					if ($chem_ges<0) {
+						echo "<font color='#FF0000'>", abs($chem_ges);
+					}
+					else echo "0";
 					?>
 				</td>
 				<td class='right'>
 					<?php
-					echo "<font color='#FF0000'>", $eis*24;
+					$eis_ges=$eis_ges*24;
+					if ($eis_ges<0) {
+						echo "<font color='#FF0000'>", abs($eis_ges);
+					}
+					else echo "0";
 					?>
 				</td>
 				<td class='right'>
 					<?php
-					echo "<font color='#FF0000'>", $wasser*24;
+					$wasser_ges=$wasser_ges*24;
+					if ($wasser_ges<0) {
+						echo "<font color='#FF0000'>", abs($wasser_ges);
+					}
+					else echo "0";
 					?>
 				</td>
 				<td class='right'>
 					<?php
-					echo "<font color='#FF0000'>", $energie*24;
+					$energie_ges=$energie_ges*24;
+					if ($energie_ges<0) {
+						echo "<font color='#FF0000'>", abs($energie_ges);
+					}
+					else echo "0";
 					?>
 				</td>
 				<td class='right'>
@@ -1075,42 +1374,70 @@ if (!isset($_POST['schiffe_klplanw']) OR empty($_POST['schiffe_klplanw'])) {
 				</td>
 				<td class='right'>
 					<?php
-					echo "<font color='#FF0000'>", $eisen*$_POST['ber_hour'];
+					$eisen_ges=$eisen_ges*$_POST['ber_hour']/24;
+					if ($eisen_ges<0) {
+						echo "<font color='#FF0000'>", abs($eisen_ges);
+					}
+					else echo "0";
 					?>
 				</td>
 				<td class='right'>
 					<?php
-					echo "<font color='#FF0000'>", $stahl*$_POST['ber_hour'];
+					$stahl_ges=$stahl_ges*$_POST['ber_hour']/24;
+					if ($stahl_ges<0) {
+						echo "<font color='#FF0000'>", abs($stahl_ges);
+					}
+					else echo "0";
 					?>
 				</td>
 				<td class='right'>
 					<?php
-					echo "<font color='#FF0000'>", $vv4a*$_POST['ber_hour'];
+					$vv4a_ges=$vv4a_ges*$_POST['ber_hour']/24;
+					if ($vv4a_ges<0) {
+						echo "<font color='#FF0000'>", abs($vv4a_ges);
+					}
+					else echo "0";
 					?>
 				</td>
 				<td class='right'>
 					<?php
-					echo "<font color='#FF0000'>", $chemie*$_POST['ber_hour'];
+					$chem_ges=$chem_ges*$_POST['ber_hour']/24;
+					if ($chem_ges<0) {
+						echo "<font color='#FF0000'>", abs($chem_ges);
+					}
+					else echo "0";
 					?>
 				</td>
 				<td class='right'>
 					<?php
-					echo "<font color='#FF0000'>", $eis*$_POST['ber_hour'];
+					$eis_ges=$eis_ges*$_POST['ber_hour']/24;
+					if ($eis_ges<0) {
+						echo "<font color='#FF0000'>", abs($eis_ges);
+					}
+					else echo "0";
 					?>
 				</td>
 				<td class='right'>
 					<?php
-					echo "<font color='#FF0000'>", $wasser*$_POST['ber_hour'];
+					$wasser_ges=$wasser_ges*$_POST['ber_hour']/24;
+					if ($wasser_ges<0) {
+						echo "<font color='#FF0000'>", abs($wasser_ges);
+					}
+					else echo "0";
 					?>
 				</td>
 				<td class='right'>
 					<?php
-					echo "<font color='#FF0000'>", $energie*$_POST['ber_hour'];
+					$energie_ges=$energie_ges*$_POST['ber_hour']/24;
+					if ($energie_ges<0) {
+						echo "<font color='#FF0000'>", abs($energie_ges);
+					}
+					else echo "0";
 					?>
 				</td>
 				<td class='right'>
 					<?php
-					echo "<font color='#FF0000'>", $creds*$_POST['ber_hour'];
+					echo "<font color='#FF0000'>", $creds*$_POST['ber_hour']/24;
 					?>
 				</td>
 			</tr>

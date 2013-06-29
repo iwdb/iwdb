@@ -199,7 +199,8 @@ if (empty($params['playerSelection'])) {
     if (!empty($user_buddlerfrom)) {
         $params['playerSelection'] = '(Team) ' . $user_buddlerfrom;
     } else {
-        $params['playerSelection'] = $user_sitterlogin;
+        //$params['playerSelection'] = $user_sitterlogin;
+		$params['playerSelection'] = '(Alle)';
     }
 } else {
     $params['playerSelection'] = $db->escape($params['playerSelection']);

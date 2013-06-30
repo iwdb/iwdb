@@ -365,6 +365,10 @@ function updateUserAlliance($name, $allianz, $time)
 {
     global $db, $db_tb_spieler;
 
+    if ($name === '') {
+        return '';
+    }
+
     $name    = $db->escape($name);
     $allianz = $db->escape($allianz);
     $time    = (int)$time;

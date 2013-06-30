@@ -215,7 +215,7 @@ echo makeField(
 echo '</div><br>';
 
 ?>
-<table class='tablesorter-blue' {sortlist: [[0,0]]}>
+<table data-sortlist="[[0,0]]" class='tablesorter-blue'>
 	<thead>
 		<tr>
 			<th>

@@ -179,7 +179,7 @@ $fak_ene	= 1;
 $fak_bev	= 0;
 
 ?>
-<table class='tablesorter-blue' {sortlist: [[10,0],[0,0]]}>
+<table data-sortlist="[[10,0],[0,0]]" class='tablesorter-blue'>
 	<thead>
 		<tr class='center'>
 			<th class='sorter-false' colspan='11'>

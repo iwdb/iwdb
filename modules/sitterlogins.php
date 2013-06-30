@@ -72,7 +72,7 @@ doc_title('Sitterlogins');
 
 ?>
 
-<table class='tablesorter-blue' {sortlist: [[0,0],[1,0]]} style='width: 95%'>
+<table data-sortlist="[[0,0],[1,0]]" class='tablesorter-blue' style='width: 95%'>
     <thead>
 		<tr>
 			<th>

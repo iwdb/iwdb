@@ -163,7 +163,7 @@ $result_user_research = $db->db_query($sql)
 $data = array();
 
 ?>
-<table class='tablesorter-blue' {sortlist: [[2,0]]}>
+<table data-sortlist="[[2,0]]" class='tablesorter-blue'>
 	<thead>
 	<tr>
 		<th>

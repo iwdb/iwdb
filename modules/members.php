@@ -91,7 +91,7 @@ if (!empty($graph)) {
 }
 ?>
 <br>
-<table class='tablesorter-blue' {sortlist: [[1,0]]} style='width: 90%;'>
+<table data-sortlist="[[1,0]]" class='tablesorter-blue' style='width: 90%;'>
 <thead>
 <tr>
     <?php

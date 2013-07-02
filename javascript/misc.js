@@ -238,16 +238,7 @@ function confirmlink(link, text) {
 }
 
 jQuery(document).ready(function () {
-    jQuery('table').tablesorter({
-        usNumberFormat: false,
-        widgets: [ 'stickyHeaders' ],
-        widgetOptions: {
-            stickyHeaders: 'tablesorter-stickyHeader'
-        },
-        theme: 'blue'
-    });
-
-    //data-unixtime attribut sortierer, tablesorter vorher laden
+    //data-unixtime attribut sortierer
     jQuery.tablesorter.addParser({
         id: 'attr-unixtime',
         is: function (s, table, cell) {
@@ -259,6 +250,16 @@ jQuery(document).ready(function () {
         type: 'numeric'
     });
 
+    jQuery('table').tablesorter({
+        usNumberFormat: false,
+        widgets: [ 'stickyHeaders' ],
+        widgetOptions: {
+            stickyHeaders: 'tablesorter-stickyHeader'
+        },
+        theme: 'blue'
+    });
+
+    //Javascript Formulatvalidierung falls HTML5 Implementierung unvollständig
     jQuery('form').validatr();
 
     //deutsche validatr Fehlermeldungen, validatr vorher laden

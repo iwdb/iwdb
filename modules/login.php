@@ -54,7 +54,7 @@ if (($login_ok === false) AND (!empty($login_id) AND (!empty($login_password))))
 <form method='POST' action='index.php?action=memberlogin2' enctype='multipart/form-data'>
     <table class='table_format' style="margin: 0 auto;">
         <tr>
-            <td class='windowbg2'>Username:&nbsp;</td>
+            <td class='windowbg2' title='Dein IW-Login-Name'>Username:&nbsp;</td>
             <td class='windowbg1'><input style='width: 200px' type='text' name='login_id' required='required'></td>
         </tr>
         <tr>

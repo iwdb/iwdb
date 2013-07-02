@@ -35,26 +35,10 @@ if (!defined('IRA')) {
 
 //****************************************************************************
 
-$users   = array();
-$order   = getVar('order');
-$ordered = getVar('ordered');
-
-$order   = (empty($order)) ? "" : "WHERE schiff='" . $order . "'";
-$ordered = (empty($ordered)) ? "asc" : $ordered;
-
-if (!empty($order)) {
-    $sql = "SELECT user FROM " . $db_tb_schiffe .
-        " " . $order . " GROUP BY user ORDER BY anzahl DESC";
-    $result_schiffe = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-
-    while ($row_schiffe = $db->db_fetch_array($result_schiffe)) {
-        $users[] = $row_schiffe['user'];
-    }
-}
-
 // aktuelle Auswahl ermitteln
 $params['playerSelection'] = getVar('playerSelection');
+
+$users   = array();
 
 // Auswahlarray zusammenbauen
 $playerSelectionOptions = array();
@@ -73,10 +57,6 @@ while ($row_schiffe = $db->db_fetch_array($result_schiffe)) {
     if (!in_array($row_schiffe['user'], $users, true)) {
         $users[] = $row_schiffe['user'];
     }
-}
-
-if ($ordered == "asc") {
-    krsort($users);
 }
 
 $lastscans = array();
@@ -131,44 +111,33 @@ while ($row = $db->db_fetch_array($result)) {
 
     $schiffsanz = $db->db_num_rows($result_schiffe);
 
-    echo "<table class='table_format' style='width: 90%;'>\n";
-    echo " <tr>\n";
-    echo "  <td class='titlebg center' colspan='" . ($schiffsanz + 1) . "'>\n";
+    echo "<table class='tablesorter-blue' style='width: 90%;'>\n";
+    echo " <thead>\n";
+	echo " <tr>\n";
+    echo "  <th data-sorter='false' class='center' colspan='" . ($schiffsanz + 1) . "'>\n";
     echo "   <b>" . ((empty($row['typ'])) ? "Sonstige" : $row['typ']) . "</b>\n";
-    echo "  </td>\n";
+    echo "  </th>\n";
     echo " </tr>\n";
     echo "\n";
     echo " <tr>\n";
-    echo "  <td class='windowbg2' valign='bottom' style='width:15%'>\n";
+    echo "  <th valign='bottom' style='width:15%'>\n";
     echo "   <a href='index.php?action=schiffe&ordered=asc'>" .
         "<img src='".BILDER_PATH."asc.gif'></a>" .
         "<br>Username<br>" .
         "<a href='index.php?action=schiffe&ordered=desc'>" .
         "<img src='".BILDER_PATH."desc.gif'></a>\n";
-    echo "  </td>\n";
+    echo "  </th>\n";
 
     while ($row_schiffe = $db->db_fetch_array($result_schiffe)) {
         $schiffe[] = $row_schiffe['id'];
 
-        echo "  <td class='windowbg2 center bottom'>\n";
+        echo "  <th class='center bottom'>\n";
         echo "    <a href='index.php?action=schiffe&order={$row_schiffe['id']}&ordered=asc'><img src='".BILDER_PATH."asc.gif'></a><br>{$row_schiffe['abk']}<br><a href='index.php?action=schiffe&order={$row_schiffe['id']}&ordered=desc'><img src='".BILDER_PATH."desc.gif'></a>\n";
-        echo "  </td>\n";
+        echo "  </th>\n";
     }
     echo " </tr>\n";
-
-    // Gesamtanzahl
-    echo " <tr>\n";
-    echo "  <td class='windowbg2'>Gesamtzahl</td>\n";
-    foreach ($schiffe as $data) {
-        $sql = "SELECT SUM(anzahl) AS gesamtanzahl FROM " . $db_tb_schiffe .
-            "," . $db_tb_user . " WHERE " . $db_tb_schiffe . ".user=" . $db_tb_user . ".id AND " . $db_tb_user . ".allianz='" . $user_allianz . "' AND schiff='" . $data . "'";
-        $result_anzahl = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-
-        $row_anzahl = $db->db_fetch_array($result_anzahl);
-        echo "    <td class='windowbg2 right'>" . $row_anzahl['gesamtanzahl'] . "</td>\n";
-    }
-    echo " </tr>\n";
+	echo " </thead>\n";
+	echo " <tbody>\n";
 
     // Schiffsauflistung
     foreach ($users as $userx) {
@@ -181,7 +150,7 @@ while ($row = $db->db_fetch_array($result)) {
             $result_anzahl = $db->db_query($sql)
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
             $row_anzahl = $db->db_fetch_array($result_anzahl);
-            $shipprint .= "   <td class='windowbg1 right'>" .
+            $shipprint .= "   <td class='right'>" .
                 $row_anzahl['anzahl'] . "</td>\n";
             $shipcount .= $row_anzahl['anzahl'];
         }
@@ -190,7 +159,7 @@ while ($row = $db->db_fetch_array($result)) {
         // Nur wenn Schiffe ($shipcount) vorhanden dann ausgeben
         if (!empty($shipcount)) {
             echo "  <tr>\n";
-            echo "    <td class='windowbg1' style='background-color:" . $scancolor[$userx] . "'>\n";
+            echo "    <td style='background-color:" . $scancolor[$userx] . "'>\n";
 
             if ($user_status == "admin") {
                 echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($userx) .
@@ -206,7 +175,22 @@ while ($row = $db->db_fetch_array($result)) {
         // end $shipcount
     }
     // end Schiffaufslistung
+	echo " </tbody>\n";
+	echo " <tfoot>\n";
+	// Gesamtanzahl
+    echo " <tr>\n";
+    echo "  <th class='windowbg2'>Gesamtzahl</th>\n";
+    foreach ($schiffe as $data) {
+        $sql = "SELECT SUM(anzahl) AS gesamtanzahl FROM " . $db_tb_schiffe .
+            "," . $db_tb_user . " WHERE " . $db_tb_schiffe . ".user=" . $db_tb_user . ".id AND " . $db_tb_user . ".allianz='" . $user_allianz . "' AND schiff='" . $data . "'";
+        $result_anzahl = $db->db_query($sql)
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
+        $row_anzahl = $db->db_fetch_array($result_anzahl);
+        echo "    <th class='windowbg2 right'>" . $row_anzahl['gesamtanzahl'] . "</th>\n";
+    }
+    echo " </tr>\n";
+	echo " </tfoot>\n";
     echo "</table>\n";
     echo "<br>\n";
 }

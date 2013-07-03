@@ -418,25 +418,25 @@ $hour = $row['value'];
 <form method="POST" action="index.php?action=admin&uaction=einstellungen" enctype="multipart/form-data">
 	<table class="table_format" style="width: 95%;">
 		<thead>
-			<tr>
-				<th class="titlebg" colspan="2">
+			<tr class='center'>
+				<th data-sorter="false" colspan="2">
 					<b>Voreinstellung Stunden für Lagergrundbedarf</b>
 				</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
-				<td class='windowbg3'>
+				<td class="windowbg2" style="width:40%;">
 					<b>Bedarfsberechnung mit wieviel Stunden?</b>
 				</td>
-				<td class="center">
+				<td class="left">
 					<input type="number" name="stunden" min="1" max="400" step="1" value="<?php echo $hour ?>">
 				</td>
 			</tr>
 		</tbody>
 		<tfoot>
-			<tr>
-				<th class="titlebg" colspan="2">
+			<tr class='center'>
+				<th colspan="2">
 					<input type="submit" value="ändern" name="stunden_change">
 				</th>
 			</tr>

@@ -99,6 +99,9 @@ function parse_sbxml($xmldata)
     $scan_data['objekt'] = (string)$xml->plani_data->objekt_typ->name;
     $scan_data['time'] = (int)$xml->timestamp;
     $scan_data['vollstaendig'] = (int)$xml->informationen->vollstaendig;
+    //Allianz ggf. aktualisieren
+    $scan_data['allianz'] = updateUserAlliance($scan_data['user'], $scan_data['allianz'], $scan_data['time']);
+
     $scan_typ = (string)$xml->scann_typ->id;
 
     // Geo
@@ -386,9 +389,6 @@ function save_sbxml($scan_data)
             }
         }
 
-        //Allianz ggf. aktualisieren
-        $scan_data['allianz'] = updateUserAlliance($scan_data['user'], $scan_data['allianz'], $scan_data['time']);
-
         //Planetendaten aktualisieren
         $where = " WHERE `coords_gal`=" . $scan_data['coords_gal'] . " AND `coords_sys`=" . $scan_data['coords_sys'] . " AND `coords_planet`=" . $scan_data['coords_planet'];
         $db->db_update($db_tb_scans, $scan_data, $where)
@@ -398,7 +398,7 @@ function save_sbxml($scan_data)
 
     } else {
 
-        // PLaneten-Eintrag noch nicht vorhanden -> Planeteninformationen einfügen
+        // Planeten-Eintrag noch nicht vorhanden -> Planeteninformationen einfügen
         $db->db_insert($db_tb_scans, $scan_data)
             or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 

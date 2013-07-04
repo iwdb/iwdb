@@ -265,9 +265,11 @@ foreach ($categories as $category => $value) {
 							$image = 'blank';
 							$id    = 0;
 						}
-						echo "<a href='index.php?action=m_building&show_building=" . $id . "'>";
-						echo "<img src='".BILDER_PATH."gebs/" . $image . ".jpg' width='50' height='50' alt='" . $building . "'>";
-						echo "</a>";
+                        echo "<abbr title='$building'>";
+                        echo "<a href='index.php?action=m_building&show_building=" . $id . "'>";
+                        echo "<img src='" . GEBAEUDE_BILDER_PATH . $image . ".jpg' width='50' height='50' alt='" . $building . "'>";
+                        echo "</a>";
+                        echo "</abbr>";
 						?>
 					</th>
 				<?php

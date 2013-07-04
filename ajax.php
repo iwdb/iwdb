@@ -25,7 +25,7 @@ if ($action === 'getIncomings') {
 
     $result = $db->db_update($db_tb_incomings, array('saved' => $saved, 'savedUpdateTime' => CURRENT_UNIX_TIME ), "WHERE koords_to = '$coords'");
 
-    if ($result === true) {
+    if (!empty($result)) {
         include('ajax/getIncomingsTables.php');
         echo json_encode(array('result' => 'success', 'time' => CURRENT_UNIX_TIME, 'tables' => getIncomingsTables()));
     }
@@ -41,7 +41,7 @@ if ($action === 'getIncomings') {
 
     $result = $db->db_update($db_tb_incomings, array('recalled' => $recalled, 'recalledUpdateTime' => CURRENT_UNIX_TIME), "WHERE koords_to = '$coords'");
 
-    if ($result === true) {
+    if (!empty($result)) {
         include('ajax/getIncomingsTables.php');
         echo json_encode(array('result' => 'success', 'time' => CURRENT_UNIX_TIME, 'tables' => getIncomingsTables()));
     }

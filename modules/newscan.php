@@ -36,17 +36,19 @@ $start = microtime(true);
 //$debug = TRUE;
 
 /*
-	Autoload system for plib parser
+    Autoload system for plib parser
 */
 
 
 global $plibfiles;
 
 $plibfiles = array();
-function __autoload($class) {
+function __autoload($class)
+{
     global $plibfiles;
     if (empty($plibfiles)) {
-        function ReadTheDir($base) {
+        function ReadTheDir($base)
+        {
             global $plibfiles;
             $base = realpath($base) . DIRECTORY_SEPARATOR;
             $dir  = opendir($base);
@@ -65,11 +67,12 @@ function __autoload($class) {
         ReadTheDir('plib' . DIRECTORY_SEPARATOR);
     }
     if (isset($plibfiles[md5($class . ".php")]) && file_exists($plibfiles[md5($class . ".php")])) {
-        require_once ($plibfiles[md5($class . ".php")]);
+        require_once($plibfiles[md5($class . ".php")]);
     }
 }
 
-function plural($singular) {
+function plural($singular)
+{
     if (preg_match('/.*sicht$/i', $singular)) {
         return ($singular . "en");
     }
@@ -90,25 +93,25 @@ function plural($singular) {
 }
 
 ?>
-<script>
-$(document).ready(function(){
-	$("#text").bind('input propertychange', function() {
-		var checklength = $(this).val().length;
-		if(checklength){
-			$("form").submit();
-		}
-	});
-});
-</script>
+    <script>
+        $(document).ready(function () {
+            $("#text").bind('input propertychange', function () {
+                var checklength = $(this).val().length;
+                if (checklength) {
+                    $("form").submit();
+                }
+            });
+        });
+    </script>
 <?php
 
-if (empty($selectedusername)) {      //wurde noch nicht woanders eingestellt (z.B. von Sitterschleife)
+if (empty($selectedusername)) { //wurde noch nicht woanders eingestellt (z.B. von Sitterschleife)
     $selectedusername = getVar('seluser');
 }
 
-$selectedusername = validAccname($selectedusername);             //Account verifizieren
+$selectedusername = validAccname($selectedusername); //Account verifizieren
 if ($selectedusername === false) {
-    $selectedusername = validAccname(urldecode($selectedusername));    //noch ein Versuch mit irgendwie encodiertem Namen
+    $selectedusername = validAccname(urldecode($selectedusername)); //noch ein Versuch mit irgendwie encodiertem Namen
     if ($selectedusername === false) {
         $selectedusername = $user_sitterlogin;
     }
@@ -118,92 +121,92 @@ if (!isset($sitterschleife)) {
 
     doc_title('Neuer Bericht');
     ?>
-	<form id='nb' name='nb' method='POST' action='index.php?action=newscan' enctype='multipart/form-data'>
-		<table class='table_format' style='width: 90%;'>
-			<tr>
-				<td class='windowbg2 center'>
-	
-	<?php
-    global $user_status, $user_sitten;
+    <form id='nb' name='nb' method='POST' action='index.php?action=newscan' enctype='multipart/form-data'>
+        <table class='table_format' style='width: 90%;'>
+            <tr>
+                <td class='windowbg2 center'>
 
-    $sqlP = "SELECT value FROM `{$db_tb_params}` WHERE name = 'bericht_fuer_rang';";
-    $resultP = $db->db_query($sqlP)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
-    $rowP = $db->db_fetch_array($resultP);
+                    <?php
+                    global $user_status, $user_sitten;
 
-    $allow1 = false;
+                    $sqlP = "SELECT value FROM `{$db_tb_params}` WHERE name = 'bericht_fuer_rang';";
+                    $resultP = $db->db_query($sqlP)
+                        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
+                    $rowP = $db->db_fetch_array($resultP);
 
-    if ($rowP['value'] == 'hc' AND (strtolower($user_status) == 'hc')) {
-        $allow1 = true;
-    }
-    if ($rowP['value'] == 'mv' AND (strtolower($user_status) == 'hc' OR strtolower($user_status) == 'mv')) {
-        $allow1 = true;
-    }
-    if ($rowP['value'] == 'all' AND ($login_ok)) {
-        $allow1 = true;
-    }
+                    $allow1 = false;
 
-    $sqlP = "SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'bericht_fuer_sitter';";
-    $resultP = $db->db_query($sqlP)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
-    $rowP = $db->db_fetch_array($resultP);
+                    if ($rowP['value'] == 'hc' AND (strtolower($user_status) == 'hc')) {
+                        $allow1 = true;
+                    }
+                    if ($rowP['value'] == 'mv' AND (strtolower($user_status) == 'hc' OR strtolower($user_status) == 'mv')) {
+                        $allow1 = true;
+                    }
+                    if ($rowP['value'] == 'all' AND ($login_ok)) {
+                        $allow1 = true;
+                    }
 
-    $allow2 = false;
+                    $sqlP = "SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'bericht_fuer_sitter';";
+                    $resultP = $db->db_query($sqlP)
+                        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
+                    $rowP = $db->db_fetch_array($resultP);
 
-    if ($rowP['value'] == 0 AND ($user_sitten == 0 OR $user_sitten == 1)) {
-        $allow2 = true;
-    }
-    if ($rowP['value'] == 1 AND ($user_sitten == 1)) {
-        $allow2 = true;
-    }
-    if ($rowP['value'] == 3 AND ($user_sitten == 0 OR $user_sitten == 1)) {
-        $allow2 = true;
-    }
-    if ($rowP['value'] == 2) {
-        $allow2 = true;
-    }
+                    $allow2 = false;
 
-    if ($user_status == "admin") {
-        $allow1 = true;
-        $allow2 = true;
-    }
+                    if ($rowP['value'] == 0 AND ($user_sitten == 0 OR $user_sitten == 1)) {
+                        $allow2 = true;
+                    }
+                    if ($rowP['value'] == 1 AND ($user_sitten == 1)) {
+                        $allow2 = true;
+                    }
+                    if ($rowP['value'] == 3 AND ($user_sitten == 0 OR $user_sitten == 1)) {
+                        $allow2 = true;
+                    }
+                    if ($rowP['value'] == 2) {
+                        $allow2 = true;
+                    }
 
-    if ($allow1 AND $allow2) {
-        echo "   Bericht einfügen für\n";
-        echo "	 <select name='seluser' style='width: 200px;'>\n";
+                    if ($user_status == "admin") {
+                        $allow1 = true;
+                        $allow2 = true;
+                    }
 
-        $sql = "SELECT sitterlogin FROM " . $db_tb_user . " ORDER BY id ASC";
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                    if ($allow1 AND $allow2) {
+                        echo "   Bericht einfügen für\n";
+                        echo "   <select name='seluser' style='width: 200px;'>\n";
 
-        while ($row = $row = $db->db_fetch_array($result)) {
-            echo "      <option value='" . $row['sitterlogin'] . "'" . ($selectedusername == $row['sitterlogin'] ? " selected" : "") . ">" . $row['sitterlogin'] . "</option>";
-        }
-        echo " 	 </select><br />\n";
-    }
-	?>
-					<textarea name='text' id='text' rows='14' cols='70'></textarea><br />
-					<br />
-					Für Hilfe bitte oben auf den "Hilfe" Button drücken.
-					<br />
-				</td>
-			</tr>
-			<tr>
-				<td class='titlebg center'>
-					<input type='submit' value='abspeichern' name='B1' id='B1' class='submit'>
-				</td>
-			</tr>
-		</table>
+                        $sql = "SELECT sitterlogin FROM " . $db_tb_user . " ORDER BY id ASC";
+                        $result = $db->db_query($sql)
+                        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
+                        while ($row = $row = $db->db_fetch_array($result)) {
+                            echo "      <option value='" . $row['sitterlogin'] . "'" . ($selectedusername == $row['sitterlogin'] ? " selected" : "") . ">" . $row['sitterlogin'] . "</option>";
+                        }
+                        echo "   </select><br />\n";
+                    }
+                    ?>
+                    <textarea name='text' id='text' rows='14' cols='70'></textarea><br/>
+                    <br/>
+                    Für Hilfe bitte oben auf den "Hilfe" Button drücken.
+                    <br/>
+                </td>
+            </tr>
+            <tr>
+                <td class='titlebg center'>
+                    <input type='submit' value='abspeichern' name='B1' id='B1' class='submit'>
+                </td>
+            </tr>
+        </table>
     </form>
     <br>
-	<?php
+<?php
 }
 
 $textinput = getVar('text', true); // ungefilterten Bericht holen
 if (!empty($textinput)) {
     $count = 0;
 
-    require_once ('plib/ParserFactoryConfigC.php');
+    require_once('plib/ParserFactoryConfigC.php');
     $availParsers = new ParserFactoryConfigC();
     $aParserIds   = $availParsers->getParserIdsFor($textinput);
 
@@ -233,7 +236,7 @@ if (!empty($textinput)) {
                     } else {
                         $lparser = $parserResult->strIdentifier;
                         if (file_exists('parser/' . $lparser . '.php')) {
-                            require_once ('parser/' . $lparser . '.php');
+                            require_once('parser/' . $lparser . '.php');
 
                             if (function_exists('parse_' . $lparser)) {
 
@@ -296,13 +299,13 @@ if (!empty($textinput)) {
                     echo "  </tr>\n";
                 }
                 // Closure hook for module after all needed things were inserted.
-                // E.g. recalculating research levels after new researches were added. 
+                // E.g. recalculating research levels after new researches were added.
                 if (function_exists("finish_" . $key)) {
                     $func = "finish_" . $key;
                     $func();
                 }
 
-                // Display hook for displaying the result of the insertation. 
+                // Display hook for displaying the result of the insertation.
                 if (function_exists("display_" . $key)) {
                     $func = "display_" . $key;
                     $func();

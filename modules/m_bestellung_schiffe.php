@@ -908,7 +908,7 @@ $data = array();
 		<tr>
 			<td>
 				<?php
-				$name=GetNameByID($row['schiffstyp_id']);
+				$name=getNameByID($row['schiffstyp_id']);
 				echo $name;
 				?>
 			</td>
@@ -1120,7 +1120,7 @@ function makeurl($newparams)
 // **************************************************************************
 //
 // Gibt den Schiffsnamen zu einer Schiffs-ID zurück
-function GetNameByID($id) {
+function getNameByID($id) {
 	
 	global $db, $db_tb_schiffstyp;
 	

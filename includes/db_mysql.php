@@ -350,6 +350,62 @@ class db
 
     }
 
+    /**
+     * function db_insertignore
+     *
+     * Fügt die Daten des übergebenen Arrays in die Datenbank ein
+     * oder ignoriert die eingabe falls schon vorhanden
+     *
+     * @param string $table Tabellenbezeichner
+     * @param array  $data  Daten
+     *
+     * @throws Exception
+     * @return bool|resource Queryhandle bei Erfolg, false bei Fehler
+     *
+     * @author masel
+     */
+    function db_insertignore($table, $data)
+    {
+        unset($this->query_result);
+
+        if (empty($table) OR empty($data) OR !is_array($data)) {
+            return false;
+        }
+
+        $query = "INSERT INTO `" . $table . "` (";
+
+        //INSERT-Teil zusammenbauen
+        foreach ($data as $key => $value) {
+
+            if ($value === null) {
+                $data[$key] = "NULL";
+            } elseif ($value === false) { //boolean ist meist tinyint(1)
+                $data[$key] = "0";
+            } elseif ($value === true) {
+                $data[$key] = "1";
+            } elseif (is_string($value)) { //Wert ist String? -> escapen
+                $value = mysql_real_escape_string($value, $this->db_link_id);
+                if ($value === false) {
+                    throw new Exception('Value escaping failed!');
+                }
+                $data[$key] = "'$value'";
+            } elseif (!is_int($value) AND !is_float($value)){
+                throw new Exception('Invalid values!');
+            }
+
+        }
+
+        $query .= '`' . implode(array_keys($data), "`,`");
+        $query .= "`) VALUES (";
+        $query .= implode($data, ",");
+        $query .= ") ON DUPLICATE KEY UPDATE `".key($data)."`=`".key($data)."`;";   //means do nothing
+
+        $this->query_result = $this->db_query($query, $this->db_link_id);
+
+        return $this->query_result;
+
+    }
+
     function db_insert_id()
     {
         return mysql_insert_id($this->db_link_id);

@@ -444,35 +444,10 @@ function save_data($scan_data)
             }
         }
     }
-    $sql = "INSERT INTO " . $db_tb_lieferung . " (";
-    $sql .= implode(array_keys($fields), ",");
-    $sql .= ") VALUES (";
 
-    $inserts = array();
-    foreach ($fields as $value) {
-        if (is_numeric($value)) {
-            $inserts[] = $value;
-        } else {
-            $inserts[] .= "'" . $value . "'";
-        }
-    }
-    $sql .= implode($inserts, ",");
-    $sql .= ") ON DUPLICATE KEY UPDATE ";
+    $db->db_insertignore($db_tb_lieferung, $fields)
+        or error(GENERAL_ERROR, 'Could not insert transports.', '', __FILE__, __LINE__);
 
-    $updates = array();
-    foreach ($fields as $key => $value) {
-        if (!empty($value)) {
-            if (is_numeric($value)) {
-                $updates[] = $key . "=" . $value;
-            } else {
-                $updates[] = $key . "='" . $value . "'";
-            }
-        }
-    }
-    $sql .= implode($updates, ",");
-    debug_var('sql', $sql);
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     if ($scan_data['art'] == "Angriff") {
         $sql = "UPDATE $db_tb_scans
 			 SET angriff=" . $scan_data['time'] . "
@@ -498,22 +473,28 @@ function save_data($scan_data)
     if (!empty($db_tb_incomings)) { //incoming-Modul vorhanden
 
         if (($scan_data['art'] == "Angriff") || (($scan_data['art'] == "Sondierung (Schiffe/Def/Ress)") || ($scan_data['art'] == "Sondierung (Gebäude/Ress)"))) {
-            $allianz_to = GetAllianceByUser($scan_data['user_to']);
+            $allianz_to = getAllianceByUser($scan_data['user_to']);
 
             //Löschen der Einträge älter als 20 min in der Tabelle incomings, es sollen nur aktuelle Sondierungen und Angriffe eingetragen sein
             //ToDo : evtl Trennung Sondierung und Angriffe, damit die Sondierungen früher entfernt sind
             $sql = "DELETE FROM $db_tb_incomings WHERE arrivaltime<" . (CURRENT_UNIX_TIME - 20 * MINUTE);
-            $result = $db->db_query($sql)
+            $db->db_query($sql)
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
             if (($allianz_to === $config_allytag) AND ($scan_data['time'] > (CURRENT_UNIX_TIME - 20 * MINUTE))) { //nur incomings auf die eigene Ally und maximal 20 min in der Vergangenheit?
-                $koords_from = $scan_data['coords_from_gal'] . ":" . $scan_data['coords_from_sys'] . ":" . $scan_data['coords_from_planet'];
-                $koords_to   = $scan_data['coords_to_gal'] . ":" . $scan_data['coords_to_sys'] . ":" . $scan_data['coords_to_planet'];
-
-                $sql = "INSERT INTO $db_tb_incomings (koords_to,name_to,allianz_to,koords_from,name_from,allianz_from,art,arrivaltime,listedtime) VALUES ('" . $koords_to . "','" . $scan_data['user_to'] . "','" . $allianz_to . "','" . $koords_from . "','" . $scan_data['user_from'] . "','" . (GetAllianceByUser($scan_data['user_from'])) . "','" . $scan_data['art'] . "'," . $scan_data['time'] . ", ".CURRENT_UNIX_TIME.") ON DUPLICATE KEY UPDATE arrivaltime=arrivaltime;"; //ON DUPLICATE KEY UPDATE timestamp=timestamp entspricht ON DUPLICATE KEY "DO NOTHING"
-                debug_var('sql', $sql);
-                $result = $db->db_query($sql)
-                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                $SQLdata = array(
+                    'koords_to'    => $scan_data['coords_to_gal'] . ":" . $scan_data['coords_to_sys'] . ":" . $scan_data['coords_to_planet'],
+                    'name_to'      => $scan_data['user_to'],
+                    'allianz_to'   => $allianz_to,
+                    'koords_from'  => $scan_data['coords_from_gal'] . ":" . $scan_data['coords_from_sys'] . ":" . $scan_data['coords_from_planet'],
+                    'name_from'    => $scan_data['user_from'],
+                    'allianz_from' => getAllianceByUser($scan_data['user_from']),
+                    'art'          => $scan_data['art'],
+                    'arrivaltime'  => $scan_data['time'],
+                    'listedtime'   => CURRENT_UNIX_TIME
+                );
+                $db->db_insertignore($db_tb_incomings, $SQLdata)
+                    or error(GENERAL_ERROR, 'Could not insert incomings.', '', __FILE__, __LINE__);
             }
         }
     }

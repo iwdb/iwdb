@@ -295,7 +295,7 @@ function deleteInvalidAlliances()
  *
  * @todo   Funktion sollte gecached werden, damit nicht unnötig viele Aufrufe erfolgen?
  */
-function GetNameByCoords($coords)
+function getNameByCoords($coords)
 {
     global $db, $db_tb_scans;
 
@@ -328,7 +328,7 @@ function GetNameByCoords($coords)
  *
  * @todo   Funktion sollte gecached werden, damit nicht unnötig viele Aufrufe erfolgen?
  */
-function GetAllianceByUser($username)
+function getAllianceByUser($username)
 {
     global $db, $db_tb_spieler;
 
@@ -449,7 +449,7 @@ function updateUserAlliance($name, $allianz, $time)
  *
  * @return string Objekt auf dem Planeten
  */
-function GetObjectByCoords($coords)
+function getObjectByCoords($coords)
 {
     global $db, $db_tb_scans;
 
@@ -475,9 +475,9 @@ function GetObjectByCoords($coords)
  *
  * @return string html img Element
  */
-function GetObjectPictureByCoords($coords)
+function getObjectPictureByCoords($coords)
 {
-    $objekt        = GetObjectByCoords($coords);
+    $objekt        = getObjectByCoords($coords);
     $objectPicture = '';
 
     if ($objekt === 'Kolonie') {

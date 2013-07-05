@@ -283,18 +283,18 @@ Achja bei dem ganzen Chaos kamen 142 Leute ums Leben.
         $parsertyp = ($msg->eParserType == "Sondierung (Schiffe/Def/Ress)") ? "schiffe" : "gebaeude";
 
         //! Hier die Namen für die Koordinaten aus der Datenbank holen
-        $name_to = GetNameByCoords($msg->strCoordsTo);
+        $name_to = getNameByCoords($msg->strCoordsTo);
         if (empty($name_to)) {
             $name_to = $selectedusername;
         }
-        $alliance_to = GetAllianceByUser($name_to);
+        $alliance_to = getAllianceByUser($name_to);
 
         if (empty($msg->strNameFrom)) {
             $msg->strNameFrom = '';
         } else {
             if (empty($msg->strAllianceFrom)) {
                 // Allianz konnte nicht aus dem Text bestimmt werden
-                $msg->strAllianceFrom = GetAllianceByUser($msg->strNameFrom);
+                $msg->strAllianceFrom = getAllianceByUser($msg->strNameFrom);
             }
         }
 

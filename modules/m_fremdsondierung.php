@@ -209,7 +209,7 @@ $data = array();
 			</td>
 			<td>
 				<?php
-				$objekt = GetObjectByCoords($row['koords_to']);
+				$objekt = getObjectByCoords($row['koords_to']);
 				if ($objekt == 'Kolonie') {
 					echo "<img src='".BILDER_PATH."kolo.png'>";
 				} else if ($objekt == 'Sammelbasis') {
@@ -233,7 +233,7 @@ $data = array();
 			</td>
 			<td>
 				<?php
-				$objekt = GetObjectByCoords($row['koords_from']);
+				$objekt = getObjectByCoords($row['koords_from']);
 				if ($objekt == 'Kolonie') {
 					echo "<img src='".BILDER_PATH."kolo.png'>";
 				} else if ($objekt == 'Sammelbasis') {

@@ -1339,7 +1339,7 @@ INSERT INTO `prefix_schiffstyp` (`id`, `schiff`, `abk`, `typ`, `bild`, `id_iw`, 
 (5, 'Gorgol 9 (Hyperraumtransporter Klasse 1)', 'Gorgol', '1. Frachter', 'gorgol9_k', 15, 0, 2300, 0, 750, 0, 0, 2000, 5, NULL, 400, 3000, 1, 0, 10, 0, 0, 'keine', 200, 100, 100, 100, 0, 0, 40, 0, 1, 1, 'mittlere', 36000, 0, 1, 20000, 0, 0, 0, 0, 0, 0, 1360139598),
 (6, 'Eisbär (Hyperraumtransporter Klasse 2)', 'Eisbär', '1. Frachter', '', 17, 0, 2500, 0, 1250, 100, 100, 1250, 5, NULL, 400, 3000, 1, 0, 15, 0, 0, 'keine', 200, 100, 100, 100, 0, 0, 50, 0, 1, 1, 'mittlere', 28800, 0, 1, 0, 10000, 0, 0, 0, 0, 0, 1360139619),
 (7, 'Kampfbasis Alpha', 'KB Alpha', '2. Zivile Schiffe', '', 54, 10000, 7500, 750, 5900, 0, 0, 5000, 150, NULL, 450, 3600, 1, 0, 35, 0, 0, 'keine', 500, 100, 100, 100, 0, 0, 30, 0, 1, 1, 'mittlere', 28800, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1360141259),
-(8, 'Atombomber', 'Atombomber', '3. Jäger &amp; Co', '', 21, 1000, 1750, 650, 750, 0, 0, 500, 1, NULL, 350, 0, 0, 1, 15, 0, 10, 'kinetisch', 45, 100, 75, 50, 0, 35, 25, 0, 1, 1, 'kleine', 7200, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1360139683),
+(8, 'bürokratischer Formularbomber', 'Formularbomber', '3. Jäger &amp; Co', '', 21, 1000, 1750, 650, 750, 0, 0, 500, 1, NULL, 350, 0, 0, 1, 15, 0, 10, 'kinetisch', 45, 100, 75, 50, 0, 35, 25, 0, 1, 1, 'kleine', 7200, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1360139683),
 (9, 'Slayer', 'Slayer', '4. Korvetten/Zerstörer', 'slayer_k', 40, 0, 2000, 0, 900, 0, 0, 2000, 35, NULL, 300, 3000, 0, 1, 20, 0, 35, 'kinetisch', 100, 75, 75, 75, 0, 75, 75, 0, 1, 1, 'kleine', 18000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1360141130),
 (10, 'Vendeta', 'Vendeta', '4. Korvetten/Zerstörer', 'vendetta_k', 41, 0, 3000, 900, 1000, 0, 0, 2800, 50, NULL, 420, 4500, 1, 0, 20, 0, 55, 'elektrisch', 120, 100, 100, 100, 0, 100, 75, 0, 1, 1, 'mittlere', 21600, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1360141139),
 (12, 'Hitman', 'Hitman', '4. Korvetten/Zerstörer', 'hitman_k', 44, 4000, 5000, 1500, 2000, 0, 0, 4000, 50, NULL, 550, 4000, 1, 0, 30, 0, 120, 'kinetisch', 280, 100, 100, 80, 0, 75, 55, 5, 1.05, 1.05, 'mittlere', 43200, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1360141164),
@@ -1396,8 +1396,7 @@ INSERT INTO `prefix_schiffstyp` (`id`, `schiff`, `abk`, `typ`, `bild`, `id_iw`, 
 (307, 'Kampfhuhn', 'Kampfhuhn', 'alte Schiffe', '', 77, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 500, 5000, 1, 0, 10, 10, 0, 'keine', 100, 100, 100, 100, 0, 100, 500, 0, 1, 1, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1360141458),
 (309, 'Downbringer', 'Downbringer', 'alte Schiffe', '', 32, 450, 1200, 750, 800, 0, 0, 1300, 2, NULL, 850, 0, 0, 1, 9, 5, 25, 'elektrisch', 60, 100, 130, 100, 30, 150, 145, 0, 1, 1, 'kleine', 5040, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1360140052),
 (310, 'Stopfente', 'Stopfente', 'admin', '', NULL, 10, 10, 5, 5, 0, 2, 5, 0, NULL, 400, 3000, 1, 0, 1, 0, 1, 'kinetisch', 2, 100, 100, 100, 0, 100, 100, 0, 1, 1, 'kleine', 360, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1368435726),
-(311, 'SuperStopfente', 'Superstopfente', 'admin', '', NULL, 10, 10, 5, 5, 0, 2, 5, 0, NULL, 400, 3000, 1, 0, 1, 0, 1, 'kinetisch', 2000, 100, 100, 100, 0, 100, 500, 0, 1, 1, 'kleine', 360, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1368435737),
-(312, 'bürokratischer Formularbomber', 'F-Bomber', '3. Jäger &amp; Co', '', NULL, 1000, 1750, 650, 750, 0, 0, 500, 1, NULL, 350, 0, 0, 1, 15, 0, 10, 'kinetisch', 45, 100, 75, 50, 0, 35, 25, 0, 1, 1, 'kleine', 7200, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1372394829);
+(311, 'SuperStopfente', 'Superstopfente', 'admin', '', NULL, 10, 10, 5, 5, 0, 2, 5, 0, NULL, 400, 3000, 1, 0, 1, 0, 1, 'kinetisch', 2000, 100, 100, 100, 0, 100, 500, 0, 1, 1, 'kleine', 360, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1368435737);
 
 -- --------------------------------------------------------
 

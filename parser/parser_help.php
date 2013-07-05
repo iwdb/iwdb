@@ -384,26 +384,37 @@ function updateUserAlliance($name, $allianz, $time)
 
             return $row_player['allianz'];
 
-        } else { //Übergebene informationen sind aktueller -> aktualisieren
+        } else { //Übergebene informationen sind aktueller -> bei Allianzänderung Allianz aktualisieren
 
-            $SQLdata = array(
+            if ($row_player['allianz'] === $allianz) {
 
-                'allianz'           => $allianz,
-                'allianzrang'       => null,
-                'exallianz'         => $row_player['allianz'],
-                'allychange_time'   => $time,
-                'playerupdate_time' => $time
+                $SQLdata = array(
+                    'playerupdate_time' => $time
+                );
 
-            );
+                $db->db_update($db_tb_spieler, $SQLdata, "WHERE `name` = '{$name}';")
+                    or error(GENERAL_ERROR, 'Could not update player information.', '', __FILE__, __LINE__, '');
 
-            $db->db_update($db_tb_spieler, $SQLdata, "WHERE `name` = '{$name}';")
-                or error(GENERAL_ERROR, 'Could not update player information.', '', __FILE__, __LINE__, '');
+            } else {
 
-            //Allianzänderung in Historytabele übertragen
-            AddAllychangetoHistory($time);
+                $SQLdata = array(
+                    'allianz'           => $allianz,
+                    'allianzrang'       => null,
+                    'exallianz'         => $row_player['allianz'],
+                    'allychange_time'   => $time,
+                    'playerupdate_time' => $time
+                );
 
-            //aktuelle Allianz in alle Kartendaten übertragen
-            SyncAllies($time);
+                $db->db_update($db_tb_spieler, $SQLdata, "WHERE `name` = '{$name}';")
+                    or error(GENERAL_ERROR, 'Could not update player information.', '', __FILE__, __LINE__, '');
+
+                //Allianzänderung in Historytabele übertragen
+                AddAllychangetoHistory($time);
+
+                //aktuelle Allianz in alle Kartendaten übertragen
+                SyncAllies($time);
+
+            }
 
             return $allianz;
 

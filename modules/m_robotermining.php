@@ -181,6 +181,11 @@ $sql = "SELECT  $db_tb_user.id AS 'user',
 		  WHERE $db_tb_scans.user=$db_tb_user.id
 		    AND $db_tb_scans.objekt='Sammelbasis') AS 'base',
 		 
+		 (SELECT $db_tb_schiffe.anzahl
+		  FROM $db_tb_schiffe
+		  WHERE $db_tb_schiffe.user=$db_tb_user.id
+		    AND $db_tb_schiffe.schiff=18) AS 'numRB',
+		 
 		 (SELECT SUM($db_tb_lager.eisen_prod)
 		  FROM $db_tb_lager
 		  WHERE $db_tb_lager.user=$db_tb_user.id
@@ -231,7 +236,10 @@ echo '</div><br>';
 				Robominerzentrale
 			</th>
 			<th>
-				Sammelbasen
+				Sammelbasen<br>aufgestellt
+			</th>
+			<th>
+				Sammelbasen<br>im Acc
 			</th>
 			<th>
 				Eisen /h
@@ -283,7 +291,7 @@ echo '</div><br>';
 			</td>
 			<td>
 				<?php
-				if (!empty($row['count'])) {
+				if (!empty($row['base'])) {
                     if ($row['base'] < 3) {
                         echo "<span class='doc_red'>".$row['base'] . "/" . $row['count']."</span>";
                     } else {
@@ -294,6 +302,17 @@ echo '</div><br>';
 				}
 				?>
 			</td>
+			
+			<td>
+				<?php
+				if (!empty($row['numRB'])) {
+                    echo $row['numRB'];
+				} else {
+					echo "<span class='doc_red'>-</span>";
+				}
+				?>
+			</td>
+			
 			<td>
 				<?php
 				if (!empty($row['eisen'])) {

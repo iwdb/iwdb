@@ -24,7 +24,7 @@
         ExpiresDefault "access plus 1 year"
     </FilesMatch>
 
-    # Bilder und Flashzeug 1 Monat cachen
+    # Bilder 1 Monat cachen
     <FilesMatch "\.(gif|jpg|jpeg|png)$">
         ExpiresDefault "access plus 1 month"
     </FilesMatch>
@@ -41,6 +41,11 @@
 
     # kein cachen dynamischer Seiten
     <FilesMatch "\.(php)$">
+        ExpiresActive Off
+    </FilesMatch>
+
+    # kein cachen des Transportstats graphen
+    <FilesMatch "^graph_transport.gif$">
         ExpiresActive Off
     </FilesMatch>
 </ifmodule>

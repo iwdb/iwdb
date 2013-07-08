@@ -46,7 +46,7 @@
 
     # kein cachen des Transportstats graphen
     <FilesMatch "^graph_transport.gif$">
-        ExpiresActive Off
+        ExpiresDefault "access plus 0 seconds"
     </FilesMatch>
 </ifmodule>
 

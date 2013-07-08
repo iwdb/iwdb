@@ -174,7 +174,7 @@ $sql = "SELECT  $db_tb_user.id AS 'user',
 		 (SELECT DISTINCT MAX($db_tb_gebaeude_spieler.count)
 		  FROM $db_tb_gebaeude_spieler
 		  WHERE $db_tb_gebaeude_spieler.user=$db_tb_user.id
-		    AND $db_tb_gebaeude_spieler.building='Robominerzentrale' HAVING MAX($db_tb_gebaeude_spieler.count)) AS 'count',
+		    AND $db_tb_gebaeude_spieler.building='Robominerzentrale' HAVING MAX($db_tb_gebaeude_spieler.count)) AS 'numRMZ',
 			
 		 (SELECT COUNT($db_tb_scans.coords)
 		  FROM $db_tb_scans
@@ -221,130 +221,136 @@ echo '</div><br>';
 
 ?>
 <table data-sortlist="[[0,0]]" class='tablesorter-blue'>
-	<thead>
-		<tr>
-			<th>
-				Spieler
-			</th>
-			<th>
-				Typ
-			</th>
-			<th>
-				Robotermining
-			</th>
-			<th>
-				Robominerzentrale
-			</th>
-			<th>
-				Sammelbasen<br>aufgestellt
-			</th>
-			<th>
-				Sammelbasen<br>im Acc
-			</th>
-			<th>
-				Eisen /h
-			</th>
-			<th>
-				Chemie /h
-			</th>
-			<th>
-				Eis /h
-			</th>
-		</tr>
-	</thead>
-	<tbody>
-	
-	<?php
-	while ($row = $db->db_fetch_array($result)) {
-	?>
-	
-		<tr>
-			<td>
-				<?php echo $row['user']; ?>
-			</td>
-			<td>
-				<?php echo $row['typ']; ?>
-			</td>
-			<td>
-				<?php
-				if (!empty($row['research'])) {
+    <thead>
+    <tr>
+        <th>
+            Spieler
+        </th>
+        <th>
+            Typ
+        </th>
+        <th>
+            Robotermining
+        </th>
+        <th>
+            Robominerzentrale<br>Stufe max
+        </th>
+        <th>
+            Sammelbasen<br>aufgestellt
+        </th>
+        <th>
+            Sammelbasen<br>im Acc
+        </th>
+        <th>
+            Eisen /h
+        </th>
+        <th>
+            Chemie /h
+        </th>
+        <th>
+            Eis /h
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php
+    while ($row = $db->db_fetch_array($result)) {
+        ?>
+        <tr>
+            <td>
+                <?php echo $row['user']; ?>
+            </td>
+            <td>
+                <?php echo $row['typ']; ?>
+            </td>
+            <td>
+                <?php
+                if (!empty($row['research'])) {
                     echo "<span class='doc_green'>erforscht</span>";
-				} else {
-					echo "<span class='doc_red'>nicht erforscht</span>";
-				}
-				?>
-			</td>
-			<td>
-				<?php
-				if (!empty($row['count'])) {
-					if ($row['count'] < 3) {
-                        echo "<span class='doc_red'>".$row['count']."</span>";
+                } elseif (!empty($row['numRMZ'])) {
+                    echo "<span class='doc_green'>erforscht</span>";
+                } elseif (!empty($row['base'])) {
+                    echo "<span class='doc_green'>erforscht</span>";
+                } elseif (!empty($row['eisen']) OR !empty($row['chemie']) OR !empty($row['eis'])) {
+                    echo "<span class='doc_green'>erforscht</span>";
+                } else {
+                    echo "<span class='doc_red'>nicht erforscht</span>";
+                }
+                ?>
+            </td>
+            <td>
+                <?php
+                if (!empty($row['numRMZ'])) {
+                    if ($row['numRMZ'] < 3) {
+                        echo "<span class='doc_red'>" . $row['numRMZ'] . "</span>";
                     } else {
-                        echo "<span class='doc_green'>".$row['count']."</span>";
+                        echo "<span class='doc_green'>" . $row['numRMZ'] . "</span>";
                     }
-				} else if (!empty($row['research'])) {
-					echo "<span class='doc_red'>Keine</span>";
-				} else {
-					echo "<span class='doc_red'>-</span>";
-				}
-				?>
-			</td>
-			<td>
-				<?php
-				if (!empty($row['base'])) {
+                } elseif (!empty($row['eisen']) OR !empty($row['chemie']) OR !empty($row['eis'])) {
+                    echo "<span class='doc_red'>?</span>";
+                } else if (!empty($row['research'])) {
+                    echo "<span class='doc_red'>Keine</span>";
+                } else {
+                    echo "<span class='doc_red'>-</span>";
+                }
+                ?>
+            </td>
+            <td>
+                <?php
+                if (!empty($row['base'])) {
                     if ($row['base'] < 3) {
-                        echo "<span class='doc_red'>".$row['base'] . "/" . $row['count']."</span>";
+                        echo "<span class='doc_red'>" . $row['base'] . "</span>";
                     } else {
-                        echo "<span class='doc_green'>".$row['base'] . "/" . $row['count']."</span>";
+                        echo "<span class='doc_green'>" . $row['base'] . "</span>";
                     }
-				} else {
-					echo "<span class='doc_red'>-</span>";
-				}
-				?>
-			</td>
-			
-			<td>
-				<?php
-				if (!empty($row['numRB'])) {
+                } elseif (!empty($row['eisen']) OR !empty($row['chemie']) OR !empty($row['eis'])) {
+                    echo "<span class='doc_red'>?</span>";
+                } else {
+                    echo "<span class='doc_red'>-</span>";
+                }
+                ?>
+            </td>
+            <td>
+                <?php
+                if (!empty($row['numRB'])) {
                     echo $row['numRB'];
-				} else {
-					echo "<span class='doc_red'>-</span>";
-				}
-				?>
-			</td>
-			
-			<td>
-				<?php
-				if (!empty($row['eisen'])) {
-					echo number_format($row['eisen'], 0, "", ".");
-				} else {
-					echo "-";
-				}
-				?>
-			</td>
-			<td>
-				<?php
-				if (!empty($row['chemie'])) {
-					echo number_format($row['chemie'], 0, "", ".");
-				} else {
-					echo "-";
-				}
-				?>
-			</td>
-			<td>
-				<?php
-				if (!empty($row['eis'])) {
-					echo number_format($row['eis'], 0, "", ".");
-				} else {
-					echo "-";
-				}
-				?>
-			</td>
-		</tr>
-	
-	<?php
-	}
-	?>
-	</tbody>
+                } else {
+                    echo "<span class='doc_red'>-</span>";
+                }
+                ?>
+            </td>
+            <td>
+                <?php
+                if (!empty($row['eisen'])) {
+                    echo number_format($row['eisen'], 0, "", ".");
+                } else {
+                    echo "-";
+                }
+                ?>
+            </td>
+            <td>
+                <?php
+                if (!empty($row['chemie'])) {
+                    echo number_format($row['chemie'], 0, "", ".");
+                } else {
+                    echo "-";
+                }
+                ?>
+            </td>
+            <td>
+                <?php
+                if (!empty($row['eis'])) {
+                    echo number_format($row['eis'], 0, "", ".");
+                } else {
+                    echo "-";
+                }
+                ?>
+            </td>
+        </tr>
+
+    <?php
+    }
+    ?>
+    </tbody>
 </table>
 <br>

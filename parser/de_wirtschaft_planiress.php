@@ -73,9 +73,13 @@ function parse_de_wirtschaft_planiress($return)
 
                 $scan_data[$resource_name]             = $resource->iResourceVorrat;
                 $scan_data[$resource_name . '_prod']   = $resource->fResourceProduction;
-                $scan_data[$resource_name . '_bunker'] = $resource->iResourceBunker;
+                if (!is_null($resource->iResourceBunker)) {
+                    $scan_data[$resource_name . '_bunker'] = $resource->iResourceBunker;
+                }
                 if (($resource_name === "chem") OR ($resource_name === "eis") OR ($resource_name === "energie")) {
-                    $scan_data[$resource_name . '_lager']  = $resource->iResourceLager;
+                    if (!is_null($resource->iResourceLager)) {
+                        $scan_data[$resource_name . '_lager']  = $resource->iResourceLager;
+                    }
                 }
 
                 if (!isset($scan_data_total[$resource_name])) {

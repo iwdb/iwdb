@@ -27,8 +27,10 @@
  *                                                                           *
  *****************************************************************************/
 
+//direktes Aufrufen verhindern
 if (!defined('IRA')) {
-    die('Hacking attempt...');
+    header('HTTP/1.1 403 forbidden');
+    exit;
 }
 
 if (!defined('DEBUG_LEVEL')) {
@@ -389,9 +391,11 @@ function parse_de_index($return)
                 if (!isset($aContainer->objResultData->aGeb)) {
                     continue;
                 }
-                foreach ($aContainer->objResultData->aGeb as $msg) {
+
+                foreach ($aContainer->objResultData->aGeb as $PlanieBuildingQueue) {
                     //! Mac: @todo: laufende Gebäude auswerten, ggf. aus Sitting entfernen
                 }
+
             } else if ($aContainer->strIdentifier == "de_index_schiff") {         //Werften
                 //new dBug($aContainer);
                 foreach ($aContainer->objResultData->aSchiff as $plan) {
@@ -445,7 +449,7 @@ function save_data($scan_data)
         }
     }
 
-    $db->db_insertignore($db_tb_lieferung, $fields)
+    $db->db_insertupdate($db_tb_lieferung, $fields)
         or error(GENERAL_ERROR, 'Could not insert transports.', '', __FILE__, __LINE__);
 
     if ($scan_data['art'] == "Angriff") {

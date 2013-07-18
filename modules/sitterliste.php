@@ -417,45 +417,52 @@ if (!empty($erledigt)) {
                       enctype="multipart/form-data">
                     <table class="table_format" style="width: 60%;">
                         <?php
-                        if ($count > 1) {
+                        if ($count >= 2) {
                             ?>
                             <tr>
                                 <td class="windowbg2">
                                     Zeit frühstens 2:
                                 </td>
                                 <td class="windowbg1">
-                                    <input type="text" name="date_b2" id="date_b2_<?php echo $row['id'];?>" value=""
-                                           style="width: 200;">
+                                    <input type="text" name="date_b2" id="date_b2_<?php echo $row['id']; ?>" value="" style="width: 15em;">
                                 </td>
                             </tr>
                         <?php
                         }
-                        if ($count > 0) {
+                        if ($count >= 1) {
                             ?>
                             <tr>
                                 <td class="windowbg2">
                                     Zeit frühstens 1:
                                 </td>
                                 <td class="windowbg1">
-                                    <input type="text" name="date_b1" id="date_b1_<?php echo $row['id'];?>" value=""
-                                           style="width: 120;">
-                                    <input type="button" name="kopieren" value="kopieren"
-                                           onclick="kopiere_zeit('<?php echo $row['id'];?>');">
+                                    <input type="text" name="date_b1" id="date_b1_<?php echo $row['id']; ?>" value="" style="width: 15em;">
+                                    <input type="button" name="kopieren" value="kopieren" onclick="kopiere_zeit('<?php echo $row['id']; ?>');">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="windowbg2">
+                                    Zeit spätestens:<br>
+                                    <i>Zeit, zu der alle Bauschleifenaufträge auslaufen.</i>
+                                </td>
+                                <td class="windowbg1">
+                                    <input type="text" name="date" id="date_<?php echo $row['id']; ?>" value="" style="width: 15em;">
+                                </td>
+                            </tr>
+                        <?php
+                        } else {
+                            ?>
+                            <tr>
+                                <td>
+                                    neue Zeit:<br>
+                                </td>
+                                <td>
+                                    <input type="text" name="date" id="date_<?php echo $row['id']; ?>" style="width: 15em;">
                                 </td>
                             </tr>
                         <?php
                         }
                         ?>
-                        <tr>
-                            <td class="windowbg2">
-                                Zeit spätestens:<br>
-                                <i>Zeit, zu der alle Bauschleifenaufträge auslaufen.</i>
-                            </td>
-                            <td class="windowbg1">
-                                <input type="text" name="date" id="date_<?php echo $row['id'];?>" value=""
-                                       style="width: 200;">
-                            </td>
-                        </tr>
                         <tr>
                             <td class="windowbg2">
                                 oder automatische Erkennung:<br>
@@ -723,33 +730,52 @@ if (isset($row_lastlogin)) {
                     </td>
                 </tr>
                 <?php
-                if ($bauschleifenlaenge >= 3) {
+                if (!empty($row['bauschleife'])) {
+                    if ($bauschleifenlaenge >= 3) {
+                        ?>
+                        <tr>
+                            <td>
+                                Zeit frühstens 2:
+                            </td>
+                            <td>
+                                <input type="text" name="date_b2" id="date_b2_<?php echo $row['id']; ?>" style="width: 15em;">
+                            </td>
+                        </tr>
+                    <?php
+                    }
+
+                    if ($bauschleifenlaenge >= 2) {
+                        ?>
+                        <tr>
+                            <td>
+                                Zeit frühstens 1:
+                            </td>
+                            <td>
+                                <input type="text" name="date_b1" id="date_b1_<?php echo $row['id']; ?>" style="width: 15em;">
+                                <input type="button" name="kopieren" value="kopieren" onclick="kopiere_zeit('<?php echo $row['id']; ?>');">
+                            </td>
+                        </tr>
+                    <?php
+                    }
                     ?>
                     <tr>
                         <td>
-                            Zeit frühstens 2:
+                            Zeit spätestens:<br>
+                            <i>Zeit, zu der alle Bauschleifenaufträge auslaufen.</i>
                         </td>
                         <td>
-                            <input type="text" name="date_b2" id="date_b2_<?php echo $row['id'];?>"
-                                   value="<?php echo strftime(CONFIG_DATETIMEFORMAT, $row['date_b2']);?>"
-                                   style="width: 150px;">
+                            <input type="text" name="date" id="date_<?php echo $row['id']; ?>" style="width: 15em;">
                         </td>
                     </tr>
                 <?php
-                }
-
-                if ($bauschleifenlaenge >= 2) {
+                } else {
                     ?>
                     <tr>
                         <td>
-                            Zeit frühstens 1:
+                            neue Zeit:<br>
                         </td>
                         <td>
-                            <input type="text" name="date_b1" id="date_b1_<?php echo $row['id'];?>"
-                                   value="<?php echo strftime(CONFIG_DATETIMEFORMAT, $row['date_b1']);?>"
-                                   style="width: 150px;">
-                            <input type="button" name="kopieren" value="kopieren"
-                                   onclick="kopiere_zeit('<?php echo $row['id'];?>');">
+                            <input type="text" name="date" id="date_<?php echo $row['id']; ?>" style="width: 15em;">
                         </td>
                     </tr>
                 <?php

@@ -1086,8 +1086,6 @@ function parseTime($timestring = '')
     if ($parsed_datetime !== false) {
         if ($parsed_datetime > CURRENT_UNIX_TIME) { //ein gültiges Datum in der Zukunft?
             return $parsed_datetime;
-        } elseif (strtotime("+1 day", $parsed_datetime) > CURRENT_UNIX_TIME) { //vielleicht morgen um die Zeit?
-            return strtotime("+1 day", $parsed_datetime);
         }
     }
 

@@ -146,9 +146,7 @@ if (!empty($_REQUEST['was'])) {
     echo "<br>Installationsarbeiten am Modul " . $modulname .
         " (" . $_REQUEST['was'] . ")<br><br>\n";
 
-    if (!@include("./includes/menu_fn.php")) {
-        die("Cannot load menu functions");
-    }
+    include_once("./includes/menu_fn.php");
 
     // Wenn ein Modul administriert wird, soll der Rest nicht mehr
     // ausgeführt werden.
@@ -442,7 +440,6 @@ while ($row = $db->db_fetch_array($result)) {
 			AND $db_tb_lieferung.`coords_to_planet`=" . $row['coords_planet'] . "
 			AND $db_tb_lieferung.`art`='Transport'
 			AND $db_tb_lieferung.`time`>" . $row['time_created'] . "
-			AND $db_tb_lieferung.`user_from`<>$db_tb_lieferung.`user_to`
 			ORDER BY $db_tb_lieferung.`time`";
         debug_var("sql_lieferung", $sql_lieferung);
         $result_lieferung = $db->db_query($sql_lieferung)

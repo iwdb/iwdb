@@ -34,8 +34,11 @@
 /*                                                                           */
 /*****************************************************************************/
 
-if (!defined('IRA'))
-	die('Hacking attempt...');
+//direktes Aufrufen verhindern
+if (!defined('IRA')) {
+    header('HTTP/1.1 403 forbidden');
+    exit;
+}
 
 // *************************************************************************** 
 //  Wichtige Angaben die überprüft und für die eigene Allianz eingestellt werden sollten!

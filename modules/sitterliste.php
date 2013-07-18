@@ -694,7 +694,8 @@ if (isset($row_lastlogin)) {
 </tr>
 <tr id="row_<?php echo $row['id'];?>" style="display: none;">
     <td colspan="6" class="windowbg1 center" style="width: 100%;">
-        <form method="POST" action="index.php?action=sitterliste" enctype="multipart/form-data">
+        <form method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="action" value="sitterliste">
 			<table class="table_format_noborder left" style="margin: 0 auto;">
                 <tr>
                     <td colspan="2" class="center">

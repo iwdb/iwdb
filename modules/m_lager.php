@@ -139,7 +139,7 @@ if (!empty($_REQUEST['was'])) {
     echo "<br>Installationsarbeiten am Modul " . $modulname .
         " (" . $_REQUEST['was'] . ")<br><br>\n";
 
-    require_once "./includes/menu_fn.php";
+    require_once './includes/menu_fn.php';
 
     // Wenn ein Modul administriert wird, soll der Rest nicht mehr
     // ausgeführt werden.

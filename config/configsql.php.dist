@@ -24,8 +24,11 @@
 /* The GNU GPL can be found in LICENSE in this directory                     */
 /*****************************************************************************/
 
-if (!defined('IRA'))
-	die('Hacking attempt...');
+//direktes Aufrufen verhindern
+if (!defined('IRA')) {
+    header('HTTP/1.1 403 forbidden');
+    exit;
+}
 
 // SQL server
 $db_host = "localhost";

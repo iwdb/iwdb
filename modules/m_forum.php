@@ -29,11 +29,10 @@
  *                                                                           *
  *****************************************************************************/
 
-// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde. 
-//    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") { 
-	echo "Hacking attempt...!!"; 
-	exit; 
+//direktes Aufrufen verhindern
+if (!defined('IRA')) {
+    header('HTTP/1.1 403 forbidden');
+    exit;
 }
 
 //****************************************************************************
@@ -140,8 +139,7 @@ if( !empty($_REQUEST['was'])) {
   echo "<div class='system_notification'>Installationsarbeiten am Modul " . $modulname . 
 	     " ("  . $_REQUEST['was'] . ")</div>\n";
 
-  if (!@include("./includes/menu_fn.php")) 
-	  die( "Cannot load menu functions" );
+  require_once './includes/menu_fn.php';
 
   // Wenn ein Modul administriert wird, soll der Rest nicht mehr 
   // ausgeführt werden.

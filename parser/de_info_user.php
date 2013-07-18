@@ -32,13 +32,21 @@
  *                                                                           *
  *****************************************************************************/
 
+//direktes Aufrufen verhindern
 if (!defined('IRA')) {
-    die('Hacking attempt...');
+    header('HTTP/1.1 403 forbidden');
+    exit;
+}
+
+if (!defined('DEBUG_LEVEL')) {
+    define('DEBUG_LEVEL', 0);
 }
 
 function parse_de_info_user($return)
 {
     if ($return->bSuccessfullyParsed) {
+
+        debug_var('Input', $return);
 
         global $db, $db_tb_spieler;
 

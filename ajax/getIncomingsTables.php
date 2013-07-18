@@ -161,11 +161,11 @@ function getIncomingsTables()
 				<th data-sorter="false" colspan='7'>
 					<b>Angriffe</b>
 				</th>
-			</tr> 
-			<tr>
-				<th>
-					<b>Opfer</b>
-				</th>
+			</tr>
+            <tr>
+                <th>
+                    <b>Opfer</b>
+                </th>
 				<th>
 					<b>Zielplanet</b>
 				</th>

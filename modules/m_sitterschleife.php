@@ -148,9 +148,7 @@ if (!empty($_REQUEST['was'])) {
     echo "<div class='system_notification'>Installationsarbeiten am Modul " . $modulname .
         " (" . $_REQUEST['was'] . ")</div>\n";
 
-    if (!@include("./includes/menu_fn.php")) {
-        die("Cannot load menu functions");
-    }
+    require_once './includes/menu_fn.php';
 
     // Wenn ein Modul administriert wird, soll der Rest nicht mehr
     // ausgefuehrt werden.

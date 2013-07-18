@@ -45,13 +45,10 @@
 
 define('DEBUG_LEVEL', 0);
 
-include_once("includes/debug.php");
-
-// -> Abfrage ob dieses Modul ueber die index.php aufgerufen wurde. 
-//    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") { 
-	echo "Hacking attempt...!!"; 
-	exit; 
+//direktes Aufrufen verhindern
+if (!defined('IRA')) {
+    header('HTTP/1.1 403 forbidden');
+    exit;
 }
 
 //****************************************************************************
@@ -151,8 +148,7 @@ if( !empty($_REQUEST['was'])) {
   echo "<br>Installationsarbeiten am Modul " . $modulname . 
 	     " ("  . $_REQUEST['was'] . ")<br><br>\n";
 
-  if (!@include("./includes/menu_fn.php")) 
-	  die( "Cannot load menu functions" );
+  require_once './includes/menu_fn.php';
 
   // Wenn ein Modul administriert wird, soll der Rest nicht mehr 
   // ausgefuehrt werden. 

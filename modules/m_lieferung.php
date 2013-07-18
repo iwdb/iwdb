@@ -140,9 +140,7 @@ if (!empty($_REQUEST['was'])) {
     echo "<div class='system_notification'>Installationsarbeiten am Modul " . $modulname .
         " (" . $_REQUEST['was'] . ")</div>\n";
 
-    if (!@include("./includes/menu_fn.php")) {
-        die("Cannot load menu functions");
-    }
+    include_once("./includes/menu_fn.php");
 
     // Wenn ein Modul administriert wird, soll der Rest nicht mehr
     // ausgeführt werden.
@@ -214,7 +212,7 @@ $sql = "SELECT *,";
 $sql .= " (SELECT planetenname FROM $db_tb_scans WHERE $db_tb_lieferung.coords_from_gal=$db_tb_scans.coords_gal AND $db_tb_lieferung.coords_from_sys=$db_tb_scans.coords_sys AND $db_tb_lieferung.coords_from_planet=$db_tb_scans.coords_planet) AS 'planet_from',";
 $sql .= " (SELECT planetenname FROM $db_tb_scans WHERE $db_tb_lieferung.coords_to_gal=$db_tb_scans.coords_gal AND $db_tb_lieferung.coords_to_sys=$db_tb_scans.coords_sys AND $db_tb_lieferung.coords_to_planet=$db_tb_scans.coords_planet) AS 'planet_to'";
 $sql .= " FROM $db_tb_lieferung";
-$sql .= " WHERE time>UNIX_TIMESTAMP() AND user_to<>user_from";
+$sql .= " WHERE time>".CURRENT_UNIX_TIME;
 if (isset($params['filter_team'])) {
     if ($params['filter_team'] != '(Alle)') {
         $sql .= " AND ((SELECT buddlerfrom FROM $db_tb_user WHERE $db_tb_user.id=$db_tb_lieferung.user_from)=";

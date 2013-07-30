@@ -503,6 +503,11 @@ input {
     height: 1.5em;
     color: #22282E;
     background-color: ivory;
+	-moz-border-radius:5px; /* Firefox */
+	-webkit-border-radius:5px; /* Chrome, Safari */
+	-khtml-border-radius:5px; /* Konqueror */
+	border-radius:5px; /* CSS3 */
+	/*behavior:url(border-radius.htc);*/ /* Internet Explorer */
 }
 
 /* !N input buttons */
@@ -539,6 +544,11 @@ textarea {
     color: #22282E;
     border: 1px solid #22282E;
     background-color: #FFFFFF;
+	-moz-border-radius:5px; /* Firefox */
+	-webkit-border-radius:5px; /* Chrome, Safari */
+	-khtml-border-radius:5px; /* Konqueror */
+	border-radius:5px; /* CSS3 */
+	/*behavior:url(border-radius.htc);*/ /* Internet Explorer */
 }
 
 /* !N select */
@@ -549,7 +559,26 @@ select {
     color: #22282E;
     border: 1px solid #22282E;
     background-color: #FFFFFF;
+	-moz-border-radius:5px; /* Firefox */
+	-webkit-border-radius:5px; /* Chrome, Safari */
+	-khtml-border-radius:5px; /* Konqueror */
+	border-radius:5px; /* CSS3 */
+	/*behavior:url(border-radius.htc);*/ /* Internet Explorer */
 }
+
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="date"]:focus,
+input[type="time"]:focus,
+input[type="number"]:focus,
+input[type="color"]:focus,
+.uneditable-input:focus {
+  border-color: rgba(82, 168, 236, 0.8);
+  outline: 0;
+  outline: thin dotted \9;
+}
+
 
 /* !N fadein */
 /* !T Fadein bei unerledigten Sitteraufträgen */

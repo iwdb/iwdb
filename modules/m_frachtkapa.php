@@ -149,9 +149,12 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 
 doc_title('Frachtkapazitätenberechnung');
 ?>
+<table>
+<tr>
+<td>
 <form name='transcalc' action=''>
 
-    <table id='transcalc_input_table' class='table_format' style='width: 50%;'>
+    <table id='transcalc_input_table' class='table_format' style='width: 80%;'>
         <tr>
             <td colspan='2' class='titlebg'><b>Eingabe:</b></td>
         </tr>
@@ -223,21 +226,23 @@ doc_title('Frachtkapazitätenberechnung');
         </tr>
     </table>
     <br>
-    <input type="reset">
+    <input type="reset" class='center'>
 </form>
+</td>
+<td>
 <br>
-<table id='transcalc_output_table' class='table_format' style='width: 50%;'>
+<table id='transcalc_output_table' class='table_format' style='width: 80%;'>
     <tr>
         <td colspan='3' class='titlebg'><b>Benötigte Frachtkapazität</b></td>
     </tr>
     <tr>
         <td class='windowbg2'>Klasse 1:</td>
-        <td class='windowbg1' id='class1kappatext'>&nbsp;</td>
+        <td class='windowbg1' id='class1kappatext' style='width: 200px;'>&nbsp;</td>
         <td class='windowbg1'></td>
     </tr>
     <tr>
         <td class='windowbg2'>Klasse 2:</td>
-        <td class='windowbg1' id='class2kappatext'>&nbsp;</td>
+        <td class='windowbg1' id='class2kappatext' style='width: 200px;'>&nbsp;</td>
         <td class='windowbg1'></td>
     </tr>
 
@@ -246,22 +251,22 @@ doc_title('Frachtkapazitätenberechnung');
     </tr>
     <tr>
         <td class='windowbg2'>entweder</td>
-        <td class='windowbg1' id='systranstext'>&nbsp;</td>
+        <td class='windowbg1' id='systranstext' style='width: 200px;'>&nbsp;</td>
         <td class='windowbg2'>Systrans(en)</td>
     </tr>
     <tr>
         <td class='windowbg2'>oder</td>
-        <td class='windowbg1' id='gorgoltext'>&nbsp;</td>
+        <td class='windowbg1' id='gorgoltext' style='width: 200px;'>&nbsp;</td>
         <td class='windowbg2'>Gorgol(s)</td>
     </tr>
     <tr>
         <td class='windowbg2'>oder</td>
-        <td class='windowbg1' id='kameltext'>&nbsp;</td>
+        <td class='windowbg1' id='kameltext' style='width: 200px;'>&nbsp;</td>
         <td class='windowbg2'>Kamel(e)</td>
     </tr>
     <tr>
         <td class='windowbg2'>oder</td>
-        <td class='windowbg1' id='flughundtext'>&nbsp;</td>
+        <td class='windowbg1' id='flughundtext' style='width: 200px;'>&nbsp;</td>
         <td class='windowbg2'>Flughund(e)</td>
     </tr>
 
@@ -270,23 +275,26 @@ doc_title('Frachtkapazitätenberechnung');
     </tr>
     <tr>
         <td class='windowbg2'>entweder</td>
-        <td class='windowbg1' id='lurchtext'>&nbsp;</td>
+        <td class='windowbg1' id='lurchtext' style='width: 200px;'>&nbsp;</td>
         <td class='windowbg2'>Lurch(e)</td>
     </tr>
     <tr>
         <td class='windowbg2'>oder</td>
-        <td class='windowbg1' id='eisbaertext'>&nbsp;</td>
+        <td class='windowbg1' id='eisbaertext' style='width: 200px;'>&nbsp;</td>
         <td class='windowbg2'>Eisbär(en)</td>
     </tr>
     <tr>
         <td class='windowbg2'>oder</td>
-        <td class='windowbg1' id='waschbaertext'>&nbsp;</td>
+        <td class='windowbg1' id='waschbaertext' style='width: 200px;'>&nbsp;</td>
         <td class='windowbg2'>Waschbär(en)</td>
     </tr>
     <tr>
         <td class='windowbg2'>oder</td>
-        <td class='windowbg1' id='seepferdchentext'>&nbsp;</td>
+        <td class='windowbg1' id='seepferdchentext' style='width: 200px;'>&nbsp;</td>
         <td class='windowbg2'>Seepferdchen</td>
     </tr>
+</table>
+</td>
+</tr>
 </table>
 <script src="javascript/frachtkappa.js"></script>

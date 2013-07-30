@@ -139,7 +139,7 @@ if (!empty($_REQUEST['was'])) {
     echo "<br>Installationsarbeiten am Modul " . $modulname .
         " (" . $_REQUEST['was'] . ")<br><br>\n";
 
-    require_once './includes/menu_fn.php';
+    require_once "./includes/menu_fn.php";
 
     // Wenn ein Modul administriert wird, soll der Rest nicht mehr
     // ausgeführt werden.
@@ -1504,13 +1504,41 @@ function lagersoll($name, $ressart, $gal, $sys, $plan, $prod, $soll, $lager) {
 	$result_lc = $db->db_fetch_array($sql_lc);
 	$lagerchange=$result_lc['autlager'];
 	
+	$sql_dl = $db->db_query("SELECT `dellager` FROM `{$db_tb_user}` WHERE `id` = '" . $name . "';");
+	$result_dl = $db->db_fetch_array($sql_dl);
+	$lagerdelete=$result_dl['dellager'];
+	
 	$sql = $db->db_query("SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'hour';");
     $row = $db->db_fetch_array($sql);
 	
 	if ($lagerchange=="1") {
 	
+		/*if ($lagerdelete=="1") {
+			
+			$data = array(
+				'eisen_soll'	=> '0',
+				'stahl_soll'    => '0',
+				'vv4a_soll'     => '0',
+				'chem_soll'     => '0',
+				'eis_soll'      => '0',
+				'wasser_soll'   => '0',
+				'energie_soll'  => '0'
+			);
+			$db->db_update($db_tb_lager, $data, "WHERE `user`='" . $name . "'")
+				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+		}*/
+	
 	switch ($ressart) {
 		case '1':
+			
+			if ($lagerdelete=="1") {
+				$SQLdata = array(
+					'eisen_soll'	=> '0'
+				);
+				$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
+					or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+			}
+			
 			if ($prod<0) {
 				$bedarf=$row['value']*abs($prod);
 				
@@ -1528,6 +1556,15 @@ function lagersoll($name, $ressart, $gal, $sys, $plan, $prod, $soll, $lager) {
 			
 			break;
 		case '2':
+			
+			if ($lagerdelete=="1") {
+				$SQLdata = array(
+					'stahl_soll'	=> '0'
+				);
+				$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
+					or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+			}
+			
 			if ($prod<0) {
 				$bedarf=$row['value']*abs($prod);
 				
@@ -1544,6 +1581,15 @@ function lagersoll($name, $ressart, $gal, $sys, $plan, $prod, $soll, $lager) {
 			}
 			break;
 		case '3':
+			
+			if ($lagerdelete=="1") {
+				$SQLdata = array(
+					'vv4a_soll'	=> '0'
+				);
+				$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
+					or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+			}
+			
 			if ($prod<0) {
 				$bedarf=$row['value']*abs($prod);
 				
@@ -1561,6 +1607,15 @@ function lagersoll($name, $ressart, $gal, $sys, $plan, $prod, $soll, $lager) {
 			
 			break;
 		case '4':
+			
+			if ($lagerdelete=="1") {
+				$SQLdata = array(
+					'chem_soll'	=> '0'
+				);
+				$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
+					or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+			}
+			
 			if ($prod<0) {
 				$bedarf=$row['value']*abs($prod);
 				
@@ -1582,6 +1637,15 @@ function lagersoll($name, $ressart, $gal, $sys, $plan, $prod, $soll, $lager) {
 			
 			break;
 		case '5':
+			
+			if ($lagerdelete=="1") {
+				$SQLdata = array(
+					'eis_soll'	=> '0'
+				);
+				$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
+					or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+			}
+			
 			if ($prod<0) {
 				$bedarf=$row['value']*abs($prod);
 				
@@ -1603,6 +1667,15 @@ function lagersoll($name, $ressart, $gal, $sys, $plan, $prod, $soll, $lager) {
 			
 			break;
 		case '6':
+			
+			if ($lagerdelete=="1") {
+				$SQLdata = array(
+					'wasser_soll'	=> '0'
+				);
+				$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
+					or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+			}
+			
 			if ($prod<0) {
 				$bedarf=$row['value']*abs($prod);
 				
@@ -1624,6 +1697,15 @@ function lagersoll($name, $ressart, $gal, $sys, $plan, $prod, $soll, $lager) {
 			
 			break;
 		case '7':
+			
+			if ($lagerdelete=="1") {
+				$SQLdata = array(
+					'energie_soll'	=> '0'
+				);
+				$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
+					or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+			}
+			
 			if ($prod<0) {
 				$bedarf=$row['value']*abs($prod);
 				

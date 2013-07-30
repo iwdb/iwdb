@@ -1396,7 +1396,9 @@ INSERT INTO `prefix_schiffstyp` (`id`, `schiff`, `abk`, `typ`, `bild`, `id_iw`, 
 (307, 'Kampfhuhn', 'Kampfhuhn', 'alte Schiffe', '', 77, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 500, 5000, 1, 0, 10, 10, 0, 'keine', 100, 100, 100, 100, 0, 100, 500, 0, 1, 1, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1360141458),
 (309, 'Downbringer', 'Downbringer', 'alte Schiffe', '', 32, 450, 1200, 750, 800, 0, 0, 1300, 2, NULL, 850, 0, 0, 1, 9, 5, 25, 'elektrisch', 60, 100, 130, 100, 30, 150, 145, 0, 1, 1, 'kleine', 5040, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1360140052),
 (310, 'Stopfente', 'Stopfente', 'admin', '', NULL, 10, 10, 5, 5, 0, 2, 5, 0, NULL, 400, 3000, 1, 0, 1, 0, 1, 'kinetisch', 2, 100, 100, 100, 0, 100, 100, 0, 1, 1, 'kleine', 360, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1368435726),
-(311, 'SuperStopfente', 'Superstopfente', 'admin', '', NULL, 10, 10, 5, 5, 0, 2, 5, 0, NULL, 400, 3000, 1, 0, 1, 0, 1, 'kinetisch', 2000, 100, 100, 100, 0, 100, 500, 0, 1, 1, 'kleine', 360, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1368435737);
+(311, 'SuperStopfente', 'Superstopfente', 'admin', '', NULL, 10, 10, 5, 5, 0, 2, 5, 0, NULL, 400, 3000, 1, 0, 1, 0, 1, 'kinetisch', 2000, 100, 100, 100, 0, 100, 500, 0, 1, 1, 'kleine', 360, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1368435737),
+(312, 'wilde Katze', 'wilde Katze', 'Lebensformen', '', NULL, 10, 10, 5, 5, 0, 2, 5, 0, NULL, 400, 3000, 1, 0, 1, 0, 1, 'kinetisch', 4, 100, 100, 100, 0, 100, 500, 0, 1, 1, 'kleine', 360, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1374306933),
+(313, 'Eichhörnchen', 'Eichhörnchen', 'Lebensformen', '', NULL, 10, 10, 5, 5, 0, 2, 5, 0, NULL, 400, 3000, 1, 0, 1, 0, 1, 'kinetisch', 2, 100, 100, 100, 0, 100, 100, 0, 1, 1, 'kleine', 360, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1374306944);
 
 -- --------------------------------------------------------
 

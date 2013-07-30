@@ -266,6 +266,18 @@ if (!isset($_POST['gebbau']) OR empty($_POST['gebbau'])) {
 if (!isset($_POST['ber_hour']) OR empty($_POST['ber_hour'])) {
 	$_POST['ber_hour']='36';
 }
+if (!isset($_POST['plan1']) OR empty($_POST['plan1'])) {
+	$_POST['plan1']='1';
+}
+if (!isset($_POST['plan2']) OR empty($_POST['plan2'])) {
+	$_POST['plan2']='1';
+}
+if (!isset($_POST['plan3']) OR empty($_POST['plan3'])) {
+	$_POST['plan3']='1';
+}
+if (!isset($_POST['plan4']) OR empty($_POST['plan4'])) {
+	$_POST['plan4']='1';
+}
 	
 	$selectedValue_auswahlplani = $_POST['auswahl_plani'];
 	$selectedValue_klplanschiffe = $_POST['schiffe_klplanw'];
@@ -280,6 +292,10 @@ if (!isset($_POST['ber_hour']) OR empty($_POST['ber_hour'])) {
 	$selectedValue_gen3 = $_POST['gen3'];
 	$selectedValue_gen4 = $_POST['gen4'];
 	$selectedValue_geb = $_POST['gebbau'];
+	$selectedValue_plan1 = $_POST['plan1'];
+	$selectedValue_plan2 = $_POST['plan2'];
+	$selectedValue_plan3 = $_POST['plan3'];
+	$selectedValue_plan4 = $_POST['plan4'];
 		
 ?>
 
@@ -541,6 +557,161 @@ if (!isset($_POST['ber_hour']) OR empty($_POST['ber_hour'])) {
 		<br>
 		<br>
 		<div  class='titlebg'>
+		<b>Planetenmodifikatoren</b>
+		</div>
+		<br>
+		<table id='planetmods' class='table_format_noborder' style='width: 80%'>
+			<thead>
+				<tr>
+					<th data-sorter="false">
+						<b>Einstellung</b>
+					</th>
+					<th data-sorter="false">
+						<b>Werte</b>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>
+						<b>Gebäudebau Kosten Modifikator</b>
+					</td>
+					<td>
+						<select name='plan1'>
+							<option value="1"
+							<?php
+								if ($selectedValue_plan1 == "1") {
+									echo ' selected="selected"';
+								}
+							?>
+							>100%</option>
+							<option value="1.2" class="red"
+							<?php
+								if ($selectedValue_plan1 == "1.2") {
+									echo ' selected="selected"';
+								}
+							?>
+							>120%</option>
+							<option value="1.5" class="red"
+							<?php
+								if ($selectedValue_plan1 == "1.5") {
+									echo ' selected="selected"';
+								}
+							?>
+							>150%</option>
+							<option value="2.0" class="red"
+							<?php
+								if ($selectedValue_plan1 == "2.0") {
+									echo ' selected="selected"';
+								}
+							?>
+							>200%</option>
+							<option value="2.4" class="red"
+							<?php
+								if ($selectedValue_plan1 == "2.4") {
+									echo ' selected="selected"';
+								}
+							?>
+							>240%</option>
+							<option value="2.88" class="red"
+							<?php
+								if ($selectedValue_plan1 == "2.88") {
+									echo ' selected="selected"';
+								}
+							?>
+							>288%</option>
+						</select>
+					</td>
+				</tr>	
+				<tr>
+					<td>
+						<b>Gebäudebau Dauer Modifikator</b>
+					</td>
+					<td>
+						<select name='plan2'>
+							<option value="1"
+							<?php
+								if ($selectedValue_plan2 == "1") {
+									echo ' selected="selected"';
+								}
+							?>
+							>100%</option>
+							<option value="1.2" class="red"
+							<?php
+								if ($selectedValue_plan2 == "1.2") {
+									echo ' selected="selected"';
+								}
+							?>
+							>120%</option>
+							<option value="1.44" class="red"
+							<?php
+								if ($selectedValue_plan2 == "1.44") {
+									echo ' selected="selected"';
+								}
+							?>
+							>144%</option>
+							<option value="1.73" class="red"
+							<?php
+								if ($selectedValue_plan2 == "1.73") {
+									echo ' selected="selected"';
+								}
+							?>
+							>173%</option>
+						</select>
+					</td>
+				</tr>	
+				<tr>
+					<td>
+						<b>Schiffbau Kosten Modifikator</b>
+					</td>
+					<td>
+						<select name='plan3'>
+							<option value="0.75" class="green"
+							<?php
+								if ($selectedValue_plan3 == "0.75") {
+									echo ' selected="selected"';
+								}
+							?>
+							>75%</option>
+							<option value="1"
+							<?php
+								if ($selectedValue_plan3 == "1") {
+									echo ' selected="selected"';
+								}
+							?>
+							>100%</option>
+						</select>
+					</td>
+				</tr>	
+				<tr>
+					<td>
+						<b>Schiffbau Dauer Modifikator</b>
+					</td>
+					<td>
+						<select name='plan4'>
+							<option value="1.0"
+							<?php
+								if ($selectedValue_plan4 == "1.0") {
+									echo ' selected="selected"';
+								}
+							?>
+							>100%</option>
+							<option value="1.5" class="red"
+							<?php
+								if ($selectedValue_plan4 == "1.5") {
+									echo ' selected="selected"';
+								}
+							?>
+							>150%</option>
+						</select>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<br>
+		<br>
+		<div  class='titlebg'>
 		<b>Genetikauswahl</b>
 		</div>
 		<br>
@@ -570,6 +741,7 @@ if (!isset($_POST['ber_hour']) OR empty($_POST['ber_hour'])) {
 								}
 							?>
 							>Kommunist</option>
+							
 							<option value="andere" class="red"
 							<?php
 								if ($selectedValue_staatsform == "andere") {
@@ -901,68 +1073,68 @@ if (!isset($_POST['ber_hour']) OR empty($_POST['ber_hour'])) {
 		$staatsform_kosten=1.0;
 	}
 				
-	$eisen_schiff =	($row1['eisen']/$_POST['gen1']*$_POST['anzahl_klplanw']*1.2)+
-				($row2['eisen']/$_POST['gen1']*$_POST['anzahl_klorw'])+
-				($row3['eisen']/$_POST['gen1']*$_POST['anzahl_miplanw']*1.2)+
-				($row4['eisen']/$_POST['gen1']*$_POST['anzahl_miorw'])+
-				($row5['eisen']/$_POST['gen1']*$_POST['anzahl_grw'])+
-				($row6['eisen']/$_POST['gen1']*$_POST['anzahl_dnw']);
-	$eisen_schiff = ceil($eisen_schiff*$staatsform_kosten*$_POST['gen2']*3600);
-	$eisen_geb = ceil($row7['eisen']/$_POST['gen3']*$_POST['gen4']*3600);
+	$eisen_schiff =	($row1['eisen']/$_POST['gen1']/$_POST['plan1']*$_POST['anzahl_klplanw']*1.2)+
+				($row2['eisen']/$_POST['gen1']/$_POST['plan4']*$_POST['anzahl_klorw'])+
+				($row3['eisen']/$_POST['gen1']/$_POST['plan4']*$_POST['anzahl_miplanw']*1.2)+
+				($row4['eisen']/$_POST['gen1']/$_POST['plan4']*$_POST['anzahl_miorw'])+
+				($row5['eisen']/$_POST['gen1']/$_POST['plan4']*$_POST['anzahl_grw'])+
+				($row6['eisen']/$_POST['gen1']/$_POST['plan4']*$_POST['anzahl_dnw']);
+	$eisen_schiff = ceil($eisen_schiff*$staatsform_kosten*$_POST['gen2']*$_POST['plan3']*3600);
+	$eisen_geb = ceil($row7['eisen']/$_POST['gen3']*$_POST['gen4']/$_POST['plan2']*$_POST['plan1']*3600);
 	$eisen = $eisen_schiff+$eisen_geb;
 	$stahl_schiff =	($row1['stahl']*$_POST['anzahl_klplanw']*1.2)+
-				($row2['stahl']/$_POST['gen1']*$_POST['anzahl_klorw'])+
-				($row3['stahl']/$_POST['gen1']*$_POST['anzahl_miplanw']*1.2)+
-				($row4['stahl']/$_POST['gen1']*$_POST['anzahl_miorw'])+
-				($row5['stahl']/$_POST['gen1']*$_POST['anzahl_grw'])+
-				($row6['stahl']/$_POST['gen1']*$_POST['anzahl_dnw']);
-	$stahl_schiff = ceil($stahl_schiff*$staatsform_kosten*$_POST['gen2']*3600);
-	$stahl_geb = ceil($row7['stahl']/$_POST['gen3']*$_POST['gen4']*3600);
+				($row2['stahl']/$_POST['gen1']/$_POST['plan4']*$_POST['anzahl_klorw'])+
+				($row3['stahl']/$_POST['gen1']/$_POST['plan4']*$_POST['anzahl_miplanw']*1.2)+
+				($row4['stahl']/$_POST['gen1']/$_POST['plan4']*$_POST['anzahl_miorw'])+
+				($row5['stahl']/$_POST['gen1']/$_POST['plan4']*$_POST['anzahl_grw'])+
+				($row6['stahl']/$_POST['gen1']/$_POST['plan4']*$_POST['anzahl_dnw']);
+	$stahl_schiff = ceil($stahl_schiff*$staatsform_kosten*$_POST['gen2']*$_POST['plan3']*3600);
+	$stahl_geb = ceil($row7['stahl']/$_POST['gen3']*$_POST['gen4']/$_POST['plan2']*$_POST['plan1']*3600);
 	$stahl = $stahl_schiff+$stahl_geb;
 	$vv4a_schiff =		($row1['vv4a']*$_POST['anzahl_klplanw']*1.2)+
-				($row2['vv4a']/$_POST['gen1']*$_POST['anzahl_klorw'])+
-				($row3['vv4a']/$_POST['gen1']*$_POST['anzahl_miplanw']*1.2)+
-				($row4['vv4a']/$_POST['gen1']*$_POST['anzahl_miorw'])+
-				($row5['vv4a']/$_POST['gen1']*$_POST['anzahl_grw'])+
-				($row6['vv4a']/$_POST['gen1']*$_POST['anzahl_dnw']);
-	$vv4a_schiff = ceil($vv4a_schiff*$staatsform_kosten*$_POST['gen2']*3600);
-	$vv4a_geb = ceil($row7['vv4a']/$_POST['gen3']*$_POST['gen4']*3600);
+				($row2['vv4a']/$_POST['gen1']/$_POST['plan4']*$_POST['anzahl_klorw'])+
+				($row3['vv4a']/$_POST['gen1']/$_POST['plan4']*$_POST['anzahl_miplanw']*1.2)+
+				($row4['vv4a']/$_POST['gen1']/$_POST['plan4']*$_POST['anzahl_miorw'])+
+				($row5['vv4a']/$_POST['gen1']/$_POST['plan4']*$_POST['anzahl_grw'])+
+				($row6['vv4a']/$_POST['gen1']/$_POST['plan4']*$_POST['anzahl_dnw']);
+	$vv4a_schiff = ceil($vv4a_schiff*$staatsform_kosten*$_POST['gen2']*$_POST['plan3']*3600);
+	$vv4a_geb = ceil($row7['vv4a']/$_POST['gen3']*$_POST['gen4']/$_POST['plan2']*$_POST['plan1']*3600);
 	$vv4a = $vv4a_schiff+$vv4a_geb;
 	$chemie_schiff =	($row1['chemie']*$_POST['anzahl_klplanw']*1.2)+
-				($row2['chemie']/$_POST['gen1']*$_POST['anzahl_klorw'])+
-				($row3['chemie']/$_POST['gen1']*$_POST['anzahl_miplanw']*1.2)+
-				($row4['chemie']/$_POST['gen1']*$_POST['anzahl_miorw'])+
-				($row5['chemie']/$_POST['gen1']*$_POST['anzahl_grw'])+
-				($row6['chemie']/$_POST['gen1']*$_POST['anzahl_dnw']);
-	$chemie_schiff = ceil($chemie_schiff*$staatsform_kosten*$_POST['gen2']*3600);
-	$chemie_geb = ceil($row7['chemie']/$_POST['gen3']*$_POST['gen4']*3600);
+				($row2['chemie']/$_POST['gen1']/$_POST['plan4']*$_POST['anzahl_klorw'])+
+				($row3['chemie']/$_POST['gen1']/$_POST['plan4']*$_POST['anzahl_miplanw']*1.2)+
+				($row4['chemie']/$_POST['gen1']/$_POST['plan4']*$_POST['anzahl_miorw'])+
+				($row5['chemie']/$_POST['gen1']/$_POST['plan4']*$_POST['anzahl_grw'])+
+				($row6['chemie']/$_POST['gen1']/$_POST['plan4']*$_POST['anzahl_dnw']);
+	$chemie_schiff = ceil($chemie_schiff*$staatsform_kosten*$_POST['gen2']*$_POST['plan3']*3600);
+	$chemie_geb = ceil($row7['chemie']/$_POST['gen3']*$_POST['gen4']/$_POST['plan2']*$_POST['plan1']*3600);
 	$chemie = $chemie_schiff+$chemie_geb;
 	$eis_schiff =		($row1['eis']*$_POST['anzahl_klplanw']*1.2)+
-				($row2['eis']/$_POST['gen1']*$_POST['anzahl_klorw'])+
-				($row3['eis']/$_POST['gen1']*$_POST['anzahl_miplanw']*1.2)+
-				($row4['eis']/$_POST['gen1']*$_POST['anzahl_miorw'])+
-				($row5['eis']/$_POST['gen1']*$_POST['anzahl_grw'])+
-				($row6['eis']/$_POST['gen1']*$_POST['anzahl_dnw']);
-	$eis_schiff = ceil($eis_schiff*$staatsform_kosten*$_POST['gen2']*3600);
-	$eis_geb = ceil($row7['eis']/$_POST['gen3']*$_POST['gen4']*3600);
+				($row2['eis']/$_POST['gen1']/$_POST['plan4']*$_POST['anzahl_klorw'])+
+				($row3['eis']/$_POST['gen1']/$_POST['plan4']*$_POST['anzahl_miplanw']*1.2)+
+				($row4['eis']/$_POST['gen1']/$_POST['plan4']*$_POST['anzahl_miorw'])+
+				($row5['eis']/$_POST['gen1']/$_POST['plan4']*$_POST['anzahl_grw'])+
+				($row6['eis']/$_POST['gen1']/$_POST['plan4']*$_POST['anzahl_dnw']);
+	$eis_schiff = ceil($eis_schiff*$staatsform_kosten*$_POST['gen2']*$_POST['plan3']*3600);
+	$eis_geb = ceil($row7['eis']/$_POST['gen3']*$_POST['gen4']/$_POST['plan2']*$_POST['plan1']*3600);
 	$eis = $eis_schiff+$eis_geb;
 	$wasser_schiff =	($row1['wasser']*$_POST['anzahl_klplanw']*1.2)+
-				($row2['wasser']/$_POST['gen1']*$_POST['anzahl_klorw'])+
-				($row3['wasser']/$_POST['gen1']*$_POST['anzahl_miplanw']*1.2)+
-				($row4['wasser']/$_POST['gen1']*$_POST['anzahl_miorw'])+
-				($row5['wasser']/$_POST['gen1']*$_POST['anzahl_grw'])+
-				($row6['wasser']/$_POST['gen1']*$_POST['anzahl_dnw']);
-	$wasser_schiff = ceil($wasser_schiff*$staatsform_kosten*$_POST['gen2']*3600);
-	$wasser_geb = ceil($row7['wasser']/$_POST['gen3']*$_POST['gen4']*3600);
+				($row2['wasser']/$_POST['gen1']/$_POST['plan4']*$_POST['anzahl_klorw'])+
+				($row3['wasser']/$_POST['gen1']/$_POST['plan4']*$_POST['anzahl_miplanw']*1.2)+
+				($row4['wasser']/$_POST['gen1']/$_POST['plan4']*$_POST['anzahl_miorw'])+
+				($row5['wasser']/$_POST['gen1']/$_POST['plan4']*$_POST['anzahl_grw'])+
+				($row6['wasser']/$_POST['gen1']/$_POST['plan4']*$_POST['anzahl_dnw']);
+	$wasser_schiff = ceil($wasser_schiff*$staatsform_kosten*$_POST['gen2']*$_POST['plan3']*3600);
+	$wasser_geb = ceil($row7['wasser']/$_POST['gen3']*$_POST['gen4']/$_POST['plan2']*$_POST['plan1']*3600);
 	$wasser = $wasser_schiff+$wasser_geb;
 	$energie_schiff =	($row1['energie']*$_POST['anzahl_klplanw']*1.2)+
-				($row2['energie']/$_POST['gen1']*$_POST['anzahl_klorw'])+
-				($row3['energie']/$_POST['gen1']*$_POST['anzahl_miplanw']*1.2)+
-				($row4['energie']/$_POST['gen1']*$_POST['anzahl_miorw'])+
-				($row5['energie']/$_POST['gen1']*$_POST['anzahl_grw'])+
-				($row6['energie']/$_POST['gen1']*$_POST['anzahl_dnw']);
-	$energie_schiff = ceil($energie_schiff*$staatsform_kosten*$_POST['gen2']*3600);
-	$energie_geb = ceil($row7['energie']/$_POST['gen3']*$_POST['gen4']*3600);
+				($row2['energie']/$_POST['gen1']/$_POST['plan4']*$_POST['anzahl_klorw'])+
+				($row3['energie']/$_POST['gen1']/$_POST['plan4']*$_POST['anzahl_miplanw']*1.2)+
+				($row4['energie']/$_POST['gen1']/$_POST['plan4']*$_POST['anzahl_miorw'])+
+				($row5['energie']/$_POST['gen1']/$_POST['plan4']*$_POST['anzahl_grw'])+
+				($row6['energie']/$_POST['gen1']/$_POST['plan4']*$_POST['anzahl_dnw']);
+	$energie_schiff = ceil($energie_schiff*$staatsform_kosten*$_POST['gen2']*$_POST['plan3']*3600);
+	$energie_geb = ceil($row7['energie']/$_POST['gen3']*$_POST['gen4']/$_POST['plan2']*$_POST['plan1']*3600);
 	$energie = $energie_schiff+$energie_geb;
 	
 	$creds_schiff =	($row1['creds']*$_POST['anzahl_klplanw']*1.2)+

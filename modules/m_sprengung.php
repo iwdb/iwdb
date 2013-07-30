@@ -167,7 +167,7 @@ echo "</form>\n";
 
 ?>
 <br>
-<table data-sortlist='[[7,1],[0,0]]' class='tablesorter-blue' style='width: 80%;'>
+<table data-sortlist='[[7,0],[0,0]]' class='tablesorter-blue' style='width: 80%;'>
     <thead>
 	<tr>
         <th>Koords</th>

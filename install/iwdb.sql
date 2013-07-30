@@ -1240,6 +1240,7 @@ CREATE TABLE IF NOT EXISTS `prefix_user` (
   `dauersittenlast` int(11) DEFAULT NULL COMMENT 'Timestamp der letzten Dauersitten-Erledigung',
   `NewUniXmlTime` int(10) unsigned DEFAULT NULL COMMENT 'Timestamp der nächsten Unixml Parsemöglichkeit',
   `autlager` tinyint(1) NOT NULL DEFAULT '1',
+  `dellager` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `ikea` (`ikea`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

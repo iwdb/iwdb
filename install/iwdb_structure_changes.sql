@@ -61,6 +61,7 @@ ALTER TABLE  `prefix_spieler` CHANGE  `dabeiseit`  `dabeiseit` INT( 10 ) UNSIGNE
 
 -- 18.06.2013 patsch : automatisches Setzen des Lagersollwertes im Profil ausschalten
 ALTER TABLE `prefix_user` ADD `autlager` TINYINT( 1 ) NOT NULL DEFAULT '1';
+ALTER TABLE `prefix_user` ADD `dellager` TINYINT( 1 ) NOT NULL DEFAULT '1';
 
 DROP TABLE `prefix_schiffstyp`;
 CREATE TABLE IF NOT EXISTS `prefix_schiffstyp` (

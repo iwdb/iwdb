@@ -514,6 +514,17 @@ if (!empty($params['view'])) {
 // Titelzeile ausgeben
 doc_title($modultitle);
 
+// Wann wurde die Highscore das letzte Mal aktualisiert?
+$sql = "SELECT MAX(`pktupdate_time`) AS time FROM `{$db_tb_spieler}`;";
+$result = $db->db_query($sql)
+    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$row = $db->db_fetch_array($result);
+$row['time'] = strftime(CONFIG_DATETIMEFORMAT, $row['time']);
+echo "<br>";
+echo "Letzte Aktualisierung der Highscore: " . $row['time'];
+echo "<br>";
+echo "<br>";
+
 // Ergebnisse ausgeben
 foreach ($results as $result) {
     echo $result;

@@ -49,3 +49,7 @@ INSERT INTO `prefix_gebbaukosten` (`id`, `name`, `dauer`, `kosten_eisen`, `koste
 (18, 'großes VV4A-Walzwerk', 28800, 15000, 6000, 0, 2500, 0, 500, 5000, 200, 0);
 
 UPDATE `prefix_schiffstyp` SET `schiff`='bürokratischer Formularbomber', `abk`='Formularbomber' WHERE `prefix_schiffstyp`.`id_iw`='21';
+
+INSERT INTO `prefix_schiffstyp` (`schiff`, `abk`, `typ`, `bild`, `id_iw`, `kosten_eisen`, `kosten_stahl`, `kosten_vv4a`, `kosten_chemie`, `kosten_eis`, `kosten_wasser`, `kosten_energie`, `kosten_bev`, `kosten_creds`, `GeschwindigkeitSol`, `GeschwindigkeitGal`, `canLeaveGalaxy`, `canBeTransported`, `VerbrauchChemie`, `VerbrauchEnergie`, `angriff`, `waffenklasse`, `verteidigung`, `panzerung_kinetisch`, `panzerung_elektrisch`, `panzerung_gravimetrisch`, `Schilde`, `accuracy`, `mobility`, `numEscort`, `EscortBonusAtt`, `EscortBonusDef`, `werftTyp`, `dauer`, `bestellbar`, `isTransporter`, `klasse1`, `klasse2`, `bev`, `isCarrier`, `shipKapa1`, `shipKapa2`, `shipKapa3`, `aktualisiert`) VALUES
+('wilde Katze', 'wilde Katze', 'Lebensformen', '', NULL, 10, 10, 5, 5, 0, 2, 5, 0, NULL, 400, 3000, 1, 0, 1, 0, 1, 'kinetisch', 4, 100, 100, 100, 0, 100, 500, 0, 1, 1, 'kleine', 360, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1374306933),
+('Eichhörnchen', 'Eichhörnchen', 'Lebensformen', '', NULL, 10, 10, 5, 5, 0, 2, 5, 0, NULL, 400, 3000, 1, 0, 1, 0, 1, 'kinetisch', 2, 100, 100, 100, 0, 100, 100, 0, 1, 1, 'kleine', 360, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1374306944);

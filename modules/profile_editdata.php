@@ -116,6 +116,7 @@ if (!empty($editprofile) AND (($id === $user_id) OR ($user_status === "admin")))
     $userd['status']        = getVar('status');
     $userd['gesperrt']      = (bool)getVar('gesperrt');
 	$userd['autlager']		= (bool)getVar('autlager');
+	$userd['dellager']		= (bool)getVar('dellager');
     $userd['menu_default']  = getVar('menu_default');
     $userd['uniprop']       = (bool)getVar('uniprop');
 
@@ -793,6 +794,17 @@ if ($user_status === "admin") {
             <input type="checkbox" name="autlager" value="1"<?php echo ($autlager) ? " checked" : "";?>>
     </td>
 </tr>
+
+<tr>
+	<td class="windowbg2">
+        Automatisches Löschen der Lagerwerte?<br>
+		<span style="font-style:italic;">Wird diese Option ausgewählt, so wird der Lagerbedarf (reiner Bedarf, ohne Gebbau etc) immer neu berechnet</span>
+    </td>
+	<td class="windowbg1">
+            <input type="checkbox" name="dellager" value="1"<?php echo ($dellager) ? " checked" : "";?>>
+    </td>
+</tr>
+
 <tr>
     <td class="windowbg2">
         Menü-Darstellung:

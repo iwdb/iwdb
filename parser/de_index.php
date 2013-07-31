@@ -430,15 +430,30 @@ function save_data($scan_data)
         'coords_to_planet'   => $scan_data['coords_to_planet'],
         'user_from'          => $scan_data['user_from'],
         'user_to'            => $scan_data['user_to'],
-        'eisen'              => isset($scan_data['pos']['Eisen']) ? $scan_data['pos']['Eisen'] : 0,
-        'stahl'              => isset($scan_data['pos']['Stahl']) ? $scan_data['pos']['Stahl'] : 0,
-        'vv4a'               => isset($scan_data['pos']['VV4A']) ? $scan_data['pos']['VV4A'] : 0,
-        'chem'               => isset($scan_data['pos']['chem. Elemente']) ? $scan_data['pos']['chem. Elemente'] : 0,
-        'eis'                => isset($scan_data['pos']['Eis']) ? $scan_data['pos']['Eis'] : 0,
-        'wasser'             => isset($scan_data['pos']['Wasser']) ? $scan_data['pos']['Wasser'] : 0,
-        'energie'            => isset($scan_data['pos']['Energie']) ? $scan_data['pos']['Energie'] : 0,
         'art'                => $scan_data['art'],
     );
+    if (isset($scan_data['pos']['Eisen'])) {
+        $fields += array('eisen' => $scan_data['pos']['Eisen']);
+    }
+    if (isset($scan_data['pos']['Stahl'])) {
+        $fields += array('stahl' => $scan_data['pos']['Stahl']);
+    }
+    if (isset($scan_data['pos']['VV4A'])) {
+        $fields += array('vv4a' => $scan_data['pos']['VV4A']);
+    }
+    if (isset($scan_data['pos']['chem. Elemente'])) {
+        $fields += array('chem' => $scan_data['pos']['chem. Elemente']);
+    }
+    if (isset($scan_data['pos']['Eis'])) {
+        $fields += array('eis' => $scan_data['pos']['Eis']);
+    }
+    if (isset($scan_data['pos']['Wasser'])) {
+        $fields += array('wasser' => $scan_data['pos']['Wasser']);
+    }
+    if (isset($scan_data['pos']['Energie'])) {
+        $fields += array('energie' => $scan_data['pos']['Energie']);
+    }
+
     if (isset($scan_data['schiffe'])) {
         foreach ($scan_data['schiffe'] as $name => $anzahl) {
             if (isset($fields['schiffe'])) {
@@ -449,8 +464,25 @@ function save_data($scan_data)
         }
     }
 
-    $db->db_insertupdate($db_tb_lieferung, $fields)
+    var_dump($scan_data);
+
+
+    if (($scan_data['art'] === "Transport") OR ($scan_data['art'] === "Massdriverpaket")) {
+
+        //bei Transporten oder Massdriverpaketen sollten Ressmengen mit dastehen, sonst werden die Transporte ignoriert
+        if (!empty($scan_data['pos'])) {
+
+            $db->db_insertignore($db_tb_lieferung, $fields)
+                or error(GENERAL_ERROR, 'Could not insert transports.', '', __FILE__, __LINE__);
+
+        }
+
+    } else {
+
+        $db->db_insertignore($db_tb_lieferung, $fields)
         or error(GENERAL_ERROR, 'Could not insert transports.', '', __FILE__, __LINE__);
+
+    }
 
     if ($scan_data['art'] == "Angriff") {
         $sql = "UPDATE $db_tb_scans

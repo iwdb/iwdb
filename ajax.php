@@ -7,6 +7,18 @@ if ($login_ok === false) {
     exit;
 }
 
+//User hat Regeln noch nicht akzeptiert?
+if ($user_rules != "1") {
+    header('HTTP/1.1 403 forbidden');
+    exit;
+}
+
+//check if IWDB is locked
+if (isIwdbLocked()) {
+    header('HTTP/1.1 403 forbidden');
+    exit;
+}
+
 global $db, $db_tb_incomings;
 
 $action = getVar('action');
@@ -21,13 +33,20 @@ if ($action === 'getIncomings') {
     } else {
         $saved = 0;
     }
-    $coords = $db->escape(getVar('coords'));
 
-    $result = $db->db_update($db_tb_incomings, array('saved' => $saved, 'savedUpdateTime' => CURRENT_UNIX_TIME ), "WHERE koords_to = '$coords'");
+    $coords = filter_coords(getVar('coords'));
+    if ($coords) {
 
-    if (!empty($result)) {
-        include('ajax/getIncomingsTables.php');
-        echo json_encode(array('result' => 'success', 'time' => CURRENT_UNIX_TIME, 'tables' => getIncomingsTables()));
+        $result = $db->db_update($db_tb_incomings, array('saved' => $saved, 'savedUpdateTime' => CURRENT_UNIX_TIME ), "WHERE koords_to = '$coords'");
+        if (!empty($result)) {
+            include('ajax/getIncomingsTables.php');
+            echo json_encode(array('result' => 'success', 'time' => CURRENT_UNIX_TIME, 'tables' => getIncomingsTables()));
+        } else {
+            echo json_encode(array('result' => 'failure', 'time' => CURRENT_UNIX_TIME));
+        }
+
+    } else {
+        echo json_encode(array('result' => 'failure', 'time' => CURRENT_UNIX_TIME));
     }
 
 } elseif ($action === 'setRecalled') {
@@ -37,19 +56,35 @@ if ($action === 'getIncomings') {
     } else {
         $recalled = 0;
     }
-    $coords = $db->escape(getVar('coords'));
 
-    $result = $db->db_update($db_tb_incomings, array('recalled' => $recalled, 'recalledUpdateTime' => CURRENT_UNIX_TIME), "WHERE koords_to = '$coords'");
+    $coords = filter_coords(getVar('coords'));
+    if ($coords) {
 
-    if (!empty($result)) {
-        include('ajax/getIncomingsTables.php');
-        echo json_encode(array('result' => 'success', 'time' => CURRENT_UNIX_TIME, 'tables' => getIncomingsTables()));
+        $result = $db->db_update($db_tb_incomings, array('recalled' => $recalled, 'recalledUpdateTime' => CURRENT_UNIX_TIME), "WHERE koords_to = '$coords'");
+        if (!empty($result)) {
+            include('ajax/getIncomingsTables.php');
+            echo json_encode(array('result' => 'success', 'time' => CURRENT_UNIX_TIME, 'tables' => getIncomingsTables()));
+        } else {
+            echo json_encode(array('result' => 'failure', 'time' => CURRENT_UNIX_TIME));
+        }
+
+    } else {
+        echo json_encode(array('result' => 'failure', 'time' => CURRENT_UNIX_TIME));
     }
 
 } elseif ($action === 'getOnlineUsers') {
 
     include('ajax/getOnlineUsers.php');
     echo json_encode(array('result' => 'success', 'time' => CURRENT_UNIX_TIME, 'data' => getOnlineUsers()));
+
+} elseif ($action === 'newscan') {
+
+    include('modules/newscan.php');
+    if (empty($newscan_parser_error)) {
+        echo json_encode(array('result' => 'success', 'time' => CURRENT_UNIX_TIME, 'data' => $newscan_parser_output));
+    } else {
+        echo json_encode(array('result' => 'failure', 'time' => CURRENT_UNIX_TIME, 'data' => $newscan_parser_output));
+    }
 
 }
 

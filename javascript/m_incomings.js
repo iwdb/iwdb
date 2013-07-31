@@ -14,16 +14,19 @@ jQuery(document).ready(function () {
 
         jQuery.ajax({
             url: 'ajax.php',
-            type: 'POST',
+            type: 'GET',
             cache: false,
             async: false,
             data: {
                 action: 'getIncomings',
                 timestamp: timeOfData
             },
-            success: function (data, status, xhr) {
+            dataType: "json",
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(textStatus);
+            },
+            success: function (recievedData, status, xhr) {
                 if (xhr.status === 200) {
-                    recievedData = JSON.parse(data);
                     if (recievedData.result === 'success') {
                         timeOfData = recievedData.time;
                         jQuery('#incomings_tabellen_container').html(recievedData.tables);
@@ -58,9 +61,13 @@ jQuery(document).ready(function () {
                 action: action,
                 state: handle.checked
             },
-            success: function (data, status, xhr) {
+            dataType: "json",
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(textStatus);
+                console.log(jqXHR);
+            },
+            success: function (recievedData, status, xhr) {
                 if (xhr.status === 200) {
-                    recievedData = JSON.parse(data);
                     if (recievedData.result === 'success') {
                         timeOfData = recievedData.time;
 

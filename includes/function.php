@@ -463,32 +463,32 @@ function validAccname($name)
 /**
  * function ensureSortDirection
  *
- * filtert Sortierungsrichtung
+ * stellt gültige Sortierungsrichtung sicher
  *
- * @param mixed $inputValue    zu filternder Wert
- * @param mixed $standardValue optional Standardwert
+ * @param mixed $sortDirection         zu filternde Sortierungsrichtung
+ * @param mixed $sortDirectionStandard optional Standardsortierungsrichtung
  *
- * @return int|string gefilterter Wert oder Standardwert
+ * @return string Sortierungsrichtung oder Standardwert
  *
  * @author   masel
  */
-function ensureSortDirection($inputValue, $standardValue = 'ASC')
+function ensureSortDirection($sortDirection, $sortDirectionStandard = 'ASC')
 {
 
-    return ensureValue($inputValue, array('asc', 'desc', 'ASC', 'DESC'), $standardValue);
+    return ensureValue($sortDirection, array('asc', 'desc', 'ASC', 'DESC'), $sortDirectionStandard);
 
 }
 
 /**
  * function ensureValue
  *
- * filtert einfache Ganzzahlen mit Tausendertrennzeichen
+ * stellt gültigen Wert sicher
  *
  * @param mixed $inputValue     zu filternder Wert
  * @param array $possibleValues gültige Werte
  * @param mixed $standardValue  optional Standardwert
  *
- * @return int|string gefilterter Wert, ggf Standardwert oder bool false
+ * @return mixed gefilterter Wert, ggf Standardwert oder bool false
  *
  * @author   masel
  */
@@ -669,6 +669,35 @@ function stripNumber($numberstring, $thousand = '.', $comma = ',')
     }
 
     return $return;
+}
+
+/**
+ * function filter_coords
+ *
+ * filtert Koordinatenstrings
+ *
+ * @param string $coords        zu filternder Koordinatenstring
+ *
+ * @return mixed gefilterte Koordinaten oder bool false
+ *
+ * @ToDo   weitergehende Prüfungen?
+ *
+ * @author masel
+ */
+function filter_coords($coords)
+{
+
+    $coords = trim($coords);
+
+    if (empty($coords)) {
+        return false;
+    }
+
+    if (preg_match('/(\d{1,2}):(\d{1,3}):(\d{1,2})/', $coords, $aResult)) {
+        return $aResult[1] . ':' . $aResult[2] . ':' . $aResult[3];
+    } else {
+        return false;
+    }
 }
 
 function sqlRating($type)
@@ -1320,4 +1349,28 @@ function sqlPlayerSelection($playerSelection = '(Alle)')
     }
 
     return $sql;
+}
+
+function isIwdbLocked() {
+    global $db, $db_tb_params;
+
+    $sql = "SELECT `text`,`value` FROM `{$db_tb_params}` WHERE `name` = 'gesperrt';";
+    $result = $db->db_query($sql);
+    $row = $db->db_fetch_array($result);
+    $iwdb_locked = $row['value'];
+    $iwdb_lock_reason = $row['text'];
+
+    if ($iwdb_locked === 'true') {
+
+        if (!empty($iwdb_lock_reason)) {
+            return $iwdb_lock_reason;
+        } else {
+            return true;
+        }
+
+    } else {
+
+        return false;
+
+    }
 }

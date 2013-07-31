@@ -34,24 +34,23 @@ define('APPLICATION_PATH_URL', dirname($_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_
 require_once("./includes/bootstrap.php");
 
 if ($login_ok) {
-    $sqlIA = "SELECT `text`,`value` FROM `{$db_tb_params}` WHERE `name` = 'gesperrt' ";
-    $resultIA = $db->db_query($sqlIA)
-        or error(GENERAL_ERROR, 'Could not query user status information.', '', __FILE__, __LINE__, $sqlIA);
-    $rowIA   = $db->db_fetch_array($resultIA);
-    $grund   = $rowIA['text'];
-    $isornot = $rowIA['value'];
+    $IwdbLock = isIwdbLocked();
 
-    if ($isornot == 'true') {
-        if ($user_status <> 'admin') {
+    if ($IwdbLock) {
+        if ($user_status !== 'admin') {
 
             echo "<div style='text-align:center;color:red'>Die Datenbank ist zur Zeit gesperrt!</div>";
-            echo "<div style='text-align:center;color:red'>Grund: $grund</div>";
+            if (is_string($IwdbLock)) {
+                echo "<div style='text-align:center;color:red'>Grund: $IwdbLock</div>";
+            }
             exit;
 
         } else {
 
-            echo "<div style='text-align:center'>Die Datenbank ist zur Zeit gesperrt!</div>";
-            echo "<div style='text-align:center'>Grund: $grund</div>";
+            echo "<div style='text-align:center;color:red'>Die Datenbank ist zur Zeit gesperrt!</div>";
+            if (is_string($IwdbLock)) {
+                echo "<div style='text-align:center;color:red'>Grund: $IwdbLock</div>";
+            }
 
         }
     }

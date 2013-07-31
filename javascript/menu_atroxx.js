@@ -18,9 +18,12 @@ jQuery(document).ready(function () {
             data: {
                 action: 'getOnlineUsers'
             },
-            success: function (data, status, xhr) {
+            dataType: "json",
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(textStatus);
+            },
+            success: function (recievedData, status, xhr) {
                 if (xhr.status === 200) {
-                    recievedData = JSON.parse(data);
                     if (recievedData.result === 'success') {
                         jQuery('#doc_usersonline').html('<abbr title="' + recievedData.data.strOnlineMember + '">Online: ' + recievedData.data.numOnlineMember + '</abbr>');
                     }
@@ -30,6 +33,8 @@ jQuery(document).ready(function () {
     }
 
     updateOnlineUsers();
-    setInterval(function () { updateOnlineUsers(); }, 180000);                    //Aufruf alle 3 Minuten
+    setInterval(function () {
+        updateOnlineUsers();
+    }, 180000);                    //Aufruf alle 3 Minuten
 
 });

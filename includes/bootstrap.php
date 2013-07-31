@@ -12,6 +12,12 @@
  * @subpackage Bootstrap
  */
 
+if(!empty($_SERVER['SCRIPT_NAME']) AND basename($_SERVER['SCRIPT_NAME']) === 'ajax.php') {       //Ajax-Requests gehen nur zu dieser Datei
+    define('AJAX_REQUEST', true);
+} else {
+    define('AJAX_REQUEST', false);
+}
+
 //all errors on
 error_reporting(E_ALL | E_STRICT);
 ini_set("display_errors", '1');

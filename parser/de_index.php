@@ -477,30 +477,32 @@ function save_data($scan_data)
     } else {
 
         $db->db_insertignore($db_tb_lieferung, $fields)
-        or error(GENERAL_ERROR, 'Could not insert transports.', '', __FILE__, __LINE__);
+            or error(GENERAL_ERROR, 'Could not insert transports.', '', __FILE__, __LINE__);
 
     }
 
     if ($scan_data['art'] == "Angriff") {
+
         $sql = "UPDATE $db_tb_scans
 			 SET angriff=" . $scan_data['time'] . "
 			    ,angriffuser='" . $scan_data['user_from'] . "'
 			 WHERE coords_gal=" . $scan_data['coords_to_gal'] . "
 			   AND coords_sys=" . $scan_data['coords_to_sys'] . "
 			   AND coords_planet=" . $scan_data['coords_to_planet'];
-        debug_var('sql', $sql);
         $result = $db->db_query($sql)
             or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
     } elseif (($scan_data['art'] == "Sondierung (Schiffe/Def/Ress)") || ($scan_data['art'] == "Sondierung (Gebäude/Ress)")) {
+
         $sql = "UPDATE $db_tb_scans
 			 SET sondierung=" . $scan_data['time'] . "
 			    ,sondierunguser='" . $scan_data['user_from'] . "'
 			 WHERE coords_gal=" . $scan_data['coords_to_gal'] . "
 			   AND coords_sys=" . $scan_data['coords_to_sys'] . "
 			   AND coords_planet=" . $scan_data['coords_to_planet'];
-        debug_var('sql', $sql);
         $result = $db->db_query($sql)
             or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
     }
 
     if (!empty($db_tb_incomings)) { //incoming-Modul vorhanden

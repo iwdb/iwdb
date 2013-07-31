@@ -35,6 +35,10 @@ if (!defined('IRA')) {
 
 //****************************************************************************
 
+//Globale Variablen
+global $db, $db_tb_sitterauftrag, $db_tb_scans, $db_tb_sitterlog, $db_tb_user, $db_tb_gebaeude;
+global $user_status, $user_sitterlogin;
+
 if (($user_adminsitten != SITTEN_BOTH) && ($user_adminsitten != SITTEN_ONLY_LOGINS)) {
     die('Hacking attempt...');
 }
@@ -76,7 +80,7 @@ if (!empty($edit)) {
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     $row_last = $db->db_fetch_array($result);
 
-    if ((!empty($del)) && ($user_status == "admin")) {
+    if ((!empty($del)) && ($user_status === "admin")) {
         foreach ($auftragids as $delid) {
             $sql = "SELECT * FROM " . $db_tb_sitterauftrag . " WHERE id = " . $delid;
             $result = $db->db_query($sql)
@@ -120,74 +124,57 @@ if (!empty($edit)) {
             $date_b1    = empty($date_parse['date_b1']) ? $date_parse['date'] : $date_parse['date_b1'];
             $date_b2    = empty($date_parse['date_b2']) ? $date_b1 : $date_parse['date_b2'];
         } else {
-            $datetime = explode(" ", trim($date));
-            $date_d   = explode(".", $datetime[0]);
-            $date_t   = explode(":", $datetime[1]);
-            if (($date_t[0] >= 0) && ($date_t[0] <= 24) && ($date_t[1] >= 0) && ($date_t[1] < 60) && ($date_d[1] >= 1) && ($date_d[1] <= 12) && ($date_d[0] >= 1) && ($date_d[0] <= 31)) {
-                $date = mktime($date_t[0], $date_t[1], 00, $date_d[1], $date_d[0], $date_d[2]);
-            }
+            $date = parseTime($date);
 
             if (!empty($date_b1)) {
-                $datetime = explode(" ", trim($date_b1));
-                $date_d   = explode(".", $datetime[0]);
-                $date_t   = explode(":", $datetime[1]);
-                if (($date_t[0] >= 0) && ($date_t[0] <= 24) && ($date_t[1] >= 0) && ($date_t[1] < 60) && ($date_d[1] >= 1) && ($date_d[1] <= 12) && ($date_d[0] >= 1) && ($date_d[0] <= 31)) {
-                    $date_b1 = mktime($date_t[0], $date_t[1], 00, $date_d[1], $date_d[0], $date_d[2]);
-                }
+                $date_b1 = parseTime($date_b1);
             } else {
                 $date_b1 = $date;
             }
 
             if (!empty($date_b2)) {
-                $datetime = explode(" ", trim($date_b2));
-                $date_d   = explode(".", $datetime[0]);
-                $date_t   = explode(":", $datetime[1]);
-                if (($date_t[0] >= 0) && ($date_t[0] <= 24) && ($date_t[1] >= 0) && ($date_t[1] < 60) && ($date_d[1] >= 1) && ($date_d[1] <= 12) && ($date_d[0] >= 1) && ($date_d[0] <= 31)) {
-                    $date_b2 = mktime($date_t[0], $date_t[1], 00, $date_d[1], $date_d[0], $date_d[2]);
-                }
+                $date_b2 = parseTime($date_b2);
             } else {
                 $date_b2 = $date_b1;
             }
         }
 
+        if ($row_first['bauschleife'] != "1") {
+            $date_b1 = $date;
+            $date_b2 = $date;
+        }
+
+        list($date, $date_b1, $date_b2) = sortValuesInc($date, $date_b1, $date_b2);
+
         //Schieben auf alle Zeiten anwenden
         if ($plus_stunden > 0 || $plus_minuten > 0) {
             $schiebe_zeit = $plus_stunden * HOUR + $plus_minuten * MINUTE;
-            $date         = CURRENT_UNIX_TIME + $schiebe_zeit;
-            $date_b1      = CURRENT_UNIX_TIME + $schiebe_zeit;
-            $date_b2      = CURRENT_UNIX_TIME + $schiebe_zeit;
+            $date         = $date + $schiebe_zeit;
+            $date_b1      = $date_b1 + $schiebe_zeit;
+            $date_b2      = $date_b2 + $schiebe_zeit;
         }
 
-        if (($date < CURRENT_UNIX_TIME - $config_sitterauftrag_timeout) || ($date_b1 < CURRENT_UNIX_TIME - $config_sitterauftrag_timeout) || ($date_b2 < CURRENT_UNIX_TIME - $config_sitterauftrag_timeout)) {
-            $alert .= "<div class='system_error'>Ungültiger Zeitpunkt.</div>";
-        } else {
-            if ($row_first['bauschleife'] != "1") {
-                $date_b1 = $date;
-                $date_b2 = $date;
-            }
-
-            $sql = "UPDATE " . $db_tb_sitterauftrag . " SET date = '" . $date . "', date_b1 = '" . $date_b1 . "', date_b2 = '" . $date_b2 . "' WHERE id = '" . $auftragids[0] . "'";
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-
-            dates($auftragids[0], $row_first['user']);
-
-            if (($date <> $row_first['date']) || ($date_b1 <> $row_first['date_b1']) || ($date_b2 <> $row_first['date_b2'])) {
-                $alert .= "<div class='system_notification'>Zeit editiert.</div>";
-            }
-        }
-    }
-
-    // Punkte //
-    if ($row['user'] != $user_sitterlogin) {
-        $sql = "UPDATE " . $db_tb_user . " SET sitterpunkte = sitterpunkte + " . $config_sitterpunkte_auftrag . " WHERE sitterlogin = '" . $user_sitterlogin . "'";
+        $sql = "UPDATE " . $db_tb_sitterauftrag . " SET date = '" . $date . "', date_b1 = '" . $date_b1 . "', date_b2 = '" . $date_b2 . "' WHERE id = '" . $auftragids[0] . "'";
         $result = $db->db_query($sql)
             or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
+        // Sitterpunkte vergeben
+        if ($row_first['user'] !== $user_sitterlogin) {
+            $sql = "UPDATE " . $db_tb_user . " SET sitterpunkte = sitterpunkte + " . $config_sitterpunkte_auftrag . " WHERE sitterlogin = '" . $user_sitterlogin . "'";
+            $result = $db->db_query($sql)
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        }
+
+        dates($auftragids[0], $row_first['user']);
+
+        if (($date <> $row_first['date']) || ($date_b1 <> $row_first['date_b1']) || ($date_b2 <> $row_first['date_b2'])) {
+            $alert .= "<div class='system_notification'>Zeit editiert.</div>";
+        }
+
     }
 
     //Start Log
-
-    $sql = "SELECT * FROM " . $db_tb_sitterauftrag . " WHERE id = " . $auftragids[0];
+    $sql = "SELECT date, date_b1, date_b2, user, planet, auftrag, bauid, bauschleife, schiffanz, typ FROM " . $db_tb_sitterauftrag . " WHERE id = " . $auftragids[0];
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     $row = $db->db_fetch_array($result);
@@ -208,18 +195,19 @@ if (!empty($edit)) {
             $bauschleifenmod = 1.2;
         }
     }
-    if ($plus_stunden > 0 || $plus_minuten > 0) {
-        $verschoben_text = " (verschoben um " . $plus_stunden . ":" . $plus_minuten . ") ";
-    } else {
-        $verschoben_text = "";
-    }
+
     if ($del != "1") {
-        $logtext = $db->escape("Zeit geändert auf " . strftime(CONFIG_DATETIMEFORMAT, $date) . $verschoben_text . "<br>" . $row_planet['planetenname'] . " [" . $row['planet'] . "]<br>" . auftrag($row['typ'], $row['bauschleife'], $row['bauid'], $row['auftrag'], $row['schiffanz'], $row_planet['dgmod'], $row['user'], $bauschleifenmod));
+        $logtext = $db->escape($row_planet['planetenname'] . " [" . $row['planet'] . "]<br>" . auftrag($row['typ'], $row['bauschleife'], $row['bauid'], $row['auftrag'], $row['schiffanz'], $row_planet['dgmod'], $row['user'], $bauschleifenmod) . "<br><br>" . "Zeit geändert auf " . strftime(CONFIG_DATETIMEFORMAT, $date));
+
+        $SQLdata = array(
+            'sitterlogin' => $row['user'],
+            'fromuser'    => $user_sitterlogin,
+            'date'        => CURRENT_UNIX_TIME,
+            'action'      => $logtext
+        );
+        $db->db_insert($db_tb_sitterlog, $SQLdata);
     }
 
-    $sql = "INSERT INTO " . $db_tb_sitterlog . " (sitterlogin, fromuser, date, action) VALUES ('" . $row['user'] . "', '" . $user_sitterlogin . "', '" . CURRENT_UNIX_TIME . "', '" . $logtext . "')";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 }
 
 // Auftrag erledigt //
@@ -291,33 +279,17 @@ if (!empty($erledigt)) {
                 $date_b1    = empty($date_parse['date_b1']) ? $date_parse['date'] : $date_parse['date_b1'];
                 $date_b2    = empty($date_parse['date_b2']) ? $date_b1 : $date_parse['date_b2'];
             } else {
-
                 if (!empty($date)) {
-                    $datetime = explode(" ", trim($date));
-                    $date_d   = explode(".", $datetime[0]);
-                    $date_t   = explode(":", $datetime[1]);
-                    if (($date_t[0] >= 0) && ($date_t[0] <= 24) && ($date_t[1] >= 0) && ($date_t[1] < 60) && ($date_d[1] >= 1) && ($date_d[1] <= 12) && ($date_d[0] >= 1) && ($date_d[0] <= 31)) {
-                        $date = mktime($date_t[0], $date_t[1], 00, $date_d[1], $date_d[0], $date_d[2]);
-                    }
+                    $date = parseTime($date);
 
                     if (!empty($date_b1)) {
-                        $datetime = explode(" ", trim($date_b1));
-                        $date_d   = explode(".", $datetime[0]);
-                        $date_t   = explode(":", $datetime[1]);
-                        if (($date_t[0] >= 0) && ($date_t[0] <= 24) && ($date_t[1] >= 0) && ($date_t[1] < 60) && ($date_d[1] >= 1) && ($date_d[1] <= 12) && ($date_d[0] >= 1) && ($date_d[0] <= 31)) {
-                            $date_b1 = mktime($date_t[0], $date_t[1], 00, $date_d[1], $date_d[0], $date_d[2]);
-                        }
+                        $date_b1 = parseTime($date_b1);
                     } else {
                         $date_b1 = $date;
                     }
 
                     if (!empty($date_b2)) {
-                        $datetime = explode(" ", trim($date_b2));
-                        $date_d   = explode(".", $datetime[0]);
-                        $date_t   = explode(":", $datetime[1]);
-                        if (($date_t[0] >= 0) && ($date_t[0] <= 24) && ($date_t[1] >= 0) && ($date_t[1] < 60) && ($date_d[1] >= 1) && ($date_d[1] <= 12) && ($date_d[0] >= 1) && ($date_d[0] <= 31)) {
-                            $date_b2 = mktime($date_t[0], $date_t[1], 00, $date_d[1], $date_d[0], $date_d[2]);
-                        }
+                        $date_b2 = parseTime($date_b2);
                     } else {
                         $date_b2 = $date_b1;
                     }
@@ -327,6 +299,8 @@ if (!empty($erledigt)) {
             if (empty($date) && empty($date_parse) && empty($date_b1) && empty($date_b2)) {
                 $alert .= "<div class='system_error'>Bitte ausfüllen.</div>";
             } else {
+                list($date, $date_b1, $date_b2) = sortValuesInc($date, $date_b1, $date_b2);
+
                 $alert .= (($date < CURRENT_UNIX_TIME - $config_sitterauftrag_timeout) || ($date_b1 < CURRENT_UNIX_TIME - $config_sitterauftrag_timeout) || ($date_b2 < CURRENT_UNIX_TIME - $config_sitterauftrag_timeout)) ? "<div class='system_error'>Ungültiger Zeitpunkt.</div>" : "";
             }
 
@@ -413,8 +387,8 @@ if (!empty($erledigt)) {
                 Den Auftrag, den du eben erledigt hast, hat Folgeaufträge eingetragen.<br>
                 Bitte aktualisiere für diese die Zeit, indem du folgendes Formular ausfüllst.<br>
                 Danach wird der Auftrag als erledigt markiert. Danke.<br><br>
-                <form method="POST" action="index.php?action=sitterliste"
-                      enctype="multipart/form-data">
+                <form method="POST">
+                    <input type="hidden" name="action" value="sitterliste">
                     <table class="table_format" style="width: 60%;">
                         <?php
                         if ($count >= 2) {
@@ -469,18 +443,17 @@ if (!empty($erledigt)) {
                                 <i>Aktuelle Bauliste aus Icewars kopieren.</i>
                             </td>
                             <td class="windowbg1">
-                                <textarea name="date_parse" rows="4" style="width: 200;"></textarea>
+                                <textarea name="date_parse" rows="4" style="width: 15em;"></textarea>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2" class="titlebg center">
-                                <input type="hidden" name="erledigt" value="<?php echo $erledigt;?>"><input
-                                    type="submit" value="speichern" name="B1">
+                                <input type="hidden" name="erledigt" value="<?php echo $erledigt;?>">
+                                <input type="submit" value="speichern">
                             </td>
                         </tr>
                 	</table>
                 </form>
-                
                 <br>
                 <br>
             <?php
@@ -641,12 +614,14 @@ if (isset($row_lastlogin)) {
     $users_logged_in      = (($row_lastlogin['MAX(date)'] > (CURRENT_UNIX_TIME - $config_sitterlogin_timeout)) && ($row_lastlogin['fromuser'] != $user_sitterlogin)) ? $row_lastlogin['fromuser'] : "";
 } else {
     $users_logged_in = "";
+    $users_lastlogin_user = "";
+    $users_lastlogin = null;
 }
 ?>
 <tr>
     <td class="windowbg<?php echo $num;?>">
         <?php
-        if ($user_status == "admin") {
+        if ($user_status === "admin") {
             echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($row['user']) . "'>" . $row['user'] . "</a>";
         } else {
             echo $row['user'];
@@ -696,7 +671,9 @@ if (isset($row_lastlogin)) {
 
     </td>
     <td class="windowbg<?php echo $num;?>">
-        <?php echo (empty($users_lastlogin_user)) ? "" : strftime(CONFIG_DATETIMEFORMAT, $users_lastlogin) . " - " . $users_lastlogin_user;?>
+        <?php
+        echo (empty($users_lastlogin_user)) ? "" : strftime(CONFIG_DATETIMEFORMAT, $users_lastlogin) . "<br>von " . $users_lastlogin_user;
+        ?>
     </td>
 </tr>
 <tr id="row_<?php echo $row['id'];?>" style="display: none;">
@@ -827,7 +804,7 @@ if (isset($row_lastlogin)) {
                     </td>
                 </tr>
                 <?php
-                if ($user_status == "admin") {
+                if ($user_status === "admin") {
                     ?>
                     <tr>
                         <td colspan="2">
@@ -870,7 +847,7 @@ if (isset($row_lastlogin)) {
 <table id="next_sitterorders_table" class="table_format" style="width: 90%;">
     <tr>
         <td class="titlebg center" colspan="4">
-            <b>Sitteraufträge der nächsten <?php echo (round($config_sitterliste_timeout / 60 / 60));?> Stunden</b>
+            <b>Sitteraufträge der nächsten <?php echo (round($config_sitterliste_timeout / HOUR));?> Stunden</b>
         </td>
     </tr>
     <tr>
@@ -923,7 +900,7 @@ if (isset($row_lastlogin)) {
         <tr>
             <td class="windowbg1">
                 <?php
-                if ($user_status == "admin") {
+                if ($user_status === "admin") {
                     echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($row['user']) . "'>" . $row['user'] . "</a>";
                 } else {
                     echo $row['user'];

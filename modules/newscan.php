@@ -27,18 +27,22 @@
  *                                                                           *
  *****************************************************************************/
 
+//direktes Aufrufen verhindern
 if (!defined('IRA')) {
-    die('Hacking attempt...');
+    header('HTTP/1.1 403 forbidden');
+    exit;
 }
 
 $start = microtime(true);
+$newscan_parser_error = false;
+
+ob_start(); //buffer output
 
 //$debug = TRUE;
 
 /*
     Autoload system for plib parser
 */
-
 
 global $plibfiles;
 
@@ -92,32 +96,19 @@ function plural($singular)
     return $singular;
 }
 
-?>
-    <script>
-        $(document).ready(function () {
-            $("#text").bind('input propertychange', function () {
-                var checklength = $(this).val().length;
-                if (checklength) {
-                    $("form").submit();
-                }
-            });
-        });
-    </script>
-<?php
-
 if (empty($selectedusername)) { //wurde noch nicht woanders eingestellt (z.B. von Sitterschleife)
     $selectedusername = getVar('seluser');
 }
 
 $selectedusername = validAccname($selectedusername); //Account verifizieren
 if ($selectedusername === false) {
-    $selectedusername = validAccname(urldecode($selectedusername)); //noch ein Versuch mit irgendwie encodiertem Namen
+    $selectedusername = validAccname(urldecode($selectedusername)); //noch ein Versuch mit irgendwie encodiertem Namen //ToDo: Noch aktuell? -> Den doppelten Check entfernen?
     if ($selectedusername === false) {
         $selectedusername = $user_sitterlogin;
     }
 }
 
-if (!isset($sitterschleife)) {
+if (!isset($sitterschleife) AND (AJAX_REQUEST === false)) {
 
     doc_title('Neuer Bericht');
     ?>
@@ -172,8 +163,8 @@ if (!isset($sitterschleife)) {
                     }
 
                     if ($allow1 AND $allow2) {
-                        echo "   Bericht einfügen für\n";
-                        echo "   <select name='seluser' style='width: 200px;'>\n";
+                        echo "   Bericht einfügen für";
+                        echo "   <select name='seluser' style='width: 200px;'>";
 
                         $sql = "SELECT sitterlogin FROM " . $db_tb_user . " ORDER BY id ASC";
                         $result = $db->db_query($sql)
@@ -182,7 +173,7 @@ if (!isset($sitterschleife)) {
                         while ($row = $row = $db->db_fetch_array($result)) {
                             echo "      <option value='" . $row['sitterlogin'] . "'" . ($selectedusername == $row['sitterlogin'] ? " selected" : "") . ">" . $row['sitterlogin'] . "</option>";
                         }
-                        echo "   </select><br />\n";
+                        echo "   </select><br />";
                     }
                     ?>
                     <textarea name='text' id='text' rows='14' cols='70'></textarea><br/>
@@ -199,6 +190,17 @@ if (!isset($sitterschleife)) {
         </table>
     </form>
     <br>
+    <script>
+        //autosenden der Berichte, in den Profil-Optionen einstellbar machen?
+        jQuery(document).ready(function () {
+            jQuery("#text").bind('input propertychange', function () {
+                var checklength = jQuery(this).val().length;
+                if (checklength) {
+                    jQuery("form").submit();
+                }
+            });
+        });
+    </script>
 <?php
 }
 
@@ -272,6 +274,7 @@ if (!empty($textinput)) {
                         }
                     }
                 } else {
+                    $parser_error=true;
                     doc_message("Input (" . $parserObj->getName() . ") wurde erkannt, konnte aber nicht fehlerfrei geparsed werden!");
                     if (!empty($parserResult->aErrors) && count($parserResult->aErrors) > 0) {
                         echo "error:<br />";
@@ -322,4 +325,11 @@ if (!empty($textinput)) {
     echo '<br>Dauer: ' . round($dauer, 4) . ' sec<br>';
 
     return;
+}
+
+if (AJAX_REQUEST === false) {            //normale ausgabe
+    ob_end_flush();
+} else {                                 //keine ausgabe
+    $newscan_parser_output = ob_get_contents();
+    ob_end_clean();
 }

@@ -464,9 +464,6 @@ function save_data($scan_data)
         }
     }
 
-    var_dump($scan_data);
-
-
     if (($scan_data['art'] === "Transport") OR ($scan_data['art'] === "Massdriverpaket")) {
 
         //bei Transporten oder Massdriverpaketen sollten Ressmengen mit dastehen, sonst werden die Transporte ignoriert

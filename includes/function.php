@@ -357,8 +357,7 @@ function getVar($varname, $keephtmlspecialchars = false)
 
                 return $returnary;
             } else {
-                $value = htmlspecialchars($_POST[$varname], ENT_QUOTES, 'UTF-8');
-                $value = str_replace(array_keys($brokenUtf8ToUtf8), array_values($brokenUtf8ToUtf8), $value);
+                $value = str_replace(array_keys($brokenUtf8ToUtf8), array_values($brokenUtf8ToUtf8), $_POST[$varname]);
                 return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
             }
         } else {
@@ -376,8 +375,7 @@ function getVar($varname, $keephtmlspecialchars = false)
 
                 return $returnary;
             } else {
-                $value = htmlspecialchars($_GET[$varname], ENT_QUOTES, 'UTF-8');
-                $value = str_replace(array_keys($brokenUtf8ToUtf8) , array_values($brokenUtf8ToUtf8), $value);
+                $value = str_replace(array_keys($brokenUtf8ToUtf8) , array_values($brokenUtf8ToUtf8), $_GET[$varname]);
                 return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
             }
         } else {

@@ -336,20 +336,33 @@ function getServerVar($varname, $default)
 function getVar($varname, $keephtmlspecialchars = false)
 {
     global $_GET, $_POST;
+
+    $brokenUtf8ToUtf8 = array (
+        "\xc3\x83\xc2\xbc" => 'ü',
+        "\xc3\x83\xc2\x9c" => 'Ü',
+        "\xc3\x83\xc2\xb6" => 'ö',
+        "\xc3\x83\xc2\x96" => 'Ö',
+        "\xc3\x83\xc2\xa4" => 'ä',
+        "\xc3\x83\xc2\x84" => 'Ä'
+    );
+
     if (isset($_POST[$varname])) {
         if ($keephtmlspecialchars === false) {
             if (is_array($_POST[$varname])) {
                 $returnary = array();
                 foreach ($_POST[$varname] as $key => $value) {
+                    $value = str_replace(array_keys($brokenUtf8ToUtf8), array_values($brokenUtf8ToUtf8), $value);
                     $returnary[$key] = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
                 }
 
                 return $returnary;
             } else {
-                return htmlspecialchars($_POST[$varname], ENT_QUOTES, 'UTF-8');
+                $value = htmlspecialchars($_POST[$varname], ENT_QUOTES, 'UTF-8');
+                $value = str_replace(array_keys($brokenUtf8ToUtf8), array_values($brokenUtf8ToUtf8), $value);
+                return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
             }
         } else {
-            return $_POST[$varname];
+            return str_replace(array_keys($brokenUtf8ToUtf8), array_values($brokenUtf8ToUtf8), $_POST[$varname]);
         }
     }
     if (isset($_GET[$varname])) {
@@ -357,15 +370,18 @@ function getVar($varname, $keephtmlspecialchars = false)
             if (is_array($_GET[$varname])) {
                 $returnary = array();
                 foreach ($_GET[$varname] as $key => $value) {
+                    $value = str_replace(array_keys($brokenUtf8ToUtf8), array_values($brokenUtf8ToUtf8), $value);
                     $returnary[$key] = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
                 }
 
                 return $returnary;
             } else {
-                return htmlspecialchars($_GET[$varname], ENT_QUOTES, 'UTF-8');
+                $value = htmlspecialchars($_GET[$varname], ENT_QUOTES, 'UTF-8');
+                $value = str_replace(array_keys($brokenUtf8ToUtf8) , array_values($brokenUtf8ToUtf8), $value);
+                return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
             }
         } else {
-            return $_GET[$varname];
+            return str_replace(array_keys($brokenUtf8ToUtf8), array_values($brokenUtf8ToUtf8), $_GET[$varname]);
         }
     }
 

@@ -131,3 +131,48 @@ CREATE TABLE IF NOT EXISTS `prefix_gebbaukosten` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Gebäudebaukosten einiger Gebäude für Ressbedarfsrechnung' AUTO_INCREMENT=21 ;
+
+--
+-- Tabellenstruktur für Tabelle `prefix_raidgebiet`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_raidgebiet` (
+  `kw` int(2) NOT NULL,
+  `1g1` varchar(20) DEFAULT NULL,
+  `1g2` varchar(20) DEFAULT NULL,
+  `1g3` varchar(20) DEFAULT NULL,
+  `1g4` varchar(20) DEFAULT NULL,
+  `1g5` varchar(20) DEFAULT NULL,
+  `1g6` varchar(20) DEFAULT NULL,
+  `1g7` varchar(20) DEFAULT NULL,
+  `1g8` varchar(20) DEFAULT NULL,
+  `1g9` varchar(20) DEFAULT NULL,
+  `1g10` varchar(20) DEFAULT NULL,
+  `1g11` varchar(20) DEFAULT NULL,
+  `1g12` varchar(20) DEFAULT NULL,
+  `2g1` varchar(20) DEFAULT NULL,
+  `2g2` varchar(20) DEFAULT NULL,
+  `2g3` varchar(20) DEFAULT NULL,
+  `2g4` varchar(20) DEFAULT NULL,
+  `2g5` varchar(20) DEFAULT NULL,
+  `2g6` varchar(20) DEFAULT NULL,
+  `2g7` varchar(20) DEFAULT NULL,
+  `2g8` varchar(20) DEFAULT NULL,
+  `2g9` varchar(20) DEFAULT NULL,
+  `2g10` varchar(20) DEFAULT NULL,
+  `2g11` varchar(20) DEFAULT NULL,
+  `2g12` varchar(20) DEFAULT NULL,
+  `3g1` varchar(20) DEFAULT NULL,
+  `3g2` varchar(20) DEFAULT NULL,
+  `3g3` varchar(20) DEFAULT NULL,
+  `3g4` varchar(20) DEFAULT NULL,
+  `3g5` varchar(20) DEFAULT NULL,
+  `3g6` varchar(20) DEFAULT NULL,
+  `3g7` varchar(20) DEFAULT NULL,
+  `3g8` varchar(20) DEFAULT NULL,
+  `3g9` varchar(20) DEFAULT NULL,
+  `3g10` varchar(20) DEFAULT NULL,
+  `3g11` varchar(20) DEFAULT NULL,
+  `3g12` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`kw`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Aufteilung Hasiversum für Raider';

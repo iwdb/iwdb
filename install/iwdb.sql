@@ -924,6 +924,7 @@ CREATE TABLE IF NOT EXISTS `prefix_scans` (
   `bg_pic` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `time_att` int(11) NOT NULL DEFAULT '0',
   `att` text NOT NULL,
+  `geolink` varchar(120) NOT NULL,
   PRIMARY KEY (`coords`),
   UNIQUE KEY `scans_coords_2` (`coords_gal`,`coords_sys`,`coords_planet`),
   KEY `scans_coords_gal` (`coords_gal`),

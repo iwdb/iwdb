@@ -296,6 +296,16 @@ if (((($ansicht == "auto")) || ($ansicht == "geologisch") || ($ansicht == "beide
             ?>
         </td>
     </tr>
+	<tr>
+		<td colspan="2" class="titlebg"><b>Geolink</b></td>
+	</tr>
+	<tr>
+		<td colspan="2" class="windowbg2">
+			<?php
+			echo $row['geolink'];
+			?>
+		</td>
+	</tr>
 <?php
 }
 if ($row['objekt'] == "---") {

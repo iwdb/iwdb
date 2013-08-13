@@ -176,3 +176,5 @@ CREATE TABLE IF NOT EXISTS `prefix_raidgebiet` (
   `3g12` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`kw`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Aufteilung Hasiversum für Raider';
+
+ALTER TABLE `prefix_scans` ADD `geolink` varchar(120) NOT NULL;

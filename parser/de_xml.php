@@ -110,7 +110,8 @@ function parse_sbxml($xmldata)
     if ($scan_typ == 1) {
         debug_var("scan_data['geoscantime']", $scan_data['time']);
         $scan_data['geoscantime'] = (int)$xml->timestamp;
-        $ressourcen               = $xml->plani_data->ressourcen_vorkommen->ressource;
+        $scan_data['geolink'] = $xmldata->strUrl;
+		$ressourcen               = $xml->plani_data->ressourcen_vorkommen->ressource;
         foreach ($ressourcen as $ressource) {
             $wert = $wert = (int)((float)$ressource->wert[0] * 100);
             switch ((int)$ressource->id) {

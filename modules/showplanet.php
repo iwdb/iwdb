@@ -46,7 +46,7 @@ if (empty($coords)) {
 doc_title('Planet');
 
 //alle Planieinformationen holen
-$sql_planie = "SELECT * FROM " . $db_tb_scans . " WHERE coords='" . $coords . "'";
+$sql_planie = "SELECT * FROM `{$db_tb_scans}` WHERE `coords`='" . $coords . "'";
 $result_planie = $db->db_query($sql_planie)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_planie);
 $row_planie = $db->db_fetch_array($result_planie);
@@ -291,7 +291,6 @@ if ((($ansicht === "auto") && ($row_planie['objekt'] !== "---")) || ($ansicht ==
                 </tr>
                 <tr>
                     <td>gesperrt setzen :
-
                         <?php
                         echo "<input type='checkbox' name='gesperrt' value='1'";
                         if ($row_spieler['gesperrt']) {

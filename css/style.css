@@ -189,7 +189,7 @@ td {
     color: #0000FF;
 }
 
-/* T Systemwarnung */
+/* Systemwarnung */
 .system_warning {
     font-size: 1.3em;
     color: #FF6600;
@@ -197,7 +197,7 @@ td {
     text-align: center;
 }
 
-/* !T Systemfehler */
+/* Systemfehler */
 .system_error {
     color: #FF0000;
     font-size: 1.5em;
@@ -233,7 +233,7 @@ td {
     vertical-align: middle;
 }
 
-/* T Menu links neu */
+/* Menu links neu */
 .doc_menu {
     text-align: left;
 }
@@ -402,7 +402,7 @@ input[type="color"]:focus,
 }
 
 
-/* !T Fadein bei unerledigten Sitteraufträgen */
+/* Fadein bei unerledigten Sitteraufträgen */
 #fadein {
     position: fixed;
     top: 2px;
@@ -415,7 +415,7 @@ input[type="color"]:focus,
     text-align: center;
 }
 
-/* !T Fenster des Fadeins */
+/* Fenster des Fadeins */
 .fadein {
     background-color: #C4D7DF;
     color: #000000;

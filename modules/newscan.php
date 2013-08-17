@@ -176,7 +176,7 @@ if (!isset($sitterschleife) AND (AJAX_REQUEST === false)) {
                         echo "   </select><br />";
                     }
                     ?>
-                    <textarea name='text' id='text' rows='14' cols='70'></textarea><br/>
+                    <textarea name='text' id='text' rows='14' cols='70' autofocus="autofocus"></textarea><br/>
                     <br/>
                     Für Hilfe bitte oben auf den "Hilfe" Button drücken.
                     <br/>

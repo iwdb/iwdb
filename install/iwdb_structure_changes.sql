@@ -178,3 +178,6 @@ CREATE TABLE IF NOT EXISTS `prefix_raidgebiet` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Aufteilung Hasiversum für Raider';
 
 ALTER TABLE `prefix_scans` ADD `geolink` varchar(120) NOT NULL;
+
+ALTER TABLE `prefix_spieler` ADD `umode` TINYINT( 1 ) NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_spieler` ADD `gesperrt` TINYINT( 1 ) NOT NULL DEFAULT '0';

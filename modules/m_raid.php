@@ -190,7 +190,11 @@ $defaults = array(
     'no_reservierung'      => '',
     'reservierung_user'    => '',
     'reservierung_foreign' => '',
-    'rating_min'           => '',
+    'umode'				   => '',
+	'no_umode'			   => '',
+	'gesperrt'			   => '',
+	'no_gesperrt'		   => '',
+	'rating_min'           => '',
     'rating_max'           => '',
     'ressource'            => 'Alle',
     'ress_min'             => '',
@@ -661,7 +665,12 @@ if (empty($params['view'])) {
     echo "<input type='checkbox' name='no_reservierung' value='1' checked='checked'> Keine Reservierungen";
     echo "<input type='checkbox' name='reservierung_user' value='1'> Eigene Reservierungen";
     echo "<input type='checkbox' name='reservierung_foreign' value='1'> Fremde Reservierungen<br>";
-    next_row("titlebg", "colspan='2'");
+    echo "<input type='checkbox' name='no_umode' value='1' checked='checked'> Kein Umode";
+    echo "<input type='checkbox' name='umode' value='1'> Nur UMode<br>";
+	echo "<input type='checkbox' name='no_gesperrt' value='1' checked='checked'> Nicht gesperrt";
+    echo "<input type='checkbox' name='gesperrt' value='1'> Nur gesperrte Spieler<br>";
+	
+	next_row("titlebg", "colspan='2'");
     echo "<b>Ausgabe:</b>";
     next_row("windowbg2", "style='width:20%;'");
     echo "Ansicht:\n";
@@ -718,6 +727,8 @@ if (empty($params['view'])) {
     $sql_select .= "," . $db_tb_spieler . ".pos";
     $sql_select .= "," . $db_tb_spieler . ".gebp_nodiff";
     $sql_select .= "," . $db_tb_spieler . ".dabeiseit";
+	$sql_select .= "," . $db_tb_spieler . ".umode";
+	$sql_select .= "," . $db_tb_spieler . ".gesperrt";
     $sql_from .= " LEFT JOIN " . $db_tb_spieler . " ON " . $db_tb_scans . ".user=" . $db_tb_spieler . ".name";
     if (!empty($db_tb_raidview)) {
         $sql_select .= ",(SELECT date FROM " . $db_tb_raidview . " WHERE " . $db_tb_raidview . ".coords=" . $db_tb_scans . ".coords ORDER BY date DESC LIMIT 1) AS last_raid";
@@ -895,7 +906,23 @@ if (empty($params['view'])) {
         array_push($where, "(" . $db_tb_scans . ".sondierung<" . CURRENT_UNIX_TIME . " OR " . $db_tb_scans . ".sondierung IS NULL)");
     }
 
-    // Ressourcen Min
+    //gesperrt
+	if (!empty($params['gesperrt'])) {
+		array_push($where, $db_tb_spieler . ".gesperrt=" . (1));
+	}
+	if (!empty($params['no_gesperrt'])) {
+		array_push($where, $db_tb_spieler . ".gesperrt=" . (0));
+	}
+	
+	//UMode
+	if (!empty($params['umode'])) {
+		array_push($where, $db_tb_spieler . ".umode=" . (1));
+	}
+	if (!empty($params['no_umode'])) {
+		array_push($where, $db_tb_spieler . ".umode=" . (0));
+	}
+	
+	// Ressourcen Min
     if ($params['ressource'] != "Alle" AND $params['ress_min'] > 0) {
         array_push($where, $db_tb_scans . "." . $params['ressource'] . ">" . $params['ress_min']);
     }

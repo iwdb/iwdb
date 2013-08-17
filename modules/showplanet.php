@@ -34,7 +34,7 @@ if (!defined('IRA')) {
 }
 
 //****************************************************************************
-global $db, $db_tb_scans, $user_sitterlogin, $user_status, $db_tb_allianzstatus, $user_planibilder;
+global $db, $db_tb_scans, $user_sitterlogin, $user_status, $db_tb_allianzstatus, $user_planibilder, $db_tb_spieler;
 
 doc_title('Planet');
 
@@ -51,6 +51,12 @@ if (!empty($coords)) {
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     $row = $db->db_fetch_array($result);
+	
+	/*
+	$sql_spieler = "SELECT `umode`, `gesperrt` FROM `{$db_tb_spieler}` WHERE `name`='" . $row['user'] . "'";
+	$result_spieler = $db->db_query($sql_spieler)
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_spieler);
+    $row_spieler = $db->db_fetch_array($result_spieler);*/
 
     //Planetenreservierung
     $editplanet  = getVar('reserveplanie');
@@ -71,9 +77,24 @@ if (!empty($coords)) {
     $submitnotice = getVar('submitnotice');
     if (!empty($submitnotice)) {
         $notice = getVar('notice');
-
         $result = $db->db_update($db_tb_scans, array('rnb' => $notice), "WHERE coords='" . $coords . "'")
             or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+		
+		$umode = getVar('umode');
+		$gesperrt = getVar('gesperrt');
+		$sql_name = "SELECT `user` FROM `{$db_tb_scans}` WHERE `coords`='" . $coords . "'"; 
+		$result_name = $db->db_query($sql_name)
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_name);
+		$row_name = $db->db_fetch_array($result_name);
+		$name = $row_name['user'];
+		
+		$data = array(
+			'gesperrt'	=> $gesperrt,
+			'umode'		=> $umode
+		);
+		$result = $db->db_update($db_tb_spieler, $data, "WHERE `name`='" . $name . "'")
+			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+		
     } else {
         //Notizen aufrufen
         $sql = "SELECT rnb FROM " . $db_tb_scans . " WHERE coords='" . $coords . "'";
@@ -81,6 +102,18 @@ if (!empty($coords)) {
             or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
         $result = $db->db_fetch_array($result);
         $notice = $result["rnb"];
+		
+		$sql_name = "SELECT `user` FROM `{$db_tb_scans}` WHERE `coords`='" . $coords . "'"; 
+		$result_name = $db->db_query($sql_name)
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_name);
+		$name = $result_name['user'];
+		
+		$sql_spieler = "SELECT `gesperrt`, `umode` FROM `{$db_tb_spieler}` WHERE `name`='" . $name . "'";
+		$result_spieler = $db->db_query($sql_spieler)
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_spieler);
+		$result_spieler = $db->db_fetch_array($result_spieler);
+		$gesperrt = $result_spieler["gesperrt"];
+		$umode = $result_spieler["umode"];
     }
 
     //Allianzstatus holen
@@ -94,6 +127,11 @@ if (!empty($coords)) {
         $color = "white";
     }
 
+	$sql_spieler = "SELECT `umode`, `gesperrt` FROM `{$db_tb_spieler}` WHERE `name`='" . $row['user'] . "'";
+	$result_spieler = $db->db_query($sql_spieler)
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_spieler);
+    $row_spieler = $db->db_fetch_array($result_spieler);
+	
     $rating = rating($row);
 
     if (empty($row['dgmod'])) {
@@ -180,6 +218,41 @@ if ((($ansicht == "auto") && ($row['objekt'] != "---")) || ($ansicht == "taktisc
         <td class="windowbg2">Planetennamen:</td>
         <td class="windowbg1"><?php echo $row['planetenname'];?></td>
     </tr>
+	<tr>
+		<td class="windowbg2">Spieler im UMode : </td>
+		<?php
+		if ($row_spieler['umode'] == "1") {
+			$color ="#FF3030";
+		}
+		else $color="#FFFFFF";
+		?>
+		
+		<td style="background-color:<?php echo $color; ?>">
+			<?php
+				if ($row_spieler['umode'] == "1") {
+					echo "ja";
+				}
+				else echo "nein";
+			?>
+		</td>
+    </tr>
+	<tr>
+       <?php
+		if ($row_spieler['gesperrt'] == "1") {
+			$color ="#FF3030";
+		}
+		else $color="#FFFFFF";
+		?> 
+		<td class="windowbg2">Spieler gesperrt : </td>
+        <td style="background-color:<?php echo $color; ?>">
+			<?php
+				if ($row_spieler['gesperrt'] == "1") {
+					echo "ja";
+				}
+				else echo "nein";
+			?>
+		</td>
+    </tr>
 <?php
 }
 ?>
@@ -204,12 +277,36 @@ if ((($ansicht == "auto") && ($row['objekt'] != "---")) || ($ansicht == "taktisc
 
         <form method='POST' action='index.php?action=showplanet&coords=<?php echo $coords; ?>&ansicht=auto' enctype='multipart/form-data'>
         <table class='table_format center' style='width: 80%;'>
-            <tr>
-                <td class='windowbg2'>
-                    <textarea name='notice' rows='10' cols='80'><?php echo $notice; ?></textarea>
-                </td>
-            </tr>
-            <tr>
+			<tr>
+				<td class='windowbg2'>
+					<textarea name='notice' rows='10' cols='80'><?php echo $notice; ?></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td>Umode setzen : 
+				
+					<?php
+					echo "<input type='checkbox' name='umode' value='1'";
+					if ($row_spieler['umode'] == "1") {
+						echo 'checked="checked"';
+					}
+					echo "'>";
+					?>
+				</td>
+			</tr>
+			<tr>
+				<td>gesperrt setzen : 
+				
+					<?php
+					echo "<input type='checkbox' name='gesperrt' value='1'";
+					if ($row_spieler['gesperrt'] == "1") {
+						echo 'checked="checked"';
+					}
+					echo "'>";
+					?>
+				</td>
+			</tr>
+				<tr>
                 <td class='titlebg'>
                     <input type='submit' name='submitnotice' value='Speichern' class='submit'>
                     &nbsp;&nbsp;

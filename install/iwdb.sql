@@ -1305,6 +1305,8 @@ CREATE TABLE IF NOT EXISTS `prefix_spieler` (
   `gebp_nodiff` int(12) NOT NULL DEFAULT '0',
   `fp_nodiff` int(12) NOT NULL DEFAULT '0',
   `time` int(12) NOT NULL DEFAULT '0',
+  `umode` tinyint(1) NOT NULL DEFAULT '0',
+  `gesperrt` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`name`),
   KEY `allychange_time` (`allychange_time`),
   KEY `Hauptplanet` (`Hauptplanet`)

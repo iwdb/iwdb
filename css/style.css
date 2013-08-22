@@ -1,16 +1,5 @@
 /* style.css */
 
-/* Diese Style-CSS ist in 2 Teile aufgeteilt */
-/* der erste Teil kann durch ein Modul ausgelesen werden */
-/* deswegen dort nichts ändern! */
-
-/* Diese Teil wurde automatsich erstellt */
-/* Zeitcode: 09.02.2013 10:53:46 */
-
-/* !N a */
-/* !T Links */
-/* !A */
-
 a:link {
     font-family: Verdana, arial, helvetica, serif;
     text-decoration: none;
@@ -29,19 +18,11 @@ a:hover {
     color: #6E7B87;
 }
 
-/* !N html */
-/* !T Seite */
-/* !I */
-
 html {
     padding: 0;
     margin: 0;
     text-align: center;
 }
-
-/* !N body */
-/* !T Seite */
-/* !I */
 
 body {
     height: 100%;
@@ -49,27 +30,15 @@ body {
     color: #000000;
 }
 
-/* !N seite */
-/* !T Seite */
-/* !I */
-
 .seite {
     height: 100%;
     width: 100%;
     max-width: 1400px;
 }
 
-/* !N textsmall */
-/* !T kleiner Text alt */
-/* !I */
-
 .textsmall {
     font-size: small;
 }
-
-/* !N td */
-/* !T Tabellenzellen */
-/* !I */
 
 td {
     font-family: Verdana, Arial, Helvetica, sans-serif;
@@ -77,52 +46,34 @@ td {
     font-style: normal;
 }
 
-/* !N help */
-/* !T Hilfe */
-/* !I */
-
 .help {
     background-color: #FFFF80;
     color: #000000;
     font-size: 12px;
 }
 
-/* !N help a */
-/* !T Links in der Hilfe */
-/* !I */
 
+/* Links in der Hilfe */
 .help a {
     text-decoration: underline;
 }
 
-/* !N ranking */
-/* !T Ranking gut */
-/* !I */
-
+/* Ranking gut */
 .ranking_green {
     color: #00AA00;
 }
 
-/* !N ranking */
-/* !T Ranking mittel */
-/* !I */
-
+/* Ranking mittel */
 .ranking_yellow {
     color: #AAAA00;
 }
 
-/* !N ranking */
-/* !T Ranking schlecht */
-/* !I */
-
+/* Ranking schlecht */
 .ranking_red {
     color: #FF0000;
 }
 
-/* !N menu */
-/* !T Menustyles */
-/* !A */
-
+/* Menustyles */
 .menu {
     background-color: #BEBEBE;
     color: #000000;
@@ -159,10 +110,7 @@ td {
     color: #000000;
 }
 
-/* !N banner */
-/* !T Banner */
-/* !I */
-
+/* Banner */
 #iwdb_logo {
     background-color: #000000;
     text-align: center;
@@ -173,124 +121,75 @@ td {
     }
 }
 
-/* !N titelbg */
-/* !T Titelzellen */
-/* !I */
-
+/* Titelzellen */
 .titlebg {
     color: #FFFFFF;
     background-color: #4F94CD;
 }
 
-/* !N windowbg1 */
-/* !T Hintergrund 1 */
-/* !I */
-
+/* Hintergrund 1 */
 .windowbg1 {
     background-color: #FFFFFF;
     color: #000000;
 }
 
-/* !N windowbg2 */
-/* !T Hintergrund 2 */
-/* !I */
-
+/* Hintergrund 2 */
 .windowbg2 {
     background-color: #4682B4;
     color: #000000;
 }
 
-/* !N windowbg3 */
-/* !T Hintergrund 3 neu */
-/* !I */
-
+/* Hintergrund 3 */
 .windowbg3 {
     background-color: #C2DFEF;
     color: #000000;
 }
 
-/* !N IKEA */
-/* !T IKEA Textfarbe */
-/* !I */
+/* IKEA Textfarbe */
 .IKEA {
     color: blue;
 }
 
-/* !N MdP */
-/* !T Meister der Peitschen Textfarbe */
-/* !I */
+/* Meister der Peitschen Textfarbe */
 .MdP {
     color: green;
 }
-
-/* !N hr */
-/* !T Linie */
-/* !I */
 
 .hr {
     color: #000000;
     background-color: transparent;
 }
 
-/* !N background */
-/* !T Hintergrund */
-/* !I */
-
+/* Hintergrund */
 .background {
     background-color: #F5F9FA;
     background-image: url(../bilder/bg.gif);
 }
 
-/* !N bigtext */
-/* !T grosser Text alt */
-/* !I */
-
+/* grosser Text alt */
 .bigtext {
     font-size: 15px;
 }
 
-/* !N .doc_message */
-/* !T Systemmessage */
-/* !I */
-
+/* Systemmessage */
 .doc_message {
     text-align: center;
 }
 
-/* !N system_notification */
-/* !T Systemnotice */
-/* !I */
-
+/* Systemhinweis */
 .system_notification {
     font-size: 1.1em;
     text-align: center;
 }
 
-/* !N system_notification b */
-/* !T Systemwarning */
-/* !I */
-
-.system_notification {
-    font-size: 1.1em;
-    color: #FF0000;
-    font-weight: bold;
-    text-align: center;
-}
-
-/* !N Systemnachrichten */
-/* !T Systemhinweis hervorgehoben */
-/* !I */
-
+/* Systemhinweis hervorgehoben */
 .system_notification_blue {
     font-size: 1.2em;
     text-align: center;
     color: #0000FF;
 }
 
-/* !N Systemnachrichten */
-/* !T Systemwarnung */
-/* !I */
-
+/* Systemwarnung */
 .system_warning {
     font-size: 1.3em;
     color: #FF6600;
@@ -298,20 +197,14 @@ td {
     text-align: center;
 }
 
-/* !N system_notification b */
-/* !T Systemfehler */
-/* !I */
-
+/* Systemfehler */
 .system_error {
     color: #FF0000;
     font-size: 1.5em;
     text-align: center;
 }
 
-/* !N .doc_greeting */
-/* !T Begrüssung */
-/* !I */
-
+/* Begrüssung */
 #doc_greeting {
     width: 15%;
     font-size: small;
@@ -319,20 +212,14 @@ td {
     border: 0;
 }
 
-/* !N .doc_usersonline */
-/* !T Anzeige der in den letzten 5 min aktiven User */
-/* !I */
-
+/* Anzeige der in den letzten 5 min aktiven User */
 #doc_usersonline {
     font-size: small;
     text-align: left;
     border: 0;
 }
 
-/* !N .doc_mainmenu */
-/* !T Mainmenu oben */
-/* !I */
-
+/* Mainmenu oben */
 #doc_mainmenu {
     font-size: small;
     text-align: right;
@@ -346,18 +233,12 @@ td {
     vertical-align: middle;
 }
 
-/* !N .doc_menu */
-/* !T Menu links neu */
-/* !I */
-
+/* Menu links neu */
 .doc_menu {
     text-align: left;
 }
 
-/* !N .doc_main */
-/* !T Sichtfenster Aussen */
-/* !I */
-
+/* Sichtfenster Aussen */
 table.doc_main {
     width: 100%;
     padding: 5px;
@@ -367,138 +248,91 @@ table.doc_main {
     border-width: 1px;
 }
 
-/* !N .doc_main */
-/* !T Sichtfenster Innen */
-/* !I */
-
+/* Sichtfenster Innen */
 td.doc_main {
     width: 100%;
     background-color: #FFFFFF;
     color: #000000;
 }
 
-/* !N .doc_blue */
-/* !T Blaue Schrift */
-/* !I */
 
+/* blaue Schrift */
 .doc_blue {
     color: #000088;
 }
 
-/* !N .doc_red */
-/* !T Rote Schrift */
-/* !I */
-
+/* rote Schrift */
 .doc_red {
     color: #FF0000;
 }
 
-/* !N .doc_green */
-/* !T Gruene Schrift */
-/* !I */
-
+/* grüne Schrift */
 .doc_green {
     color: #008800;
 }
 
-/* !N .doc_yellow */
-/* !T Gelbe Schrift */
-/* !I */
-
+/* gelbe Schrift */
 .doc_yellow {
     color: #00FFFF;
 }
 
-/* !N .doc_lightred */
-/* !T hellrote Schrift */
-/* !I */
-
+/* hellrote Schrift */
 .doc_lightred {
     color: #FF4466;
 }
 
-/* !N .doc_black */
-/* !T Schwarze Schrift */
-/* !I */
-
+/* graue Schrift */
 .doc_grey {
     color: #777777;
 }
 
-/* !N .doc_black */
-/* !T Schwarze Schrift */
-/* !I */
-
+/* schwarze Schrift */
 .doc_black {
     color: #000000;
 }
 
-/* !N .doc_centered */
-/* !T zentriert */
-/* !I */
-
+/* zentriert */
 .doc_centered {
     text-align: center;
 }
 
-/* !N .doc_centered_blue */
-/* !T Blaue zentrierte Schrift */
-/* !I */
-
+/* blaue zentrierte Schrift */
 .doc_centered_blue {
     color: #000088;
     text-align: center;
 }
 
-/* !N .doc_centered_red */
-/* !T Rote zentrierte Schrift */
-/* !I */
-
+/* rote zentrierte Schrift */
 .doc_centered_red {
     color: #FF0000;
     text-align: center;
 }
 
-/* !N .doc_centered_green */
-/* !T Gruene zentrierte Schrift */
-/* !I */
-
+/* grüne zentrierte Schrift */
 .doc_centered_green {
     color: #008800;
     text-align: center;
 }
 
-/* !N .doc_small_centered */
-/* !T Kleine zentrierte Schrift */
-/* !I */
-
+/* kleine zentrierte Schrift */
 .doc_small_centered {
     font-size: small;
     text-align: center;
 }
 
-/* !N .doc_big_black */
-/* !T Schwarze grosse Schrift */
-/* !I */
-
+/* schwarze grosse Schrift */
 .doc_big_black {
     font-size: 2em;
     color: black;
 }
 
-/* !N .doc_big_white */
-/* !T Weisse grosse Schrift */
-/* !I */
-
+/* weisse grosse Schrift */
 .doc_big_white {
     font-size: 1.5em;
     color: white;
 }
 
-/* !N input */
-/* !T Textfelder, Checkboxen */
-/* !I */
-
+/* Textfelder, Checkboxen */
 input {
     height: 1.5em;
     color: #22282E;
@@ -510,10 +344,7 @@ input {
 	/*behavior:url(border-radius.htc);*/ /* Internet Explorer */
 }
 
-/* !N input buttons */
-/* !T Buttons */
-/* !I */
-
+/* Buttons */
 input[type=submit],
 input[type=reset],
 input[type=button] {
@@ -528,18 +359,12 @@ input[type=button] {
 	-webkit-appearance: button;
 }
 
-/* !N number inputs */
-/* !T number */
-/* !I */
-
+/* number inputs */
 input[type=number] {
     text-align: right;
 }
 
-/* !N textarea */
-/* !T Textfelder ueber mehrere Zeilen */
-/* !I */
-
+/* Textfelder über mehrere Zeilen */
 textarea {
     color: #22282E;
     border: 1px solid #22282E;
@@ -551,10 +376,7 @@ textarea {
 	/*behavior:url(border-radius.htc);*/ /* Internet Explorer */
 }
 
-/* !N select */
-/* !T Auswahllisten */
-/* !I */
-
+/* Auswahllisten */
 select {
     color: #22282E;
     border: 1px solid #22282E;
@@ -580,10 +402,7 @@ input[type="color"]:focus,
 }
 
 
-/* !N fadein */
-/* !T Fadein bei unerledigten Sitteraufträgen */
-/* !I */
-
+/* Fadein bei unerledigten Sitteraufträgen */
 #fadein {
     position: fixed;
     top: 2px;
@@ -596,20 +415,14 @@ input[type="color"]:focus,
     text-align: center;
 }
 
-/* !N fadein */
-/* !T Fenster des Fadeins */
-/* !I */
-
+/* Fenster des Fadeins */
 .fadein {
     background-color: #C4D7DF;
     color: #000000;
     text-align: center;
 }
 
-/* !N h1 */
-/* !T überschrift in Modulen */
-/* !I */
-
+/* Überschrift in Modulen */
 h1 {
     color: #004466;
     font-size: 2.2em;
@@ -617,10 +430,6 @@ h1 {
     margin: 0.75em;
     font-weight: bold;
 }
-
-/* !N h2 */
-/* !T Teilüberschrift in Modulen */
-/* !I */
 
 h2 {
     color: #004466;
@@ -630,10 +439,6 @@ h2 {
     font-weight: bold;
 }
 
-/* !N h3 */
-/* !T Teilüberschrift in Modulen */
-/* !I */
-
 h3 {
     color: #004466;
     font-size: 1.4em;
@@ -642,20 +447,12 @@ h3 {
     font-weight: bold;
 }
 
-/* !N h4 */
-/* !T Teilüberschrift in Modulen */
-/* !I */
-
 h4 {
     font-size: 12px;
     text-align: center;
     margin: 0.75em;
     font-weight:normal;
 }
-
-/* !END */
-
-/* ab hier wird nicht mehr ausgelesen */
 
 img,
 .borderless,
@@ -713,7 +510,7 @@ td[abbr=both] {
     white-space: nowrap;
 }
 
-/* m_sitterschleife */
+/* für m_sitterschleife */
 
 .button1 {
     background-color: #ffffff !important;
@@ -751,7 +548,8 @@ td[abbr=both] {
     margin: 4px 2px;
 }
 
-/* m_lager */
+/* für m_lager */
+
 #lagertabelle {
     width: 100%;
 }
@@ -776,7 +574,7 @@ td[abbr=both] {
     }
 }
 
-/* m_frachtkappa */
+/* für m_frachtkappa */
 
 #transcalc_input_table input[type=text] {
     width: 100px;
@@ -796,8 +594,6 @@ td[abbr=both] {
     width: 100px;
     text-align: right;
 }
-
-
 
 /* bbcode styling */
 

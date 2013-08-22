@@ -256,7 +256,7 @@ if (empty($parsstatus) == true) //Angabe für die Datei
       		KB-Link:
     		</td>
     		<td  align="center">
-      			<input type="text" name="KBLink" value="" placeholder="KB-Link" style="width:95%;">
+      			<input type="text" name="KBLink" value="" autofocus="autofocus" placeholder="KB-Link" style="width:95%;">
     		</td>
     		<td  align="center" width="50">
       			<input type="submit" value="Go" name="B1" width="45" style="color:#FFFFFF; background-color: #00688B;">

@@ -39,7 +39,7 @@ include "./menustyles/doc_default.php";
 
 doc_title("Passwort vergessen");
 
-$username = getVar('username');
+$username = $db->escape(getVar('username'));
 if (!empty($username)) {
     $sql = "SELECT email FROM " . $db_tb_user .
         " WHERE id = '" . $username . "'";

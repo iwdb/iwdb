@@ -52,9 +52,9 @@ $result_planie = $db->db_query($sql_planie)
 $row_planie = $db->db_fetch_array($result_planie);
 
 //Planetenreservierung aktualisieren
-$editplanet = getVar('reserveplanie');
-if ((!empty($editplanet)) AND (empty($row_planie['reserviert']) OR ($row_planie['reserviert'] === $user_sitterlogin) OR ($user_status === "admin"))) {
-    $reserve_to = (getVar('reservieren')) ? "" : $user_sitterlogin;
+$reserveplanie = getVar('reserveplanie');
+if ((!empty($reserveplanie)) AND (empty($row_planie['reserviert']) OR ($row_planie['reserviert'] === $user_sitterlogin) OR ($user_status === "admin"))) {
+    $reserve_to = (getVar('reservieren')) ? $user_sitterlogin : "";
 
     if ($reserve_to !== $row_planie['reserviert']) {
         $result = $db->db_update($db_tb_scans, array('reserviert' => $reserve_to), "WHERE coords='" . $coords . "'")
@@ -268,7 +268,7 @@ if ((($ansicht === "auto") && ($row_planie['objekt'] !== "---")) || ($ansicht ==
 <tr>
     <td class="windowbg2"><i>Hier bitte jegliche Informationen über diesen Planeten, sei es Raids, Uhrzeiten, Absprachen, Tipps für Raider eingeben.</i></td>
     <td class="windowbg1">
-        <form method='POST' enctype='multipart/form-data'>
+        <form method='POST'>
             <input type="hidden" name="action" value="showplanet">
             <input type="hidden" name="coords" value="<?php echo $coords; ?>">
             <input type="hidden" name="ansicht" value="auto">
@@ -278,6 +278,9 @@ if ((($ansicht === "auto") && ($row_planie['objekt'] !== "---")) || ($ansicht ==
                         <textarea name='notice' rows='10' style='width: 99%;'><?php echo $notice; ?></textarea>
                     </td>
                 </tr>
+                <?php
+                    if ($row_spieler) {
+                ?>
                 <tr>
                     <td>Umode setzen :
                         <?php
@@ -300,6 +303,9 @@ if ((($ansicht === "auto") && ($row_planie['objekt'] !== "---")) || ($ansicht ==
                         ?>
                     </td>
                 </tr>
+                <?php
+                    }
+                ?>
                 <tr>
                     <td class='titlebg'>
                         <input type='submit' name='submitnotice' value='Speichern' class='submit'>
@@ -424,7 +430,7 @@ if ($row_planie['objekt'] === "---") {
     </tr>
     <tr>
         <td colspan="2" class="windowbg2 center">
-            <b><?php echo(!empty($rating) ? "<div class='doc_big_black'>" . $rating . "</div>" : "<div class='doc_red'>Kein Rating berechenbar, neuer Geoscan erforderlich</div>"); ?></b>
+            <b><?php echo(!empty($row_planie['geoscantime']) ? "<div class='bigtext'>" . $rating . "</div>" : "<div class='system_warning'>Kein Rating berechenbar, neuer Geoscan erforderlich</div>"); ?></b>
         </td>
     </tr>
     <tr>
@@ -432,7 +438,9 @@ if ($row_planie['objekt'] === "---") {
     </tr>
     <tr>
         <td colspan="2" class="windowbg2 center">
-            <form method="POST" action="index.php?action=showplanet&coords=<?php echo $row_planie['coords']; ?>" enctype="multipart/form-data">
+            <form method="POST">
+                <input type="hidden" name="action" value="showplanet">
+                <input type="hidden" name="coords" value="<?php echo $row_planie['coords']; ?>">
                 <?php
                 if (empty($row_planie['reserviert'])) {
                     echo "Diesen Planeten für dich reservieren? <input type='checkbox' name='reservieren'>

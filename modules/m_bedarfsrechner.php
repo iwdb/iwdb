@@ -391,10 +391,10 @@ if (!isset($_POST['plan4']) OR empty($_POST['plan4'])) {
 						<b>kleine orbitale Werft</b>
 					</td>
 					<td class='center'>
-						0-40
+						0-45
 					</td>
 					<td>
-						<input type="number" name="anzahl_klorw" min="0" max="40" step="1" value="<?php echo $_POST['anzahl_klorw'] ?>" placeholder="0-40">
+						<input type="number" name="anzahl_klorw" min="0" max="45" step="1" value="<?php echo $_POST['anzahl_klorw'] ?>" placeholder="0-40">
 					</td>
 					<td>
 						<select name='schiffe_klorw'>
@@ -443,10 +443,10 @@ if (!isset($_POST['plan4']) OR empty($_POST['plan4'])) {
 						<b>mittlere orbitale Werft</b>
 					</td>
 					<td class='center'>
-						0-15
+						0-16
 					</td>
 					<td>
-						<input type="number" name="anzahl_miorw" min="0" max="15" step="1" value="<?php echo $_POST['anzahl_miorw'] ?>" placeholder="0-15">
+						<input type="number" name="anzahl_miorw" min="0" max="16" step="1" value="<?php echo $_POST['anzahl_miorw'] ?>" placeholder="0-15">
 					</td>
 					<td>
 						<select name='schiffe_miorw'>
@@ -599,6 +599,13 @@ if (!isset($_POST['plan4']) OR empty($_POST['plan4'])) {
 								}
 							?>
 							>150%</option>
+							<option value="1.8" class="red"
+							<?php
+								if ($selectedValue_plan1 == "1.8") {
+									echo ' selected="selected"';
+								}
+							?>
+							>180%</option>
 							<option value="2.0" class="red"
 							<?php
 								if ($selectedValue_plan1 == "2.0") {

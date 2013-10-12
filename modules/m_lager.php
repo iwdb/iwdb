@@ -1583,6 +1583,9 @@ function lagersoll($name, $ressart, $gal, $sys, $plan, $prod, $soll, $lager) {
 			if ($prod<0) {
 				$bedarf=$row['value']*abs($prod);
 			}
+			if ($prod=="0") {
+				$bedarf=$lager/5;
+			}
 			$sql = $db->db_query("SELECT `bed_eis` FROM `{$db_tb_scans}` WHERE `coords`='" . $gal . ":" . $sys . ":" . $plan . "';");
 			$row = $db->db_fetch_array($sql);
 			$soll = $bedarf + $row['bed_eis'];
@@ -1603,6 +1606,9 @@ function lagersoll($name, $ressart, $gal, $sys, $plan, $prod, $soll, $lager) {
 			if ($prod<0) {
 				$bedarf=$row['value']*abs($prod);
 			}
+			if ($prod=="0") {
+				$bedarf=$lager/5;
+			}
 			$sql = $db->db_query("SELECT `bed_wasser` FROM `{$db_tb_scans}` WHERE `coords`='" . $gal . ":" . $sys . ":" . $plan . "';");
 			$row = $db->db_fetch_array($sql);
 			$soll = $bedarf + $row['bed_wasser'];
@@ -1622,6 +1628,9 @@ function lagersoll($name, $ressart, $gal, $sys, $plan, $prod, $soll, $lager) {
 			$bedarf=0;
 			if ($prod<0) {
 				$bedarf=$row['value']*abs($prod);
+			}
+			if ($prod=="0") {
+				$bedarf=$lager/5;
 			}
 			$sql = $db->db_query("SELECT `bed_energie` FROM `{$db_tb_scans}` WHERE `coords`='" . $gal . ":" . $sys . ":" . $plan . "';");
 			$row = $db->db_fetch_array($sql);

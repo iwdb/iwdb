@@ -54,8 +54,8 @@ if (($login_ok === false) AND (!empty($login_id) AND (!empty($login_password))))
 <form method='POST' action='index.php?action=memberlogin2' enctype='multipart/form-data'>
     <table class='table_format' style="margin: 0 auto;">
         <tr>
-            <td class='windowbg2'>Username:&nbsp;</td>
-            <td class='windowbg1'><input style='width: 200px' type='text' name='login_id' required='required'></td>
+            <td class='windowbg2 tooltip' title='Dein IW-Name'>Username:&nbsp;</td>
+            <td class='windowbg1'><input style='width: 200px' type='text' name='login_id' autofocus='autofocus' required='required'></td>
         </tr>
         <tr>
             <td class='windowbg2'>Passwort:&nbsp;</td>
@@ -70,6 +70,6 @@ if (($login_ok === false) AND (!empty($login_id) AND (!empty($login_password))))
         </tr>
     </table>
 </form>
-<a href='index.php?action=password'>Passwort vergessen?</a>
+<a href='index.php?action=password' class='tooltip' title='wenn du eine Mailadresse in der DB hinterlegt hast, wird dir dein Passwort zugeschickt'>Passwort vergessen?</a>
 <br>
 <br>

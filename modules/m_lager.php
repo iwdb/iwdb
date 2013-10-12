@@ -1498,235 +1498,143 @@ function makeurl($newparams)
 // Update lager_soll.
 function lagersoll($name, $ressart, $gal, $sys, $plan, $prod, $soll, $lager) {
 	
-	global $db, $db_tb_params, $db_tb_lager, $db_tb_user;
-	
-	$sql_lc = $db->db_query("SELECT `autlager` FROM `{$db_tb_user}` WHERE `id` = '" . $name . "';");
-	$result_lc = $db->db_fetch_array($sql_lc);
-	$lagerchange=$result_lc['autlager'];
-	
-	$sql_dl = $db->db_query("SELECT `dellager` FROM `{$db_tb_user}` WHERE `id` = '" . $name . "';");
-	$result_dl = $db->db_fetch_array($sql_dl);
-	$lagerdelete=$result_dl['dellager'];
+	global $db, $db_tb_params, $db_tb_lager, $db_tb_user, $db_tb_scans;
 	
 	$sql = $db->db_query("SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'hour';");
     $row = $db->db_fetch_array($sql);
 	
-	if ($lagerchange=="1") {
-	
-		/*if ($lagerdelete=="1") {
-			
-			$data = array(
-				'eisen_soll'	=> '0',
-				'stahl_soll'    => '0',
-				'vv4a_soll'     => '0',
-				'chem_soll'     => '0',
-				'eis_soll'      => '0',
-				'wasser_soll'   => '0',
-				'energie_soll'  => '0'
-			);
-			$db->db_update($db_tb_lager, $data, "WHERE `user`='" . $name . "'")
-				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
-		}*/
-	
 	switch ($ressart) {
+		
 		case '1':
-			
-			if ($lagerdelete=="1") {
-				$SQLdata = array(
-					'eisen_soll'	=> '0'
-				);
-				$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
-					or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
-			}
-			
+			$sql = $db->db_query("SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'hour_eisen';");
+			$row = $db->db_fetch_array($sql);
+			$bedarf=0;
 			if ($prod<0) {
 				$bedarf=$row['value']*abs($prod);
-				
-				if ($soll<$bedarf) {
-					$soll=$bedarf;
-				}
-				
-				$SQLdata = array (
-					'eisen_soll' => $soll
-				);
-				$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
-                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
-				
 			}
-			
+			$sql = $db->db_query("SELECT `bed_eisen` FROM `{$db_tb_scans}` WHERE `coords`='" . $gal . ":" . $sys . ":" . $plan . "';");
+			$row = $db->db_fetch_array($sql);
+			$soll = $bedarf + $row['bed_eisen'];
+			$SQLdata = array (
+				'eisen_soll' => $soll
+			);
+			$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
+                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
 			break;
+		
 		case '2':
-			
-			if ($lagerdelete=="1") {
-				$SQLdata = array(
-					'stahl_soll'	=> '0'
-				);
-				$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
-					or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
-			}
-			
+			$sql = $db->db_query("SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'hour_stahl';");
+			$row = $db->db_fetch_array($sql);
+			$bedarf=0;
 			if ($prod<0) {
 				$bedarf=$row['value']*abs($prod);
-				
-				if ($soll<$bedarf) {
-					$soll=$bedarf;
-				}
-				
-				$SQLdata = array (
-					'stahl_soll' => $soll
-				);
-				$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
-                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
-				
 			}
+			$sql = $db->db_query("SELECT `bed_stahl` FROM `{$db_tb_scans}` WHERE `coords`='" . $gal . ":" . $sys . ":" . $plan . "';");
+			$row = $db->db_fetch_array($sql);
+			$soll = $bedarf + $row['bed_stahl'];
+			$SQLdata = array (
+				'stahl_soll' => $soll
+			);
+			$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
+                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
 			break;
+		
 		case '3':
-			
-			if ($lagerdelete=="1") {
-				$SQLdata = array(
-					'vv4a_soll'	=> '0'
-				);
-				$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
-					or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
-			}
-			
+			$sql = $db->db_query("SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'hour_vv4a';");
+			$row = $db->db_fetch_array($sql);
+			$bedarf=0;
 			if ($prod<0) {
 				$bedarf=$row['value']*abs($prod);
-				
-				if ($soll<$bedarf) {
-					$soll=$bedarf;
-				}
-				
-				$SQLdata = array (
-					'vv4a_soll' => $soll
-				);
-				$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
-                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
-				
 			}
-			
+			$sql = $db->db_query("SELECT `bed_vv4a` FROM `{$db_tb_scans}` WHERE `coords`='" . $gal . ":" . $sys . ":" . $plan . "';");
+			$row = $db->db_fetch_array($sql);
+			$soll = $bedarf + $row['bed_vv4a'];
+			$SQLdata = array (
+				'vv4a_soll' => $soll
+			);
+			$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
+				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
 			break;
+		
 		case '4':
-			
-			if ($lagerdelete=="1") {
-				$SQLdata = array(
-					'chem_soll'	=> '0'
-				);
-				$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
-					or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
-			}
-			
+			$sql = $db->db_query("SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'hour_chemie';");
+			$row = $db->db_fetch_array($sql);
+			$bedarf=0;
 			if ($prod<0) {
 				$bedarf=$row['value']*abs($prod);
-				
-				if ($bedarf>$lager) {
-					$bedarf=$lager;
-				}
-				
-				if ($soll<$bedarf) {
-					$soll=$bedarf;
-				}
-				
-				$SQLdata = array (
-					'chem_soll' => $soll
-				);
-				$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
-                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
-				
 			}
-			
+			$sql = $db->db_query("SELECT `bed_chemie` FROM `{$db_tb_scans}` WHERE `coords`='" . $gal . ":" . $sys . ":" . $plan . "';");
+			$row = $db->db_fetch_array($sql);
+			$soll = $bedarf + $row['bed_chemie'];
+			if ($soll>$lager) {
+				$soll=$lager;
+			}
+			$SQLdata = array (
+				'chem_soll' => $soll
+			);
+			$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
+				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
 			break;
+		
 		case '5':
-			
-			if ($lagerdelete=="1") {
-				$SQLdata = array(
-					'eis_soll'	=> '0'
-				);
-				$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
-					or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
-			}
-			
+			$sql = $db->db_query("SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'hour_eis';");
+			$row = $db->db_fetch_array($sql);
+			$bedarf=0;
 			if ($prod<0) {
 				$bedarf=$row['value']*abs($prod);
-				
-				if ($bedarf>$lager) {
-					$bedarf=$lager;
-				}
-				
-				if ($soll<$bedarf) {
-					$soll=$bedarf;
-				}
-				
-				$SQLdata = array (
-					'eis_soll' => $soll
-				);
-				$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
-                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
-				
 			}
-			
+			$sql = $db->db_query("SELECT `bed_eis` FROM `{$db_tb_scans}` WHERE `coords`='" . $gal . ":" . $sys . ":" . $plan . "';");
+			$row = $db->db_fetch_array($sql);
+			$soll = $bedarf + $row['bed_eis'];
+			if ($soll>$lager) {
+				$soll=$lager;
+			}
+			$SQLdata = array (
+				'eis_soll' => $soll
+			);
+			$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
+				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
 			break;
+		
 		case '6':
-			
-			if ($lagerdelete=="1") {
-				$SQLdata = array(
-					'wasser_soll'	=> '0'
-				);
-				$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
-					or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
-			}
-			
+			$sql = $db->db_query("SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'hour_wasser';");
+			$row = $db->db_fetch_array($sql);
+			$bedarf=0;
 			if ($prod<0) {
 				$bedarf=$row['value']*abs($prod);
-				
-				if ($bedarf>$lager) {
-					$bedarf=$lager;
-				}
-				
-				if ($soll<$bedarf) {
-					$soll=$bedarf;
-				}
-				
-				$SQLdata = array (
-					'wasser_soll' => $soll
-				);
-				$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
-                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
-				
 			}
-			
+			$sql = $db->db_query("SELECT `bed_wasser` FROM `{$db_tb_scans}` WHERE `coords`='" . $gal . ":" . $sys . ":" . $plan . "';");
+			$row = $db->db_fetch_array($sql);
+			$soll = $bedarf + $row['bed_wasser'];
+			if ($soll>$lager) {
+				$soll=$lager;
+			}
+			$SQLdata = array (
+				'wasser_soll' => $soll
+			);
+			$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
+				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
 			break;
+		
 		case '7':
-			
-			if ($lagerdelete=="1") {
-				$SQLdata = array(
-					'energie_soll'	=> '0'
-				);
-				$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
-					or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
-			}
-			
+			$sql = $db->db_query("SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'hour_energie';");
+			$row = $db->db_fetch_array($sql);
+			$bedarf=0;
 			if ($prod<0) {
 				$bedarf=$row['value']*abs($prod);
-				
-				if ($bedarf>$lager) {
-					$bedarf=$lager;
-				}
-				
-				if ($soll<$bedarf) {
-					$soll=$bedarf;
-				}
-				
-				$SQLdata = array (
-					'energie_soll' => $soll
-				);
-				$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
-                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
-				
 			}
-			
+			$sql = $db->db_query("SELECT `bed_energie` FROM `{$db_tb_scans}` WHERE `coords`='" . $gal . ":" . $sys . ":" . $plan . "';");
+			$row = $db->db_fetch_array($sql);
+			$soll = $bedarf + $row['bed_energie'];
+			if ($soll>$lager) {
+				$soll=$lager;
+			}
+			$SQLdata = array (
+				'energie_soll' => $soll
+			);
+			$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
+				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
 			break;
-	}
 	}
 	return $soll;
 }

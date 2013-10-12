@@ -157,11 +157,6 @@ doc_title('KB Suche');
 
 global $db, $db_tb_raidview, $db_tb_spieler;
 
-//gibt noch KBs ohne Ziel, das sind dann zB Angriffe auf stationierte Schiffe, da kann man nichts raiden
-$sql = "DELETE FROM `{$db_tb_raidview}` WHERE `geraided`=''";
-$result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not delete incomings information.', '', __FILE__, __LINE__, $sql);
-
 if (!isset($_POST['namen']) OR empty($_POST['namen'])) {
 		$_POST['namen']='';
 }

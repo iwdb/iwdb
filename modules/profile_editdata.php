@@ -786,26 +786,6 @@ if ($user_status === "admin") {
 ?>
 
 <tr>
-	<td class="windowbg2">
-        Automatische Einstellung Soll-Wert des Lagers?<br>
-		<span style="font-style:italic;">Für die PROs unter euch, die alles selber einstellen möchten im Lager</span>
-    </td>
-	<td class="windowbg1">
-            <input type="checkbox" name="autlager" value="1"<?php echo ($autlager) ? " checked" : "";?>>
-    </td>
-</tr>
-
-<tr>
-	<td class="windowbg2">
-        Automatisches Löschen der Lagerwerte?<br>
-		<span style="font-style:italic;">Wird diese Option ausgewählt, so wird der Lagerbedarf (reiner Bedarf, ohne Gebbau etc) immer neu berechnet</span>
-    </td>
-	<td class="windowbg1">
-            <input type="checkbox" name="dellager" value="1"<?php echo ($dellager) ? " checked" : "";?>>
-    </td>
-</tr>
-
-<tr>
     <td class="windowbg2">
         Menü-Darstellung:
     </td>

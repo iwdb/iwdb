@@ -925,6 +925,13 @@ CREATE TABLE IF NOT EXISTS `prefix_scans` (
   `time_att` int(11) NOT NULL DEFAULT '0',
   `att` text NOT NULL,
   `geolink` varchar(120) NOT NULL,
+  `bed_eisen` int(10) NOT NULL DEFAULT '0',
+  `bed_stahl` int(10) NOT NULL DEFAULT '0',
+  `bed_vv4a` int(10) NOT NULL DEFAULT '0',
+  `bed_chemie` int(10) NOT NULL DEFAULT '0',
+  `bed_eis` int(10) NOT NULL DEFAULT '0',
+  `bed_wasser` int(10) NOT NULL DEFAULT '0',
+  `bed_energie` int(10) NOT NULL DEFAULT '0',
   PRIMARY KEY (`coords`),
   UNIQUE KEY `scans_coords_2` (`coords_gal`,`coords_sys`,`coords_planet`),
   KEY `scans_coords_gal` (`coords_gal`),
@@ -1240,8 +1247,6 @@ CREATE TABLE IF NOT EXISTS `prefix_user` (
   `dauersittentext` varchar(255) NOT NULL COMMENT 'Kommentar zum Dauersitten',
   `dauersittenlast` int(11) DEFAULT NULL COMMENT 'Timestamp der letzten Dauersitten-Erledigung',
   `NewUniXmlTime` int(10) unsigned DEFAULT NULL COMMENT 'Timestamp der nächsten Unixml Parsemöglichkeit',
-  `autlager` tinyint(1) NOT NULL DEFAULT '1',
-  `dellager` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `ikea` (`ikea`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -1305,8 +1310,6 @@ CREATE TABLE IF NOT EXISTS `prefix_spieler` (
   `gebp_nodiff` int(12) NOT NULL DEFAULT '0',
   `fp_nodiff` int(12) NOT NULL DEFAULT '0',
   `time` int(12) NOT NULL DEFAULT '0',
-  `umode` tinyint(1) NOT NULL DEFAULT '0',
-  `gesperrt` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`name`),
   KEY `allychange_time` (`allychange_time`),
   KEY `Hauptplanet` (`Hauptplanet`)
@@ -1367,53 +1370,6 @@ CREATE TABLE IF NOT EXISTS `prefix_gebbaukosten` (
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Gebäudebaukosten einiger Gebäude für Ressbedarfsrechnung' AUTO_INCREMENT=1 ;
 
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `prefix_raidgebiet`
---
-
-CREATE TABLE IF NOT EXISTS `prefix_raidgebiet` (
-  `kw` int(2) NOT NULL,
-  `1g1` varchar(20) DEFAULT NULL,
-  `1g2` varchar(20) DEFAULT NULL,
-  `1g3` varchar(20) DEFAULT NULL,
-  `1g4` varchar(20) DEFAULT NULL,
-  `1g5` varchar(20) DEFAULT NULL,
-  `1g6` varchar(20) DEFAULT NULL,
-  `1g7` varchar(20) DEFAULT NULL,
-  `1g8` varchar(20) DEFAULT NULL,
-  `1g9` varchar(20) DEFAULT NULL,
-  `1g10` varchar(20) DEFAULT NULL,
-  `1g11` varchar(20) DEFAULT NULL,
-  `1g12` varchar(20) DEFAULT NULL,
-  `2g1` varchar(20) DEFAULT NULL,
-  `2g2` varchar(20) DEFAULT NULL,
-  `2g3` varchar(20) DEFAULT NULL,
-  `2g4` varchar(20) DEFAULT NULL,
-  `2g5` varchar(20) DEFAULT NULL,
-  `2g6` varchar(20) DEFAULT NULL,
-  `2g7` varchar(20) DEFAULT NULL,
-  `2g8` varchar(20) DEFAULT NULL,
-  `2g9` varchar(20) DEFAULT NULL,
-  `2g10` varchar(20) DEFAULT NULL,
-  `2g11` varchar(20) DEFAULT NULL,
-  `2g12` varchar(20) DEFAULT NULL,
-  `3g1` varchar(20) DEFAULT NULL,
-  `3g2` varchar(20) DEFAULT NULL,
-  `3g3` varchar(20) DEFAULT NULL,
-  `3g4` varchar(20) DEFAULT NULL,
-  `3g5` varchar(20) DEFAULT NULL,
-  `3g6` varchar(20) DEFAULT NULL,
-  `3g7` varchar(20) DEFAULT NULL,
-  `3g8` varchar(20) DEFAULT NULL,
-  `3g9` varchar(20) DEFAULT NULL,
-  `3g10` varchar(20) DEFAULT NULL,
-  `3g11` varchar(20) DEFAULT NULL,
-  `3g12` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`kw`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Aufteilung Hasiversum für Raider';
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -60,6 +60,9 @@ if (($id !== $user_id) and ($user_status !== "admin")) {
             <td class="menutop center">
                 <a href="index.php?action=profile&id=<?php echo urlencode($id);?>&sitterlogin=<?php echo urlencode($sitterlogin);?>&uaction=editplaneten">Planeten</a>
             </td>
+			<td class="menutop center">
+                <a href="index.php?action=profile&id=<?php echo urlencode($id);?>&sitterlogin=<?php echo urlencode($sitterlogin);?>&uaction=editress">Ressbedarf Planis</a>
+            </td>
             <td class="menutop center">
                 <a href="index.php?action=profile&id=<?php echo urlencode($id);?>&sitterlogin=<?php echo urlencode($sitterlogin);?>&uaction=editpresets">Presets</a>
             </td>
@@ -78,6 +81,9 @@ switch ($uaction) {
         break;
     case "editpresets":
         include("./modules/profile_editpresets.php");
+        break;
+	case "editress":
+        include("./modules/profile_editress.php");
         break;
     case "gebaeude":
         include("./modules/profile_gebaeude.php");

@@ -59,9 +59,6 @@ ALTER TABLE  `prefix_user` ADD `allow_ip_change` TINYINT( 1 ) UNSIGNED NOT NULL 
 -- 13.06.2013 masel : #213
 ALTER TABLE  `prefix_spieler` CHANGE  `dabeiseit`  `dabeiseit` INT( 10 ) UNSIGNED NULL DEFAULT NULL ;
 
--- 18.06.2013 patsch : automatisches Setzen des Lagersollwertes im Profil ausschalten
-ALTER TABLE `prefix_user` ADD `autlager` TINYINT( 1 ) NOT NULL DEFAULT '1';
-ALTER TABLE `prefix_user` ADD `dellager` TINYINT( 1 ) NOT NULL DEFAULT '1';
 
 DROP TABLE `prefix_schiffstyp`;
 CREATE TABLE IF NOT EXISTS `prefix_schiffstyp` (
@@ -132,52 +129,15 @@ CREATE TABLE IF NOT EXISTS `prefix_gebbaukosten` (
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Gebäudebaukosten einiger Gebäude für Ressbedarfsrechnung' AUTO_INCREMENT=21 ;
 
---
--- Tabellenstruktur für Tabelle `prefix_raidgebiet`
---
+ALTER TABLE `prefix_scans`
+	ADD `bed_eisen` INT( 10 ) unsigned NOT NULL DEFAULT '0',
+	ADD `bed_stahl` INT( 10 ) unsigned NOT NULL DEFAULT '0',
+	ADD `bed_vv4a` INT( 10 ) unsigned NOT NULL DEFAULT '0',
+	ADD `bed_chemie` INT( 10 ) unsigned NOT NULL DEFAULT '0',
+	ADD `bed_eis` INT( 10 ) unsigned NOT NULL DEFAULT '0',
+	ADD `bed_wasser` INT( 10 ) unsigned NOT NULL DEFAULT '0',
+	ADD `bed_energie` INT( 10 ) unsigned NOT NULL DEFAULT '0';
 
-CREATE TABLE IF NOT EXISTS `prefix_raidgebiet` (
-  `kw` int(2) NOT NULL,
-  `1g1` varchar(20) DEFAULT NULL,
-  `1g2` varchar(20) DEFAULT NULL,
-  `1g3` varchar(20) DEFAULT NULL,
-  `1g4` varchar(20) DEFAULT NULL,
-  `1g5` varchar(20) DEFAULT NULL,
-  `1g6` varchar(20) DEFAULT NULL,
-  `1g7` varchar(20) DEFAULT NULL,
-  `1g8` varchar(20) DEFAULT NULL,
-  `1g9` varchar(20) DEFAULT NULL,
-  `1g10` varchar(20) DEFAULT NULL,
-  `1g11` varchar(20) DEFAULT NULL,
-  `1g12` varchar(20) DEFAULT NULL,
-  `2g1` varchar(20) DEFAULT NULL,
-  `2g2` varchar(20) DEFAULT NULL,
-  `2g3` varchar(20) DEFAULT NULL,
-  `2g4` varchar(20) DEFAULT NULL,
-  `2g5` varchar(20) DEFAULT NULL,
-  `2g6` varchar(20) DEFAULT NULL,
-  `2g7` varchar(20) DEFAULT NULL,
-  `2g8` varchar(20) DEFAULT NULL,
-  `2g9` varchar(20) DEFAULT NULL,
-  `2g10` varchar(20) DEFAULT NULL,
-  `2g11` varchar(20) DEFAULT NULL,
-  `2g12` varchar(20) DEFAULT NULL,
-  `3g1` varchar(20) DEFAULT NULL,
-  `3g2` varchar(20) DEFAULT NULL,
-  `3g3` varchar(20) DEFAULT NULL,
-  `3g4` varchar(20) DEFAULT NULL,
-  `3g5` varchar(20) DEFAULT NULL,
-  `3g6` varchar(20) DEFAULT NULL,
-  `3g7` varchar(20) DEFAULT NULL,
-  `3g8` varchar(20) DEFAULT NULL,
-  `3g9` varchar(20) DEFAULT NULL,
-  `3g10` varchar(20) DEFAULT NULL,
-  `3g11` varchar(20) DEFAULT NULL,
-  `3g12` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`kw`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Aufteilung Hasiversum für Raider';
-
-ALTER TABLE `prefix_scans` ADD `geolink` varchar(120) NOT NULL;
-
-ALTER TABLE `prefix_spieler` ADD `umode` TINYINT( 1 ) NOT NULL DEFAULT '0';
-ALTER TABLE `prefix_spieler` ADD `gesperrt` TINYINT( 1 ) NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_user`
+	DROP `autlager`,
+	DROP `dellager`;

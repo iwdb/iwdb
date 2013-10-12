@@ -82,9 +82,9 @@ function getIncomingsTables()
             
 			<tr>
 				<td>
-					<?php
+					<?php									
                     echo "<a href='index.php?action=sitterlogins&sitterlogin=" . urlencode($row['name_to']) . "' target='_blank'><img src='" . BILDER_PATH . "user-login.gif' alt='L' title='Einloggen'>";
-                    echo "&emsp;" . $row['name_to'];
+					echo "&emsp;" . $row['name_to'];
                     echo "</a>";
                     ?>
 				</td>
@@ -275,5 +275,4 @@ function getIncomingsTables()
     ob_end_clean();
 
     return $tables;
-
 }

@@ -259,9 +259,12 @@ jQuery(document).ready(function () {
         theme: 'blue'
     });
 
-    //Javascript Formulatvalidierung falls HTML5 Implementierung unvollständig
+    //Tooltip
+	jQuery('.tooltip').tooltipster();
+	
+	//Javascript Formulatvalidierung falls HTML5 Implementierung unvollständig
     jQuery('form').validatr();
-
+	
     //deutsche validatr Fehlermeldungen, validatr vorher laden
     jQuery.validatr.messages = {
         checkbox: 'Bitte Box anklicken wenn Du fortfahren möchtest.',

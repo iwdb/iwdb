@@ -402,17 +402,78 @@ if (isset($db_tb_bestellung)) {
 /*****************************************************************************/
 
 if (GetVar('stunden_change')) {
-	$hour = GetVar('stunden');
+	$hour_eisen = GetVar('stunden_eisen');
+	$hour_stahl = GetVar('stunden_stahl');
+	$hour_vv4a = GetVar('stunden_vv4a');
+	$hour_chemie = GetVar('stunden_chemie');
+	$hour_eis = GetVar('stunden_eis');
+	$hour_wasser = GetVar('stunden_wasser');
+	$hour_energie = GetVar('stunden_energie');
 	
-	$sql = "INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('hour', '" . $hour . "') ON DUPLICATE KEY UPDATE `value`='" . $hour . "';";
+	$sql = "INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('hour_eisen', '" . $hour_eisen . "') ON DUPLICATE KEY UPDATE `value`='" . $hour_eisen . "';";
             $db->db_query($sql)
                 or error(GENERAL_ERROR, 'Could not update hour information.', '', __FILE__, __LINE__, $sql);
+	
+	$sql = "INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('hour_stahl', '" . $hour_stahl . "') ON DUPLICATE KEY UPDATE `value`='" . $hour_stahl . "';";
+            $db->db_query($sql)
+                or error(GENERAL_ERROR, 'Could not update hour information.', '', __FILE__, __LINE__, $sql);
+	
+	$sql = "INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('hour_vv4a', '" . $hour_vv4a . "') ON DUPLICATE KEY UPDATE `value`='" . $hour_vv4a . "';";
+            $db->db_query($sql)
+                or error(GENERAL_ERROR, 'Could not update hour information.', '', __FILE__, __LINE__, $sql);
+	
+	$sql = "INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('hour_chemie', '" . $hour_chemie . "') ON DUPLICATE KEY UPDATE `value`='" . $hour_chemie . "';";
+            $db->db_query($sql)
+                or error(GENERAL_ERROR, 'Could not update hour information.', '', __FILE__, __LINE__, $sql);
+	
+	$sql = "INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('hour_eis', '" . $hour_eis . "') ON DUPLICATE KEY UPDATE `value`='" . $hour_eis . "';";
+            $db->db_query($sql)
+                or error(GENERAL_ERROR, 'Could not update hour information.', '', __FILE__, __LINE__, $sql);
+	
+	$sql = "INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('hour_wasser', '" . $hour_wasser . "') ON DUPLICATE KEY UPDATE `value`='" . $hour_wasser . "';";
+            $db->db_query($sql)
+                or error(GENERAL_ERROR, 'Could not update hour information.', '', __FILE__, __LINE__, $sql);
+	
+	$sql = "INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('hour_energie', '" . $hour_energie . "') ON DUPLICATE KEY UPDATE `value`='" . $hour_energie . "';";
+            $db->db_query($sql)
+                or error(GENERAL_ERROR, 'Could not update hour information.', '', __FILE__, __LINE__, $sql);
+	
 }
 
-$sql = "SELECT `value`, `text` FROM `{$db_tb_params}` WHERE `name` = 'hour';";
+$sql = "SELECT `value`, `text` FROM `{$db_tb_params}` WHERE `name` = 'hour_eisen';";
 $result = $db->db_query($sql);
 $row = $db->db_fetch_array($result);
-$hour = $row['value'];
+$hour_eisen = $row['value'];
+
+$sql = "SELECT `value`, `text` FROM `{$db_tb_params}` WHERE `name` = 'hour_stahl';";
+$result = $db->db_query($sql);
+$row = $db->db_fetch_array($result);
+$hour_stahl = $row['value'];
+
+$sql = "SELECT `value`, `text` FROM `{$db_tb_params}` WHERE `name` = 'hour_vv4a';";
+$result = $db->db_query($sql);
+$row = $db->db_fetch_array($result);
+$hour_vv4a = $row['value'];
+
+$sql = "SELECT `value`, `text` FROM `{$db_tb_params}` WHERE `name` = 'hour_chemie';";
+$result = $db->db_query($sql);
+$row = $db->db_fetch_array($result);
+$hour_chemie = $row['value'];
+
+$sql = "SELECT `value`, `text` FROM `{$db_tb_params}` WHERE `name` = 'hour_eis';";
+$result = $db->db_query($sql);
+$row = $db->db_fetch_array($result);
+$hour_eis = $row['value'];
+
+$sql = "SELECT `value`, `text` FROM `{$db_tb_params}` WHERE `name` = 'hour_wasser';";
+$result = $db->db_query($sql);
+$row = $db->db_fetch_array($result);
+$hour_wasser = $row['value'];
+
+$sql = "SELECT `value`, `text` FROM `{$db_tb_params}` WHERE `name` = 'hour_energie';";
+$result = $db->db_query($sql);
+$row = $db->db_fetch_array($result);
+$hour_energie = $row['value'];
 
 ?>
 <form method="POST" action="index.php?action=admin&uaction=einstellungen" enctype="multipart/form-data">
@@ -426,11 +487,59 @@ $hour = $row['value'];
 		</thead>
 		<tbody>
 			<tr>
-				<td class="windowbg2" style="width:40%;">
-					<b>Bedarfsberechnung mit wieviel Stunden?</b>
+				<td class="windowbg2" style="width:40%; background-color: #ADD8E6">
+					<b>für Eisen</b>
 				</td>
 				<td class="left">
-					<input type="number" name="stunden" min="1" max="400" step="1" value="<?php echo $hour ?>">
+					<input type="number" name="stunden_eisen" min="1" max="400" step="1" value="<?php echo $hour_eisen ?>">
+				</td>
+			</tr>
+			<tr>
+				<td class="windowbg2" style="width:40%; background-color: #ADD8E6">
+					<b>für Stahl</b>
+				</td>
+				<td class="left">
+					<input type="number" name="stunden_stahl" min="1" max="400" step="1" value="<?php echo $hour_stahl ?>">
+				</td>
+			</tr>
+			<tr>
+				<td class="windowbg2" style="width:40%; background-color: #ADD8E6">
+					<b>für VV4A</b>
+				</td>
+				<td class="left">
+					<input type="number" name="stunden_vv4a" min="1" max="400" step="1" value="<?php echo $hour_vv4a ?>">
+				</td>
+			</tr>
+			<tr>
+				<td class="windowbg2" style="width:40%; background-color: #ADD8E6">
+					<b>für Chemie</b>
+				</td>
+				<td class="left">
+					<input type="number" name="stunden_chemie" min="1" max="400" step="1" value="<?php echo $hour_chemie ?>">
+				</td>
+			</tr>
+			<tr>
+				<td class="windowbg2" style="width:40%; background-color: #ADD8E6">
+					<b>für Eis</b>
+				</td>
+				<td class="left">
+					<input type="number" name="stunden_eis" min="1" max="400" step="1" value="<?php echo $hour_eis ?>">
+				</td>
+			</tr>
+			<tr>
+				<td class="windowbg2" style="width:40%; background-color: #ADD8E6">
+					<b>für Wasser</b>
+				</td>
+				<td class="left">
+					<input type="number" name="stunden_wasser" min="1" max="400" step="1" value="<?php echo $hour_wasser ?>">
+				</td>
+			</tr>
+			<tr>
+				<td class="windowbg2" style="width:40%; background-color: #ADD8E6">
+					<b>für Energie</b>
+				</td>
+				<td class="left">
+					<input type="number" name="stunden_energie" min="1" max="400" step="1" value="<?php echo $hour_energie ?>">
 				</td>
 			</tr>
 		</tbody>

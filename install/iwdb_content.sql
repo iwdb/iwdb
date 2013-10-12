@@ -354,17 +354,23 @@ INSERT INTO `prefix_merkmale` (`id`, `merkmal`) VALUES
 --
 
 INSERT INTO `prefix_params` (`name`, `value`, `text`) VALUES
-('version', '0.8', ''),
 ('gesperrt', '0', ''),
 ('aktuellnews', '0', ''),
 ('sound_login', '1', ''),
 ('sound_standard', '1', ''),
 ('bericht_fuer_sitter', '1', ''),
 ('bericht_fuer_rang', 'all', ''),
-('automatic_creds_order', 'false', ''),
-('automatic_creds_order_minvalue', '500000', ''),
-('automatic_creds_order_minpayout', '2000000', ''),
-('hour', '24', '');
+('automatic_creds_order', 'true', ''),
+('automatic_creds_order_minvalue', '30000', ''),
+('automatic_creds_order_minpayout', '200000', ''),
+('version', '0.8', ''),
+('hour_eisen', '24', ''),
+('hour_stahl', '24', ''),
+('hour_vv4a', '24', ''),
+('hour_chemie', '24', ''),
+('hour_eis', '24', ''),
+('hour_wasser', '24', ''),
+('hour_energie', '24', '');
 
 -- --------------------------------------------------------
 
@@ -1396,9 +1402,7 @@ INSERT INTO `prefix_schiffstyp` (`id`, `schiff`, `abk`, `typ`, `bild`, `id_iw`, 
 (307, 'Kampfhuhn', 'Kampfhuhn', 'alte Schiffe', '', 77, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 500, 5000, 1, 0, 10, 10, 0, 'keine', 100, 100, 100, 100, 0, 100, 500, 0, 1, 1, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1360141458),
 (309, 'Downbringer', 'Downbringer', 'alte Schiffe', '', 32, 450, 1200, 750, 800, 0, 0, 1300, 2, NULL, 850, 0, 0, 1, 9, 5, 25, 'elektrisch', 60, 100, 130, 100, 30, 150, 145, 0, 1, 1, 'kleine', 5040, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1360140052),
 (310, 'Stopfente', 'Stopfente', 'admin', '', NULL, 10, 10, 5, 5, 0, 2, 5, 0, NULL, 400, 3000, 1, 0, 1, 0, 1, 'kinetisch', 2, 100, 100, 100, 0, 100, 100, 0, 1, 1, 'kleine', 360, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1368435726),
-(311, 'SuperStopfente', 'Superstopfente', 'admin', '', NULL, 10, 10, 5, 5, 0, 2, 5, 0, NULL, 400, 3000, 1, 0, 1, 0, 1, 'kinetisch', 2000, 100, 100, 100, 0, 100, 500, 0, 1, 1, 'kleine', 360, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1368435737),
-(312, 'wilde Katze', 'wilde Katze', 'Lebensformen', '', NULL, 10, 10, 5, 5, 0, 2, 5, 0, NULL, 400, 3000, 1, 0, 1, 0, 1, 'kinetisch', 4, 100, 100, 100, 0, 100, 500, 0, 1, 1, 'kleine', 360, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1374306933),
-(313, 'Eichhörnchen', 'Eichhörnchen', 'Lebensformen', '', NULL, 10, 10, 5, 5, 0, 2, 5, 0, NULL, 400, 3000, 1, 0, 1, 0, 1, 'kinetisch', 2, 100, 100, 100, 0, 100, 100, 0, 1, 1, 'kleine', 360, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1374306944);
+(311, 'SuperStopfente', 'Superstopfente', 'admin', '', NULL, 10, 10, 5, 5, 0, 2, 5, 0, NULL, 400, 3000, 1, 0, 1, 0, 1, 'kinetisch', 2000, 100, 100, 100, 0, 100, 500, 0, 1, 1, 'kleine', 360, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1368435737);
 
 -- --------------------------------------------------------
 

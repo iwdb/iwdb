@@ -122,16 +122,17 @@ if ((($user_adminsitten == SITTEN_BOTH) || ($user_adminsitten == SITTEN_ONLY_LOG
         }
     }
     ?>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link href="css/style.css" rel="stylesheet" type="text/css">
+	<link rel="icon" href="favicon.ico" type="image/x-icon">
+	<link href="css/style.css" rel="stylesheet" type="text/css">
 	<link href="css/theme.blue.css" rel="stylesheet" type="text/css">
-    <!--[if lt IE 9]>
+	<link href="css/tooltipster.css" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]>
     <script src="javascript/respond.min.js"></script>
     <script src="javascript/jquery-1.10.2.min.js"></script>
     <![endif]-->
-    <!--[if gte IE 9]><!-->
-    <script src="javascript/jquery-2.0.3.min.js"></script>
-    <!--<![endif]-->
+	<!--[if gte IE 9]><!-->
+	<script src="javascript/jquery-2.0.3.min.js"></script>
+	<!--<![endif]-->
 </head>
 <?php
 if (!getVar("nobody")) {
@@ -139,9 +140,9 @@ if (!getVar("nobody")) {
 <body class="body background">
 <div align="center">
     <table class="seite">
-        <tr>
-            <td style="text-align: center;" class="background">
-                <?php
+		<tr>
+			<td style="text-align: center;" class="background">
+				<?php
                 //hier hin verschoben da der IE iwie imemr sonst Mist baut ^^
                 include ('./includes/sitterfadein.php');
 
@@ -281,6 +282,7 @@ if (!getVar("nobody")) {
 <script src="javascript/jquery.tablesorter.widgets.min.js"></script>
 <script src="javascript/validatr.min.js"></script>
 <script src="javascript/misc.js"></script>
+<script src="javascript/jquery.tooltipster.min.js"></script>
 </body>
 </html>
 <?php } ?>

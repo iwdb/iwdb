@@ -227,7 +227,9 @@ echo '</div><br>';
 				KBs<br>aufgestellt
 			</th>
 			<th>
-                <abbr title="KB Alpha / KB Beta / KB Gamma">KBs<br>im Acc</abbr>
+              <div class='tooltip' title='KB Alpha / KB Beta / KB Gamma'>  
+				KBs<br>im Acc
+				</div>
 			</th>
 			<th>
 				Diff Soll

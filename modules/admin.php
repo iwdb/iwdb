@@ -47,6 +47,8 @@ if ($user_status == "admin") {
     action("admin&uaction=lastlogin", "letzte Logins");
     next_cell("menutop center");
     action("admin&uaction=wronglogin", "falsche Logins");
+	next_cell("menutop center");
+    action("admin&uaction=ressbedarf", "Ressbedarf Member");
     next_cell("menutop center");
     action("admin&uaction=einstellungen", "Einstellungen");
     end_row();
@@ -70,6 +72,9 @@ switch ($uaction) {
         break;
     case "wronglogin":
         include("./modules/admin_wronglogin.php");
+        break;
+	case "ressbedarf":
+        include("./modules/admin_ressbedarf.php");
         break;
     case "einstellungen":
         include("./modules/admin_einstellungen.php");

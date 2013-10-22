@@ -63,7 +63,7 @@ if (!empty($editress)) {
 			$coords_bed_eisen 	= getVar($row['coords'] . '_bed_eisen');
 			$coords_bed_stahl 	= getVar($row['coords'] . '_bed_stahl');
 			$coords_bed_vv4a 	= getVar($row['coords'] . '_bed_vv4a');
-			$coords_bed_chemie 	= getVar($row['coords'] . '_bed_vv4a');
+			$coords_bed_chemie 	= getVar($row['coords'] . '_bed_chemie');
 			$coords_bed_eis 	= getVar($row['coords'] . '_bed_eis');
 			$coords_bed_wasser 	= getVar($row['coords'] . '_bed_wasser');
 			$coords_bed_energie	= getVar($row['coords'] . '_bed_energie');

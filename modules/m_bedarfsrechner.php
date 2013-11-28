@@ -153,7 +153,8 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 
 //****************************************************************************
 
-doc_title('Ressbedarfsrechner');
+// Titelzeile
+doc_title($modultitle);
 
 global $db, $db_tb_schiffstyp, $db_tb_gebbaukosten, $db_tb_scans, $db_tb_user, $user_sitterlogin;
 
@@ -163,6 +164,7 @@ global $db, $db_tb_schiffstyp, $db_tb_gebbaukosten, $db_tb_scans, $db_tb_user, $
 	option.red{color:red}
 	option.green{color:green}
 </style>
+
 <script>
 jQuery(document).ready(function() {
 	$('#btn_reset').click(function(){
@@ -170,9 +172,9 @@ jQuery(document).ready(function() {
 		$(':select').not(':button, :submit, :reset, :hidden').val('');
 	});
 });
-</script
-<?php
+</script>
 
+<?php
 $sql_plani = "SELECT `coords` FROM `{$db_tb_scans}` WHERE `user`='" . $user_sitterlogin . "'";
 $result_plani = $db->db_query($sql_plani)
 	or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_plani);
@@ -279,38 +281,38 @@ if (!isset($_POST['plan4']) OR empty($_POST['plan4'])) {
 	$_POST['plan4']='1';
 }
 	
-	$selectedValue_auswahlplani = $_POST['auswahl_plani'];
-	$selectedValue_klplanschiffe = $_POST['schiffe_klplanw'];
-	$selectedValue_klorschiffe = $_POST['schiffe_klorw'];
-	$selectedValue_miplanschiffe = $_POST['schiffe_miplanw'];
-	$selectedValue_miorschiffe = $_POST['schiffe_miorw'];
-	$selectedValue_grschiffe = $_POST['schiffe_grw'];
-	$selectedValue_dnschiffe = $_POST['schiffe_dnw'];
-	$selectedValue_staatsform = $_POST['staatsform'];
-	$selectedValue_gen1 = $_POST['gen1'];
-	$selectedValue_gen2 = $_POST['gen2'];
-	$selectedValue_gen3 = $_POST['gen3'];
-	$selectedValue_gen4 = $_POST['gen4'];
-	$selectedValue_geb = $_POST['gebbau'];
-	$selectedValue_plan1 = $_POST['plan1'];
-	$selectedValue_plan2 = $_POST['plan2'];
-	$selectedValue_plan3 = $_POST['plan3'];
-	$selectedValue_plan4 = $_POST['plan4'];
+$selectedValue_auswahlplani = $_POST['auswahl_plani'];
+$selectedValue_klplanschiffe = $_POST['schiffe_klplanw'];
+$selectedValue_klorschiffe = $_POST['schiffe_klorw'];
+$selectedValue_miplanschiffe = $_POST['schiffe_miplanw'];
+$selectedValue_miorschiffe = $_POST['schiffe_miorw'];
+$selectedValue_grschiffe = $_POST['schiffe_grw'];
+$selectedValue_dnschiffe = $_POST['schiffe_dnw'];
+$selectedValue_staatsform = $_POST['staatsform'];
+$selectedValue_gen1 = $_POST['gen1'];
+$selectedValue_gen2 = $_POST['gen2'];
+$selectedValue_gen3 = $_POST['gen3'];
+$selectedValue_gen4 = $_POST['gen4'];
+$selectedValue_geb = $_POST['gebbau'];
+$selectedValue_plan1 = $_POST['plan1'];
+$selectedValue_plan2 = $_POST['plan2'];
+$selectedValue_plan3 = $_POST['plan3'];
+$selectedValue_plan4 = $_POST['plan4'];
 		
 ?>
 
-<div id='container'>
+<div id="container">
 	<?php
-	echo "<form method=\"POST\" action=\"index.php?action=" . $modulname .
-     "&sid=" . $sid . "\" enctype=\"multipart/form-data\" onsubmit=\"return $(this).validate(jQueryFormLang);\">\n";
+	echo '<form method="POST" action="index.php?action=' . $modulname .
+     '&sid=' . $sid . '" enctype="multipart/form-data" onsubmit="return $(this).validate(jQueryFormLang);">';
 	?>
-		<div  class='titlebg'>
+		<div  class="titlebg">
 		<b>Planetenauswahl</b>
 		</div>
 		<br>
-		<table id='planiauswahl' style='width: 80%'>
+		<table id="planiauswahl" style="width: 80%">
 			<thead>
-				<tr class='center'>
+				<tr class="center">
 					<th data-sorter="false">
 						<b>Planet</b>
 					</th>
@@ -318,16 +320,16 @@ if (!isset($_POST['plan4']) OR empty($_POST['plan4'])) {
 			</thead>
 			<tbody>
 				<tr>
-					<td class='center'>	
+					<td class="center">	
 						<select name="auswahl_plani">
 							<option value="">--- Planiauswahl ---</option>
 							<?php
 							while ($row_plani = $db->db_fetch_array($result_plani)) {
-								echo' <option value="' . $row_plani["coords"] . '"';
-									if ($selectedValue_auswahlplani==$row_plani["coords"]) {
+								echo ' <option value="' . $row_plani['coords'] . '"';
+									if ($selectedValue_auswahlplani==$row_plani['coords']) {
 										echo ' selected="selected"';
 									}
-								echo '>' . $row_plani["coords"] . '</option>';
+								echo '>' . $row_plani['coords'] . '</option>';
 							}
 							?>
 						</select>
@@ -338,11 +340,11 @@ if (!isset($_POST['plan4']) OR empty($_POST['plan4'])) {
 		<br>
 		<br>
 		
-		<div  class='titlebg'>
+		<div  class="titlebg">
 		<b>Schiffsauswahl</b>
 		</div>
 		<br>
-		<table id='belegung' style='width: 80%'>
+		<table id="belegung" style="width: 80%">
 			<thead>
 				<tr>
 					<th data-sorter="false">
@@ -364,7 +366,7 @@ if (!isset($_POST['plan4']) OR empty($_POST['plan4'])) {
 					<td>
 						<b>kleine planetare Werft</b>
 					</td>
-					<td class='center'>
+					<td class="center">
 						0-30
 					</td>
 					<td>
@@ -375,11 +377,11 @@ if (!isset($_POST['plan4']) OR empty($_POST['plan4'])) {
 							<option value="">--- Auswahl des Schiffes ---</option>
 							<?php
 							while ($row_klplanw = $db->db_fetch_array($result_klplanw)) {
-								echo' <option value="' . $row_klplanw["schiff"] . '"';
-									if ($selectedValue_klplanschiffe==$row_klplanw["schiff"]) {
+								echo ' <option value="' . $row_klplanw['schiff'] . '"';
+									if ($selectedValue_klplanschiffe==$row_klplanw['schiff']) {
 										echo ' selected="selected"';
 									}
-								echo '>' . $row_klplanw["schiff"] . '</option>';
+								echo '>' . $row_klplanw['schiff'] . '</option>';
 								
 							}							
 							?>
@@ -390,22 +392,22 @@ if (!isset($_POST['plan4']) OR empty($_POST['plan4'])) {
 					<td>
 						<b>kleine orbitale Werft</b>
 					</td>
-					<td class='center'>
+					<td class="center">
 						0-45
 					</td>
 					<td>
 						<input type="number" name="anzahl_klorw" min="0" max="45" step="1" value="<?php echo $_POST['anzahl_klorw'] ?>" placeholder="0-40">
 					</td>
 					<td>
-						<select name='schiffe_klorw'>
+						<select name="schiffe_klorw">
 							<option value="">--- Auswahl des Schiffes ---</option>
 							<?php
 							while ($row_klorw = $db->db_fetch_array($result_klorw)) {
-								echo' <option value="' . $row_klorw["schiff"] . '"';
-									if ($selectedValue_klorschiffe==$row_klorw["schiff"]) {
+								echo ' <option value="' . $row_klorw['schiff'] . '"';
+									if ($selectedValue_klorschiffe==$row_klorw['schiff']) {
 										echo ' selected="selected"';
 									}
-								echo '>' . $row_klorw["schiff"] . '</option>';
+								echo '>' . $row_klorw['schiff'] . '</option>';
 								
 							}
 							?>
@@ -416,22 +418,22 @@ if (!isset($_POST['plan4']) OR empty($_POST['plan4'])) {
 					<td>
 						<b>mittlere planetare Werft</b>
 					</td>
-					<td class='center'>
+					<td class="center">
 						0-15
 					</td>
 					<td>
 						<input type="number" name="anzahl_miplanw" min="0" max="15" step="1" value="<?php echo $_POST['anzahl_miplanw'] ?>" placeholder="0-15">
 					</td>
 					<td>
-						<select name='schiffe_miplanw'>
+						<select name="schiffe_miplanw">
 							<option value="">--- Auswahl des Schiffes ---</option>
 							<?php
 							while ($row_miplanw = $db->db_fetch_array($result_miplanw)) {
-								echo' <option value="' . $row_miplanw["schiff"] . '"';
-									if ($selectedValue_miplanschiffe==$row_miplanw["schiff"]) {
+								echo ' <option value="' . $row_miplanw['schiff'] . '"';
+									if ($selectedValue_miplanschiffe==$row_miplanw['schiff']) {
 										echo ' selected="selected"';
 									}
-								echo '>' . $row_miplanw["schiff"] . '</option>';
+								echo '>' . $row_miplanw['schiff'] . '</option>';
 								
 							}
 							?>
@@ -442,22 +444,22 @@ if (!isset($_POST['plan4']) OR empty($_POST['plan4'])) {
 					<td>
 						<b>mittlere orbitale Werft</b>
 					</td>
-					<td class='center'>
+					<td class="center">
 						0-16
 					</td>
 					<td>
 						<input type="number" name="anzahl_miorw" min="0" max="16" step="1" value="<?php echo $_POST['anzahl_miorw'] ?>" placeholder="0-15">
 					</td>
 					<td>
-						<select name='schiffe_miorw'>
+						<select name="schiffe_miorw">
 							<option value="">--- Auswahl des Schiffes ---</option>
 							<?php
 							while ($row_miorw = $db->db_fetch_array($result_miorw)) {
-								echo' <option value="' . $row_miorw["schiff"] . '"';
-									if ($selectedValue_miorschiffe==$row_miorw["schiff"]) {
+								echo ' <option value="' . $row_miorw['schiff'] . '"';
+									if ($selectedValue_miorschiffe==$row_miorw['schiff']) {
 										echo ' selected="selected"';
 									}
-								echo '>' . $row_miorw["schiff"] . '</option>';
+								echo '>' . $row_miorw['schiff'] . '</option>';
 								
 							}
 							?>
@@ -468,22 +470,22 @@ if (!isset($_POST['plan4']) OR empty($_POST['plan4'])) {
 					<td>
 						<b>große Werft</b>
 					</td>
-					<td class='center'>
+					<td class="center">
 						0-6
 					</td>
 					<td>
 						<input type="number" name="anzahl_grw" min="0" max="30" step="1" value="<?php echo $_POST['anzahl_grw'] ?>" placeholder="0-6">
 					</td>
 					<td>
-						<select name='schiffe_grw'>
+						<select name="schiffe_grw">
 							<option value="">--- Auswahl des Schiffes ---</option>
 							<?php
 							while ($row_grw = $db->db_fetch_array($result_grw)) {
-								echo' <option value="' . $row_grw["schiff"] . '"';
-									if ($selectedValue_grschiffe==$row_grw["schiff"]) {
+								echo ' <option value="' . $row_grw['schiff'] . '"';
+									if ($selectedValue_grschiffe==$row_grw['schiff']) {
 										echo ' selected="selected"';
 									}
-								echo '>' . $row_grw["schiff"] . '</option>';
+								echo '>' . $row_grw['schiff'] . '</option>';
 								
 							}
 							?>
@@ -494,22 +496,22 @@ if (!isset($_POST['plan4']) OR empty($_POST['plan4'])) {
 					<td>
 						<b>DN Werft</b>
 					</td>
-					<td class='center'>
+					<td class="center">
 						0-3
 					</td>
 					<td>
 						<input type="number" name="anzahl_dnw" min="0" max="30" step="1" value="<?php echo $_POST['anzahl_dnw'] ?>" placeholder="0-3">
 					</td>
 					<td>
-						<select name='schiffe_dnw'>
+						<select name="schiffe_dnw">
 							<option value="">--- Auswahl des Schiffes ---</option>
 							<?php
 							while ($row_dnw = $db->db_fetch_array($result_dnw)) {
-								echo' <option value="' . $row_dnw["schiff"] . '"';
-									if ($selectedValue_dnschiffe==$row_dnw["schiff"]) {
+								echo ' <option value="' . $row_dnw['schiff'] . '"';
+									if ($selectedValue_dnschiffe==$row_dnw['schiff']) {
 										echo ' selected="selected"';
 									}
-								echo '>' . $row_dnw["schiff"] . '</option>';
+								echo '>' . $row_dnw['schiff'] . '</option>';
 								
 							}
 							?>
@@ -521,30 +523,30 @@ if (!isset($_POST['plan4']) OR empty($_POST['plan4'])) {
 		<br>
 		<br>
 		
-		<div  class='titlebg'>
+		<div  class="titlebg">
 		<b>Gebäudeauswahl</b>
 		</div>
 		<br>
-		<table id='gebaude' class='table_format_noborder' style='width: 80%'>
+		<table id="gebaude" class="table_format_noborder" style="width: 80%">
 			<thead>
 				<tr>
-					<th class='center'  data-sorter="false">
+					<th class="center"  data-sorter="false">
 						<b>Gebäude</b>
 					</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td class='center'>
-						<select name='gebbau'>
+					<td class="center">
+						<select name="gebbau">
 							<option value="">--- Auswahl des Gebäudes ----</option>
 							<?php
 							while ($row_geb = $db->db_fetch_array($result_geb)) {
-								echo' <option value="' . $row_geb["name"] . '"';
-									if ($selectedValue_geb==$row_geb["name"]) {
+								echo ' <option value="' . $row_geb['name'] . '"';
+									if ($selectedValue_geb==$row_geb['name']) {
 										echo ' selected="selected"';
 									}
-								echo '>' . $row_geb["name"] . '</option>';
+								echo '>' . $row_geb['name'] . '</option>';
 								
 							}
 							?>
@@ -556,11 +558,11 @@ if (!isset($_POST['plan4']) OR empty($_POST['plan4'])) {
 		
 		<br>
 		<br>
-		<div  class='titlebg'>
+		<div  class="titlebg">
 		<b>Planetenmodifikatoren</b>
 		</div>
 		<br>
-		<table id='planetmods' class='table_format_noborder' style='width: 80%'>
+		<table id="planetmods" class="table_format_noborder" style="width: 80%">
 			<thead>
 				<tr>
 					<th data-sorter="false">
@@ -577,7 +579,7 @@ if (!isset($_POST['plan4']) OR empty($_POST['plan4'])) {
 						<b>Gebäudebau Kosten Modifikator</b>
 					</td>
 					<td>
-						<select name='plan1'>
+						<select name="plan1">
 							<option value="1"
 							<?php
 								if ($selectedValue_plan1 == "1") {
@@ -635,7 +637,7 @@ if (!isset($_POST['plan4']) OR empty($_POST['plan4'])) {
 						<b>Gebäudebau Dauer Modifikator</b>
 					</td>
 					<td>
-						<select name='plan2'>
+						<select name="plan2">
 							<option value="1"
 							<?php
 								if ($selectedValue_plan2 == "1") {
@@ -672,7 +674,7 @@ if (!isset($_POST['plan4']) OR empty($_POST['plan4'])) {
 						<b>Schiffbau Kosten Modifikator</b>
 					</td>
 					<td>
-						<select name='plan3'>
+						<select name="plan3">
 							<option value="0.75" class="green"
 							<?php
 								if ($selectedValue_plan3 == "0.75") {
@@ -695,7 +697,7 @@ if (!isset($_POST['plan4']) OR empty($_POST['plan4'])) {
 						<b>Schiffbau Dauer Modifikator</b>
 					</td>
 					<td>
-						<select name='plan4'>
+						<select name="plan4">
 							<option value="1.0"
 							<?php
 								if ($selectedValue_plan4 == "1.0") {
@@ -718,11 +720,11 @@ if (!isset($_POST['plan4']) OR empty($_POST['plan4'])) {
 		
 		<br>
 		<br>
-		<div  class='titlebg'>
+		<div  class="titlebg">
 		<b>Genetikauswahl</b>
 		</div>
 		<br>
-		<table id='einstellungen' class='table_format_noborder' style='width: 80%'>
+		<table id="einstellungen" class="table_format_noborder" style="width: 80%">
 			<thead>
 				<tr>
 					<th data-sorter="false">
@@ -739,7 +741,7 @@ if (!isset($_POST['plan4']) OR empty($_POST['plan4'])) {
 						<b>Staatsform</b>
 					</td>
 					<td>
-						<select name='staatsform'>
+						<select name="staatsform">
 							<option value="">--- Auswahl Staatsform ----</option>
 							<option value="Kommunist" class="green"
 							<?php
@@ -764,7 +766,7 @@ if (!isset($_POST['plan4']) OR empty($_POST['plan4'])) {
 						<b>Ich bau gerne Schiffe</b>
 					</td>
 					<td>
-						<select name='gen1'>
+						<select name="gen1">
 							
 							<option value="1.2" class="red"
 							<?php
@@ -823,7 +825,7 @@ if (!isset($_POST['plan4']) OR empty($_POST['plan4'])) {
 						<b>Jetzt neu, Jetzt BILLIG, Schiffe!!</b>
 					</td>
 					<td>
-						<select name='gen2'>
+						<select name="gen2">
 							
 							<option value="1.2" class="red"
 							<?php
@@ -875,7 +877,7 @@ if (!isset($_POST['plan4']) OR empty($_POST['plan4'])) {
 						<b>Bau auf Bau auf Bau auf</b>
 					</td>
 					<td>
-						<select name='gen3'>		
+						<select name="gen3">		
 							<option value="1.1" class="red"
 							<?php
 								if ($selectedValue_gen3 == "1.1") {
@@ -919,7 +921,7 @@ if (!isset($_POST['plan4']) OR empty($_POST['plan4'])) {
 						<b>Ich steh auf billig</b>
 					</td>
 					<td>
-						<select name='gen4'>		
+						<select name="gen4">		
 							<option value="1.25" class="red"
 							<?php
 								if ($selectedValue_gen4 == "1.25") {
@@ -984,11 +986,11 @@ if (!isset($_POST['plan4']) OR empty($_POST['plan4'])) {
 		<br>
 		<br>
 		
-		<div  class='titlebg'>
+		<div  class="titlebg">
 		<b>Ausgabe für x Stunden</b>
 		</div>
 		<br>
-		<table id='stundberechnung' class='table_format_noborder' style='width: 80%'>
+		<table id="stundberechnung" class="table_format_noborder" style="width: 80%">
 			<thead>
 				<tr>
 					<th class="center" data-sorter="false">
@@ -1007,7 +1009,7 @@ if (!isset($_POST['plan4']) OR empty($_POST['plan4'])) {
 		<br>
 		<br>
 		<br>
-		<table class='noborder' style='width: 20%'>
+		<table class="noborder" style="width: 20%">
 			<thead>
 			</thead>
 			<tbody>
@@ -1175,188 +1177,192 @@ if (!isset($_POST['plan4']) OR empty($_POST['plan4'])) {
 	<br>
 	<br>
 	
-	<div  class='titlebg'>
+	<div  class="titlebg">
 		<b>Ausgabe Ressbedarf</b>
 	</div>
 	<br>
-	<table class='table_format' id='prodde' style='width: 80%'>
+	<table class="table_format" id="prodde" style="width: 80%">
 		<thead>
-			<tr class='center'>
-				<th data-sorter="false" colspan='8'>
+			<tr class="center">
+				<th data-sorter="false" colspan="9">
 					<b>Produktion</b>
 				</th>
 			</tr>
 			<tr>
 				<th data-sorter="false">
 				</th>
-				<th style='width: 9%' data-sorter="false">
+				<th style="width: 9%" data-sorter="false">
 					<b>Eisen</b>
 				</th>
-				<th style='width: 9%' data-sorter="false">
+				<th style="width: 9%" data-sorter="false">
 					<b>Stahl</b>
 				</th>
-				<th style='width: 9%' data-sorter="false">
+				<th style="width: 9%" data-sorter="false">
 					<b>VV4A</b>
 				</th>
-				<th style='width: 9%' data-sorter="false">
+				<th style="width: 9%" data-sorter="false">
 					<b>Chemie</b>
 				</th>
-				<th style='width: 9%' data-sorter="false">
+				<th style="width: 9%" data-sorter="false">
 					<b>Eis</b>
 				</th>
-				<th style='width: 9%' data-sorter="false">
+				<th style="width: 9%" data-sorter="false">
 					<b>Wasser</b>
 				</th>
-				<th style='width: 9%' data-sorter="false">
+				<th style="width: 9%" data-sorter="false">
 					<b>Energie</b>
+				</th>
+				<th style="width: 9%" data-sorter="false">
 				</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
-				<td class='windowbg3'>
+				<td class="windowbg3">
 					<b>Produktion /h</b>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
-					if ($prod_eisen>='0')	{
-						echo "<font color='#228B22'>", $prod_eisen;
+					if ($prod_eisen>="0")	{
+						echo '<font color="#228B22">', $prod_eisen;
 					}
-					else echo "<font color='#FF0000'>", $prod_eisen;
+					else echo '<font color="#FF0000">', $prod_eisen;
 					?>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
-					if ($prod_stahl>='0')	{
-						echo "<font color='#228B22'>", $prod_stahl;
+					if ($prod_stahl>="0")	{
+						echo '<font color="#228B22">', $prod_stahl;
 					}
-					else echo"<font color='#FF0000'>", $prod_stahl;
+					else echo '<font color="#FF0000">', $prod_stahl;
 					?>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
-					if ($prod_vv4a>='0')	{
-						echo "<font color='#228B22'>", $prod_vv4a;
+					if ($prod_vv4a>="0")	{
+						echo '<font color="#228B22">', $prod_vv4a;
 					}
-					else echo"<font color='#FF0000'>", $prod_vv4a;
+					else echo '<font color="#FF0000">', $prod_vv4a;
 					?>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
-					if ($prod_chem>='0')	{
-						echo "<font color='#228B22'>", $prod_chem;
+					if ($prod_chem>="0")	{
+						echo '<font color="#228B22">', $prod_chem;
 					}
-					else echo"<font color='#FF0000'>", $prod_chem;
+					else echo '<font color="#FF0000">', $prod_chem;
 					?>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
-					if ($prod_eis>='0')	{
-						echo "<font color='#228B22'>", $prod_eis;
+					if ($prod_eis>="0")	{
+						echo '<font color="#228B22">', $prod_eis;
 					}
-					else echo"<font color='#FF0000'>", $prod_eis;
+					else echo '<font color="#FF0000">', $prod_eis;
 					?>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
-					if ($prod_wasser>='0')	{
-						echo "<font color='#228B22'>", $prod_wasser;
+					if ($prod_wasser>="0")	{
+						echo '<font color="#228B22">', $prod_wasser;
 					}
-					else echo"<font color='#FF0000'>", $prod_wasser;
+					else echo '<font color="#FF0000">', $prod_wasser;
 					?>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
-					if ($prod_energie>='0')	{
-						echo "<font color='#228B22'>", $prod_energie;
+					if ($prod_energie>="0")	{
+						echo '<font color="#228B22">', $prod_energie;
 					}
-					else echo"<font color='#FF0000'>", $prod_energie;
+					else echo '<font color="#FF0000">', $prod_energie;
 					?>
+				</td>
+				<td>
 				</td>
 			</tr>
 		</tbody>
 	</table>
 	<br>
 	
-	<table class='table_format' id='ressbedarf1' style='width: 80%'>
+	<table class="table_format" id="ressbedarf1" style="width: 80%">
 		<thead>
-			<tr class='center'>
-				<th data-sorter="false" colspan='9'>
+			<tr class="center">
+				<th data-sorter="false" colspan="9">
 					<b>reiner Bedarf</b>
 				</th>
 			</tr>
 			<tr>
 				<th data-sorter="false">
 				</th>
-				<th style='width: 9%' data-sorter="false">
+				<th style="width: 9%" data-sorter="false">
 					<b>Eisen</b>
 				</th>
-				<th style='width: 9%' data-sorter="false">
+				<th style="width: 9%" data-sorter="false">
 					<b>Stahl</b>
 				</th>
-				<th style='width: 9%' data-sorter="false">
+				<th style="width: 9%" data-sorter="false">
 					<b>VV4A</b>
 				</th>
-				<th style='width: 9%' data-sorter="false">
+				<th style="width: 9%" data-sorter="false">
 					<b>Chemie</b>
 				</th>
-				<th style='width: 9%' data-sorter="false">
+				<th style="width: 9%" data-sorter="false">
 					<b>Eis</b>
 				</th>
-				<th style='width: 9%' data-sorter="false">
+				<th style="width: 9%" data-sorter="false">
 					<b>Wasser</b>
 				</th>
-				<th style='width: 9%' data-sorter="false">
+				<th style="width: 9%" data-sorter="false">
 					<b>Energie</b>
 				</th>
-				<th style='width: 9%' data-sorter="false">
+				<th style="width: 9%" data-sorter="false">
 					<b>Credits</b>
 				</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
-				<td class='windowbg3'>
+				<td class="windowbg3">
 					<b>Ress /h</b>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
-					echo "<font color='#1874CD'>", $eisen;
+					echo '<font color="#1874CD">', $eisen;
 					?>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
-					echo "<font color='#1874CD'>", $stahl;
+					echo '<font color="#1874CD">', $stahl;
 					?>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
-					echo "<font color='#1874CD'>", $vv4a;
+					echo '<font color="#1874CD">', $vv4a;
 					?>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
-					echo "<font color='#1874CD'>", $chemie;
+					echo '<font color="#1874CD">', $chemie;
 					?>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
-					echo "<font color='#1874CD'>", $eis;
+					echo '<font color="#1874CD">', $eis;
 					?>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
-					echo "<font color='#1874CD'>", $wasser;
+					echo '<font color="#1874CD">', $wasser;
 					?>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
-					echo "<font color='#1874CD'>", $energie;
+					echo '<font color="#1874CD">', $energie;
 					?>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
-					echo "<font color='#1874CD'>", $creds;
+					echo '<font color="#1874CD">', $creds;
 					?>
 				</td>
 			</tr>
@@ -1364,113 +1370,113 @@ if (!isset($_POST['plan4']) OR empty($_POST['plan4'])) {
 	</table>
 	<br>
 	
-	<table class='table_format' id='ressbedarf' style='width: 80%'>
+	<table class="table_format" id="ressbedarf" style="width: 80%">
 		<thead>
-			<tr class='center'>
-				<th data-sorter="false" colspan='9'>
+			<tr class="center">
+				<th data-sorter="false" colspan="9">
 					<b>effektiver Bedarf</b>
 				</th>
 			</tr>
 			<tr>
 				<th data-sorter="false">
 				</th>
-				<th style='width: 9%' data-sorter="false">
+				<th style="width: 9%" data-sorter="false">
 					<b>Eisen</b>
 				</th>
-				<th style='width: 9%' data-sorter="false">
+				<th style="width: 9%" data-sorter="false">
 					<b>Stahl</b>
 				</th>
-				<th style='width: 9%' data-sorter="false">
+				<th style="width: 9%" data-sorter="false">
 					<b>VV4A</b>
 				</th>
-				<th style='width: 9%' data-sorter="false">
+				<th style="width: 9%" data-sorter="false">
 					<b>Chemie</b>
 				</th>
-				<th style='width: 9%' data-sorter="false">
+				<th style="width: 9%" data-sorter="false">
 					<b>Eis</b>
 				</th>
-				<th style='width: 9%' data-sorter="false">
+				<th style="width: 9%" data-sorter="false">
 					<b>Wasser</b>
 				</th>
-				<th style='width: 9%' data-sorter="false">
+				<th style="width: 9%" data-sorter="false">
 					<b>Energie</b>
 				</th>
-				<th style='width: 9%' data-sorter="false">
+				<th style="width: 9%" data-sorter="false">
 					<b>Credits</b>
 				</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
-				<td class='windowbg3'>
+				<td class="windowbg3">
 					<b>Ress /h</b>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
 					$eisen_ges=ceil($prod_eisen-$eisen);
 					if ($eisen_ges<0) {
-						echo "<font color='#FF0000'>", abs($eisen_ges);
+						echo '<font color="#FF0000">', abs($eisen_ges);
 					}
-					else echo "0";
+					else echo '0';
 					?>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
 					$stahl_ges=ceil($prod_stahl-$stahl);
 					if ($stahl_ges<0) {
-						echo "<font color='#FF0000'>", abs($stahl_ges);
+						echo '<font color="#FF0000">', abs($stahl_ges);
 					}
-					else echo "0";
+					else echo '0';
 					?>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
 					$vv4a_ges=ceil($prod_vv4a-$vv4a);
 					if ($vv4a_ges<0) {
-						echo "<font color='#FF0000'>", abs($vv4a_ges);
+						echo '<font color="#FF0000">', abs($vv4a_ges);
 					}
-					else echo "0";
+					else echo '0';
 					?>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
 					$chem_ges=ceil($prod_chem-$chemie);
 					if ($chem_ges<0) {
-						echo "<font color='#FF0000'>", abs($chem_ges);
+						echo '<font color="#FF0000">', abs($chem_ges);
 					}
-					else echo "0";
+					else echo '0';
 					?>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
 					$eis_ges=ceil($prod_eis-$eis);
 					if ($eis_ges<0) {
-						echo "<font color='#FF0000'>", abs($eis_ges);
+						echo '<font color="#FF0000">', abs($eis_ges);
 					}
-					else echo "0";
+					else echo '0';
 					?>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
 					$wasser_ges=ceil($prod_wasser-$wasser);
 					if ($wasser_ges<0) {
-						echo "<font color='#FF0000'>", abs($wasser_ges);
+						echo '<font color="#FF0000">', abs($wasser_ges);
 					}
-					else echo "0";
+					else echo '0';
 					?>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
 					$energie_ges=ceil($prod_energie-$energie);
 					if ($energie_ges<0) {
-						echo "<font color='#FF0000'>", abs($energie_ges);
+						echo '<font color="#FF0000">', abs($energie_ges);
 					}
-					else echo "0";
+					else echo '0';
 					?>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
-					echo "<font color='#FF0000'>", $creds;
+					echo '<font color="#FF0000">', $creds;
 					?>
 				</td>
 			</tr>
@@ -1478,157 +1484,157 @@ if (!isset($_POST['plan4']) OR empty($_POST['plan4'])) {
 				<td class='windowbg3'>
 					<b>Ress /24h</b>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
 					$eisen_ges=$eisen_ges*24;
 					if ($eisen_ges<0) {
-						echo "<font color='#FF0000'>", abs($eisen_ges);
+						echo '<font color="#FF0000">', abs($eisen_ges);
 					}
-					else echo "0";
+					else echo '0';
 					?>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
 					$stahl_ges=$stahl_ges*24;
 					if ($stahl_ges<0) {
-						echo "<font color='#FF0000'>", abs($stahl_ges);
+						echo '<font color="#FF0000">', abs($stahl_ges);
 					}
-					else echo "0";
+					else echo '0';
 					?>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
 					$vv4a_ges=$vv4a_ges*24;
 					if ($vv4a_ges<0) {
-						echo "<font color='#FF0000'>", abs($vv4a_ges);
+						echo '<font color="#FF0000">', abs($vv4a_ges);
 					}
-					else echo "0";
+					else echo '0';
 					?>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
 					$chem_ges=$chem_ges*24;
 					if ($chem_ges<0) {
-						echo "<font color='#FF0000'>", abs($chem_ges);
+						echo '<font color="#FF0000">', abs($chem_ges);
 					}
-					else echo "0";
+					else echo '0';
 					?>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
 					$eis_ges=$eis_ges*24;
 					if ($eis_ges<0) {
-						echo "<font color='#FF0000'>", abs($eis_ges);
+						echo '<font color="#FF0000">', abs($eis_ges);
 					}
-					else echo "0";
+					else echo '0';
 					?>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
 					$wasser_ges=$wasser_ges*24;
 					if ($wasser_ges<0) {
-						echo "<font color='#FF0000'>", abs($wasser_ges);
+						echo '<font color="#FF0000">', abs($wasser_ges);
 					}
-					else echo "0";
+					else echo '0';
 					?>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
 					$energie_ges=$energie_ges*24;
 					if ($energie_ges<0) {
-						echo "<font color='#FF0000'>", abs($energie_ges);
+						echo '<font color="#FF0000">', abs($energie_ges);
 					}
-					else echo "0";
+					else echo '0';
 					?>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
-					echo "<font color='#FF0000'>", $creds*24;
+					echo '<font color="#FF0000">', $creds*24;
 					?>
 				</td>
 			</tr>
 			<tr>
-				<td class='windowbg3'>
+				<td class="windowbg3">
 					<b>Ress /<?php echo $_POST['ber_hour'] ?>h</b>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
 					$eisen_ges=$eisen_ges*$_POST['ber_hour']/24;
 					if ($eisen_ges<0) {
-						echo "<font color='#FF0000'>", abs($eisen_ges);
+						echo '<font color="#FF0000">', abs($eisen_ges);
 					}
-					else echo "0";
+					else echo '0';
 					?>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
 					$stahl_ges=$stahl_ges*$_POST['ber_hour']/24;
 					if ($stahl_ges<0) {
-						echo "<font color='#FF0000'>", abs($stahl_ges);
+						echo '<font color="#FF0000">', abs($stahl_ges);
 					}
-					else echo "0";
+					else echo '0';
 					?>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
 					$vv4a_ges=$vv4a_ges*$_POST['ber_hour']/24;
 					if ($vv4a_ges<0) {
-						echo "<font color='#FF0000'>", abs($vv4a_ges);
+						echo '<font color="#FF0000">', abs($vv4a_ges);
 					}
-					else echo "0";
+					else echo '0';
 					?>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
 					$chem_ges=$chem_ges*$_POST['ber_hour']/24;
 					if ($chem_ges<0) {
-						echo "<font color='#FF0000'>", abs($chem_ges);
+						echo '<font color="#FF0000">', abs($chem_ges);
 					}
-					else echo "0";
+					else echo '0';
 					?>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
 					$eis_ges=$eis_ges*$_POST['ber_hour']/24;
 					if ($eis_ges<0) {
-						echo "<font color='#FF0000'>", abs($eis_ges);
+						echo '<font color="#FF0000">', abs($eis_ges);
 					}
-					else echo "0";
+					else echo '0';
 					?>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
 					$wasser_ges=$wasser_ges*$_POST['ber_hour']/24;
 					if ($wasser_ges<0) {
-						echo "<font color='#FF0000'>", abs($wasser_ges);
+						echo '<font color="#FF0000">', abs($wasser_ges);
 					}
-					else echo "0";
+					else echo '0';
 					?>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
 					$energie_ges=$energie_ges*$_POST['ber_hour']/24;
 					if ($energie_ges<0) {
-						echo "<font color='#FF0000'>", abs($energie_ges);
+						echo '<font color="#FF0000">', abs($energie_ges);
 					}
-					else echo "0";
+					else echo '0';
 					?>
 				</td>
-				<td class='right'>
+				<td class="right">
 					<?php
-					echo "<font color='#FF0000'>", $creds*$_POST['ber_hour']/24;
+					echo '<font color="#FF0000">', $creds*$_POST['ber_hour']/24;
 					?>
 				</td>
 			</tr>
 		</tbody>
 		<tfoot>
 			<tr>
-				<td colspan='8'>
+				<td colspan="8">
 					<b> max Bevölkerung für 1x komplett Bauen</b>
 				</td>
-				<td class='center'>
+				<td class="center">
 					<?php
-					echo "<font color='#008B00'>", $bev;
+					echo '<font color="#008B00">', $bev;
 					?>
 				</td>
 			</tr>

@@ -55,7 +55,7 @@ if (!empty($editress)) {
 <?php
 	if (!empty($editress)) {
 				
-		$sql = "SELECT `coords`, `planetenname`, `typ`, `bed_eisen`, `bed_stahl`, `bed_vv4a`, `bed_chemie`, `bed_eis`, `bed_wasser`, `bed_energie` FROM `{$db_tb_scans}` WHERE (`user` LIKE '" . $spieler . "' AND `objekt` = 'Kolonie')";
+		$sql = "SELECT `coords`, `planetenname`, `typ`, `bed_eisen`, `bed_stahl`, `bed_vv4a`, `bed_chemie`, `bed_eis`, `bed_wasser`, `bed_energie`, `bed_bev` FROM `{$db_tb_scans}` WHERE (`user` LIKE '" . $spieler . "' AND `objekt` = 'Kolonie')";
 		$result = $db->db_query($sql)
 			or error(GENERAL_ERROR, 'Could not update planidata information.', '', __FILE__, __LINE__, $sql);
 	
@@ -67,6 +67,7 @@ if (!empty($editress)) {
 			$coords_bed_eis 	= getVar($row['coords'] . '_bed_eis');
 			$coords_bed_wasser 	= getVar($row['coords'] . '_bed_wasser');
 			$coords_bed_energie	= getVar($row['coords'] . '_bed_energie');
+			$coords_bed_bev		= getVar($row['coords'] . '_bed_bev');
 	
 			$data = array(
 				'bed_eisen'   	=> $coords_bed_eisen,
@@ -76,6 +77,7 @@ if (!empty($editress)) {
 				'bed_eis'     	=> $coords_bed_eis,
 				'bed_wasser'  	=> $coords_bed_wasser,
 				'bed_energie'	=> $coords_bed_energie,
+				'bed_bev'		=> $coords_bed_bev
 			);
 						
 			$db->db_update($db_tb_scans, $data, "WHERE `coords`='" . $row['coords'] ."'")
@@ -116,6 +118,9 @@ if (!empty($editress)) {
 				<th data-sorter="false">
 					Bedarf Energie
 				</th>
+				<th data-sorter="false">
+					Bedarf Bevölkerung
+				</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -142,7 +147,7 @@ if (!empty($editress)) {
 			);
 			echo '</div><br>';
 			
-			$sql = "SELECT `coords`, `planetenname`, `typ`, `bed_eisen`, `bed_stahl`, `bed_vv4a`, `bed_chemie`, `bed_eis`, `bed_wasser`, `bed_energie` FROM `{$db_tb_scans}` WHERE (`user` LIKE '" . $params['playerSelection'] . "' AND `objekt` = 'Kolonie')";
+			$sql = "SELECT `coords`, `planetenname`, `typ`, `bed_eisen`, `bed_stahl`, `bed_vv4a`, `bed_chemie`, `bed_eis`, `bed_wasser`, `bed_energie`, `bed_bev` FROM `{$db_tb_scans}` WHERE (`user` LIKE '" . $params['playerSelection'] . "' AND `objekt` = 'Kolonie')";
 			$result = $db->db_query($sql)
 				or error(GENERAL_ERROR, 'Could not update planidata information.', '', __FILE__, __LINE__, $sql);
 			
@@ -179,6 +184,9 @@ if (!empty($editress)) {
 					<td class="windowbg1">
 						<input type="text" name="<?php echo $row['coords'];?>_bed_energie" value="<?php echo $row['bed_energie'];?>" style="width: 5em">
 					</td>
+					<td class="windowbg1">
+						<input type="text" name="<?php echo $row['coords'];?>_bed_bev" value="<?php echo $row['bed_bev'];?>" style="width: 5em">
+					</td>
 				</tr>
 				
 			<?php
@@ -187,7 +195,7 @@ if (!empty($editress)) {
 		</tbody>
 		<tfoot>
 			<tr>
-				<th colspan="10" class="titlebg center">
+				<th colspan="11" class="titlebg center">
 					<input type='hidden' name='spieler' value='<?php echo $params['playerSelection']; ?>'>
 					<input type='hidden' name='editress' value='true'>
 					<input type='submit' value='speichern' name='B1' class='submit'>

@@ -40,7 +40,7 @@ if (!defined('DEBUG_LEVEL')) {
 function parse_de_wirtschaft_planiress2($return)
 {
     if ($return->bSuccessfullyParsed) {
-        global $selectedusername, $db, $db_tb_ressuebersicht, $db_tb_lager;
+        global $selectedusername, $db, $db_tb_ressuebersicht, $db_tb_lager, $db_tb_bestellung, $db_tb_sitterauftrag, $db_tb_scans;
 
         $AccName = getAccNameFromKolos($return->objResultData->aKolos);
         if ($AccName === false) { //kein Eintrag gefunden -> ausgewählten Accname verwenden
@@ -65,7 +65,6 @@ function parse_de_wirtschaft_planiress2($return)
 
             $db->db_insertupdate($db_tb_ressuebersicht, $scan_data_total)
                 or error(GENERAL_ERROR, 'Could not update total ress information.', '', __FILE__, __LINE__);
-
         }
 
         foreach ($return->objResultData->aKolos as $kolo) {
@@ -96,6 +95,60 @@ function parse_de_wirtschaft_planiress2($return)
 
             $db->db_insertupdate($db_tb_lager, $scan_data)
                 or error(GENERAL_ERROR, 'Could not update ress information.', '', __FILE__, __LINE__);
+			
+			if ($scan_data['zufr']<'20,0') {
+				$SQLdata = array (
+                    'user' => $AccName,
+					'planet' => ($scan_data['coords_gal'] . ":" . $scan_data['coords_sys'] . ":" . $scan_data['coords_planet']),
+                    'auftrag' => 'automatischer Auftrag : bitte Zufriedenheit kontrollieren',
+                    'date' => CURRENT_UNIX_TIME,
+					'date_b1' => CURRENT_UNIX_TIME,
+					'date_b2' => CURRENT_UNIX_TIME,
+					'typ' => 'Sonstiges'
+                );
+
+                $db->db_insert($db_tb_sitterauftrag, $SQLdata)
+                    or error(GENERAL_ERROR, 'Could not insert sitterauftrag!', '', __FILE__, __LINE__);
+			}
+			if ($scan_data['bev_a']<'0') {
+				$SQLdata = array (
+                    'user' => $AccName,
+                    'coords_gal' => $scan_data['coords_gal'],
+					'coords_sys' => $scan_data['coords_sys'],
+					'coords_planet' => $scan_data['coords_planet'],
+					'team' => '(Alle)',
+                    'text' => 'Automatische Bestellung Bevölkerung',
+                    'time' => CURRENT_UNIX_TIME,
+                    'volk' => (abs($scan_data['bev_a'])+500),
+                    'offen_volk' => (abs($scan_data['bev_a'])+500),
+                    'time_created' => CURRENT_UNIX_TIME
+                );
+				
+                $db->db_insert($db_tb_bestellung, $SQLdata)
+                    or error(GENERAL_ERROR, 'Could not insert bev order!', '', __FILE__, __LINE__);
+			}
+			
+			$plani =$scan_data['coords_gal'] . ":" . $scan_data['coords_sys'] . ":" . $scan_data['coords_planet'];
+			$sql = $db->db_query("SELECT `bed_bev` FROM `{$db_tb_scans}` WHERE `coords` = '" .$plani. "';");
+			$row = $db->db_fetch_array($sql);
+			$bev = $row['bed_bev'];
+			if ($scan_data['bev_a']<$row['bed_bev']) {
+				$SQLdata = array (
+                    'user' => $AccName,
+                    'coords_gal' => $scan_data['coords_gal'],
+					'coords_sys' => $scan_data['coords_sys'],
+					'coords_planet' => $scan_data['coords_planet'],
+					'team' => '(Alle)',
+                    'text' => 'Automatische Bestellung Bevölkerung',
+                    'time' => CURRENT_UNIX_TIME,
+                    'volk' => ($bev-$scan_data['bev_a']),
+                    'offen_volk' => ($bev-$scan_data['bev_a']),
+                    'time_created' => CURRENT_UNIX_TIME
+                );
+				
+                $db->db_insert($db_tb_bestellung, $SQLdata)
+                    or error(GENERAL_ERROR, 'Could not insert bev order!', '', __FILE__, __LINE__);
+			}
         }
 
         echo "<div class='system_notification'>Lagerübersicht bei {$AccName} aktualisiert.</div>";

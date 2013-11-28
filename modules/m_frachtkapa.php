@@ -85,10 +85,19 @@ function workInstallDatabase()
 //
 function workInstallMenu()
 {
-    global $modultitle, $modulstatus, $_POST;
+    global $modulstatus;
 
-    $actionparamters = "";
-    insertMenuItem($_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparamters);
+    $menu             = getVar('menu');
+    $submenu          = getVar('submenu');
+    $menuetitel       = "Frachtkapazitäten";
+    $actionparameters = "";
+
+    insertMenuItem($menu, $submenu, $menuetitel, $modulstatus, $actionparameters);
+    //
+    // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
+    //
+    // 	insertMenuItem( $menu+1, ($submenu+1), "Titel2", "hc", "&weissichnichtwas=1" );
+    //
 }
 
 //****************************************************************************
@@ -150,151 +159,149 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 doc_title('Frachtkapazitätenberechnung');
 ?>
 <table>
-<tr>
-<td>
-<form name='transcalc' action=''>
+	<tr>
+		<td>
+			<form name="transcalc" action="">
 
-    <table id='transcalc_input_table' class='table_format' style='width: 80%;'>
-        <tr>
-            <td colspan='2' class='titlebg'><b>Eingabe:</b></td>
-        </tr>
-        <tr>
-            <td class='windowbg2' style='width: 200px;'>Eisen:</td>
-            <td class='windowbg1'><input type='text' size='17' id='eisen' value='0' pattern="\d*"></td>
-        </tr>
-        <tr>
-            <td class='windowbg2' style='width: 200px;'>Stahl:</td>
-            <td class='windowbg1'><input type='text' size='17' id='stahl' value='0' pattern="\d*"></td>
-        </tr>
-        <tr>
-            <td class='windowbg2' style='width: 200px;'>VV4A:</td>
-            <td class='windowbg1'><input type='text' size='17' id='vv4a' value='0' pattern="\d*"></td>
-        </tr>
-        <tr>
-            <td class='windowbg2' style='width: 200px;'>chem. Elemente:</td>
-            <td class='windowbg1'><input type='text' size='17' id='chemie' value='0' pattern="\d*"></td>
-        </tr>
-        <tr>
-            <td class='windowbg2' style='width: 200px;'>Eis:</td>
-            <td class='windowbg1'><input type='text' size='17' id='eis' value='0' pattern="\d*"></td>
-        </tr>
-        <tr>
-            <td class='windowbg2' style='width: 200px;'>Wasser:</td>
-            <td class='windowbg1'><input type='text' size='17' id='wasser' value='0' pattern="\d*"></td>
-        </tr>
-        <tr>
-            <td class='windowbg2' style='width: 200px;'>Energie:</td>
-            <td class='windowbg1'><input type='text' size='17' id='energie' value='0' pattern="\d*"></td>
-        </tr>
-        <tr>
-            <td colspan='2' class='titlebg'><b>Vorhandene Transen für Klasse 1</b></td>
-        </tr>
-        <tr>
-            <td class='windowbg2' style='width: 200px;'>Systransen:</td>
-            <td class='windowbg1'><input type='text' size='17' id='systransen_vorhanden' value='0' pattern="\d*"></td>
-        </tr>
-        <tr>
-            <td class='windowbg2' style='width: 200px;'>Gorgols:</td>
-            <td class='windowbg1'><input type='text' size='17' id='gorgols_vorhanden' value='0' pattern="\d*"></td>
-        </tr>
-        <tr>
-            <td class='windowbg2' style='width: 200px;'>Kamele:</td>
-            <td class='windowbg1'><input type='text' size='17' id='kamele_vorhanden' value='0' pattern="\d*"></td>
-        </tr>
-        <tr>
-            <td class='windowbg2' style='width: 200px;'>Flughunde:</td>
-            <td class='windowbg1'><input type='text' size='17' id='flughunde_vorhanden' value='0' pattern="\d*"></td>
-        </tr>
-        <tr>
-            <td colspan='2' class='titlebg'><b>Vorhandene Transen für Klasse 2</b></td>
-        </tr>
-        <tr>
-            <td class='windowbg2' style='width: 200px;'>Lurche:</td>
-            <td class='windowbg1'><input type='text' size='17' id='luche_vorhanden' value='0' pattern="\d*"></td>
-        </tr>
-        <tr>
-            <td class='windowbg2' style='width: 200px;'>Eisbären:</td>
-            <td class='windowbg1'><input type='text' size='17' id='eisbaeren_vorhanden' value='0' pattern="\d*"></td>
-        </tr>
-        <tr>
-            <td class='windowbg2' style='width: 200px;'>Waschbären:</td>
-            <td class='windowbg1'><input type='text' size='17' id='waschbaeren_vorhanden' value='0' pattern="\d*"></td>
-        </tr>
-        <tr>
-            <td class='windowbg2' style='width: 200px;'>Seepferdchen:</td>
-            <td class='windowbg1'><input type='text' size='17' id='seepferdchen_vorhanden' value='0' pattern="\d*"></td>
-        </tr>
-    </table>
-    <br>
-    <input type="reset" class='center'>
-</form>
-</td>
-<td>
-<br>
-<table id='transcalc_output_table' class='table_format' style='width: 80%;'>
-    <tr>
-        <td colspan='3' class='titlebg'><b>Benötigte Frachtkapazität</b></td>
-    </tr>
-    <tr>
-        <td class='windowbg2'>Klasse 1:</td>
-        <td class='windowbg1' id='class1kappatext' style='width: 200px;'>&nbsp;</td>
-        <td class='windowbg1'></td>
-    </tr>
-    <tr>
-        <td class='windowbg2'>Klasse 2:</td>
-        <td class='windowbg1' id='class2kappatext' style='width: 200px;'>&nbsp;</td>
-        <td class='windowbg1'></td>
-    </tr>
-
-    <tr>
-        <td colspan='3' class='titlebg'><b>Benötigte Transen für Klasse 1</b></td>
-    </tr>
-    <tr>
-        <td class='windowbg2'>entweder</td>
-        <td class='windowbg1' id='systranstext' style='width: 200px;'>&nbsp;</td>
-        <td class='windowbg2'>Systrans(en)</td>
-    </tr>
-    <tr>
-        <td class='windowbg2'>oder</td>
-        <td class='windowbg1' id='gorgoltext' style='width: 200px;'>&nbsp;</td>
-        <td class='windowbg2'>Gorgol(s)</td>
-    </tr>
-    <tr>
-        <td class='windowbg2'>oder</td>
-        <td class='windowbg1' id='kameltext' style='width: 200px;'>&nbsp;</td>
-        <td class='windowbg2'>Kamel(e)</td>
-    </tr>
-    <tr>
-        <td class='windowbg2'>oder</td>
-        <td class='windowbg1' id='flughundtext' style='width: 200px;'>&nbsp;</td>
-        <td class='windowbg2'>Flughund(e)</td>
-    </tr>
-
-    <tr>
-        <td colspan='3' class='titlebg'><b>Benötigte Transen für Klasse 2</b></td>
-    </tr>
-    <tr>
-        <td class='windowbg2'>entweder</td>
-        <td class='windowbg1' id='lurchtext' style='width: 200px;'>&nbsp;</td>
-        <td class='windowbg2'>Lurch(e)</td>
-    </tr>
-    <tr>
-        <td class='windowbg2'>oder</td>
-        <td class='windowbg1' id='eisbaertext' style='width: 200px;'>&nbsp;</td>
-        <td class='windowbg2'>Eisbär(en)</td>
-    </tr>
-    <tr>
-        <td class='windowbg2'>oder</td>
-        <td class='windowbg1' id='waschbaertext' style='width: 200px;'>&nbsp;</td>
-        <td class='windowbg2'>Waschbär(en)</td>
-    </tr>
-    <tr>
-        <td class='windowbg2'>oder</td>
-        <td class='windowbg1' id='seepferdchentext' style='width: 200px;'>&nbsp;</td>
-        <td class='windowbg2'>Seepferdchen</td>
-    </tr>
-</table>
-</td>
-</tr>
+				<table id="transcalc_input_table" class="table_format" style="width: 80%;">
+					<tr>
+						<td colspan="2" class="titlebg"><b>Eingabe:</b></td>
+					</tr>
+					<tr>
+						<td class="windowbg2" style="width: 200px;">Eisen:</td>
+						<td class="windowbg1"><input type="text" size="17" id="eisen" value="0" pattern="\d*"></td>
+					</tr>
+					<tr>
+						<td class="windowbg2" style="width: 200px;">Stahl:</td>
+						<td class="windowbg1"><input type="text" size="17" id="stahl" value="0" pattern="\d*"></td>
+					</tr>
+					<tr>
+						<td class="windowbg2" style="width: 200px;">VV4A:</td>
+						<td class="windowbg1"><input type="text" size="17" id="vv4a" value="0" pattern="\d*"></td>
+					</tr>
+					<tr>
+						<td class="windowbg2" style="width: 200px;">chem. Elemente:</td>
+						<td class="windowbg1"><input type="text" size="17" id="chemie" value="0" pattern="\d*"></td>
+					</tr>
+					<tr>
+						<td class="windowbg2" style="width: 200px;">Eis:</td>
+						<td class="windowbg1"><input type="text" size="17" id="eis" value="0" pattern="\d*"></td>
+					</tr>
+					<tr>
+						<td class="windowbg2" style="width: 200px;">Wasser:</td>
+						<td class="windowbg1"><input type="text" size="17" id="wasser" value="0" pattern="\d*"></td>
+					</tr>
+					<tr>
+						<td class="windowbg2" style="width: 200px;">Energie:</td>
+						<td class="windowbg1"><input type="text" size="17" id="energie" value="0" pattern="\d*"></td>
+					</tr>
+					<tr>
+						<td colspan="2" class="titlebg"><b>Vorhandene Transen für Klasse 1</b></td>
+					</tr>
+					<tr>
+						<td class="windowbg2" style="width: 200px;">Systransen:</td>
+						<td class="windowbg1"><input type="text" size="17" id="systransen_vorhanden" value="0" pattern="\d*"></td>
+					</tr>
+					<tr>
+						<td class="windowbg2" style="width: 200px;">Gorgols:</td>
+						<td class="windowbg1"><input type="text" size="17" id="gorgols_vorhanden" value="0" pattern="\d*"></td>
+					</tr>
+					<tr>
+						<td class="windowbg2" style="width: 200px;">Kamele:</td>
+						<td class="windowbg1"><input type="text" size="17" id="kamele_vorhanden" value="0" pattern="\d*"></td>
+					</tr>
+					<tr>
+						<td class="windowbg2" style="width: 200px;">Flughunde:</td>
+						<td class="windowbg1"><input type="text" size="17" id="flughunde_vorhanden" value="0" pattern="\d*"></td>
+					</tr>
+					<tr>
+						<td colspan="2" class="titlebg"><b>Vorhandene Transen für Klasse 2</b></td>
+					</tr>
+					<tr>
+						<td class="windowbg2" style="width: 200px;">Lurche:</td>
+						<td class="windowbg1"><input type="text" size="17" id="luche_vorhanden" value="0" pattern="\d*"></td>
+					</tr>
+					<tr>
+						<td class="windowbg2" style="width: 200px;">Eisbären:</td>
+						<td class="windowbg1"><input type="text" size="17" id="eisbaeren_vorhanden" value="0" pattern="\d*"></td>
+					</tr>
+					<tr>
+						<td class="windowbg2" style="width: 200px;">Waschbären:</td>
+						<td class="windowbg1"><input type="text" size="17" id="waschbaeren_vorhanden" value="0" pattern="\d*"></td>
+					</tr>
+					<tr>
+						<td class="windowbg2" style="width: 200px;">Seepferdchen:</td>
+						<td class="windowbg1"><input type="text" size="17" id="seepferdchen_vorhanden" value="0" pattern="\d*"></td>
+					</tr>
+				</table>
+				<br>
+			<input type="reset" class="center">
+			</form>
+		</td>
+		<td>
+		<br>
+			<table id="transcalc_output_table" class="table_format" style="width: 80%;">
+				<tr>
+					<td colspan="3" class="titlebg"><b>Benötigte Frachtkapazität</b></td>
+				</tr>
+				<tr>
+					<td class="windowbg2">Klasse 1:</td>
+					<td class="windowbg1" id="class1kappatext" style="width: 200px;">&nbsp;</td>
+					<td class="windowbg1"></td>
+				</tr>
+				<tr>
+					<td class="windowbg2">Klasse 2:</td>
+					<td class="windowbg1" id="class2kappatext" style="width: 200px;">&nbsp;</td>
+					<td class="windowbg1"></td>
+				</tr>
+				<tr>
+					<td colspan="3" class="titlebg"><b>Benötigte Transen für Klasse 1</b></td>
+				</tr>
+				<tr>
+					<td class="windowbg2">entweder</td>
+					<td class="windowbg1" id="systranstext" style="width: 200px;">&nbsp;</td>
+					<td class="windowbg2">Systrans(en)</td>
+				</tr>
+				<tr>
+					<td class="windowbg2">oder</td>
+					<td class="windowbg1" id="gorgoltext" style="width: 200px;">&nbsp;</td>
+					<td class="windowbg2">Gorgol(s)</td>
+				</tr>
+				<tr>
+					<td class="windowbg2">oder</td>
+					<td class="windowbg1" id="kameltext" style="width: 200px;">&nbsp;</td>
+					<td class="windowbg2">Kamel(e)</td>
+				</tr>
+				<tr>
+					<td class="windowbg2">oder</td>
+					<td class="windowbg1" id="flughundtext" style="width: 200px;">&nbsp;</td>
+					<td class="windowbg2">Flughund(e)</td>
+				</tr>
+				<tr>
+					<td colspan="3" class="titlebg"><b>Benötigte Transen für Klasse 2</b></td>
+				</tr>
+				<tr>
+					<td class="windowbg2">entweder</td>
+					<td class="windowbg1" id="lurchtext" style="width: 200px;">&nbsp;</td>
+					<td class="windowbg2">Lurch(e)</td>
+				</tr>
+				<tr>
+					<td class="windowbg2">oder</td>
+					<td class="windowbg1" id="eisbaertext" style="width: 200px;">&nbsp;</td>
+					<td class="windowbg2">Eisbär(en)</td>
+				</tr>
+				<tr>
+					<td class="windowbg2">oder</td>
+					<td class="windowbg1" id="waschbaertext" style="width: 200px;">&nbsp;</td>
+					<td class="windowbg2">Waschbär(en)</td>
+				</tr>
+				<tr>
+					<td class="windowbg2">oder</td>
+					<td class="windowbg1" id="seepferdchentext" style="width: 200px;">&nbsp;</td>
+					<td class="windowbg2">Seepferdchen</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
 </table>
 <script src="javascript/frachtkappa.js"></script>

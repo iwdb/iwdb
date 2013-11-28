@@ -222,7 +222,7 @@ while ($row = $db->db_fetch_array($result2)) {
     $user = $row["user"];
 
 // Ressourcen aus raidview holen und nach Datum sortieren
-    $sql = "SELECT * FROM " . $db_tb_raidview . " WHERE user= '" . $user . "' ORDER BY date ASC";
+    $sql = "SELECT * FROM " . $db_tb_raidview . " WHERE user= '" . $user . "' ORDER BY date DESC";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
@@ -312,7 +312,7 @@ while ($row = $db->db_fetch_array($result2)) {
     }
 
     if (empty($ordered)) {
-        $ordered = 'asc';
+        $ordered = 'desc';
     }
 
     global $db, $db_tb_ressuebersicht;
@@ -381,7 +381,7 @@ while ($row = $db->db_fetch_array($result2)) {
             echo "Energie";
 
             // Ressourcen aus raidview holen und nach Datum sortieren
-            $sql = "SELECT * FROM " . $db_tb_raidview . " WHERE user= '" . $_GET['user'] . "' ORDER BY date ASC";
+            $sql = "SELECT * FROM " . $db_tb_raidview . " WHERE user= '" . $_GET['user'] . "' ORDER BY date DESC LIMIT 0,300";
             $result3 = $db->db_query($sql)
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 

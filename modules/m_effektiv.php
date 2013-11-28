@@ -72,7 +72,7 @@ $moduldesc = "Modul zum anzeigen der Schiffsklasseneffektivitäten, beruhend auf
 //
 function workInstallDatabase()
 {
-    echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
+    //nothing here
 }
 
 //****************************************************************************
@@ -83,11 +83,19 @@ function workInstallDatabase()
 //
 function workInstallMenu()
 {
-    global $modulstatus, $_POST;
+    global $modulstatus;
 
-    $actionparamters = "";
-    insertMenuItem($_POST['menu'], $_POST['submenu'], "Schiffklassen", $modulstatus, $actionparamters);
+    $menu             = getVar('menu');
+    $submenu          = getVar('submenu');
+    $menuetitel       = "Effektivitätsmodul";
+    $actionparameters = "";
 
+    insertMenuItem($menu, $submenu, $menuetitel, $modulstatus, $actionparameters);
+    //
+    // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
+    //
+    // 	insertMenuItem( $menu+1, ($submenu+1), "Titel2", "hc", "&weissichnichtwas=1" );
+    //
 }
 
 //****************************************************************************
@@ -107,8 +115,7 @@ function workInstallConfigString()
 //
 function workUninstallDatabase()
 {
-
-    echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
+    //nothing here
 }
 
 //****************************************************************************
@@ -147,4 +154,8 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 //
 // -> Und hier beginnt das eigentliche Modul
 
+// Titelzeile
+doc_title($modultitle);
+
+echo '<br>';
 echo '<img src="bilder/schiffeffektiv.jpg">';

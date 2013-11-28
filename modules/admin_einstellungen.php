@@ -173,7 +173,7 @@ if (!empty($rowP['value'])) {
         </tr>
     </table>
 </form>
-<br>
+<br><br>
 <?php
 
 $be = GetVar('BE');
@@ -285,7 +285,7 @@ if (!empty($rowP['value'])) {
         </tr>
     </table>
 </form>
-<br>
+<br><br>
 <?php
 
 /*******************************************************************************/
@@ -393,7 +393,7 @@ if (isset($db_tb_bestellung)) {
             </tr>
         </table>
     </form>
-    <br>
+    <br><br>
 <?php
 }
 
@@ -409,6 +409,7 @@ if (GetVar('stunden_change')) {
 	$hour_eis = GetVar('stunden_eis');
 	$hour_wasser = GetVar('stunden_wasser');
 	$hour_energie = GetVar('stunden_energie');
+	$max_eisen = GetVar('lager_eisen');
 	
 	$sql = "INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('hour_eisen', '" . $hour_eisen . "') ON DUPLICATE KEY UPDATE `value`='" . $hour_eisen . "';";
             $db->db_query($sql)
@@ -435,6 +436,10 @@ if (GetVar('stunden_change')) {
                 or error(GENERAL_ERROR, 'Could not update hour information.', '', __FILE__, __LINE__, $sql);
 	
 	$sql = "INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('hour_energie', '" . $hour_energie . "') ON DUPLICATE KEY UPDATE `value`='" . $hour_energie . "';";
+            $db->db_query($sql)
+                or error(GENERAL_ERROR, 'Could not update hour information.', '', __FILE__, __LINE__, $sql);
+				
+	$sql = "INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('max_eisen', '" . $max_eisen . "') ON DUPLICATE KEY UPDATE `value`='" . $max_eisen . "';";
             $db->db_query($sql)
                 or error(GENERAL_ERROR, 'Could not update hour information.', '', __FILE__, __LINE__, $sql);
 	
@@ -474,6 +479,11 @@ $sql = "SELECT `value`, `text` FROM `{$db_tb_params}` WHERE `name` = 'hour_energ
 $result = $db->db_query($sql);
 $row = $db->db_fetch_array($result);
 $hour_energie = $row['value'];
+
+$sql = "SELECT `value`, `text` FROM `{$db_tb_params}` WHERE `name` = 'max_eisen';";
+$result = $db->db_query($sql);
+$row = $db->db_fetch_array($result);
+$max_eisen = $row['value'];
 
 ?>
 <form method="POST" action="index.php?action=admin&uaction=einstellungen" enctype="multipart/form-data">
@@ -542,6 +552,14 @@ $hour_energie = $row['value'];
 					<input type="number" name="stunden_energie" min="1" max="400" step="1" value="<?php echo $hour_energie ?>">
 				</td>
 			</tr>
+			<tr>
+				<td class="windowbg2" style="width:40%; background-color: #ADD8E6">
+					<b>Eisengrundbedarf wenn nichts vorhanden</b>
+				</td>
+				<td class="left">
+					<input type="number" name="lager_eisen" value="<?php echo $max_eisen ?>">
+				</td>
+			</tr>
 		</tbody>
 		<tfoot>
 			<tr class='center'>
@@ -552,7 +570,7 @@ $hour_energie = $row['value'];
 		</tfoot>
 	</table>
 </form>
-<br>
+<br><br>
 <?php
 /*****************************************************************************/
 /* DB-Sperre Teil                                                            */

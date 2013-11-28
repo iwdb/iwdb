@@ -115,8 +115,6 @@ if (!empty($editprofile) AND (($id === $user_id) OR ($user_status === "admin")))
     $userd['syspunkte']     = (int)getVar('syspunkte');
     $userd['status']        = getVar('status');
     $userd['gesperrt']      = (bool)getVar('gesperrt');
-	$userd['autlager']		= (bool)getVar('autlager');
-	$userd['dellager']		= (bool)getVar('dellager');
     $userd['menu_default']  = getVar('menu_default');
     $userd['uniprop']       = (bool)getVar('uniprop');
 

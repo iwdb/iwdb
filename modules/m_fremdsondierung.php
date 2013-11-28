@@ -83,13 +83,14 @@ function workInstallDatabase()
 //
 function workInstallMenu()
 {
-    global $modultitle, $modulstatus;
+    global $modulstatus;
 
-    $menu    = getVar('menu');
-    $submenu = getVar('submenu');
+    $menu             = getVar('menu');
+    $submenu          = getVar('submenu');
+    $menuetitel       = "Fremdsondierung";
+    $actionparameters = "";
 
-    $actionparamters = "";
-    insertMenuItem($menu, $submenu, $modultitle, $modulstatus, $actionparamters);
+    insertMenuItem($menu, $submenu, $menuetitel, $modulstatus, $actionparameters);
     //
     // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
     //
@@ -157,10 +158,11 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 // -> Und hier beginnt das eigentliche Modul
 
 // Titelzeile
-doc_title('Fremdsondierung');
-echo "Anzeige der Sondierungen auf uns in den letzten 14 Tagen";
-echo " 	 <br />\n";
-echo " 	 <br />\n";
+doc_title($modultitle);
+
+echo 'Anzeige der Sondierungen auf uns in den letzten 14 Tagen';
+echo ' 	 <br>';
+echo ' 	 <br>';
 
 global $db, $db_tb_fremdsondierung;
 
@@ -170,7 +172,7 @@ $result = $db->db_query($sql)
 $data = array();
 
 ?>
-<table class='tablesorter-blue'>
+<table class="tablesorter-blue">
 	<thead>
 		<tr>
 			<th>
@@ -208,14 +210,14 @@ $data = array();
 			<td>
 				<?php
 				$objekt = getObjectByCoords($row['koords_to']);
-				if ($objekt == 'Kolonie') {
-					echo "<img src='".BILDER_PATH."kolo.png'>";
-				} else if ($objekt == 'Sammelbasis') {
-					echo "<img src='".BILDER_PATH."ress_basis.png'>";
-				} else if ($objekt == 'Artefaktbasis') {
-					echo "<img src='".BILDER_PATH."artefakt_basis.png'>";
-				} else if ($objekt == 'Kampfbasis') {
-					echo "<img src='".BILDER_PATH."kampf_basis.png'>";
+				if ($objekt == "Kolonie") {
+					echo '<img src="'.BILDER_PATH.'kolo.png">';
+				} else if ($objekt == "Sammelbasis") {
+					echo '<img src="'.BILDER_PATH.'ress_basis.png">';
+				} else if ($objekt == "Artefaktbasis") {
+					echo '<img src="'.BILDER_PATH.'artefakt_basis.png">';
+				} else if ($objekt == "Kampfbasis") {
+					echo '<img src="'.BILDER_PATH.'kampf_basis.png">';
 				}
 				echo $row['koords_to'];
 				?>
@@ -223,7 +225,7 @@ $data = array();
 			<td>
 				<?php
 				if (!empty($row['allianz_from'])) {
-					echo ($row['name_from'] . " [" . $row['allianz_from'] . "]");
+					echo ($row['name_from'] . ' [' . $row['allianz_from'] . ']');
 				} else {
 					echo $row['name_from'];
 				}
@@ -232,14 +234,14 @@ $data = array();
 			<td>
 				<?php
 				$objekt = getObjectByCoords($row['koords_from']);
-				if ($objekt == 'Kolonie') {
-					echo "<img src='".BILDER_PATH."kolo.png'>";
-				} else if ($objekt == 'Sammelbasis') {
-					echo "<img src='".BILDER_PATH."ress_basis.png'>";
-				} else if ($objekt == 'Artefaktbasis') {
-					echo "<img src='".BILDER_PATH."artefakt_basis.png'>";
-				} else if ($objekt == 'Kampfbasis') {
-					echo "<img src='".BILDER_PATH."kampf_basis.png'>";
+				if ($objekt == "Kolonie") {
+					echo '<img src="'.BILDER_PATH.'kolo.png">';
+				} else if ($objekt == "Sammelbasis") {
+					echo '<img src="'.BILDER_PATH.'ress_basis.png">';
+				} else if ($objekt == "Artefaktbasis") {
+					echo '<img src="'.BILDER_PATH.'artefakt_basis.png">';
+				} else if ($objekt == "Kampfbasis") {
+					echo '<img src="'.BILDER_PATH.'kampf_basis.png">';
 				}
 				echo $row['koords_from'];
 				?>
@@ -249,20 +251,20 @@ $data = array();
 				echo strftime(CONFIG_DATETIMEFORMAT, $row['timestamp']);
 				?>
 			</td>
-			<td class='center'>
+			<td class="center">
 				<?php
-				if ($row['sondierung_art']=='schiffe')
-					echo "<img src='".BILDER_PATH."scann_schiff.png'>";
-				else if ($row['sondierung_art']=='gebaeude')
-					echo "<img src='".BILDER_PATH."scann_geb.png'>";
+				if ($row['sondierung_art']=="schiffe")
+					echo '<img src="'.BILDER_PATH.'scann_schiff.png">';
+				else if ($row['sondierung_art']=="gebaeude")
+					echo '<img src="'.BILDER_PATH.'scann_geb.png">';
 				?>
 			</td>
 			<td>
 				<?php
-				if ($row['erfolgreich'] == '0') {
-					echo "nein";
+				if ($row['erfolgreich'] == "0") {
+					echo 'nein';
 				} else {
-					echo "ja";
+					echo 'ja';
 				}
 				?>
 			</td>
@@ -274,36 +276,36 @@ $data = array();
 	</tbody>
 </table>
 
-<table class='borderless'>
+<table class="borderless">
 	<tr>
 		<td>
 			<?php
-			echo "<img src='".BILDER_PATH."kolo.png'> = Kolonie";
+			echo '<img src="'.BILDER_PATH.'kolo.png"> = Kolonie';
 			?>
 		</td>
 		<td>
 			<?php
-			echo "<img src='".BILDER_PATH."ress_basis.png'> = Ressourcensammelbasis";
+			echo '<img src="'.BILDER_PATH.'ress_basis.png"> = Ressourcensammelbasis';
 			?>
 		</td>
 		<td>
 			<?php
-			echo "<img src='".BILDER_PATH."artefakt_basis.png'> = Artefaktsammelbasis";
+			echo '<img src="'.BILDER_PATH.'artefakt_basis.png"> = Artefaktsammelbasis';
 			?>
 		</td>
 		<td>
 			<?php
-			echo "<img src='".BILDER_PATH."kampf_basis.png'> = Kampfbasis";
+			echo '<img src="'.BILDER_PATH.'kampf_basis.png"> = Kampfbasis';
 			?>
 		</td>
 		<td>
 			<?php
-			echo "<img src='".BILDER_PATH."scann_schiff.png'> = Schiffscan";
+			echo '<img src="'.BILDER_PATH.'scann_schiff.png"> = Schiffscan';
 			?>
 		</td>
 		<td>
 			<?php
-			echo "<img src='".BILDER_PATH."scann_geb.png'> = Gebäudescan";
+			echo '<img src="'.BILDER_PATH.'scann_geb.png"> = Gebäudescan';
 			?>
 		</td>
 	</tr>

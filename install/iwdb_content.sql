@@ -354,23 +354,17 @@ INSERT INTO `prefix_merkmale` (`id`, `merkmal`) VALUES
 --
 
 INSERT INTO `prefix_params` (`name`, `value`, `text`) VALUES
+('version', '0.8', ''),
 ('gesperrt', '0', ''),
 ('aktuellnews', '0', ''),
 ('sound_login', '1', ''),
 ('sound_standard', '1', ''),
 ('bericht_fuer_sitter', '1', ''),
 ('bericht_fuer_rang', 'all', ''),
-('automatic_creds_order', 'true', ''),
-('automatic_creds_order_minvalue', '30000', ''),
-('automatic_creds_order_minpayout', '200000', ''),
-('version', '0.8', ''),
-('hour_eisen', '24', ''),
-('hour_stahl', '24', ''),
-('hour_vv4a', '24', ''),
-('hour_chemie', '24', ''),
-('hour_eis', '24', ''),
-('hour_wasser', '24', ''),
-('hour_energie', '24', '');
+('automatic_creds_order', 'false', ''),
+('automatic_creds_order_minvalue', '500000', ''),
+('automatic_creds_order_minpayout', '2000000', ''),
+('hour', '24', '');
 
 -- --------------------------------------------------------
 

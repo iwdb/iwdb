@@ -73,8 +73,8 @@ foreach ($users as $userx) {
             $tmp   = "--";
             $color = "white";
         } else {
-            $color = scanAge($row['lastshipscan']);
-
+            //$color = scanAge($row['lastshipscan']);
+			$color = getScanAgeColor($row['lastshipscan']);
             $tmp = strftime("(%d.%m.%y %H:%M:%S)", $row['lastshipscan']);
         }
         $lastscans[$userx] = $tmp;
@@ -97,7 +97,7 @@ echo makeField(
 );
 echo '</div><br>';
 
-$sql = "SELECT typ FROM " . $db_tb_schiffstyp . " GROUP BY typ ORDER BY typ asc";
+$sql = "SELECT `typ` FROM " . $db_tb_schiffstyp . " WHERE (`typ`!='Lebensformen') AND (`typ`!='admin') AND (`typ`!='alte Schiffe') GROUP BY typ ORDER BY typ asc";
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
@@ -121,18 +121,14 @@ while ($row = $db->db_fetch_array($result)) {
     echo "\n";
     echo " <tr>\n";
     echo "  <th valign='bottom' style='width:15%'>\n";
-    echo "   <a href='index.php?action=schiffe&ordered=asc'>" .
-        "<img src='".BILDER_PATH."asc.gif'></a>" .
-        "<br>Username<br>" .
-        "<a href='index.php?action=schiffe&ordered=desc'>" .
-        "<img src='".BILDER_PATH."desc.gif'></a>\n";
+    echo "<br>Username<br>\n";
     echo "  </th>\n";
 
     while ($row_schiffe = $db->db_fetch_array($result_schiffe)) {
         $schiffe[] = $row_schiffe['id'];
 
         echo "  <th class='center bottom'>\n";
-        echo "    <a href='index.php?action=schiffe&order={$row_schiffe['id']}&ordered=asc'><img src='".BILDER_PATH."asc.gif'></a><br>{$row_schiffe['abk']}<br><a href='index.php?action=schiffe&order={$row_schiffe['id']}&ordered=desc'><img src='".BILDER_PATH."desc.gif'></a>\n";
+        echo "    <br>{$row_schiffe['abk']}<br>\n";
         echo "  </th>\n";
     }
     echo " </tr>\n";

@@ -61,8 +61,7 @@ $modulstatus = "";
 //
 // -> Beschreibung des Moduls, wie es in der Menü-Übersicht angezeigt wird.
 //
-$moduldesc =
-    "Das Allianzstatistiken-modul, zeigt Statistiken aller bekannter Allianzen zusammen und einzeln im Detail an.";
+$moduldesc = "Das Allianzstatistiken-modul, zeigt Statistiken aller bekannter Allianzen zusammen und einzeln im Detail an.";
 
 //****************************************************************************
 //
@@ -84,15 +83,19 @@ function workInstallDatabase()
 
 function workInstallMenu()
 {
+    global $modulstatus;
 
-    global $modultitle, $modulstatus;
-
-    $menu    = getVar('menu');
-    $submenu = getVar('submenu');
-
+    $menu             = getVar('menu');
+    $submenu          = getVar('submenu');
+    $menuetitel       = "Allianz-Statistiken";
     $actionparameters = "";
-    insertMenuItem($menu, $submenu, $modultitle, $modulstatus, $actionparameters);
 
+    insertMenuItem($menu, $submenu, $menuetitel, $modulstatus, $actionparameters);
+    //
+    // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
+    //
+    // 	insertMenuItem( $menu+1, ($submenu+1), "Titel2", "hc", "&weissichnichtwas=1" );
+    //
 }
 
 //****************************************************************************
@@ -137,8 +140,8 @@ if (!empty($_REQUEST['was'])) {
         die('Hacking attempt...');
     }
 
-    echo "<div class='system_notification'>Installationsarbeiten am Modul " . $modulname .
-        " (" . $_REQUEST['was'] . ")</div>\n";
+    echo '<div class="system_notification">Installationsarbeiten am Modul ' . $modulname .
+        ' (' . $_REQUEST['was'] . ')</div>';
 
     require_once './includes/menu_fn.php';
 
@@ -148,13 +151,10 @@ if (!empty($_REQUEST['was'])) {
     return;
 }
 
-/* if (!@include("./config/".$modulname.".cfg.php")) {
-	die( "Error:<br \><b>Cannot load ".$modulname." - configuration!</b>");
-}
- */
 //****************************************************************************
 //
 // -> Und hier beginnt das eigentliche Modul
+
 global $db, $db_tb_allianzstatus, $db_tb_scans;
 global $config_map_default_galaxy, $config_map_galaxy_min, $config_map_galaxy_max;
 
@@ -252,7 +252,7 @@ while ($rowGal = $db->db_fetch_array($result)) {
 }
 
 if ($i === 0) {
-    doc_message('Die werden noch gemei&szlig;elt. :(');
+    doc_message('Die werden noch gemeißelt. :(');
 } else {
 
     foreach ($Allies as $key => $row) {
@@ -268,7 +268,8 @@ if ($i === 0) {
         $Sammelbasen[$key]      = $row['Sammelbasen'];
     }
 
-    doc_title("Allianz-Statistiken");
+    // Titelzeile
+	doc_title($modultitle);
 
     switch ($order) {
         case "Allianz":
@@ -341,212 +342,212 @@ if ($i === 0) {
     }
     array_multisort($firstsort, SORT_DESC, $secondsort, SORT_DESC, $Allies);
 
-    echo "<div class='doc_centered'>\n";
-    echo "<form name='frm'>\n";
+    echo '<div class=2doc_centered">';
+    echo '<form name="frm">';
 
-    echo "<input type='hidden' name='action' value='$modulname'>\n";
-    echo "<p>";
-    echo "Statistiken anzeigen für Gala <input type='text' name='galamin' value='$galamin' size='4'>&nbsp;\n";
-    echo "bis <input type='text' name='galamax' value='$galamax' size='4'>&nbsp;\n";
-    echo "</p>\n<p>";
-    echo "Hasiversumsliste von Ally <input type='text' name='gesamtmin' value='$gesamtmin' size='4'>&nbsp;\n";
-    echo "bis <input type='text' name='gesamtmax' value='$gesamtmax' size='4'>&nbsp;\n";
-    echo "</p>\n<p>";
+    echo '<input type="hidden" name="action" value="'.$modulname.'">';
+    echo '<p>';
+    echo 'Statistiken anzeigen für Gala <input type="text" name="galamin" value="'.$galamin.'" size="4">&nbsp;';
+    echo 'bis <input type="text" name="galamax" value="'.$galamax.'" size="4">&nbsp;';
+    echo '</p><p>';
+    echo 'Hasiversumsliste von Ally <input type="text" name="gesamtmin" value="'.$gesamtmin.'" size="4">&nbsp;';
+    echo 'bis <input type="text" name="gesamtmax" value="'.$gesamtmax.'" size="4">&nbsp;';
+    echo '</p><p>';
 
-    echo "1. Sortierung nach <select name='order' size=1>\n";
+    echo '1. Sortierung nach <select name="order" size="1">';
 
-    echo "<option value='Allianz'\n";
+    echo '<option value="Allianz"';
     if ($order == "Allianz") {
-        echo " selected='selected'";
+        echo ' selected="selected"';
     }
-    echo ">\n";
-    echo "Ally Tag";
+    echo '>';
+    echo 'Alli Tag';
 
-    echo "<option value='Spieler'";
+    echo '<option value="Spieler"';
     if ($order == "Spieler") {
-        echo " selected='selected'";
+        echo ' selected="selected"';
     }
-    echo ">\n";
-    echo "Spieler";
+    echo '>';
+    echo 'Spieler';
 
-    echo "<option value='Kolonien'";
+    echo '<option value="Kolonien"';
     if ($order == "Kolonien") {
-        echo " selected='selected'";
+        echo ' selected="selected"';
     }
-    echo ">\n";
-    echo "Kolonien";
+    echo '>';
+    echo 'Kolonien';
 
-    echo "<option value='KpS'";
+    echo '<option value="KpS"';
     if ($order == "KpS") {
-        echo " selected='selected'";
+        echo ' selected="selected"';
     }
-    echo ">\n";
-    echo "Kolonien/Spieler";
+    echo '>';
+    echo 'Kolonien/Spieler';
 
-    echo "<option value='Steinis'";
+    echo '<option value="Steinis"';
     if ($order == "Steinis") {
-        echo " selected='selected'";
+        echo ' selected="selected"';
     }
-    echo ">\n";
-    echo "Kolos auf Steinis";
+    echo '>';
+    echo 'Kolos auf Steinis';
 
-    echo "<option value='Astis'";
+    echo '<option value="Astis"';
     if ($order == "Astis") {
-        echo " selected='selected'";
+        echo ' selected="selected"';
     }
-    echo ">\n";
-    echo "Kolos auf Astis";
+    echo '>';
+    echo 'Kolos auf Astis';
 
-    echo "<option value='Gasis'";
+    echo '<option value="Gasis"';
     if ($order == "Gasis") {
-        echo " selected='selected'";
+        echo ' selected="selected"';
     }
-    echo ">\n";
-    echo "Kolos auf Gasis";
+    echo '>';
+    echo 'Kolos auf Gasis';
 
-    echo "<option value='Eisis'";
+    echo '<option value="Eisis"';
     if ($order == "Eisis") {
-        echo " selected='selected'";
+        echo ' selected="selected"';
     }
-    echo ">\n";
-    echo "Kolos auf Eisis";
+    echo '>';
+    echo 'Kolos auf Eisis';
 
-    echo "<option value='KBs'";
+    echo '<option value="KBs"';
     if ($order == "KBs") {
-        echo " selected='selected'";
+        echo ' selected="selected"';
     }
-    echo ">\n";
-    echo "Kampfbasen";
+    echo '>';
+    echo 'Kampfbasen';
 
-    echo "<option value='RBs'";
+    echo '<option value="RBs"';
     if ($order == "RBs") {
-        echo " selected='selected'";
+        echo ' selected="selected"';
     }
-    echo ">\n";
-    echo "Ressbasen";
-    echo "</select></p>\n<p>";
+    echo '>';
+    echo 'Ressbasen';
+    echo '</select></p><p>';
 
-    echo "2. Sortierung nach <select name='order2' size=1>\n";
+    echo '2. Sortierung nach <select name="order2" size="1">';
 
-    echo "<option value='Allianz'\n";
+    echo '<option value="Allianz"';
     if ($order2 == "Allianz") {
-        echo " selected='selected'";
+        echo ' selected="selected"';
     }
-    echo ">\n";
-    echo "Ally Tag";
+    echo '>';
+    echo 'Alli Tag';
 
-    echo "<option value='Spieler'";
+    echo '<option value="Spieler"';
     if ($order2 == "Spieler") {
-        echo " selected='selected'";
+        echo ' selected="selected"';
     }
-    echo ">\n";
-    echo "Spieler";
+    echo '>';
+    echo 'Spieler';
 
-    echo "<option value='Kolonien'";
+    echo '<option value="Kolonien"';
     if ($order2 == "Kolonien") {
-        echo " selected='selected'";
+        echo ' selected="selected"';
     }
-    echo ">\n";
-    echo "Kolonien";
+    echo '>';
+    echo 'Kolonien';
 
-    echo "<option value='KpS'";
+    echo '<option value="KpS"';
     if ($order2 == "KpS") {
-        echo " selected='selected'";
+        echo ' selected="selected"';
     }
-    echo ">\n";
-    echo "Kolonien/Spieler";
+    echo '>';
+    echo 'Kolonien/Spieler';
 
-    echo "<option value='Steinis'";
+    echo '<option value="Steinis"';
     if ($order2 == "Steinis") {
-        echo " selected='selected'";
+        echo ' selected="selected"';
     }
-    echo ">\n";
-    echo "Kolos auf Steinis";
+    echo '>';
+    echo 'Kolos auf Steinis';
 
-    echo "<option value='Astis'";
+    echo '<option value="Astis"';
     if ($order2 == "Astis") {
-        echo " selected='selected'";
+        echo ' selected="selected"';
     }
-    echo ">\n";
-    echo "Kolos auf Astis";
+    echo '>';
+    echo 'Kolos auf Astis';
 
-    echo "<option value='Gasis'";
+    echo '<option value="Gasis"';
     if ($order2 == "Gasis") {
-        echo " selected='selected'";
+        echo ' selected="selected"';
     }
-    echo ">\n";
-    echo "Kolos auf Gasis";
+    echo '>';
+    echo 'Kolos auf Gasis';
 
-    echo "<option value='Eisis'";
+    echo '<option value="Eisis"';
     if ($order2 == "Eisis") {
-        echo " selected='selected'";
+        echo ' selected="selected"';
     }
-    echo ">\n";
-    echo "Kolos auf Eisis";
+    echo '>';
+    echo 'Kolos auf Eisis';
 
-    echo "<option value='KBs'";
+    echo '<option value="KBs"';
     if ($order2 == "KBs") {
-        echo " selected='selected'";
+        echo ' selected="selected"';
     }
-    echo ">\n";
-    echo "Kampfbasen";
+    echo '>';
+    echo 'Kampfbasen';
 
-    echo "<option value='RBs'";
+    echo '<option value="RBs"';
     if ($order2 == "RBs") {
-        echo " selected='selected'";
+        echo ' selected="selected"';
     }
-    echo ">\n";
-    echo "Ressbasen";
-    echo "</select></p>\n<p>";
+    echo '>';
+    echo 'Ressbasen';
+    echo '</select></p><p>';
 
-    echo "<input type='submit' value='anzeigen'>";
-    echo "</p>\n<br \>";
-    echo "</form>";
-    echo "</div>";
+    echo '<input type="submit" value="anzeigen">';
+    echo '</p><br>';
+    echo '</form>';
+    echo '</div>';
 
     start_table();
     start_row("titlebg center", "style='width:95%' colspan='11'");
 
     if (($galamin == $config_map_galaxy_min) and ($galamax == $config_map_galaxy_max)) {
-        echo "  <b>Bekanntes Hasiversum</b>\n";
+        echo '  <b>Bekanntes Hasiversum</b>';
     } else if ($galamin == $galamax) {
-        echo "  <b>Galaxie " . $galamin . "</b>\n";
+        echo '  <b>Galaxie ' . $galamin . '</b>';
     } else {
-        echo "  <b>Galaxien " . $galamin . " bis " . $galamax . "</b>\n";
+        echo '  <b>Galaxien ' . $galamin . ' bis ' . $galamax . '</b>';
     }
 
     next_row("windowbg2 center", "style='width:5%'");
-    echo "<b>Rang</b>";
+    echo '<b>Rang</b>';
 
     next_cell("windowbg2 center", "style='width:10%'");
-    echo "<b>Allianz</b>";
+    echo '<b>Allianz</b>';
 
     next_cell("windowbg2 center", "style='width:8%'");
-    echo "<b>Spieler</b>";
+    echo '<b>Spieler</b>';
 
     next_cell("windowbg2 center", "style='width:8%'");
-    echo "<b>Kolonien</b>";
+    echo '<b>Kolonien</b>';
 
     next_cell("windowbg2 center", "style='width:8%'");
-    echo "<b>Kolonien&nbsp;/<br \>Spieler</b>";
+    echo '<b>Kolonien&nbsp;/<br>Spieler</b>';
 
     next_cell("windowbg2 center", "style='width:8%'");
-    echo "<b>Kolos&nbsp;auf<br \>Steinis</b>";
+    echo '<b>Kolos&nbsp;auf<br>Steinis</b>';
 
     next_cell("windowbg2 center", "style='width:8%'");
-    echo "<b>Kolos&nbsp;auf Astis&nbsp;&nbsp;&nbsp;</b>";
+    echo '<b>Kolos&nbsp;auf Astis&nbsp;&nbsp;&nbsp;</b>';
 
     next_cell("windowbg2 center", "style='width:8%'");
-    echo "<b>Kolos&nbsp;auf<br \>Gasis</b>";
+    echo '<b>Kolos&nbsp;auf<br>Gasis</b>';
 
     next_cell("windowbg2 center", "style='width:8%'");
-    echo "<b>Kolos&nbsp;auf<br \>Eisis&nbsp;&nbsp;</b>";
+    echo '<b>Kolos&nbsp;auf<br>Eisis&nbsp;&nbsp;</b>';
 
     next_cell("windowbg2 center", "style='width:8%'");
-    echo "<b>KB</b>";
+    echo '<b>KB</b>';
 
     next_cell("windowbg2 center", "style='width:8%'");
-    echo "<b>SB</b>";
+    echo '<b>SB</b>';
 
     $i = 0;
     foreach ($Allies as $ally => $Alliestats) {
@@ -577,7 +578,7 @@ if ($i === 0) {
                 next_row("windowbg2 center", "style='width:5%; $bgcolor'");
             }
 
-            echo "$i.";
+            echo ''.$i.'.';
 
             next_cell($style, "style='width:10%; $bgcolor'");
             echo $allylink;

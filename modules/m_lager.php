@@ -1508,13 +1508,19 @@ function lagersoll($name, $ressart, $gal, $sys, $plan, $prod, $soll, $lager) {
 		case '1':
 			$sql = $db->db_query("SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'hour_eisen';");
 			$row = $db->db_fetch_array($sql);
+			$h_bedarf_eisen=$row['value'];
 			$bedarf=0;
 			if ($prod<0) {
 				$bedarf=$row['value']*abs($prod);
 			}
+			if ($prod=='0') {
+				$sql = $db->db_query("SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'max_eisen';");
+				$row = $db->db_fetch_array($sql);
+				$bedarf=$row['value'];
+			}
 			$sql = $db->db_query("SELECT `bed_eisen` FROM `{$db_tb_scans}` WHERE `coords`='" . $gal . ":" . $sys . ":" . $plan . "';");
 			$row = $db->db_fetch_array($sql);
-			$soll = $bedarf + $row['bed_eisen'];
+			$soll = $bedarf + ($row['bed_eisen']/24*$h_bedarf_eisen);
 			$SQLdata = array (
 				'eisen_soll' => $soll
 			);
@@ -1525,13 +1531,14 @@ function lagersoll($name, $ressart, $gal, $sys, $plan, $prod, $soll, $lager) {
 		case '2':
 			$sql = $db->db_query("SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'hour_stahl';");
 			$row = $db->db_fetch_array($sql);
+			$h_bedarf_stahl=$row['value'];
 			$bedarf=0;
 			if ($prod<0) {
 				$bedarf=$row['value']*abs($prod);
 			}
 			$sql = $db->db_query("SELECT `bed_stahl` FROM `{$db_tb_scans}` WHERE `coords`='" . $gal . ":" . $sys . ":" . $plan . "';");
 			$row = $db->db_fetch_array($sql);
-			$soll = $bedarf + $row['bed_stahl'];
+			$soll = $bedarf + ($row['bed_stahl']/24*$h_bedarf_stahl);
 			$SQLdata = array (
 				'stahl_soll' => $soll
 			);
@@ -1542,13 +1549,14 @@ function lagersoll($name, $ressart, $gal, $sys, $plan, $prod, $soll, $lager) {
 		case '3':
 			$sql = $db->db_query("SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'hour_vv4a';");
 			$row = $db->db_fetch_array($sql);
+			$h_bedarf_vv4a=$row['value'];
 			$bedarf=0;
 			if ($prod<0) {
 				$bedarf=$row['value']*abs($prod);
 			}
 			$sql = $db->db_query("SELECT `bed_vv4a` FROM `{$db_tb_scans}` WHERE `coords`='" . $gal . ":" . $sys . ":" . $plan . "';");
 			$row = $db->db_fetch_array($sql);
-			$soll = $bedarf + $row['bed_vv4a'];
+			$soll = $bedarf + ($row['bed_vv4a']/24*$h_bedarf_vv4a);
 			$SQLdata = array (
 				'vv4a_soll' => $soll
 			);
@@ -1559,13 +1567,14 @@ function lagersoll($name, $ressart, $gal, $sys, $plan, $prod, $soll, $lager) {
 		case '4':
 			$sql = $db->db_query("SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'hour_chemie';");
 			$row = $db->db_fetch_array($sql);
+			$h_bedarf_chemie=$row['value'];
 			$bedarf=0;
 			if ($prod<0) {
 				$bedarf=$row['value']*abs($prod);
 			}
 			$sql = $db->db_query("SELECT `bed_chemie` FROM `{$db_tb_scans}` WHERE `coords`='" . $gal . ":" . $sys . ":" . $plan . "';");
 			$row = $db->db_fetch_array($sql);
-			$soll = $bedarf + $row['bed_chemie'];
+			$soll = $bedarf + ($row['bed_chemie']/24*$h_bedarf_chemie);
 			if ($soll>$lager) {
 				$soll=$lager;
 			}
@@ -1579,16 +1588,17 @@ function lagersoll($name, $ressart, $gal, $sys, $plan, $prod, $soll, $lager) {
 		case '5':
 			$sql = $db->db_query("SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'hour_eis';");
 			$row = $db->db_fetch_array($sql);
+			$h_bedarf_eis=$row['value'];
 			$bedarf=0;
 			if ($prod<0) {
 				$bedarf=$row['value']*abs($prod);
 			}
-			if ($prod=="0") {
+			if ($prod=='0') {
 				$bedarf=$lager/5;
 			}
 			$sql = $db->db_query("SELECT `bed_eis` FROM `{$db_tb_scans}` WHERE `coords`='" . $gal . ":" . $sys . ":" . $plan . "';");
 			$row = $db->db_fetch_array($sql);
-			$soll = $bedarf + $row['bed_eis'];
+			$soll = $bedarf + ($row['bed_eis']/24*$h_bedarf_eis);
 			if ($soll>$lager) {
 				$soll=$lager;
 			}
@@ -1602,16 +1612,17 @@ function lagersoll($name, $ressart, $gal, $sys, $plan, $prod, $soll, $lager) {
 		case '6':
 			$sql = $db->db_query("SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'hour_wasser';");
 			$row = $db->db_fetch_array($sql);
+			$h_bedarf_wasser=$row['value'];
 			$bedarf=0;
 			if ($prod<0) {
 				$bedarf=$row['value']*abs($prod);
 			}
-			if ($prod=="0") {
+			if ($prod=='0') {
 				$bedarf=$lager/5;
 			}
 			$sql = $db->db_query("SELECT `bed_wasser` FROM `{$db_tb_scans}` WHERE `coords`='" . $gal . ":" . $sys . ":" . $plan . "';");
 			$row = $db->db_fetch_array($sql);
-			$soll = $bedarf + $row['bed_wasser'];
+			$soll = $bedarf + ($row['bed_wasser']/24*$h_bedarf_wasser);
 			if ($soll>$lager) {
 				$soll=$lager;
 			}
@@ -1625,16 +1636,17 @@ function lagersoll($name, $ressart, $gal, $sys, $plan, $prod, $soll, $lager) {
 		case '7':
 			$sql = $db->db_query("SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'hour_energie';");
 			$row = $db->db_fetch_array($sql);
+			$h_bedarf_energie=$row['value'];
 			$bedarf=0;
 			if ($prod<0) {
 				$bedarf=$row['value']*abs($prod);
 			}
-			if ($prod=="0") {
+			if ($prod=='0') {
 				$bedarf=$lager/5;
 			}
 			$sql = $db->db_query("SELECT `bed_energie` FROM `{$db_tb_scans}` WHERE `coords`='" . $gal . ":" . $sys . ":" . $plan . "';");
 			$row = $db->db_fetch_array($sql);
-			$soll = $bedarf + $row['bed_energie'];
+			$soll = $bedarf + ($row['bed_energie']/24*$h_bedarf_energie);
 			if ($soll>$lager) {
 				$soll=$lager;
 			}

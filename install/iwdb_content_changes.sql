@@ -22,6 +22,12 @@ INSERT INTO `prefix_gebaeude` (`name`, `category`, `idcat`, `inactive`, `dauer`,
 --
 UPDATE `prefix_user` SET `planibilder`='1',`gebbilder`='1';
 
+--
+-- 17.06. : Einfügen der Stundenvorlage für Lagerbelegung
+--
+INSERT INTO `prefix_params` (`name` ,`value` ,`text`) VALUES
+('hour', '24', '');
+
 INSERT INTO `prefix_gebbaukosten` (`id`, `name`, `dauer`, `kosten_eisen`, `kosten_stahl`, `kosten_vv4a`, `kosten_chemie`, `kosten_eis`, `kosten_wasser`, `kosten_energie`, `kosten_bev`, `kosten_creds`) VALUES
 (1, 'Icecrusher V3b', 43200, 25000, 25000, 17500, 25000, 0, 0, 35000, 50, 0),
 (2, 'große Chemiefabrik', 28800, 750, 300, 0, 100, 0, 0, 300, 5, 0),
@@ -43,14 +49,3 @@ INSERT INTO `prefix_gebbaukosten` (`id`, `name`, `dauer`, `kosten_eisen`, `koste
 (18, 'großes VV4A-Walzwerk', 28800, 15000, 6000, 0, 2500, 0, 500, 5000, 200, 0);
 
 UPDATE `prefix_schiffstyp` SET `schiff`='bürokratischer Formularbomber', `abk`='Formularbomber' WHERE `prefix_schiffstyp`.`id_iw`='21';
-
-DELETE FROM `prefix_params` WHERE `name` = 'hour';
-
-INSERT INTO `prefix_params` (`name` ,`value` ,`text`) VALUES 
-	('hour_eisen', '36', ''),
-	('hour_stahl', '36', ''),
-	('hour_vv4a', '36', ''),
-	('hour_chemie', '36', ''),
-	('hour_eis', '36', ''),
-	('hour_wasser', '36', ''),
-	('hour_energie', '36', '');

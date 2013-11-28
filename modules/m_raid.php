@@ -174,7 +174,9 @@ $defaults = array(
     'scans'                => 'Alle',
     'no_noob'              => '1',
     'inaktiv'              => '',
-    'def_min'              => '',
+    'inaktiv_von'		   => '',
+	'inaktiv_bis'		   => '',
+	'def_min'              => '',
     'def_max'              => '',
     'scan_schiff_age_min'  => '',
     'scan_schiff_age_max'  => '',
@@ -632,6 +634,12 @@ if (empty($params['view'])) {
     echo "Inaktivität:<br>\n";
     next_cell("windowbg1");
     echo "seit <input type='text' name='inaktiv' style='width: 5em' maxlength='5'> Tagen <br>";
+	
+	next_row("windowbg2");
+    echo "Inaktivität (von ... bis):<br>\n";
+    next_cell("windowbg1");
+    echo "von <input type='text' name='inaktiv_von' style='width: 5em' maxlength='5'> ";
+    echo " bis <input type='text' name='inaktiv_bis' style='width: 5em' maxlength='5'> Tag(en) <br>";
 
     next_row("windowbg2");
     echo "Verteidigung:<br>\n";
@@ -888,6 +896,13 @@ if (empty($params['view'])) {
     if (!empty($params['inaktiv'])) {
         $time = CURRENT_UNIX_TIME - ($params['inaktiv']) * DAY;
         array_push($where, "(" . $db_tb_spieler . ".gebp_nodiff<" . $time . " AND " . $db_tb_spieler . ".gebp_nodiff IS NOT NULL)");
+    }
+	
+	// Inaktiv von bis
+    if ((!empty($params['inaktiv_von'])) AND (!empty($params['inaktiv_bis']))) {
+        $time1 = CURRENT_UNIX_TIME - ($params['inaktiv_von']) * DAY;
+		$time2 = CURRENT_UNIX_TIME - ($params['inaktiv_bis']) * DAY;
+        array_push($where, "(" . $db_tb_spieler . ".gebp_nodiff<" . $time1 . " AND " . $db_tb_spieler . ".gebp_nodiff>" . $time2 . " AND " . $db_tb_spieler . ".gebp_nodiff IS NOT NULL)" );
     }
 
     // Angriff

@@ -84,14 +84,18 @@ function workInstallDatabase()
 //
 function workInstallMenu()
 {
-    global $modultitle, $modulstatus, $_POST;
+    global $modulstatus;
 
+    $menu             = getVar('menu');
+    $submenu          = getVar('submenu');
+    $menuetitel       = "Forschungsübersicht";
     $actionparameters = "";
-    insertMenuItem($_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparameters);
+
+    insertMenuItem($menu, $submenu, $menuetitel, $modulstatus, $actionparameters);
     //
     // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
     //
-    // 	insertMenuItem( $_POST['menu'], ($_POST['submenu']+1), "Titel2", "hc", "&weissichnichtwas=1" );
+    // 	insertMenuItem( $menu+1, ($submenu+1), "Titel2", "hc", "&weissichnichtwas=1" );
     //
 }
 
@@ -161,22 +165,22 @@ $result_user_research = $db->db_query($sql)
 $data = array();
 
 ?>
-<table data-sortlist="[[2,0]]" class='tablesorter-blue'>
+<table data-sortlist="[[2,0]]" class="tablesorter-blue">
 	<thead>
-	<tr>
-		<th>
-			User
-		</th>
-		<th>
-			laufende Forschung
-		</th>
-		<th class="empty-top">
-			Forschung endet
-		</th>
-		<th>
-			Einlesezeitpunkt
-		</th>
-	</tr>
+		<tr>
+			<th>
+				User
+			</th>
+			<th>
+				laufende Forschung
+			</th>
+			<th class="empty-top">
+				Forschung endet
+			</th>
+			<th>
+				Einlesezeitpunkt
+			</th>
+		</tr>
 	</thead>
 	<tbody>
 	<?php
@@ -198,38 +202,38 @@ $data = array();
 			$color       = "#FF0000";
 		}
 	
-	?>
-	<tr>
-		<td style="background-color: <?php echo $color ?>">
-			<?php
-			echo "<a href='index.php?action=sitterlogins&sitterlogin=" . urlencode($row_user_research['user']) . "' target='_blank'><img src='" . BILDER_PATH . "user-login.gif' alt='L' title='Einloggen'>";
-			echo "&emsp;" . $row_user_research['user'];
-			?>
-		</td>
-		<td>
-			<?php
-			echo $row_research['name'];
-			?>
-		</td>
-		<td>
-			<?php
-			echo $row_user_research['date'];
-			?>
-		</td>
-		<td>
-			<?php
-			echo strftime(CONFIG_DATETIMEFORMAT, $row_user_research['time']);
-			?>
-		</td>
-	</tr>
+		?>
+		<tr>
+			<td style="background-color: <?php echo $color ?>">
+				<?php
+				echo '<a href="index.php?action=sitterlogins&sitterlogin=' . urlencode($row_user_research['user']) . '" target="_blank"><img src="' . BILDER_PATH . 'user-login.gif" alt="L" title="Einloggen">';
+				echo '&emsp;' . $row_user_research['user'];
+				?>
+			</td>
+			<td>
+				<?php
+				echo $row_research['name'];
+				?>
+			</td>
+			<td>
+				<?php
+				echo $row_user_research['date'];
+				?>
+			</td>
+			<td>
+				<?php
+				echo strftime(CONFIG_DATETIMEFORMAT, $row_user_research['time']);
+				?>
+			</td>
+		</tr>
 	<?php
 	}
 	?>
-</tbody>
+	</tbody>
 </table>
 <br>
 <br>
-<table class='table_format_noborder'>
+<table class="table_format_noborder">
 	<tr>
 		<td style="width: 3em; background-color: #00FF00;"></td>
 		<td>
@@ -259,9 +263,9 @@ doc_title('erforschte Forschungen eines Spielers anschauen');
 			$result = $db->db_query($sql)
 				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 			while ($row = mysql_fetch_object($result)) { 
-				echo "<option>"; 
+				echo '<option>'; 
 				echo $row->id; 
-				echo "</option>";  
+				echo '</option>';  
 			} 
 			?> 
 	</select>
@@ -273,14 +277,14 @@ doc_title('erforschte Forschungen eines Spielers anschauen');
 
 <?php
 if (isset($_POST['formSubmit']) ) {
-	echo "Bisher erforschte Forschungen von " . $_POST['spieler'] . " anschauen";
+	echo 'Bisher erforschte Forschungen von ' . $_POST['spieler'] . ' anschauen';
 	
 	$sql = "SELECT * FROM `{$db_tb_research2user}` WHERE `userid` = '" . $_POST['spieler'] . "'";
 	$result = $db->db_query($sql)
 		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 		
 	?>
-	<table class='tablesorter-blue' style='width:90%'>
+	<table data-sortlist="[[0,0]]"class="tablesorter-blue" style="width:90%">
 		<thead>
 			<tr>
 				<th>

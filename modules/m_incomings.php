@@ -196,33 +196,34 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 global $db, $db_prefix, $db_tb_incomings, $db_tb_user;
 
 // Titelzeile
-doc_title('Incomings');
-echo "Anzeige der laufenden Sondierungen und Angriffe auf uns";
-echo " 	 <br />\n";
-echo " 	 <br />\n";
+doc_title($modultitle);
+
+echo 'Anzeige der laufenden Sondierungen und Angriffe auf uns';
+echo ' 	 <br>';
+echo ' 	 <br>';
 
 ?>
-<div id='incomings_tabellen_container'></div>
-<table class='borderless'>
+<div id="incomings_tabellen_container"></div>
+<table class="borderless">
     <tr>
         <td>
             <?php
-            echo "<img src='" . BILDER_PATH . "kolo.png'> = Kolonie";
+            echo '<img src="' . BILDER_PATH . 'kolo.png"> = Kolonie';
             ?>
         </td>
         <td>
             <?php
-            echo "<img src='" . BILDER_PATH . "ress_basis.png'> = Ressourcensammelbasis";
+            echo '<img src="' . BILDER_PATH . 'ress_basis.png"> = Ressourcensammelbasis';
             ?>
         </td>
         <td>
             <?php
-            echo "<img src='" . BILDER_PATH . "artefakt_basis.png'> = Artefaktsammelbasis";
+            echo '<img src="' . BILDER_PATH . 'artefakt_basis.png"> = Artefaktsammelbasis';
             ?>
         </td>
         <td>
             <?php
-            echo "<img src='" . BILDER_PATH . "kampf_basis.png'> = Kampfbasis";
+            echo '<img src="' . BILDER_PATH . 'kampf_basis.png"> = Kampfbasis';
             ?>
         </td>
     </tr>

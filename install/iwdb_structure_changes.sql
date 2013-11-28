@@ -59,6 +59,8 @@ ALTER TABLE  `prefix_user` ADD `allow_ip_change` TINYINT( 1 ) UNSIGNED NOT NULL 
 -- 13.06.2013 masel : #213
 ALTER TABLE  `prefix_spieler` CHANGE  `dabeiseit`  `dabeiseit` INT( 10 ) UNSIGNED NULL DEFAULT NULL ;
 
+-- 18.06.2013 patsch : automatisches Setzen des Lagersollwertes im Profil ausschalten
+ALTER TABLE `prefix_user` ADD `autlager` TINYINT( 1 ) NOT NULL DEFAULT '1';
 
 DROP TABLE `prefix_schiffstyp`;
 CREATE TABLE IF NOT EXISTS `prefix_schiffstyp` (
@@ -129,15 +131,11 @@ CREATE TABLE IF NOT EXISTS `prefix_gebbaukosten` (
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Gebäudebaukosten einiger Gebäude für Ressbedarfsrechnung' AUTO_INCREMENT=21 ;
 
-ALTER TABLE `prefix_scans`
-	ADD `bed_eisen` INT( 10 ) unsigned NOT NULL DEFAULT '0',
-	ADD `bed_stahl` INT( 10 ) unsigned NOT NULL DEFAULT '0',
-	ADD `bed_vv4a` INT( 10 ) unsigned NOT NULL DEFAULT '0',
-	ADD `bed_chemie` INT( 10 ) unsigned NOT NULL DEFAULT '0',
-	ADD `bed_eis` INT( 10 ) unsigned NOT NULL DEFAULT '0',
-	ADD `bed_wasser` INT( 10 ) unsigned NOT NULL DEFAULT '0',
-	ADD `bed_energie` INT( 10 ) unsigned NOT NULL DEFAULT '0';
-
-ALTER TABLE `prefix_user`
-	DROP `autlager`,
-	DROP `dellager`;
+ALTER TABLE `prefix_scans` ADD `bed_eisen` int(10) unsigned NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_scans` ADD `bed_stahl` int(10) unsigned NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_scans` ADD `bed_vv4a` int(10) unsigned NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_scans` ADD `bed_chemie` int(10) unsigned NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_scans` ADD `bed_eis` int(10) unsigned NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_scans` ADD `bed_wasser` int(10) unsigned NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_scans` ADD `bed_energie` int(10) unsigned NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_scans` ADD `bed_bev` int(11) NOT NULL DEFAULT '0';

@@ -86,14 +86,18 @@ function workInstallDatabase()
 //
 function workInstallMenu()
 {
-    global $modultitle, $modulstatus, $_POST;
+    global $modulstatus;
 
-    $actionparamters = "";
-    insertMenuItem($_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparamters);
+    $menu             = getVar('menu');
+    $submenu          = getVar('submenu');
+    $menuetitel       = "Farbtabelle";
+    $actionparameters = "";
+
+    insertMenuItem($menu, $submenu, $menuetitel, $modulstatus, $actionparameters);
     //
     // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
     //
-    // 	insertMenuItem( $_POST['menu'], ($_POST['submenu']+1), "Titel2", "hc", "&weissichnichtwas=1" );
+    // 	insertMenuItem( $menu+1, ($submenu+1), "Titel2", "hc", "&weissichnichtwas=1" );
     //
 }
 
@@ -153,7 +157,8 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 //
 // -> Und hier beginnt das eigentliche Modul
 
-doc_title("Farbtabelle");
+// Titelzeile
+doc_title($modultitle);
 
 $limit = getVar('limit');
 if (empty($limit)) {
@@ -161,21 +166,21 @@ if (empty($limit)) {
 }
 
 
-echo "<div class='doc_big_black center'>Nachfolgend alle Farbcodes, " .
-    "die Ihr für die Ordnung Eurer Links<br>und Planis ingame verwenden " .
-    "könnt.</div>\n";
-echo "<br>\n";
-echo "Einfach kopieren und an der gewüschten Stelle z.B. bei der " .
-    "Benennung von Planetennamen einfügen, das wars!<br><br>\n";
+echo '<div class="doc_big_black center">Nachfolgend alle Farbcodes, ' .
+    'die Ihr für die Ordnung Eurer Links<br>und Planis ingame verwenden ' .
+    'könnt.</div>';
+echo '<br>';
+echo 'Einfach kopieren und an der gewüschten Stelle z.B. bei der ' .
+    'Benennung von Planetennamen einfügen, das wars!<br><br>';
 
 $clr = Array('00', '20', '40', '60', '80', 'a0', 'c0', 'ff');
 for ($i = 0; $i < 8; $i++) {
-    echo "<table border=1 cellpadding=8>";
+    echo '<table border=1 cellpadding=8>';
     for ($j = 0; $j < 8; $j++) {
-        echo "<tr>";
+        echo '<tr>';
         for ($k = 0; $k < 8; $k++) {
-            echo "<td bgcolor='#" . $clr[$i] . $clr[$j] . $clr[$k] . "'>";
-            echo "<tt><font color='#'" . $clr[(7 - $i)] . $clr[7 - $j] . $clr[7 - $k] . "'>#" . $clr[$i] . $clr[$j] . $clr[$k] . ' </font></tt></td>';
+            echo '<td bgcolor="#' . $clr[$i] . $clr[$j] . $clr[$k] . '">';
+            echo '<tt><font color="#"' . $clr[(7 - $i)] . $clr[7 - $j] . $clr[7 - $k] . '">#' . $clr[$i] . $clr[$j] . $clr[$k] . ' </font></tt></td>';
         }
         echo '</tr>';
     }

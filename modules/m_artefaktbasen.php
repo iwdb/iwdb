@@ -85,14 +85,18 @@ function workInstallDatabase()
 //
 function workInstallMenu()
 {
-    global $modultitle, $modulstatus, $_POST;
+    global $modulstatus;
 
+    $menu             = getVar('menu');
+    $submenu          = getVar('submenu');
+    $menuetitel       = "Artefaktbasen";
     $actionparameters = "";
-    insertMenuItem($_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparameters);
+
+    insertMenuItem($menu, $submenu, $menuetitel, $modulstatus, $actionparameters);
     //
     // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
     //
-    // 	insertMenuItem( $_POST['menu'], ($_POST['submenu']+1), "Titel2", "hc", "&weissichnichtwas=1" );
+    // 	insertMenuItem( $menu+1, ($submenu+1), "Titel2", "hc", "&weissichnichtwas=1" );
     //
 }
 
@@ -149,7 +153,8 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 
 //****************************************************************************
 
-doc_title('Artefaktbasen');
+// Titelzeile
+doc_title($modultitle);
 
 // aktuelle Spielerauswahl ermitteln
 $params['playerSelection'] = getVar('playerSelection');
@@ -173,6 +178,15 @@ $sql = "SELECT  $db_tb_user.id AS 'user',
 		  WHERE $db_tb_gebaeude_spieler.user=$db_tb_user.id
 		    AND $db_tb_gebaeude_spieler.building='Artefaktsammelbasencenter' HAVING MAX($db_tb_gebaeude_spieler.count)) AS 'count',
 		 
+		 (SELECT $db_tb_schiffe.anzahl
+		  FROM $db_tb_schiffe
+		  WHERE $db_tb_schiffe.user=$db_tb_user.id
+		    AND $db_tb_schiffe.schiff=159) AS 'numABalpha',
+		(SELECT $db_tb_schiffe.anzahl
+		  FROM $db_tb_schiffe
+		  WHERE $db_tb_schiffe.user=$db_tb_user.id
+		    AND $db_tb_schiffe.schiff=300) AS 'numABbeta',
+		 
 		 (SELECT COUNT($db_tb_scans.coords)
 		  FROM $db_tb_scans
 		  WHERE $db_tb_scans.user=$db_tb_user.id
@@ -183,8 +197,8 @@ $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query scans_historie information.', '', __FILE__, __LINE__, $sql);
 
 // Spielerauswahl Dropdown erstellen
-echo "<div class='playerSelectionbox'>";
-echo "Auswahl: ";
+echo '<div class="playerSelectionbox">';
+echo 'Auswahl: ';
 echo makeField(
     array(
          "type"   => 'select',
@@ -197,7 +211,7 @@ echo '</div><br>';
 
 ?>
 
-<table data-sortlist="[[0,0]]" class='tablesorter-blue'>
+<table data-sortlist="[[0,0]]" class="tablesorter-blue">
 	<thead>
 		<tr>
 			<th>
@@ -213,7 +227,12 @@ echo '</div><br>';
 				<b>Artefaktsammelbasencenter</b>
 			</th>
 			<th>
-				<b>Artefaktsammelbasis</b>
+				Artefaktsammelbasen<br>aufgestellt
+			</th>
+			<th>
+				<abbr title="AB Alpha / AB Beta">
+					Artefaktsammelbasen<br>im Acc
+				</abbr>
 			</th>
 		</tr>
 	</thead>
@@ -232,20 +251,20 @@ echo '</div><br>';
 			<td>
 				<?php
 				if (!empty($row['research']) OR (!empty($row['count']))) {
-                    echo "<span class='doc_green'>erforscht</span>";
+                    echo '<span class="doc_green">erforscht</span>';
 				} else {
-                    echo "<span class='doc_red'>nicht erforscht</span>";
+                    echo '<span class="doc_red">nicht erforscht</span>';
 				}
 				?>
 			</td>
 			<td>
 				<?php
 				if (!empty($row['count'])) {
-					echo "Stufe " . $row['count'];
+					echo 'Stufe ' . $row['count'];
 				} else if (!empty($row['research'])) {
-					echo "<span class='doc_red'>Keine</span>";
+					echo '<span class="doc_red">Keine</span>';
 				} else {
-					echo "<span class='doc_red'>-</span>";
+					echo '<span class="doc_red">-</span>';
 				}
 				?>
 			</td>
@@ -253,12 +272,38 @@ echo '</div><br>';
 				<?php
 				if (!empty($row['count'])) {
                     $abbrstring = $row['base'] . ' von ' . ($row['count']);
-                    echo $row['base'] . "/" . $row['count'];
+                    echo '<abbr title="'.$abbrstring.'">';
+					echo $row['base'] . '/' . $row['count'];
                     echo '</abbr>';
 				} else {
-					echo "--";
+					echo '--';
 				}
 				?>
+			</td>
+			<td>
+				<?php
+                $abbrstring = '';
+                if (!empty($row['numABalpha'])) {
+                    $numABalpha = $row['numABalpha'];
+                    $abbrstring .= $row['numABalpha'] . 'x AB Alpha, ';
+                } else {
+                    $numABalpha = 0;
+                }
+                if (!empty($row['numABbeta'])) {
+                    $numABbeta = $row['numABbeta'];
+                    $abbrstring .= $row['numABbeta'] . 'x AB Beta, ';
+                } else {
+                    $numABbeta = 0;
+                }
+                if (!empty($abbrstring)) {
+                    $abbrstring = substr($abbrstring, 0, -2) . ' = ' . ($numABalpha + $numABbeta) . ' gesamt';
+                } else {
+                    $abbrstring = 'keine';
+                }
+                echo '<abbr title="'.$abbrstring.'">';
+                echo $numABalpha . '/' . $numABbeta;
+                echo '</abbr>';
+                ?>
 			</td>
 		</tr>
 	

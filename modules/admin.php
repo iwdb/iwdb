@@ -35,7 +35,7 @@ if ($user_status != "admin" && $user_status != "hc") {
 //****************************************************************************
 
 if ($user_status == "admin") {
-    echo "<br>\n";
+    echo '<br>';
     start_table(0, 0, 0, 1);
     start_row("menutop center");
     action("admin&uaction=schiffstypen", "Schiffstypen");
@@ -53,7 +53,7 @@ if ($user_status == "admin") {
     action("admin&uaction=einstellungen", "Einstellungen");
     end_row();
     end_table();
-    echo "<br>\n";
+    echo '<br>';
 }
 
 $uaction = getVar('uaction');

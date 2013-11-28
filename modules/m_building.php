@@ -84,13 +84,14 @@ function workInstallDatabase()
 //
 function workInstallMenu()
 {
-    global $modultitle, $modulstatus;
+    global $modulstatus;
 
-    $menu    = getVar('menu');
-    $submenu = getVar('submenu');
+    $menu             = getVar('menu');
+    $submenu          = getVar('submenu');
+    $menuetitel       = "Gebäudeanzeige";
+    $actionparameters = "";
 
-    $actionparamters = "";
-    insertMenuItem($menu, $submenu, $modultitle, $modulstatus, $actionparamters);
+    insertMenuItem($menu, $submenu, $menuetitel, $modulstatus, $actionparameters);
     //
     // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
     //
@@ -158,7 +159,8 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 //
 // -> Und hier beginnt das eigentliche Modul
 
-doc_title('Gebäude');
+// Titelzeile
+doc_title($modultitle);
 
 global $db, $db_tb_gebaeude, $user_sitterlogin, $show_building, $db_tb_research2user, $db_tb_gebaeude2user;
 
@@ -271,7 +273,7 @@ if (empty($id)) {
         $img = '<img src="bilder/gebs/' . $rowB['bild'] . '.jpg" alt="">';
     }
     ?>
-    <table class='table_format' style='width: 60%;'>
+    <table class="table_format" style="width: 60%;">
     <tbody>
     <tr>
 
@@ -392,11 +394,11 @@ if (empty($id)) {
                         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
                     if ($db->db_num_rows($result) > 0) {
-                        $colorme_on   = " <span class='doc_green'> ";
+                        $colorme_on   = " <span class=\"doc_green\"> ";
                         $colorme_off  = "</span>";
                         $isresearched = true;
                     } else {
-                        $colorme_on   = "<span class='doc_black'>";
+                        $colorme_on   = "<span class=\"doc_black\">";
                         $colorme_off  = "</span>";
                         $isresearched = false;
                     }
@@ -412,7 +414,7 @@ if (empty($id)) {
 
                         echo '<img src="bilder/point.gif" alt="a point o.O">';
                         echo '&nbsp;';
-                        echo " <span class='doc_red'>" . $research . " </span>";
+                        echo ' <span class="doc_red">' . $research . ' </span>';
                         echo '<br>';
 
                     }
@@ -474,7 +476,7 @@ if (empty($id)) {
                         if (!empty($research)) {
                             echo '<img src="bilder/point.gif" alt="a point o.O">';
                             echo '&nbsp;';
-                            echo " <span class='doc_red'>" . $research . " </span>";
+                            echo ' <span class="doc_red">' . $research . ' </span>';
                             echo '<br>';
 
                         }
@@ -551,9 +553,10 @@ if (empty($id)) {
                 }
 
             }
-
-            ?></td>
+		?>
+		</td>
     </tr>
+	</tbody>
     </table>
 <?php
 }

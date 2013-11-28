@@ -40,36 +40,40 @@ include "./menustyles/doc_default.php";
 doc_title('Login');
 
 if (($login_ok === false) AND (!empty($login_id) AND (!empty($login_password)))) {
-    echo "<div class='system_warning'>Falscher Benutzername oder Passwort!</div><br>\n";
+    echo '<div class="system_warning">Falscher Benutzername oder Passwort!</div><br>';
 
     if ($wronglogins >= $config_wronglogins) {
-        echo "<div class='system_warning'>Du hast dich zu oft falsch eingeloggt! " .
-            "Einloggen für ist die nächsten " .
+        echo '<div class="system_warning">Du hast dich zu oft falsch eingeloggt! ' .
+            'Einloggen für ist die nächsten ' .
             round($config_wronglogin_timeout / HOUR) .
-            " Stunden gesperrt.<br>" .
-            "Daten wurden an den Admin übermittelt.</div><br>\n";
+            ' Stunden gesperrt.<br>' .
+            'Daten wurden an den Admin übermittelt.</div><br>';
     }
 }
 ?>
-<form method='POST' action='index.php?action=memberlogin2' enctype='multipart/form-data'>
-    <table class='table_format' style="margin: 0 auto;">
+<form method="POST" action="index.php?action=memberlogin2" enctype="multipart/form-data">
+    <table class="table_format" style="margin: 0 auto;">
         <tr>
-            <td class='windowbg2 tooltip' title='Dein IW-Name'>Username:&nbsp;</td>
-            <td class='windowbg1'><input style='width: 200px' type='text' name='login_id' autofocus='autofocus' required='required'></td>
+            <td class="windowbg2">
+				<abbr title="Dein IW Username">Username:&nbsp;</abbr>
+			</td>
+            <td class="windowbg1"><input style="width: 200px" type="text" name="login_id" autofocus="autofocus" required="required"></td>
         </tr>
         <tr>
-            <td class='windowbg2'>Passwort:&nbsp;</td>
-            <td class='windowbg1'><input style='width: 200px' type='password' name='login_password' required='required'></td>
+            <td class="windowbg2">Passwort:&nbsp;</td>
+            <td class="windowbg1"><input style="width: 200px" type="password" name="login_password" required="required"></td>
         </tr>
         <tr>
-            <td class='windowbg2'>Eingeloggt bleiben?</td>
-            <td class='windowbg1 center'><input type='checkbox' name='login_cookie' value='1'></td>
+            <td class="windowbg2">Eingeloggt bleiben?</td>
+            <td class="windowbg1 center"><input type="checkbox" name="login_cookie" value="1"></td>
         </tr>
         <tr>
-            <td class='titlebg center' colspan='2'><input type='submit' value='lass mich rein' name='B1' class='submit'></td>
+            <td class="titlebg center" colspan="2"><input type="submit" value="lass mich rein" name="B1" class="submit"></td>
         </tr>
     </table>
 </form>
-<a href='index.php?action=password' class='tooltip' title='wenn du eine Mailadresse in der DB hinterlegt hast, wird dir dein Passwort zugeschickt'>Passwort vergessen?</a>
+<a href="index.php?action=password">
+	<abbr title="wenn du eine Mailadresse in der DB hinterlegt hast, wird dir dein Passwort zugeschickt">Passwort vergessen?<abbr>
+</a>
 <br>
 <br>

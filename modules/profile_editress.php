@@ -80,12 +80,15 @@ if (!empty($sitterlogin)) {
 					<th data-sorter="false">
 						Bedarf Energie
 					</th>
+					<th data-sorter="false">
+						Bedarf Bevölkerung
+					</th>
 				</tr>
 			</thead>
 			<tbody>
 				<?php
 				// Ausgabe der Presets und Löschlink //
-				$sql = "SELECT `coords`, `planetenname`, `typ`, `bed_eisen`, `bed_stahl`, `bed_vv4a`, `bed_chemie`, `bed_eis`, `bed_wasser`, `bed_energie` FROM `{$db_tb_scans}` WHERE (`user` LIKE '" . $sitterlogin . "' AND `objekt` = 'Kolonie')";
+				$sql = "SELECT `coords`, `planetenname`, `typ`, `bed_eisen`, `bed_stahl`, `bed_vv4a`, `bed_chemie`, `bed_eis`, `bed_wasser`, `bed_energie`, `bed_bev` FROM `{$db_tb_scans}` WHERE (`user` LIKE '" . $sitterlogin . "' AND `objekt` = 'Kolonie')";
 	
 				$result = $db->db_query($sql)
 					or error(GENERAL_ERROR, 'Could not update planidata information.', '', __FILE__, __LINE__, $sql);
@@ -113,7 +116,10 @@ if (!empty($sitterlogin)) {
 						$temp         = $row['coords'] . '_bed_energie';
 						$coords_bed_energie = getVar($temp);
 						
-						$sql = "UPDATE `{$db_tb_scans}` SET `bed_eisen`='" . $coords_bed_eisen . "', `bed_stahl`='" . $coords_bed_stahl . "', `bed_vv4a`='" . $coords_bed_vv4a . "', `bed_chemie`='" . $coords_bed_chemie . "', `bed_eis`='" . $coords_bed_eis . "', `bed_wasser`='" . $coords_bed_wasser . "', `bed_energie`='" . $coords_bed_energie . "'  WHERE (`coords`='" . $row['coords'] . "' AND `user` LIKE '" . $sitterlogin . "')";
+						$temp         = $row['coords'] . '_bed_bev';
+						$coords_bed_bev = getVar($temp);
+						
+						$sql = "UPDATE `{$db_tb_scans}` SET `bed_eisen`='" . $coords_bed_eisen . "', `bed_stahl`='" . $coords_bed_stahl . "', `bed_vv4a`='" . $coords_bed_vv4a . "', `bed_chemie`='" . $coords_bed_chemie . "', `bed_eis`='" . $coords_bed_eis . "', `bed_wasser`='" . $coords_bed_wasser . "', `bed_energie`='" . $coords_bed_energie . "', `bed_bev`='" . $coords_bed_bev . "'  WHERE (`coords`='" . $row['coords'] . "' AND `user` LIKE '" . $sitterlogin . "')";
 						$result_planet = $db->db_query($sql)
 							or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 					}
@@ -149,6 +155,9 @@ if (!empty($sitterlogin)) {
 						<td class="windowbg1">
 							<input type="text" name="<?php echo $row['coords'];?>_bed_energie" value="<?php echo $row['bed_energie'];?>" style="width: 5em">
 						</td>
+						<td class="windowbg1">
+							<input type="text" name="<?php echo $row['coords'];?>_bed_bev" value="<?php echo $row['bed_bev'];?>" style="width: 5em">
+						</td>
 					</tr>
 					
 				<?php
@@ -157,7 +166,7 @@ if (!empty($sitterlogin)) {
 			</tbody>
 			<tfoot>
 				<tr>
-					<th colspan="10" class="titlebg center">
+					<th colspan="11" class="titlebg center">
 						<input type="hidden" name="sitterlogin" value="<?php echo $sitterlogin;?>">
 						<input type="submit" value="speichern" name="editplaneten">
 					</th>

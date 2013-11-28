@@ -85,14 +85,18 @@ function workInstallDatabase()
 //
 function workInstallMenu()
 {
-    global $modultitle, $modulstatus, $_POST;
+    global $modulstatus;
 
+    $menu             = getVar('menu');
+    $submenu          = getVar('submenu');
+    $menuetitel       = "Kampfbasen";
     $actionparameters = "";
-    insertMenuItem($_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparameters);
+
+    insertMenuItem($menu, $submenu, $menuetitel, $modulstatus, $actionparameters);
     //
     // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
     //
-    // 	insertMenuItem( $_POST['menu'], ($_POST['submenu']+1), "Titel2", "hc", "&weissichnichtwas=1" ); 
+    // 	insertMenuItem( $menu+1, ($submenu+1), "Titel2", "hc", "&weissichnichtwas=1" );
     //
 }
 
@@ -149,7 +153,8 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 
 //****************************************************************************
 
-doc_title('Kampfbasen');
+// Titelzeile
+doc_title($modultitle);
 
 // aktuelle Spielerauswahl ermitteln
 $params['playerSelection'] = getVar('playerSelection');
@@ -195,8 +200,8 @@ $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query scans_historie information.', '', __FILE__, __LINE__, $sql);
 
 // Spielerauswahl Dropdown erstellen
-echo "<div class='playerSelectionbox'>";
-echo "Auswahl: ";
+echo '<div class="playerSelectionbox">';
+echo 'Auswahl: ';
 echo makeField(
     array(
          "type"   => 'select',
@@ -208,7 +213,7 @@ echo makeField(
 echo '</div><br>';
 
 ?>
-<table data-sortlist="[[0,0]]" class='tablesorter-blue'>
+<table data-sortlist="[[0,0]]" class="tablesorter-blue">
 	<thead>
 		<tr>
 			<th>
@@ -227,9 +232,9 @@ echo '</div><br>';
 				KBs<br>aufgestellt
 			</th>
 			<th>
-              <div class='tooltip' title='KB Alpha / KB Beta / KB Gamma'>  
-				KBs<br>im Acc
-				</div>
+				<abbr title="KB Alpha / KB Beta / KB Gamma">  
+					KBs<br>im Acc
+				</abbr>
 			</th>
 			<th>
 				Diff Soll
@@ -251,28 +256,28 @@ echo '</div><br>';
 			<td>
 				<?php
 				if (!empty($row['research']) OR (!empty($row['count']))) {
-                    echo "<span class='doc_green'>erforscht</span>";
+                    echo '<span class="doc_green">erforscht</span>';
 				} else {
-                    echo "<span class='doc_red'>nicht erforscht</span>";
+                    echo '<span class="doc_red">nicht erforscht</span>';
 				}
 				?>
 			</td>
 			<td>
 				<?php
 				if (!empty($row['count'])) {
-					echo "Stufe " . $row['count'];
+					echo 'Stufe ' . $row['count'];
 				} else if (!empty($row['research'])) {
-					echo "<span class='doc_red'>Keine</span>";
+					echo '<span class="doc_red">Keine</span>';
 				} else {
-					echo "<span class='doc_red'>-</span>";
+					echo '<span class="doc_red">-</span>';
 				}
 				?>
 			</td>
 			<td>
 				<?php
                 $abbrstring = $row['base'] . ' von ' . ($row['count'] + 2);
-                echo "<abbr title='$abbrstring'>";
-                echo $row['base'] . "/" . ($row['count'] + 2);
+                echo '<abbr title="'.$abbrstring.'">';
+                echo $row['base'] . '/' . ($row['count'] + 2);
                 echo '</abbr>';
 				?>
 			</td>
@@ -298,11 +303,11 @@ echo '</div><br>';
                     $numKBgamma = 0;
                 }
                 if (!empty($abbrstring)) {
-                    $abbrstring = substr($abbrstring, 0, -2) . " = " . ($numKBalpha + $numKBbeta + $numKBgamma) . ' gesamt';
+                    $abbrstring = substr($abbrstring, 0, -2) . ' = ' . ($numKBalpha + $numKBbeta + $numKBgamma) . ' gesamt';
                 } else {
                     $abbrstring = 'keine';
                 }
-                echo "<abbr title='$abbrstring'>";
+                echo '<abbr title="'.$abbrstring.'">';
                 echo $numKBalpha . '/' . $numKBbeta . '/' . $numKBgamma;
                 echo '</abbr>';
                 ?>
@@ -311,7 +316,7 @@ echo '</div><br>';
 				<?php
                 $diffSoll = (($numKBalpha + $numKBbeta + $numKBgamma) + $row['base'] - ($row['count'] + 2));
                 if ($diffSoll < 0) {
-                    echo "<span class='doc_red'>$diffSoll</span>";
+                    echo '<span class="doc_red">'.$diffSoll.'</span>';
                 } else {
                     echo $diffSoll;
                 }

@@ -82,14 +82,18 @@ function workInstallDatabase()
 //
 function workInstallMenu()
 {
-    global $modultitle, $modulstatus, $_POST;
+    global $modulstatus;
 
-    $actionparamters = "";
-    insertMenuItem($_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparamters);
+    $menu             = getVar('menu');
+    $submenu          = getVar('submenu');
+    $menuetitel       = "Allianzwechsler";
+    $actionparameters = "";
+
+    insertMenuItem($menu, $submenu, $menuetitel, $modulstatus, $actionparameters);
     //
-    // Weitere Wiederholungen fuer weitere Menue-Eintraege, z.B.
+    // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
     //
-    // 	insertMenuItem( $_POST['menu'], ($_POST['submenu']+1), "Titel2", "hc", "&weissichnichtwas=1" );
+    // 	insertMenuItem( $menu+1, ($submenu+1), "Titel2", "hc", "&weissichnichtwas=1" );
     //
 }
 
@@ -143,8 +147,10 @@ if (!empty($_REQUEST['was'])) {
 //***************************hier gehts los***************************************
 global $db, $db_tb_spieler;
 
-doc_title("Allianzwechsler");
-echo "<div>Hier kann man sehen, welche Spieler in letzter Zeit die Ally gewechselt haben:</div><br>";
+// Titelzeile
+echo '<abbr title="Hier kann man sehen, welche Spieler in letzter Zeit die Allianz gewechselt haben">';
+doc_title($modultitle);
+echo '</abbr><br>';
 
 //Daten von
 $sql_updated = "SELECT MAX(`playerupdate_time`) AS updated FROM `{$db_tb_spieler}`;";
@@ -175,23 +181,23 @@ if (empty($playerdata)) {
 
         // Abfrage auswerten
         while ($row = $db->db_fetch_array($result)) {
-            echo "<tr>\n";
-            echo " <td>";
-            echo "  <a href='index.php?action=showgalaxy&amp;user=" . urlencode($row['name']) . "&amp;exact=1'>" . $row['name'] . "</a>";
-            echo " </td>\n";
-            echo " <td>";
-            echo "  <a href='index.php?action=m_allystats&allianz=" . $row['fromally'] . "'>" . $row['fromally'] . "</a>";
-            echo " </td>\n";
-            echo " <td>";
-            echo "  <a href='index.php?action=m_allystats&allianz=" . $row['toally'] . "'>" . $row['toally'] . "</a>";
-            echo " </td>\n";
-            echo " <td>";
+            echo '<tr>';
+            echo ' <td>';
+            echo '  <a href="index.php?action=showgalaxy&amp;user=' . urlencode($row['name']) . '&amp;exact=1">' . $row['name'] . '</a>';
+            echo ' </td>';
+            echo ' <td>';
+            echo '  <a href="index.php?action=m_allystats&allianz=' . $row['fromally'] . '">' . $row['fromally'] . '</a>';
+            echo ' </td>';
+            echo ' <td>';
+            echo '  <a href="index.php?action=m_allystats&allianz=' . $row['toally'] . '">' . $row['toally'] . '</a>';
+            echo ' </td>';
+            echo ' <td>';
             echo strftime(CONFIG_DATETIMEFORMAT, $row['time']);
-            echo " </td>\n";
-            echo "</tr>\n";
+            echo ' </td>';
+            echo '</tr>';
         }
         ?>
-	</tbody>
+		</tbody>
     </table>
 <?php
 }

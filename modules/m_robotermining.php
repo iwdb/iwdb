@@ -85,14 +85,18 @@ function workInstallDatabase()
 //
 function workInstallMenu()
 {
-    global $modultitle, $modulstatus, $_POST;
+    global $modulstatus;
 
+    $menu             = getVar('menu');
+    $submenu          = getVar('submenu');
+    $menuetitel       = "Robotermining";
     $actionparameters = "";
-    insertMenuItem($_POST['menu'], $_POST['submenu'], $modultitle, $modulstatus, $actionparameters);
+
+    insertMenuItem($menu, $submenu, $menuetitel, $modulstatus, $actionparameters);
     //
     // Weitere Wiederholungen für weitere Menü-Einträge, z.B.
     //
-    // 	insertMenuItem( $_POST['menu'], ($_POST['submenu']+1), "Titel2", "hc", "&weissichnichtwas=1" );
+    // 	insertMenuItem( $menu+1, ($submenu+1), "Titel2", "hc", "&weissichnichtwas=1" );
     //
 }
 
@@ -150,7 +154,7 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 //****************************************************************************
 
 // Titelzeile
-doc_title('Robotermining');
+doc_title($modultitle);
 
 // aktuelle Spielerauswahl ermitteln
 $params['playerSelection'] = getVar('playerSelection');
@@ -205,8 +209,8 @@ $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query scans_historie information.', '', __FILE__, __LINE__, $sql);
 
 // Spielerauswahl Dropdown erstellen
-echo "<div class='playerSelectionbox'>";
-echo "Auswahl: ";
+echo '<div class="playerSelectionbox">';
+echo 'Auswahl: ';
 echo makeField(
     array(
          "type"   => 'select',
@@ -218,37 +222,37 @@ echo makeField(
 echo '</div><br>';
 
 ?>
-<table data-sortlist="[[0,0]]" class='tablesorter-blue'>
+<table data-sortlist="[[0,0]]" class="tablesorter-blue">
     <thead>
-    <tr>
-        <th>
-            Spieler
-        </th>
-        <th>
-            Typ
-        </th>
-        <th>
-            Robotermining
-        </th>
-        <th>
-            Robominerzentrale<br>Stufe max
-        </th>
-        <th>
-            Sammelbasen<br>aufgestellt
-        </th>
-        <th>
-            Sammelbasen<br>im Acc
-        </th>
-        <th>
-            Eisen /h
-        </th>
-        <th>
-            Chemie /h
-        </th>
-        <th>
-            Eis /h
-        </th>
-    </tr>
+		<tr>
+			<th>
+				Spieler
+			</th>
+			<th>
+				Typ
+			</th>
+			<th>
+				Robotermining
+			</th>
+			<th>
+				Robominerzentrale<br>Stufe max
+			</th>
+			<th>
+				Sammelbasen<br>aufgestellt
+			</th>
+			<th>
+				Sammelbasen<br>im Acc
+			</th>
+			<th>
+				Eisen /h
+			</th>
+			<th>
+				Chemie /h
+			</th>
+			<th>
+				Eis /h
+			</th>
+		</tr>
     </thead>
     <tbody>
     <?php
@@ -264,83 +268,83 @@ echo '</div><br>';
             <td>
                 <?php
                 if (!empty($row['research'])) {
-                    echo "<span class='doc_green'>erforscht</span>";
+                    echo '<span class="doc_green">erforscht</span>';
                 } elseif (!empty($row['numRMZ'])) {
-                    echo "<span class='doc_green'>erforscht</span>";
+                    echo '<span class="doc_green">erforscht</span>';
                 } elseif (!empty($row['base'])) {
-                    echo "<span class='doc_green'>erforscht</span>";
+                    echo '<span class="doc_green">erforscht</span>';
                 } elseif (!empty($row['eisen']) OR !empty($row['chemie']) OR !empty($row['eis'])) {
-                    echo "<span class='doc_green'>erforscht</span>";
+                    echo '<span class="doc_green">erforscht</span>';
                 } else {
-                    echo "<span class='doc_red'>nicht erforscht</span>";
+                    echo '<span class="doc_red">nicht erforscht</span>';
                 }
                 ?>
             </td>
-            <td>
+            <td class="center">
                 <?php
                 if (!empty($row['numRMZ'])) {
                     if ($row['numRMZ'] < 3) {
-                        echo "<span class='doc_red'>" . $row['numRMZ'] . "</span>";
+                        echo '<span class="doc_red">' . $row['numRMZ'] . '</span>';
                     } else {
-                        echo "<span class='doc_green'>" . $row['numRMZ'] . "</span>";
+                        echo '<span class="doc_green">' . $row['numRMZ'] . '</span>';
                     }
                 } elseif (!empty($row['eisen']) OR !empty($row['chemie']) OR !empty($row['eis'])) {
-                    echo "<span class='doc_red'>?</span>";
+                    echo '<span class="doc_red">?</span>';
                 } else if (!empty($row['research'])) {
-                    echo "<span class='doc_red'>Keine</span>";
+                    echo '<span class="doc_red">Keine</span>';
                 } else {
-                    echo "<span class='doc_red'>-</span>";
+                    echo '<span class="doc_red">-</span>';
                 }
                 ?>
             </td>
-            <td>
+            <td class="center">
                 <?php
                 if (!empty($row['base'])) {
                     if ($row['base'] < 3) {
-                        echo "<span class='doc_red'>" . $row['base'] . "</span>";
+                        echo '<span class="doc_red">' . $row['base'] . '</span>';
                     } else {
-                        echo "<span class='doc_green'>" . $row['base'] . "</span>";
+                        echo '<span class="doc_green">' . $row['base'] . '</span>';
                     }
                 } elseif (!empty($row['eisen']) OR !empty($row['chemie']) OR !empty($row['eis'])) {
-                    echo "<span class='doc_red'>?</span>";
+                    echo '<span class="doc_red">?</span>';
                 } else {
-                    echo "<span class='doc_red'>-</span>";
+                    echo '<span class="doc_red">-</span>';
                 }
                 ?>
             </td>
-            <td>
+            <td class="center">
                 <?php
                 if (!empty($row['numRB'])) {
                     echo $row['numRB'];
                 } else {
-                    echo "<span class='doc_red'>-</span>";
+                    echo '<span class="doc_red">-</span>';
                 }
                 ?>
             </td>
-            <td>
+            <td class="right">
                 <?php
                 if (!empty($row['eisen'])) {
                     echo number_format($row['eisen'], 0, "", ".");
                 } else {
-                    echo "-";
+                    echo '-';
                 }
                 ?>
             </td>
-            <td>
+            <td class="right">
                 <?php
                 if (!empty($row['chemie'])) {
                     echo number_format($row['chemie'], 0, "", ".");
                 } else {
-                    echo "-";
+                    echo '-';
                 }
                 ?>
             </td>
-            <td>
+            <td class="right">
                 <?php
                 if (!empty($row['eis'])) {
                     echo number_format($row['eis'], 0, "", ".");
                 } else {
-                    echo "-";
+                    echo '-';
                 }
                 ?>
             </td>

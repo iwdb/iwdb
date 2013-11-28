@@ -257,10 +257,7 @@ jQuery(document).ready(function () {
             stickyHeaders: 'tablesorter-stickyHeader'
         },
         theme: 'blue'
-    });
-
-    //Tooltip
-	jQuery('.tooltip').tooltipster();
+    });	
 	
 	//Javascript Formulatvalidierung falls HTML5 Implementierung unvollständig
     jQuery('form').validatr();
@@ -288,22 +285,71 @@ jQuery(document).ready(function () {
         url: 'Bitte eine URL eingeben.'
     };
 
-    // Tooltip only Text
-    jQuery('.masterTooltip').hover(function () {
-        // Hover over code
-        var title = $(this).attr('title');
-        jQuery(this).data('tipText', title).removeAttr('title');
-        jQuery('<p class="tooltip"></p>')
-            .text(title)
-            .appendTo('body')
-            .fadeIn('slow');
-    },function () {
-        // Hover out code
-        jQuery(this).attr('title', $(this).data('tipText'));
-        jQuery('.tooltip').remove();
-    }).mousemove(function (e) {
-        var mousex = e.pageX + 20; //Get X coordinates
-        var mousey = e.pageY + 10; //Get Y coordinates
-        jQuery('.tooltip').css({ top: mousey, left: mousex });
-    });
+    //Tooltip
+	var targets = jQuery( 'abbr' ),
+        target  = false,
+        tooltip = false,
+        title   = false;
+ 
+	targets.bind( 'mouseenter', function() {
+		target  = jQuery( this );
+		tip     = target.attr( 'title' );
+		tooltip = jQuery( '<div id="tooltip"></div>' );
+	
+		if( !tip || tip == '' )
+			return false;
+	
+		target.removeAttr( 'title' );
+		tooltip.css( 'opacity', 0 )
+			.html( tip )
+			.appendTo( 'body' );
+	
+		var init_tooltip = function() {
+			if( jQuery( window ).width() < tooltip.outerWidth() * 1.5 )
+				tooltip.css( 'max-width', jQuery( window ).width() / 2 );
+			else
+				tooltip.css( 'max-width', 340 );
+	
+			var pos_left = target.offset().left + ( target.outerWidth() / 2 ) - ( tooltip.outerWidth() / 2 ),
+				pos_top  = target.offset().top - tooltip.outerHeight() - 20;
+	
+			if( pos_left < 0 ) {
+				pos_left = target.offset().left + target.outerWidth() / 2 - 20;
+				tooltip.addClass( 'left' );
+			}
+			else
+				tooltip.removeClass( 'left' );
+		
+			if( pos_left + tooltip.outerWidth() > jQuery( window ).width() ) {
+				pos_left = target.offset().left - tooltip.outerWidth() + target.outerWidth() / 2 + 20;
+				tooltip.addClass( 'right' );
+			}
+			else
+				tooltip.removeClass( 'right' );
+		
+			if( pos_top < 0 ) {
+				var pos_top  = target.offset().top + target.outerHeight();
+				tooltip.addClass( 'top' );
+			}
+			else
+				tooltip.removeClass( 'top' );
+		
+			tooltip.css( { left: pos_left, top: pos_top } )
+				.animate( { top: '+=10', opacity: 1 }, 50 );
+		};
+	
+		init_tooltip();
+		jQuery( window ).resize( init_tooltip );
+	
+		var remove_tooltip = function() {
+			tooltip.animate( { top: '-=10', opacity: 0 }, 50, function() {
+				jQuery( this ).remove();
+			});
+	
+			target.attr( 'title', tip );
+		};
+	
+		target.bind( 'mouseleave', remove_tooltip );
+		tooltip.bind( 'click', remove_tooltip );
+	});
 });

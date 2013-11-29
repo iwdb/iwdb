@@ -83,7 +83,9 @@ function parse_de_xml($return)
 /*****************************************************************************/
 function parse_sbxml($xmldata)
 {
-
+	
+	global $db, $db_tb_scans, $db_tb_scans_geb;
+	
     $xml = simplexml_load_file_ex($xmldata->strUrl);
     if (empty($xml)) {
         echo "<div class='system_error'>XML-Fehler: {$xmldata->strUrl} konnte nicht geladen werden</div>\n";
@@ -177,7 +179,17 @@ function parse_sbxml($xmldata)
     } else if ($scan_typ == 2) {
         $scan_data['gebscantime'] = (int)$xml->timestamp;
         if (isset($xml->gebaeude)) {
-            foreach ($xml->gebaeude->gebaeude as $gebaeude) {
+            
+			$sql_time="SELECT MIN(gs_time) AS time FROM `{db_tb_scans_geb}` WHERE `gs_koords`='".$scan_data['coords']."'";
+			$result = $db->db_query($sql_time);
+			$row_time = $db->db_fetch_array($sql_time);
+			if ($row_time['time']<$scan_data['time']) {
+				$sql_del="DELETE FROM `{$db_tb_scans_geb}` WHERE `gs_koords`='".$scan_data['coords']."'";
+				$result = $db->db_query($sql_del)
+					or error(GENERAL_ERROR, 'Could not delete gebscan information.', '', __FILE__, __LINE__, $sql_del);
+			}
+			
+			foreach ($xml->gebaeude->gebaeude as $gebaeude) {
                 if (!isset($scan_data['geb'])) {
                     $scan_data['geb'] = "<table class='scan_table'>\n";
                 }
@@ -188,12 +200,22 @@ function parse_sbxml($xmldata)
                 $scan_data['geb'] .= "\t<td class='scan_value'>\n";
                 $scan_data['geb'] .= (int)$gebaeude->anzahl;
                 $scan_data['geb'] .= "\n\t</td>\n</tr>\n";
+				
+				$SQLdata = array (
+					'gs_koords'	=> $scan_data['coords'],
+					'gs_gebid'	=> getGebIDByName((string)$gebaeude->name),
+					'gs_gebanz'	=> (int)$gebaeude->anzahl,
+					'gs_time'	=> $scan_data['time']
+				);
+				$result = $db->db_insert($db_tb_scans_geb, $SQLdata)
+					or error(GENERAL_ERROR, 'Could not insert gebscan.', '', __FILE__, __LINE__);
             }
         }
         if (isset($scan_data['geb'])) {
             $scan_data['geb'] .= "</table>\n";
             debug_var("scan_data['geb']", $scan_data['geb']);
         }
+				
         // Schiffe/Ress
     } else if ($scan_typ == 3) {
         $scan_data['schiffscantime'] = (int)$xml->timestamp;
@@ -308,7 +330,7 @@ function parse_sbxml($xmldata)
 
 function save_sbxml($scan_data)
 {
-    global $db, $db_tb_scans, $db_tb_user, $selectedusername;
+    global $db, $db_tb_scans, $db_tb_user, $selectedusername, $db_tb_scans_geb;
 
     $scan_coords = $scan_data['coords_gal'].':'.$scan_data['coords_sys'].':'.$scan_data['coords_planet'];
 
@@ -415,8 +437,8 @@ function save_sbxml($scan_data)
         $result_u = $db->db_query($sql1)
             or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql1);
     }
-
-    return $results;
+	
+	return $results;
 }
 
 function parse_kbxml($xmldata)

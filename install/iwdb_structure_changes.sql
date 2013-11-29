@@ -59,9 +59,6 @@ ALTER TABLE  `prefix_user` ADD `allow_ip_change` TINYINT( 1 ) UNSIGNED NOT NULL 
 -- 13.06.2013 masel : #213
 ALTER TABLE  `prefix_spieler` CHANGE  `dabeiseit`  `dabeiseit` INT( 10 ) UNSIGNED NULL DEFAULT NULL ;
 
--- 18.06.2013 patsch : automatisches Setzen des Lagersollwertes im Profil ausschalten
-ALTER TABLE `prefix_user` ADD `autlager` TINYINT( 1 ) NOT NULL DEFAULT '1';
-
 DROP TABLE `prefix_schiffstyp`;
 CREATE TABLE IF NOT EXISTS `prefix_schiffstyp` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -139,3 +136,14 @@ ALTER TABLE `prefix_scans` ADD `bed_eis` int(10) unsigned NOT NULL DEFAULT '0';
 ALTER TABLE `prefix_scans` ADD `bed_wasser` int(10) unsigned NOT NULL DEFAULT '0';
 ALTER TABLE `prefix_scans` ADD `bed_energie` int(10) unsigned NOT NULL DEFAULT '0';
 ALTER TABLE `prefix_scans` ADD `bed_bev` int(11) NOT NULL DEFAULT '0';
+
+ALTER TABLE `prefix_spieler` ADD `einmaurer` INT( 1 ) NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_spieler` ADD `gesperrt` INT( 1 ) NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_spieler` ADD `umode` INT( 1 ) NOT NULL DEFAULT '0';
+
+CREATE TABLE IF NOT EXISTS `prefix_scans_geb` (
+  `gs_koords` varchar(9) NOT NULL,
+  `gs_gebid` int(11) NOT NULL,
+  `gs_gebanz` int(11) NOT NULL,
+  `gs_time` int(10) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='DB-Gebäudescans' ;

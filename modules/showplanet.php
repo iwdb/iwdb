@@ -82,7 +82,8 @@ if (!empty($submitnotice)) {
 
     $data = array(
         'gesperrt' => getVar('gesperrt'),
-        'umode'    => getVar('umode')
+        'umode'    => getVar('umode'),
+		'einmaurer'=> getVar('einmaurer')
     );
     $result = $db->db_update($db_tb_spieler, $data, "WHERE `name`='" . $name . "'")
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
@@ -101,7 +102,7 @@ if (!empty($submitnotice)) {
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_name);
     $name = $result_name['user'];
 
-    $sql_spieler = "SELECT `gesperrt`, `umode` FROM `{$db_tb_spieler}` WHERE `name`='" . $name . "'";
+    $sql_spieler = "SELECT `gesperrt`, `umode`, `einmaurer` FROM `{$db_tb_spieler}` WHERE `name`='" . $name . "'";
     $result_spieler = $db->db_query($sql_spieler)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_spieler);
     $result_spieler = $db->db_fetch_array($result_spieler);
@@ -119,7 +120,7 @@ if (isset($config_allianzstatus[$row_allystatus['status']])) {
 }
 
 //Spielerstatus holen
-$sql_spieler = "SELECT `umode`, `gesperrt` FROM `{$db_tb_spieler}` WHERE `name`='" . $row_planie['user'] . "'";
+$sql_spieler = "SELECT `umode`, `gesperrt`, `einmaurer` FROM `{$db_tb_spieler}` WHERE `name`='" . $row_planie['user'] . "'";
 $result_spieler = $db->db_query($sql_spieler)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_spieler);
 $row_spieler = $db->db_fetch_array($result_spieler);
@@ -248,6 +249,26 @@ if ((($ansicht === "auto") && ($row_planie['objekt'] !== "---")) || ($ansicht ==
             ?>
         </td>
     </tr>
+	<tr>
+        <?php
+        if ($row_spieler['einmaurer']) {
+            $color = "#D2691E";
+        } else {
+            $color = "#FFFFFF";
+        }
+        ?>
+        <td class="windowbg2">Spieler ist Einmaurer :</td>
+        <td style="background-color:<?php echo $color; ?>">
+            <?php
+            if ($row_spieler['einmaurer']) {
+                echo "ja";
+            } else {
+                echo "nein";
+            }
+            ?>
+        </td>
+    </tr>
+		
 <?php
 }
 ?>
@@ -297,6 +318,17 @@ if ((($ansicht === "auto") && ($row_planie['objekt'] !== "---")) || ($ansicht ==
                         <?php
                         echo "<input type='checkbox' name='gesperrt' value='1'";
                         if ($row_spieler['gesperrt']) {
+                            echo ' checked="checked"';
+                        }
+                        echo "'>";
+                        ?>
+                    </td>
+                </tr>
+				<tr>
+                    <td>Einmaurer setzen :
+                        <?php
+                        echo "<input type='checkbox' name='einmaurer' value='1'";
+                        if ($row_spieler['einmaurer']) {
                             echo ' checked="checked"';
                         }
                         echo "'>";

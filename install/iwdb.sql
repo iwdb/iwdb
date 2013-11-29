@@ -1311,6 +1311,9 @@ CREATE TABLE IF NOT EXISTS `prefix_spieler` (
   `gebp_nodiff` int(12) NOT NULL DEFAULT '0',
   `fp_nodiff` int(12) NOT NULL DEFAULT '0',
   `time` int(12) NOT NULL DEFAULT '0',
+  `umode` tinyint(1) NOT NULL DEFAULT '0',
+  `gesperrt` int(1) NOT NULL DEFAULT '0',
+  `einmaurer` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`name`),
   KEY `allychange_time` (`allychange_time`),
   KEY `Hauptplanet` (`Hauptplanet`)
@@ -1371,6 +1374,19 @@ CREATE TABLE IF NOT EXISTS `prefix_gebbaukosten` (
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Gebäudebaukosten einiger Gebäude für Ressbedarfsrechnung' AUTO_INCREMENT=1 ;
 
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `prefix_scans_geb`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_scans_geb` (
+  `gs_koords` varchar(9) NOT NULL,
+  `gs_gebid` int(11) NOT NULL,
+  `gs_gebanz` int(11) NOT NULL,
+  `gs_time` int(10) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='DB-Gebäudescans' ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

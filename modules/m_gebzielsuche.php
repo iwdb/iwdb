@@ -238,12 +238,22 @@ $result = $db->db_query($sql);
 				</td>
 				<td>
 					<?php
-					$sql_einmaurer = "SELECT `einmaurer` FROM `{$db_tb_spieler}` WHERE `name`='".$row['user']."'";
+					$sql_einmaurer = "SELECT `einmaurer`, `staatsform` FROM `{$db_tb_spieler}` WHERE `name`='".$row['user']."'";
 					$result_einmaurer = $db->db_query($sql_einmaurer);
 					$row_einmaurer = $db->db_fetch_array($result_einmaurer);
 					echo $row['user'];
-					if ($row_einmaurer['einmaurer']=='1')
+					if ($row_einmaurer['einmaurer']=='1') {
+						?>
+						<abbr title="Einmaurer">
+						<?php
 						echo '  <img src="'.BILDER_PATH.'icon_einmaurer.png">';
+					}
+					if ($row_einmaurer['staatsform']=='Kommunist') {
+						?>
+						<abbr title="Kommunist">
+						<?php
+						echo '  <img src="'.BILDER_PATH.'icon_fleeter.png">';
+					}
 					?>
 				</td>
 				<td>

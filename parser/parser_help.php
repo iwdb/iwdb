@@ -494,3 +494,21 @@ function getObjectPictureByCoords($coords)
 
     return $objectPicture;
 }
+
+function getGebIDByName($gebname) {
+    global $db, $db_tb_gebaeude;
+
+    if (empty($gebname)) {
+        return '';
+    }
+
+	$gebname = $db->escape($gebname);
+	$gebname = str_replace("&","&amp;",$gebname);
+	
+    $sql = "SELECT `id_iw` FROM `{$db_tb_gebaeude}` WHERE `name` = '$gebname';";
+    $result = $db->db_query($sql)
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $row = $db->db_fetch_array($result);
+	
+    return $row['id_iw'];
+}

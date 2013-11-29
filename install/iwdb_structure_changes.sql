@@ -142,8 +142,8 @@ ALTER TABLE `prefix_spieler` ADD `gesperrt` INT( 1 ) NOT NULL DEFAULT '0';
 ALTER TABLE `prefix_spieler` ADD `umode` INT( 1 ) NOT NULL DEFAULT '0';
 
 CREATE TABLE IF NOT EXISTS `prefix_scans_geb` (
-  `gs_koords` varchar(9) NOT NULL,
-  `gs_gebid` int(11) NOT NULL,
-  `gs_gebanz` int(11) NOT NULL,
-  `gs_time` int(10) NOT NULL
+  `coords` varchar(9) NOT NULL,
+  `geb_id` int(11) NOT NULL,
+  `geb_anz` int(11) NOT NULL,
+  `time` int(10) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='DB-Gebäudescans' ;

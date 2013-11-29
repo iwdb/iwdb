@@ -258,65 +258,65 @@ $result = $db->db_query($sql);
 				</td>
 				<td>
 					<?php
-						$sql_geb1 = "SELECT `gs_gebanz` FROM `{$db_tb_scans_geb}` WHERE (`gs_koords`='".$row['coords']."' AND `gs_gebid`='143')";
+						$sql_geb1 = "SELECT `geb_anz` FROM `{$db_tb_scans_geb}` WHERE (`coords`='".$row['coords']."' AND `geb_id`='143')";
 						$result_geb1 = $db->db_query($sql_geb1)
 							or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_geb1);
 						$row_geb1 = $db->db_fetch_array($result_geb1);
-						echo $row_geb1['gs_gebanz'];
+						echo $row_geb1['geb_anz'];
 					?>
 				</td>
 				<td>
 					<?php
-						$sql_geb2 = "SELECT `gs_gebanz` FROM `{$db_tb_scans_geb}` WHERE (`gs_koords`='".$row['coords']."' AND `gs_gebid`='117')";
+						$sql_geb2 = "SELECT `geb_anz` FROM `{$db_tb_scans_geb}` WHERE (`coords`='".$row['coords']."' AND `geb_id`='117')";
 						$result_geb2 = $db->db_query($sql_geb2)
 							or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_geb2);
 						$row_geb2 = $db->db_fetch_array($result_geb2);
-						echo $row_geb2['gs_gebanz'];
+						echo $row_geb2['geb_anz'];
 					?>
 				</td>
 				<td>
 					<?php
-						$sql_geb3 = "SELECT `gs_gebanz` FROM `{$db_tb_scans_geb}` WHERE (`gs_koords`='".$row['coords']."' AND `gs_gebid`='145')";
+						$sql_geb3 = "SELECT `geb_anz` FROM `{$db_tb_scans_geb}` WHERE (`coords`='".$row['coords']."' AND `geb_id`='145')";
 						$result_geb3 = $db->db_query($sql_geb3)
 							or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_geb3);
 						$row_geb3 = $db->db_fetch_array($result_geb3);
-						echo $row_geb3['gs_gebanz'];
+						echo $row_geb3['geb_anz'];
 					?>
 				</td>
 				<td>
 					<?php
-						$sql_geb4 = "SELECT `gs_gebanz` FROM `{$db_tb_scans_geb}` WHERE (`gs_koords`='".$row['coords']."' AND `gs_gebid`='144')";
+						$sql_geb4 = "SELECT `geb_anz` FROM `{$db_tb_scans_geb}` WHERE (`coords`='".$row['coords']."' AND `geb_id`='144')";
 						$result_geb4 = $db->db_query($sql_geb4)
 							or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_geb4);
 						$row_geb4 = $db->db_fetch_array($result_geb4);
-						echo $row_geb4['gs_gebanz'];
+						echo $row_geb4['geb_anz'];
 					?>
 				</td>
 				<td>
 					<?php
-						$sql_geb5 = "SELECT `gs_gebanz` FROM `{$db_tb_scans_geb}` WHERE (`gs_koords`='".$row['coords']."' AND `gs_gebid`='162')";
+						$sql_geb5 = "SELECT `geb_anz` FROM `{$db_tb_scans_geb}` WHERE (`coords`='".$row['coords']."' AND `geb_id`='162')";
 						$result_geb5 = $db->db_query($sql_geb5)
 							or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_geb5);
 						$row_geb5 = $db->db_fetch_array($result_geb5);
-						echo $row_geb5['gs_gebanz'];
+						echo $row_geb5['geb_anz'];
 					?>
 				</td>
 				<td>
 					<?php
-						$sql_geb6 = "SELECT `gs_gebanz` FROM `{$db_tb_scans_geb}` WHERE (`gs_koords`='".$row['coords']."' AND `gs_gebid`='148')";
+						$sql_geb6 = "SELECT `geb_anz` FROM `{$db_tb_scans_geb}` WHERE (`coords`='".$row['coords']."' AND `geb_id`='148')";
 						$result_geb6 = $db->db_query($sql_geb6)
 							or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_geb6);
 						$row_geb6 = $db->db_fetch_array($result_geb6);
-						echo $row_geb6['gs_gebanz'];
+						echo $row_geb6['geb_anz'];
 					?>
 				</td>
 				<td>
 					<?php
-						$sql_geb7 = "SELECT `gs_gebanz` FROM `{$db_tb_scans_geb}` WHERE (`gs_koords`='".$row['coords']."' AND `gs_gebid`='146')";
+						$sql_geb7 = "SELECT `geb_anz` FROM `{$db_tb_scans_geb}` WHERE (`coords`='".$row['coords']."' AND `geb_id`='146')";
 						$result_geb7 = $db->db_query($sql_geb7)
 							or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_geb7);
 						$row_geb7 = $db->db_fetch_array($result_geb7);
-						echo $row_geb7['gs_gebanz'];
+						echo $row_geb7['geb_anz'];
 					?>
 				</td>
 			</tr>

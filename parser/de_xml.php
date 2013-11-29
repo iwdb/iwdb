@@ -181,8 +181,8 @@ function parse_sbxml($xmldata)
         if (isset($xml->gebaeude)) {
             
 			$sql_time="SELECT MIN(gs_time) AS time FROM `{db_tb_scans_geb}` WHERE `gs_koords`='".$scan_data['coords']."'";
-			$result = $db->db_query($sql_time);
-			$row_time = $db->db_fetch_array($sql_time);
+			$result_time = $db->db_query($sql_time);
+			$row_time = $db->db_fetch_array($result_time);
 			if ($row_time['time']<$scan_data['time']) {
 				$sql_del="DELETE FROM `{$db_tb_scans_geb}` WHERE `gs_koords`='".$scan_data['coords']."'";
 				$result = $db->db_query($sql_del)
@@ -202,10 +202,10 @@ function parse_sbxml($xmldata)
                 $scan_data['geb'] .= "\n\t</td>\n</tr>\n";
 				
 				$SQLdata = array (
-					'gs_koords'	=> $scan_data['coords'],
-					'gs_gebid'	=> getGebIDByName((string)$gebaeude->name),
-					'gs_gebanz'	=> (int)$gebaeude->anzahl,
-					'gs_time'	=> $scan_data['time']
+					'coords'	=> $scan_data['coords'],
+					'geb_id'	=> getGebIDByName((string)$gebaeude->name),
+					'geb_anz'	=> (int)$gebaeude->anzahl,
+					'time'	=> $scan_data['time']
 				);
 				$result = $db->db_insert($db_tb_scans_geb, $SQLdata)
 					or error(GENERAL_ERROR, 'Could not insert gebscan.', '', __FILE__, __LINE__);

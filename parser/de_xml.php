@@ -180,11 +180,11 @@ function parse_sbxml($xmldata)
         $scan_data['gebscantime'] = (int)$xml->timestamp;
         if (isset($xml->gebaeude)) {
             
-			$sql_time="SELECT MIN(gs_time) AS time FROM `{db_tb_scans_geb}` WHERE `gs_koords`='".$scan_data['coords']."'";
+			$sql_time="SELECT MIN(time) AS time FROM `{db_tb_scans_geb}` WHERE `coords`='".$scan_data['coords']."'";
 			$result_time = $db->db_query($sql_time);
 			$row_time = $db->db_fetch_array($result_time);
 			if ($row_time['time']<$scan_data['time']) {
-				$sql_del="DELETE FROM `{$db_tb_scans_geb}` WHERE `gs_koords`='".$scan_data['coords']."'";
+				$sql_del="DELETE FROM `{$db_tb_scans_geb}` WHERE `coords`='".$scan_data['coords']."'";
 				$result = $db->db_query($sql_del)
 					or error(GENERAL_ERROR, 'Could not delete gebscan information.', '', __FILE__, __LINE__, $sql_del);
 			}

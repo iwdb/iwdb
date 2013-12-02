@@ -61,7 +61,7 @@ $config_allytitle = "IWDB";
 $config_allytag = "IW-Ally";
 
 // Aktuelle Spielversion (wird auch für den Techtree benötigt).
-$config_gameversion = "XII";
+$config_gameversion = "666";
 
 // Default Galaxy
 $config_map_default_galaxy = 10;
@@ -70,13 +70,13 @@ $config_map_default_galaxy = 10;
 $config_map_galaxy_min = 1;
 
 // hinterste Gala
-$config_map_galaxy_max = 20;
+$config_map_galaxy_max = 12;
 
 // vorderstes System
 $config_map_system_min = 1;
 
 // hinterstes System
-$config_map_system_max = 150;
+$config_map_system_max = 125;
 
 // Spaltenanzahl der Karte
 $config_map_cols = 20;

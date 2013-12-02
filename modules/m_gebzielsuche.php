@@ -63,7 +63,7 @@ $modulstatus = "";
 
 //****************************************************************************
 //
-// -> Beschreibung des Moduls, wie es in der Menue-Uebersicht angezeigt wird.
+// -> Beschreibung des Moduls, wie es in der Menü-Übersicht angezeigt wird.
 //
 $moduldesc = "Zeigt kriegsrelevante Gebäude des Gegners an";
 
@@ -243,15 +243,11 @@ $result = $db->db_query($sql);
 					$row_einmaurer = $db->db_fetch_array($result_einmaurer);
 					echo $row['user'];
 					if ($row_einmaurer['einmaurer']=='1') {
-						?>
-						<abbr title="Einmaurer">
-						<?php
+                        echo '<abbr title="Einmaurer">';
 						echo '  <img src="'.BILDER_PATH.'icon_einmaurer.png">';
 					}
 					if ($row_einmaurer['staatsform']=='Kommunist') {
-						?>
-						<abbr title="Kommunist">
-						<?php
+                        echo '<abbr title="Kommunist">';
 						echo '  <img src="'.BILDER_PATH.'icon_fleeter.png">';
 					}
 					?>

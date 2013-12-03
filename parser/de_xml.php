@@ -106,11 +106,10 @@ function parse_sbxml($xmldata)
     //Allianz ggf. aktualisieren
     $scan_data['allianz'] = updateUserAlliance($scan_data['user'], $scan_data['allianz'], $scan_data['time']);
 
-    $scan_typ = (string)$xml->scann_typ->id;
+    $scan_typ = (int)$xml->scann_typ->id;
 
     // Geo
-    if ($scan_typ == 1) {
-        debug_var("scan_data['geoscantime']", $scan_data['time']);
+    if ($scan_typ === 1) {
         $scan_data['geoscantime'] = (int)$xml->timestamp;
         $scan_data['geolink'] = $xmldata->strUrl;
 		$ressourcen               = $xml->plani_data->ressourcen_vorkommen->ressource;
@@ -172,55 +171,53 @@ function parse_sbxml($xmldata)
                 $scan_data['nebula'] = (string)$besonderheit->name;
             }
         }
-        debug_var("scan_data['besonderheiten']", $scan_data['besonderheiten']);
 
         $scan_data['reset_timestamp'] = (int)$xml->plani_data->reset_timestamp;
-        // Gebäude/Ress
-    } else if ($scan_typ == 2) {
+
+    // Gebäude/Ress
+    } else if ($scan_typ === 2) {
         $scan_data['gebscantime'] = (int)$xml->timestamp;
-		$scan_data['geblink'] = $xmldata->strUrl;
+        $scan_data['geblink'] = $xmldata->strUrl;
+
         if (isset($xml->gebaeude)) {
             
-			$sql_time="SELECT MIN(time) AS time FROM `{db_tb_scans_geb}` WHERE `coords`='".$scan_data['coords']."'";
-			$result_time = $db->db_query($sql_time);
-			$row_time = $db->db_fetch_array($result_time);
-			if ($row_time['time']<$scan_data['time']) {
-				$sql_del="DELETE FROM `{$db_tb_scans_geb}` WHERE `coords`='".$scan_data['coords']."'";
-				$result = $db->db_query($sql_del)
-					or error(GENERAL_ERROR, 'Could not delete gebscan information.', '', __FILE__, __LINE__, $sql_del);
-			}
-			
+            $scan_data['geb'] = array();
 			foreach ($xml->gebaeude->gebaeude as $gebaeude) {
+                $gebaeude->name = htmlspecialchars((string)$gebaeude->name, ENT_QUOTES, 'UTF-8');
+                $gebaeude->anzahl = (int)$gebaeude->anzahl;
+
                 if (!isset($scan_data['geb'])) {
                     $scan_data['geb'] = "<table class='scan_table'>\n";
                 }
                 $scan_data['geb'] .= "<tr class='scan_row'>\n";
                 $scan_data['geb'] .= "\t<td class='scan_object'>\n";
-                $scan_data['geb'] .= (string)$gebaeude->name;
+                $scan_data['geb'] .= $gebaeude->name;
                 $scan_data['geb'] .= "\n\t</td>\n";
                 $scan_data['geb'] .= "\t<td class='scan_value'>\n";
-                $scan_data['geb'] .= (int)$gebaeude->anzahl;
+                $scan_data['geb'] .= $gebaeude->anzahl;
                 $scan_data['geb'] .= "\n\t</td>\n</tr>\n";
-				
-				$SQLdata = array (
-					'coords'	=> $scan_data['coords'],
-					'geb_id'	=> getGebIDByName((string)$gebaeude->name),
-					'geb_anz'	=> (int)$gebaeude->anzahl,
-					'time'	=> $scan_data['time']
-				);
-				$result = $db->db_insert($db_tb_scans_geb, $SQLdata)
-					or error(GENERAL_ERROR, 'Could not insert gebscan.', '', __FILE__, __LINE__);
+
+                $geb_id_iw = getBuildingIWIdByName($gebaeude->name, true);
+                if (!empty($geb_id_iw)) {
+                    $scan_data['buildings'][] = array(
+                        'coords'  => $scan_data['coords'],
+                        'geb_id'  => $geb_id_iw,
+                        'geb_anz' => $gebaeude->anzahl,
+                        'time'    => $scan_data['gebscantime']
+                    );
+                }
+            }
+
+            if (isset($scan_data['geb'])) {
+                $scan_data['geb'] .= "</table>\n";
             }
         }
-        if (isset($scan_data['geb'])) {
-            $scan_data['geb'] .= "</table>\n";
-            debug_var("scan_data['geb']", $scan_data['geb']);
-        }
-				
-        // Schiffe/Ress
-    } else if ($scan_typ == 3) {
+
+    // Schiffe/Ress
+    } else if ($scan_typ === 3) {
         $scan_data['schiffscantime'] = (int)$xml->timestamp;
-		$scan_data['schifflink'] = $xmldata->strUrl;
+        $scan_data['schifflink'] = $xmldata->strUrl;
+
         foreach ($xml->pla_def as $pla_def) {
             foreach ($pla_def->user as $user) {
                 foreach ($user->schiffe as $schiff) {
@@ -258,14 +255,12 @@ function parse_sbxml($xmldata)
         } else {
             $scan_data['plan'] = "";
         }
-        debug_var("scan_data['plan']", $scan_data['plan']);
 
         if (isset($scan_data['def'])) {
             $scan_data['def'] .= "</table>\n";
         } else {
             $scan_data['def'] = "";
         }
-        debug_var("scan_data['def']", $scan_data['def']);
 
         foreach ($xml->flotten_def as $flotten_def) {
             foreach ($flotten_def->user as $user) {
@@ -296,31 +291,32 @@ function parse_sbxml($xmldata)
         } else {
             $scan_data['stat'] = "";
         }
-        debug_var("scan_data['stat']", $scan_data['stat']);
 
     }
     // Gebäude oder Schiffe/Ress
-    if ($scan_typ == 2 || $scan_typ == 3) {
+    if ($scan_typ === 2 || $scan_typ === 3) {
         foreach ($xml->ressourcen as $ressourcen) {
             foreach ($ressourcen->ressource as $ressource) {
                 if ($ressource->id == 1) {
-                    debug_var("scan_data['eisen']", $scan_data['eisen'] = (int)$ressource->anzahl);
+                    $scan_data['eisen'] = (int)$ressource->anzahl;
                 } else if ($ressource->id == 2) {
-                    debug_var("scan_data['stahl']", $scan_data['stahl'] = (int)$ressource->anzahl);
+                    $scan_data['stahl'] = (int)$ressource->anzahl;
                 } else if ($ressource->id == 3) {
-                    debug_var("scan_data['vv4a']", $scan_data['vv4a'] = (int)$ressource->anzahl);
+                    $scan_data['vv4a'] = (int)$ressource->anzahl;
                 } else if ($ressource->id == 4) {
-                    debug_var("scan_data['eis']", $scan_data['eis'] = (int)$ressource->anzahl);
+                    $scan_data['eis'] = (int)$ressource->anzahl;
                 } else if ($ressource->id == 5) {
-                    debug_var("scan_data['chemie']", $scan_data['chemie'] = (int)$ressource->anzahl);
+                    $scan_data['chemie'] = (int)$ressource->anzahl;
                 } else if ($ressource->id == 6) {
-                    debug_var("scan_data['wasser']", $scan_data['wasser'] = (int)$ressource->anzahl);
+                    $scan_data['wasser'] = (int)$ressource->anzahl;
                 } else if ($ressource->id == 7) {
-                    debug_var("scan_data['energie']", $scan_data['energie'] = (int)$ressource->anzahl);
+                    $scan_data['energie'] = (int)$ressource->anzahl;
                 }
             }
         }
     }
+
+    debug_var('$scan_data', $scan_data);
     $results = save_sbxml($scan_data);
     debug_var("save_sbxml", $results);
     foreach ($results as $result) {
@@ -416,6 +412,15 @@ function save_sbxml($scan_data)
             }
         }
 
+        //Gebäudeinformationen in eigene Tabelle eintragen
+        if (!empty($scan_data['buildings'])) {
+
+            $result = $db->db_insert_multiple($db_tb_scans_geb, array_keys(reset($scan_data['buildings'])), $scan_data['buildings'])
+                or error(GENERAL_ERROR, 'Could not insert buildingscan information.', '', __FILE__, __LINE__);
+
+            unset($scan_data['buildings']);
+        }
+
         //Planetendaten aktualisieren
         $where = " WHERE `coords_gal`=" . $scan_data['coords_gal'] . " AND `coords_sys`=" . $scan_data['coords_sys'] . " AND `coords_planet`=" . $scan_data['coords_planet'];
         $db->db_update($db_tb_scans, $scan_data, $where)
@@ -424,6 +429,15 @@ function save_sbxml($scan_data)
         $results[] = "Scan " . $scan_data['coords'] . " aktualisiert.";
 
     } else {
+
+        //Gebäudeinformationen in eigene Tabelle eintragen
+        if (!empty($scan_data['buildings'])) {
+
+            $result = $db->db_insert_multiple($db_tb_scans_geb, array_keys(reset($scan_data['buildings'])), $scan_data['buildings'])
+                or error(GENERAL_ERROR, 'Could not insert buildingscan information.', '', __FILE__, __LINE__);
+
+            unset($scan_data['buildings']);
+        }
 
         // Planeten-Eintrag noch nicht vorhanden -> Planeteninformationen einfügen
         $db->db_insert($db_tb_scans, $scan_data)
@@ -454,7 +468,7 @@ function parse_kbxml($xmldata)
     $link = str_replace("&typ=xml", "", $xmldata->strUrl); //! damit BBCode nachher funktioniert
 
     // Überprüfen, ob KB schon in Datenbank
-    $sql = "SELECT ID_KB FROM {$db_tb_kb} WHERE ID_KB = '$id'";
+    $sql = "SELECT `ID_KB` FROM `{$db_tb_kb}` WHERE `ID_KB` = '$id'";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 

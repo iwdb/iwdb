@@ -263,7 +263,7 @@ $result = $db->db_query($sql);
 				</td>
 				<td>
 					<?php
-						$sql_geb1 = "SELECT `geb_anz` FROM `{$db_tb_scans_geb}` WHERE (`coords`='".$row['coords']."' AND `geb_id`='143')";
+						$sql_geb1 = "SELECT `geb_anz` FROM `{$db_tb_scans_geb}` WHERE (`coords`='".$row['coords']."' AND `geb_id_iw`='143')";          //Flottenscanner
 						$result_geb1 = $db->db_query($sql_geb1)
 							or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_geb1);
 						$row_geb1 = $db->db_fetch_array($result_geb1);
@@ -272,7 +272,7 @@ $result = $db->db_query($sql);
 				</td>
 				<td>
 					<?php
-						$sql_geb2 = "SELECT `geb_anz` FROM `{$db_tb_scans_geb}` WHERE (`coords`='".$row['coords']."' AND `geb_id`='117')";
+						$sql_geb2 = "SELECT `geb_anz` FROM `{$db_tb_scans_geb}` WHERE (`coords`='".$row['coords']."' AND `geb_id_iw`='117')";           //orbitaler Galaxienscanner
 						$result_geb2 = $db->db_query($sql_geb2)
 							or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_geb2);
 						$row_geb2 = $db->db_fetch_array($result_geb2);
@@ -281,7 +281,7 @@ $result = $db->db_query($sql);
 				</td>
 				<td>
 					<?php
-						$sql_geb3 = "SELECT `geb_anz` FROM `{$db_tb_scans_geb}` WHERE (`coords`='".$row['coords']."' AND `geb_id`='145')";
+						$sql_geb3 = "SELECT `geb_anz` FROM `{$db_tb_scans_geb}` WHERE (`coords`='".$row['coords']."' AND `geb_id_iw`='145')";           //Panzerungsupdate Orbital
 						$result_geb3 = $db->db_query($sql_geb3)
 							or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_geb3);
 						$row_geb3 = $db->db_fetch_array($result_geb3);
@@ -290,7 +290,7 @@ $result = $db->db_query($sql);
 				</td>
 				<td>
 					<?php
-						$sql_geb4 = "SELECT `geb_anz` FROM `{$db_tb_scans_geb}` WHERE (`coords`='".$row['coords']."' AND `geb_id`='144')";
+						$sql_geb4 = "SELECT `geb_anz` FROM `{$db_tb_scans_geb}` WHERE (`coords`='".$row['coords']."' AND `geb_id_iw`='144')";           //Panzerungsupdate Planetar
 						$result_geb4 = $db->db_query($sql_geb4)
 							or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_geb4);
 						$row_geb4 = $db->db_fetch_array($result_geb4);
@@ -299,7 +299,7 @@ $result = $db->db_query($sql);
 				</td>
 				<td>
 					<?php
-						$sql_geb5 = "SELECT `geb_anz` FROM `{$db_tb_scans_geb}` WHERE (`coords`='".$row['coords']."' AND `geb_id`='162')";
+						$sql_geb5 = "SELECT `geb_anz` FROM `{$db_tb_scans_geb}` WHERE (`coords`='".$row['coords']."' AND `geb_id_iw`='162')";           //planetares Alpha Schild
 						$result_geb5 = $db->db_query($sql_geb5)
 							or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_geb5);
 						$row_geb5 = $db->db_fetch_array($result_geb5);
@@ -308,7 +308,7 @@ $result = $db->db_query($sql);
 				</td>
 				<td>
 					<?php
-						$sql_geb6 = "SELECT `geb_anz` FROM `{$db_tb_scans_geb}` WHERE (`coords`='".$row['coords']."' AND `geb_id`='148')";
+						$sql_geb6 = "SELECT `geb_anz` FROM `{$db_tb_scans_geb}` WHERE (`coords`='".$row['coords']."' AND `geb_id_iw`='148')";          //DN Werft
 						$result_geb6 = $db->db_query($sql_geb6)
 							or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_geb6);
 						$row_geb6 = $db->db_fetch_array($result_geb6);
@@ -317,7 +317,7 @@ $result = $db->db_query($sql);
 				</td>
 				<td>
 					<?php
-						$sql_geb7 = "SELECT `geb_anz` FROM `{$db_tb_scans_geb}` WHERE (`coords`='".$row['coords']."' AND `geb_id`='146')";
+						$sql_geb7 = "SELECT `geb_anz` FROM `{$db_tb_scans_geb}` WHERE (`coords`='".$row['coords']."' AND `geb_id_iw`='146')";           //große Werft
 						$result_geb7 = $db->db_query($sql_geb7)
 							or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_geb7);
 						$row_geb7 = $db->db_fetch_array($result_geb7);
@@ -336,7 +336,7 @@ $result = $db->db_query($sql);
 			</th>
 			<th>
 				<?php
-					$sql_geb1 = "SELECT SUM(geb_anz) AS anzahl FROM `{$db_tb_scans_geb}` WHERE `geb_id`='143'";
+					$sql_geb1 = "SELECT SUM(geb_anz) AS anzahl FROM `{$db_tb_scans_geb}` WHERE `geb_id_iw`='143'";                  //Flottenscanner
 					$result_geb1 = $db->db_query($sql_geb1)
 						or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_geb1);
 					$row_geb1 = $db->db_fetch_array($result_geb1);
@@ -345,7 +345,7 @@ $result = $db->db_query($sql);
 			</th>
 			<th>
 				<?php
-					$sql_geb2 = "SELECT SUM(geb_anz) AS anzahl FROM `{$db_tb_scans_geb}` WHERE `geb_id`='117'";
+					$sql_geb2 = "SELECT SUM(geb_anz) AS anzahl FROM `{$db_tb_scans_geb}` WHERE `geb_id_iw`='117'";                  //orbitaler Galaxienscanner
 					$result_geb2 = $db->db_query($sql_geb2)
 						or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_geb2);
 					$row_geb2 = $db->db_fetch_array($result_geb2);
@@ -354,7 +354,7 @@ $result = $db->db_query($sql);
 			</th>
 			<th>
 				<?php
-					$sql_geb3 = "SELECT SUM(geb_anz) AS anzahl FROM `{$db_tb_scans_geb}` WHERE `geb_id`='145'";
+					$sql_geb3 = "SELECT SUM(geb_anz) AS anzahl FROM `{$db_tb_scans_geb}` WHERE `geb_id_iw`='145'";                  //Panzerungsupdate Orbital
 					$result_geb3 = $db->db_query($sql_geb3)
 						or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_geb3);
 					$row_geb3 = $db->db_fetch_array($result_geb3);
@@ -363,7 +363,7 @@ $result = $db->db_query($sql);
 			</th>
 			<th>
 				<?php
-					$sql_geb4 = "SELECT SUM(geb_anz) AS anzahl FROM `{$db_tb_scans_geb}` WHERE `geb_id`='144'";
+					$sql_geb4 = "SELECT SUM(geb_anz) AS anzahl FROM `{$db_tb_scans_geb}` WHERE `geb_id_iw`='144'";                  //Panzerungsupdate Planetar
 					$result_geb4 = $db->db_query($sql_geb4)
 						or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_geb4);
 					$row_geb4 = $db->db_fetch_array($result_geb4);
@@ -372,7 +372,7 @@ $result = $db->db_query($sql);
 			</th>
 			<th>
 				<?php
-					$sql_geb5 = "SELECT SUM(geb_anz) AS anzahl FROM `{$db_tb_scans_geb}` WHERE `geb_id`='162'";
+					$sql_geb5 = "SELECT SUM(geb_anz) AS anzahl FROM `{$db_tb_scans_geb}` WHERE `geb_id_iw`='162'";                  //planetares Alpha Schild
 					$result_geb5 = $db->db_query($sql_geb5)
 						or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_geb5);
 					$row_geb5 = $db->db_fetch_array($result_geb5);
@@ -381,7 +381,7 @@ $result = $db->db_query($sql);
 			</th>
 			<th>
 				<?php
-					$sql_geb6 = "SELECT SUM(geb_anz) AS anzahl FROM `{$db_tb_scans_geb}` WHERE `geb_id`='148'";
+					$sql_geb6 = "SELECT SUM(geb_anz) AS anzahl FROM `{$db_tb_scans_geb}` WHERE `geb_id_iw`='148'";                  //DN Werft
 					$result_geb6 = $db->db_query($sql_geb6)
 						or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_geb6);
 					$row_geb6 = $db->db_fetch_array($result_geb6);
@@ -390,7 +390,7 @@ $result = $db->db_query($sql);
 			</th>
 			<th>
 				<?php
-					$sql_geb7 = "SELECT SUM(geb_anz) AS anzahl FROM `{$db_tb_scans_geb}` WHERE `geb_id`='146'";
+					$sql_geb7 = "SELECT SUM(geb_anz) AS anzahl FROM `{$db_tb_scans_geb}` WHERE `geb_id_iw`='146'";                  //große Werft
 					$result_geb7 = $db->db_query($sql_geb7)
 						or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_geb7);
 					$row_geb7 = $db->db_fetch_array($result_geb7);

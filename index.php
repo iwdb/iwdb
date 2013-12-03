@@ -66,15 +66,15 @@ if ($action === 'memberlogout2') {
 if (($action === 'rules') AND (getVar('accept_rules')) AND ($login_ok)) {
     $user_rules = "1";
 
-    $result = $db->db_update($db_tb_user, array('rules' => 1), "WHERE id='$user_id'")
+    $result = $db->db_update($db_tb_user, array('rules' => $user_rules), "WHERE id='$user_id'")
         or error(GENERAL_ERROR, 'Could not update rules information.', '', __FILE__, __LINE__);
 
     $action = $config_default_action;
 }
 
 // Sitterlogin in einen Account
-$sitterlogin = getVar('sitterlogin');
-if ((($user_adminsitten == SITTEN_BOTH) || ($user_adminsitten == SITTEN_ONLY_LOGINS)) && ($action == "sitterlogins") && (!empty($sitterlogin)) && ($login_ok)) {
+$sitterlogin = $db->escape(getVar('sitterlogin'));
+if ((($user_adminsitten == SITTEN_BOTH) OR ($user_adminsitten == SITTEN_ONLY_LOGINS)) AND ($action == "sitterlogins") AND (!empty($sitterlogin)) AND ($login_ok)) {
     $sql = "DELETE FROM " . $db_tb_sitterlog . " WHERE date<" . (CURRENT_UNIX_TIME - $config_sitterlog_timeout);
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
@@ -124,16 +124,16 @@ if ((($user_adminsitten == SITTEN_BOTH) || ($user_adminsitten == SITTEN_ONLY_LOG
         }
     }
     ?>
-	<link rel="icon" href="favicon.ico" type="image/x-icon">
-	<link href="css/style.css" rel="stylesheet" type="text/css">
-	<link href="css/theme.blue.css" rel="stylesheet" type="text/css">
-	<!--[if lt IE 9]>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link href="css/theme.blue.css" rel="stylesheet" type="text/css">
+    <!--[if lt IE 9]>
     <script src="javascript/respond.min.js"></script>
     <script src="javascript/jquery-1.10.2.min.js"></script>
     <![endif]-->
-	<!--[if gte IE 9]><!-->
-	<script src="javascript/jquery-2.0.3.min.js"></script>
-	<!--<![endif]-->
+    <!--[if gte IE 9]><!-->
+    <script src="javascript/jquery-2.0.3.min.js"></script>
+    <!--<![endif]-->
 </head>
 <?php
 if (!getVar("nobody")) {
@@ -141,21 +141,21 @@ if (!getVar("nobody")) {
 <body class="body background">
 <div align="center">
     <table class="seite">
-		<tr>
-			<td style="text-align: center;" class="background">
-				<?php
-                //hier hin verschoben da der IE iwie imemr sonst Mist baut ^^
-                include ('./includes/sitterfadein.php');
-
+        <tr>
+            <td style="text-align: center;" class="background">
+                <?php
                 if (!empty($config_banner)) {
                     echo "<div id='iwdb_logo'><img src={$config_banner} alt='banner' style='vertical-align: middle;'></div>";
                 }
 
                 }
 
-                if ( ($login_ok) && ($user_rules == "1") ) {
+                if ( ($login_ok) && ($user_rules === "1") ) {
 
-                    if (getVar("action") == "profile") {
+                    //hier hin verschoben da der IE iwie imemr sonst Mist baut ^^
+                    include ('./includes/sitterfadein.php');
+
+                    if (getVar("action") === "profile") {
                         // Menue-Änderung voraus?
                         $newmenustyle = getVar("menu_default");
                         if ((!empty($newmenustyle)) && ($newmenustyle != $user_menu_default)) {
@@ -260,7 +260,7 @@ if (!getVar("nobody")) {
                                 include("modules/rules.php");
                                 exit;
                             } else {
-                                if ($action == 'password') {
+                                if ($action === 'password') {
                                     include("modules/password.php");
                                 } else {
                                     include("modules/login.php");

@@ -46,9 +46,7 @@ if (($user_adminsitten == SITTEN_BOTH) || ($user_adminsitten == SITTEN_ONLY_LOGI
     // Wurde gerade ein Auftrag erledigt? Falls ja, muss dieser von der
     // gerade ermittelten Zahl abgezogen werden.
     if ($action == "sitterliste") {
-        $erledigt = getVar('erledigt');
-
-        if (!empty($erledigt)) {
+        if (getVar('erledigt')) {
             $anzahl = $anzahl - 1;
         }
     }

@@ -72,7 +72,7 @@ $data = array(
 );
 
 // Retrieve defence
-debug_var("sql", $sql = "SELECT `name`, `id`, `abk`, `id_iw` FROM `{$db_tb_def}`;");
+$sql = "SELECT `name`, `id`, `abk`, `id_iw` FROM `{$db_tb_def}`;";
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 while ($row = $db->db_fetch_array($result)) {
@@ -84,7 +84,7 @@ while ($row = $db->db_fetch_array($result)) {
 }
 
 // Retrieve ships
-debug_var("sql", $sql = "SELECT `schiff`, `id_iw`, `abk` FROM `{$db_tb_schiffstyp}`;");
+$sql = "SELECT `schiff`, `id_iw`, `abk` FROM `{$db_tb_schiffstyp}`;";
 $result = $db->db_query($sql)
     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 while ($row = $db->db_fetch_array($result)) {
@@ -151,8 +151,8 @@ if (empty($data['targets_next_gal'])) {
 // Create url for links
 $data['url'] = array(
     'main'       => ($params['view'] == 'fleet_send'
-        ? 'http://sandkasten.icewars.de/game/index.php?action=flotten_send&gal=' . $params['galaxy'] . "&sol=" . $params['system'] . '&pla=' . $params['planet']
-        : 'http://sandkasten.icewars.de/game/index.php?action=universum&gal=' . $params['galaxy'] . "&sol=" . $params['system']),
+                    ? 'http://sandkasten.icewars.de/game/index.php?action=flotten_send&gal=' . $params['galaxy'] . "&sol=" . $params['system'] . '&pla=' . $params['planet']
+                    : 'http://sandkasten.icewars.de/game/index.php?action=universum&gal=' . $params['galaxy'] . "&sol=" . $params['system']),
     'top'        => $_SERVER["SCRIPT_NAME"] . '?name=' . $params['name'] . '&mode=top&view=' . $params['view'] . '&galaxy=' . $params['galaxy'] . '&system=' . $params['system'] . '&planet=' . $params['planet'] . '&autocalc=' . $params['autocalc'],
     'right'      => $_SERVER["SCRIPT_NAME"] . '?name=' . $params['name'] . '&mode=right&view=' . $params['view'] . '&galaxy=' . $params['galaxy'] . '&system=' . $params['system'],
     'prev'       => $_SERVER["SCRIPT_NAME"] . '?name=' . $params['name'] . '&action=prev&view=' . $params['view'] . '&galaxy=' . $data['targets_prev_gal'] . '&system=' . $data['targets_prev_sys'],
@@ -184,13 +184,13 @@ $data['info'] = array(
 if ($params['view'] == 'fleet_send') {
     $data['info'] = array_merge(
         $data['info'], array(
-            'Systrans (Systemtransporter Klasse 1)'         => array('caption' => 'Systrans', 'title' => 'Systrans (Systemtransporter Klasse 1)'),
-            'Lurch (Systemtransporter Klasse 1)'            => array('caption' => 'Lurch', 'title' => 'Lurch (Systemtransporter Klasse 1)'),
-            'Gorgol 9 (Hyperraumtransporter Klasse 1)'      => array('caption' => 'Gorgol', 'title' => 'Gorgol 9 (Hyperraumtransporter Klasse 1)'),
-            'Eisb&auml;r (Hyperraumtransporter Klasse 2)'   => array('caption' => 'Eisb&auml;r', 'title' => 'Eisbär (Hyperraumtransporter Klasse 2)'),
-            'Kamel Z-98 (Hyperraumtransporter Klasse 1)'    => array('caption' => 'Kamel', 'title' => 'Kamel Z-98 (Hyperraumtransporter Klasse 1)'),
-            'Waschb&auml;r (Hyperraumtransporter Klasse 2)' => array('caption' => 'Waschb&auml;r', 'title' => 'Waschb&auml;r (Hyperraumtransporter Klasse 2)'),
-        )
+                         'Systrans (Systemtransporter Klasse 1)'         => array('caption' => 'Systrans', 'title' => 'Systrans (Systemtransporter Klasse 1)'),
+                         'Lurch (Systemtransporter Klasse 1)'            => array('caption' => 'Lurch', 'title' => 'Lurch (Systemtransporter Klasse 1)'),
+                         'Gorgol 9 (Hyperraumtransporter Klasse 1)'      => array('caption' => 'Gorgol', 'title' => 'Gorgol 9 (Hyperraumtransporter Klasse 1)'),
+                         'Eisb&auml;r (Hyperraumtransporter Klasse 2)'   => array('caption' => 'Eisb&auml;r', 'title' => 'Eisbär (Hyperraumtransporter Klasse 2)'),
+                         'Kamel Z-98 (Hyperraumtransporter Klasse 1)'    => array('caption' => 'Kamel', 'title' => 'Kamel Z-98 (Hyperraumtransporter Klasse 1)'),
+                         'Waschb&auml;r (Hyperraumtransporter Klasse 2)' => array('caption' => 'Waschb&auml;r', 'title' => 'Waschb&auml;r (Hyperraumtransporter Klasse 2)'),
+                     )
     );
 }
 

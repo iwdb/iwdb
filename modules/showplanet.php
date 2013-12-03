@@ -453,6 +453,7 @@ if (((($ansicht === "auto")) || ($ansicht === "geologisch") || ($ansicht === "be
             ?>
         </td>
     </tr>
+	
 <?php
 }
 if ($row_planie['objekt'] === "---") {
@@ -602,6 +603,9 @@ if (((($ansicht === "auto") && ($row_planie['objekt'] !== "---")) || ($ansicht =
         <tr>
             <td class="windowbg1" colspan="2"><?php echo $row_planie['def']; ?></td>
         </tr>
+    <?php
+    }
+	?>
 	<tr>
         <td colspan="2" class="titlebg"><b>Schiffsondierungslink</b></td>
     </tr>
@@ -622,9 +626,7 @@ if (((($ansicht === "auto") && ($row_planie['objekt'] !== "---")) || ($ansicht =
             ?>
         </td>
     </tr>
-    <?php
-    }
-
+<?php
 }
 ?>
 </table>

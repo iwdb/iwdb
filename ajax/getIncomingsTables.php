@@ -2,7 +2,7 @@
 
 function getIncomingsTables()
 {
-    global $db, $db_tb_incomings;
+    global $db, $db_tb_incomings, $db_tb_kb, $db_tb_kb_bomb;
 
     ob_start();
 
@@ -114,10 +114,19 @@ function getIncomingsTables()
                     echo strftime(CONFIG_DATETIMEFORMAT, $row['arrivaltime']);
                     ?>
 				</td>
-				<td>
+				<td class="center">
 					<?php
-                    echo $row['art'];
-                    ?>
+                    if ($row['art']=="Sondierung (Schiffe/Def/Ress)") {
+						echo '<abbr title="Sondierung (Schiffe/Def/Ress)">';
+						echo '<img src="'.BILDER_PATH.'scann_schiff.png">';
+						echo '</abbr>';
+					}
+					else if ($row['art']=="Sondierung (Gebäude/Ress)") {
+						echo '<abbr title="Sondierung (Gebäude/Ress)">';
+						echo '<img src="'.BILDER_PATH.'scann_geb.png">';
+						echo '</abbr>';
+					}
+					?>
 				</td>
 				<td style="background-color: <?php echo $color1 ?>">
 					<?php
@@ -158,7 +167,7 @@ function getIncomingsTables()
     <table class='tablesorter-blue' style='width:95%'>
 		<thead>
 			<tr class='center'>
-				<th data-sorter="false" colspan='7'>
+				<th data-sorter="false" colspan='8'>
 					<b>Angriffe</b>
 				</th>
 			</tr>
@@ -177,6 +186,12 @@ function getIncomingsTables()
 				</th>
 				<th>
 					<b>Zeitpunkt</b>
+				</th>
+				<th data-sorter="false">
+					<?php
+					echo '<abbr title="letzter Bomb">';
+					echo '<img src="' . BILDER_PATH . 'bomb.png">';
+					?>
 				</th>
 				<th>
 					<b>gesaved</b>
@@ -245,6 +260,25 @@ function getIncomingsTables()
                     ?>
 				</td>
 				<td><?php echo strftime(CONFIG_DATETIMEFORMAT, $row['arrivaltime']); ?></td>
+				<td>
+					<?php
+					$coords = explode(":", $row['koords_to']);
+					//$sql_bomb = "SELECT `time`, `ID_KB`, `hash` FROM `{$db_tb_kb}` WHERE (`koords_gal`='".$coords[0]."' AND `koords_sol`='".$coords[1]."' AND `koords_pla`='".$coords[2]."')";
+					//$sql_bomb = "SELECT `time`, `ID_KB`, `hash` FROM `{$db_tb_kb}` LEFT JOIN `{$db_tb_kb_bomb}` ON `{$db_tb_kb}`.`ID_KB`=`{$db_tb_kb_bomb}`.`ID_KB` WHERE (`{$db_tb_kb}`.`koords_gal`='".$coords[0]."' AND `{$db_tb_kb}`.`koords_sol`='".$coords[1]."' AND `{$db_tb_kb}`.`koords_pla`='".$coords[2]."')";
+					$sql_bomb = "SELECT MAX(time) AS bombtime, `ID_KB`, `hash` FROM `{$db_tb_kb}` WHERE ((`ID_KB` IN (SELECT `ID_KB` FROM `{$db_tb_kb_bomb}`)) AND (`{$db_tb_kb}`.`koords_gal`='".$coords[0]."' AND `{$db_tb_kb}`.`koords_sol`='".$coords[1]."' AND `{$db_tb_kb}`.`koords_pla`='".$coords[2]."'))";
+					$result_bomb = $db->db_query($sql_bomb)
+						or error(GENERAL_ERROR, 'Could not query incomings information.', '', __FILE__, __LINE__, $sql_bomb);
+					$row_bomb = $db->db_fetch_array($result_bomb);
+					echo '<div>';
+					$time = strftime(CONFIG_DATETIMEFORMAT, $row_bomb['bombtime']);
+					$url = "http://www.icewars.de/portal/kb/de/kb.php?id=" . $row_bomb['ID_KB'] . "&md_hash=" . $row_bomb['hash'];
+					echo '<abbr title="'.$time.'">';
+					if (isset($row_bomb['ID_KB']))
+						echo '<a href="'.$url.'">KB</a>';
+					echo '</abbr>';
+					echo '</div>';
+					?>
+				</td>
 				<td style="background-color: <?php echo $color1 ?>">
 					<?php
                     echo "<input type='checkbox' class='savedCheckbox' value='$row[koords_to]'";

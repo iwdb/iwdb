@@ -150,3 +150,15 @@ CREATE TABLE IF NOT EXISTS `prefix_scans_geb` (
 
 ALTER TABLE `prefix_scans` ADD `geblink` VARCHAR( 120 ) NOT NULL AFTER `geolink`;
 ALTER TABLE `prefix_scans` ADD `schifflink` VARCHAR( 120 ) NOT NULL AFTER `geblink`;
+
+-- 03.12.2013 masel : Tabellenoptimierungen
+
+ALTER TABLE `prefix_scans_geb` CHANGE `geb_id` `geb_id_iw` INT NOT NULL COMMENT 'Gebäude IW-ID';
+ALTER TABLE `prefix_scans_geb` CHANGE `geb_anz` `geb_anz` INT UNSIGNED NOT NULL COMMENT 'Gebäudeanzahl';
+ALTER TABLE `prefix_scans_geb` CHANGE `time` `time` INT UNSIGNED NOT NULL COMMENT 'Unixzeit';
+
+ALTER TABLE `prefix_scans` CHANGE `bed_bev` `bed_bev` INT UNSIGNED NOT NULL DEFAULT '0';
+
+ALTER TABLE `prefix_spieler` CHANGE `einmaurer` `einmaurer` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_spieler` CHANGE `gesperrt` `gesperrt` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_spieler` CHANGE `umode` `umode` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0';

@@ -510,13 +510,19 @@ function save_data($scan_data)
         if (($scan_data['art'] == "Angriff") || (($scan_data['art'] == "Sondierung (Schiffe/Def/Ress)") || ($scan_data['art'] == "Sondierung (Gebäude/Ress)"))) {
             $allianz_to = getAllianceByUser($scan_data['user_to']);
 
+            //nicht mehr fliegende Incs löschen
+            $sql = "DELETE FROM $db_tb_incomings WHERE listedtime<>" . CURRENT_UNIX_TIME;
+            $db->db_query($sql)
+                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
             //Löschen der Einträge älter als 20 min in der Tabelle incomings, es sollen nur aktuelle Sondierungen und Angriffe eingetragen sein
             //ToDo : evtl Trennung Sondierung und Angriffe, damit die Sondierungen früher entfernt sind
             $sql = "DELETE FROM $db_tb_incomings WHERE arrivaltime<" . (CURRENT_UNIX_TIME - 20 * MINUTE);
             $db->db_query($sql)
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
-            if (($allianz_to === $config_allytag) AND ($scan_data['time'] > (CURRENT_UNIX_TIME - 20 * MINUTE))) { //nur incomings auf die eigene Ally und maximal 20 min in der Vergangenheit?
+            //nur incomings auf die eigene Ally und maximal 20 min in der Vergangenheit eintragen
+            if (($allianz_to === $config_allytag) AND ($scan_data['time'] > (CURRENT_UNIX_TIME - 20 * MINUTE))) {
                 $SQLdata = array(
                     'koords_to'    => $scan_data['coords_to_gal'] . ":" . $scan_data['coords_to_sys'] . ":" . $scan_data['coords_to_planet'],
                     'name_to'      => $scan_data['user_to'],

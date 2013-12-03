@@ -81,7 +81,7 @@ function workInstallDatabase()
         `allianz_to` VARCHAR(50) NOT NULL COMMENT 'Zielallianz',
         `koords_from` VARCHAR(11) NOT NULL COMMENT 'Angreiferkoords',
         `name_from` VARCHAR(50) NOT NULL COMMENT 'Angreiferspieler',
-        `allianz_from` VARCHAR(50) NOT NULL COMMENT 'Angreiferallianz',
+        `allianz_from` varchar(50) DEFAULT NULL COMMENT 'Angreiferallianz',
         `art` VARCHAR(100) NOT NULL COMMENT 'Angriff oder Sondierung',
         `arrivaltime` INT(10) UNSIGNED NOT NULL COMMENT 'Unixzeitstempel der Ankunft der Sondierung/Att',
         `listedtime` INT(10) UNSIGNED NOT NULL COMMENT 'Unixzeitstempel des Eintrags',

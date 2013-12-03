@@ -56,21 +56,23 @@ if ($login_ok) {
     }
 }
 
+// User hat sich ausgeloggt
 if ($action === 'memberlogout2') {
     header("Location: " . APPLICATION_PATH_RELATIVE);
     exit;
 }
 
-// Regeln akzeptieren //
+// User hat Regeln akzeptiert
 if (($action === 'rules') AND (getVar('accept_rules')) AND ($login_ok)) {
     $user_rules = "1";
+
     $result = $db->db_update($db_tb_user, array('rules' => 1), "WHERE id='$user_id'")
         or error(GENERAL_ERROR, 'Could not update rules information.', '', __FILE__, __LINE__);
 
     $action = $config_default_action;
 }
 
-// Sitterlogin //
+// Sitterlogin in einen Account
 $sitterlogin = getVar('sitterlogin');
 if ((($user_adminsitten == SITTEN_BOTH) || ($user_adminsitten == SITTEN_ONLY_LOGINS)) && ($action == "sitterlogins") && (!empty($sitterlogin)) && ($login_ok)) {
     $sql = "DELETE FROM " . $db_tb_sitterlog . " WHERE date<" . (CURRENT_UNIX_TIME - $config_sitterlog_timeout);

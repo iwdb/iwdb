@@ -58,6 +58,8 @@ if ($user_status != "admin") {
     </script>
 <?php
 
+global $db, $db_tb_menu;
+
 function getmoduleinfo($file)
 {
     $moduleinfo['filename'] = basename($file);
@@ -86,8 +88,9 @@ function getmoduleinfo($file)
 
    ###########################################################################*/
 
-if (!empty($_GET['delid'])) {
-    $sql = "DELETE FROM " . $db_tb_menu . " WHERE id='" . $_GET['delid'] . "'";
+$delid = (int)getVar('delid');
+if (!empty($delid)) {
+    $sql = "DELETE FROM " . $db_tb_menu . " WHERE id='" . $delid . "'";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 }
@@ -98,33 +101,39 @@ if (!empty($_GET['delid'])) {
    Neuer Menüeintrag
 
    ###########################################################################*/
-if (!empty($_POST['new'])) {
+if (getVar('new')) {
     unset($fehler);
     // nach höchstem Menüeintrag suchen
     $sql = "SELECT * FROM " . $db_tb_menu . " ORDER BY menu DESC, submenu DESC LIMIT 0, 1";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
     $row   = $db->db_fetch_array($result);
     $hmenu = $row['menu'] + 1;
 
-    $title = trim($_POST['new_title']);
+    $title = trim(getVar('new_title'));
     if (empty($title)) {
         $fehler = "Menütext vergessen!";
     }
     if (empty($fehler)) {
-        $sql = "INSERT INTO " . $db_tb_menu . "
-              Set menu      ='" . $hmenu . "',
-                  submenu   ='0',
-                  active    ='" . $_POST['new_active'] . "',
-                  title     ='" . $title . "',
-                  status    ='" . $_POST['new_status'] . "',
-                  action    ='',
-                  extlink   ='n',
-                  sittertyp ='" . $_POST['new_sittertyp'] . "'";
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-    } else {
-        echo $fehler;
+
+        if (empty($fehler)) {
+            $SQLdata = array(
+                'menu'      => $hmenu,
+                'submenu'   => '0',
+                'active'    => getVar('new_active'),
+                'title'     => $title,
+                'status'    => getVar('new_status'),
+                'action'    => '',
+                'extlink'   => 'n',
+                'sittertyp' => getVar('new_sittertyp')
+            );
+            $db->db_insert($db_tb_menu, $SQLdata)
+                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
+        } else {
+            echo $fehler;
+        }
     }
 }
 
@@ -133,30 +142,26 @@ if (!empty($_POST['new'])) {
    Menüeinträge bearbeiten
 
    ###########################################################################*/
-if (!empty($_POST['edit'])) {
+if (getVar('edit')) {
     unset($fehler);
-    if (empty($_POST['edit_action'])) {
-        $_POST['edit_action'] = "";
-    }
-    if (empty($_POST['edit_extlink'])) {
-        $_POST['edit_extlink'] = "";
-    }
-    $title  = trim($_POST['edit_title']);
-    $action = trim($_POST['edit_action']);
+    $title  = trim(getVar('edit_title'));
     if (empty($title)) {
         $fehler = "Menütext vergessen!";
     }
     if (empty($fehler)) {
-        $sql = "UPDATE " . $db_tb_menu . "
-              Set active='" . $_POST['edit_active'] . "',
-                  title='" . $title . "',
-                  status='" . $_POST['edit_status'] . "',
-                  action='" . $action . "',
-                  extlink='" . $_POST['edit_extlink'] . "',
-                  sittertyp='" . $_POST['edit_sittertyp'] . "'
-              WHERE id = '" . $_GET['eid'] . "'";
-        $result = $db->db_query($sql)
+        $SQLdata = array (
+            'active'    => trim(getVar('edit_active')),
+            'title'     => $title,
+            'status'    => trim(getVar('edit_status')),
+            'action'    => trim(getVar('edit_action')),
+            'extlink'   => trim(getVar('edit_extlink')),
+            'sittertyp' => trim(getVar('edit_sittertyp'))
+        );
+        $eid = (int)getVar('eid');
+
+        $db->db_update($db_tb_menu, $SQLdata, "WHERE id = '" . $eid . "'")
             or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
     } else {
         echo $fehler;
     }
@@ -168,12 +173,16 @@ if (!empty($_POST['edit'])) {
    Menüeinträge umsortieren
 
    ###########################################################################*/
-if (!empty($_GET['sort']) AND !empty($_GET['id'])) {
+
+$id = (int)getVar('id');
+$sort = ensureValue(getVar('sort'), array('', 'up', 'down'));
+if (!empty($sort) AND !empty($id)) {
     //  -> Sortierwunsch UP
-    if ($_GET['sort'] == "up") {
+    if ($sort === "up") {
         $sql = "SELECT * FROM " . $db_tb_menu . " ORDER BY menu DESC, submenu DESC";
         $result = $db->db_query($sql)
             or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
         $merk = 0;
         while ($row = $db->db_fetch_array($result)) {
             if ($merk == 2) {
@@ -186,7 +195,7 @@ if (!empty($_GET['sort']) AND !empty($_GET['id'])) {
                 $id2  = $row['id'];
                 $merk = 2;
             }
-            if ($row['id'] == $_GET['id']) {
+            if ($row['id'] == $id) {
                 $row1 = $row;
                 $id1  = $row['id'];
                 $merk = 1;
@@ -199,6 +208,7 @@ if (!empty($_GET['sort']) AND !empty($_GET['id'])) {
               WHERE id = '" . $id2 . "'";
             $result = $db->db_query($sql)
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
             $sql = "UPDATE " . $db_tb_menu . "
               Set menu='" . $row2['menu'] . "',submenu='" . $row2['submenu'] . "'
               WHERE id = '" . $id1 . "'";
@@ -212,6 +222,7 @@ if (!empty($_GET['sort']) AND !empty($_GET['id'])) {
               WHERE id = '" . $id2 . "'";
             $result = $db->db_query($sql)
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
             $sql = "UPDATE " . $db_tb_menu . "
               Set menu='" . $row2['menu'] . "',submenu='" . $row2['submenu'] . "'
               WHERE id = '" . $id1 . "'";
@@ -246,6 +257,7 @@ if (!empty($_GET['sort']) AND !empty($_GET['id'])) {
             $sql = "SELECT * FROM " . $db_tb_menu . " where menu = '" . $row1['menu'] . "' ORDER BY submenu ASC";
             $result = $db->db_query($sql)
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
             $i = 0;
             while ($row = $db->db_fetch_array($result)) {
                 //nur merken wenn submenu ungleich 0
@@ -260,6 +272,7 @@ if (!empty($_GET['sort']) AND !empty($_GET['id'])) {
              WHERE id = '" . $id2 . "'";
             $result = $db->db_query($sql)
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
             // danach die gemerkten Module wenn welche vorhanden sind
             if (!empty($zeile)) {
                 $i = 1;
@@ -275,10 +288,10 @@ if (!empty($_GET['sort']) AND !empty($_GET['id'])) {
         }
     }
     //  -> Sortierwunsch down
-    if ($_GET['sort'] == "down") {
+    if ($sort === "down") {
         $sql = "SELECT * FROM " . $db_tb_menu . " ORDER BY menu ASC, submenu ASC";
         $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
         $merk = 0;
         while ($row = $db->db_fetch_array($result)) {
             if ($merk == 2) {
@@ -291,7 +304,7 @@ if (!empty($_GET['sort']) AND !empty($_GET['id'])) {
                 $id2  = $row['id'];
                 $merk = 2;
             }
-            if ($row['id'] == $_GET['id']) {
+            if ($row['id'] == $id) {
                 $row1 = $row;
                 $id1  = $row['id'];
                 $merk = 1;
@@ -303,12 +316,12 @@ if (!empty($_GET['sort']) AND !empty($_GET['id'])) {
               Set menu='" . $row1['menu'] . "',submenu='" . $row1['submenu'] . "'
               WHERE id = '" . $id2 . "'";
             $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
             $sql = "UPDATE " . $db_tb_menu . "
               Set menu='" . $row2['menu'] . "',submenu='" . $row2['submenu'] . "'
               WHERE id = '" . $id1 . "'";
             $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
         }
         //  -> Wenn beide Menüzeilen Titel sind einfach die Variablen menu und submenu tauschen
         if (($row1['submenu'] == 0) AND ($row2['submenu'] == 0)) {
@@ -316,12 +329,12 @@ if (!empty($_GET['sort']) AND !empty($_GET['id'])) {
               Set menu='" . $row1['menu'] . "',submenu='" . $row1['submenu'] . "'
               WHERE id = '" . $id2 . "'";
             $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
             $sql = "UPDATE " . $db_tb_menu . "
               Set menu='" . $row2['menu'] . "',submenu='" . $row2['submenu'] . "'
               WHERE id = '" . $id1 . "'";
             $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
         }
         //  -> Wenn ein Modul nach unten geschoben wird und sich darunter ein Titel befindet.
         if (($row1['submenu'] != 0) AND ($row2['submenu'] == 0)) {
@@ -329,6 +342,7 @@ if (!empty($_GET['sort']) AND !empty($_GET['id'])) {
             $sql = "SELECT * FROM " . $db_tb_menu . " where menu = '" . $row2['menu'] . "' ORDER BY submenu ASC";
             $result = $db->db_query($sql)
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
             $i = 0;
             while ($row = $db->db_fetch_array($result)) {
                 //nur merken wenn submenu ungleich 0
@@ -362,6 +376,7 @@ if (!empty($_GET['sort']) AND !empty($_GET['id'])) {
             $sql = "SELECT * FROM " . $db_tb_menu . " ORDER BY menu DESC, submenu DESC";
             $result = $db->db_query($sql)
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
             $merk = 0;
             while ($row = $db->db_fetch_array($result)) {
                 if ($merk == 1) {
@@ -369,7 +384,7 @@ if (!empty($_GET['sort']) AND !empty($_GET['id'])) {
                     $id4  = $row['id'];
                     $merk = 2;
                 }
-                if ($row['id'] == $_GET['id']) {
+                if ($row['id'] == $id) {
                     $merk = 1;
                 }
             }
@@ -380,7 +395,7 @@ if (!empty($_GET['sort']) AND !empty($_GET['id'])) {
               Set menu='" . $row4['menu'] . "',submenu='" . $subm4 . "'
               WHERE id = '" . $id2 . "'";
                 $result = $db->db_query($sql)
-                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
             } else {
                 $menu3 = $row1['menu'] - 1;
                 $subm3 = 1;
@@ -388,13 +403,13 @@ if (!empty($_GET['sort']) AND !empty($_GET['id'])) {
               Set menu='" . $menu3 . "',submenu='" . $subm3 . "'
               WHERE id = '" . $id2 . "'";
                 $result = $db->db_query($sql)
-                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
             }
         }
     }
 }
 
-echo "<br>\n";
+echo "<br>";
 
 $sql = "SELECT * FROM " . $db_tb_menu . " ORDER BY menu ASC, submenu ASC LIMIT 0, 1";
 $result = $db->db_query($sql)
@@ -423,7 +438,7 @@ while ($row = $db->db_fetch_array($result)) {
     }
     $grart  = "plus";
     $grtext = "Bearbeiten";
-    if ((!empty($_GET['eid'])) && ($row['id'] == $_GET['eid'])) {
+    if (( getVar('eid') ) AND ($row['id'] == getVar('eid'))) {
         $grart  = "minus";
         $grtext = "";
     }
@@ -456,7 +471,9 @@ while ($row = $db->db_fetch_array($result)) {
 
         echo "<tr><td colspan=2 width='100%' class='" . $cl . " center'><table width='90%' class='bordercolor' border='0' cellpadding='2' cellspacing='0' >";
 
-        echo "<tr><form name='form' action='index.php?action=admin_menue&eid=" . $row['id'] . "' method='post'>";
+        echo "<tr><form name='form' method='POST'>";
+        echo "<input type='hidden' name='action' value='admin_menue'>";
+        echo "<input type='hidden' name='eid' value='".$row['id']."'>";
         echo "<td width='50%' class='" . $cl . " left'>Menütext:</td>";
         echo "<td width='50%' class='" . $cl . " left'><input name='edit_title' type='text' size=50 maxlength='100' value='" . $row['title'] . "'></td>";
         echo "</tr><tr>";
@@ -528,7 +545,8 @@ echo "</table><br><br>";
 
 
 echo "<table width='90%' class='bordercolor' border='0' cellpadding='2' cellspacing='1' >";
-echo "<tr><form name='form2' action='index.php?action=admin_menue' method='post'>";
+echo "<tr><form name='form2' method='POST'>";
+echo "<input type='hidden' name='action' value='admin_menue'>";
 echo "<td colspan=2 width='100%' class='windowbg2 center'>Neuer Menütitel</td>";
 echo "</tr><tr class='windowbg1 left'>";
 echo "<td width='50%'>Menütext:</td>";
@@ -556,76 +574,85 @@ echo "</table>";
 $installecho     = "";
 $moduledir       = APPLICATION_PATH_ABSOLUTE . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR;
 $moduledirhandle = opendir($moduledir);
-echo "<br><br> \n";
-echo "<br><div width='90%' class='windowbg2' style='padding:2px; width:90%; border-width:1px; border-style: solid; border-color:black'>Installierte Module:</div><br>";
+echo "<div class='windowbg2' style='margin-top:3em; padding:2px; width:95%; border-width:1px; border-style: solid; border-color:black'>Installierte Module:</div><br>";
+
+$modulesInstalled = array();
+$modules2Install = array();
+
+$moduleId = 0;
 while (false !== ($modulefile = readdir($moduledirhandle))) {
-    if (is_file($moduledir . $modulefile) AND (substr($modulefile, 0, 2) == 'm_') AND (substr($modulefile, -4) == '.php')) { //suche phpfiles mit Anfang 'm_' (= IWDB-Module)
+    if (is_readable($moduledir . $modulefile) AND (substr($modulefile, 0, 2) == 'm_') AND (substr($modulefile, -4) == '.php')) { //suche phpfiles mit Anfang 'm_' (= IWDB-Module)
         $moduleinfo = getmoduleinfo($moduledir . $modulefile);
 
-        if (file_exists(APPLICATION_PATH_ABSOLUTE . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . $moduleinfo['name'] . '.cfg.php')) { //Moduleinstellungsdatei vorhanden (Modul installiert) -> Deinstallation anbieten
+        if (file_exists(APPLICATION_PATH_ABSOLUTE . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . $moduleinfo['name'] . '.cfg.php')) {
 
-            echo "<form method='POST' action='index.php?action=" . $moduleinfo['name'] . "&was=uninstall'>\n";
-            echo " <table class='bordercolor' width='90%' cellpadding='4' cellspacing='1'>\n";
-            echo "  <tr>\n";
+            $modulesInstalled[$moduleinfo['title'].$moduleId] = $moduleinfo;
 
-            if (!empty($moduleinfo['title'])) {
-                echo "   <td class='titlebg center middle'><strong>\n" . $moduleinfo['title'] . "</strong>&nbsp;<i>(" . $moduleinfo['name'] . ")</i></td>\n";
-            } else {
-                echo "   <td class='titlebg center middle'><strong>\n" . $moduleinfo['name'] . "</strong></td>\n";
-            }
+        } else {
 
-            echo "   <td width='140' rowspan='2' class='windowbg1 center'>";
-            echo "<input type='submit' value='deinstallieren' name='uninstall' class='submit'>";
-            echo "</td>\n";
-            echo "  </tr>\n";
-            echo "  <tr>\n";
-            echo "   <td class='windowbg1 top'>" . $moduleinfo['desc'] . "</td>\n";
-            echo "  </tr>\n";
-            echo " </table>";
-            echo "</form><br>\n";
+            $modules2Install[$moduleinfo['title'].$moduleId] = $moduleinfo;
 
-        } else { //Moduleinstellungsdatei nicht vorhanden (Modul nicht installiert) -> Installation anbieten (erst nach der Anzeige der Installierten Module)
-            if (!empty($moduleinfo['title'])) {
-
-                $installecho .= "<form method='POST' action='index.php?action=" . $moduleinfo['name'] . "&was=install'>"
-                    . " <table class='bordercolor' width='90%' cellpadding='4' cellspacing='1'>\n"
-                    . "  <tr>\n"
-                    . "   <td class='titlebg left middle'><strong>\n" . $moduleinfo['title'] . "</strong>&nbsp;<i>(" . $moduleinfo['name'] . ")</i></td>\n"
-                    . "   <td width='140' rowspan='2' class='windowbg1 center'>"
-                    . "<input type='submit' value='Installieren' name='install' class='submit'>"
-                    . "</td>\n"
-                    . "  </tr>\n"
-                    . "  <tr>\n"
-                    . "   <td class='windowbg1 top'>" . $moduleinfo['desc'] . "</td>\n"
-                    . "  </tr>\n"
-                    . " </table>"
-                    . "</form><br>\n";
-            } else {
-
-                $installecho = $installecho . "<hr width='90%'>"
-                    . "<big><b>" . $moduleinfo['name'] . "</b></big><br><br>"
-                    . "Willst du es jetzt installieren?<br><br>"
-                    . "<form method='POST' action='index.php?action=" . $moduleinfo['name'] . "&was=install'>"
-                    . "<input type='submit' value='Na klar!' name='install' class='submit'>"
-                    . "</form><br>"
-                    . "<hr width='90%'><br>";
-
-            }
         }
+
     }
+    ++$moduleId;
 }
 closedir($moduledirhandle);
 
-if (!empty($installecho)) {
+uksort($modulesInstalled, 'strcasecmp');
+uksort($modules2Install, 'strcasecmp');
 
-    echo "<center>";
+//zuerst die installieren Module anzeigen und deinstallation anbieten
+foreach ($modulesInstalled as $moduleinfo) {
+    echo "<form method='POST'>";
+    echo "<input type='hidden' name='action' value='" . $moduleinfo['name'] . "'>";
+    echo "<input type='hidden' name='was' value='uninstall'>";
+    echo " <table class='bordercolor' width='90%' cellpadding='4' cellspacing='1'>";
+    echo "  <tr>";
 
-    echo "<br><div width='90%' class='windowbg2' style='padding:2px; width:90%; border-width:1px; border-style: solid; boder-color:black'>Nicht installierte Module:</div><br>";
+    if (!empty($moduleinfo['title'])) {
+        echo "   <td class='titlebg left'><span class='bold'>" . $moduleinfo['title'] . "</span>&nbsp;<i>(" . $moduleinfo['name'] . ")</i></td>";
+    } else {
+        echo "   <td class='titlebg left'><span class='bold'>" . $moduleinfo['name'] . "</span></td>";
+    }
 
-    echo "Es wurde mindestens ein Modul gefunden, das noch nicht installiert wurde:<br><br>";
+    echo "   <td rowspan='2' class='windowbg1 center' style='width:140px'>";
+    echo "<input type='submit' value='deinstallieren' name='uninstall' class='btn btn-warning'>";
+    echo "</td>";
+    echo "  </tr>";
+    echo "  <tr>";
+    echo "   <td class='windowbg1 top'>" . $moduleinfo['desc'] . "</td>";
+    echo "  </tr>";
+    echo " </table>";
+    echo "</form><br>";
+}
 
-    echo  $installecho;
+if (!empty($modules2Install)) {
 
-    echo "</center> \n";
+    echo "<br><div class='windowbg2' style='padding:2px; width:95%; border-width:1px; border-style: solid; boder-color:black'>Nicht installierte Module:</div><br>";
+    echo "<div>Es wurde mindestens ein Modul gefunden, das noch nicht installiert wurde:</div><br>";
+}
 
+foreach ($modules2Install as $moduleinfo) {
+    echo "<form method='POST'>";
+    echo "<input type='hidden' name='action' value='" . $moduleinfo['name'] . "'>";
+    echo "<input type='hidden' name='was' value='install'>";
+    echo " <table class='bordercolor' width='90%' cellpadding='4' cellspacing='1'>";
+    echo "  <tr>";
+
+    if (!empty($moduleinfo['title'])) {
+        echo "   <td class='titlebg left'><span class='bold'>" . $moduleinfo['title'] . "</span>&nbsp;<i>(" . $moduleinfo['name'] . ")</i></td>";
+    } else {
+        echo "   <td class='titlebg left'><span class='bold'>" . $moduleinfo['name'] . "</span></td>";
+    }
+
+    echo "   <td rowspan='2' class='windowbg1 center' style='width:140px'>";
+    echo "<input type='submit' value='installieren' name='install' class='btn'>";
+    echo "</td>";
+    echo "  </tr>";
+    echo "  <tr>";
+    echo "   <td class='windowbg1 top'>" . $moduleinfo['desc'] . "</td>";
+    echo "  </tr>";
+    echo " </table>";
+    echo "</form><br>";
 }

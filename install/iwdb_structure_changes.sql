@@ -147,3 +147,6 @@ CREATE TABLE IF NOT EXISTS `prefix_scans_geb` (
   `geb_anz` int(11) NOT NULL,
   `time` int(10) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='DB-Gebäudescans' ;
+
+ALTER TABLE `prefix_scans` ADD `geblink` VARCHAR( 120 ) NOT NULL AFTER `geolink`;
+ALTER TABLE `prefix_scans` ADD `schifflink` VARCHAR( 120 ) NOT NULL AFTER `geblink`;

@@ -297,20 +297,28 @@ function parse_sbxml($xmldata)
     if ($scan_typ === 2 || $scan_typ === 3) {
         foreach ($xml->ressourcen as $ressourcen) {
             foreach ($ressourcen->ressource as $ressource) {
-                if ($ressource->id == 1) {
-                    $scan_data['eisen'] = (int)$ressource->anzahl;
-                } else if ($ressource->id == 2) {
-                    $scan_data['stahl'] = (int)$ressource->anzahl;
-                } else if ($ressource->id == 3) {
-                    $scan_data['vv4a'] = (int)$ressource->anzahl;
-                } else if ($ressource->id == 4) {
-                    $scan_data['eis'] = (int)$ressource->anzahl;
-                } else if ($ressource->id == 5) {
-                    $scan_data['chemie'] = (int)$ressource->anzahl;
-                } else if ($ressource->id == 6) {
-                    $scan_data['wasser'] = (int)$ressource->anzahl;
-                } else if ($ressource->id == 7) {
-                    $scan_data['energie'] = (int)$ressource->anzahl;
+                switch ((int)$ressource->id) {
+                    case 1:
+                        $scan_data['eisen'] = (int)$ressource->anzahl;
+                        break;
+                    case 2:
+                        $scan_data['stahl'] = (int)$ressource->anzahl;
+                        break;
+                    case 3:
+                        $scan_data['vv4a'] = (int)$ressource->anzahl;
+                        break;
+                    case 4:
+                        $scan_data['eis'] = (int)$ressource->anzahl;
+                        break;
+                    case 5:
+                        $scan_data['chemie'] = (int)$ressource->anzahl;
+                        break;
+                    case 6:
+                        $scan_data['wasser'] = (int)$ressource->anzahl;
+                        break;
+                    case 7:
+                        $scan_data['energie'] = (int)$ressource->anzahl;
+                        break;
                 }
             }
         }
@@ -320,7 +328,7 @@ function parse_sbxml($xmldata)
     $results = save_sbxml($scan_data);
     debug_var("save_sbxml", $results);
     foreach ($results as $result) {
-        echo "<div class='system_notification'>" . $result . "</div>";
+        doc_message($result);
     }
 
     return true;

@@ -920,39 +920,70 @@ function makeduration2($time1, $time2 = null)
  *
  * läd und parsed die angegebene xml Datei
  *
- * @param string $url URL der xml-Datei
+ * @param string $strUrl URL der xml-Datei
+ * @param string $strUseragent optional Useragentstring
  *
  * @throws Exception
- * @return bool|object|\SimpleXMLElement Simplexml Object bei erfolg, false on error
+ * @return bool|object|\SimpleXMLElement Simplexml Object bei Erfolg, false bei Fehler
  *
  * @author   masel
  *
  * @todo     error handling
  */
-function simplexml_load_file_ex($url)
+function simplexml_load_file_ex($strUrl, $strUseragent = null)
 {
-    if (ini_get('allow_url_fopen') == true) { //zuerst versuchen die xml per simple_load_file zu laden und parsen falls allow_url_fopen on (spart braucht weniger Speicher?)
+    if (ini_get('allow_url_fopen')) {
 
-        return simplexml_load_file($url);
+        debug_var('connection-type', 'fopen', 2);
+
+        if (!empty($strUseragent)) {
+            ini_set("user_agent", $strUseragent);
+        }
+
+        $fp = fopen($strUrl, 'r', false, stream_context_create(array('http' => array('timeout' => '60'))));
+        if ($fp) {
+            debug_var('stream_get_meta_data', stream_get_meta_data($fp), 2);
+
+            $contents = '';
+            while (!feof($fp)) {
+                $contents .= fread($fp, 8192);
+            }
+            fclose($fp);
+
+            return simplexml_load_string($contents);
+        } else {
+            debug_var('stream_get_meta_data', stream_get_meta_data($fp), 0);
+        }
+
+        return false;
 
     } elseif (function_exists('curl_init')) { //alternativ per curl falls vorhanden
 
-        if ($curl = curl_init($url)) {
-            curl_setopt($curl, CURLOPT_HEADER, false);
-            curl_setopt($curl, CURLOPT_USERAGENT, 'IWDB');
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 60);
-            curl_setopt($curl, CURLOPT_TIMEOUT, 60);
-            $result = curl_exec($curl);
+        debug_var('connection-type', 'curl', 2);
 
-            if ((curl_errno($curl) === 0)) {
-                $info = curl_getinfo($curl);
-                if ($info['http_code'] < 400) {
-                    curl_close($curl);
+        if ($hCurl = curl_init($strUrl)) {
+            curl_setopt($hCurl, CURLOPT_HEADER, false);
+            curl_setopt($hCurl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($hCurl, CURLOPT_CONNECTTIMEOUT, 60);
+            curl_setopt($hCurl, CURLOPT_TIMEOUT, 60);
+            if (!empty($strUseragent)) {
+                curl_setopt($hCurl, CURLOPT_USERAGENT, $strUseragent);
+            }
+            $result = curl_exec($hCurl);
 
+            $info = curl_getinfo($hCurl);
+            if ((curl_errno($hCurl) === 0)) {
+                debug_var('curl_getinfo', $info, 2);
+
+                if ($info['http_code'] == 200) {
+                    curl_close($hCurl);
                     return simplexml_load_string($result);
                 }
 
+            } else {
+                debug_var('curl_getinfo', $info, 2);
+                debug_var('curl_error', curl_error($hCurl), 0);
+                curl_close($hCurl);
             }
 
         }
@@ -1085,7 +1116,7 @@ function redirect($link, $linktext = '')
     }
 
     echo "<a href='$link'>$linktext</a>";
-    echo "<script language ='JavaScript'>";
+    echo "<script>";
     echo "window.location.replace('$link')";
     echo "</script>";
 }
@@ -1182,8 +1213,8 @@ function getAllyAccTypesSelect($allianz = null) {
     foreach ($allyacctypes as $value) {
         $selectacctypes['(Nur '.$value.')'] = '(Nur '.$value.')';
     }
-    return $selectacctypes;
 
+    return $selectacctypes;
 }
 
 function getAllyTeams($allianz = null)

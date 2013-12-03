@@ -45,7 +45,7 @@ function parse_de_index($return)
 
     debug_var('Input', $return);
 
-    //get Accname
+    //get Accname from Koords
     $AccName = false;
     foreach ($return->objResultData->aContainer as $aContainer) {
         if (($aContainer->strIdentifier == "de_index_geb") AND ($aContainer->bSuccessfullyParsed)) {
@@ -549,7 +549,7 @@ function display_de_index()
         echo "<br>";
         start_table();
         start_row("titlebg", "colspan='4'");
-        echo "<span style='font-weight:bold;'>Anfliegende Lieferungen</span>";
+        echo "<span style='font-weight:bold;'>Fliegende Lieferungen</span>";
         next_row("windowbg2", "");
         echo "Ziel";
         next_cell("windowbg2", "");

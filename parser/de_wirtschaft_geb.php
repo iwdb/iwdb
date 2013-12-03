@@ -40,48 +40,56 @@ if (!defined('DEBUG_LEVEL')) {
 function parse_de_wirtschaft_geb($return)
 {
     global $db, $db_tb_gebaeude_spieler, $selectedusername;
-    $count = 0;
 
     $AccName = getAccNameFromKolos($return->objResultData->aKolos);
     if ($AccName === false) { //kein Eintrag gefunden -> ausgewählten Accname verwenden
         $AccName = $selectedusername;
     }
 
+    //alle alten Einträge des Accs weg
     $sql = "DELETE FROM " . $db_tb_gebaeude_spieler . " WHERE user='" . $AccName . "'";
     $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
+    $aCoords_old = array();
     foreach ($return->objResultData->aAreas as $area) {
         foreach ($area->aBuildings as $building) {
-            $sql = "REPLACE INTO $db_tb_gebaeude_spieler ("
-                 . "coords_gal,coords_sys,coords_planet,kolo_typ,user,category,building,count,time"
-                 . ") VALUES ";
+            foreach ($building->aCounts as $coords => $iGebcount) {
 
-            foreach ($building->aCounts as $coords => $count) {
                 $aCoords = explode(":", $coords);
-                $sql .= "(";
-                $sql .= $aCoords[0];
-                $sql .= "," . $aCoords[1];
-                $sql .= "," . $aCoords[2];
-                $sql .= ",'" . $return->objResultData->aKolos[$coords]->strObjectType . "'";
-                $sql .= ",'" . $AccName . "'";
-                $sql .= ",'" . htmlspecialchars($area->strAreaName, ENT_QUOTES, 'UTF-8') . "'";
-                $sql .= ",'" . htmlspecialchars($building->strBuildingName, ENT_QUOTES, 'UTF-8') . "'";
-                $sql .= "," . $count;
-                $sql .= "," . CURRENT_UNIX_TIME . "),
-                    ";
+                if (count($aCoords) !== 3) {        //Koordinaten ungültig
+                    throw new Exception("Fehlerhafte Koordinaten!");
+                    break;
+                }
+
+                if ($aCoords !== $aCoords_old) {
+                    //alle alten Einträge des Planies weg die nicht zum Acc gehören
+                    $sql = "DELETE FROM " . $db_tb_gebaeude_spieler . " WHERE coords_gal=" . (int)$aCoords[0] . " AND coords_sys=" . (int)$aCoords[1] . " AND coords_planet=" . (int)$aCoords[2] . " AND user!='" . $AccName . "';";
+                    $db->db_query($sql);
+
+                    $aCoords_old = $aCoords;
+                }
+
+
+                $SQLdata = array (
+                    'coords_gal' => (int)$aCoords[0],
+                    'coords_sys' => (int)$aCoords[1],
+                    'coords_planet' => (int)$aCoords[2],
+                    'kolo_typ' => $return->objResultData->aKolos[$coords]->strObjectType,
+                    'user'  => $AccName,
+                    'category' => htmlspecialchars(trim($area->strAreaName), ENT_QUOTES, 'UTF-8'),
+                    'building' => htmlspecialchars($building->strBuildingName, ENT_QUOTES, 'UTF-8'),
+                    'count' => $iGebcount,
+                    'time' => CURRENT_UNIX_TIME
+                );
+
+                $db->db_insertupdate($db_tb_gebaeude_spieler, $SQLdata);
+
             }
-            $sql = preg_replace('@\,\s+\z@', ';', $sql);
-            debug_var('sql', $sql);
-            $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-            $count++;
         }
     }
 
-    if ($count) {
-        echo "<div class='system_notification'>Gebäudeübersicht für {$AccName} aktualisiert.</div>";
-    }
+    echo "<div class='system_notification'>Gebäudeübersicht für {$AccName} aktualisiert.</div>";
 
     return;
 }

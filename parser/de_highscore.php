@@ -43,8 +43,8 @@ function parse_de_highscore($result)
     $bDateOfEntryVisible = $result->objResultData->bDateOfEntryVisible;
     $strHighscoreType    = $result->objResultData->strType;
 
-    $aHighscoreTypen     = array('Demokraten', 'Diktatoren', 'Kommunisten', 'Monarchen');
-    $aStaatsformen       = array('Demokrat', 'Diktator', 'Kommunist', 'Monarch');
+    $aHighscoreTypen     = array('Demokraten', 'Diktatoren', 'Kommunisten', 'Monarchen', 'Barbaren');
+    $aStaatsformen       = array('Demokrat', 'Diktator', 'Kommunist', 'Monarch', 'Barbar');
     $strStaatsform       = str_replace($aHighscoreTypen, $aStaatsformen, $strHighscoreType);
 
     $count = 0;

@@ -37,6 +37,7 @@ if (!defined('IRA')) {
 //  Ab hier sind Angaben die nicht unbedingt geändert werden müssen.
 //
 //allgemeine Pfadangaben
+define('LOG_PATH', "log/");
 define('BILDER_PATH', "bilder/");
 define('GEBAEUDE_BILDER_PATH', BILDER_PATH."gebs/");
 define('BANNER_PATH', BILDER_PATH."banner/");

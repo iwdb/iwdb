@@ -236,10 +236,21 @@ $result = $db->db_query($sql);
 				</td>
 				<td>
 					<?php
-					$sql_einmaurer = "SELECT `einmaurer`, `staatsform` FROM `{$db_tb_spieler}` WHERE `name`='".$row['user']."'";
+					$sql_einmaurer = "SELECT `einmaurer`, `staatsform`, `umode`, `gesperrt` FROM `{$db_tb_spieler}` WHERE `name`='".$row['user']."'";
 					$result_einmaurer = $db->db_query($sql_einmaurer);
 					$row_einmaurer = $db->db_fetch_array($result_einmaurer);
-					echo $row['user'];
+					if ($row_einmaurer['umode']) {
+						echo '<abbr title="Umode">';
+						echo '<font color="#FF7256">' . $row['user']. '</font>';
+						echo '</abbr>';
+					}
+					elseif ($row_einmaurer['gesperrt']) {
+						echo '<abbr title="Gesperrt">';
+						echo '<font color="#EE9A00">' . $row['user']. '</font>';
+						echo '</abbr>';
+					}
+					else
+						echo $row['user'];
 					if ($row_einmaurer['einmaurer']=='1') {
                         echo '<abbr title="Einmaurer">';
 						echo '  <img src="'.BILDER_PATH.'icon_einmaurer.png">';

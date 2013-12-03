@@ -18,18 +18,35 @@ if(!empty($_SERVER['SCRIPT_NAME']) AND basename($_SERVER['SCRIPT_NAME']) === 'aj
     define('AJAX_REQUEST', false);
 }
 
+if (AJAX_REQUEST !== true) {
+    //bcrypt hashing testen, sollte gehen ab php 5.3.7+ und zurückportierten (zB. Debian-) Versionen
+    $properlyhash = '$2y$04$usesomesillystringfore7hnbRJHxXVLeakoG8K30oukPsA.ztMG';
+    $testhash = crypt("password", $properlyhash);
+    if ($testhash  !== $properlyhash) {
+        exit('bcrypt arbeitet mit dieser php-Version ('.PHP_VERSION.') nicht wie vorgesehen!');
+    }
+
+    if (!extension_loaded('mcrypt')) {
+        exit('mcrypt erweiterung nicht vorhanden!');
+    }
+}
+
 //all errors on
 error_reporting(E_ALL | E_STRICT);
 ini_set("display_errors", '1');
 libxml_use_internal_errors(true);
 $error = '';
 
+ini_set("pcre.recursion_limit", "524");             //php-Standardwert 100.000 ist viel zu hoch, 524 sollte auf allen Systemen laufen
+
 //set some standards
 date_default_timezone_set('Europe/Berlin');
 mb_internal_encoding("UTF-8"); //just to make sure we are talking the same language
 mb_http_output("UTF-8");
 header('Content-Type: text/html; charset=UTF-8');
-header('X-XSS-Protection: 1; mode=block');
+header('X-Frame-Options: SAMEORIGIN');              //IWDB nicht innerhalb von anderen Frames darstellen (Clickjacking protection)
+header('X-XSS-Protection: 1; mode=block');          //Cross-site scripting (XSS) Schutz
+header('X-UA-Compatible: IE=Edge,chrome=1');        //Google Chrome Frame im IE (falls vorhanden) oder ab IE9 neusten IE renderer (kein compability mode) nutzen
 
 // Das aktuelle Datum wird pro Skriptaufruf nur einmal geholt, +-x kann
 // entsprechend hier geändert werden

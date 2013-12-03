@@ -6,7 +6,9 @@ define('APPLICATION_PATH_URL', dirname($_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_
 
 require_once("includes/bootstrap.php");
 
-if (empty($sid) || empty($user_sitterlogin) || !($user_adminsitten == SITTEN_BOTH || $user_adminsitten == SITTEN_ONLY_LOGINS) || $user_id == "guest") {
+global $db, $db_tb_user, $db_tb_lieferung, $user_sitterlogin, $db_tb_sitterlog;
+
+if ((($login_ok === false)) || empty($user_sitterlogin) || !($user_adminsitten == SITTEN_BOTH || $user_adminsitten == SITTEN_ONLY_LOGINS)) {
     header("Location: " . APPLICATION_PATH_RELATIVE);
     exit;
 }
@@ -22,7 +24,7 @@ $status = array(
     'past'   => 4,
 );
 
-$allianz = getVar("allianz");
+$allianz = $db->escape(getVar("allianz"));
 if ($user_fremdesitten == false) {
     $allianz = $user_allianz;
 } else {
@@ -136,35 +138,25 @@ foreach ($status as $key) {
 }
 
 // Get request parameter
-if (isset($_REQUEST['login'])) {
-    $login = $_REQUEST['login'];
+$action = getVar('action');
+
+if ($action === 'own') {
+    $login = $user_sitterlogin;
+} else {
+    $login = getVar('login');
 }
 
-if (isset($_REQUEST['mode'])) {
-    $mode = $_REQUEST['mode'];
-}
-
+$mode = getVar('mode');
 if (empty($mode)) {
     $mode = 'index';
 }
 
-$action = null;
-if (isset($_REQUEST['action'])) {
-    $action = $_REQUEST['action'];
-}
-
-if ($action == 'own') {
-    $login = $user_sitterlogin;
-}
-
-if (isset($_REQUEST['redirect'])) {
-    $redirect = $_REQUEST['redirect'];
-} else {
+$redirect = getVar('redirect');
+if (!empty($redirect)) {
     $redirect = '';
 }
 
-$logout = getVar('logout');
-if ($logout == 'Ausloggen') {
+if (getVar('logout')) {
     foreach ($users as $user) {
         if ($user['lastsitteruser'] == $user_sitterlogin) {
             $user['lastsitterloggedin'] = 0;
@@ -174,15 +166,15 @@ if ($logout == 'Ausloggen') {
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 }
-$done = getVar('done');
-if ($done == 'Erledigt') {
+
+if (getVar('done')) {
     foreach ($users as $user) {
         if ($user['lastsitteruser'] == $user_sitterlogin) {
             $user['lastsitterloggedin'] = 0;
 
             $sql = "UPDATE " . $db_tb_user . " SET lastsitterloggedin=0,dauersittenlast=" . CURRENT_UNIX_TIME . " WHERE id='" . $user['id'] . "'";
             $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
         }
     }
 }

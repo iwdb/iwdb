@@ -167,236 +167,221 @@ $result = $db->db_query($sql);
 
 ?>
 
-<table data-sortlist='[[0,0]]'class="tablesorter-blue">
-	<thead>
-		<tr>
-			<th>
-				<b>Koords</b>
-			</th>
-			<th>
-				<b>Spieler</b>
-			</th>
-			<th>
-				<abbr title="Flottenscanner">
-				<?php
-				echo "<img src='".GEBAEUDE_BILDER_PATH."flottenscanner.jpg'>";
-				?>
-				</abbr>
-			</th>
-			<th>
-				<abbr title="Galascanner">
-				<?php
-				echo "<img src='".GEBAEUDE_BILDER_PATH."orb_gal_scanner.jpg'>";
-				?>
-			</th>
-			<th>
-				<abbr title="PU orbital">
-				<?php
-				echo "<img src='".GEBAEUDE_BILDER_PATH."panzer_update_orb.jpg'>";
-				?>
-				</abbr>
-			</th>
-			<th>
-				<abbr title="PU planetar">
-				<?php
-				echo "<img src='".GEBAEUDE_BILDER_PATH."panzer_update_plan.jpg'>";
-				?>
-				</abbr>
-			</th>
-			<th>
-				<abbr title="Alpha Schild">
-				<?php
-				echo "<img src='".GEBAEUDE_BILDER_PATH."plan_alphaschild.jpg'>";
-				?>
-				</abbr>
-			</th>
-			<th>
-				<abbr title="DN Werft">
-				<?php
-				echo "<img src='".GEBAEUDE_BILDER_PATH."dn_werft.jpg'>";
-				?>
-				</abbr>
-			</th>
-			<th>
-				<abbr title="große Werft">
-				<?php
-				echo "<img src='".GEBAEUDE_BILDER_PATH."gr_werft.jpg'>";
-				?>
-				</abbr>
-			</th>
-		</tr>
-	</thead>
-	<tbody>
-		<?php
-		while ($row = $db->db_fetch_array($result)) {
-		?>
-			<tr>
-				<td>
-					<a href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>"><?php echo $row['coords'];?></a>
-				</td>
-				<td>
-					<?php
-					$sql_einmaurer = "SELECT `einmaurer`, `staatsform`, `umode`, `gesperrt` FROM `{$db_tb_spieler}` WHERE `name`='".$row['user']."'";
-					$result_einmaurer = $db->db_query($sql_einmaurer);
-					$row_einmaurer = $db->db_fetch_array($result_einmaurer);
-					if ($row_einmaurer['umode']) {
-						echo '<abbr title="Umode">';
-						echo '<font color="#FF7256">' . $row['user']. '</font>';
-						echo '</abbr>';
-					}
-					elseif ($row_einmaurer['gesperrt']) {
-						echo '<abbr title="Gesperrt">';
-						echo '<font color="#EE9A00">' . $row['user']. '</font>';
-						echo '</abbr>';
-					}
-					else
-						echo $row['user'];
-					if ($row_einmaurer['einmaurer']=='1') {
-                        echo '<abbr title="Einmaurer">';
-						echo '  <img src="'.BILDER_PATH.'icon_einmaurer.png">';
-					}
-					if ($row_einmaurer['staatsform']=='Kommunist') {
-                        echo '<abbr title="Kommunist">';
-						echo '  <img src="'.BILDER_PATH.'icon_fleeter.png">';
-					}
-					?>
-				</td>
-				<td>
-					<?php
-						$sql_geb1 = "SELECT `geb_anz` FROM `{$db_tb_scans_geb}` WHERE (`coords`='".$row['coords']."' AND `geb_id_iw`='143')";          //Flottenscanner
-						$result_geb1 = $db->db_query($sql_geb1)
-							or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_geb1);
-						$row_geb1 = $db->db_fetch_array($result_geb1);
-						echo $row_geb1['geb_anz'];
-					?>
-				</td>
-				<td>
-					<?php
-						$sql_geb2 = "SELECT `geb_anz` FROM `{$db_tb_scans_geb}` WHERE (`coords`='".$row['coords']."' AND `geb_id_iw`='117')";           //orbitaler Galaxienscanner
-						$result_geb2 = $db->db_query($sql_geb2)
-							or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_geb2);
-						$row_geb2 = $db->db_fetch_array($result_geb2);
-						echo $row_geb2['geb_anz'];
-					?>
-				</td>
-				<td>
-					<?php
-						$sql_geb3 = "SELECT `geb_anz` FROM `{$db_tb_scans_geb}` WHERE (`coords`='".$row['coords']."' AND `geb_id_iw`='145')";           //Panzerungsupdate Orbital
-						$result_geb3 = $db->db_query($sql_geb3)
-							or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_geb3);
-						$row_geb3 = $db->db_fetch_array($result_geb3);
-						echo $row_geb3['geb_anz'];
-					?>
-				</td>
-				<td>
-					<?php
-						$sql_geb4 = "SELECT `geb_anz` FROM `{$db_tb_scans_geb}` WHERE (`coords`='".$row['coords']."' AND `geb_id_iw`='144')";           //Panzerungsupdate Planetar
-						$result_geb4 = $db->db_query($sql_geb4)
-							or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_geb4);
-						$row_geb4 = $db->db_fetch_array($result_geb4);
-						echo $row_geb4['geb_anz'];
-					?>
-				</td>
-				<td>
-					<?php
-						$sql_geb5 = "SELECT `geb_anz` FROM `{$db_tb_scans_geb}` WHERE (`coords`='".$row['coords']."' AND `geb_id_iw`='162')";           //planetares Alpha Schild
-						$result_geb5 = $db->db_query($sql_geb5)
-							or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_geb5);
-						$row_geb5 = $db->db_fetch_array($result_geb5);
-						echo $row_geb5['geb_anz'];
-					?>
-				</td>
-				<td>
-					<?php
-						$sql_geb6 = "SELECT `geb_anz` FROM `{$db_tb_scans_geb}` WHERE (`coords`='".$row['coords']."' AND `geb_id_iw`='148')";          //DN Werft
-						$result_geb6 = $db->db_query($sql_geb6)
-							or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_geb6);
-						$row_geb6 = $db->db_fetch_array($result_geb6);
-						echo $row_geb6['geb_anz'];
-					?>
-				</td>
-				<td>
-					<?php
-						$sql_geb7 = "SELECT `geb_anz` FROM `{$db_tb_scans_geb}` WHERE (`coords`='".$row['coords']."' AND `geb_id_iw`='146')";           //große Werft
-						$result_geb7 = $db->db_query($sql_geb7)
-							or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_geb7);
-						$row_geb7 = $db->db_fetch_array($result_geb7);
-						echo $row_geb7['geb_anz'];
-					?>
-				</td>
-			</tr>
-		<?php
-		}
-		?>
-	</tbody>
-	<tfoot>
-		<tr>
-			<th colspan="2">
-				<b>Gesamt:</b>
-			</th>
-			<th>
-				<?php
-					$sql_geb1 = "SELECT SUM(geb_anz) AS anzahl FROM `{$db_tb_scans_geb}` WHERE `geb_id_iw`='143'";                  //Flottenscanner
-					$result_geb1 = $db->db_query($sql_geb1)
-						or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_geb1);
-					$row_geb1 = $db->db_fetch_array($result_geb1);
-					echo $row_geb1['anzahl'];
-				?>
-			</th>
-			<th>
-				<?php
-					$sql_geb2 = "SELECT SUM(geb_anz) AS anzahl FROM `{$db_tb_scans_geb}` WHERE `geb_id_iw`='117'";                  //orbitaler Galaxienscanner
-					$result_geb2 = $db->db_query($sql_geb2)
-						or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_geb2);
-					$row_geb2 = $db->db_fetch_array($result_geb2);
-					echo $row_geb2['anzahl'];
-				?>
-			</th>
-			<th>
-				<?php
-					$sql_geb3 = "SELECT SUM(geb_anz) AS anzahl FROM `{$db_tb_scans_geb}` WHERE `geb_id_iw`='145'";                  //Panzerungsupdate Orbital
-					$result_geb3 = $db->db_query($sql_geb3)
-						or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_geb3);
-					$row_geb3 = $db->db_fetch_array($result_geb3);
-					echo $row_geb3['anzahl'];
-				?>
-			</th>
-			<th>
-				<?php
-					$sql_geb4 = "SELECT SUM(geb_anz) AS anzahl FROM `{$db_tb_scans_geb}` WHERE `geb_id_iw`='144'";                  //Panzerungsupdate Planetar
-					$result_geb4 = $db->db_query($sql_geb4)
-						or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_geb4);
-					$row_geb4 = $db->db_fetch_array($result_geb4);
-					echo $row_geb4['anzahl'];
-				?>
-			</th>
-			<th>
-				<?php
-					$sql_geb5 = "SELECT SUM(geb_anz) AS anzahl FROM `{$db_tb_scans_geb}` WHERE `geb_id_iw`='162'";                  //planetares Alpha Schild
-					$result_geb5 = $db->db_query($sql_geb5)
-						or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_geb5);
-					$row_geb5 = $db->db_fetch_array($result_geb5);
-					echo $row_geb5['anzahl'];
-				?>
-			</th>
-			<th>
-				<?php
-					$sql_geb6 = "SELECT SUM(geb_anz) AS anzahl FROM `{$db_tb_scans_geb}` WHERE `geb_id_iw`='148'";                  //DN Werft
-					$result_geb6 = $db->db_query($sql_geb6)
-						or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_geb6);
-					$row_geb6 = $db->db_fetch_array($result_geb6);
-					echo $row_geb6['anzahl'];
-				?>
-			</th>
-			<th>
-				<?php
-					$sql_geb7 = "SELECT SUM(geb_anz) AS anzahl FROM `{$db_tb_scans_geb}` WHERE `geb_id_iw`='146'";                  //große Werft
-					$result_geb7 = $db->db_query($sql_geb7)
-						or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_geb7);
-					$row_geb7 = $db->db_fetch_array($result_geb7);
-					echo $row_geb7['anzahl'];
-				?>
-			</th>
-		</tr>
-	</tfoot>
+<table data-sortlist='[[0,0]]' class="tablesorter-blue">
+<thead>
+<tr>
+    <th>
+        <b>Koords</b>
+    </th>
+    <th>
+        <b>Spieler</b>
+    </th>
+    <th>
+        <abbr title="Flottenscanner">
+            <?php
+            echo "<img src='" . GEBAEUDE_BILDER_PATH . "flottenscanner.jpg'>";
+            ?>
+        </abbr>
+    </th>
+    <th>
+        <abbr title="Galascanner">
+            <?php
+            echo "<img src='" . GEBAEUDE_BILDER_PATH . "orb_gal_scanner.jpg'>";
+            ?>
+    </th>
+    <th>
+        <abbr title="PU orbital">
+            <?php
+            echo "<img src='" . GEBAEUDE_BILDER_PATH . "panzer_update_orb.jpg'>";
+            ?>
+        </abbr>
+    </th>
+    <th>
+        <abbr title="PU planetar">
+            <?php
+            echo "<img src='" . GEBAEUDE_BILDER_PATH . "panzer_update_plan.jpg'>";
+            ?>
+        </abbr>
+    </th>
+    <th>
+        <abbr title="Alpha Schild">
+            <?php
+            echo "<img src='" . GEBAEUDE_BILDER_PATH . "plan_alphaschild.jpg'>";
+            ?>
+        </abbr>
+    </th>
+    <th>
+        <abbr title="DN Werft">
+            <?php
+            echo "<img src='" . GEBAEUDE_BILDER_PATH . "dn_werft.jpg'>";
+            ?>
+        </abbr>
+    </th>
+    <th>
+        <abbr title="große Werft">
+            <?php
+            echo "<img src='" . GEBAEUDE_BILDER_PATH . "gr_werft.jpg'>";
+            ?>
+        </abbr>
+    </th>
+</tr>
+</thead>
+<tbody>
+<?php
+while ($row = $db->db_fetch_array($result)) {
+    ?>
+    <tr>
+        <td>
+            <a href="index.php?action=showplanet&coords=<?php echo $row['coords']; ?>"><?php echo $row['coords']; ?></a>
+        </td>
+        <td>
+            <?php
+            $sql_spieler = "SELECT `einmaurer`, `staatsform`, `umode`, `gesperrt` FROM `{$db_tb_spieler}` WHERE `name`='" . $row['user'] . "'";
+            $result_spieler = $db->db_query($sql_spieler);
+            $row_spieler = $db->db_fetch_array($result_spieler);
+            if ($row_spieler['umode']) {
+                echo '<abbr title="Umode">';
+                echo '<font color="#FF7256">' . $row['user'] . '</font>';
+                echo '</abbr>';
+            } elseif ($row_spieler['gesperrt']) {
+                echo '<abbr title="Gesperrt">';
+                echo '<font color="#EE9A00">' . $row['user'] . '</font>';
+                echo '</abbr>';
+            } else {
+                echo $row['user'];
+            }
+            if ($row_spieler['einmaurer']) {
+                echo '<abbr title="Einmaurer">';
+                echo '  <img src="' . BILDER_PATH . 'icon_einmaurer.png">';
+            }
+            if ($row_spieler['staatsform'] == 'Kommunist') {
+                echo '<abbr title="Kommunist">';
+                echo '  <img src="' . BILDER_PATH . 'icon_fleeter.png">';
+            }
+            ?>
+        </td>
+        <td>
+            <?php
+            $sql_geb1 = "SELECT `geb_anz` FROM `{$db_tb_scans_geb}` WHERE (`coords`='" . $row['coords'] . "' AND `geb_id_iw`='143')"; //Flottenscanner
+            $result_geb1 = $db->db_query($sql_geb1);
+            $row_geb1 = $db->db_fetch_array($result_geb1);
+            echo $row_geb1['geb_anz'];
+            ?>
+        </td>
+        <td>
+            <?php
+            $sql_geb2 = "SELECT `geb_anz` FROM `{$db_tb_scans_geb}` WHERE (`coords`='" . $row['coords'] . "' AND `geb_id_iw`='117')"; //orbitaler Galaxienscanner
+            $result_geb2 = $db->db_query($sql_geb2);
+            $row_geb2 = $db->db_fetch_array($result_geb2);
+            echo $row_geb2['geb_anz'];
+            ?>
+        </td>
+        <td>
+            <?php
+            $sql_geb3 = "SELECT `geb_anz` FROM `{$db_tb_scans_geb}` WHERE (`coords`='" . $row['coords'] . "' AND `geb_id_iw`='145')"; //Panzerungsupdate Orbital
+            $result_geb3 = $db->db_query($sql_geb3);
+            $row_geb3 = $db->db_fetch_array($result_geb3);
+            echo $row_geb3['geb_anz'];
+            ?>
+        </td>
+        <td>
+            <?php
+            $sql_geb4 = "SELECT `geb_anz` FROM `{$db_tb_scans_geb}` WHERE (`coords`='" . $row['coords'] . "' AND `geb_id_iw`='144')"; //Panzerungsupdate Planetar
+            $result_geb4 = $db->db_query($sql_geb4);
+            $row_geb4 = $db->db_fetch_array($result_geb4);
+            echo $row_geb4['geb_anz'];
+            ?>
+        </td>
+        <td>
+            <?php
+            $sql_geb5 = "SELECT `geb_anz` FROM `{$db_tb_scans_geb}` WHERE (`coords`='" . $row['coords'] . "' AND `geb_id_iw`='162')"; //planetares Alpha Schild
+            $result_geb5 = $db->db_query($sql_geb5);
+            $row_geb5 = $db->db_fetch_array($result_geb5);
+            echo $row_geb5['geb_anz'];
+            ?>
+        </td>
+        <td>
+            <?php
+            $sql_geb6 = "SELECT `geb_anz` FROM `{$db_tb_scans_geb}` WHERE (`coords`='" . $row['coords'] . "' AND `geb_id_iw`='148')"; //DN Werft
+            $result_geb6 = $db->db_query($sql_geb6);
+            $row_geb6 = $db->db_fetch_array($result_geb6);
+            echo $row_geb6['geb_anz'];
+            ?>
+        </td>
+        <td>
+            <?php
+            $sql_geb7 = "SELECT `geb_anz` FROM `{$db_tb_scans_geb}` WHERE (`coords`='" . $row['coords'] . "' AND `geb_id_iw`='146')"; //große Werft
+            $result_geb7 = $db->db_query($sql_geb7);
+            $row_geb7 = $db->db_fetch_array($result_geb7);
+            echo $row_geb7['geb_anz'];
+            ?>
+        </td>
+    </tr>
+<?php
+}
+?>
+</tbody>
+<tfoot>
+<tr>
+    <th colspan="2">
+        <b>Gesamt:</b>
+    </th>
+    <th>
+        <?php
+        $sql_geb1 = "SELECT SUM(geb_anz) AS anzahl FROM `{$db_tb_scans_geb}` WHERE `geb_id_iw`='143'"; //Flottenscanner
+        $result_geb1 = $db->db_query($sql_geb1);
+        $row_geb1 = $db->db_fetch_array($result_geb1);
+        echo $row_geb1['anzahl'];
+        ?>
+    </th>
+    <th>
+        <?php
+        $sql_geb2 = "SELECT SUM(geb_anz) AS anzahl FROM `{$db_tb_scans_geb}` WHERE `geb_id_iw`='117'"; //orbitaler Galaxienscanner
+        $result_geb2 = $db->db_query($sql_geb2);
+        $row_geb2 = $db->db_fetch_array($result_geb2);
+        echo $row_geb2['anzahl'];
+        ?>
+    </th>
+    <th>
+        <?php
+        $sql_geb3 = "SELECT SUM(geb_anz) AS anzahl FROM `{$db_tb_scans_geb}` WHERE `geb_id_iw`='145'"; //Panzerungsupdate Orbital
+        $result_geb3 = $db->db_query($sql_geb3);
+        $row_geb3 = $db->db_fetch_array($result_geb3);
+        echo $row_geb3['anzahl'];
+        ?>
+    </th>
+    <th>
+        <?php
+        $sql_geb4 = "SELECT SUM(geb_anz) AS anzahl FROM `{$db_tb_scans_geb}` WHERE `geb_id_iw`='144'"; //Panzerungsupdate Planetar
+        $result_geb4 = $db->db_query($sql_geb4);
+        $row_geb4 = $db->db_fetch_array($result_geb4);
+        echo $row_geb4['anzahl'];
+        ?>
+    </th>
+    <th>
+        <?php
+        $sql_geb5 = "SELECT SUM(geb_anz) AS anzahl FROM `{$db_tb_scans_geb}` WHERE `geb_id_iw`='162'"; //planetares Alpha Schild
+        $result_geb5 = $db->db_query($sql_geb5);
+        $row_geb5 = $db->db_fetch_array($result_geb5);
+        echo $row_geb5['anzahl'];
+        ?>
+    </th>
+    <th>
+        <?php
+        $sql_geb6 = "SELECT SUM(geb_anz) AS anzahl FROM `{$db_tb_scans_geb}` WHERE `geb_id_iw`='148'"; //DN Werft
+        $result_geb6 = $db->db_query($sql_geb6);
+        $row_geb6 = $db->db_fetch_array($result_geb6);
+        echo $row_geb6['anzahl'];
+        ?>
+    </th>
+    <th>
+        <?php
+        $sql_geb7 = "SELECT SUM(geb_anz) AS anzahl FROM `{$db_tb_scans_geb}` WHERE `geb_id_iw`='146'"; //große Werft
+        $result_geb7 = $db->db_query($sql_geb7);
+        $row_geb7 = $db->db_fetch_array($result_geb7);
+        echo $row_geb7['anzahl'];
+        ?>
+    </th>
+</tr>
+</tfoot>
 </table>

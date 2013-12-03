@@ -148,5 +148,7 @@ CREATE TABLE IF NOT EXISTS `prefix_scans_geb` (
   `time` int(10) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='DB-Gebäudescans' ;
 
+ALTER TABLE `prefix_scans` ADD `geblink` VARCHAR( 120 ) NOT NULL AFTER `geolink`;
+ALTER TABLE `prefix_scans` ADD `schifflink` VARCHAR( 120 ) NOT NULL AFTER `geblink`;
 -- 02.12.2013 masel : Allianz kann auch unbekannt (null) sein
 ALTER TABLE `prefix_incomings` CHANGE `allianz_from` `allianz_from` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT 'Angreiferallianz';

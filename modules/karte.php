@@ -35,6 +35,8 @@ if (!defined('IRA')) {
 
 //****************************************************************************
 
+global $db, $db_tb_sysscans;
+
 $galaxy = (int)getVar('galaxy');
 if (empty($galaxy)) {
     $galaxy = $config_map_default_galaxy;
@@ -128,6 +130,13 @@ if ($galaxy < $config_map_system_max) {
 }
 echo "</div></p>";
 
+$sql_scan = "SELECT MIN(date) AS scantime FROM `{$db_tb_sysscans}` WHERE `gal`='".$galaxy."'";
+$result_scan = $db->db_query($sql_scan)
+	or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql2);
+$row_scan = $db->db_fetch_array($result_scan);
+echo 'Galaxie zuletzt gescannt: ' . strftime(CONFIG_DATETIMEFORMAT, $row_scan['scantime']);
+echo "<br />";
+echo "<br />";
 echo "<table class='table_format' style='width: 80%;'>\n";
 echo " <tr>\n";
 echo "  <td class='titlebg center' colspan='" . $config_map_cols . "'>\n";

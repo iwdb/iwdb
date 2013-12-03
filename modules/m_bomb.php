@@ -39,10 +39,9 @@ define('MAX_BOMB_LINES', 20);
 
 include_once('./includes/debug.php');
 
-// -> Abfrage ob dieses Modul über die index.php aufgerufen wurde. 
-//    Kann unberechtigte Systemzugriffe verhindern.
-if (basename($_SERVER['PHP_SELF']) != "index.php") {
-    echo "Hacking attempt...!!";
+//direktes Aufrufen verhindern
+if (!defined('IRA')) {
+    header('HTTP/1.1 403 forbidden');
     exit;
 }
 

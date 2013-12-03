@@ -602,7 +602,26 @@ if (((($ansicht === "auto") && ($row_planie['objekt'] !== "---")) || ($ansicht =
         <tr>
             <td class="windowbg1" colspan="2"><?php echo $row_planie['def']; ?></td>
         </tr>
-
+	<tr>
+        <td colspan="2" class="titlebg"><b>Schiffsondierungslink</b></td>
+    </tr>
+    <tr>
+        <td colspan="2" class="windowbg2">
+            <?php
+            echo $row_planie['schifflink'];
+            ?>
+        </td>
+    </tr>
+	<tr>
+        <td colspan="2" class="titlebg"><b>Gebäudesondierungslink</b></td>
+    </tr>
+    <tr>
+        <td colspan="2" class="windowbg2">
+            <?php
+            echo $row_planie['geblink'];
+            ?>
+        </td>
+    </tr>
     <?php
     }
 

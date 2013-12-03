@@ -178,6 +178,7 @@ function parse_sbxml($xmldata)
         // Gebäude/Ress
     } else if ($scan_typ == 2) {
         $scan_data['gebscantime'] = (int)$xml->timestamp;
+		$scan_data['geblink'] = $xmldata->strUrl;
         if (isset($xml->gebaeude)) {
             
 			$sql_time="SELECT MIN(time) AS time FROM `{db_tb_scans_geb}` WHERE `coords`='".$scan_data['coords']."'";
@@ -219,6 +220,7 @@ function parse_sbxml($xmldata)
         // Schiffe/Ress
     } else if ($scan_typ == 3) {
         $scan_data['schiffscantime'] = (int)$xml->timestamp;
+		$scan_data['schifflink'] = $xmldata->strUrl;
         foreach ($xml->pla_def as $pla_def) {
             foreach ($pla_def->user as $user) {
                 foreach ($user->schiffe as $schiff) {

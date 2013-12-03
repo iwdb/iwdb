@@ -511,13 +511,13 @@ function save_data($scan_data)
             $allianz_to = getAllianceByUser($scan_data['user_to']);
 
             //nicht mehr fliegende Incs löschen
-            $sql = "DELETE FROM $db_tb_incomings WHERE listedtime<>" . CURRENT_UNIX_TIME;
+            $sql = "DELETE FROM `{$db_tb_incomings}` WHERE `listedtime`<>" . CURRENT_UNIX_TIME . " AND `name_to`='" . $scan_data['user_to'] . "';";
             $db->db_query($sql)
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
             //Löschen der Einträge älter als 20 min in der Tabelle incomings, es sollen nur aktuelle Sondierungen und Angriffe eingetragen sein
             //ToDo : evtl Trennung Sondierung und Angriffe, damit die Sondierungen früher entfernt sind
-            $sql = "DELETE FROM $db_tb_incomings WHERE arrivaltime<" . (CURRENT_UNIX_TIME - 20 * MINUTE);
+            $sql = "DELETE FROM `{$db_tb_incomings}` WHERE `arrivaltime`<" . (CURRENT_UNIX_TIME - 20 * MINUTE);
             $db->db_query($sql)
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 

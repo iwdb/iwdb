@@ -511,7 +511,7 @@ function save_data($scan_data)
             $allianz_to = getAllianceByUser($scan_data['user_to']);
 
             //nicht mehr fliegende Incs löschen
-            $sql = "DELETE FROM `{$db_tb_incomings}` WHERE `listedtime`<>" . CURRENT_UNIX_TIME . " AND `name_to`='" . $scan_data['user_to'] . "';";
+            $sql = "DELETE FROM `{$db_tb_incomings}` WHERE `listedtime`<>" . CURRENT_UNIX_TIME . " AND `name_to`='" . $scan_data['user_to'] . "' AND arrivaltime>".CURRENT_UNIX_TIME;
             $db->db_query($sql)
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 

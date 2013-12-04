@@ -66,7 +66,7 @@ if ($action === 'memberlogout2') {
 if (($action === 'rules') AND (getVar('accept_rules')) AND ($login_ok)) {
     $user_rules = "1";
 
-    $result = $db->db_update($db_tb_user, array('rules' => $user_rules), "WHERE id='$user_id'")
+    $result = $db->db_update($db_tb_user, array('rules' => 1), "WHERE id='$user_id'")
         or error(GENERAL_ERROR, 'Could not update rules information.', '', __FILE__, __LINE__);
 
     $action = $config_default_action;

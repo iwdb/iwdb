@@ -659,7 +659,7 @@ if (isset($row_lastlogin)) {
             if ($row['schieben'] == "1") {
                 echo "<a href='javascript:Collapse(" . $row['id'] . ");'>[schieben]</a>";
             } else {
-                echo "<a href='index.php?action=sitterliste&erledigt=" . $row['id'] . "' onclick='return confirmlink(this, \"Auftrag wirklich erledigt?\")'>[erledigt]</a>";
+                echo "<a href='index.php?action=sitterliste&erledigt=" . $row['id'] . "' onclick=\"return confirm('Auftrag wirklich erledigt?')\">[erledigt]</a>";
             }
         } else {
             echo $users_logged_in . " ist eingeloggt";

@@ -1386,8 +1386,7 @@ if (empty($params['view'])) {
             if (!isset($row['allow_delete']) || $row['allow_delete']) {
                 echo makelink(
                     array('delete' => $key),
-                    "<img src='".BILDER_PATH."file_delete_s.gif' onclick='return confirmlink(this, '" .
-                        (isset($view['deletetitle']) ? $view['deletetitle'] : 'Datensatz') . " wirklich löschen?')' alt='loeschen'>"
+                    "<img src='".BILDER_PATH."file_delete_s.gif' onclick=\"return confirm('" . (isset($view['deletetitle']) ? $view['deletetitle'] : 'Datensatz') . " wirklich löschen?')\" alt='löschen'>"
                 );
             }
         }

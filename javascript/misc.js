@@ -66,9 +66,9 @@ function insertText(idTextfeld, vor, nach) {
     var textfeld = document.getElementById(idTextfeld);
     textfeld.focus();                                         // falls Cursor außerhalb war
 
-    if (typeof document.selection !== 'undefined') {              // für IE, auch Opera
+    if (document.selection === undefined) {              // für IE, auch Opera
         insertIE(textfeld, vor, nach);
-    } else if (typeof textfeld.selectionStart !== 'undefined') {   // Geckos (FF)
+    } else if (textfeld.selectionStart === undefined) {   // Geckos (FF)
         insertGecko(textfeld, vor, nach);
     }
 }
@@ -232,9 +232,9 @@ function Collapse(what) {
     }
 }
 
+//useless -> deprecated
 function confirmlink(link, text) {
-    var is_confirmed = confirm(text);
-    return is_confirmed;
+    return confirm(text);
 }
 
 jQuery(document).ready(function () {
@@ -289,15 +289,17 @@ jQuery(document).ready(function () {
 	var targets = jQuery( 'abbr' ),
         target  = false,
         tooltip = false,
-        title   = false;
+        title   = false,
+        tip     = false;
  
 	targets.bind( 'mouseenter', function() {
 		target  = jQuery( this );
 		tip     = target.attr( 'title' );
 		tooltip = jQuery( '<div id="tooltip"></div>' );
 	
-		if( !tip || tip == '' )
+		if( !tip || tip === '' ) {
 			return false;
+        }
 	
 		target.removeAttr( 'title' );
 		tooltip.css( 'opacity', 0 )
@@ -305,36 +307,39 @@ jQuery(document).ready(function () {
 			.appendTo( 'body' );
 	
 		var init_tooltip = function() {
-			if( jQuery( window ).width() < tooltip.outerWidth() * 1.5 )
-				tooltip.css( 'max-width', jQuery( window ).width() / 2 );
-			else
-				tooltip.css( 'max-width', 340 );
-	
-			var pos_left = target.offset().left + ( target.outerWidth() / 2 ) - ( tooltip.outerWidth() / 2 ),
-				pos_top  = target.offset().top - tooltip.outerHeight() - 20;
-	
-			if( pos_left < 0 ) {
-				pos_left = target.offset().left + target.outerWidth() / 2 - 20;
-				tooltip.addClass( 'left' );
-			}
-			else
-				tooltip.removeClass( 'left' );
-		
-			if( pos_left + tooltip.outerWidth() > jQuery( window ).width() ) {
-				pos_left = target.offset().left - tooltip.outerWidth() + target.outerWidth() / 2 + 20;
-				tooltip.addClass( 'right' );
-			}
-			else
-				tooltip.removeClass( 'right' );
-		
-			if( pos_top < 0 ) {
-				var pos_top  = target.offset().top + target.outerHeight();
-				tooltip.addClass( 'top' );
-			}
-			else
-				tooltip.removeClass( 'top' );
-		
-			tooltip.css( { left: pos_left, top: pos_top } )
+            var pos_left, pos_top;
+
+            if (jQuery(window).width() < tooltip.outerWidth() * 1.5) {
+                tooltip.css('max-width', jQuery(window).width() / 2);
+            } else {
+                tooltip.css('max-width', 340);
+            }
+
+            pos_left = target.offset().left + ( target.outerWidth() / 2 ) - ( tooltip.outerWidth() / 2 );
+            pos_top = target.offset().top - tooltip.outerHeight() - 20;
+
+            if (pos_left < 0) {
+                pos_left = target.offset().left + target.outerWidth() / 2 - 20;
+                tooltip.addClass('left');
+            } else {
+                tooltip.removeClass('left');
+            }
+
+            if (pos_left + tooltip.outerWidth() > jQuery(window).width()) {
+                pos_left = target.offset().left - tooltip.outerWidth() + target.outerWidth() / 2 + 20;
+                tooltip.addClass('right');
+            } else {
+                tooltip.removeClass('right');
+            }
+
+            if (pos_top < 0) {
+                pos_top = target.offset().top + target.outerHeight();
+                tooltip.addClass('top');
+            } else {
+                tooltip.removeClass('top');
+            }
+
+            tooltip.css( { left: pos_left, top: pos_top } )
 				.animate( { top: '+=10', opacity: 1 }, 50 );
 		};
 	

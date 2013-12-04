@@ -181,28 +181,28 @@ function parse_sbxml($xmldata)
 
         if (isset($xml->gebaeude)) {
             
-            $scan_data['geb'] = array();
+            $scan_data['buildings'] = array();
 			foreach ($xml->gebaeude->gebaeude as $gebaeude) {
-                $gebaeude->name = htmlspecialchars((string)$gebaeude->name, ENT_QUOTES, 'UTF-8');
-                $gebaeude->anzahl = (int)$gebaeude->anzahl;
+                $geb_name = htmlspecialchars((string)$gebaeude->name, ENT_QUOTES, 'UTF-8');
+                $geb_anzahl = (int)$gebaeude->anzahl;
 
                 if (!isset($scan_data['geb'])) {
                     $scan_data['geb'] = "<table class='scan_table'>\n";
                 }
                 $scan_data['geb'] .= "<tr class='scan_row'>\n";
                 $scan_data['geb'] .= "\t<td class='scan_object'>\n";
-                $scan_data['geb'] .= $gebaeude->name;
+                $scan_data['geb'] .= $geb_name;
                 $scan_data['geb'] .= "\n\t</td>\n";
                 $scan_data['geb'] .= "\t<td class='scan_value'>\n";
-                $scan_data['geb'] .= $gebaeude->anzahl;
+                $scan_data['geb'] .= $geb_anzahl;
                 $scan_data['geb'] .= "\n\t</td>\n</tr>\n";
 
-                $geb_id_iw = getBuildingIWIdByName($gebaeude->name, true);
+                $geb_id_iw = getBuildingIWIdByName($geb_name, true);
                 if (!empty($geb_id_iw)) {
                     $scan_data['buildings'][] = array(
                         'coords'  => $scan_data['coords'],
-                        'geb_id'  => $geb_id_iw,
-                        'geb_anz' => $gebaeude->anzahl,
+                        'geb_id_iw'  => $geb_id_iw,
+                        'geb_anz' => $geb_anzahl,
                         'time'    => $scan_data['gebscantime']
                     );
                 }

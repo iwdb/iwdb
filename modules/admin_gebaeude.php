@@ -265,7 +265,7 @@ while ($row = $db->db_fetch_array($result)) {
         echo " <tr>\n";
         echo "  <td class='windowbg1 center'>\n";
         echo "  Ausblenden:  <input type='checkbox' name='" . $row_gebaeude['id'] . "_inactive' value='1'" . (($row_gebaeude['inactive']) ? " checked" : "") . ">\n";
-        echo "  Löschen:  <input type='checkbox' name='" . $row_gebaeude['id'] . "_delete' onclick='return confirmlink(this, 'Möchten sie dieses Gebäude wirklich löschen?')' value='1'>\n";
+        echo "  Löschen:  <input type='checkbox' name='" . $row_gebaeude['id'] . "_delete' onclick='return confirm('Möchten sie dieses Gebäude wirklich löschen?')' value='1'>\n";
         echo "  </td>\n";
 
         echo "  <td class='windowbg1'>\n";

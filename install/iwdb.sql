@@ -1013,6 +1013,8 @@ CREATE TABLE `prefix_scans` (
   `time_att` int(11) NOT NULL DEFAULT '0',
   `att` text NOT NULL,
   `geolink` varchar(120) NOT NULL,
+  `geblink` varchar(120) NOT NULL,
+  `schifflink` varchar(120) NOT NULL,
   `bed_eisen` int(10) unsigned NOT NULL DEFAULT '0',
   `bed_stahl` int(10) unsigned NOT NULL DEFAULT '0',
   `bed_vv4a` int(10) unsigned NOT NULL DEFAULT '0',

@@ -92,10 +92,7 @@ echo "<br>\n";
 				</td>
 				<td>
 					<?php
-					echo "<a href='index.php?action=admin&uaction=wronglogin&user=" . urlencode($row['user']) .
-						"' onclick=\"return confirmlink(this, 'Loginsperre wirklich " .
-						"löschen?')\"><img src='".BILDER_PATH."file_delete_s.gif' " .
-						"alt='löschen'></a>\n";
+					echo "<a href='index.php?action=admin&uaction=wronglogin&user=" . urlencode($row['user']) . "' onclick=\"return confirm('Loginsperre wirklich löschen?')\"><img src='".BILDER_PATH."file_delete_s.gif' alt='löschen'></a>\n";
 					?>
 				</td>
 			</tr>

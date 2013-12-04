@@ -1120,7 +1120,7 @@ foreach ($group_data as $groupkey => $group) {
                     );
                 }
                 if (!isset($row['allow_delete']) || $row['can_delete']) {
-                    //echo makelink(array('delete' => $key), "<img src='".BILDER_PATH."file_delete_s.gif' onclick=\"return confirmlink(this, 'Datensatz wirklich löschen?')\" alt='löschen'>");
+                    //echo makelink(array('delete' => $key), "<img src='".BILDER_PATH."file_delete_s.gif' onclick=\"return confirm('Datensatz wirklich löschen?')\" alt='löschen'>");
                 }
             }
             //Markierung-Checkbox

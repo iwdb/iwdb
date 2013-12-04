@@ -514,7 +514,7 @@ if (!empty($alert)) {
                 if (!$differentid || (($user_status === "admin") OR ($user_status === "SV")) || ($user_sitterlogin === $row['ByUser'])) {
                     ?>
                     <a href="index.php?action=sitterauftrag&parentid=<?php echo $row['id'];?>&delid=<?php echo $row['id'];?>&sitterid=<?php echo urlencode($id);?>"
-                       onclick="return confirmlink(this, 'Auftrag wirklich löschen?')"><img src="bilder/file_delete_s.gif" alt="löschen"></a>
+                       onclick="return confirm('Auftrag wirklich löschen?')"><img src="bilder/file_delete_s.gif" alt="löschen"></a>
                 <?php
                 }
                 ?>

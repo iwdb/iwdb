@@ -853,7 +853,7 @@ if (($user_status === "admin") && ($id !== $user_id)) {
     <div class='doc_centered_blue'>Account löschen</div>
     <br>
     <a href="index.php?action=deluser&sitterlogin=<?php echo urlencode($sitterlogin);?>"
-       onclick="return confirmlink(this, 'Account wirklich löschen?')">[jetzt löschen]</a>
+       onclick="return confirm('Account wirklich löschen?')">[jetzt löschen]</a>
 <?php
 }
 ?>

@@ -29,7 +29,7 @@
 
 /*
  * definition der Sounddateien (leer = global ausgeschaltet)
- * freie ogg Audioformat empfohlen unterstützt von Chrome, Firefox, Opera, Android, ...
+ * freie ogg Audioformat empfohlen, unterstützt von Chrome, Firefox, Opera, Android, ...
  * nicht unterstützt von Apple und Microsoft, was solls ^^
  * ToDo: Einstellung in die Profileinstellung verschieben
 */
@@ -113,8 +113,7 @@ if (($login_ok) AND ($SitternoticeInModul)) {
             $iSitterauftraege = $row['anzahl'];
             $db->db_free_result($result);
 
-            $sql = "SELECT count(*) AS anzahl FROM " . $db_tb_sitterauftrag .
-                " WHERE date_b2 < " . CURRENT_UNIX_TIME . " AND typ = 'Forschung'";
+            $sql = "SELECT count(*) AS anzahl FROM " . $db_tb_sitterauftrag . " WHERE date_b2 < " . CURRENT_UNIX_TIME . " AND typ = 'Forschung'";
             $result = $db->db_query($sql)
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
             $row = $db->db_fetch_array($result);
@@ -124,9 +123,7 @@ if (($login_ok) AND ($SitternoticeInModul)) {
 
             // Wurde gerade ein Auftrag erledigt? Falls ja, muss dieser von der gerade ermittelten Zahl abgezogen werden.
             if ($action == "sitterliste") {
-                $erledigt = getVar('erledigt');
-
-                if (!empty($erledigt)) {
+                if (getVar('erledigt')) {
                     $iSitterauftraege     = $iSitterauftraege - 1;
                     $iForschungsauftraege = $iForschungsauftraege - 1;
                 }
@@ -172,28 +169,22 @@ if (($login_ok) AND ($SitternoticeInModul)) {
                             <?php
                             if (($iSitterauftraege == 1) AND ($iForschungsauftraege == 0)) {
                                 ?>
-                                <a href="index.php?action=sitterliste"><span
-                                        style="font-size: 1.8rem; color: Cyan;">Es ist ein Auftrag offen!</span></a>
+                                <a href="index.php?action=sitterliste"><span style="font-size: 1.8rem; color: Cyan;">Es ist ein Auftrag offen!</span></a>
                             <?php
                             }
                             if (($iSitterauftraege == 1) AND ($iForschungsauftraege == 1)) {
                                 ?>
-                                <a href="index.php?action=sitterliste"><span
-                                        style="font-size: 1.8rem; color: Cyan;">Es ist ein Forschungsauftrag offen!</span></a>
+                                <a href="index.php?action=sitterliste"><span style="font-size: 1.8rem; color: Cyan;">Es ist ein Forschungsauftrag offen!</span></a>
                             <?php
                             }
                             if (($iSitterauftraege > 1) AND ($iForschungsauftraege == 0)) {
                                 ?>
-                                <a href="index.php?action=sitterliste"><span
-                                        style="font-size: 1.8rem; color: Cyan;">Es sind <?php echo $iSitterauftraege;?>
-                                        Aufträge offen!</span></a>
+                                <a href="index.php?action=sitterliste"><span style="font-size: 1.8rem; color: Cyan;">Es sind <?php echo $iSitterauftraege;?> Aufträge offen!</span></a>
                             <?php
                             }
                             if (($iSitterauftraege > 1) AND ($iForschungsauftraege >= 1)) {
                                 ?>
-                                <a href="index.php?action=sitterliste"><span
-                                        style="font-size: 1.8rem; color: Cyan;">Es sind <?php echo $iSitterauftraege;?>
-                                        Aufträge offen!</span></a>
+                                <a href="index.php?action=sitterliste"><span style="font-size: 1.8rem; color: Cyan;">Es sind <?php echo $iSitterauftraege;?> Aufträge offen!</span></a>
                             <?php
                             }
                             ?>

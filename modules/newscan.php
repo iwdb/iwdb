@@ -33,6 +33,9 @@ if (!defined('IRA')) {
     exit;
 }
 
+global $db, $db_tb_user;
+global $user_sitterlogin;
+
 $start = microtime(true);
 $newscan_parser_error = false;
 
@@ -100,9 +103,9 @@ if (empty($selectedusername)) { //wurde noch nicht woanders eingestellt (z.B. vo
     $selectedusername = getVar('seluser');
 }
 
-$selectedusername = validAccname($selectedusername); //Account verifizieren
+$selectedusername = validateIwAccname($selectedusername); //Account verifizieren
 if ($selectedusername === false) {
-    $selectedusername = validAccname(urldecode($selectedusername)); //noch ein Versuch mit irgendwie encodiertem Namen //ToDo: Noch aktuell? -> Den doppelten Check entfernen?
+    $selectedusername = validateIwAccname(urldecode($selectedusername)); //noch ein Versuch mit irgendwie encodiertem Namen //ToDo: Noch aktuell? -> Den doppelten Check entfernen?
     if ($selectedusername === false) {
         $selectedusername = $user_sitterlogin;
     }

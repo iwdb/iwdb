@@ -39,11 +39,9 @@ if (!defined('IRA')) {
 
 global $db, $db_tb_sid, $db_tb_user, $db_tb_wronglogin;
 
-// get user ip and ip-hash
-$user_ip      = $_SERVER['REMOTE_ADDR'];
-$user_ip_hash = sha1($user_ip);
+$strUserIpHash = sha1(REMOTE_IP);
 
-//get hash of remoteagent string (limited to 100 chars)
+//get hash of user agent string (limited to 100 chars)
 $userAgentHash = sha1(mb_substr(filter_input(INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH), 0, 100));
 
 // delete old sids from sid table
@@ -58,7 +56,7 @@ $sid      = false;
 if (isset($_COOKIE[$config_cookie_name])) {
     $sid = $db->escape($_COOKIE[$config_cookie_name]);
 
-    $user_id = useSID($sid, $user_ip_hash, $userAgentHash);
+    $user_id = useSID($sid, $strUserIpHash, $userAgentHash);
 }
 
 if ($user_id === false) { //keine gültige Session vorhanden
@@ -85,7 +83,7 @@ if ($user_id === false) { //keine gültige Session vorhanden
 
             //ip change not allowed -> save ip hash in sessiondata
             if (empty($returndata['allow_ip_change'])) {
-                $SQLdata['ipHash'] = $user_ip_hash;
+                $SQLdata['ipHash'] = $strUserIpHash;
             }
 
             $db->db_insertupdate($db_tb_sid, $SQLdata)
@@ -113,7 +111,7 @@ if ($user_id === false) { //keine gültige Session vorhanden
             $SQLdata = array(
                 'user' => $login_id,
                 'date' => CURRENT_UNIX_TIME,
-                'ip'   => $user_ip
+                'ip'   => REMOTE_IP
             );
             $db->db_insert($db_tb_wronglogin, $SQLdata)
                 or error(GENERAL_ERROR, 'Could not update wrong login information.', '', __FILE__, __LINE__);
@@ -157,7 +155,7 @@ if ((!empty($action) AND ($action === "memberlogout2")) OR ($login_ok === false)
     }
 }
 
-// get user status //
+// get user status
 if ($login_ok) {
     $sql = "SELECT status, allianz, password, sitterlogin, sitterskin, rules, sitterpwd," .
         " sitten, planibilder, gebbilder, adminsitten, gebaeude, peitschen," .
@@ -231,7 +229,7 @@ function useSID($sid, $ipHash, $userAgentHash)
     }
 }
 
-//User mit den Daten versuchen einzuloggen
+// User mit den Daten versuchen einzuloggen
 function loginUser($login_id, $password)
 {
     global $db, $db_tb_wronglogin, $config_wronglogin_timeout, $db_tb_user, $config_wronglogins;

@@ -54,7 +54,7 @@ function ResetPlaniedata($iUpdateTime)
     );
 
     $db->db_update($db_tb_scans, $data, "WHERE `userchange_time` = {$iUpdateTime} OR `typchange_time` = {$iUpdateTime}  OR `objektchange_time` = {$iUpdateTime};")
-        or error(GENERAL_ERROR, 'DB ResetPlaniedata Fehler!', '', __FILE__, __LINE__, '');
+    or error(GENERAL_ERROR, 'DB ResetPlaniedata Fehler!', '', __FILE__, __LINE__, '');
 }
 
 /**
@@ -97,12 +97,12 @@ function ResetPlaniedataByCoords($strCoords)
     );
 
     $db->db_update($db_tb_scans, $data, "WHERE `coords` = '{$strCoords}';")
-        or error(GENERAL_ERROR, 'DB ResetPlaniedataByCoords Fehler!', '', __FILE__, __LINE__, '');
+    or error(GENERAL_ERROR, 'DB ResetPlaniedataByCoords Fehler!', '', __FILE__, __LINE__, '');
 
     //delete buildingscans
     $sql_del="DELETE FROM `{$db_tb_scans_geb}` WHERE `coords` = '{$strCoords}';";
     $result = $db->db_query($sql_del)
-        or error(GENERAL_ERROR, 'Could not delete buildingscan information.', '', __FILE__, __LINE__, $sql_del);
+    or error(GENERAL_ERROR, 'Could not delete buildingscan information.', '', __FILE__, __LINE__, $sql_del);
 }
 
 /**
@@ -142,7 +142,7 @@ function ResetGeodata($iTypchangeTime)
     );
 
     $db->db_update($db_tb_scans, $data, "WHERE `typchange_time`={$iTypchangeTime};")
-        or error(GENERAL_ERROR, 'DB ResetGeodata Fehler!', '', __FILE__, __LINE__, '');
+    or error(GENERAL_ERROR, 'DB ResetGeodata Fehler!', '', __FILE__, __LINE__, '');
 }
 
 /**
@@ -182,7 +182,7 @@ function ResetGeodataByCoords($strCoords)
     );
 
     $db->db_update($db_tb_scans, $data, "WHERE `coords` = '{$strCoords}';")
-        or error(GENERAL_ERROR, 'DB ResetGeodataByCoords Fehler!', '', __FILE__, __LINE__, '');
+    or error(GENERAL_ERROR, 'DB ResetGeodataByCoords Fehler!', '', __FILE__, __LINE__, '');
 }
 
 /**
@@ -209,7 +209,7 @@ function AddAllychangetoHistory($iUpdateTime)
             ON DUPLICATE KEY UPDATE `{$db_tb_spielerallychange}`.`name`=`{$db_tb_spielerallychange}`.`name`"; //means ON DUPLICATE KEY 'DO NOTHING'
 
     $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'DB AddAllychangetoHistory Fehler!', '', __FILE__, __LINE__, $sql);
+    or error(GENERAL_ERROR, 'DB AddAllychangetoHistory Fehler!', '', __FILE__, __LINE__, $sql);
 }
 
 /**
@@ -236,7 +236,7 @@ function AddAllychangetoHistoryByUser($strSpielerName)
             ON DUPLICATE KEY UPDATE `{$db_tb_spielerallychange}`.`name`=`{$db_tb_spielerallychange}`.`name`"; //means ON DUPLICATE KEY 'DO NOTHING'
 
     $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'DB AddAllychangetoHistoryByUser Fehler!', '', __FILE__, __LINE__, $sql);
+    or error(GENERAL_ERROR, 'DB AddAllychangetoHistoryByUser Fehler!', '', __FILE__, __LINE__, $sql);
 }
 
 /**
@@ -265,7 +265,7 @@ function SyncAllies($iUpdateTime)
     }
 
     $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'DB TransferAllytoScans Fehler!', '', __FILE__, __LINE__, $sql);
+    or error(GENERAL_ERROR, 'DB TransferAllytoScans Fehler!', '', __FILE__, __LINE__, $sql);
 
     deleteInvalidAlliances();
 }
@@ -284,7 +284,7 @@ function deleteInvalidAlliances()
 
     $sql = "UPDATE `{$db_tb_scans}` SET `allianz` = '' WHERE `user` = '';";
     $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'DB AllyDelete Fehler!', '', __FILE__, __LINE__, $sql);
+    or error(GENERAL_ERROR, 'DB AllyDelete Fehler!', '', __FILE__, __LINE__, $sql);
 }
 
 /**
@@ -313,7 +313,7 @@ function getNameByCoords($strCoords)
 
     $sql = "SELECT `user` FROM `{$db_tb_scans}` WHERE `coords` = '$strCoords';";
     $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     $row = $db->db_fetch_array($result);
 
     return $row['user'];
@@ -345,7 +345,7 @@ function getAllianceByUser($strUserName)
 
     $sql = "SELECT `allianz` FROM `{$db_tb_spieler}` WHERE `name` = '$strUserName';";
     $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     $row = $db->db_fetch_array($result);
 
     return $row['allianz'];
@@ -379,7 +379,7 @@ function updateUserAlliance($strSpielerName, $strAlliance, $iTime)
 
     $sql = "SELECT `allianz`, `playerupdate_time` FROM `$db_tb_spieler` WHERE `name`='" . $strSpielerName . "';";
     $result_player = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query player information.', '', __FILE__, __LINE__, $sql);
+    or error(GENERAL_ERROR, 'Could not query player information.', '', __FILE__, __LINE__, $sql);
     $row_player = $db->db_fetch_array($result_player);
 
     if (!empty($row_player)) {
@@ -397,7 +397,7 @@ function updateUserAlliance($strSpielerName, $strAlliance, $iTime)
                 );
 
                 $db->db_update($db_tb_spieler, $SQLdata, "WHERE `name` = '{$strSpielerName}';")
-                    or error(GENERAL_ERROR, 'Could not update player information.', '', __FILE__, __LINE__, '');
+                or error(GENERAL_ERROR, 'Could not update player information.', '', __FILE__, __LINE__, '');
 
             } else {
 
@@ -410,7 +410,7 @@ function updateUserAlliance($strSpielerName, $strAlliance, $iTime)
                 );
 
                 $db->db_update($db_tb_spieler, $SQLdata, "WHERE `name` = '{$strSpielerName}';")
-                    or error(GENERAL_ERROR, 'Could not update player information.', '', __FILE__, __LINE__, '');
+                or error(GENERAL_ERROR, 'Could not update player information.', '', __FILE__, __LINE__, '');
 
                 //Allianzänderung in Historytabele übertragen
                 AddAllychangetoHistory($iTime);
@@ -435,7 +435,7 @@ function updateUserAlliance($strSpielerName, $strAlliance, $iTime)
         );
 
         $db->db_insert($db_tb_spieler, $SQLdata)
-            or error(GENERAL_ERROR, 'Could not insert player information.', '', __FILE__, __LINE__, '');
+        or error(GENERAL_ERROR, 'Could not insert player information.', '', __FILE__, __LINE__, '');
 
         return $strAlliance;
 
@@ -466,7 +466,7 @@ function getObjectByCoords($strCoords)
 
     $sql = "SELECT `objekt` FROM `{$db_tb_scans}` WHERE `coords` = '$strCoords';";
     $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     $row = $db->db_fetch_array($result);
 
     return $row['objekt'];
@@ -521,7 +521,7 @@ function getBuildingIdByName($strBuildingName, $insert_building = false) {
 
     $sql_building = "SELECT `id` FROM `{$db_tb_gebaeude}` WHERE `name` = '$strBuildingName';";
     $result_building = $db->db_query($sql_building)
-        or error(GENERAL_ERROR, 'Could not query building information!', '', __FILE__, __LINE__, $sql_building);
+    or error(GENERAL_ERROR, 'Could not query building information!', '', __FILE__, __LINE__, $sql_building);
     $row_building = $db->db_fetch_array($result_building);
 
     if (!empty($row_building['id'])) {
@@ -534,7 +534,7 @@ function getBuildingIdByName($strBuildingName, $insert_building = false) {
             $SQLdata = array('name'	=> $strBuildingName);
 
             $result_insert = $db->db_insert($db_tb_gebaeude, $SQLdata)
-                or error(GENERAL_ERROR, 'Could not insert building!', '', __FILE__, __LINE__);
+            or error(GENERAL_ERROR, 'Could not insert building!', '', __FILE__, __LINE__);
 
             return $db->db_insert_id();
 
@@ -568,7 +568,7 @@ function getBuildingIWIdByName($strBuildingName, $insert_building = false) {
 
     $sql_building = "SELECT `id`, `id_iw` FROM `{$db_tb_gebaeude}` WHERE `name` = '$strBuildingName';";
     $result_building = $db->db_query($sql_building)
-        or error(GENERAL_ERROR, 'Could not query building information.', '', __FILE__, __LINE__, $sql_building);
+    or error(GENERAL_ERROR, 'Could not query building information.', '', __FILE__, __LINE__, $sql_building);
     $row_building = $db->db_fetch_array($result_building);
 
     if (!empty($row_building['id'])) {
@@ -581,7 +581,7 @@ function getBuildingIWIdByName($strBuildingName, $insert_building = false) {
             $SQLdata = array('name'	=> $strBuildingName);
 
             $result_insert = $db->db_insert($db_tb_gebaeude, $SQLdata)
-                or error(GENERAL_ERROR, 'Could not insert building.', '', __FILE__, __LINE__);
+            or error(GENERAL_ERROR, 'Could not insert building.', '', __FILE__, __LINE__);
 
         }
 
@@ -610,7 +610,7 @@ function getBuildingIWIdByID($iBuildingID) {
 
     $sql_building = "SELECT `id_iw` FROM `{$db_tb_gebaeude}` WHERE `id` = $iBuildingID;";
     $result_building = $db->db_query($sql_building)
-        or error(GENERAL_ERROR, 'Could not query building information.', '', __FILE__, __LINE__, $sql_building);
+    or error(GENERAL_ERROR, 'Could not query building information.', '', __FILE__, __LINE__, $sql_building);
     $row_building = $db->db_fetch_array($result_building);
 
     if (!empty($row_building['id_iw'])) {
@@ -644,7 +644,7 @@ function getBuildingIDByIWId($iBuildingIWID) {
 
     $sql_building = "SELECT `id` FROM `{$db_tb_gebaeude}` WHERE `id_iw` = $iBuildingIWID;";
     $result_building = $db->db_query($sql_building)
-        or error(GENERAL_ERROR, 'Could not query building information.', '', __FILE__, __LINE__, $sql_building);
+    or error(GENERAL_ERROR, 'Could not query building information.', '', __FILE__, __LINE__, $sql_building);
     $row_building = $db->db_fetch_array($result_building);
 
     if (!empty($row_building['id'])) {
@@ -678,7 +678,7 @@ function getBuildingNameByID($iBuildingID) {
 
     $sql_building = "SELECT `name` FROM `{$db_tb_gebaeude}` WHERE `id` = $iBuildingID;";
     $result_building = $db->db_query($sql_building)
-        or error(GENERAL_ERROR, 'Could not query building information.', '', __FILE__, __LINE__, $sql_building);
+    or error(GENERAL_ERROR, 'Could not query building information.', '', __FILE__, __LINE__, $sql_building);
     $row_building = $db->db_fetch_array($result_building);
 
     if (!empty($row_building['name'])) {
@@ -712,7 +712,7 @@ function getBuildingNameByIWID($iBuildingIWID) {
 
     $sql_building = "SELECT `name` FROM `{$db_tb_gebaeude}` WHERE `id_iw` = $iBuildingIWID;";
     $result_building = $db->db_query($sql_building)
-        or error(GENERAL_ERROR, 'Could not query building information.', '', __FILE__, __LINE__, $sql_building);
+    or error(GENERAL_ERROR, 'Could not query building information.', '', __FILE__, __LINE__, $sql_building);
     $row_building = $db->db_fetch_array($result_building);
 
     if (!empty($row_building['name'])) {

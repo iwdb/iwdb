@@ -78,14 +78,31 @@ define('SITTEN_ONLY_NEWTASKS', 0);
 define('SITTEN_ONLY_LOGINS', 3);
 define('SITTEN_BOTH', 1);
 
+if (!defined('PASSWORD_BCRYPT')) {
+    if (AJAX_REQUEST !== true) {
+        require_once './includes/hashingapi.php';             //password hashing api compatibility for php < 5.5, nicht benötigt bei ajax requests
+
+        //Passwort Hashing Einstellungen
+        define('HASHING_ALGO', PASSWORD_DEFAULT);       // momentan wird bcrypt (= PASSWORD_BCRYPT) genutzt
+        define('HASHING_COST', 10);                     //4-31 default 10, _nicht ändern_ außer du weist was du tust
+    }
+}
+
 require_once './config/config.php'; //IWDB Einstellungen
+require_once './config/configsql.php'; //Datenbank Zugangsdaten
 require_once './config/configally.php'; //Allianzeinstellungen
 require_once './includes/dBug.php'; //bessere Debugausgabe
 require_once './includes/debug.php'; //Debug Funktionen
 require_once './includes/function.php'; //sonstige Funktionen
-require_once './includes/db_mysql.php';  //DB Klasse
-require_once './parser/parser_help.php'; //ausgelagerte Parserhilfsfunktionen
-require_once './config/configsql.php'; //Datenbank Zugangsdaten
+require_once './includes/function_filter.php'; //Filter und Validierungsfunktionen
+require_once './includes/function_parser.php'; //Parserhilfsfunktionen
+require_once './includes/function_security.php'; //Sicherheitsfunktionen
+require_once './includes/db_mysql.php';  //MySQL DB Klasse
+
+ini_set("pcre.recursion_limit", "524");
+
+define('REMOTE_IP', getRemoteIP());
+require_once './includes/ids.php'; //einige Module sind ziemlich schlecht, besser wir testen die Inputs mit phpids
 
 //DB Verbindung herstellen
 $db = new db();
@@ -94,11 +111,7 @@ if ($link_id == false) {
     exit('Could not connect to database.');
 }
 
-
-// Tabellennamen - Definition des Einstiegsnamens
-$db_tb_iwdbtabellen = $db_prefix . "iwdbtabellen";
-
-// Die restlichen Tabellennamen werden aus der DB gelesen.
+// Tabellen mit IWDB-Prefix aus der DB lesen
 $sql    = "SELECT `table_name` FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `table_schema` = '$db_name' AND `table_name` LIKE '$db_prefix%';";
 $result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {

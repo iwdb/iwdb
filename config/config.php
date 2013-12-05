@@ -43,7 +43,10 @@ define('GEBAEUDE_BILDER_PATH', BILDER_PATH."gebs/");
 define('BANNER_PATH', BILDER_PATH."banner/");
 define('TECHTREE_BILDER_PATH', BILDER_PATH."techtree/");
 //für evl aktuellere techtrees
-//define('TECHTREE_BILDER_PATH', "//wuz.php-friends.de/techtree/");
+//define('TECHTREE_BILDER_PATH', "//wuz.php-friends.de/techtree/");           //do not add http: or https:
+
+//Pfad für den IWDB Standard-Banner, leer schaltet Banner für alle aus
+$config_banner = BANNER_PATH."logo.png";
 
 // Farben in der Karte der Allianzen
 $config_allianzstatus            = array();

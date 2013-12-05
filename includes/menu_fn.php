@@ -119,7 +119,7 @@ function removeConfig()
     unlink("./config/" . $modulname . ".cfg.php");
 
     // Write out success message
-    echo "<div class='system_notification'>Deinstallation: Konfigurationsdatei " . $modulname . ".cfg.php = <b>OK</b></div>\n";
+    echo "<div class='system_notification'>Deinstallation: Konfigurationsdatei " . $modulname . ".cfg.php = <b>OK</b></div>";
 }
 
 //****************************************************************************
@@ -144,7 +144,7 @@ function createMenu()
 
     // -> Nun ein Formular das das vorhandene Menü anzeigt und zusätzlich freie Slots bietet
     // -> wo man wählen kann wo dieses Modul seinen Platz im Menü bekommen soll.
-    echo "<div class='normal'>Wähle nun in welchen Abschnitt des Menüs du dieses Modul anwählen willst!</div>\n";
+    echo "<div class='normal'>Wähle nun in welchen Abschnitt des Menüs du dieses Modul anwählen willst!</div>";
 
     $lastmenu    = "";
     $tableopen   = 0;
@@ -160,12 +160,14 @@ function createMenu()
                 if ($insidetable == 0) {
                     echo "  <td class='menu'>";
                 }
-                echo "<form name='form' action='index.php?action=" . $modulname . "&was=install2' method='post'>\n";
-                echo " <input type='hidden' name='menu' value=" . $lastmenu . ">\n";
+                echo "<form name='form' method='POST'>";
+                echo " <input type='hidden' name='action' value='" . $modulname . "'>";
+                echo " <input type='hidden' name='was' value='install2'>";
+                echo " <input type='hidden' name='menu' value='" . $lastmenu . "'>";
                 $submenu = $lastsubmenu + 1;
-                echo " <input type='hidden' name='submenu' value=" . $submenu . ">\n";
-                echo " <input type='submit' value='Bitte Hier' name='install' class='submit'>\n";
-                echo "</form>\n";
+                echo " <input type='hidden' name='submenu' value=" . $submenu . ">";
+                echo " <input type='submit' value='Bitte Hier' name='install' class='submit'>";
+                echo "</form>";
                 echo "</td>";
                 echo "</tr></table><br>";
             }
@@ -201,13 +203,15 @@ function createMenu()
         if ($insidetable == 0) {
             echo "<td class='menu'>";
         }
-        // Fuer das letzte Menu benoetigen wir auch noch einen Button.
-        echo "<form name='form' action='index.php?action=" . $modulname . "&was=install2' method='post'>\n";
-        echo " <input type='hidden' name='menu' value=" . $lastmenu . ">\n";
+        // Für das letzte Menü benötigen wir auch noch einen Button.
+        echo "<form name='form' method='POST'>";
+        echo " <input type='hidden' name='action' value='" . $modulname . "'>";
+        echo " <input type='hidden' name='was' value='install2'>";
+        echo " <input type='hidden' name='menu' value='" . $lastmenu . "'>";
         $submenu = $lastsubmenu + 1;
-        echo " <input type='hidden' name='submenu' value=" . $submenu . ">\n";
-        echo " <input type='submit' value='Bitte Hier' name='install' class='submit'>\n";
-        echo "</form>\n";
+        echo " <input type='hidden' name='submenu' value=" . $submenu . ">";
+        echo " <input type='submit' value='Bitte Hier' name='install' class='submit'>";
+        echo "</form>";
         echo "</td>";
         echo " </tr></table><br>";
     }
@@ -218,20 +222,26 @@ function createMenu()
 // Function insertMenuItem inserts a new menu item into the database.
 //
 //
-function insertMenuItem($m_menu, $m_submenu, $modultitle, $modulstatus, $actionparameters)
+function insertMenuItem($m_menu, $m_submenu, $modultitle, $modulstatus, $actionparameters = '')
 {
     global $modulname;
     global $db, $db_tb_menu;
 
-    if (empty($m_menu) || empty($m_submenu)) {
+    if (empty($m_menu) OR empty($m_submenu)) {
         die("Menu-Item oder Submenu-Item nicht gültig (sollte nicht so sein).");
     }
 
-    $sql = "INSERT INTO " . $db_tb_menu . "(menu, submenu, title, status, action, extlink, sittertyp) " .
-        " VALUES ('" . $m_menu . "', '" . $m_submenu . "', '" . $modultitle . "', '" . $modulstatus .
-        "', '" . $modulname . (empty($actionparameters) ? "" : "&" . $actionparameters) . "', 'n', '0')";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $SQLdata = array(
+        'menu'      => $m_menu,
+        'submenu'   => $m_submenu,
+        'title'     => $modultitle,
+        'status'    => $modulstatus,
+        'action'    => $modulname . (empty($actionparameters) ? "" : "&" . $actionparameters),
+        'extlink'   => 'n',
+        'sittertyp' => '0'
+    );
+    $db->db_insert($db_tb_menu, $SQLdata)
+    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
 
     echo "<div class='system_notification'>Menü-Eintrag " . $modultitle . " in die Datenbank eingefügt</div>";
 }
@@ -267,7 +277,7 @@ function removeMenuItems()
 // 
 //   workUninstallDatabase
 //
-switch ($_REQUEST['was']) {
+switch (fetchPOST('was')) {
     case "install":
         // Erstellung einer eigenen Configdatei für dieses Modul
         // fest eingestellte Werte sollten in einer eigenen Configdatei gespeichet werden,
@@ -288,7 +298,9 @@ switch ($_REQUEST['was']) {
         }
 
         // Nun folgt die Erweiterung der IW-DB, falls notwendig.
-        workInstallDatabase();
+        if (function_exists ('workInstallDatabase')) {
+            workInstallDatabase();
+        }
 
         // Anzeige des Menübaumes mit Auswahlmöglichkeit, in welches HauptMenü
         // das Modul eingetragen werden soll.
@@ -297,46 +309,61 @@ switch ($_REQUEST['was']) {
         return;
 
     case "install2":
-        // Erzeugung der Menue-Eintraege
-        workInstallMenu();
+        // Erzeugung der Menue-Eintraege, falls notwendig.
+        if (function_exists ('workInstallMenu')) {
+            workInstallMenu();
+        }
 
-        echo "<form method='POST' action='index.php?action=admin_menue'>\n";
-        echo " <input type='submit' value='Installation fertig stellen' name='fertig' class='submit'>\n";
-        echo "</form>\n";
+        echo "<form method='POST'>";
+        echo " <input type='hidden' name='action' value='admin_menue'>";
+        echo " <input type='submit' value='Installation fertig stellen' name='fertig' class='submit'>";
+        echo "</form>";
 
         return;
 
     case "uninstall":
         // Anzeige des Deinstallationshinweises, mit der Möglichkeit, noch mal abzubrechen.
         // Wer hier falsch klickt ist selbst schuld ... :)
-        echo "<br>\n" .
-            "Das Modul '<b>" . $modultitle . "'</b> soll jetzt deinstalliert werden.<br>\n" .
+        echo "<br>" .
+            "Das Modul '<b>" . $modultitle . "'</b> soll jetzt deinstalliert werden.<br>" .
             "Die Deinstallation wird Daten aus der Datenbank löschen und ist " .
-            "daher nicht mehr rückgängig zu machen.<br>\n" .
-            "<br>\n" .
-            "Soll die Deinstallation wirklich durchgeführt werden?\n";
+            "daher nicht mehr rückgängig zu machen.<br>" .
+            "<br>" .
+            "Soll die Deinstallation wirklich durchgeführt werden?";
         echo "<table width='100%'><tr><td align='right'>";
-        echo "<form method='POST' action='index.php?action=" . $modulname . "&was=uninstall2'>\n";
-        echo " <input type='submit' value='Ja, klar doch' name='fertig' class='submit' style='width: 200px'>\n";
-        echo "</form>\n";
+        echo "<form method='POST'>";
+        echo " <input type='hidden' name='action' value='" . $modulname . "'>";
+        echo " <input type='hidden' name='was' value='uninstall2'>";
+        echo " <input type='submit' value='Ja, klar doch' name='fertig' class='submit' style='width: 200px'>";
+        echo "</form>";
         echo "</td><td align='left'>";
-        echo "<form method='POST' action='index.php?action=admin_menue'>\n";
-        echo " <input type='submit' value='Besser doch nicht' name='fertig' class='submit' style='width: 200px'>\n";
-        echo "</form>\n";
+        echo "<form method='POST'>";
+        echo " <input type='hidden' name='action' value='admin_menue'>";
+        echo " <input type='submit' value='Besser doch nicht' name='fertig' class='submit' style='width: 200px'>";
+        echo "</form>";
         echo "</td></tr></table>";
 
         return;
 
     case "uninstall2":
         // Hier findet jetzt wirklich die Deinstallation statt.
-        removeMenuItems();
-        workUninstallDatabase();
+        //Deinstallation der Menüeinträge, falls notwendig.
+        if (function_exists('workInstallMenu')) {
+            removeMenuItems();
+        }
+
+        //Deinstallation der Datenbankeinträge, falls notwendig.
+        if (function_exists('workUninstallDatabase')) {
+            workUninstallDatabase();
+        }
+
         removeConfig();
 
-        echo "<div class='system_notification'>Deinstallation: Abgeschlossen</div>";
-        echo "<form method='POST' action='index.php?action=admin_menue'>\n";
-        echo " <input type='submit' value='Deinstallation fertig stellen' name='fertig' class='submit'>\n";
-        echo "</form>\n";
+        echo "<div class='system_notification'>Deinstallation: Abgeschlossen</div><br>";
+        echo "<form method='POST'>";
+        echo " <input type='hidden' name='action' value='admin_menue'>";
+        echo " <input type='submit' value='Deinstallation fertig stellen' name='fertig' class='submit'>";
+        echo "</form>";
 
         return;
 

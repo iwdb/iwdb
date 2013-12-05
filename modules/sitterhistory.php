@@ -42,7 +42,7 @@ if ($user_adminsitten == SITTEN_DISABLED) {
 }
 
 $limit = filter_int(getVar('limit'), 20, 1, 250);
-$selecteduser = validAccname(getVar('selecteduser'));
+$selecteduser = validateIwAccname(getVar('selecteduser'));
 if (empty($selecteduser)) {
     $selecteduser = $user_sitterlogin;
 }

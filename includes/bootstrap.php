@@ -37,7 +37,7 @@ ini_set("display_errors", '1');
 libxml_use_internal_errors(true);
 $error = '';
 
-ini_set("pcre.recursion_limit", "524");             //php-Standardwert 100.000 ist viel zu hoch, 524 sollte auf allen Systemen laufen
+//ini_set("pcre.recursion_limit", "524");             //php-Standardwert 100.000 ist viel zu hoch, 524 sollte auf allen Systemen laufen
 
 //set some standards
 date_default_timezone_set('Europe/Berlin');
@@ -98,8 +98,6 @@ require_once './includes/function_filter.php';      //Filter und Validierungsfun
 require_once './includes/function_parser.php';      //Parserhilfsfunktionen
 require_once './includes/function_security.php';    //Sicherheitsfunktionen
 require_once './includes/db_mysql.php';             //MySQL DB Klasse
-
-ini_set("pcre.recursion_limit", "524");
 
 define('REMOTE_IP', getRemoteIP());
 if ($phpids_enabled) {

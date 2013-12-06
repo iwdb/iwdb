@@ -28,13 +28,13 @@ if (!defined('IRA')) {
     exit;
 }
 
-if ($user_status != "admin" && $user_status != "hc") {
+if ($user_status !== "admin" && $user_status !== "hc") {
     die('Hacking attempt...');
 }
 
 //****************************************************************************
 
-if ($user_status == "admin") {
+if ($user_status === "admin") {
     echo '<br>';
     start_table(0, 0, 0, 1);
     start_row("menutop center");

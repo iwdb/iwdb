@@ -83,7 +83,7 @@ $aSpieltypen = array(
 // Zeit, wie lange die SID aktuell bleibt (in Sekunden)
 $config_sid_timeout = 1 * HOUR;
 
-// zugelassene Zeichen fuer SIDs
+// zugelassene Zeichen für SIDs
 $config_sid_string = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890-_";
 
 // Länge der SID
@@ -95,7 +95,7 @@ $config_password_string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1
 // Cookiename
 $config_cookie_name = "iwdb";
 
-// Zeit, wie lange das Cookie gueltig ist in Sekunden
+// Zeit, wie lange das Cookie gültig ist in Sekunden
 $config_cookie_timeout = 14 * DAY;
 
 // Zeit, wie lange ein User als online angezeigt wird in Sekunden
@@ -123,16 +123,16 @@ define("CONFIG_DATETIMEFORMAT", "%d.%m.%Y %H:%M:%S");
 $config_members_timeformat = "%d.%m.%y";
 // Zeit, wie oft Sitterseiten neu geladen werden sollen in Sekunden
 $config_refresh_timeout = 1 * MINUTE;
-// Zeit, nach wie vielen Sekunden es wieder Punkte fuer einen gleichen Scan gibt
+// Zeit, nach wie vielen Sekunden es wieder Punkte für einen gleichen Scan gibt
 $config_scan_timeout = 1 * DAY;
 
-// Punkte, die es fuer einen einfachen Login gibt
+// Punkte, die es für einen einfachen Login gibt
 $config_sitterpunkte_login = 0.25;
 
-// Punkte, die es fuer "Freundschaftssitten" gibt
+// Punkte, die es für "Freundschaftssitten" gibt
 $config_sitterpunkte_friend = 2;
 
-// Punkte, die es fuer einen erledigten Auftrag gibt
+// Punkte, die es für einen erledigten Auftrag gibt
 $config_sitterpunkte_auftrag = 3;
 
 // Punkte, die es gibt, wenn man etwas ohne Auftrag gemacht hat
@@ -157,6 +157,6 @@ $config_sitterauftrag_timeout = 2 * DAY;
 $config_dauer_timeout = 3 * HOUR;
 
 //PHPIDS Einstellungen
-$phpids_enabled         = true;     //aktiviert phpids, Standard true
+$phpids_enabled         = true;     //aktiviert phpids, true für an (Standard), false für aus
 $phpids_log_impact      = 1;        //logge Seitenaufrufe ab eingestellten impact, Standard 1, false für aus
 $phpids_block_impact    = 1;        //blocke Seitenaufrufe ab eingestellten impact, Standard 1, false für aus

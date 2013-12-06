@@ -207,7 +207,7 @@ if (!isset($sitterschleife) AND (AJAX_REQUEST === false)) {
 <?php
 }
 
-$textinput = getVar('text', true); // ungefilterten Bericht holen
+$textinput = fetchPOST('text', true); // ungefilterten Bericht holen
 if (!empty($textinput)) {
     $count = 0;
 

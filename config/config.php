@@ -155,3 +155,8 @@ $config_sitterauftrag_timeout = 2 * DAY;
 
 // Zeit in Sekunden, bei Daueraufträgen, wie lange ein Auftrag nach Login als "erledigt" markiert werden soll
 $config_dauer_timeout = 3 * HOUR;
+
+//PHPIDS Einstellungen
+$phpids_enabled         = true;     //aktiviert phpids, Standard true
+$phpids_log_impact      = 1;        //logge Seitenaufrufe ab eingestellten impact, Standard 1, false für aus
+$phpids_block_impact    = 1;        //blocke Seitenaufrufe ab eingestellten impact, Standard 1, false für aus

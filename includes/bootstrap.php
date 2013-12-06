@@ -88,21 +88,23 @@ if (!defined('PASSWORD_BCRYPT')) {
     }
 }
 
-require_once './config/config.php'; //IWDB Einstellungen
-require_once './config/configsql.php'; //Datenbank Zugangsdaten
-require_once './config/configally.php'; //Allianzeinstellungen
-require_once './includes/dBug.php'; //bessere Debugausgabe
-require_once './includes/debug.php'; //Debug Funktionen
-require_once './includes/function.php'; //sonstige Funktionen
-require_once './includes/function_filter.php'; //Filter und Validierungsfunktionen
-require_once './includes/function_parser.php'; //Parserhilfsfunktionen
-require_once './includes/function_security.php'; //Sicherheitsfunktionen
-require_once './includes/db_mysql.php';  //MySQL DB Klasse
+require_once './config/config.php';                 //IWDB Einstellungen
+require_once './config/configsql.php';              //Datenbank Zugangsdaten
+require_once './config/configally.php';             //Allianzeinstellungen
+require_once './includes/dBug.php';                 //bessere Debugausgabe
+require_once './includes/debug.php';                //Debug Funktionen
+require_once './includes/function.php';             //sonstige Funktionen
+require_once './includes/function_filter.php';      //Filter und Validierungsfunktionen
+require_once './includes/function_parser.php';      //Parserhilfsfunktionen
+require_once './includes/function_security.php';    //Sicherheitsfunktionen
+require_once './includes/db_mysql.php';             //MySQL DB Klasse
 
 ini_set("pcre.recursion_limit", "524");
 
 define('REMOTE_IP', getRemoteIP());
-require_once './includes/ids.php'; //einige Module sind ziemlich schlecht, besser wir testen die Inputs mit phpids
+if ($phpids_enabled) {
+    require_once './includes/ids.php';              //einige Module sind ziemlich schlecht, besser wir testen die Inputs mit phpids
+}
 
 //DB Verbindung herstellen
 $db = new db();

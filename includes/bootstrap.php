@@ -37,7 +37,7 @@ ini_set("display_errors", '1');
 libxml_use_internal_errors(true);
 $error = '';
 
-//ini_set("pcre.recursion_limit", "524");             //php-Standardwert 100.000 ist viel zu hoch, 524 sollte auf allen Systemen laufen
+ini_set("pcre.recursion_limit", "524");             //php-Standardwert 100.000 ist viel zu hoch, 524 sollte auf allen Systemen laufen
 
 //set some standards
 date_default_timezone_set('Europe/Berlin');

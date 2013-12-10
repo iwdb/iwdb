@@ -97,6 +97,7 @@ function parse_sbxml($xmldata)
     $scan_data['coords_sys'] = (int)$xml->plani_data->koordinaten->sol;
     $scan_data['coords_planet'] = (int)$xml->plani_data->koordinaten->pla;
     $scan_data['coords'] = $scan_data['coords_gal'] . ":" . $scan_data['coords_sys'] . ":" . $scan_data['coords_planet'];
+
     if (empty($xml->informationen->vollstaendig)) {          //weitere Auswertung bei nicht vollständigen Scans macht keinen Sinn
         echo "<div class='system_warning'>Der Scan " . $scan_data['coords'] . " ist nicht vollständig.</div>";
 
@@ -190,12 +191,12 @@ function parse_sbxml($xmldata)
             $scan_data['buildings'] = array();
 			foreach ($xml->gebaeude->gebaeude as $gebaeude) {
                 $geb_name = htmlspecialchars((string)$gebaeude->name, ENT_QUOTES, 'UTF-8');
-                if (!empty($geb_name)) {
+                $geb_anzahl = (int)$gebaeude->anzahl;
+
+                if (!empty($geb_name) AND !empty($geb_anzahl)) {               //nur komplette Einträge
 
                     $geb_id_iw = getBuildingIWIdByName($geb_name, true);
                     if (!empty($geb_id_iw)) {
-                        $geb_anzahl = (int)$gebaeude->anzahl;
-
                         $scan_data['buildings'][] = array(
                             'coords'  => $scan_data['coords'],
                             'geb_id_iw'  => $geb_id_iw,
@@ -215,6 +216,7 @@ function parse_sbxml($xmldata)
                         $scan_data['geb'] .= "\n\t</td>\n</tr>\n";
                     }
                 }
+
             }
 
             if (!empty($scan_data['geb'])) {

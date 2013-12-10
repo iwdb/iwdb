@@ -97,12 +97,18 @@ function parse_sbxml($xmldata)
     $scan_data['coords_sys'] = (int)$xml->plani_data->koordinaten->sol;
     $scan_data['coords_planet'] = (int)$xml->plani_data->koordinaten->pla;
     $scan_data['coords'] = $scan_data['coords_gal'] . ":" . $scan_data['coords_sys'] . ":" . $scan_data['coords_planet'];
+    if (empty($xml->informationen->vollstaendig)) {          //weitere Auswertung bei nicht vollständigen Scans macht keinen Sinn
+        echo "<div class='system_warning'>Der Scan " . $scan_data['coords'] . " ist nicht vollständig.</div>";
+
+        return false;
+    }
+
     $scan_data['user'] = (string)$xml->plani_data->user->name;
     $scan_data['allianz'] = (string)$xml->plani_data->user->allianz_tag;
     $scan_data['typ'] = (string)$xml->plani_data->planeten_typ->name;
     $scan_data['objekt'] = (string)$xml->plani_data->objekt_typ->name;
     $scan_data['time'] = (int)$xml->timestamp;
-    $scan_data['vollstaendig'] = (int)$xml->informationen->vollstaendig;
+
     //Allianz ggf. aktualisieren
     $scan_data['allianz'] = updateUserAlliance($scan_data['user'], $scan_data['allianz'], $scan_data['time']);
 
@@ -348,15 +354,6 @@ function save_sbxml($scan_data)
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query planet information.', '', __FILE__, __LINE__, $sql);
     $row = $db->db_fetch_array($result);
-
-    // vollständiger Scan?
-    if (isset($scan_data['vollstaendig']) && $scan_data['vollstaendig'] == 1) {
-        unset($scan_data['vollstaendig']);
-    } else {
-        $results[] = "Der Scan " . $scan_data['coords'] . " ist nicht vollständig.";
-
-        return $results;
-    }
 
     // Nebel vorhanden
     if (isset($scan_data['nebula'])) {

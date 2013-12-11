@@ -1212,6 +1212,10 @@ function startElement($parser, $name, $attribs)
                         $kb_array['VANZS']   = $v;
                         $kb_array['VANZE']   = 0;
                         $kb_array['VKLASSE'] = 0;
+
+                        $kb_array['VNAME'] = $kb_array['OPFER'];
+                        $kb_array['VALLY']  = $kb_array['ALLY'];
+
                         insert_iw_kaputt();
                     }
                 }

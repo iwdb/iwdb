@@ -565,7 +565,7 @@ if ($parsstatus === "read") {   // KB einlesen und für die Formatierung ausgebe
                 echo "  <tr>";
                 echo "     <td class='left' colspan='8' style='color:#000000; background-color:#CAE1FF;' >";
                 echo "       Verteidigende Flotte von <b>" . $user['name'] . " [" . $user['allianz_tag'] . "]</b>";
-                echo "       <input type='hidden' name='deffer" . $i . "' type='text' value='" . urlencode("[b]" . $user['name'] . " [" . $user['allianz_tag'] . "][/b]'>");
+                echo "       <input type='hidden' name='deffer" . $i . "' type='text' value='" . urlencode("[b]" . $user['name'] . " [" . $user['allianz_tag'] . "][/b]") . "'>";
                 echo "     </td>";
                 echo "  </tr>";
                 //schiffe
@@ -822,7 +822,7 @@ if ($parsstatus === "read") {   // KB einlesen und für die Formatierung ausgebe
                     echo "      <input name='bombtreff1' type='text' value='Alles war mit Pfefferminzwolken vernebelt. Die Bomberpiloten haben kaum was gesehen, die Trefferchance lag bei' size='70'>";
                 }
                 echo " <b>" . $KBdata['kampf']['bomben']['bombentrefferchance'] . "%</b>";
-                echo "      <input type='hidden' name='bombtreff2' type='text' value='" . urlencode(" [b]" . $KBdata['kampf']['bomben']['bombentrefferchance'] . "%[/b]'>");
+                echo "      <input type='hidden' name='bombtreff2' type='text' value='" . urlencode(" [b]" . $KBdata['kampf']['bomben']['bombentrefferchance'] . "%[/b]") . "'>";
                 echo "      <input name='bombtreff3' type='text' value='.' size='30'>";
                 echo "     </td>";
                 echo "  </tr>";
@@ -906,7 +906,7 @@ if ($parsstatus === "read") {   // KB einlesen und für die Formatierung ausgebe
                 echo "     <td class='left' colspan='8'>";
                 echo "      <input name='bombbev1' type='text' value='' size='75'>";
                 echo " <b>" . number_format($KBdata['kampf']['bomben']['bev_zerstoert'], 0, ",", ".") . "</b>";
-                echo "      <input type='hidden' name='bombbev2' type='text' value='" . urlencode(" [b]" . number_format($KBdata['kampf']['bomben']['bev_zerstoert'], 0, ",", ".") . "[/b] '>");
+                echo "      <input type='hidden' name='bombbev2' type='text' value='" . urlencode(" [b]" . number_format($KBdata['kampf']['bomben']['bev_zerstoert'], 0, ",", ".") . "[/b] ") . "'>";
                 echo "      <input name='bombbev3' type='text' value='Leute starben durch die Bombardierung.' size='50'>";
                 echo "     </td>";
                 echo "  </tr>";

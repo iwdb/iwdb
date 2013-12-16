@@ -46,7 +46,7 @@ $modulname = "m_kbparser1";
 //
 // -> Menütitel des Moduls der in der Navigation dargestellt werden soll.
 //
-$modultitle = "KBParser2";
+$modultitle = "KB-Parser";
 
 //****************************************************************************
 //
@@ -300,16 +300,15 @@ if ($parsstatus === "read") {   // KB einlesen und für die Formatierung ausgebe
         echo "        Kampf auf dem Planeten <b>" . $KBdata['kampf']['plani_data']['koordinaten']['string'] . ". Besitzer ist <b>" . $KBdata['kampf']['plani_data']['user']['name'] . " [" . $KBdata['kampf']['plani_data']['user']['allianz_tag'] . "]</b>";
         echo "     </td>";
         echo "  </tr>";
+
         // Der Kampf mit einem Sieg für den ...
-        //setlocale(LC_ALL, 'de_DE@euro', 'de_DE', 'de', 'ge');
-        setlocale(LC_ALL, 'de_DE.utf8');
         echo "  <tr>";
         echo "     <td class='windowbg1 left' colspan='8'>";
         echo "Die Schlacht endete " . strftime(" am <b>%d.%m.%Y</b> um <b>%H:%M:%S</b>", $KBdata['kampf']['timestamp']) . " mit einem Sieg für den ";
         if ($KBdata['kampf']['resultat']['id'] == 1) {
-            echo "<span style='color:green'><b>Angreifer</b></span>.";
+            echo "<span style='color:green; font-weight:bold;'>Angreifer</span>.";
         } else {
-            echo "<span style='color:red'><b>Verteidiger</b></span>.";
+            echo "<span style='color:red; font-weight:bold;'>Verteidiger</span>.";
         }
         echo "        <input type='hidden' name='dateline' type='text' value='" . urlencode("Die Schlacht endete " . strftime("am [b]%d.%m.%Y[/b] um [b]%H:%M:%S[/b] ", $KBdata['kampf']['timestamp']) . " mit einem Sieg für den ");
         if ($KBdata['kampf']['resultat']['id'] == 1) {
@@ -691,8 +690,8 @@ if ($parsstatus === "read") {   // KB einlesen und für die Formatierung ausgebe
         // Verluste Deffer
         if (empty($KBdata['kampf']['resverluste']['def']) == false) {
             echo "  <tr>";
-            echo "     <td class='left' colspan='8' style='color:#000000; background-color:#CAE1FF;' >";
-            echo "       <b>Verluste des Verteidigers</b>";
+            echo "     <td class='left' colspan='8' style='color:#000000; background-color:#CAE1FF; font-weight:bold;' >";
+            echo "       Verluste des Verteidigers";
             echo "     </td>";
             echo "  </tr>";
             echo "  <tr>";
@@ -747,8 +746,8 @@ if ($parsstatus === "read") {   // KB einlesen und für die Formatierung ausgebe
         if (empty($KBdata['kampf']['pluenderung']) == false) {
 
             echo "  <tr>";
-            echo "     <td class='left' colspan='8' style='color:#000000; background-color:#CAE1FF;' >";
-            echo "       <b>Es wurden folgende Ressourcen geplündert</b>";
+            echo "     <td class='left' colspan='8' style='color:#000000; background-color:#CAE1FF; font-weight:bold;' >";
+            echo "       Es wurden folgende Ressourcen geplündert";
             echo "     </td>";
             echo "  </tr>";
             echo "  <tr>";

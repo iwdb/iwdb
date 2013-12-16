@@ -280,7 +280,7 @@ if ($parsstatus === "read") {   // KB einlesen und für die Formatierung ausgebe
         echo "        / <input type='checkbox' name='optionKuerzen' value='on' checked>Schiffnamen kürzen";
         echo "        / <input type='checkbox' name='optionHr' value='on' checked>horizonale Linien";
         echo "        / <input type='checkbox' name='optionLink' value='on'>KB-Link in Quote-Tags";
-        echo "        / <input type='checkbox' name='optionColspan' value='on' checked>verkürzte Colspans ([td=x])";
+        echo "        / <input type='checkbox' name='optionColspan' value='on'>verkürzte Colspans ([td=x])";
         // echo "       / <input type='checkbox' name='optionHtml' value='on' >HTML";
         echo "     </td>";
         echo "  </tr>";

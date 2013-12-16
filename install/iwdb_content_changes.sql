@@ -49,3 +49,11 @@ INSERT INTO `prefix_gebbaukosten` (`id`, `name`, `dauer`, `kosten_eisen`, `koste
 (18, 'großes VV4A-Walzwerk', 28800, 15000, 6000, 0, 2500, 0, 500, 5000, 200, 0);
 
 UPDATE `prefix_schiffstyp` SET `schiff`='bürokratischer Formularbomber', `abk`='Formularbomber' WHERE `prefix_schiffstyp`.`id_iw`='21';
+
+UPDATE `prefix_gebaeude` SET `dauer`='64800' WHERE `prefix_gebaeude`.`id` =260;
+UPDATE `prefix_gebaeude` SET `dauer`='86400' WHERE `prefix_gebaeude`.`id` =262;
+UPDATE `prefix_gebaeude` SET `dauer`='43200' WHERE `prefix_gebaeude`.`id` =217;
+
+INSERT INTO `prefix_gebaeude` (`name`, `category`, `idcat`, `inactive`, `dauer`, `bild`, `info`, `n_building`, `n_research`, `n_kolotyp`, `n_planityp`, `e_research`, `e_building`, `zerstoert`, `bringt`, `Kosten`, `Punkte`, `MaximaleAnzahl`, `typ`, `kostet`, `id_iw`) VALUES
+(165, 'großes Energielager (Kampfbasis)', ' 6. Lager &amp; Bunker', 211, '0', 10800, 'energielager_gross', '', '', '', '', '', '', '', '', '', '', 0, 0, '', '', 166),
+(166, 'großes Chemielager (Kampfbasis)', ' 6. Lager &amp; Bunker', 212, '0', 10800, 'chemlager_gross', '', '', '', '', '', '', '', '', '', '', 0, 0, '', '', 165);

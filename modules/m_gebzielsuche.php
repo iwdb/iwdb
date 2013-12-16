@@ -162,7 +162,7 @@ $sql_gegner = "SELECT `allianz` FROM `{$db_tb_allianzstatus}` WHERE `status`='Kr
 $result_gegner = $db->db_query($sql_gegner);
 $row_gegner = $db->db_fetch_array($result_gegner);
 
-$sql = "SELECT `coords`, `user`, `allianz` FROM `{$db_tb_scans}` WHERE (`allianz`='" . $row_gegner['allianz'] . "' AND `objekt`='Kolonie')";
+$sql = "SELECT `coords`, `user`, `allianz`, `typ` FROM `{$db_tb_scans}` WHERE (`allianz`='" . $row_gegner['allianz'] . "' AND `objekt`='Kolonie')";
 $result = $db->db_query($sql);
 
 ?>
@@ -175,6 +175,9 @@ $result = $db->db_query($sql);
     </th>
     <th>
         <b>Spieler</b>
+    </th>
+	<th>
+        <b>Allianz</b>
     </th>
     <th>
         <abbr title="Flottenscanner">
@@ -231,37 +234,64 @@ $result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     ?>
     <tr>
-        <td>
-            <a href="index.php?action=showplanet&coords=<?php echo $row['coords']; ?>"><?php echo $row['coords']; ?></a>
-        </td>
-        <td>
-            <?php
-            $sql_spieler = "SELECT `einmaurer`, `staatsform`, `umode`, `gesperrt` FROM `{$db_tb_spieler}` WHERE `name`='" . $row['user'] . "'";
-            $result_spieler = $db->db_query($sql_spieler);
-            $row_spieler = $db->db_fetch_array($result_spieler);
-            if ($row_spieler['umode']) {
-                echo '<abbr title="Umode">';
-                echo '<font color="#FF7256">' . $row['user'] . '</font>';
-                echo '</abbr>';
-            } elseif ($row_spieler['gesperrt']) {
-                echo '<abbr title="Gesperrt">';
-                echo '<font color="#EE9A00">' . $row['user'] . '</font>';
-                echo '</abbr>';
-            } else {
-                echo $row['user'];
-            }
-            if ($row_spieler['einmaurer']) {
-                echo '<abbr title="Einmaurer">';
-                echo '  <img src="' . BILDER_PATH . 'icon_einmaurer.png">';
-            }
-            if ($row_spieler['staatsform'] == 'Kommunist') {
-                echo '<abbr title="Kommunist">';
-                echo '  <img src="' . BILDER_PATH . 'icon_fleeter.png">';
-            }
+		<td>
+			<?php
+			if ($row['typ']=="Gasgigant") {
+				$color="#228B22";
+				echo '<abbr title="Gasgigant">';
+			}
+			elseif ($row['typ']=="Eisplanet") {
+				$color="#436EEE";
+				echo '<abbr title="Eisplanet">';
+			}
+			elseif ($row['typ']=="Asteroid") {
+				$color="#8B4513";
+				echo '<abbr title="Asteroid">';
+			}
+			else {
+				$color="#000000";
+				echo '<abbr title="Steinklumpen">';
+			}
+			
+			?>
+			<a href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>"><?php echo '<font color="'.$color.'">'.$row['coords'];'</font>'?></a>
+			</abbr>
+		</td>
+       <td>
+			<?php
+			$sql_einmaurer = "SELECT `einmaurer`, `staatsform`, `umode`, `gesperrt` FROM `{$db_tb_spieler}` WHERE `name`='".$row['user']."'";
+			$result_einmaurer = $db->db_query($sql_einmaurer);
+			$row_einmaurer = $db->db_fetch_array($result_einmaurer);
+			if ($row_einmaurer['umode']) {
+				echo '<abbr title="Umode">';
+				echo '<font color="#FF7256">' . $row['user'] . '</font>';
+				echo '</abbr>';
+			}
+			elseif ($row_einmaurer['gesperrt']) {
+				echo '<abbr title="Gesperrt">';
+				echo '<font color="#EE9A00">' . $row['user'] . '</font>';
+				echo '</abbr>';
+			}
+			else {
+				echo $row['user'];
+			}
+			if ($row_einmaurer['einmaurer']=='1') {
+                      echo '<abbr title="Einmaurer">';
+				echo '  <img src="'.BILDER_PATH.'icon_einmaurer.png">';
+			}
+			if ($row_einmaurer['staatsform']=='Kommunist') {
+                      echo '<abbr title="Kommunist">';
+				echo '  <img src="'.BILDER_PATH.'icon_fleeter.png">';
+			}
+			?>
+		</td>
+		<td>
+           <?php
+            echo $row['allianz'];
             ?>
         </td>
-        <td>
-            <?php
+       <td>
+           <?php
             $sql_geb1 = "SELECT `geb_anz` FROM `{$db_tb_scans_geb}` WHERE (`coords`='" . $row['coords'] . "' AND `geb_id_iw`='143')"; //Flottenscanner
             $result_geb1 = $db->db_query($sql_geb1);
             $row_geb1 = $db->db_fetch_array($result_geb1);

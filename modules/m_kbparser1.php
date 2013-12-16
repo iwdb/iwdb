@@ -296,7 +296,7 @@ if ($parsstatus === "read") {   // KB einlesen und für die Formatierung ausgebe
         // Kampf auf dem Planeten
         echo "  <tr>";
         echo "     <td class='left' colspan='8' style='color:#000000; background-color:#CAE1FF;' >";
-        echo "        <input type='hidden' name='mainline' type='text' value='Kampf auf dem Planeten [b]" . $KBdata['kampf']['plani_data']['koordinaten']['string'] . "[/b]. Besitzer ist [b]" . $KBdata['kampf']['plani_data']['user']['name'] . " [" . $KBdata['kampf']['plani_data']['user']['allianz_tag'] . "][/b].'>";
+        echo "        <input type='hidden' name='mainline' type='text' value='" . urlencode("Kampf auf dem Planeten [b]" . $KBdata['kampf']['plani_data']['koordinaten']['string'] . "[/b]. Besitzer ist [b]" . $KBdata['kampf']['plani_data']['user']['name'] . " [" . $KBdata['kampf']['plani_data']['user']['allianz_tag'] . "][/b]") . "'>";
         echo "        Kampf auf dem Planeten <b>" . $KBdata['kampf']['plani_data']['koordinaten']['string'] . ". Besitzer ist <b>" . $KBdata['kampf']['plani_data']['user']['name'] . " [" . $KBdata['kampf']['plani_data']['user']['allianz_tag'] . "]</b>";
         echo "     </td>";
         echo "  </tr>";
@@ -311,11 +311,11 @@ if ($parsstatus === "read") {   // KB einlesen und für die Formatierung ausgebe
         } else {
             echo "<span style='color:red'><b>Verteidiger</b></span>.";
         }
-        echo "        <input type='hidden' name='dateline' type='text' value='" . "Die Schlacht endete " . strftime("am [b]%d.%m.%Y[/b] um [b]%H:%M:%S[/b] ", $KBdata['kampf']['timestamp']) . " mit einem Sieg für den ";
+        echo "        <input type='hidden' name='dateline' type='text' value='" . urlencode("Die Schlacht endete " . strftime("am [b]%d.%m.%Y[/b] um [b]%H:%M:%S[/b] ", $KBdata['kampf']['timestamp']) . " mit einem Sieg für den ");
         if ($KBdata['kampf']['resultat']['id'] == 1) {
-            echo "[color=green][b]Angreifer[/b][/color].";
+            echo urlencode("[color=green][b]Angreifer[/b][/color].");
         } else {
-            echo "[color=red][b]Verteidiger[/b][/color].";
+            echo urlencode("[color=red][b]Verteidiger[/b][/color].");
         }
         echo "'>";
         echo "     </td>";
@@ -327,7 +327,7 @@ if ($parsstatus === "read") {   // KB einlesen und für die Formatierung ausgebe
             echo "  <tr>";
             echo "     <td class='left' colspan='8' style='color:#000000; background-color:#CAE1FF;' >";
             echo "       Angreifende Flotte von <b>" . $user['name'] . " [" . $user['allianz_tag'] . "]</b>, Startplanet ist <b>" . $user['startplanet']['koordinaten']['string'] . "</b>.";
-            echo "       <input type='hidden' name='atter" . $i . "' type='text' value='[b]" . $user['name'] . " [" . $user['allianz_tag'] . "][/b] von " . $user['startplanet']['koordinaten']['string'] . "'>";
+            echo "       <input type='hidden' name='atter" . $i . "' type='text' value='" . urlencode("[b]" . $user['name'] . " [" . $user['allianz_tag'] . "][/b] von " . $user['startplanet']['koordinaten']['string']) . "'>";
             echo "     </td>";
             echo "  </tr>";
             if (empty($user['bloedsinn']['kaffee']) == false) {
@@ -350,7 +350,7 @@ if ($parsstatus === "read") {   // KB einlesen und für die Formatierung ausgebe
                 echo "  <tr>";
                 echo "     <td class='left' colspan='8'>";
                 echo "        Der Kommandant der angreifenden Flotte überbrachte folgende Botschaft:<br>" . $user['bloedsinn']['msg'];
-                echo "        <input type='hidden' name='attermsg" . $i . "' type='text' value='Der Kommandant der angreifenden Flotte überbrachte folgende Botschaft:[/td][/tr][tr][td colspan=4][color=brown][i]" . $user['bloedsinn']['msg'] . "[/i][/color]'>";
+                echo "        <input type='hidden' name='attermsg" . $i . "' type='text' value='" . urlencode("Der Kommandant der angreifenden Flotte überbrachte folgende Botschaft:[/td][/tr][tr][td colspan=4][color=brown][i]" . $user['bloedsinn']['msg'] . "[/i][/color]'>");
                 echo "     </td>";
                 echo "  </tr>";
             }
@@ -370,7 +370,7 @@ if ($parsstatus === "read") {   // KB einlesen und für die Formatierung ausgebe
                 echo "  <tr>";
                 echo "    <td class='left'>";
                 echo $schiffe['name'];
-                echo "      <input type='hidden' name='atterschiffname" . $i . "_" . $j . "' type='text' value='" . $schiffe['name'] . "'>";
+                echo "      <input type='hidden' name='atterschiffname" . $i . "_" . $j . "' type='text' value='" . urlencode($schiffe['name']) . "'>";
                 echo "    </td>";
                 echo "    <td class='right'>";
                 echo number_format($schiffe['anzahl_start'], 0, ',', '.');
@@ -424,7 +424,7 @@ if ($parsstatus === "read") {   // KB einlesen und für die Formatierung ausgebe
             echo "  <tr>";
             echo "     <td class='left' colspan='8' style='color:#000000; background-color:#CAE1FF;'>";
             echo "       Verteidiger ist <b>" . $user['name'] . " [" . $user['allianz_tag'] . "]</b>";
-            echo "       <input type='hidden' name='pladeffer" . $i . "' type='text' value='[b]" . $user['name'] . " [" . $user['allianz_tag'] . "][/b]'>";
+            echo "       <input type='hidden' name='pladeffer" . $i . "' type='text' value='" . urlencode("[b]" . $user['name'] . " [" . $user['allianz_tag'] . "][/b]") . "'>";
             echo "     </td>";
             echo "  </tr>";
 
@@ -445,7 +445,7 @@ if ($parsstatus === "read") {   // KB einlesen und für die Formatierung ausgebe
                     echo "  <tr>";
                     echo "    <td class='left' >";
                     echo $schiffe['name'];
-                    echo "      <input type='hidden' name='pladefturm" . $i . "_" . $j . "' type='text' value='" . $schiffe['name'] . "'>";
+                    echo "      <input type='hidden' name='pladefturm" . $i . "_" . $j . "' type='text' value='" . urlencode($schiffe['name']) . "'>";
                     echo "    </td>";
                     echo "    <td class='right' >";
                     echo number_format($schiffe['anzahl_start'], 0, ',', '.');
@@ -509,7 +509,7 @@ if ($parsstatus === "read") {   // KB einlesen und für die Formatierung ausgebe
                     echo "  <tr>";
                     echo "    <td class='left' >";
                     echo $schiffe['name'];
-                    echo "      <input type='hidden' name='pladefschiff" . $i . "_" . $j . "' type='text' value='" . $schiffe['name'] . "'>";
+                    echo "      <input type='hidden' name='pladefschiff" . $i . "_" . $j . "' type='text' value='" . urlencode($schiffe['name']) . "'>";
                     echo "    </td>";
                     echo "    <td class='right' >";
                     echo number_format($schiffe['anzahl_start'], 0, ',', '.');
@@ -565,7 +565,7 @@ if ($parsstatus === "read") {   // KB einlesen und für die Formatierung ausgebe
                 echo "  <tr>";
                 echo "     <td class='left' colspan='8' style='color:#000000; background-color:#CAE1FF;' >";
                 echo "       Verteidigende Flotte von <b>" . $user['name'] . " [" . $user['allianz_tag'] . "]</b>";
-                echo "       <input type='hidden' name='deffer" . $i . "' type='text' value='[b]" . $user['name'] . " [" . $user['allianz_tag'] . "][/b]'>";
+                echo "       <input type='hidden' name='deffer" . $i . "' type='text' value='" . urlencode("[b]" . $user['name'] . " [" . $user['allianz_tag'] . "][/b]'>");
                 echo "     </td>";
                 echo "  </tr>";
                 //schiffe
@@ -584,7 +584,7 @@ if ($parsstatus === "read") {   // KB einlesen und für die Formatierung ausgebe
                     echo "  <tr>";
                     echo "    <td class='left' >";
                     echo $schiffe['name'];
-                    echo "      <input type='hidden' name='defferschiffname" . $i . "_" . $j . "' type='text' value='" . $schiffe['name'] . "'>";
+                    echo "      <input type='hidden' name='defferschiffname" . $i . "_" . $j . "' type='text' value='" . urlencode($schiffe['name']) . "'>";
                     echo "    </td>";
                     echo "    <td class='right' >";
                     echo number_format($schiffe['anzahl_start'], 0, ',', '.');
@@ -804,7 +804,7 @@ if ($parsstatus === "read") {   // KB einlesen und für die Formatierung ausgebe
             echo "  <tr>";
             echo "     <td class='left' colspan='8' style='color:#000000; background-color:#CAE1FF;'>";
             echo "       Der Planet wurde von <b>" . $KBdata['kampf']['bomben']['user']['name'] . "</b>";
-            echo "       <input type='hidden' name='bomb1' type='text' value='Der Planet wurde von [b]" . $KBdata['kampf']['bomben']['user']['name'] . "[/b] '>";
+            echo "       <input type='hidden' name='bomb1' type='text' value='" . urlencode("Der Planet wurde von [b]" . $KBdata['kampf']['bomben']['user']['name'] . "[/b]") . "'>";
             echo "       <input name='bomb2' type='text' value='bombadiert.' size='30' >";
             echo "     </td>";
             echo "  </tr>";
@@ -822,7 +822,7 @@ if ($parsstatus === "read") {   // KB einlesen und für die Formatierung ausgebe
                     echo "      <input name='bombtreff1' type='text' value='Alles war mit Pfefferminzwolken vernebelt. Die Bomberpiloten haben kaum was gesehen, die Trefferchance lag bei' size='70'>";
                 }
                 echo " <b>" . $KBdata['kampf']['bomben']['bombentrefferchance'] . "%</b>";
-                echo "      <input type='hidden' name='bombtreff2' type='text' value=' [b]" . $KBdata['kampf']['bomben']['bombentrefferchance'] . "%[/b]'>";
+                echo "      <input type='hidden' name='bombtreff2' type='text' value='" . urlencode(" [b]" . $KBdata['kampf']['bomben']['bombentrefferchance'] . "%[/b]'>");
                 echo "      <input name='bombtreff3' type='text' value='.' size='30'>";
                 echo "     </td>";
                 echo "  </tr>";
@@ -863,11 +863,11 @@ if ($parsstatus === "read") {   // KB einlesen und für die Formatierung ausgebe
                     echo "  <tr>";
                     echo "     <td class='left' >";
                     echo $loos['name'];
-                    echo "       <input type='hidden' name='bombgeb" . $i . "' type='text' value='" . $loos['name'] . "'>";
+                    echo "       <input type='hidden' name='bombgeb" . $i . "' type='text' value='" . urlencode($loos['name']) . "'>";
                     echo "     </td>";
                     echo "     <td colspan='3' class='right'>";
                     echo number_format($loos['anzahl'], 0, ',', '.');
-                    echo "       <input type='hidden' name='bombgebanz" . $i . "' type='text' value='" . $loos['anzahl'] . "'>";
+                    echo "       <input type='hidden' name='bombgebanz" . $i . "' type='text' value='" . number_format($loos['anzahl'], 0, ",", ".") . "'>";
                     echo "     </td>";
                     echo "    <td class='center' >";
                     echo "      <input type='checkbox' name='bombgebformf" . $i . "' value='f'>";
@@ -906,7 +906,7 @@ if ($parsstatus === "read") {   // KB einlesen und für die Formatierung ausgebe
                 echo "     <td class='left' colspan='8'>";
                 echo "      <input name='bombbev1' type='text' value='' size='75'>";
                 echo " <b>" . number_format($KBdata['kampf']['bomben']['bev_zerstoert'], 0, ",", ".") . "</b>";
-                echo "      <input type='hidden' name='bombbev2' type='text' value=' [b]" . number_format($KBdata['kampf']['bomben']['bev_zerstoert'], 0, ",", ".") . "[/b] '>";
+                echo "      <input type='hidden' name='bombbev2' type='text' value='" . urlencode(" [b]" . number_format($KBdata['kampf']['bomben']['bev_zerstoert'], 0, ",", ".") . "[/b] '>");
                 echo "      <input name='bombbev3' type='text' value='Leute starben durch die Bombardierung.' size='50'>";
                 echo "     </td>";
                 echo "  </tr>";
@@ -919,7 +919,7 @@ if ($parsstatus === "read") {   // KB einlesen und für die Formatierung ausgebe
 
         echo "  <tr>";
         echo "     <td class='center' colspan='8'>";
-        echo "       <input type='hidden' name='KBLink' type='text' value='" . $KBLink . "'>";
+        echo "       <input type='hidden' name='KBLink' type='text' value='" . urlencode($KBLink) . "'>";
         echo "       <input type='submit' value='BB-Code generieren' class='btn'>";
         echo "     </td>";
         echo "  </tr>";
@@ -939,24 +939,24 @@ if ($parsstatus === "write") {  // BB-Code ausgeben
         $outBB = "[quote][table]";
     }
     else {
-        $outBB = "[quote=" . getVar('KBLink') . "][table]";
+        $outBB = "[quote=" . urldecode(getVar('KBLink')) . "][table]";
     }
-    $outBB = $outBB . "[tr][td colspan=4]" . getVar('mainline') . "[/td][/tr]"; //Kampf auf dem ...
-    $outBB = $outBB . "[tr][td colspan=4]" . getVar('dateline') . "[/td][/tr]"; //Die Schlacht endete mit ...
+    $outBB = $outBB . "[tr][td colspan=4]" . urldecode(getVar('mainline')) . "[/td][/tr]"; //Kampf auf dem ...
+    $outBB = $outBB . "[tr][td colspan=4]" . urldecode(getVar('dateline')) . "[/td][/tr]"; //Die Schlacht endete mit ...
 
     // Angreifer
     $outBB = $outBB . "[tr][td colspan=4][hr][/td][/tr]"; //horrizontale Linie
     $outBB = $outBB . "[tr][td][u]Angreifer[/u][/td][td][right]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[u]Anzahl[/u][/right][/td][td][right]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[u]Zerstört[/u][/right][/td][td][right]&nbsp;&nbsp;[u]Überlebende[/u][/right][/td][/tr]";
     $i     = 1;
     while (empty($_POST["atter" . $i]) == false) {
-        $outBB = $outBB . "[tr][td colspan=4]" . getVar("atter" . $i) . "[/td][/tr]"; //Angreifende Flotte ...
+        $outBB = $outBB . "[tr][td colspan=4]" . urldecode(getVar("atter" . $i)) . "[/td][/tr]"; //Angreifende Flotte ...
         $j     = 1;
         while (empty($_POST["atterschiffname" . $i . "_" . $j]) == false) {
             if (getVar("atterschiffstart" . $i . "_" . $j) !== "") {
-                $outBB = $outBB . "[tr][td]" . makeString($_POST["atterschiffname" . $i . "_" . $j], isset($_POST["Attformf" . $i . "_" . $j]), isset($_POST["Attformk" . $i . "_" . $j]), isset($_POST["Attformu" . $i . "_" . $j]), $_POST["Attformc" . $i . "_" . $j]) . "[/td]";
-                $outBB = $outBB . "[td][right]" . makeString($_POST["atterschiffstart" . $i . "_" . $j], isset($_POST["Attformf" . $i . "_" . $j]), isset($_POST["Attformk" . $i . "_" . $j]), isset($_POST["Attformu" . $i . "_" . $j]), $_POST["Attformc" . $i . "_" . $j]) . "[/right][/td]";
-                $outBB = $outBB . "[td][right]" . makeString($_POST["atterschiffweg" . $i . "_" . $j], isset($_POST["Attformf" . $i . "_" . $j]), isset($_POST["Attformk" . $i . "_" . $j]), isset($_POST["Attformu" . $i . "_" . $j]), $_POST["Attformc" . $i . "_" . $j]) . "[/right][/td]";
-                $outBB = $outBB . "[td][right]" . makeString($_POST["atterschiffende" . $i . "_" . $j], isset($_POST["Attformf" . $i . "_" . $j]), isset($_POST["Attformk" . $i . "_" . $j]), isset($_POST["Attformu" . $i . "_" . $j]), $_POST["Attformc" . $i . "_" . $j]) . "[/right][/td][/tr]";
+                $outBB = $outBB . "[tr][td]" . makeString(urldecode(getVar("atterschiffname" . $i . "_" . $j)), getVar("Attformf" . $i . "_" . $j), getVar("Attformk" . $i . "_" . $j), getVar("Attformu" . $i . "_" . $j), getVar("Attformc" . $i . "_" . $j)) . "[/td]";
+                $outBB = $outBB . "[td][right]" . makeString(getVar("atterschiffstart" . $i . "_" . $j), getVar("Attformf" . $i . "_" . $j), getVar("Attformk" . $i . "_" . $j), getVar("Attformu" . $i . "_" . $j), getVar("Attformc" . $i . "_" . $j)) . "[/right][/td]";
+                $outBB = $outBB . "[td][right]" . makeString(getVar("atterschiffweg" . $i . "_" . $j), getVar("Attformf" . $i . "_" . $j), getVar("Attformk" . $i . "_" . $j), getVar("Attformu" . $i . "_" . $j), getVar("Attformc" . $i . "_" . $j)) . "[/right][/td]";
+                $outBB = $outBB . "[td][right]" . makeString(getVar("atterschiffende" . $i . "_" . $j), getVar("Attformf" . $i . "_" . $j), getVar("Attformk" . $i . "_" . $j), getVar("Attformu" . $i . "_" . $j), getVar("Attformc" . $i . "_" . $j)) . "[/right][/td][/tr]";
             }
             $j++;
         }
@@ -967,7 +967,7 @@ if ($parsstatus === "write") {  // BB-Code ausgeben
             $outBB = $outBB . "[tr][td colspan=4]Diese wilden Barbarben haben unseren kleinen Kindern die Lollis geklaut!! Das schreit gradezu nach Rache.[/td][/tr]";
         }
         if (empty($_POST["attermsg" . $i]) == false) {
-            $outBB = $outBB . "[tr][td colspan=4]" . $_POST["attermsg" . $i] . "[/td][/tr]";
+            $outBB = $outBB . "[tr][td colspan=4]" . urldecode(getVar("attermsg" . $i)) . "[/td][/tr]";
         }
         $i++;
     }
@@ -977,21 +977,21 @@ if ($parsstatus === "write") {  // BB-Code ausgeben
     $outBB = $outBB . "[tr][td][u]Verteidiger[/u][/td][td][right][u]Anzahl[/u][/right][/td][td][right][u]Zerstört[/u][/right][/td][td][right][u]Überlebende[/u][/right][/td][/tr]";
     $i     = 1;
     while (empty($_POST["pladeffer" . $i]) == false) {
-        $outBB = $outBB . "[tr][td colspan=4]" . $_POST["pladeffer" . $i] . "[/td][/tr]"; // Verteidiger ist ...
+        $outBB = $outBB . "[tr][td colspan=4]" . urldecode(getVar("pladeffer" . $i)) . "[/td][/tr]"; // Verteidiger ist ...
         $j     = 1;
         while (empty($_POST["pladefturm" . $i . "_" . $j]) == false) {
-            $outBB = $outBB . "[tr][td]" . makeString($_POST["pladefturm" . $i . "_" . $j], isset($_POST["Pladefturmformf" . $i . "_" . $j]), isset($_POST["Pladefturmformk" . $i . "_" . $j]), isset($_POST["Pladefturmformu" . $i . "_" . $j]), $_POST["Pladefturmformc" . $i . "_" . $j]) . "[/td]";
-            $outBB = $outBB . "[td][right]" . makeString($_POST["pladefturmstart" . $i . "_" . $j], isset($_POST["Pladefturmformf" . $i . "_" . $j]), isset($_POST["Pladefturmformk" . $i . "_" . $j]), isset($_POST["Pladefturmformu" . $i . "_" . $j]), $_POST["Pladefturmformc" . $i . "_" . $j]) . "[/right][/td]";
-            $outBB = $outBB . "[td][right]" . makeString($_POST["pladefturmweg" . $i . "_" . $j], isset($_POST["Pladefturmformf" . $i . "_" . $j]), isset($_POST["Pladefturmformk" . $i . "_" . $j]), isset($_POST["Pladefturmformu" . $i . "_" . $j]), $_POST["Pladefturmformc" . $i . "_" . $j]) . "[/right][/td]";
-            $outBB = $outBB . "[td][right]" . makeString($_POST["pladefturmende" . $i . "_" . $j], isset($_POST["Pladefturmformf" . $i . "_" . $j]), isset($_POST["Pladefturmformk" . $i . "_" . $j]), isset($_POST["Pladefturmformu" . $i . "_" . $j]), $_POST["Pladefturmformc" . $i . "_" . $j]) . "[/right][/td][/tr]";
+            $outBB = $outBB . "[tr][td]" . makeString(urldecode(getVar("pladefturm" . $i . "_" . $j)), getVar("Pladefturmformf" . $i . "_" . $j), getVar("Pladefturmformk" . $i . "_" . $j), getVar("Pladefturmformu" . $i . "_" . $j), getVar("Pladefturmformc" . $i . "_" . $j)) . "[/td]";
+            $outBB = $outBB . "[td][right]" . makeString(getVar("pladefturmstart" . $i . "_" . $j), getVar("Pladefturmformf" . $i . "_" . $j), getVar("Pladefturmformk" . $i . "_" . $j), getVar("Pladefturmformu" . $i . "_" . $j), getVar("Pladefturmformc" . $i . "_" . $j)) . "[/right][/td]";
+            $outBB = $outBB . "[td][right]" . makeString(getVar("pladefturmweg" . $i . "_" . $j), getVar("Pladefturmformf" . $i . "_" . $j), getVar("Pladefturmformk" . $i . "_" . $j), getVar("Pladefturmformu" . $i . "_" . $j), getVar("Pladefturmformc" . $i . "_" . $j)) . "[/right][/td]";
+            $outBB = $outBB . "[td][right]" . makeString(getVar("pladefturmende" . $i . "_" . $j), getVar("Pladefturmformf" . $i . "_" . $j), getVar("Pladefturmformk" . $i . "_" . $j), getVar("Pladefturmformu" . $i . "_" . $j), getVar("Pladefturmformc" . $i . "_" . $j)) . "[/right][/td][/tr]";
             $j++;
         }
         $j = 1;
         while (empty($_POST["pladefschiff" . $i . "_" . $j]) == false) {
-            $outBB = $outBB . "[tr][td]" . makeString($_POST["pladefschiff" . $i . "_" . $j], isset($_POST["Pladefschiffformf" . $i . "_" . $j]), isset($_POST["Pladefschiffformk" . $i . "_" . $j]), isset($_POST["Pladefschiffformu" . $i . "_" . $j]), $_POST["Pladefschiffformc" . $i . "_" . $j]) . "[/td]";
-            $outBB = $outBB . "[td][right]" . makeString($_POST["pladefschiffstart" . $i . "_" . $j], isset($_POST["Pladefschiffformf" . $i . "_" . $j]), isset($_POST["Pladefschiffformk" . $i . "_" . $j]), isset($_POST["Pladefschiffformu" . $i . "_" . $j]), $_POST["Pladefschiffformc" . $i . "_" . $j]) . "[/right][/td]";
-            $outBB = $outBB . "[td][right]" . makeString($_POST["pladefschiffweg" . $i . "_" . $j], isset($_POST["Pladefschiffformf" . $i . "_" . $j]), isset($_POST["Pladefschiffformk" . $i . "_" . $j]), isset($_POST["Pladefschiffformu" . $i . "_" . $j]), $_POST["Pladefschiffformc" . $i . "_" . $j]) . "[/right][/td]";
-            $outBB = $outBB . "[td][right]" . makeString($_POST["pladefschiffende" . $i . "_" . $j], isset($_POST["Pladefschiffformf" . $i . "_" . $j]), isset($_POST["Pladefschiffformk" . $i . "_" . $j]), isset($_POST["Pladefschiffformu" . $i . "_" . $j]), $_POST["Pladefschiffformc" . $i . "_" . $j]) . "[/right][/td][/tr]";
+            $outBB = $outBB . "[tr][td]" . makeString(urldecode(getVar("pladefschiff" . $i . "_" . $j)), getVar("Pladefschiffformf" . $i . "_" . $j), getVar("Pladefschiffformk" . $i . "_" . $j), getVar("Pladefschiffformu" . $i . "_" . $j), getVar("Pladefschiffformc" . $i . "_" . $j)) . "[/td]";
+            $outBB = $outBB . "[td][right]" . makeString(getVar("pladefschiffstart" . $i . "_" . $j), getVar("Pladefschiffformf" . $i . "_" . $j), getVar("Pladefschiffformk" . $i . "_" . $j), getVar("Pladefschiffformu" . $i . "_" . $j), getVar("Pladefschiffformc" . $i . "_" . $j)) . "[/right][/td]";
+            $outBB = $outBB . "[td][right]" . makeString(getVar("pladefschiffweg" . $i . "_" . $j), getVar("Pladefschiffformf" . $i . "_" . $j), getVar("Pladefschiffformk" . $i . "_" . $j), getVar("Pladefschiffformu" . $i . "_" . $j), getVar("Pladefschiffformc" . $i . "_" . $j)) . "[/right][/td]";
+            $outBB = $outBB . "[td][right]" . makeString(getVar("pladefschiffende" . $i . "_" . $j), getVar("Pladefschiffformf" . $i . "_" . $j), getVar("Pladefschiffformk" . $i . "_" . $j), getVar("Pladefschiffformu" . $i . "_" . $j), getVar("Pladefschiffformc" . $i . "_" . $j)) . "[/right][/td][/tr]";
             $j++;
         }
         $i++;
@@ -1000,14 +1000,14 @@ if ($parsstatus === "write") {  // BB-Code ausgeben
     // Deffer
     $i = 1;
     while (empty($_POST["deffer" . $i]) == false) {
-        $outBB = $outBB . "[tr][td colspan=4]" . $_POST["deffer" . $i] . "[/td][/tr]"; //Verteidigende Flotte ...
+        $outBB = $outBB . "[tr][td colspan=4]" . urldecode(getVar("deffer" . $i)) . "[/td][/tr]"; //Verteidigende Flotte ...
         $j     = 1;
         while (empty($_POST["defferschiffname" . $i . "_" . $j]) == false) {
-            if ($_POST["defferschiffstart" . $i . "_" . $j] !== "") {
-                $outBB = $outBB . "[tr][td]" . makeString($_POST["defferschiffname" . $i . "_" . $j], isset($_POST["Deffformf" . $i . "_" . $j]), isset($_POST["Deffformk" . $i . "_" . $j]), isset($_POST["Deffformu" . $i . "_" . $j]), $_POST["Deffformc" . $i . "_" . $j]) . "[/td]";
-                $outBB = $outBB . "[td][right]" . makeString($_POST["defferschiffstart" . $i . "_" . $j], isset($_POST["Deffformf" . $i . "_" . $j]), isset($_POST["Deffformk" . $i . "_" . $j]), isset($_POST["Deffformu" . $i . "_" . $j]), $_POST["Deffformc" . $i . "_" . $j]) . "[/right][/td]";
-                $outBB = $outBB . "[td][right]" . makeString($_POST["defferschiffweg" . $i . "_" . $j], isset($_POST["Deffformf" . $i . "_" . $j]), isset($_POST["Deffformk" . $i . "_" . $j]), isset($_POST["Deffformu" . $i . "_" . $j]), $_POST["Deffformc" . $i . "_" . $j]) . "[/right][/td]";
-                $outBB = $outBB . "[td][right]" . makeString($_POST["defferschiffende" . $i . "_" . $j], isset($_POST["Deffformf" . $i . "_" . $j]), isset($_POST["Deffformk" . $i . "_" . $j]), isset($_POST["Deffformu" . $i . "_" . $j]), $_POST["Deffformc" . $i . "_" . $j]) . "[/right][/td][/tr]";
+            if (empty($_POST["defferschiffstart" . $i . "_" . $j]) == false) {
+                $outBB = $outBB . "[tr][td]" . makeString(urldecode(getVar("defferschiffname" . $i . "_" . $j)), getVar("Deffformf" . $i . "_" . $j), getVar("Deffformk" . $i . "_" . $j), getVar("Deffformu" . $i . "_" . $j), getVar("Deffformc" . $i . "_" . $j)) . "[/td]";
+                $outBB = $outBB . "[td][right]" . makeString(getVar("defferschiffstart" . $i . "_" . $j), getVar("Deffformf" . $i . "_" . $j), getVar("Deffformk" . $i . "_" . $j), getVar("Deffformu" . $i . "_" . $j), getVar("Deffformc" . $i . "_" . $j)) . "[/right][/td]";
+                $outBB = $outBB . "[td][right]" . makeString(getVar("defferschiffweg" . $i . "_" . $j), getVar("Deffformf" . $i . "_" . $j), getVar("Deffformk" . $i . "_" . $j), getVar("Deffformu" . $i . "_" . $j), getVar("Deffformc" . $i . "_" . $j)) . "[/right][/td]";
+                $outBB = $outBB . "[td][right]" . makeString(getVar("defferschiffende" . $i . "_" . $j), getVar("Deffformf" . $i . "_" . $j), getVar("Deffformk" . $i . "_" . $j), getVar("Deffformu" . $i . "_" . $j), getVar("Deffformc" . $i . "_" . $j)) . "[/right][/td][/tr]";
             }
             $j++;
         }
@@ -1097,7 +1097,7 @@ if ($parsstatus === "write") {  // BB-Code ausgeben
     // KBLink - Ende
     if (empty($_POST['optionLink'])) {
         $outBB = $outBB . "[tr][td colspan=4][hr][/td][/tr]"; //horrizontale Linie
-        $outBB = $outBB . "[tr][td colspan=4][url=" . $_POST['KBLink'] . "]Link zum externen Kampfbericht[/url][/td][/tr][/table][/quote]";
+        $outBB = $outBB . "[tr][td colspan=4][url=" . urldecode(getVar("KBLink" . $i)) . "]Link zum externen Kampfbericht[/url][/td][/tr][/table][/quote]";
     }
     else
     {

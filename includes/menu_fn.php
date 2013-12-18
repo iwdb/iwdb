@@ -267,15 +267,16 @@ function removeMenuItems()
 
 //****************************************************************************
 //
-// Installation method. Will need the module defined functions
+// Installation method. Will use the module defined functions (if they exist)
 //
-//   workInstallConfigString  
-//   workInstallDatabase  
-//   workInstallMenu
+//  workInstallConfigString
+//  workInstallDatabase
+//  workInstallMenu
+//  workInstallDatabase
 // 
-// for installation and for deinstallation the functions
+// for deinstallation the function
 // 
-//   workUninstallDatabase
+//  workUninstallDatabase
 //
 switch (fetchPOST('was')) {
     case "install":
@@ -284,7 +285,10 @@ switch (fetchPOST('was')) {
         // da nachträgliche Änderungen einfacher sind als im Quellcode des Scrips danach zu suchen.
         // Alle Zeilen werden nach und nach in die Variable $merk gespeichert.
         // Auch wenn das Modul keine Variablen benötigt ist diese Configdatei zu erstellen, sonst funktioniert die Installation nicht!
-        $merk = workInstallConfigString();
+        $merk = '';
+        if (function_exists('workInstallConfigString')) {
+            $merk = workInstallConfigString();
+        }
 
         createConfig($merk);
         unset($merk);
@@ -298,7 +302,7 @@ switch (fetchPOST('was')) {
         }
 
         // Nun folgt die Erweiterung der IW-DB, falls notwendig.
-        if (function_exists ('workInstallDatabase')) {
+        if (function_exists('workInstallDatabase')) {
             workInstallDatabase();
         }
 

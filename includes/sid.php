@@ -157,11 +157,11 @@ if ((!empty($action) AND ($action === "memberlogout2")) OR ($login_ok === false)
 
 // get user status
 if ($login_ok) {
-    $sql = "SELECT status, allianz, password, sitterlogin, sitterskin, rules, sitterpwd," .
-        " sitten, planibilder, gebbilder, adminsitten, gebaeude, peitschen," .
-        " gengebmod, genbauschleife, genmaurer, menu_default," .
-        " gal_start, gal_end, sys_start, sys_end, buddlerfrom, fremdesitten, vonfremdesitten, uniprop" .
-        " FROM " . $db_tb_user . " WHERE id='" . $user_id . "'";
+    $sql = "SELECT `status`, `allianz`, `password`, `allow_ip_change`, `sitterlogin`, `sitterskin`, `rules`, `sitterpwd`," .
+        " `sitten`, `planibilder`, `gebbilder`, `adminsitten`, `gebaeude`, `peitschen`," .
+        " `gengebmod`, `genbauschleife`, `genmaurer`, `menu_default`," .
+        " `gal_start`, `gal_end`, `sys_start`, `sys_end`, `buddlerfrom`, `fremdesitten`, `vonfremdesitten`, `uniprop`" .
+        " FROM " . $db_tb_user . " WHERE `id`='" . $user_id . "';";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     $row = $db->db_fetch_array($result);
@@ -169,6 +169,7 @@ if ($login_ok) {
     $user_status          = $row['status'];
     $user_allianz         = $row['allianz'];
     $user_password        = $row['password'];
+    $user_allow_ip_change = $row['allow_ip_change'];
     $user_sitterlogin     = $row['sitterlogin'];
     $user_sitterskin      = $row['sitterskin'];
     $user_rules           = $row['rules'];

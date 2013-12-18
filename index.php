@@ -106,7 +106,16 @@ if ((($user_adminsitten == SITTEN_BOTH) OR ($user_adminsitten == SITTEN_ONLY_LOG
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     $row = $db->db_fetch_array($result);
-    header("Location: http://icewars.de/index.php?action=login&name=" . urlencode($sitterlogin) . "&pswd=" . $row['sitterpwd'] . "&sitter=1&ismd5=1&ip_change=1&serverskin=1&serverskin_typ=" . $user_sitterskin . "&submit=true");
+
+    $redirectLocation = "http://icewars.de/index.php?action=login&name=" . urlencode($sitterlogin) . "&pswd=" . $sitterpwd . "&sitter=1&ismd5=1&submit=true";
+    if (!empty($user_sitterskin)) {
+        $redirectLocation .= "&serverskin=1&serverskin_typ=" . $user_sitterskin;
+    }
+    if (!empty($user_allow_ip_change)) {
+        $redirectLocation .= "&ip_change=1";
+    }
+
+    header("Location: " . $redirectLocation);
     exit;
 }
 ?>

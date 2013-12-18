@@ -172,14 +172,13 @@ function encrypt($data, $key) {
     $td = @mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', MCRYPT_MODE_CBC, '');
     if ($td !== false) {
 
-        $selftest = mcrypt_enc_self_test($td);                      //note: if self test ok return is FALSE not TRUE
+        $selftest = mcrypt_enc_self_test($td);                      //note: if self test is ok return is FALSE not TRUE
         if ($selftest === false) {
 
             $iv = mcrypt_create_iv(mcrypt_enc_get_iv_size($td), MCRYPT_DEV_RANDOM);
             if (strlen($iv) !== mcrypt_enc_get_iv_size($td)) {
                 throw new Exception('mcrypt create iv failed!');
             }
-
 
             $keyhash = hash('sha256', $key, true);                   //we hash the key here to accept all possible keyinputs, outputsize also matches desired keysize
             if (strlen($keyhash) !== 32) {

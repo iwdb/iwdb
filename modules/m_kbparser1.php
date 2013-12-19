@@ -934,7 +934,7 @@ if ($parsstatus === "write") {  // BB-Code ausgeben
 
     // Dicken fetten String basteln für die Ausgabe
 
-    if (empty($_POST['optionLink'])) {
+    if (empty($_POST['optionLink'])) {       //KB-Link in Quote-Tags nicht aktiv
         $outBB = "[quote][table]";
     }
     else {
@@ -1079,8 +1079,7 @@ if ($parsstatus === "write") {  // BB-Code ausgeben
         } // Bombendtrefferchance
         if (empty($_POST['bomb3']) == false) {
             $outBB = $outBB . "[tr][td colspan=4]" . $_POST['bomb3'] . "[/td][/tr]";
-        } // KB oder keine Gebs
-        else {
+        } else { // KB oder keine Gebs
             $i     = 1;
             $outBB = $outBB . "[tr][td colspan=4]Folgende Gebäude wurden zerstört:[/td][/tr]";
             while (empty($_POST["bombgeb" . $i]) == false) {
@@ -1093,15 +1092,10 @@ if ($parsstatus === "write") {  // BB-Code ausgeben
         }
     }
 
-    // KBLink - Ende
-    if (empty($_POST['optionLink'])) {
-        $outBB = $outBB . "[tr][td colspan=4][hr][/td][/tr]"; //horrizontale Linie
-        $outBB = $outBB . "[tr][td colspan=4][url=" . urldecode(getVar("KBLink" . $i)) . "]Link zum externen Kampfbericht[/url][/td][/tr][/table][/quote]";
-    }
-    else
-    {
-        $outBB = $outBB . "[/table][/quote]";
-    }
+    // KBLink am Ende
+    $outBB = $outBB . "[tr][td colspan=4][hr][/td][/tr]"; //horrizontale Linie
+    $outBB = $outBB . "[tr][td colspan=4][url=" . urldecode(getVar("KBLink")) . "]Link zum externen Kampfbericht[/url][/td][/tr]";
+    $outBB = $outBB . "[/table][/quote]";
 
     // Leere Allytags entfernen
     $outBB = str_replace("[]", "", $outBB);
@@ -1165,11 +1159,9 @@ if ($parsstatus === "write") {  // BB-Code ausgeben
     }*/
 
     //BBCode beschneiden, Nicht gerade schön aber zu faul für den Rest
-    if (empty($_POST['optionQuote'])) //checkbox quoten nicht aktiv
-    {
+    if (empty($_POST['optionQuote'])) { //checkbox quoten nicht aktiv
         $outBB = str_replace("[quote]", "", $outBB);
         $outBB = str_replace("[/quote]", "", $outBB);
-
     }
 
     /*if (empty($_POST['optionTab'])) {
@@ -1186,15 +1178,15 @@ if ($parsstatus === "write") {  // BB-Code ausgeben
 
     }*/
 
-    if (empty($_POST['optionHr'])) {
+    if (empty($_POST['optionHr'])) {        //horizonale Linien nicht aktiv
         $outBB = str_replace("[hr]", "---", $outBB);
     }
 
-    if (empty($_POST['optionColspan']) == false) {
+    if (empty($_POST['optionColspan']) == false) {        //verkürzte Colspans aktiv
         $outBB = str_replace(" colspan", "", $outBB);
     }
 
-    if (empty($_POST['optionAlign'])) {
+    if (empty($_POST['optionAlign'])) { //Ausrichtung nicht aktiv
         $outBB = str_replace("[center]", "", $outBB);
         $outBB = str_replace("[/center]", "", $outBB);
         $outBB = str_replace("[left]", "", $outBB);
@@ -1203,25 +1195,13 @@ if ($parsstatus === "write") {  // BB-Code ausgeben
         $outBB = str_replace("[/right]", "", $outBB);
     }
 
-    if (empty($_POST['optionColor'])) { //Da ich für pregreplace zu faul bin
-        $outBB = str_replace("[color=red]", "", $outBB);
-        $outBB = str_replace("[color=yellow]", "", $outBB);
-        $outBB = str_replace("[color=pink]", "", $outBB);
-        $outBB = str_replace("[color=green]", "", $outBB);
-        $outBB = str_replace("[color=orange]", "", $outBB);
-        $outBB = str_replace("[color=purple]", "", $outBB);
-        $outBB = str_replace("[color=blue]", "", $outBB);
-        $outBB = str_replace("[color=beige]", "", $outBB);
-        $outBB = str_replace("[color=brown]", "", $outBB);
-        $outBB = str_replace("[color=teal]", "", $outBB);
-        $outBB = str_replace("[color=navy]", "", $outBB);
-        $outBB = str_replace("[color=maroon]", "", $outBB);
-        $outBB = str_replace("[color=limegreen]", "", $outBB);
+    if (empty($_POST['optionColor'])) { //Farbe nicht aktiv
+        $outBB = preg_replace ( '/\[color=.+?]/', '', $outBB);
         $outBB = str_replace("[/color]", "", $outBB);
     }
 
 
-    if (empty($_POST['optionForm'])) {
+    if (empty($_POST['optionForm'])) { //Format (fett, kursiv, unterstrichen) nicht aktiv
         $outBB = str_replace("[b]", "", $outBB);
         $outBB = str_replace("[/b]", "", $outBB);
         $outBB = str_replace("[i]", "", $outBB);

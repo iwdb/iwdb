@@ -72,7 +72,7 @@ if ($user_id === false) { //keine gültige Session vorhanden
             $user_id = $returndata['id'];
 
             //SessionID erzeugen und in der DB speichern
-            $sid = randomstring($config_sid_string, $config_sid_length);
+            $sid = getRandomString($length = 48, 'hex');
 
             $SQLdata = array(
                 'sid'           => $sid,

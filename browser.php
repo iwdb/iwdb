@@ -152,7 +152,7 @@ if (empty($mode)) {
 }
 
 $redirect = getVar('redirect');
-if (!empty($redirect)) {
+if (empty($redirect)) {
     $redirect = '';
 }
 

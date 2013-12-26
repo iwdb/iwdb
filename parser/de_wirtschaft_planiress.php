@@ -73,44 +73,51 @@ function parse_de_wirtschaft_planiress($return)
                     $resource_name = "chem";
                 }
 
-                $scan_data[$resource_name]             = $resource->iResourceVorrat;
-                $scan_data[$resource_name . '_prod']   = $resource->fResourceProduction;
+                $scan_data[$resource_name]           = $resource->iResourceVorrat;
+
+                $scan_data[$resource_name . '_prod'] = $resource->fResourceProduction;
+                if ((($scan_data['kolo_typ'] === 'Kampfbasis') OR ($scan_data['kolo_typ'] === 'Kampfbasis') OR ($scan_data['kolo_typ'] === 'Kampfbasis')) AND ($scan_data[$resource_name . '_prod']>100000)) { //Resstransfer ist keine Prodde...
+                    $scan_data[$resource_name . '_prod'] = 0;
+                }
+
                 if (!is_null($resource->iResourceBunker)) {
                     $scan_data[$resource_name . '_bunker'] = $resource->iResourceBunker;
                 }
+
                 if (($resource_name === "chem") OR ($resource_name === "eis") OR ($resource_name === "energie")) {
                     if (!is_null($resource->iResourceLager)) {
-                        $scan_data[$resource_name . '_lager']  = $resource->iResourceLager;
+                        $scan_data[$resource_name . '_lager'] = $resource->iResourceLager;
                     }
                 }
 
                 if (!isset($scan_data_total[$resource_name])) {
                     $scan_data_total[$resource_name] = 0;
                 }
-                $scan_data_total[$resource_name] += $resource->fResourceProduction;
+                $scan_data_total[$resource_name] += $scan_data[$resource_name . '_prod'];
             }
 
             debug_var('wirtschaft_planiress', $scan_data);
             $db->db_insertupdate($db_tb_lager, $scan_data)
                 or error(GENERAL_ERROR, 'Could not update ress information.', '', __FILE__, __LINE__);
-				
-			if (($scan_data['wasser']=='0') AND ($scan_data['kolo_typ']=='Kolonie')) {
-				$SQLdata = array (
-                    'user' => $AccName,
-                    'team' => '(Alle)',
-                    'coords_gal' => $scan_data['coords_gal'],
-					'coords_sys' => $scan_data['coords_sys'],
-					'coords_planet' => $scan_data['coords_planet'],
-					'text' => 'Automatische Wasserbestellung',
-                    'time' => CURRENT_UNIX_TIME,
-                    'wasser' => (abs($scan_data_total['wasser'])+1000),
-                    'offen_wasser' => (abs($scan_data_total['wasser'])+1000),
-                    'time_created' => CURRENT_UNIX_TIME
+
+            if (($scan_data['wasser'] == '0') AND ($scan_data['kolo_typ'] == 'Kolonie')) {
+                $SQLdata = array(
+                    'user'          => $AccName,
+                    'team'          => '(Alle)',
+                    'coords_gal'    => $scan_data['coords_gal'],
+                    'coords_sys'    => $scan_data['coords_sys'],
+                    'coords_planet' => $scan_data['coords_planet'],
+                    'text'          => 'Automatische Wasserbestellung',
+                    'time'          => CURRENT_UNIX_TIME,
+                    'wasser'        => (abs($scan_data_total['wasser']) + 1000),
+                    'offen_wasser'  => (abs($scan_data_total['wasser']) + 1000),
+                    'time_created'  => CURRENT_UNIX_TIME
                 );
 
                 $db->db_insert($db_tb_bestellung, $SQLdata)
                     or error(GENERAL_ERROR, 'Could not insert h2o order!', '', __FILE__, __LINE__);
-			}
+            }
+
         }
 
         //Einträge in der Lagertabelle von nicht mehr vorhandenen Kolos/Basen etc weg (diese wurden nicht aktualisiert)
@@ -122,6 +129,6 @@ function parse_de_wirtschaft_planiress($return)
         $db->db_insertupdate($db_tb_ressuebersicht, $scan_data_total)
             or error(GENERAL_ERROR, 'Could not update total ress information.', '', __FILE__, __LINE__);
 
-        echo "<div class='system_notification'>Produktion Teil 1 aktualisiert/hinzugefügt.</div>";
+        echo "<div class='system_notification'>Produktion Teil 1 bei {$AccName} aktualisiert/hinzugefügt.</div>";
     }
 }

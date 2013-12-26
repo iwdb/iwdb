@@ -128,6 +128,9 @@ function parse_de_index($return)
                         || $tf_type == "Sondierung (Gebäude) (Scout)"
                         || $tf_type == "Sondierung (Geologie) (Scout)"
                         || $tf_type == "Sondierung (Geologie)"
+                        || $tf_type == "Basisaufbau (Kampf)"
+                        || $tf_type == "Basisaufbau (Artefakte)"
+                        || $tf_type == "Basisaufbau (Ressourcen)"
                     ) {
 
                         $scan_data = array();
@@ -166,13 +169,13 @@ function parse_de_index($return)
                             $sql .= " WHERE coords_gal=" . $scan_data['coords_to_gal'];
                             $sql .= " AND coords_sys=" . $scan_data['coords_to_sys'];
                             $sql .= " AND coords_planet=" . $scan_data['coords_to_planet'];
-                            debug_var('sql', $sql);
+
                             $result = $db->db_query($sql)
                                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
                             if ($row = $db->db_fetch_array($result)) {
                                 $scan_data['user_to'] = $row['user'];
                             }
-                            debug_var('user_to', $scan_data['user_to']);
+
                         }
                         if (empty($scan_data['user_from'])) {
                             // Von
@@ -180,13 +183,13 @@ function parse_de_index($return)
                             $sql .= " WHERE coords_gal=" . $scan_data['coords_from_gal'];
                             $sql .= " AND coords_sys=" . $scan_data['coords_from_sys'];
                             $sql .= " AND coords_planet=" . $scan_data['coords_from_planet'];
-                            debug_var('sql', $sql);
+
                             $result = $db->db_query($sql)
                                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
                             if ($row = $db->db_fetch_array($result)) {
                                 $scan_data['user_from'] = $row['user'];
                             }
-                            debug_var('user_from', $scan_data['user_from']);
+
                         }
 
                         if (!isset($scan_data['schiffe'])) {

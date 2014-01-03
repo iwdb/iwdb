@@ -1167,3 +1167,38 @@ function isIwdbLocked() {
 
     }
 }
+
+/**
+ * gets the allianzstatus
+ *
+ * @copyright masel <masel789@gmail.com>
+ * @license   http://www.opensource.org/licenses/bsd-license.php BSD
+ *
+ * @param string $strAlly allytag
+ *
+ * @return string Allystatus
+ */
+function getAllyStatus($strAlly) {
+    global $db, $db_tb_allianzstatus;
+    static $aAllyStatus;
+
+    $strAlly = trim($strAlly);
+    if (empty($strAlly)) {
+        return false;
+    }
+
+    $strAlly = $db->escape($strAlly);
+
+    if (!isset($aAllyStatus[$strAlly])) {
+
+        $sql = "SELECT `status` FROM `{$db_tb_allianzstatus}` WHERE `allianz`='" . $strAlly . "'";
+        $result = $db->db_query($sql)
+        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
+        $row = $db->db_fetch_array($result);
+
+        $aAllyStatus[$strAlly] = $row['status'];
+    }
+
+    return $aAllyStatus[$strAlly];
+}

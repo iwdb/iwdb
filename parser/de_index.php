@@ -524,8 +524,17 @@ function save_data($scan_data)
             $db->db_query($sql)
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
-            //nur incomings auf die eigene Ally und maximal 20 min in der Vergangenheit eintragen
-            if (($allianz_to === $config_allytag) AND ($scan_data['time'] > (CURRENT_UNIX_TIME - 20 * MINUTE))) {
+            //nur incomings auf die eigene Ally oder verbündete Allianzen und maximal 20 min in der Vergangenheit eintragen
+            if (
+                (
+                    (getAllyStatus($allianz_to) === 'own') OR
+                    (getAllyStatus($allianz_to) === 'wing') OR
+                    (getAllyStatus($allianz_to) === 'VB') OR
+                    (getAllyStatus($allianz_to) === 'iVB')
+                ) AND (
+                    $scan_data['time'] > (CURRENT_UNIX_TIME - 20 * MINUTE)
+                )
+            ) {
                 $SQLdata = array(
                     'koords_to'    => $scan_data['coords_to_gal'] . ":" . $scan_data['coords_to_sys'] . ":" . $scan_data['coords_to_planet'],
                     'name_to'      => $scan_data['user_to'],

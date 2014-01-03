@@ -510,11 +510,16 @@ function save_data($scan_data)
 
     if (!empty($db_tb_incomings)) { //incoming-Modul vorhanden
 
+        debug_var('Incomingstabelle', 'vorhanden');
+        debug_var('Input-Daten', $scan_data);
+
         if (($scan_data['art'] == "Angriff") || (($scan_data['art'] == "Sondierung (Schiffe/Def/Ress)") || ($scan_data['art'] == "Sondierung (Gebäude/Ress)"))) {
             $allianz_to = getAllianceByUser($scan_data['user_to']);
+            debug_var('allianz_to', $allianz_to);
+            debug_var('allianz_to_status', getAllyStatus($allianz_to));
 
             //nicht mehr fliegende Incs löschen
-            $sql = "DELETE FROM `{$db_tb_incomings}` WHERE `listedtime`<>" . CURRENT_UNIX_TIME . " AND `name_to`='" . $scan_data['user_to'] . "' AND arrivaltime>".CURRENT_UNIX_TIME;
+            $sql = "DELETE FROM `{$db_tb_incomings}` WHERE `listedtime`<>" . CURRENT_UNIX_TIME . " AND `name_to`='" . $scan_data['user_to'] . "' AND `arrivaltime`>".CURRENT_UNIX_TIME;
             $db->db_query($sql)
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
@@ -524,7 +529,7 @@ function save_data($scan_data)
             $db->db_query($sql)
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
-            //nur incomings auf die eigene Ally oder verbündete Allianzen und maximal 20 min in der Vergangenheit eintragen
+            //nur incomings auf die eigene oder verbündete Allianzen und maximal 20 min in der Vergangenheit eintragen
             if (
                 (
                     (getAllyStatus($allianz_to) === 'own') OR
@@ -546,8 +551,9 @@ function save_data($scan_data)
                     'arrivaltime'  => $scan_data['time'],
                     'listedtime'   => CURRENT_UNIX_TIME
                 );
+                debug_var('sql-Daten', $SQLdata);
                 $db->db_insertignore($db_tb_incomings, $SQLdata)
-                    or error(GENERAL_ERROR, 'Could not insert incomings.', '', __FILE__, __LINE__);
+                    or error(GENERAL_ERROR, 'Could not insert incoming.', '', __FILE__, __LINE__);
             }
         }
     }

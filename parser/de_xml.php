@@ -425,6 +425,11 @@ function save_sbxml($scan_data)
         //Gebäudeinformationen in eigene Tabelle eintragen
         if (!empty($scan_data['buildings'])) {
 
+            //vorhandene Gebäudeinfos löschen
+            $sql_del="DELETE FROM `{$db_tb_scans_geb}` WHERE `coords` = '{$scan_coords}';";
+            $result = $db->db_query($sql_del)
+                or error(GENERAL_ERROR, 'Could not delete buildingscan information.', '', __FILE__, __LINE__, $sql_del);
+
             $result = $db->db_insert_multiple($db_tb_scans_geb, array_keys(reset($scan_data['buildings'])), $scan_data['buildings'])
                 or error(GENERAL_ERROR, 'Could not insert buildingscan information.', '', __FILE__, __LINE__);
 
@@ -671,12 +676,11 @@ function parse_kbxml($xmldata)
             $kb['flotte'][] = $flotte;
         }
 
-
         // Eintrag
         $sqldata = array(
             'ID_KB'            => $kb['id'],
             'hash'             => $kb['hash'],
-            'TIME'             => $kb['time'],
+            'time'             => $kb['time'],
             'verteidiger'      => $kb['verteidiger'],
             'verteidiger_ally' => $kb['verteidiger_ally'],
             'planet_name'      => $kb['planet_name'],
@@ -704,6 +708,7 @@ function parse_kbxml($xmldata)
             $result = $db->db_query($sql)
                 or error(GENERAL_ERROR, 'Could not update kb deff information.', '', __FILE__, __LINE__, $sql);
         }
+
         // Verluste
         if (isset($kb['verluste'])) {
             $sql = "
@@ -779,6 +784,7 @@ function parse_kbxml($xmldata)
                     or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
             }
         }
+
         // Eintrag Flotte
         if (isset($kb['flotte'])) {
             $sql = "

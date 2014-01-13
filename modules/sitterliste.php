@@ -629,9 +629,6 @@ if (isset($row_lastlogin)) {
         ?>
         [<?php echo $users_sitterpunkte;?> + <?php echo $users_sitterpunkte_user;?>]
         <?php echo (($users_sitterpunkte + $users_sitterpunkte_user) > (3 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='".BILDER_PATH."star1.gif' alt='star1' class='middle'>" : ((($users_sitterpunkte + $users_sitterpunkte_user) > (2 * round($row_avg['AVG(sitterpunkte)']))) ? "<img src='".BILDER_PATH."star2.gif' alt='star2' class='middle'>" : ((($users_sitterpunkte + $users_sitterpunkte_user) > (round($row_avg['AVG(sitterpunkte)']))) ? "<img src='".BILDER_PATH."star3.gif' alt='star3' class='middle'>" : ""));
-        if (!empty($row['ByUser']) && ($row['user'] != $row['ByUser'])) {
-            echo "<br>(eingestellt von " . $row['ByUser'] . ")";
-        }
         ?>
     </td>
     <td class="windowbg<?php echo $num;?>">
@@ -904,9 +901,6 @@ if (isset($row_lastlogin)) {
                     echo "<a href='index.php?action=profile&sitterlogin=" . urlencode($row['user']) . "'>" . $row['user'] . "</a>";
                 } else {
                     echo $row['user'];
-                }
-                if (!empty($row['ByUser']) && ($row['user'] != $row['ByUser'])) {
-                    echo "<br>(eingestellt von " . $row['ByUser'] . ")";
                 }
                 ?>
             </td>

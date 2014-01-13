@@ -8,7 +8,7 @@ include_once("./includes/dBug.php");
 // Gibt den Wert einer Variablen aus.
 function debug_var($name, $wert, $level = 2)
 {
-    if (DEBUG_LEVEL >= $level) {
+    if (defined('DEBUG_LEVEL') AND (DEBUG_LEVEL >= $level)) {
         echo "<div class='system_debug_blue'>" . $name . ":";
         new dBug($wert);
         echo "</div>";

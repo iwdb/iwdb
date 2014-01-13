@@ -267,8 +267,26 @@ function getRemoteIP()
     return $_SERVER['REMOTE_ADDR'];     //use standard ip and log this maybe
 }
 
+/**
+ * checks if given ip is blocked
+ *
+ * @copyright masel <masel789@gmail.com>
+ * @license   http://www.opensource.org/licenses/bsd-license.php BSD
+ *
+ * @param string $ip ip
+ *
+ * @throws Exception
+ * @return boolean
+ */
 function blockedIP($ip) {
     global $db, $db_tb_wronglogin, $config_wronglogin_timeout, $config_wronglogins;
+
+    $ip = trim($ip);
+    if (empty($ip)) {
+        throw new Exception('empty ip');
+    }
+
+    $ip = $db->escape($ip);
 
     // zu alte falsche Logins löschen
     $sql = "DELETE FROM `{$db_tb_wronglogin}` WHERE `date`<" . (CURRENT_UNIX_TIME - $config_wronglogin_timeout);

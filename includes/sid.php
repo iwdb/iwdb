@@ -155,9 +155,19 @@ if ((!empty($action) AND ($action === "memberlogout2")) OR ($login_ok === false)
     }
 }
 
+// fill in some variables, so that these variables ar not
+// unknown to the rest of the script
+$user_adminsitten     = SITTEN_DISABLED;
+$user_password        = "";
+$user_sitten          = "0";
+$user_fremdesitten    = "0";
+$user_vonfremdesitten = "0";
+$user_allianz         = "";
+$user_rules           = "0";
+
 // get user status
 if ($login_ok) {
-    $sql = "SELECT `status`, `allianz`, `password`, `allow_ip_change`, `sitterlogin`, `sitterskin`, `rules`, `sitterpwd`," .
+    $sql = "SELECT `status`, `gesperrt`, `allianz`, `password`, `allow_ip_change`, `sitterlogin`, `sitterskin`, `rules`, `sitterpwd`," .
         " `sitten`, `planibilder`, `gebbilder`, `adminsitten`, `gebaeude`, `peitschen`," .
         " `gengebmod`, `genbauschleife`, `genmaurer`, `menu_default`," .
         " `gal_start`, `gal_end`, `sys_start`, `sys_end`, `buddlerfrom`, `fremdesitten`, `vonfremdesitten`, `uniprop`" .
@@ -166,42 +176,37 @@ if ($login_ok) {
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
     $row = $db->db_fetch_array($result);
 
-    $user_status          = $row['status'];
-    $user_allianz         = $row['allianz'];
-    $user_password        = $row['password'];
-    $user_allow_ip_change = $row['allow_ip_change'];
-    $user_sitterlogin     = $row['sitterlogin'];
-    $user_sitterskin      = $row['sitterskin'];
-    $user_rules           = $row['rules'];
-    $user_sitterpwd       = $row['sitterpwd'];
-    $user_sitten          = $row['sitten'];
-    $user_planibilder     = $row['planibilder'];
-    $user_gebbilder       = $row['gebbilder'];
-    $user_adminsitten     = $row['adminsitten'];
-    $user_gebaeude        = $row['gebaeude'];
-    $user_peitschen       = $row['peitschen'];
-    $user_gengebmod       = $row['gengebmod'];
-    $user_genbauschleife  = $row['genbauschleife'];
-    $user_genmaurer       = $row['genmaurer'];
-    $user_menu_default    = $row['menu_default'];
-    $user_gal_start       = $row['gal_start'];
-    $user_gal_end         = $row['gal_end'];
-    $user_sys_start       = $row['sys_start'];
-    $user_sys_end         = $row['sys_end'];
-    $user_buddlerfrom     = $row['buddlerfrom'];
-    $user_fremdesitten    = $row['fremdesitten'];
-    $user_vonfremdesitten = $row['vonfremdesitten'];
-    $user_uniprop         = $row['uniprop'];
+    $user_gesperrt = !empty($row['gesperrt']);
 
-} else {
-    // fill in some variables, so that these variables ar not
-    // unknown to the rest of the script
-    $user_adminsitten     = SITTEN_DISABLED;
-    $user_password        = "";
-    $user_sitten          = "0";
-    $user_fremdesitten    = "0";
-    $user_vonfremdesitten = "0";
-    $user_allianz         = "";
+    if ($user_gesperrt === false) {
+        $user_status          = $row['status'];
+        $user_allianz         = $row['allianz'];
+        $user_password        = $row['password'];
+        $user_allow_ip_change = !empty($row['allow_ip_change']);
+        $user_sitterlogin     = $row['sitterlogin'];
+        $user_sitterskin      = $row['sitterskin'];
+        $user_rules           = $row['rules'];
+        $user_sitterpwd       = $row['sitterpwd'];
+        $user_sitten          = $row['sitten'];
+        $user_planibilder     = $row['planibilder'];
+        $user_gebbilder       = $row['gebbilder'];
+        $user_adminsitten     = $row['adminsitten'];
+        $user_gebaeude        = $row['gebaeude'];
+        $user_peitschen       = $row['peitschen'];
+        $user_gengebmod       = $row['gengebmod'];
+        $user_genbauschleife  = $row['genbauschleife'];
+        $user_genmaurer       = $row['genmaurer'];
+        $user_menu_default    = $row['menu_default'];
+        $user_gal_start       = $row['gal_start'];
+        $user_gal_end         = $row['gal_end'];
+        $user_sys_start       = $row['sys_start'];
+        $user_sys_end         = $row['sys_end'];
+        $user_buddlerfrom     = $row['buddlerfrom'];
+        $user_fremdesitten    = $row['fremdesitten'];
+        $user_vonfremdesitten = $row['vonfremdesitten'];
+        $user_uniprop         = $row['uniprop'];
+    }
+
 }
 
 //sid mit dieser ip gültig?

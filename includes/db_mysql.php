@@ -87,14 +87,14 @@ class db
     function db_query($query)
     {
         unset($this->query_result);
-        if ($query != '') {
-            $this->query_result = @mysql_query($query, $this->db_link_id);
-            $this->query_count++;
-
+        if (!empty($query)) {
             //log queries if logging enabled
             if (defined('IWDB_LOG_DB_QUERIES') AND (IWDB_LOG_DB_QUERIES === true)) {
                 $this->db_queries[] = $query;
             }
+
+            $this->query_result = @mysql_query($query, $this->db_link_id);
+            $this->query_count++;
 
             return $this->query_result;
         } else {
@@ -320,7 +320,7 @@ class db
                     throw new Exception('Value escaping failed!');
                 }
                 $data[$key] = "'$value'";
-            } elseif (!is_int($value) AND !is_float($value)){
+            } elseif (!is_int($value) AND !is_float($value)) {
                 throw new Exception('Invalid values!');
             }
 
@@ -354,7 +354,7 @@ class db
      * function db_insertignore
      *
      * Fügt die Daten des übergebenen Arrays in die Datenbank ein
-     * oder ignoriert die eingabe falls schon vorhanden
+     * oder ignoriert die Eingabe falls schon vorhanden
      *
      * @param string $table Tabellenbezeichner
      * @param array  $data  Daten

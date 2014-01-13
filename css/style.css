@@ -772,6 +772,13 @@ td[abbr=both] {
     white-space: nowrap;
 }
 
+.noselect {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 abbr {
     border: none;
 }

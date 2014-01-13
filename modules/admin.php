@@ -34,7 +34,7 @@ if ($user_status !== "admin" && $user_status !== "hc") {
 
 //****************************************************************************
 
-if ($user_status === "admin") {
+if ($user_status === "admin" && $user_status !== "hc") {
     echo '<br>';
     start_table(0, 0, 0, 1);
     start_row("menutop center");

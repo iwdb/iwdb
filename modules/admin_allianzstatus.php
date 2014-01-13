@@ -30,6 +30,8 @@ if (!defined('IRA')) {
     exit;
 }
 
+global $db, $db_tb_allianzstatus, $user_status;
+
 if ($user_status != "admin" && $user_status != "hc") {
     die('Hacking attempt...');
 }
@@ -38,8 +40,7 @@ if ($user_status != "admin" && $user_status != "hc") {
 
 doc_title("Admin Allianzstatus");
 
-$editallianz = getVar('editallianz');
-if (!empty($editallianz)) {
+if (getVar('editallianz')) {
     $sql = "SELECT * FROM " . $db_tb_allianzstatus . " WHERE name='" . $user_allianz . "'";
     $result = $db->db_query($sql)
         or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);

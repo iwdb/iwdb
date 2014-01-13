@@ -97,10 +97,7 @@ function workInstallMenu()
 //
 function workInstallConfigString()
 {
-    /*  global $config_gameversion;
-      return
-        "\$v04 = ' <div class=\\'doc_lightred\\'>(V " . $config_gameversion . ")</div>';";
-    */
+    //nothing here
 }
 
 //****************************************************************************
@@ -126,7 +123,7 @@ function workUninstallDatabase()
 //
 if (!empty($_REQUEST['was'])) {
     //  -> Nur der Admin darf Module installieren. (Meistens weiss er was er tut)
-    if ($user_status != "admin") {
+    if ($user_status !== "admin") {
         die('Hacking attempt...');
     }
 
@@ -148,54 +145,8 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 //
 // -> Und hier beginnt das eigentliche Modul
 
-//Komische Funktion die rekrusiv ein Array mit den Werten füllt.
-
-function makeArray($Bericht)
-{
-    global $line;
-    $rt = array();
-
-    while ($line < count($Bericht)) { //Erkennen der Elemente
-        if (strpos($Bericht[$line], "<?") !== false) {  //Überspringen der XML information
-            $line++;
-        } elseif (strpos($Bericht[$line], "</") !== false) {    // Closer Tag, kein Überprüfung auf Korrektheit
-            $line++;
-            break; //Abschließen des momentanen Wertes
-        } elseif (strpos($Bericht[$line], "value=") !== false) {    // Endwert
-            $temp = str_replace("<", "", $Bericht[$line]);
-            $temp = str_replace("'", "", $temp);
-            $temp = str_replace("\"", "", $temp);
-            $temp = str_replace("/>", "", $temp);
-            $temp = explode("value=", $temp);
-            $name = trim($temp[0]); // Name des Elementes
-
-            while (empty($rt[$name]) == false) {
-                $name = $name . "1";
-            }
-
-            $rt[$name] = trim($temp[1]); // Wert des Elementes
-            $line++;
-        } elseif (strpos($Bericht[$line], "<") !== false) { // das sollte jetzt ein neues Element ohne Wert sein
-            $name = str_replace("<", "", $Bericht[$line]);
-            $name = trim(str_replace(">", "", $name));
-            while (empty($rt[$name]) == false) {
-                $name = $name . "1";
-            }
-            $line++;
-            $rt[$name] = makeArray($Bericht);
-        } else {    // keine Verwertbare Zeile
-            $line++;
-        }
-    }
-
-    return $rt; // Array zurückgeben
-
-}
-
-
-// Eienen String mit Fett, Kursiv, Unterstrichen und Farbe versehen
-
-function makeString($string, $fett, $kursiv, $unterstrichen, $farbe)
+// Einen String mit Fett, Kursiv, Unterstrichen und Farbe versehen
+function makeFormatedString($string, $fett, $kursiv, $unterstrichen, $farbe)
 {
     if ($fett) {
         $string = "[b]" . $string . "[/b]";
@@ -206,20 +157,968 @@ function makeString($string, $fett, $kursiv, $unterstrichen, $farbe)
     if ($unterstrichen) {
         $string = "[u]" . $string . "[/u]";
     }
-    if ($farbe != "keine") {
+    if (!empty($farbe) AND ($farbe !== "keine")) {
         $string = "[color=" . $farbe . "]" . $string . "[/color]";
     }
 
     return $string;
 }
 
-//Und da fängts an.
+//Nachrichten für erfolgreiches Basisbomben
+function getMessageBasebombSuccessful() {
+    $aMessages = array(
+        "Irgendwer drückte aus Versehen auf den Selbstzerstörungsknopf. Damit endet die ruhmvolle Existenz der Basis. Plop.",
+        "Der Azubi hat mal wieder ein paar Knöpfe verwechselt. Das überhitzte den Reaktor und beendete die Existenz der Basis. Plop.",
+        "Die anfliegenden Bomben zerlegten die Basis in " . mt_rand(100,10000) . " Stücke.",
+        "Die Erschütterungen zerstörten die wertvolle Ming-Vase des Wachhabenden. Mit dieser Schande wollte er nicht weiterleben und sprengte die Basis.",
+        "Der Wachhabende beschloss spontan Urlaub zu machen und sprengte die Basis.",
+        "Die Explosionen beschädigten die komplexe Bierzapfanlage. Es war unzumutbar die Basis weiterzubetreiben. Plop.",
+        "Die Basis ploppte wie eine Flasche Plexbier."
+    );
 
-$parsstatus = getVar('parsstatus');
+    return $aMessages[array_rand($aMessages, 1)];
+}
+
+//Nachrichten für gescheitertes Basisbomben
+function getMessageBasebombUnsuccessful() {
+    $aMessages = array(
+        "Der Wachhabende Offizier konnte den Selbstzerstörungsknopf nicht finden, daher steht die Basis noch.",
+        "Die feindlichen Bomber produzierten ein wunderschönes Feuerwerk, die Besatzung war begeistert und die Basis steht noch.",
+        "Aus den Bomben kam nur ein bisschen Rauch, die Basis steht noch.",
+        "Die Bomben richteten etwas Schaden an, etwas Klebstoff und Hoffnung hällt sie aber weiterhin zusammen.",
+    );
+
+    return $aMessages[array_rand($aMessages, 1)];
+}
+
+//Nachrichten für gebombte Bevölkerung
+function getMessageBevbomb() {
+    $aMessages = array(
+        "Leute starben durch die Bombardierung.",
+        "Leute sind den ständigen Krach leid und zogen weg.",
+        "Leute starben an einer Pfefferminzallergie.",
+        "Leute sind wegen Biermangel verdurstet!"
+    );
+
+    return $aMessages[array_rand($aMessages, 1)];
+}
+
+function generateKBparserform($xml, $modulname, $KBLink)
+{
+    $html =  "<form method='post'>";
+    $html .=  "<input type='hidden' name='action' value='" . $modulname . "'>";
+    $html .=  "<input type='hidden' name='parsstatus' value='write'>";
+    $html .=  "<table class='table_format' style='width: 95%;'>";
+
+    // Optionen
+    $html .=  "  <tr>";
+    $html .=  "     <td class='center' colspan=8 >";
+    $html .=  "        Optionen: <input type='checkbox' name='optionQuote' value='on' checked>Quoten";
+    $html .=  "        / <input type='checkbox' name='optionAlign' value='on' checked>Ausrichtung";
+    $html .=  "        / <input type='checkbox' name='optionColor' value='on' checked>Farbe";
+    $html .=  "        / <input type='checkbox' name='optionForm' value='on' checked>Format";
+    $html .=  "        / <input type='checkbox' name='optionKuerzen' value='on' checked>Schiffnamen kürzen";
+    $html .=  "        / <input type='checkbox' name='optionHr' value='on' checked>horizonale Linien";
+    $html .=  "        / <input type='checkbox' name='optionLink' value='on'>KB-Link in Quote-Tags";
+    $html .=  "        / <input type='checkbox' name='optionColspan' value='on'>verkürzte Colspans ([td=x])";
+    $html .=  "     </td>";
+    $html .=  "  </tr>";
+
+    $html .=  "  <tr>";
+    $html .=  "     <td class='center' colspan='8'>";
+    $html .=  "       <input type='submit' value='BB-Code gleich generieren' class='btn'>";
+    $html .=  "     </td>";
+    $html .=  "  </tr>";
+
+    // Kampf auf dem Planeten
+    $html .=  "  <tr>";
+    $html .=  "     <td class='left' colspan='8' style='color:#000000; background-color:#CAE1FF;' >";
+    $html .=  "        <input type='hidden' name='mainline' type='text' value='" . urlencode("Kampf auf dem Planeten [b]" . (string)$xml->plani_data->koordinaten->string['value'] . "[/b]. Besitzer ist [b]" . (string)$xml->plani_data->user->name['value'] . (empty($xml->plani_data->user->allianz_tag['value']) ? "" : " [" . (string)$xml->plani_data->user->allianz_tag['value'] . "]") . "[/b]") . "'>";
+    $html .=  "        Kampf auf dem Planeten <b>" . (string)$xml->plani_data->koordinaten->string['value'] . "</b>. Besitzer ist <b>" . (string)$xml->plani_data->user->name['value'] . (empty($xml->plani_data->user->allianz_tag['value']) ? "" : " [" . (string)$xml->plani_data->user->allianz_tag['value'] . "]") . "</b>";
+    $html .=  "     </td>";
+    $html .=  "  </tr>";
+
+    // Die Schlacht endete am xx.xx.xxxx um xx:xx:xx mit einem Sieg für den ...
+    $html .=  "  <tr>";
+    $html .=  "     <td class='windowbg1 left' colspan='8'>";
+    $html .=  "Die Schlacht endete " . strftime(" am <b>%d.%m.%Y</b> um <b>%H:%M:%S</b>", (int)$xml->timestamp['value']) . " mit einem Sieg für den ";
+    if ((int)$xml->resultat->id['value'] === 1) {
+        $html .=  "<span style='color:green; font-weight:bold;'>Angreifer</span>.";
+    } else {
+        $html .=  "<span style='color:red; font-weight:bold;'>Verteidiger</span>.";
+    }
+    $html .=  "        <input type='hidden' name='dateline' type='text' value='" . urlencode("Die Schlacht endete " . strftime("am [b]%d.%m.%Y[/b] um [b]%H:%M:%S[/b] ", (int)$xml->timestamp['value']) . " mit einem Sieg für den ");
+    if ((int)$xml->resultat->id['value'] === 1) {
+        $html .=  urlencode("[color=green][b]Angreifer[/b][/color].");
+    } else {
+        $html .=  urlencode("[color=red][b]Verteidiger[/b][/color].");
+    }
+    $html .=  "'>";
+    $html .=  "     </td>";
+    $html .=  "  </tr>";
+
+    // Angreifende Flotten
+    if (isset($xml->flotten_att->user)) {
+        $i    = 1;
+        foreach ($xml->flotten_att->user as $user_data) {
+
+            $html .=  "  <tr>";
+            $html .=  "     <td class='left' colspan='8' style='color:#000000; background-color:#CAE1FF;' >";
+            $html .=  "       Angreifende Flotte von <b>" . (string)$user_data->name['value'] . (empty($user_data->allianz_tag['value']) ? "" : " [" . (string)$user_data->allianz_tag['value'] . "]") . "</b>, Startplanet war <b>" . (string)$user_data->startplanet->koordinaten->string['value'] . "</b>.";
+            $html .=  "       <input type='hidden' name='atter" . $i . "' type='text' value='" . urlencode("[b]" . (string)$user_data->name['value'] . (empty($user_data->allianz_tag['value']) ? "" : " [" . (string)$user_data->allianz_tag['value'] . "]") . "[/b] von " . (string)$user_data->startplanet->koordinaten->string['value']) . "'>";
+            $html .=  "     </td>";
+            $html .=  "  </tr>";
+            //Schiffe
+            $html .=  "  <tr>";
+            $html .=  "    <td class='center'>Schiffname</td>";
+            $html .=  "    <td class='center'>Anzahl</td>";
+            $html .=  "    <td class='center'>Zerstört</td>";
+            $html .=  "    <td class='center'>Überlebend</td>";
+            $html .=  "    <td class='center bold'>F</td>";
+            $html .=  "    <td class='center italic'>K</td>";
+            $html .=  "    <td class='center underline'>U</td>";
+            $html .=  "    <td class='center'>Farbe</td>";
+            $html .=  "  </tr>";
+
+            if (isset($user_data->schiffe)) {
+                $j       = 1;
+                foreach ($user_data->schiffe->schifftyp as $schiffe_data) {
+                    $html .=  "  <tr>";
+                    $html .=  "    <td class='left'>";
+                    $html .=  (string)$schiffe_data->name['value'];
+                    $html .=  "      <input type='hidden' name='atterschiffname" . $i . "_" . $j . "' type='text' value='" . urlencode((string)$schiffe_data->name['value']) . "'>";
+                    $html .=  "    </td>";
+                    $html .=  "    <td class='right'>";
+                    $html .=  number_format((float)$schiffe_data->anzahl_start['value'], 0, ',', '.');
+                    $html .=  "      <input type='hidden' name='atterschiffstart" . $i . "_" . $j . "' type='text' value='" . number_format((float)$schiffe_data->anzahl_start['value'], 0, ",", ".") . "'>";
+                    $html .=  "    </td>";
+                    $html .=  "    <td class='right'>";
+                    $html .=  number_format((float)$schiffe_data->anzahl_verlust['value'], 0, ',', '.');
+                    $html .=  "      <input type='hidden' name='atterschiffweg" . $i . "_" . $j . "' type='text' value='" . number_format((float)$schiffe_data->anzahl_verlust['value'], 0, ",", ".") . "'>";
+                    $html .=  "    </td>";
+                    $html .=  "    <td class='right'>";
+                    $html .=  number_format((float)$schiffe_data->anzahl_ende['value'], 0, ',', '.');
+                    $html .=  "      <input type='hidden' name='atterschiffende" . $i . "_" . $j . "' type='text' value='" . number_format((float)$schiffe_data->anzahl_ende['value'], 0, ",", ".") . "'>";
+                    $html .=  "    </td>";
+                    $html .=  "    <td class='center'>";
+                    $html .=  "      <input type='checkbox' name='Attformf" . $i . "_" . $j . "' value='f'>";
+                    $html .=  "    </td>";
+                    $html .=  "    <td class='center'>";
+                    $html .=  "      <input type='checkbox' name='Attformk" . $i . "_" . $j . "' value='k'>";
+                    $html .=  "    </td>";
+                    $html .=  "    <td class='center'>";
+                    $html .=  "      <input type='checkbox' name='Attformu" . $i . "_" . $j . "' value='u'>";
+                    $html .=  "    </td>";
+                    $html .=  "    <td class='center'>";
+                    $html .=  "      <select name='Attformc" . $i . "_" . $j . "'>";
+                    $html .=  "         <option>keine</option>";
+                    $html .=  "         <option style='color:red' value='red'>rot</option>";
+                    $html .=  "         <option style='color:yellow' value='yellow'>gelb</option>";
+                    $html .=  "         <option style='color:pink' value='pink'>pink</option>";
+                    $html .=  "         <option style='color:green' value='green'>grün</option>";
+                    $html .=  "         <option style='color:orange' value='orange'>orange</option>";
+                    $html .=  "         <option style='color:purple' value='purple'>violett</option>";
+                    $html .=  "         <option style='color:blue' value='blue'>blau</option>";
+                    $html .=  "         <option style='color:beige' value='beige'>beige</option>";
+                    $html .=  "         <option style='color:brown' value='brown'>braun</option>";
+                    $html .=  "         <option style='color:teal' value='teal'>türkis</option>";
+                    $html .=  "         <option style='color:navy' value='navy'>dunkelblau</option>";
+                    $html .=  "         <option style='color:maroon' value='maroon'>dunkelrot</option>";
+                    $html .=  "         <option style='color:limegreen' value='limegreen'>hellgrün</option>";
+                    $html .=  "       </select>";
+                    $html .=  "    </td>";
+                    $html .=  "  </tr>";
+
+                    $j++;
+                }
+            }
+
+            if (!empty($user_data->bloedsinn->kaffee['value'])) {
+                $html .=  "  <tr>";
+                $html .=  "     <td class='left' colspan='8'>";
+                $html .=  "        Die Flotte brachte Kaffee und Kuchen mit.";
+                $html .=  "        <input type='hidden' name='atterkuchen" . $i . "' type='text' value='1'>";
+                $html .=  "     </td>";
+                $html .=  "  </tr>";
+            }
+            if (!empty($user_data->bloedsinn->lollies['value'])) {
+                $html .=  "  <tr>";
+                $html .=  "     <td class='left' colspan='8'>";
+                $html .=  "        Diese wilden Barbarben haben unseren kleinen Kindern die Lollis geklaut!! Das schreit gradezu nach Rache.";
+                $html .=  "        <input type='hidden' name='atterlollies" . $i . "' type='text' value='1'>";
+                $html .=  "     </td>";
+                $html .=  "  </tr>";
+            }
+            if (!empty($user_data->bloedsinn->msg['value'])) {
+                $html .=  "  <tr>";
+                $html .=  "     <td class='left' colspan='8'>";
+                $html .=  "        Der Kommandant der angreifenden Flotte überbrachte folgende Botschaft:<br>" . (string)$user_data->bloedsinn->msg;
+                $html .=  "        <input type='hidden' name='attermsg" . $i . "' type='text' value='" . urlencode("Der Kommandant der angreifenden Flotte überbrachte folgende Botschaft:[/td][/tr][tr][td colspan=4][color=brown][i]" . (string)$user_data->bloedsinn->msg . "[/i][/color]'>");
+                $html .=  "     </td>";
+                $html .=  "  </tr>";
+            }
+
+            $i++;
+        }
+    }
+
+    // Def
+    if (!empty($xml->pla_def)) {
+
+        $html .=  "  <tr>";
+        $html .=  "     <td class='left' colspan='8' style='color:#000000; background-color:#CAE1FF;'>";
+        $html .=  "       Verteidiger war <b>" . (string)$xml->pla_def->user->name['value'] . (empty($xml->pla_def->user->allianz_tag['value']) ? "" : " [" . (string)$xml->pla_def->user->allianz_tag['value'] . "]") . "</b>";
+        $html .=  "       <input type='hidden' name='pladeffer1' type='text' value='" . urlencode("[b]" . (string)$xml->pla_def->user->name['value'] . (empty($xml->pla_def->user->allianz_tag['value']) ? "" : " [" . (string)$xml->pla_def->user->allianz_tag['value'] . "]") . "[/b]") . "'>";
+        $html .=  "     </td>";
+        $html .=  "  </tr>";
+
+        //stationäre Türme
+        if (!empty($xml->pla_def->user->defence)) {
+            $html .=  "  <tr>";
+            $html .=  "    <td class='center'>Verteidigungsanlage</td>";
+            $html .=  "    <td class='center'>Anzahl</td>";
+            $html .=  "    <td class='center'>Zerstört</td>";
+            $html .=  "    <td class='center'>Überlebend</td>";
+            $html .=  "    <td class='center bold'>F</td>";
+            $html .=  "    <td class='center italic'>K</td>";
+            $html .=  "    <td class='center underline'>U</td>";
+            $html .=  "    <td class='center'>Farbe</td>";
+            $html .=  "  </tr>";
+
+            $j = 1;
+            foreach ($xml->pla_def->user->defence->defencetyp as $def_data) {
+
+                $html .=  "  <tr>";
+                $html .=  "    <td class='left' >";
+                $html .=  (string)$def_data->name['value'];
+                $html .=  "      <input type='hidden' name='pladefturm_" . $j . "' type='text' value='" . urlencode((string)$def_data->name['value']) . "'>";
+                $html .=  "    </td>";
+                $html .=  "    <td class='right' >";
+                $html .=  number_format((float)$def_data->anzahl_start['value'], 0, ',', '.');
+                $html .=  "      <input type='hidden' name='pladefturm_start_" . $j . "' type='text' value='" . number_format((float)$def_data->anzahl_start['value'], 0, ",", ".") . "'>";
+                $html .=  "    </td>";
+                $html .=  "    <td class='right' >";
+                $html .=  number_format((float)$def_data->anzahl_verlust['value'], 0, ',', '.');
+                $html .=  "      <input type='hidden' name='pladefturm_verlust_" . $j . "' type='text' value='" . number_format((float)$def_data->anzahl_verlust['value'], 0, ",", ".") . "'>";
+                $html .=  "    </td>";
+                $html .=  "    <td class='right' >";
+                $html .=  number_format((float)$def_data->anzahl_ende['value'], 0, ',', '.');
+                $html .=  "      <input type='hidden' name='pladefturm_ende_" . $j . "' type='text' value='" . number_format((float)$def_data->anzahl_ende['value'], 0, ",", ".") . "'>";
+                $html .=  "    </td>";
+                $html .=  "    <td class='center' >";
+                $html .=  "      <input type='checkbox' name='Pladefturm_form_f_" . $j . "' value='f'>";
+                $html .=  "    </td>";
+                $html .=  "    <td class='center' >";
+                $html .=  "      <input type='checkbox' name='Pladefturm_form_k_" . $j . "' value='k'>";
+                $html .=  "    </td>";
+                $html .=  "    <td class='center' >";
+                $html .=  "      <input type='checkbox' name='Pladefturm_form_u_" . $j . "' value='u'>";
+                $html .=  "    </td>";
+                $html .=  "    <td class='center' >";
+                $html .=  "      <select name='Pladefturm_form_c_" . $j . "'>";
+                $html .=  "         <option>keine</option>";
+                $html .=  "         <option style='color:red' value='red'>rot</option>";
+                $html .=  "         <option style='color:yellow' value='yellow'>gelb</option>";
+                $html .=  "         <option style='color:pink' value='pink'>pink</option>";
+                $html .=  "         <option style='color:green' value='green'>grün</option>";
+                $html .=  "         <option style='color:orange' value='orange'>orange</option>";
+                $html .=  "         <option style='color:purple' value='purple'>violett</option>";
+                $html .=  "         <option style='color:blue' value='blue'>blau</option>";
+                $html .=  "         <option style='color:beige' value='beige'>beige</option>";
+                $html .=  "         <option style='color:brown' value='brown'>braun</option>";
+                $html .=  "         <option style='color:teal' value='teal'>türkis</option>";
+                $html .=  "         <option style='color:navy' value='navy'>dunkelblau</option>";
+                $html .=  "         <option style='color:maroon' value='maroon'>dunkelrot</option>";
+                $html .=  "         <option style='color:limegreen' value='limegreen'>hellgrün</option>";
+                $html .=  "       </select>";
+                $html .=  "    </td>";
+                $html .=  "  </tr>";
+
+                $j++;
+            }
+        }
+
+        //planetare flotte
+        if (!empty($xml->pla_def->user->schiffe)) {
+            $html .=  "  <tr>";
+            $html .=  "    <td class='center'>Schiffnamen</td>";
+            $html .=  "    <td class='center'>Anzahl</td>";
+            $html .=  "    <td class='center'>Zerstört</td>";
+            $html .=  "    <td class='center'>Überlebend</td>";
+            $html .=  "    <td class='center bold'>F</td>";
+            $html .=  "    <td class='center italic'>K</td>";
+            $html .=  "    <td class='center underline'>U</td>";
+            $html .=  "    <td class='center'>Farbe</td>";
+            $html .=  "  </tr>";
+
+            $j = 1;
+            foreach ($xml->pla_def->user->schiffe->schifftyp as $schiff_data) {
+                $html .=  "  <tr>";
+                $html .=  "    <td class='left' >";
+                $html .=  (string)$schiff_data->name['value'];
+                $html .=  "      <input type='hidden' name='pladefschiff_" . $j . "' type='text' value='" . urlencode((string)$schiff_data->name['value']) . "'>";
+                $html .=  "    </td>";
+                $html .=  "    <td class='right' >";
+                $html .=  number_format((float)$schiff_data->anzahl_start['value'], 0, ',', '.');
+                $html .=  "      <input type='hidden' name='pladefschiff_start_" . $j . "' type='text' value='" . number_format((float)$schiff_data->anzahl_start['value'], 0, ",", ".") . "'>";
+                $html .=  "    </td>";
+                $html .=  "    <td class='right' >";
+                $html .=  number_format((float)$schiff_data->anzahl_verlust['value'], 0, ',', '.');
+                $html .=  "      <input type='hidden' name='pladefschiff_verlust_" . $j . "' type='text' value='" . number_format((float)$schiff_data->anzahl_verlust['value'], 0, ",", ".") . "'>";
+                $html .=  "    </td>";
+                $html .=  "    <td class='right' >";
+                $html .=  number_format((float)$schiff_data->anzahl_ende['value'], 0, ',', '.');
+                $html .=  "      <input type='hidden' name='pladefschiff_ende_" . $j . "' type='text' value='" . number_format((float)$schiff_data->anzahl_ende['value'], 0, ",", ".") . "'>";
+                $html .=  "    </td>";
+                $html .=  "    <td class='center' >";
+                $html .=  "      <input type='checkbox' name='Pladefschiff_form_f_" . $j . "' value='f'>";
+                $html .=  "    </td>";
+                $html .=  "    <td class='center' >";
+                $html .=  "      <input type='checkbox' name='Pladefschiff_form_k_" . $j . "' value='k'>";
+                $html .=  "    </td>";
+                $html .=  "    <td class='center' >";
+                $html .=  "      <input type='checkbox' name='Pladefschiff_form_u_" . $j . "' value='u'>";
+                $html .=  "    </td>";
+                $html .=  "    <td class='center' >";
+                $html .=  "      <select name='Pladefschiff_form_c_" . $j . "'>";
+                $html .=  "         <option>keine</option>";
+                $html .=  "         <option style='color:red' value='red'>rot</option>";
+                $html .=  "         <option style='color:yellow' value='yellow'>gelb</option>";
+                $html .=  "         <option style='color:pink' value='pink'>pink</option>";
+                $html .=  "         <option style='color:green' value='green'>grün</option>";
+                $html .=  "         <option style='color:orange' value='orange'>orange</option>";
+                $html .=  "         <option style='color:purple' value='purple'>violett</option>";
+                $html .=  "         <option style='color:blue' value='blue'>blau</option>";
+                $html .=  "         <option style='color:beige' value='beige'>beige</option>";
+                $html .=  "         <option style='color:brown' value='brown'>braun</option>";
+                $html .=  "         <option style='color:teal' value='teal'>türkis</option>";
+                $html .=  "         <option style='color:navy' value='navy'>dunkelblau</option>";
+                $html .=  "         <option style='color:maroon' value='maroon'>dunkelrot</option>";
+                $html .=  "         <option style='color:limegreen' value='limegreen'>hellgrün</option>";
+                $html .=  "       </select>";
+                $html .=  "    </td>";
+                $html .=  "  </tr>";
+
+                $j++;
+            }
+        }
+
+    }
+
+    // Deffende Flotten im Orbit
+    if (!empty($xml->flotten_def)) {
+        $i = 1;
+        foreach ($xml->flotten_def->user as $deff_user) {
+            $html .=  "  <tr>";
+            $html .=  "     <td class='left' colspan='8' style='color:#000000; background-color:#CAE1FF;' >";
+            $html .=  "       Verteidigende Flotte von <b>" . $deff_user->name['value'] . (empty($deff_user->allianz_tag['value']) ? "" : " [" . (string)$deff_user->allianz_tag['value'] . "]") . "</b>";
+            $html .=  "       <input type='hidden' name='deffer" . $i . "' type='text' value='" . urlencode("[b]" . $deff_user->name['value'] . (empty($deff_user->allianz_tag['value']) ? "" : " [" . (string)$deff_user->allianz_tag['value'] . "]") . "[/b]") . "'>";
+            $html .=  "     </td>";
+            $html .=  "  </tr>";
+            //schiffe
+            $html .=  "  <tr>";
+            $html .=  "    <td class='center'>Schiffnamen</td>";
+            $html .=  "    <td class='center'>Anzahl</td>";
+            $html .=  "    <td class='center'>Zerstört</td>";
+            $html .=  "    <td class='center'>Überlebend</td>";
+            $html .=  "    <td class='center bold'>F</td>";
+            $html .=  "    <td class='center italic'>K</td>";
+            $html .=  "    <td class='center underline'>U</td>";
+            $html .=  "    <td class='center'>Farbe</td>";
+            $html .=  "  </tr>";
+            $j = 1;
+            foreach ($deff_user->schiffe->schifftyp as $schiff_data) {
+                $html .=  "  <tr>";
+                $html .=  "    <td class='left' >";
+                $html .=  (string)$schiff_data->name['value'];
+                $html .=  "      <input type='hidden' name='defferschiffname" . $i . "_" . $j . "' type='text' value='" . urlencode((string)$schiff_data->name['value']) . "'>";
+                $html .=  "    </td>";
+                $html .=  "    <td class='right' >";
+                $html .=  number_format((float)$schiff_data->anzahl_start['value'], 0, ',', '.');
+                $html .=  "      <input type='hidden' name='defferschiffstart" . $i . "_" . $j . "' type='text' value='" . number_format((float)$schiff_data->anzahl_start['value'], 0, ",", ".") . "'>";
+                $html .=  "    </td>";
+                $html .=  "    <td class='right' >";
+                $html .=  number_format((float)$schiff_data->anzahl_verlust['value'], 0, ',', '.');
+                $html .=  "      <input type='hidden' name='defferschiffweg" . $i . "_" . $j . "' type='text' value='" . number_format((float)$schiff_data->anzahl_verlust['value'], 0, ",", ".") . "'>";
+                $html .=  "    </td>";
+                $html .=  "    <td class='right' >";
+                $html .=  number_format((float)$schiff_data->anzahl_ende['value'], 0, ',', '.');
+                $html .=  "      <input type='hidden' name='defferschiffende" . $i . "_" . $j . "' type='text' value='" . number_format((float)$schiff_data->anzahl_ende['value'], 0, ",", ".") . "'>";
+                $html .=  "    </td>";
+                $html .=  "    <td class='center' >";
+                $html .=  "      <input type='checkbox' name='Deffformf" . $i . "_" . $j . "' value='f'>";
+                $html .=  "    </td>";
+                $html .=  "    <td class='center' >";
+                $html .=  "      <input type='checkbox' name='Deffformk" . $i . "_" . $j . "' value='k'>";
+                $html .=  "    </td>";
+                $html .=  "    <td class='center' >";
+                $html .=  "      <input type='checkbox' name='Deffformu" . $i . "_" . $j . "' value='u'>";
+                $html .=  "    </td>";
+                $html .=  "    <td class='center' >";
+                $html .=  "      <select name='Deffformc" . $i . "_" . $j . "'>";
+                $html .=  "         <option>keine</option>";
+                $html .=  "         <option style='color:red' value='red'>rot</option>";
+                $html .=  "         <option style='color:yellow' value='yellow'>gelb</option>";
+                $html .=  "         <option style='color:pink' value='pink'>pink</option>";
+                $html .=  "         <option style='color:green' value='green'>grün</option>";
+                $html .=  "         <option style='color:orange' value='orange'>orange</option>";
+                $html .=  "         <option style='color:purple' value='purple'>violett</option>";
+                $html .=  "         <option style='color:blue' value='blue'>blau</option>";
+                $html .=  "         <option style='color:beige' value='beige'>beige</option>";
+                $html .=  "         <option style='color:brown' value='brown'>braun</option>";
+                $html .=  "         <option style='color:teal' value='teal'>türkis</option>";
+                $html .=  "         <option style='color:navy' value='navy'>dunkelblau</option>";
+                $html .=  "         <option style='color:maroon' value='maroon'>dunkelrot</option>";
+                $html .=  "         <option style='color:limegreen' value='limegreen'>hellgrün</option>";
+                $html .=  "       </select>";
+                $html .=  "    </td>";
+                $html .=  "  </tr>";
+
+                $j++;
+            }
+            $i++;
+        }
+    }
+
+    // Verluste Angreifer
+    if (!empty($xml->resverluste->att)) {
+        $html .=  "  <tr>";
+        $html .=  "     <td class='left' colspan='8' style='color:#000000; background-color:#CAE1FF;' >";
+        $html .=  "       <b>Verluste der Angreifer</b>";
+        $html .=  "     </td>";
+        $html .=  "  </tr>";
+        $html .=  "  <tr>";
+        $html .=  "    <td class='center'>Ressource</td>";
+        $html .=  "    <td class='center' colspan='3'>Anzahl</td>";
+        $html .=  "    <td class='center bold'>F</td>";
+        $html .=  "    <td class='center italic'>K</td>";
+        $html .=  "    <td class='center underline'>U</td>";
+        $html .=  "    <td class='center'>Farbe</td>";
+        $html .=  "  </tr>";
+
+        foreach ($xml->resverluste->att->resource as $loss_data) {
+            $html .=  "  <tr>";
+            $html .=  "     <td class='left'  >";
+            $html .=  (string)$loss_data->name['value'];
+            $html .=  "     </td>";
+            $html .=  "     <td colspan='3' class='right'>";
+            $html .=  number_format((float)$loss_data->anzahl['value'], 0, ",", ".");
+            $html .=  "       <input type='hidden' name='attverlust" . (string)$loss_data->id['value'] . "' type='text' value='" . number_format((float)$loss_data->anzahl['value'], 0, ",", ".") . "'>";
+            $html .=  "     </td>";
+            $html .=  "    <td class='center' >";
+            $html .=  "      <input type='checkbox' name='attverlustformf" . (string)$loss_data->id['value'] . "' value='f'>";
+            $html .=  "    </td>";
+            $html .=  "    <td class='center' >";
+            $html .=  "      <input type='checkbox' name='attverlustformk" . (string)$loss_data->id['value'] . "' value='k'>";
+            $html .=  "    </td>";
+            $html .=  "    <td class='center' >";
+            $html .=  "      <input type='checkbox' name='attverlustformu" . (string)$loss_data->id['value'] . "' value='u'>";
+            $html .=  "    </td>";
+            $html .=  "    <td class='center' >";
+            $html .=  "      <select name='attverlustformc" . (string)$loss_data->id['value'] . "'>";
+            $html .=  "         <option>keine</option>";
+            $html .=  "         <option style='color:red' value='red'>rot</option>";
+            $html .=  "         <option style='color:yellow' value='yellow'>gelb</option>";
+            $html .=  "         <option style='color:pink' value='pink'>pink</option>";
+            $html .=  "         <option style='color:green' value='green'>grün</option>";
+            $html .=  "         <option style='color:orange' value='orange'>orange</option>";
+            $html .=  "         <option style='color:purple' value='purple'>violett</option>";
+            $html .=  "         <option style='color:blue' value='blue'>blau</option>";
+            $html .=  "         <option style='color:beige' value='beige'>beige</option>";
+            $html .=  "         <option style='color:brown' value='brown'>braun</option>";
+            $html .=  "         <option style='color:teal' value='teal'>türkis</option>";
+            $html .=  "         <option style='color:navy' value='navy'>dunkelblau</option>";
+            $html .=  "         <option style='color:maroon' value='maroon'>dunkelrot</option>";
+            $html .=  "         <option style='color:limegreen' value='limegreen'>hellgrün</option>";
+            $html .=  "       </select>";
+            $html .=  "    </td>";
+            $html .=  "  </tr>";
+        }
+    }
+
+    // Verluste Deffer
+    if (!empty($xml->resverluste->def)) {
+        $html .=  "  <tr>";
+        $html .=  "     <td class='left' colspan='8' style='color:#000000; background-color:#CAE1FF; font-weight:bold;' >";
+        $html .=  "       Verluste der Verteidiger";
+        $html .=  "     </td>";
+        $html .=  "  </tr>";
+        $html .=  "  <tr>";
+        $html .=  "    <td class='center'>Ressource</td>";
+        $html .=  "    <td class='center' colspan='3'>Anzahl</td>";
+        $html .=  "    <td class='center bold'>F</td>";
+        $html .=  "    <td class='center italic'>K</td>";
+        $html .=  "    <td class='center underline'>U</td>";
+        $html .=  "    <td class='center'>Farbe</td>";
+        $html .=  "  </tr>";
+        foreach ($xml->resverluste->def->resource as $loos_data) {
+            $html .=  "  <tr>";
+            $html .=  "     <td class='left' >";
+            $html .=  (string)$loos_data->name['value'];
+            $html .=  "     </td>";
+            $html .=  "     <td colspan='3' class='right' >";
+            $html .=  number_format((float)$loos_data->anzahl['value'], 0, ",", ".");
+            $html .=  "       <input type='hidden' name='defverlust" . (string)$loos_data->id['value'] . "' type='text' value='" . number_format((float)$loos_data->anzahl['value'], 0, ",", ".") . "'>";
+            $html .=  "     </td>";
+            $html .=  "    <td class='center' >";
+            $html .=  "      <input type='checkbox' name='defverlustformf" . (string)$loos_data->id['value'] . "' value='f'>";
+            $html .=  "    </td>";
+            $html .=  "    <td class='center' >";
+            $html .=  "      <input type='checkbox' name='defverlustformk" . (string)$loos_data->id['value'] . "' value='k'>";
+            $html .=  "    </td>";
+            $html .=  "    <td class='center' >";
+            $html .=  "      <input type='checkbox' name='defverlustformu" . (string)$loos_data->id['value'] . "' value='u'>";
+            $html .=  "    </td>";
+            $html .=  "    <td class='center' >";
+            $html .=  "      <select name='defverlustformc" . (string)$loos_data->id['value'] . "'>";
+            $html .=  "         <option>keine</option>";
+            $html .=  "         <option style='color:red' value='red'>rot</option>";
+            $html .=  "         <option style='color:yellow' value='yellow'>gelb</option>";
+            $html .=  "         <option style='color:pink' value='pink'>pink</option>";
+            $html .=  "         <option style='color:green' value='green'>grün</option>";
+            $html .=  "         <option style='color:orange' value='orange'>orange</option>";
+            $html .=  "         <option style='color:purple' value='purple'>violett</option>";
+            $html .=  "         <option style='color:blue' value='blue'>blau</option>";
+            $html .=  "         <option style='color:beige' value='beige'>beige</option>";
+            $html .=  "         <option style='color:brown' value='brown'>braun</option>";
+            $html .=  "         <option style='color:teal' value='teal'>türkis</option>";
+            $html .=  "         <option style='color:navy' value='navy'>dunkelblau</option>";
+            $html .=  "         <option style='color:maroon' value='maroon'>dunkelrot</option>";
+            $html .=  "         <option style='color:limegreen' value='limegreen'>hellgrün</option>";
+            $html .=  "       </select>";
+            $html .=  "    </td>";
+            $html .=  "  </tr>";
+        }
+    }
+
+    // Plünderungen
+    if (!empty($xml->pluenderung->resource)) {
+
+        $html .=  "  <tr>";
+        $html .=  "     <td class='left' colspan='8' style='color:#000000; background-color:#CAE1FF; font-weight:bold;' >";
+        $html .=  "       Es wurden folgende Ressourcen geplündert";
+        $html .=  "     </td>";
+        $html .=  "  </tr>";
+        $html .=  "  <tr>";
+        $html .=  "    <td class='center'>Ressource</td>";
+        $html .=  "    <td class='center' colspan='3'>Anzahl</td>";
+        $html .=  "    <td class='center bold'>F</td>";
+        $html .=  "    <td class='center italic'>K</td>";
+        $html .=  "    <td class='center underline'>U</td>";
+        $html .=  "    <td class='center'>Farbe</td>";
+        $html .=  "  </tr>";
+        foreach ($xml->pluenderung->resource as $loos_data) {
+
+            $html .=  "  <tr>";
+            $html .=  "     <td class='left'>";
+            $html .=  (string)$loos_data->name['value'];
+            $html .=  "     </td>";
+            $html .=  "     <td colspan='3' class='right'>";
+            $html .=  number_format((float)$loos_data->anzahl['value'], 0, ",", ".");
+            $html .=  "       <input type='hidden' name='weg" . (string)$loos_data->id['value'] . "' type='text' value='" . number_format((float)$loos_data->anzahl['value'], 0, ",", ".") . "'>";
+            $html .=  "     </td>";
+            $html .=  "    <td class='center'>";
+            $html .=  "      <input type='checkbox' name='wegformf" . (string)$loos_data->id['value'] . "' value='f'>";
+            $html .=  "    </td>";
+            $html .=  "    <td class='center'>";
+            $html .=  "      <input type='checkbox' name='wegformk" . (string)$loos_data->id['value'] . "' value='k'>";
+            $html .=  "    </td>";
+            $html .=  "    <td class='center'>";
+            $html .=  "      <input type='checkbox' name='wegformu" . (string)$loos_data->id['value'] . "' value='u'>";
+            $html .=  "    </td>";
+            $html .=  "    <td class='center'>";
+            $html .=  "      <select name='wegformc" . (string)$loos_data->id['value'] . "'>";
+            $html .=  "         <option>keine</option>";
+            $html .=  "         <option style='color:red' value='red'>rot</option>";
+            $html .=  "         <option style='color:yellow' value='yellow'>gelb</option>";
+            $html .=  "         <option style='color:pink' value='pink'>pink</option>";
+            $html .=  "         <option style='color:green' value='green'>grün</option>";
+            $html .=  "         <option style='color:orange' value='orange'>orange</option>";
+            $html .=  "         <option style='color:purple' value='purple'>violett</option>";
+            $html .=  "         <option style='color:blue' value='blue'>blau</option>";
+            $html .=  "         <option style='color:beige' value='beige'>beige</option>";
+            $html .=  "         <option style='color:brown' value='brown'>braun</option>";
+            $html .=  "         <option style='color:teal' value='teal'>türkis</option>";
+            $html .=  "         <option style='color:navy' value='navy'>dunkelblau</option>";
+            $html .=  "         <option style='color:maroon' value='maroon'>dunkelrot</option>";
+            $html .=  "         <option style='color:limegreen' value='limegreen'>hellgrün</option>";
+            $html .=  "       </select>";
+            $html .=  "    </td>";
+            $html .=  "  </tr>";
+        }
+    }
+
+    // Bombing
+    if (!empty($xml->bomben)) {
+        if (!empty($xml->bomben->basis_zerstoert['value'])) { //Basisangriff
+
+            $html .=  "  <tr>";
+            $html .=  "     <td class='left' colspan='8' style='color:#000000; background-color:#CAE1FF;'>";
+            $html .=  "       Die Basis wurde von <b>" . (string)$xml->bomben->user->name['value'] . "</b>";
+            $html .=  "       <input type='hidden' name='bomb1' type='text' value='" . urlencode("Der Planet wurde von [b]" . (string)$xml->bomben->user->name['value'] . "[/b] ") . "'>";
+            $html .=  "       <input name='bomb2' type='text' value='bombadiert.' size='30' >";
+            $html .=  "     </td>";
+            $html .=  "  </tr>";
+
+            if ($xml->bomben->basis_zerstoert['value'] == 1) {     //erfolgreich
+                $html .=  "  <tr>";
+                $html .=  "     <td class='left' colspan='8'>";
+                $html .=  "      <input name='bomb3' type='text' value='".urlencode(getMessageBasebombSuccessful())."' size='150' >";
+                $html .=  "     </td>";
+                $html .=  "  </tr>";
+            } else {                                               //gescheitert
+                $html .=  "  <tr>";
+                $html .=  "     <td class='left' colspan='8'>";
+                $html .=  "      <input name='bomb3' type='text' value='".urlencode(getMessageBasebombUnsuccessful())."' size='150' >";
+                $html .=  "     </td>";
+                $html .=  "  </tr>";
+            }
+
+        } else {
+
+            $html .=  "  <tr>";
+            $html .=  "     <td class='left' colspan='8' style='color:#000000; background-color:#CAE1FF;'>";
+            $html .=  "       Der Planet wurde von <b>" . (string)$xml->bomben->user->name['value'] . "</b>";
+            $html .=  "       <input type='hidden' name='bomb1' type='text' value='" . urlencode("Der Planet wurde von [b]" . (string)$xml->bomben->user->name['value'] . "[/b] ") . "'>";
+            $html .=  "       <input name='bomb2' type='text' value='bombadiert.' size='30' >";
+            $html .=  "     </td>";
+            $html .=  "  </tr>";
+
+            if (isset($xml->bomben->bombentrefferchance['value'])) {
+                $html .=  "  <tr>";
+                $html .=  "     <td class='left' colspan='8'>";
+                if ($xml->bomben->bombentrefferchance['value'] == 100) {
+                    $html .=  "      <input name='bombtreff1' type='text' value='Es gab klare Sicht für die Bomberpiloten, die Trefferchance lag bei' size='80'>";
+                } elseif ($xml->bomben->bombentrefferchance['value'] > 75) {
+                    $html .=  "      <input name='bombtreff1' type='text' value='Ein paar kleine Pfefferminzwölkchen trübten den Himmel, die Trefferchance lag bei' size='80'>";
+                } elseif ($xml->bomben->bombentrefferchance['value'] > 25) {
+                    $html .=  "      <input name='bombtreff1' type='text' value='Pfefferminzwolken bedeckten den Himmel, die Trefferchance lag bei' size='80'>";
+                } else {
+                    $html .=  "      <input name='bombtreff1' type='text' value='Alles war mit Pfefferminzwolken vernebelt, die Trefferchance lag bei' size='80'>";
+                }
+                $html .=  " <b>" . $xml->bomben->bombentrefferchance['value'] . "%</b>";
+                $html .=  "      <input type='hidden' name='bombtreff2' type='text' value='" . urlencode(" [b]" . $xml->bomben->bombentrefferchance['value'] . "%[/b]") . "'>";
+                $html .=  "      <input name='bombtreff3' type='text' value='.' size='50'>";
+                $html .=  "     </td>";
+                $html .=  "  </tr>";
+            }
+
+            if (empty($xml->bomben->geb_zerstoert)) { //keine Gebäude
+                $html .=  "  <tr>";
+                $html .=  "     <td class='left' colspan='8'>";
+                $html .=  "      <input name='bomb3' type='text' value='".urlencode('Es wurden keine Gebäude zerstört. Haha.')."' size='75'>";
+                $html .=  "     </td>";
+                $html .=  "  </tr>";
+            } else { //mit Gebäuden
+                $html .=  "  <tr>";
+                $html .=  "    <td class='center'>Gebäude</td>";
+                $html .=  "    <td class='center' colspan='3'>Anzahl</td>";
+                $html .=  "    <td class='center bold'>F</td>";
+                $html .=  "    <td class='center italic'>K</td>";
+                $html .=  "    <td class='center underline'>U</td>";
+                $html .=  "    <td class='center'>Farbe</td>";
+                $html .=  "  </tr>";
+
+                $i = 1;
+                foreach ($xml->bomben->geb_zerstoert->geb as $loss_data) {
+                    $html .=  "  <tr>";
+                    $html .=  "     <td class='left' >";
+                    $html .=  (string)$loss_data->name['value'];
+                    $html .=  "       <input type='hidden' name='bombgeb" . $i . "' type='text' value='" . urlencode((string)$loss_data->name['value']) . "'>";
+                    $html .=  "     </td>";
+                    $html .=  "     <td colspan='3' class='right'>";
+                    $html .=  number_format((float)$loss_data->anzahl['value'], 0, ',', '.');
+                    $html .=  "       <input type='hidden' name='bombgebanz" . $i . "' type='text' value='" . number_format((float)$loss_data->anzahl['value'], 0, ",", ".") . "'>";
+                    $html .=  "     </td>";
+                    $html .=  "    <td class='center' >";
+                    $html .=  "      <input type='checkbox' name='bombgebformf" . $i . "' value='f'>";
+                    $html .=  "    </td>";
+                    $html .=  "    <td class='center' >";
+                    $html .=  "      <input type='checkbox' name='bombgebformk" . $i . "' value='k'>";
+                    $html .=  "    </td>";
+                    $html .=  "    <td class='center' >";
+                    $html .=  "      <input type='checkbox' name='bombgebformu" . $i . "' value='u'>";
+                    $html .=  "    </td>";
+                    $html .=  "    <td class='center' >";
+                    $html .=  "      <select name='bombgebformc" . $i . "'>";
+                    $html .=  "         <option>keine</option>";
+                    $html .=  "         <option style='color:red' value='red'>rot</option>";
+                    $html .=  "         <option style='color:yellow' value='yellow'>gelb</option>";
+                    $html .=  "         <option style='color:pink' value='pink'>pink</option>";
+                    $html .=  "         <option style='color:green' value='green'>grün</option>";
+                    $html .=  "         <option style='color:orange' value='orange'>orange</option>";
+                    $html .=  "         <option style='color:purple' value='purple'>violett</option>";
+                    $html .=  "         <option style='color:blue' value='blue'>blau</option>";
+                    $html .=  "         <option style='color:beige' value='beige'>beige</option>";
+                    $html .=  "         <option style='color:brown' value='brown'>braun</option>";
+                    $html .=  "         <option style='color:teal' value='teal'>türkis</option>";
+                    $html .=  "         <option style='color:navy' value='navy'>dunkelblau</option>";
+                    $html .=  "         <option style='color:maroon' value='maroon'>dunkelrot</option>";
+                    $html .=  "         <option style='color:limegreen' value='limegreen'>hellgrün</option>";
+                    $html .=  "       </select>";
+                    $html .=  "    </td>";
+                    $html .=  "  </tr>";
+                    $i++;
+                }
+            }
+        }
+
+        if (!empty($xml->bomben->bev_zerstoert['value'])) { // Bevölkerung
+            $html .=  "  <tr>";
+            $html .=  "     <td class='left' colspan='8'>";
+            $html .=  "      <input name='bombbev1' type='text' value='' size='80'>";
+            $html .=  " <b>" . number_format((float)$xml->bomben->bev_zerstoert['value'], 0, ",", ".") . "</b>";
+            $html .=  "      <input type='hidden' name='bombbev2' type='text' value='" . urlencode(" [b]" . number_format((float)$xml->bomben->bev_zerstoert['value'], 0, ",", ".") . "[/b] ") . "'>";
+            $html .=  "      <input name='bombbev3' type='text' value='" . getMessageBevbomb() . "' size='50'>";
+            $html .=  "     </td>";
+            $html .=  "  </tr>";
+        }
+    }
+
+    $KBLink = str_replace("&typ=xml", "", $KBLink);
+
+    $html .=  "  <tr>";
+    $html .=  "     <td class='center' colspan='8'>";
+    $html .=  "       <input type='hidden' name='KBLink' type='text' value='" . urlencode($KBLink) . "'>";
+    $html .=  "       <input type='submit' value='BB-Code generieren' class='btn'>";
+    $html .=  "     </td>";
+    $html .=  "  </tr>";
+
+    $html .=  "</table>";
+    $html .=  "</form>";
+
+    return $html;
+
+}
+
+function generateBBcode() {
+
+    if (empty($_POST['optionLink'])) {       //KB-Link in Quote-Tags nicht aktiv
+        $outBB = "[quote][table]";
+    } else {
+        $outBB = "[quote=" . urldecode(getVar('KBLink')) . "][table]";
+    }
+    $outBB .= "[tr][td colspan=4]" . urldecode(getVar('mainline')) . "[/td][/tr]"; //Kampf auf dem ...
+    $outBB .= "[tr][td colspan=4]" . urldecode(getVar('dateline')) . "[/td][/tr]"; //Die Schlacht endete mit ...
+
+    // Angreifer
+    $outBB .= "[tr][td colspan=4][hr][/td][/tr]"; //horizontale Linie
+    $outBB .= "[tr][td][u]Angreifer[/u][/td][td][right]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[u]Anzahl[/u][/right][/td][td][right]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[u]Zerstört[/u][/right][/td][td][right]&nbsp;&nbsp;[u]Überlebende[/u][/right][/td][/tr]";
+
+    $i     = 1;
+    while (!empty($_POST["atter" . $i])) {
+        $outBB .= "[tr][td colspan=4]" . urldecode(getVar("atter" . $i)) . "[/td][/tr]"; //Angreifende Flotte ...
+        $j     = 1;
+        while (!empty($_POST["atterschiffname" . $i . "_" . $j])) {
+            if (getVar("atterschiffstart" . $i . "_" . $j) !== "") {
+                $outBB .= "[tr][td]" . makeFormatedString(urldecode(getVar("atterschiffname" . $i . "_" . $j)), getVar("Attformf" . $i . "_" . $j), getVar("Attformk" . $i . "_" . $j), getVar("Attformu" . $i . "_" . $j), getVar("Attformc" . $i . "_" . $j)) . "[/td]";
+                $outBB .= "[td][right]" . makeFormatedString(getVar("atterschiffstart" . $i . "_" . $j), getVar("Attformf" . $i . "_" . $j), getVar("Attformk" . $i . "_" . $j), getVar("Attformu" . $i . "_" . $j), getVar("Attformc" . $i . "_" . $j)) . "[/right][/td]";
+                $outBB .= "[td][right]" . makeFormatedString(getVar("atterschiffweg" . $i . "_" . $j), getVar("Attformf" . $i . "_" . $j), getVar("Attformk" . $i . "_" . $j), getVar("Attformu" . $i . "_" . $j), getVar("Attformc" . $i . "_" . $j)) . "[/right][/td]";
+                $outBB .= "[td][right]" . makeFormatedString(getVar("atterschiffende" . $i . "_" . $j), getVar("Attformf" . $i . "_" . $j), getVar("Attformk" . $i . "_" . $j), getVar("Attformu" . $i . "_" . $j), getVar("Attformc" . $i . "_" . $j)) . "[/right][/td][/tr]";
+            }
+            $j++;
+        }
+        if (!empty($_POST["atterkuchen" . $i])) {
+            $outBB .= "[tr][td colspan=4]Die Flotte brachte Kaffee und Kuchen mit.[/td][/tr]";
+        }
+        if (!empty($_POST["atterlollies" . $i])) {
+            $outBB .= "[tr][td colspan=4]Diese wilden Barbarben haben unseren kleinen Kindern die Lollis geklaut!! Das schreit gradezu nach Rache.[/td][/tr]";
+        }
+        if (!empty($_POST["attermsg" . $i])) {
+            $outBB .= "[tr][td colspan=4]" . urldecode(getVar("attermsg" . $i)) . "[/td][/tr]";
+        }
+        $i++;
+    }
+
+    // Pladeff
+    $outBB .= "[tr][td colspan=4][hr][/td][/tr]"; //horizontale Linie
+    $outBB .= "[tr][td][u]Verteidiger[/u][/td][td][right][u]Anzahl[/u][/right][/td][td][right][u]Zerstört[/u][/right][/td][td][right][u]Überlebende[/u][/right][/td][/tr]";
+
+    if (!empty($_POST["pladeffer"])) {
+        $outBB .= "[tr][td colspan=4]" . urldecode(getVar("pladeffer")) . "[/td][/tr]"; // Verteidiger war ...
+
+        $j     = 1;
+        while (!empty($_POST["pladefturm_" . $j])) {
+            $outBB .= "[tr][td]" . makeFormatedString(urldecode(getVar("pladefturm_" . $j)), getVar("Pladefturm_form_f_" . $j), getVar("Pladefturm_form_k_" . $j), getVar("Pladefturm_form_u_" . $j), getVar("Pladefturm_form_c_" . $j)) . "[/td]";
+            $outBB .= "[td][right]" . makeFormatedString(getVar("pladefturm_start_" . $j), getVar("Pladefturm_form_f_" . $j), getVar("Pladefturm_form_k_" . $j), getVar("Pladefturm_form_u_" . $j), getVar("Pladefturm_form_c_" . $j)) . "[/right][/td]";
+            $outBB .= "[td][right]" . makeFormatedString(getVar("pladefturm_varlust_" . $j), getVar("Pladefturm_form_f_" . $j), getVar("Pladefturm_form_k_" . $j), getVar("Pladefturm_form_u_" . $j), getVar("Pladefturm_form_c_" . $j)) . "[/right][/td]";
+            $outBB .= "[td][right]" . makeFormatedString(getVar("pladefturm_ende_" . $j), getVar("Pladefturm_form_f_" . $j), getVar("Pladefturm_form_k_" . $j), getVar("Pladefturm_form_u_" . $j), getVar("Pladefturm_form_c_" . $j)) . "[/right][/td][/tr]";
+            $j++;
+        }
+
+        $j = 1;
+        while (!empty($_POST["pladefschiff_" . $j])) {
+            $outBB .= "[tr][td]" . makeFormatedString(urldecode(getVar("pladefschiff_" . $j)), getVar("Pladefschiff_form_f_" . $j), getVar("Pladefschiff_form_k_" . $j), getVar("Pladefschiff_form_u_" . $j), getVar("Pladefschiff_form_c_" . $j)) . "[/td]";
+            $outBB .= "[td][right]" . makeFormatedString(getVar("pladefschiff_start_" . $j), getVar("Pladefschiff_form_f_" . $j), getVar("Pladefschiff_form_k_" . $j), getVar("Pladefschiff_form_u_" . $j), getVar("Pladefschiff_form_c_" . $j)) . "[/right][/td]";
+            $outBB .= "[td][right]" . makeFormatedString(getVar("pladefschiff_verlust_" . $j), getVar("Pladefschiff_form_f_" . $j), getVar("Pladefschiff_form_k_" . $j), getVar("Pladefschiff_form_u_" . $j), getVar("Pladefschiff_form_c_" . $j)) . "[/right][/td]";
+            $outBB .= "[td][right]" . makeFormatedString(getVar("pladefschiff_ende_" . $j), getVar("Pladefschiff_form_f_" . $j), getVar("Pladefschiff_form_k_" . $j), getVar("Pladefschiff_form_u_" . $j), getVar("Pladefschiff_form_c_" . $j)) . "[/right][/td][/tr]";
+            $j++;
+        }
+    }
+
+    // Deffer
+    $i = 1;
+    while (!empty($_POST["deffer" . $i])) {
+        $outBB .= "[tr][td colspan=4]" . urldecode(getVar("deffer" . $i)) . "[/td][/tr]"; //Verteidigende Flotte ...
+        $j     = 1;
+        while (!empty($_POST["defferschiffname" . $i . "_" . $j])) {
+            if (!empty($_POST["defferschiffstart" . $i . "_" . $j])) {
+                $outBB .= "[tr][td]" . makeFormatedString(urldecode(getVar("defferschiffname" . $i . "_" . $j)), getVar("Deffformf" . $i . "_" . $j), getVar("Deffformk" . $i . "_" . $j), getVar("Deffformu" . $i . "_" . $j), getVar("Deffformc" . $i . "_" . $j)) . "[/td]";
+                $outBB .= "[td][right]" . makeFormatedString(getVar("defferschiffstart" . $i . "_" . $j), getVar("Deffformf" . $i . "_" . $j), getVar("Deffformk" . $i . "_" . $j), getVar("Deffformu" . $i . "_" . $j), getVar("Deffformc" . $i . "_" . $j)) . "[/right][/td]";
+                $outBB .= "[td][right]" . makeFormatedString(getVar("defferschiffweg" . $i . "_" . $j), getVar("Deffformf" . $i . "_" . $j), getVar("Deffformk" . $i . "_" . $j), getVar("Deffformu" . $i . "_" . $j), getVar("Deffformc" . $i . "_" . $j)) . "[/right][/td]";
+                $outBB .= "[td][right]" . makeFormatedString(getVar("defferschiffende" . $i . "_" . $j), getVar("Deffformf" . $i . "_" . $j), getVar("Deffformk" . $i . "_" . $j), getVar("Deffformu" . $i . "_" . $j), getVar("Deffformc" . $i . "_" . $j)) . "[/right][/td][/tr]";
+            }
+            $j++;
+        }
+        $i++;
+    }
+
+    // Verluste & Plündern
+
+    // Suchen eines Eintrages
+    $i  = 1;
+    $do = false;
+    while ($i <= 7) {
+        if (!empty($_POST["attverlust" . $i])) {
+            $do = true;
+        }
+        if (!empty($_POST["defverlust" . $i])) {
+            $do = true;
+        }
+        if (!empty($_POST["weg" . $i])) {
+            $do = true;
+        }
+        if ($do) {
+            break;
+        }
+        $i++;
+    }
+
+    if ($do) {
+        $i            = 1;
+        $ressname[1]  = "Eisen";
+        $ressname[2]  = "Stahl";
+        $ressname[3]  = "VV4A";
+        $ressname[4]  = "Eis";
+        $ressname[5]  = "chem. Elemente";
+        $ressname[6]  = "Wasser";
+        $ressname[7]  = "Energie";
+        $ressname[10] = "Credits";
+        $ressname[11] = "Bevölkerung";
+
+        $outBB .= "[tr][td colspan=4][hr][/td][/tr]"; //horizontale Linie
+        $outBB .= "[tr][td][u]Zerstörte und geplünderte Ressourcen[/u][/td][td][right][u]Angreifer[/u][/right][/td][td][right][u]Verteidiger[/u][/right][/td][td][right][u]Plünderung[/u][/right][/td][/tr]";
+        while ($i <= 11) {
+            if (!empty($_POST["attverlust" . $i]) OR !empty($_POST["defverlust" . $i]) OR !empty($_POST["weg" . $i])) {
+                $outBB .= "[tr][td]" . $ressname[$i] . "[/td]";
+                if (!empty($_POST["attverlust" . $i])) {
+                    $outBB .= "[td][right]" . makeFormatedString($_POST["attverlust" . $i], isset($_POST["attverlustformf" . $i]), isset($_POST["attverlustformk" . $i]), isset($_POST["attverlustformu" . $i]), $_POST["attverlustformc" . $i]) . "[/right][/td]";
+                } else {
+                    $outBB .= "[td][right]-[/right][/td]";
+                }
+                if (!empty($_POST["defverlust" . $i])) {
+                    $outBB .= "[td][right]" . makeFormatedString($_POST["defverlust" . $i], isset($_POST["defverlustformf" . $i]), isset($_POST["defverlustformk" . $i]), isset($_POST["defverlustformu" . $i]), $_POST["defverlustformc" . $i]) . "[/right][/td]";
+                } else {
+                    $outBB .= "[td][right]-[/right][/td]";
+                }
+                if (!empty($_POST["weg" . $i])) {
+                    $outBB .= "[td][right][color=green]" . makeFormatedString($_POST["weg" . $i], isset($_POST["wegformf" . $i]), isset($_POST["wegformk" . $i]), isset($_POST["wegformu" . $i]), $_POST["wegformc" . $i]) . "[/color][/right][/td][/tr]";
+                } else {
+                    $outBB .= "[td][right]-[/right][/td][/tr]";
+                }
+            }
+            $i++;
+        }
+    }
+
+    //Bomben
+    if (!empty($_POST['bomb1'])) {
+        $outBB .= "[tr][td colspan=4][hr][/td][/tr]"; //horizontale Linie
+        $outBB .= "[tr][td colspan=4]" . urldecode($_POST['bomb1']) . urldecode($_POST['bomb2']) . "[/td][/tr]"; // Der Planet wurde ...
+        if (!empty($_POST['bombtreff1'])) {  // Bombendtrefferchance
+            $outBB .= "[tr][td colspan=4]" . $_POST['bombtreff1'] . urldecode($_POST['bombtreff2']) . $_POST['bombtreff3'] . "[/td][/tr]";
+        }
+        if (!empty($_POST['bomb3'])) { // KB oder keine Gebs
+            $outBB .= "[tr][td colspan=4]" . urldecode($_POST['bomb3']) . "[/td][/tr]";
+        } else {
+            $i     = 1;
+            $outBB .= "[tr][td colspan=4]Folgende Gebäude wurden zerstört:[/td][/tr]";
+            while (!empty($_POST["bombgeb" . $i])) {
+                $outBB .= "[tr][td]" . makeFormatedString(urldecode($_POST["bombgeb" . $i]), isset($_POST["bombgebformf" . $i]), isset($_POST["bombgebformk" . $i]), isset($_POST["bombgebformu" . $i]), $_POST["bombgebformc" . $i]) . "[/td][td][right]" . makeFormatedString($_POST["bombgebanz" . $i], isset($_POST["bombgebformf" . $i]), isset($_POST["bombgebformk" . $i]), isset($_POST["bombgebformu" . $i]), $_POST["bombgebformc" . $i]) . "[/right][/td][/tr]";
+                $i++;
+            }
+        }
+        if (!empty($_POST['bombbev2'])) {
+            $outBB .= "[tr][td colspan=4]" . $_POST['bombbev1'] . urldecode($_POST['bombbev2']) . $_POST['bombbev3'] . "[/td][/tr]";
+        }
+    }
+
+    // KBLink am Ende
+    $outBB .= "[tr][td colspan=4][hr][/td][/tr]"; //horizontale Linie
+    $outBB .= "[tr][td colspan=4][url=" . urldecode(getVar("KBLink")) . "]Link zum externen Kampfbericht[/url][/td][/tr]";
+    $outBB .= "[/table][/quote]";
+
+    // Lange Schiffnamen killen
+    if (!empty($_POST['optionKuerzen'])) {
+        $outBB = str_replace(" (Systemtransporter Klasse 1)", "", $outBB); // Systrans
+        $outBB = str_replace(" (Hyperraumtransporter Klasse 1)", "", $outBB); // Gorgol, Kamel, Flughund
+        $outBB = str_replace(" (Systemtransporter Klasse 2)", "", $outBB); // Lurch
+        $outBB = str_replace(" (Hyperraumtransporter Klasse 2)", "", $outBB); // Eisbär, Waschbär, Seepferd
+        $outBB = str_replace(" (Systemtransporter Kolonisten)", "", $outBB); // Crux
+        $outBB = str_replace(" (Hyperraumtransporter Kolonisten)", "", $outBB); // Kolpor
+        $outBB = str_replace(" (Transporter)", "", $outBB); // andere Transporter
+        $outBB = str_replace(" (Systemkolonieschiff)", "", $outBB); // KISS
+        $outBB = str_replace(" (interstellares Kolonieschiff)", "", $outBB); // INS
+    }
+
+    //BBCode beschneiden
+    if (empty($_POST['optionQuote'])) { //checkbox quoten nicht aktiv
+        $outBB = str_replace("[quote]", "", $outBB);
+        $outBB = str_replace("[/quote]", "", $outBB);
+    }
+
+    if (empty($_POST['optionHr'])) {        //horizonale Linien nicht aktiv
+        $outBB = str_replace("[hr]", "---", $outBB);
+    }
+
+    if (!empty($_POST['optionColspan'])) {        //verkürzte Colspans aktiv
+        $outBB = str_replace(" colspan", "", $outBB);
+    }
+
+    if (empty($_POST['optionAlign'])) { //Ausrichtung nicht aktiv
+        $outBB = str_replace("[center]", "", $outBB);
+        $outBB = str_replace("[/center]", "", $outBB);
+        $outBB = str_replace("[left]", "", $outBB);
+        $outBB = str_replace("[/left]", "", $outBB);
+        $outBB = str_replace("[right]", "", $outBB);
+        $outBB = str_replace("[/right]", "", $outBB);
+    }
+
+    if (empty($_POST['optionColor'])) { //Farbe nicht aktiv
+        $outBB = preg_replace ( '/\[color=.+?]/', '', $outBB);
+        $outBB = str_replace("[/color]", "", $outBB);
+    }
+
+    if (empty($_POST['optionForm'])) { //Format (fett, kursiv, unterstrichen) nicht aktiv
+        $outBB = str_replace("[b]", "", $outBB);
+        $outBB = str_replace("[/b]", "", $outBB);
+        $outBB = str_replace("[i]", "", $outBB);
+        $outBB = str_replace("[/i]", "", $outBB);
+        $outBB = str_replace("[u]", "", $outBB);
+        $outBB = str_replace("[/u]", "", $outBB);
+    }
+
+    return $outBB;
+
+}
+
+//Hier fängts wirklich an.
 
 doc_title("KB Parser für BB-Code");
 
+$parsstatus = getVar('parsstatus');
 if (empty($parsstatus)) { //Angabe für die Datei
+
     echo "<form method='post'>";
     echo "<input type='hidden' name='action' value='".$modulname."'>";
     echo "<input type='hidden' name='parsstatus' value='read'>";
@@ -242,1002 +1141,28 @@ EOT;
     if (empty($KBLink)) {
         echo "KB-Link nicht vergessen :) ";
     }
-}
 
-
-if ($parsstatus === "read") {   // KB einlesen und für die Formatierung ausgeben
+} elseif ($parsstatus === "read") {   // KB einlesen und für die Formatierung ausgeben
 
     $KBLink = trim(getVar('KBLink'));
     if (preg_match('#^https?://www.?\.icewars\.de/portal/kb/de/kb\.php\?id=[\d]+.{1,5}md_hash=[\w]{32}$#', $KBLink) !== 1) {
         echo "<div class='system_error'>Keinen KB-Link eingetragen!</div>";
         $parsstatus = "";
     } else {
-        $KBLink  = $KBLink . "&typ=xml";
-        $KBLink  = str_replace("&amp;", "&", $KBLink);
-        $Bericht = file_get_contents_utf8($KBLink, 'r');
-        if (empty($Bericht)) {
-            exit('Fehler beim Laden des Berichts!');
-        }
-        $Bericht = explode("\n", $Bericht);
-
-        $line = 0;
-
-        $KBdata = makeArray($Bericht); // komische verschachtelte Arrays
-
-        echo "<form method='post'>";
-        echo "<input type='hidden' name='action' value='".$modulname."'>";
-        echo "<input type='hidden' name='parsstatus' value='write'>";
-        echo "<table class='table_format' style='width: 95%;'>";
-
-        // Optionen
-        echo "  <tr>";
-        echo "     <td class='center' colspan=8 >";
-        echo "        Optionen: <input type='checkbox' name='optionQuote' value='on' checked>Quoten";
-        // echo "        / <input type='checkbox' name='optionTab' value='on' checked>Tabellen";
-        echo "        / <input type='checkbox' name='optionAlign' value='on' checked>Ausrichtung";
-        echo "        / <input type='checkbox' name='optionColor' value='on' checked>Farbe";
-        echo "        / <input type='checkbox' name='optionForm' value='on' checked>Format";
-        echo "        / <input type='checkbox' name='optionKuerzen' value='on' checked>Schiffnamen kürzen";
-        echo "        / <input type='checkbox' name='optionHr' value='on' checked>horizonale Linien";
-        echo "        / <input type='checkbox' name='optionLink' value='on'>KB-Link in Quote-Tags";
-        echo "        / <input type='checkbox' name='optionColspan' value='on'>verkürzte Colspans ([td=x])";
-        // echo "       / <input type='checkbox' name='optionHtml' value='on' >HTML";
-        echo "     </td>";
-        echo "  </tr>";
-
-
-        echo "  <tr>";
-        echo "     <td class='center' colspan='8'>";
-        echo "       <input type='submit' value='BB-Code gleich generieren' class='btn'>";
-        echo "     </td>";
-        echo "  </tr>";
-
-
-        // Kampf auf dem Planeten
-        echo "  <tr>";
-        echo "     <td class='left' colspan='8' style='color:#000000; background-color:#CAE1FF;' >";
-        echo "        <input type='hidden' name='mainline' type='text' value='" . urlencode("Kampf auf dem Planeten [b]" . $KBdata['kampf']['plani_data']['koordinaten']['string'] . "[/b]. Besitzer ist [b]" . $KBdata['kampf']['plani_data']['user']['name'] . " [" . $KBdata['kampf']['plani_data']['user']['allianz_tag'] . "][/b]") . "'>";
-        echo "        Kampf auf dem Planeten <b>" . $KBdata['kampf']['plani_data']['koordinaten']['string'] . ". Besitzer ist <b>" . $KBdata['kampf']['plani_data']['user']['name'] . " [" . $KBdata['kampf']['plani_data']['user']['allianz_tag'] . "]</b>";
-        echo "     </td>";
-        echo "  </tr>";
-
-        // Der Kampf mit einem Sieg für den ...
-        echo "  <tr>";
-        echo "     <td class='windowbg1 left' colspan='8'>";
-        echo "Die Schlacht endete " . strftime(" am <b>%d.%m.%Y</b> um <b>%H:%M:%S</b>", $KBdata['kampf']['timestamp']) . " mit einem Sieg für den ";
-        if ($KBdata['kampf']['resultat']['id'] == 1) {
-            echo "<span style='color:green; font-weight:bold;'>Angreifer</span>.";
+        $KBLink = $KBLink . "&typ=xml";
+        $KBLink = str_replace("&amp;", "&", $KBLink);
+        $xml = simplexml_load_file_ex($KBLink);
+        if (!empty($xml)) {
+            echo generateKBparserform($xml, $modulname, $KBLink);
         } else {
-            echo "<span style='color:red; font-weight:bold;'>Verteidiger</span>.";
+            echo "<div class='system_error'>XML-Fehler: {$KBLink} konnte nicht geladen werden.</div>";
         }
-        echo "        <input type='hidden' name='dateline' type='text' value='" . urlencode("Die Schlacht endete " . strftime("am [b]%d.%m.%Y[/b] um [b]%H:%M:%S[/b] ", $KBdata['kampf']['timestamp']) . " mit einem Sieg für den ");
-        if ($KBdata['kampf']['resultat']['id'] == 1) {
-            echo urlencode("[color=green][b]Angreifer[/b][/color].");
-        } else {
-            echo urlencode("[color=red][b]Verteidiger[/b][/color].");
-        }
-        echo "'>";
-        echo "     </td>";
-        echo "  </tr>";
-
-        // Angreifende Flotten
-        $i = 1;
-        foreach ($KBdata['kampf']['flotten_att'] as $user) {
-            echo "  <tr>";
-            echo "     <td class='left' colspan='8' style='color:#000000; background-color:#CAE1FF;' >";
-            echo "       Angreifende Flotte von <b>" . $user['name'] . " [" . $user['allianz_tag'] . "]</b>, Startplanet ist <b>" . $user['startplanet']['koordinaten']['string'] . "</b>.";
-            echo "       <input type='hidden' name='atter" . $i . "' type='text' value='" . urlencode("[b]" . $user['name'] . " [" . $user['allianz_tag'] . "][/b] von " . $user['startplanet']['koordinaten']['string']) . "'>";
-            echo "     </td>";
-            echo "  </tr>";
-            if (empty($user['bloedsinn']['kaffee']) == false) {
-                echo "  <tr>";
-                echo "     <td class='left' colspan='8'>";
-                echo "        Die Flotte brachte Kaffee und Kuchen mit.";
-                echo "        <input type='hidden' name='atterkuchen" . $i . "' type='text' value='1'>";
-                echo "     </td>";
-                echo "  </tr>";
-            }
-            if (empty($user['bloedsinn']['lollis']) == false) {
-                echo "  <tr>";
-                echo "     <td class='left' colspan='8'>";
-                echo "        Diese wilden Barbarben haben unseren kleinen Kindern die Lollis geklaut!! Das schreit gradezu nach Rache.";
-                echo "        <input type='hidden' name='atterlollies" . $i . "' type='text' value='1'>";
-                echo "     </td>";
-                echo "  </tr>";
-            }
-            if (empty($user['bloedsinn']['msg']) == false) {
-                echo "  <tr>";
-                echo "     <td class='left' colspan='8'>";
-                echo "        Der Kommandant der angreifenden Flotte überbrachte folgende Botschaft:<br>" . $user['bloedsinn']['msg'];
-                echo "        <input type='hidden' name='attermsg" . $i . "' type='text' value='" . urlencode("Der Kommandant der angreifenden Flotte überbrachte folgende Botschaft:[/td][/tr][tr][td colspan=4][color=brown][i]" . $user['bloedsinn']['msg'] . "[/i][/color]'>");
-                echo "     </td>";
-                echo "  </tr>";
-            }
-            //Schiffe
-            echo "  <tr>";
-            echo "    <td class='center'>Schiffname</td>";
-            echo "    <td class='center'>Anzahl</td>";
-            echo "    <td class='center'>Zerstört</td>";
-            echo "    <td class='center'>Überlebend</td>";
-            echo "    <td class='center bold'>F</td>";
-            echo "    <td class='center italic'>K</td>";
-            echo "    <td class='center underline'>U</td>";
-            echo "    <td class='center'>Farbe</td>";
-            echo "  </tr>";
-            $j = 1;
-            foreach ($user['schiffe'] as $schiffe) {
-                echo "  <tr>";
-                echo "    <td class='left'>";
-                echo $schiffe['name'];
-                echo "      <input type='hidden' name='atterschiffname" . $i . "_" . $j . "' type='text' value='" . urlencode($schiffe['name']) . "'>";
-                echo "    </td>";
-                echo "    <td class='right'>";
-                echo number_format($schiffe['anzahl_start'], 0, ',', '.');
-                echo "      <input type='hidden' name='atterschiffstart" . $i . "_" . $j . "' type='text' value='" . number_format($schiffe['anzahl_start'], 0, ",", ".") . "'>";
-                echo "    </td>";
-                echo "    <td class='right'>";
-                echo number_format($schiffe['anzahl_verlust'], 0, ',', '.');
-                echo "      <input type='hidden' name='atterschiffweg" . $i . "_" . $j . "' type='text' value='" . number_format($schiffe['anzahl_verlust'], 0, ",", ".") . "'>";
-                echo "    </td>";
-                echo "    <td class='right'>";
-                echo number_format($schiffe['anzahl_ende'], 0, ',', '.');
-                echo "      <input type='hidden' name='atterschiffende" . $i . "_" . $j . "' type='text' value='" . number_format($schiffe['anzahl_ende'], 0, ",", ".") . "'>";
-                echo "    </td>";
-                echo "    <td class='center'>";
-                echo "      <input type='checkbox' name='Attformf" . $i . "_" . $j . "' value='f'>";
-                echo "    </td>";
-                echo "    <td class='center'>";
-                echo "      <input type='checkbox' name='Attformk" . $i . "_" . $j . "' value='k'>";
-                echo "    </td>";
-                echo "    <td class='center'>";
-                echo "      <input type='checkbox' name='Attformu" . $i . "_" . $j . "' value='u'>";
-                echo "    </td>";
-                echo "    <td class='center'>";
-                echo "      <select name='Attformc" . $i . "_" . $j . "'>";
-                echo "         <option>keine</option>";
-                echo "         <option style='color:red' value='red'>rot</option>";
-                echo "         <option style='color:yellow' value='yellow'>gelb</option>";
-                echo "         <option style='color:pink' value='pink'>pink</option>";
-                echo "         <option style='color:green' value='green'>grün</option>";
-                echo "         <option style='color:orange' value='orange'>orange</option>";
-                echo "         <option style='color:purple' value='purple'>violett</option>";
-                echo "         <option style='color:blue' value='blue'>blau</option>";
-                echo "         <option style='color:beige' value='beige'>beige</option>";
-                echo "         <option style='color:brown' value='brown'>braun</option>";
-                echo "         <option style='color:teal' value='teal'>türkis</option>";
-                echo "         <option style='color:navy' value='navy'>dunkelblau</option>";
-                echo "         <option style='color:maroon' value='maroon'>dunkelrot</option>";
-                echo "         <option style='color:limegreen' value='limegreen'>hellgrün</option>";
-                echo "       </select>";
-                echo "    </td>";
-                echo "  </tr>";
-
-                $j++;
-            }
-            $i++;
-        }
-
-        // Planetare Deff und Schiffe
-        $i = 1;
-        foreach ($KBdata['kampf']['pla_def'] as $user) {
-            echo "  <tr>";
-            echo "     <td class='left' colspan='8' style='color:#000000; background-color:#CAE1FF;'>";
-            echo "       Verteidiger ist <b>" . $user['name'] . " [" . $user['allianz_tag'] . "]</b>";
-            echo "       <input type='hidden' name='pladeffer" . $i . "' type='text' value='" . urlencode("[b]" . $user['name'] . " [" . $user['allianz_tag'] . "][/b]") . "'>";
-            echo "     </td>";
-            echo "  </tr>";
-
-            //stationäre
-            if (empty($user['defence']) == false) {
-                echo "  <tr>";
-                echo "    <td class='center'>Verteidigungsanlage</td>";
-                echo "    <td class='center'>Anzahl</td>";
-                echo "    <td class='center'>Zerstört</td>";
-                echo "    <td class='center'>Überlebend</td>";
-                echo "    <td class='center bold'>F</td>";
-                echo "    <td class='center italic'>K</td>";
-                echo "    <td class='center underline'>U</td>";
-                echo "    <td class='center'>Farbe</td>";
-                echo "  </tr>";
-                $j = 1;
-                foreach ($user['defence'] as $schiffe) {
-                    echo "  <tr>";
-                    echo "    <td class='left' >";
-                    echo $schiffe['name'];
-                    echo "      <input type='hidden' name='pladefturm" . $i . "_" . $j . "' type='text' value='" . urlencode($schiffe['name']) . "'>";
-                    echo "    </td>";
-                    echo "    <td class='right' >";
-                    echo number_format($schiffe['anzahl_start'], 0, ',', '.');
-                    echo "      <input type='hidden' name='pladefturmstart" . $i . "_" . $j . "' type='text' value='" . number_format($schiffe['anzahl_start'], 0, ",", ".") . "'>";
-                    echo "    </td>";
-                    echo "    <td class='right' >";
-                    echo number_format($schiffe['anzahl_verlust'], 0, ',', '.');
-                    echo "      <input type='hidden' name='pladefturmweg" . $i . "_" . $j . "' type='text' value='" . number_format($schiffe['anzahl_verlust'], 0, ",", ".") . "'>";
-                    echo "    </td>";
-                    echo "    <td class='right' >";
-                    echo number_format($schiffe['anzahl_ende'], 0, ',', '.');
-                    echo "      <input type='hidden' name='pladefturmende" . $i . "_" . $j . "' type='text' value='" . number_format($schiffe['anzahl_ende'], 0, ",", ".") . "'>";
-                    echo "    </td>";
-                    echo "    <td class='center' >";
-                    echo "      <input type='checkbox' name='Pladefturmformf" . $i . "_" . $j . "' value='f'>";
-                    echo "    </td>";
-                    echo "    <td class='center' >";
-                    echo "      <input type='checkbox' name='Pladefturmformk" . $i . "_" . $j . "' value='k'>";
-                    echo "    </td>";
-                    echo "    <td class='center' >";
-                    echo "      <input type='checkbox' name='Pladefturmformu" . $i . "_" . $j . "' value='u'>";
-                    echo "    </td>";
-                    echo "    <td class='center' >";
-                    echo "      <select name='Pladefturmformc" . $i . "_" . $j . "'>";
-                    echo "         <option>keine</option>";
-                    echo "         <option style='color:red' value='red'>rot</option>";
-                    echo "         <option style='color:yellow' value='yellow'>gelb</option>";
-                    echo "         <option style='color:pink' value='pink'>pink</option>";
-                    echo "         <option style='color:green' value='green'>grün</option>";
-                    echo "         <option style='color:orange' value='orange'>orange</option>";
-                    echo "         <option style='color:purple' value='purple'>violett</option>";
-                    echo "         <option style='color:blue' value='blue'>blau</option>";
-                    echo "         <option style='color:beige' value='beige'>beige</option>";
-                    echo "         <option style='color:brown' value='brown'>braun</option>";
-                    echo "         <option style='color:teal' value='teal'>türkis</option>";
-                    echo "         <option style='color:navy' value='navy'>dunkelblau</option>";
-                    echo "         <option style='color:maroon' value='maroon'>dunkelrot</option>";
-                    echo "         <option style='color:limegreen' value='limegreen'>hellgrün</option>";
-                    echo "       </select>";
-                    echo "    </td>";
-                    echo "  </tr>";
-
-                    $j++;
-                }
-            }
-
-            //flotte
-            if (empty($user['schiffe']) == false) {
-                echo "  <tr>";
-                echo "    <td class='center'>Schiffnamen</td>";
-                echo "    <td class='center'>Anzahl</td>";
-                echo "    <td class='center'>Zerstört</td>";
-                echo "    <td class='center'>Überlebend</td>";
-                echo "    <td class='center bold'>F</td>";
-                echo "    <td class='center italic'>K</td>";
-                echo "    <td class='center underline'>U</td>";
-                echo "    <td class='center'>Farbe</td>";
-                echo "  </tr>";
-                $j = 1;
-                foreach ($user['schiffe'] as $schiffe) {
-                    echo "  <tr>";
-                    echo "    <td class='left' >";
-                    echo $schiffe['name'];
-                    echo "      <input type='hidden' name='pladefschiff" . $i . "_" . $j . "' type='text' value='" . urlencode($schiffe['name']) . "'>";
-                    echo "    </td>";
-                    echo "    <td class='right' >";
-                    echo number_format($schiffe['anzahl_start'], 0, ',', '.');
-                    echo "      <input type='hidden' name='pladefschiffstart" . $i . "_" . $j . "' type='text' value='" . number_format($schiffe['anzahl_start'], 0, ",", ".") . "'>";
-                    echo "    </td>";
-                    echo "    <td class='right' >";
-                    echo number_format($schiffe['anzahl_verlust'], 0, ',', '.');
-                    echo "      <input type='hidden' name='pladefschiffweg" . $i . "_" . $j . "' type='text' value='" . number_format($schiffe['anzahl_verlust'], 0, ",", ".") . "'>";
-                    echo "    </td>";
-                    echo "    <td class='right' >";
-                    echo number_format($schiffe['anzahl_ende'], 0, ',', '.');
-                    echo "      <input type='hidden' name='pladefschiffende" . $i . "_" . $j . "' type='text' value='" . number_format($schiffe['anzahl_ende'], 0, ",", ".") . "'>";
-                    echo "    </td>";
-                    echo "    <td class='center' >";
-                    echo "      <input type='checkbox' name='Pladefschiffformf" . $i . "_" . $j . "' value='f'>";
-                    echo "    </td>";
-                    echo "    <td class='center' >";
-                    echo "      <input type='checkbox' name='Pladefschiffformk" . $i . "_" . $j . "' value='k'>";
-                    echo "    </td>";
-                    echo "    <td class='center' >";
-                    echo "      <input type='checkbox' name='Pladefschiffformu" . $i . "_" . $j . "' value='u'>";
-                    echo "    </td>";
-                    echo "    <td class='center' >";
-                    echo "      <select name='Pladefschiffformc" . $i . "_" . $j . "'>";
-                    echo "         <option>keine</option>";
-                    echo "         <option style='color:red' value='red'>rot</option>";
-                    echo "         <option style='color:yellow' value='yellow'>gelb</option>";
-                    echo "         <option style='color:pink' value='pink'>pink</option>";
-                    echo "         <option style='color:green' value='green'>grün</option>";
-                    echo "         <option style='color:orange' value='orange'>orange</option>";
-                    echo "         <option style='color:purple' value='purple'>violett</option>";
-                    echo "         <option style='color:blue' value='blue'>blau</option>";
-                    echo "         <option style='color:beige' value='beige'>beige</option>";
-                    echo "         <option style='color:brown' value='brown'>braun</option>";
-                    echo "         <option style='color:teal' value='teal'>türkis</option>";
-                    echo "         <option style='color:navy' value='navy'>dunkelblau</option>";
-                    echo "         <option style='color:maroon' value='maroon'>dunkelrot</option>";
-                    echo "         <option style='color:limegreen' value='limegreen'>hellgrün</option>";
-                    echo "       </select>";
-                    echo "    </td>";
-                    echo "  </tr>";
-
-                    $j++;
-                }
-            }
-            $i++;
-        }
-
-        // Deffende Flotten
-        if (empty($KBdata['kampf']['flotten_def']) == false) {
-            $i = 1;
-            foreach ($KBdata['kampf']['flotten_def'] as $user) {
-                echo "  <tr>";
-                echo "     <td class='left' colspan='8' style='color:#000000; background-color:#CAE1FF;' >";
-                echo "       Verteidigende Flotte von <b>" . $user['name'] . " [" . $user['allianz_tag'] . "]</b>";
-                echo "       <input type='hidden' name='deffer" . $i . "' type='text' value='" . urlencode("[b]" . $user['name'] . " [" . $user['allianz_tag'] . "][/b]") . "'>";
-                echo "     </td>";
-                echo "  </tr>";
-                //schiffe
-                echo "  <tr>";
-                echo "    <td class='center'>Schiffnamen</td>";
-                echo "    <td class='center'>Anzahl</td>";
-                echo "    <td class='center'>Zerstört</td>";
-                echo "    <td class='center'>Überlebend</td>";
-                echo "    <td class='center bold'>F</td>";
-                echo "    <td class='center italic'>K</td>";
-                echo "    <td class='center underline'>U</td>";
-                echo "    <td class='center'>Farbe</td>";
-                echo "  </tr>";
-                $j = 1;
-                foreach ($user['schiffe'] as $schiffe) {
-                    echo "  <tr>";
-                    echo "    <td class='left' >";
-                    echo $schiffe['name'];
-                    echo "      <input type='hidden' name='defferschiffname" . $i . "_" . $j . "' type='text' value='" . urlencode($schiffe['name']) . "'>";
-                    echo "    </td>";
-                    echo "    <td class='right' >";
-                    echo number_format($schiffe['anzahl_start'], 0, ',', '.');
-                    echo "      <input type='hidden' name='defferschiffstart" . $i . "_" . $j . "' type='text' value='" . number_format($schiffe['anzahl_start'], 0, ",", ".") . "'>";
-                    echo "    </td>";
-                    echo "    <td class='right' >";
-                    echo number_format($schiffe['anzahl_verlust'], 0, ',', '.');
-                    echo "      <input type='hidden' name='defferschiffweg" . $i . "_" . $j . "' type='text' value='" . number_format($schiffe['anzahl_verlust'], 0, ",", ".") . "'>";
-                    echo "    </td>";
-                    echo "    <td class='right' >";
-                    echo number_format($schiffe['anzahl_ende'], 0, ',', '.');
-                    echo "      <input type='hidden' name='defferschiffende" . $i . "_" . $j . "' type='text' value='" . number_format($schiffe['anzahl_ende'], 0, ",", ".") . "'>";
-                    echo "    </td>";
-                    echo "    <td class='center' >";
-                    echo "      <input type='checkbox' name='Deffformf" . $i . "_" . $j . "' value='f'>";
-                    echo "    </td>";
-                    echo "    <td class='center' >";
-                    echo "      <input type='checkbox' name='Deffformk" . $i . "_" . $j . "' value='k'>";
-                    echo "    </td>";
-                    echo "    <td class='center' >";
-                    echo "      <input type='checkbox' name='Deffformu" . $i . "_" . $j . "' value='u'>";
-                    echo "    </td>";
-                    echo "    <td class='center' >";
-                    echo "      <select name='Deffformc" . $i . "_" . $j . "'>";
-                    echo "         <option>keine</option>";
-                    echo "         <option style='color:red' value='red'>rot</option>";
-                    echo "         <option style='color:yellow' value='yellow'>gelb</option>";
-                    echo "         <option style='color:pink' value='pink'>pink</option>";
-                    echo "         <option style='color:green' value='green'>grün</option>";
-                    echo "         <option style='color:orange' value='orange'>orange</option>";
-                    echo "         <option style='color:purple' value='purple'>violett</option>";
-                    echo "         <option style='color:blue' value='blue'>blau</option>";
-                    echo "         <option style='color:beige' value='beige'>beige</option>";
-                    echo "         <option style='color:brown' value='brown'>braun</option>";
-                    echo "         <option style='color:teal' value='teal'>türkis</option>";
-                    echo "         <option style='color:navy' value='navy'>dunkelblau</option>";
-                    echo "         <option style='color:maroon' value='maroon'>dunkelrot</option>";
-                    echo "         <option style='color:limegreen' value='limegreen'>hellgrün</option>";
-                    echo "       </select>";
-                    echo "    </td>";
-                    echo "  </tr>";
-
-                    $j++;
-                }
-                $i++;
-            }
-        }
-
-        // Verluste Angreifer
-        if (empty($KBdata['kampf']['resverluste']['att']) == false) {
-            echo "  <tr>";
-            echo "     <td class='left' colspan='8' style='color:#000000; background-color:#CAE1FF;' >";
-            echo "       <b>Verluste des Angreifers</b>";
-            echo "     </td>";
-            echo "  </tr>";
-            echo "  <tr>";
-            echo "    <td class='center'>Ressource</td>";
-            echo "    <td class='center' colspan='3'>Anzahl</td>";
-            echo "    <td class='center bold'>F</td>";
-            echo "    <td class='center italic'>K</td>";
-            echo "    <td class='center underline'>U</td>";
-            echo "    <td class='center'>Farbe</td>";
-            echo "  </tr>";
-            foreach ($KBdata['kampf']['resverluste']['att'] as $loos) {
-                echo "  <tr>";
-                echo "     <td class='left'  >";
-                echo $loos['name'];
-                echo "     </td>";
-                echo "     <td colspan='3' class='right'>";
-                echo number_format($loos['anzahl'], 0, ",", ".");
-                echo "       <input type='hidden' name='attverlust" . $loos['id'] . "' type='text' value='" . number_format($loos['anzahl'], 0, ",", ".") . "'>";
-                echo "     </td>";
-                echo "    <td class='center' >";
-                echo "      <input type='checkbox' name='attverlustformf" . $loos['id'] . "' value='f'>";
-                echo "    </td>";
-                echo "    <td class='center' >";
-                echo "      <input type='checkbox' name='attverlustformk" . $loos['id'] . "' value='k'>";
-                echo "    </td>";
-                echo "    <td class='center' >";
-                echo "      <input type='checkbox' name='attverlustformu" . $loos['id'] . "' value='u'>";
-                echo "    </td>";
-                echo "    <td class='center' >";
-                echo "      <select name='attverlustformc" . $loos['id'] . "'>";
-                echo "         <option>keine</option>";
-                echo "         <option style='color:red' value='red'>rot</option>";
-                echo "         <option style='color:yellow' value='yellow'>gelb</option>";
-                echo "         <option style='color:pink' value='pink'>pink</option>";
-                echo "         <option style='color:green' value='green'>grün</option>";
-                echo "         <option style='color:orange' value='orange'>orange</option>";
-                echo "         <option style='color:purple' value='purple'>violett</option>";
-                echo "         <option style='color:blue' value='blue'>blau</option>";
-                echo "         <option style='color:beige' value='beige'>beige</option>";
-                echo "         <option style='color:brown' value='brown'>braun</option>";
-                echo "         <option style='color:teal' value='teal'>türkis</option>";
-                echo "         <option style='color:navy' value='navy'>dunkelblau</option>";
-                echo "         <option style='color:maroon' value='maroon'>dunkelrot</option>";
-                echo "         <option style='color:limegreen' value='limegreen'>hellgrün</option>";
-                echo "       </select>";
-                echo "    </td>";
-                echo "  </tr>";
-            }
-        }
-
-        // Verluste Deffer
-        if (empty($KBdata['kampf']['resverluste']['def']) == false) {
-            echo "  <tr>";
-            echo "     <td class='left' colspan='8' style='color:#000000; background-color:#CAE1FF; font-weight:bold;' >";
-            echo "       Verluste des Verteidigers";
-            echo "     </td>";
-            echo "  </tr>";
-            echo "  <tr>";
-            echo "    <td class='center'>Ressource</td>";
-            echo "    <td class='center' colspan='3'>Anzahl</td>";
-            echo "    <td class='center bold'>F</td>";
-            echo "    <td class='center italic'>K</td>";
-            echo "    <td class='center underline'>U</td>";
-            echo "    <td class='center'>Farbe</td>";
-            echo "  </tr>";
-            foreach ($KBdata['kampf']['resverluste']['def'] as $loos) {
-                echo "  <tr>";
-                echo "     <td class='left' >";
-                echo $loos['name'];
-                echo "     </td>";
-                echo "     <td colspan='3' class='right' >";
-                echo number_format($loos['anzahl'], 0, ",", ".");
-                echo "       <input type='hidden' name='defverlust" . $loos['id'] . "' type='text' value='" . number_format($loos['anzahl'], 0, ",", ".") . "'>";
-                echo "     </td>";
-                echo "    <td class='center' >";
-                echo "      <input type='checkbox' name='defverlustformf" . $loos['id'] . "' value='f'>";
-                echo "    </td>";
-                echo "    <td class='center' >";
-                echo "      <input type='checkbox' name='defverlustformk" . $loos['id'] . "' value='k'>";
-                echo "    </td>";
-                echo "    <td class='center' >";
-                echo "      <input type='checkbox' name='defverlustformu" . $loos['id'] . "' value='u'>";
-                echo "    </td>";
-                echo "    <td class='center' >";
-                echo "      <select name='defverlustformc" . $loos['id'] . "'>";
-                echo "         <option>keine</option>";
-                echo "         <option style='color:red' value='red'>rot</option>";
-                echo "         <option style='color:yellow' value='yellow'>gelb</option>";
-                echo "         <option style='color:pink' value='pink'>pink</option>";
-                echo "         <option style='color:green' value='green'>grün</option>";
-                echo "         <option style='color:orange' value='orange'>orange</option>";
-                echo "         <option style='color:purple' value='purple'>violett</option>";
-                echo "         <option style='color:blue' value='blue'>blau</option>";
-                echo "         <option style='color:beige' value='beige'>beige</option>";
-                echo "         <option style='color:brown' value='brown'>braun</option>";
-                echo "         <option style='color:teal' value='teal'>türkis</option>";
-                echo "         <option style='color:navy' value='navy'>dunkelblau</option>";
-                echo "         <option style='color:maroon' value='maroon'>dunkelrot</option>";
-                echo "         <option style='color:limegreen' value='limegreen'>hellgrün</option>";
-                echo "       </select>";
-                echo "    </td>";
-                echo "  </tr>";
-            }
-        }
-
-        // Plünderungen
-        if (empty($KBdata['kampf']['pluenderung']) == false) {
-
-            echo "  <tr>";
-            echo "     <td class='left' colspan='8' style='color:#000000; background-color:#CAE1FF; font-weight:bold;' >";
-            echo "       Es wurden folgende Ressourcen geplündert";
-            echo "     </td>";
-            echo "  </tr>";
-            echo "  <tr>";
-            echo "    <td class='center'>Ressource</td>";
-            echo "    <td class='center'>Anzahl</td>";
-            echo "    <td class='center bold'>F</td>";
-            echo "    <td class='center italic'>K</td>";
-            echo "    <td class='center underline'>U</td>";
-            echo "    <td class='center'>Farbe</td>";
-            echo "  </tr>";
-            foreach ($KBdata['kampf']['pluenderung'] as $loos) {
-                echo "  <tr>";
-                echo "     <td class='left' >";
-                echo $loos['name'];
-                echo "     </td>";
-                echo "     <td colspan='3' class='right'>";
-                echo number_format($loos['anzahl'], 0, ",", ".");
-                echo "       <input type='hidden' name='weg" . $loos['id'] . "' type='text' value='" . number_format($loos['anzahl'], 0, ",", ".") . "'>";
-                echo "     </td>";
-                echo "    <td class='center' >";
-                echo "      <input type='checkbox' name='wegformf" . $loos['id'] . "' value='f'>";
-                echo "    </td>";
-                echo "    <td class='center' >";
-                echo "      <input type='checkbox' name='wegformk" . $loos['id'] . "' value='k'>";
-                echo "    </td>";
-                echo "    <td class='center' >";
-                echo "      <input type='checkbox' name='wegformu" . $loos['id'] . "' value='u'>";
-                echo "    </td>";
-                echo "    <td class='center' >";
-                echo "      <select name='wegformc" . $loos['id'] . "'>";
-                echo "         <option>keine</option>";
-                echo "         <option style='color:red' value='red'>rot</option>";
-                echo "         <option style='color:yellow' value='yellow'>gelb</option>";
-                echo "         <option style='color:pink' value='pink'>pink</option>";
-                echo "         <option style='color:green' value='green'>grün</option>";
-                echo "         <option style='color:orange' value='orange'>orange</option>";
-                echo "         <option style='color:purple' value='purple'>violett</option>";
-                echo "         <option style='color:blue' value='blue'>blau</option>";
-                echo "         <option style='color:beige' value='beige'>beige</option>";
-                echo "         <option style='color:brown' value='brown'>braun</option>";
-                echo "         <option style='color:teal' value='teal'>türkis</option>";
-                echo "         <option style='color:navy' value='navy'>dunkelblau</option>";
-                echo "         <option style='color:maroon' value='maroon'>dunkelrot</option>";
-                echo "         <option style='color:limegreen' value='limegreen'>hellgrün</option>";
-                echo "       </select>";
-                echo "    </td>";
-                echo "  </tr>";
-            }
-        }
-
-        // Bombing
-        if (empty($KBdata['kampf']['bomben']) == false) {
-            echo "  <tr>";
-            echo "     <td class='left' colspan='8' style='color:#000000; background-color:#CAE1FF;'>";
-            echo "       Der Planet wurde von <b>" . $KBdata['kampf']['bomben']['user']['name'] . "</b>";
-            echo "       <input type='hidden' name='bomb1' type='text' value='" . urlencode("Der Planet wurde von [b]" . $KBdata['kampf']['bomben']['user']['name'] . "[/b]") . "'>";
-            echo "       <input name='bomb2' type='text' value='bombadiert.' size='30' >";
-            echo "     </td>";
-            echo "  </tr>";
-            if (empty($KBdata['kampf']['bomben']['bombentrefferchance']) == false) // Bevölkerung
-            {
-                echo "  <tr>";
-                echo "     <td class='left' colspan='8'>";
-                if ($KBdata['kampf']['bomben']['bombentrefferchance'] == 100) {
-                    echo "      <input name='bombtreff1' type='text' value='Es gab klare Sicht für die Bomberpiloten, die Trefferchance lag bei' size='70'>";
-                } elseif ($KBdata['kampf']['bomben']['bombentrefferchance'] > 75) {
-                    echo "      <input name='bombtreff1' type='text' value='Ein paar kleine Pfefferminzwölkchen trübten den Himmel, die Trefferchance lag bei' size='70'>";
-                } elseif ($KBdata['kampf']['bomben']['bombentrefferchance'] > 25) {
-                    echo "      <input name='bombtreff1' type='text' value='Pfefferminzwolken bedeckten den Himmel, die Trefferchance lag bei' size='70'>";
-                } else {
-                    echo "      <input name='bombtreff1' type='text' value='Alles war mit Pfefferminzwolken vernebelt. Die Bomberpiloten haben kaum was gesehen, die Trefferchance lag bei' size='70'>";
-                }
-                echo " <b>" . $KBdata['kampf']['bomben']['bombentrefferchance'] . "%</b>";
-                echo "      <input type='hidden' name='bombtreff2' type='text' value='" . urlencode(" [b]" . $KBdata['kampf']['bomben']['bombentrefferchance'] . "%[/b]") . "'>";
-                echo "      <input name='bombtreff3' type='text' value='.' size='30'>";
-                echo "     </td>";
-                echo "  </tr>";
-            }
-
-            if (empty($KBdata['kampf']['bomben']['basis_zerstoert']) == false) {    //Basis
-                if ($KBdata['kampf']['bomben']['basis_zerstoert'] == 1) {
-                    echo "  <tr>";
-                    echo "     <td class='left' colspan='8'>";
-                    echo "      <input name='bomb3' type='text' value='Irgendwer drückte aus Versehen auf den Selbstzerstörungsknopf. Damit endet die ruhmvolle Existenz der Basis. Plop.' size='100' >";
-                    echo "     </td>";
-                    echo "  </tr>";
-                } else {
-                    echo "  <tr>";
-                    echo "     <td class='left' colspan='8'>";
-                    echo "      <input name='bomb3' type='text' value='Der Wachhabende Offizier konnte den Selbstzerstörungsknopf nicht finden, daher steht die Basis noch.' size='100' >";
-                    echo "     </td>";
-                    echo "  </tr>";
-                }
-            } elseif (empty($KBdata['kampf']['bomben']['geb_zerstoert'])) {     //keine Gebäude
-                echo "  <tr>";
-                echo "     <td class='left' colspan='8'>";
-                echo "      <input name='bomb3' type='text' value='Es wurden keine Gebäude zerstört. Haha.' size='75'>";
-                echo "     </td>";
-                echo "  </tr>";
-            } else {    //mit Gebäuden
-                echo "  <tr>";
-                echo "    <td class='center'>Gebäude</td>";
-                echo "    <td class='center' colspan='3'>Anzahl</td>";
-                echo "    <td class='center bold'>F</td>";
-                echo "    <td class='center italic'>K</td>";
-                echo "    <td class='center underline'>U</td>";
-                echo "    <td class='center'>Farbe</td>";
-                echo "  </tr>";
-
-                $i = 1;
-                foreach ($KBdata['kampf']['bomben']['geb_zerstoert'] as $loos) {
-                    echo "  <tr>";
-                    echo "     <td class='left' >";
-                    echo $loos['name'];
-                    echo "       <input type='hidden' name='bombgeb" . $i . "' type='text' value='" . urlencode($loos['name']) . "'>";
-                    echo "     </td>";
-                    echo "     <td colspan='3' class='right'>";
-                    echo number_format($loos['anzahl'], 0, ',', '.');
-                    echo "       <input type='hidden' name='bombgebanz" . $i . "' type='text' value='" . number_format($loos['anzahl'], 0, ",", ".") . "'>";
-                    echo "     </td>";
-                    echo "    <td class='center' >";
-                    echo "      <input type='checkbox' name='bombgebformf" . $i . "' value='f'>";
-                    echo "    </td>";
-                    echo "    <td class='center' >";
-                    echo "      <input type='checkbox' name='bombgebformk" . $i . "' value='k'>";
-                    echo "    </td>";
-                    echo "    <td class='center' >";
-                    echo "      <input type='checkbox' name='bombgebformu" . $i . "' value='u'>";
-                    echo "    </td>";
-                    echo "    <td class='center' >";
-                    echo "      <select name='bombgebformc" . $i . "'>";
-                    echo "         <option>keine</option>";
-                    echo "         <option style='color:red' value='red'>rot</option>";
-                    echo "         <option style='color:yellow' value='yellow'>gelb</option>";
-                    echo "         <option style='color:pink' value='pink'>pink</option>";
-                    echo "         <option style='color:green' value='green'>grün</option>";
-                    echo "         <option style='color:orange' value='orange'>orange</option>";
-                    echo "         <option style='color:purple' value='purple'>violett</option>";
-                    echo "         <option style='color:blue' value='blue'>blau</option>";
-                    echo "         <option style='color:beige' value='beige'>beige</option>";
-                    echo "         <option style='color:brown' value='brown'>braun</option>";
-                    echo "         <option style='color:teal' value='teal'>türkis</option>";
-                    echo "         <option style='color:navy' value='navy'>dunkelblau</option>";
-                    echo "         <option style='color:maroon' value='maroon'>dunkelrot</option>";
-                    echo "         <option style='color:limegreen' value='limegreen'>hellgrün</option>";
-                    echo "       </select>";
-                    echo "    </td>";
-                    echo "  </tr>";
-                    $i++;
-                }
-            }
-
-            if (empty($KBdata['kampf']['bomben']['bev_zerstoert']) == false) {  // Bevölkerung
-                echo "  <tr>";
-                echo "     <td class='left' colspan='8'>";
-                echo "      <input name='bombbev1' type='text' value='' size='75'>";
-                echo " <b>" . number_format($KBdata['kampf']['bomben']['bev_zerstoert'], 0, ",", ".") . "</b>";
-                echo "      <input type='hidden' name='bombbev2' type='text' value='" . urlencode(" [b]" . number_format($KBdata['kampf']['bomben']['bev_zerstoert'], 0, ",", ".") . "[/b] ") . "'>";
-                echo "      <input name='bombbev3' type='text' value='Leute starben durch die Bombardierung.' size='50'>";
-                echo "     </td>";
-                echo "  </tr>";
-            }
-        }
-        //Ende Bombing
-
-
-        $KBLink = str_replace("&typ=xml", "", $KBLink);
-
-        echo "  <tr>";
-        echo "     <td class='center' colspan='8'>";
-        echo "       <input type='hidden' name='KBLink' type='text' value='" . urlencode($KBLink) . "'>";
-        echo "       <input type='submit' value='BB-Code generieren' class='btn'>";
-        echo "     </td>";
-        echo "  </tr>";
-
-
-        echo "</table>";
-        echo "</form>";
 
     }
+
+} elseif ($parsstatus === "write") {  // BB-Code ausgeben
+
+    echo "<textarea name='bbcode' rows='10' style='width: 95%;' onclick='this.select()' readonly>" . generateBBcode() . "</textarea>";
+
 }
 
-if ($parsstatus === "write") {  // BB-Code ausgeben
-
-    // Dicken fetten String basteln für die Ausgabe
-
-    if (empty($_POST['optionLink'])) {       //KB-Link in Quote-Tags nicht aktiv
-        $outBB = "[quote][table]";
-    }
-    else {
-        $outBB = "[quote=" . urldecode(getVar('KBLink')) . "][table]";
-    }
-    $outBB = $outBB . "[tr][td colspan=4]" . urldecode(getVar('mainline')) . "[/td][/tr]"; //Kampf auf dem ...
-    $outBB = $outBB . "[tr][td colspan=4]" . urldecode(getVar('dateline')) . "[/td][/tr]"; //Die Schlacht endete mit ...
-
-    // Angreifer
-    $outBB = $outBB . "[tr][td colspan=4][hr][/td][/tr]"; //horrizontale Linie
-    $outBB = $outBB . "[tr][td][u]Angreifer[/u][/td][td][right]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[u]Anzahl[/u][/right][/td][td][right]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[u]Zerstört[/u][/right][/td][td][right]&nbsp;&nbsp;[u]Überlebende[/u][/right][/td][/tr]";
-    $i     = 1;
-    while (empty($_POST["atter" . $i]) == false) {
-        $outBB = $outBB . "[tr][td colspan=4]" . urldecode(getVar("atter" . $i)) . "[/td][/tr]"; //Angreifende Flotte ...
-        $j     = 1;
-        while (empty($_POST["atterschiffname" . $i . "_" . $j]) == false) {
-            if (getVar("atterschiffstart" . $i . "_" . $j) !== "") {
-                $outBB = $outBB . "[tr][td]" . makeString(urldecode(getVar("atterschiffname" . $i . "_" . $j)), getVar("Attformf" . $i . "_" . $j), getVar("Attformk" . $i . "_" . $j), getVar("Attformu" . $i . "_" . $j), getVar("Attformc" . $i . "_" . $j)) . "[/td]";
-                $outBB = $outBB . "[td][right]" . makeString(getVar("atterschiffstart" . $i . "_" . $j), getVar("Attformf" . $i . "_" . $j), getVar("Attformk" . $i . "_" . $j), getVar("Attformu" . $i . "_" . $j), getVar("Attformc" . $i . "_" . $j)) . "[/right][/td]";
-                $outBB = $outBB . "[td][right]" . makeString(getVar("atterschiffweg" . $i . "_" . $j), getVar("Attformf" . $i . "_" . $j), getVar("Attformk" . $i . "_" . $j), getVar("Attformu" . $i . "_" . $j), getVar("Attformc" . $i . "_" . $j)) . "[/right][/td]";
-                $outBB = $outBB . "[td][right]" . makeString(getVar("atterschiffende" . $i . "_" . $j), getVar("Attformf" . $i . "_" . $j), getVar("Attformk" . $i . "_" . $j), getVar("Attformu" . $i . "_" . $j), getVar("Attformc" . $i . "_" . $j)) . "[/right][/td][/tr]";
-            }
-            $j++;
-        }
-        if (empty($_POST["atterkuchen" . $i]) == false) {
-            $outBB = $outBB . "[tr][td colspan=4]Die Flotte brachte Kaffee und Kuchen mit.[/td][/tr]";
-        }
-        if (empty($_POST["atterlollies" . $i]) == false) {
-            $outBB = $outBB . "[tr][td colspan=4]Diese wilden Barbarben haben unseren kleinen Kindern die Lollis geklaut!! Das schreit gradezu nach Rache.[/td][/tr]";
-        }
-        if (empty($_POST["attermsg" . $i]) == false) {
-            $outBB = $outBB . "[tr][td colspan=4]" . urldecode(getVar("attermsg" . $i)) . "[/td][/tr]";
-        }
-        $i++;
-    }
-
-    // Pladeff
-    $outBB = $outBB . "[tr][td colspan=4][hr][/td][/tr]"; //horrizontale Linie
-    $outBB = $outBB . "[tr][td][u]Verteidiger[/u][/td][td][right][u]Anzahl[/u][/right][/td][td][right][u]Zerstört[/u][/right][/td][td][right][u]Überlebende[/u][/right][/td][/tr]";
-    $i     = 1;
-    while (empty($_POST["pladeffer" . $i]) == false) {
-        $outBB = $outBB . "[tr][td colspan=4]" . urldecode(getVar("pladeffer" . $i)) . "[/td][/tr]"; // Verteidiger ist ...
-        $j     = 1;
-        while (empty($_POST["pladefturm" . $i . "_" . $j]) == false) {
-            $outBB = $outBB . "[tr][td]" . makeString(urldecode(getVar("pladefturm" . $i . "_" . $j)), getVar("Pladefturmformf" . $i . "_" . $j), getVar("Pladefturmformk" . $i . "_" . $j), getVar("Pladefturmformu" . $i . "_" . $j), getVar("Pladefturmformc" . $i . "_" . $j)) . "[/td]";
-            $outBB = $outBB . "[td][right]" . makeString(getVar("pladefturmstart" . $i . "_" . $j), getVar("Pladefturmformf" . $i . "_" . $j), getVar("Pladefturmformk" . $i . "_" . $j), getVar("Pladefturmformu" . $i . "_" . $j), getVar("Pladefturmformc" . $i . "_" . $j)) . "[/right][/td]";
-            $outBB = $outBB . "[td][right]" . makeString(getVar("pladefturmweg" . $i . "_" . $j), getVar("Pladefturmformf" . $i . "_" . $j), getVar("Pladefturmformk" . $i . "_" . $j), getVar("Pladefturmformu" . $i . "_" . $j), getVar("Pladefturmformc" . $i . "_" . $j)) . "[/right][/td]";
-            $outBB = $outBB . "[td][right]" . makeString(getVar("pladefturmende" . $i . "_" . $j), getVar("Pladefturmformf" . $i . "_" . $j), getVar("Pladefturmformk" . $i . "_" . $j), getVar("Pladefturmformu" . $i . "_" . $j), getVar("Pladefturmformc" . $i . "_" . $j)) . "[/right][/td][/tr]";
-            $j++;
-        }
-        $j = 1;
-        while (empty($_POST["pladefschiff" . $i . "_" . $j]) == false) {
-            $outBB = $outBB . "[tr][td]" . makeString(urldecode(getVar("pladefschiff" . $i . "_" . $j)), getVar("Pladefschiffformf" . $i . "_" . $j), getVar("Pladefschiffformk" . $i . "_" . $j), getVar("Pladefschiffformu" . $i . "_" . $j), getVar("Pladefschiffformc" . $i . "_" . $j)) . "[/td]";
-            $outBB = $outBB . "[td][right]" . makeString(getVar("pladefschiffstart" . $i . "_" . $j), getVar("Pladefschiffformf" . $i . "_" . $j), getVar("Pladefschiffformk" . $i . "_" . $j), getVar("Pladefschiffformu" . $i . "_" . $j), getVar("Pladefschiffformc" . $i . "_" . $j)) . "[/right][/td]";
-            $outBB = $outBB . "[td][right]" . makeString(getVar("pladefschiffweg" . $i . "_" . $j), getVar("Pladefschiffformf" . $i . "_" . $j), getVar("Pladefschiffformk" . $i . "_" . $j), getVar("Pladefschiffformu" . $i . "_" . $j), getVar("Pladefschiffformc" . $i . "_" . $j)) . "[/right][/td]";
-            $outBB = $outBB . "[td][right]" . makeString(getVar("pladefschiffende" . $i . "_" . $j), getVar("Pladefschiffformf" . $i . "_" . $j), getVar("Pladefschiffformk" . $i . "_" . $j), getVar("Pladefschiffformu" . $i . "_" . $j), getVar("Pladefschiffformc" . $i . "_" . $j)) . "[/right][/td][/tr]";
-            $j++;
-        }
-        $i++;
-    }
-
-    // Deffer
-    $i = 1;
-    while (empty($_POST["deffer" . $i]) == false) {
-        $outBB = $outBB . "[tr][td colspan=4]" . urldecode(getVar("deffer" . $i)) . "[/td][/tr]"; //Verteidigende Flotte ...
-        $j     = 1;
-        while (empty($_POST["defferschiffname" . $i . "_" . $j]) == false) {
-            if (empty($_POST["defferschiffstart" . $i . "_" . $j]) == false) {
-                $outBB = $outBB . "[tr][td]" . makeString(urldecode(getVar("defferschiffname" . $i . "_" . $j)), getVar("Deffformf" . $i . "_" . $j), getVar("Deffformk" . $i . "_" . $j), getVar("Deffformu" . $i . "_" . $j), getVar("Deffformc" . $i . "_" . $j)) . "[/td]";
-                $outBB = $outBB . "[td][right]" . makeString(getVar("defferschiffstart" . $i . "_" . $j), getVar("Deffformf" . $i . "_" . $j), getVar("Deffformk" . $i . "_" . $j), getVar("Deffformu" . $i . "_" . $j), getVar("Deffformc" . $i . "_" . $j)) . "[/right][/td]";
-                $outBB = $outBB . "[td][right]" . makeString(getVar("defferschiffweg" . $i . "_" . $j), getVar("Deffformf" . $i . "_" . $j), getVar("Deffformk" . $i . "_" . $j), getVar("Deffformu" . $i . "_" . $j), getVar("Deffformc" . $i . "_" . $j)) . "[/right][/td]";
-                $outBB = $outBB . "[td][right]" . makeString(getVar("defferschiffende" . $i . "_" . $j), getVar("Deffformf" . $i . "_" . $j), getVar("Deffformk" . $i . "_" . $j), getVar("Deffformu" . $i . "_" . $j), getVar("Deffformc" . $i . "_" . $j)) . "[/right][/td][/tr]";
-            }
-            $j++;
-        }
-        $i++;
-    }
-
-    // Verluste & Plündern
-
-    // Suchen eines Eintrages
-    $i  = 1;
-    $do = false;
-    while ($i <= 7) {
-        if (empty($_POST["attverlust" . $i]) == false) {
-            $do = true;
-        }
-        if (empty($_POST["defverlust" . $i]) == false) {
-            $do = true;
-        }
-        if (empty($_POST["weg" . $i]) == false) {
-            $do = true;
-        }
-        if ($do) {
-            break;
-        }
-        $i++;
-    }
-
-    if ($do) {
-        $i            = 1;
-        $ressname[1]  = "Eisen";
-        $ressname[2]  = "Stahl";
-        $ressname[3]  = "VV4A";
-        $ressname[4]  = "Eis";
-        $ressname[5]  = "chem. Elemente";
-        $ressname[6]  = "Wasser";
-        $ressname[7]  = "Energie";
-        $ressname[10] = "Credits";
-        $ressname[11] = "Bevölkerung";
-        $outBB        = $outBB . "[tr][td colspan=4][hr][/td][/tr]"; //horrizontale Linie
-        $outBB        = $outBB . "[tr][td][u]Zerstörte und geplünderte Ressourcen[/u][/td][td][right][u]Angreifer[/u][/right][/td][td][right][u]Verteidiger[/u][/right][/td][td][right][u]Plünderung[/u][/right][/td][/tr]";
-        while ($i <= 11) {
-            if (empty($_POST["attverlust" . $i]) == false || empty($_POST["defverlust" . $i]) == false || empty($_POST["weg" . $i]) == false) {
-                $outBB = $outBB . "[tr][td]" . $ressname[$i] . "[/td]";
-                if (empty($_POST["attverlust" . $i]) == false) {
-                    $outBB = $outBB . "[td][right]" . makeString($_POST["attverlust" . $i], isset($_POST["attverlustformf" . $i]), isset($_POST["attverlustformk" . $i]), isset($_POST["attverlustformu" . $i]), $_POST["attverlustformc" . $i]) . "[/right][/td]";
-                } else {
-                    $outBB = $outBB . "[td][right]-[/right][/td]";
-                }
-                if (empty($_POST["defverlust" . $i]) == false) {
-                    $outBB = $outBB . "[td][right]" . makeString($_POST["defverlust" . $i], isset($_POST["defverlustformf" . $i]), isset($_POST["defverlustformk" . $i]), isset($_POST["defverlustformu" . $i]), $_POST["defverlustformc" . $i]) . "[/right][/td]";
-                } else {
-                    $outBB = $outBB . "[td][right]-[/right][/td]";
-                }
-                if (empty($_POST["weg" . $i]) == false) {
-                    $outBB = $outBB . "[td][right][color=green]" . makeString($_POST["weg" . $i], isset($_POST["wegformf" . $i]), isset($_POST["wegformk" . $i]), isset($_POST["wegformu" . $i]), $_POST["wegformc" . $i]) . "[/color][/right][/td][/tr]";
-                } else {
-                    $outBB = $outBB . "[td][right]-[/right][/td][/tr]";
-                }
-            }
-            $i++;
-        }
-    }
-
-    //Bomben
-    if (empty($_POST['bomb1']) == false) {
-        $outBB = $outBB . "[tr][td colspan=4][hr][/td][/tr]"; //horrizontale Linie
-        $outBB = $outBB . "[tr][td colspan=4]" . $_POST['bomb1'] . $_POST['bomb2'] . "[/td][/tr]"; // Der Planet wurde ...
-        if (empty($_POST['bombtreff1']) == false) {
-            $outBB = $outBB . "[tr][td colspan=4]" . $_POST['bombtreff1'] . $_POST['bombtreff2'] . $_POST['bombtreff3'] . "[/td][/tr]";
-        } // Bombendtrefferchance
-        if (empty($_POST['bomb3']) == false) {
-            $outBB = $outBB . "[tr][td colspan=4]" . $_POST['bomb3'] . "[/td][/tr]";
-        } else { // KB oder keine Gebs
-            $i     = 1;
-            $outBB = $outBB . "[tr][td colspan=4]Folgende Gebäude wurden zerstört:[/td][/tr]";
-            while (empty($_POST["bombgeb" . $i]) == false) {
-                $outBB = $outBB . "[tr][td]" . makeString($_POST["bombgeb" . $i], isset($_POST["bombgebformf" . $i]), isset($_POST["bombgebformk" . $i]), isset($_POST["bombgebformu" . $i]), $_POST["bombgebformc" . $i]) . "[/td][td][right]" . makeString($_POST["bombgebanz" . $i], isset($_POST["bombgebformf" . $i]), isset($_POST["bombgebformk" . $i]), isset($_POST["bombgebformu" . $i]), $_POST["bombgebformc" . $i]) . "[/right][/td][/tr]";
-                $i++;
-            }
-        }
-        if (empty($_POST['bombbev2']) == false) {
-            $outBB = $outBB . "[tr][td colspan=4]" . $_POST['bombbev1'] . $_POST['bombbev2'] . $_POST['bombbev3'] . "[/td][/tr]";
-        }
-    }
-
-    // KBLink am Ende
-    $outBB = $outBB . "[tr][td colspan=4][hr][/td][/tr]"; //horrizontale Linie
-    $outBB = $outBB . "[tr][td colspan=4][url=" . urldecode(getVar("KBLink")) . "]Link zum externen Kampfbericht[/url][/td][/tr]";
-    $outBB = $outBB . "[/table][/quote]";
-
-    // Leere Allytags entfernen
-    $outBB = str_replace("[]", "", $outBB);
-
-    // Lange Schiffnamen killen
-    if (empty($_POST['optionKuerzen']) == false) {
-        $outBB = str_replace("(Hyperraumtransporter Klasse 1)", "", $outBB); // Gorgol, Kamel, Flughund
-        $outBB = str_replace("(Hyperraumtransporter Klasse 2)", "", $outBB); // Eisbär, Waschbär, Seepferd
-        $outBB = str_replace("(Systemtransporter Kolonisten)", "", $outBB); // Crux
-        $outBB = str_replace("(Hyperraumtransporter Kolonisten)", "", $outBB); // Kolpor
-        $outBB = str_replace("(Systemtransporter Klasse 1)", "", $outBB); // Systrans
-        $outBB = str_replace("(Systemtransporter Klasse 2)", "", $outBB); // Lurch
-        $outBB = str_replace("(Transporter)", "", $outBB); // Osterschiff
-        $outBB = str_replace("(interstellares Kolonieschiff)", "", $outBB); // INS
-        $outBB = str_replace("(Systemkolonieschiff)", "", $outBB); // KIS
-    }
-
-    //Daraus einen Html Code basteln / auch nicht gerade schön
-    /*$outHTML = $outBB;
-    if (empty($_POST['optionHtml']) == false) {
-        $outHTML = str_replace("[quote]<br>", "", $outHTML);
-        $outHTML = str_replace("<br>[/quote]", "", $outHTML);
-        $outHTML = str_replace("[table]<br>", "<table  cellpadding='5%'>", $outHTML);
-        $outHTML = str_replace("[/table]<br>", "</table>", $outHTML);
-        $outHTML = str_replace("[tr]<br>", "<tr>", $outHTML);
-        $outHTML = str_replace("[tr]", "<tr>", $outHTML);
-        $outHTML = str_replace("[/tr]<br>", "</tr>", $outHTML);
-        $outHTML = str_replace("[/tr]", "</tr>", $outHTML);
-        $outHTML = str_replace("[td]", "<td>", $outHTML);
-        $outHTML = str_replace("[/td]", "</td>", $outHTML);
-        $outHTML = str_replace("[hr]<br>", "<hr>", $outHTML);
-        $outHTML = str_replace("[center]", "<p class='center'>", $outHTML);
-        $outHTML = str_replace("[/center]", "</p>", $outHTML);
-        $outHTML = str_replace("[right]", "<p class='right'>", $outHTML);
-        $outHTML = str_replace("[/right]", "</p>", $outHTML);
-        $outHTML = str_replace("[left]", "<p class='left'>", $outHTML);
-        $outHTML = str_replace("[/left]", "</p>", $outHTML);
-        $outHTML = str_replace("&nbsp;", "", $outHTML);
-        $outHTML = str_replace("[b]", "<b>", $outHTML);
-        $outHTML = str_replace("[/b]", "</b>", $outHTML);
-        $outHTML = str_replace("[i]", "<i>", $outHTML);
-        $outHTML = str_replace("[/i]", "</i>", $outHTML);
-        $outHTML = str_replace("[u]", "<u>", $outHTML);
-        $outHTML = str_replace("[/u]", "</u>", $outHTML);
-        $outHTML = str_replace("[color=red]", "<font color='red'>", $outHTML);
-        $outHTML = str_replace("[color=pink]", "<font color='pink'>", $outHTML);
-        $outHTML = str_replace("[color=yellow]", "<font color='yellow'>", $outHTML);
-        $outHTML = str_replace("[color=green]", "<font color='green'>", $outHTML);
-        $outHTML = str_replace("[color=orange]", "<font color='orange'>", $outHTML);
-        $outHTML = str_replace("[color=purple]", "<font color='purple'>", $outHTML);
-        $outHTML = str_replace("[color=blue]", "<font color='blue'>", $outHTML);
-        $outHTML = str_replace("[color=beige]", "<font color='beige'>", $outHTML);
-        $outHTML = str_replace("[color=brown]", "<font color='brown'>", $outHTML);
-        $outHTML = str_replace("[color=teal]", "<font color='teal'>", $outHTML);
-        $outHTML = str_replace("[color=navy]", "<font color='navy'>", $outHTML);
-        $outHTML = str_replace("[color=maroon]", "<font color='maroon'>", $outHTML);
-        $outHTML = str_replace("[color=limegreen]", "<font color='limegreen'>", $outHTML);
-        $outHTML = str_replace("[/color]", "</font>", $outHTML);
-        $outHTML = str_replace("[url=", "<a href='>", $outHTML);
-        $outHTML = str_replace("]externer Link[/url]", "' target='_blank'>externer Link</a>", $outHTML);
-    }*/
-
-    //BBCode beschneiden, Nicht gerade schön aber zu faul für den Rest
-    if (empty($_POST['optionQuote'])) { //checkbox quoten nicht aktiv
-        $outBB = str_replace("[quote]", "", $outBB);
-        $outBB = str_replace("[/quote]", "", $outBB);
-    }
-
-    /*if (empty($_POST['optionTab'])) {
-        $outBB = str_replace("[table]<br>", "", $outBB);
-        $outBB = str_replace("[/table]<br>", "", $outBB);
-        $outBB = str_replace("[tr] [td][/td][td][center]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Anzahl[/center][/td][td][center]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Zerstört[/center][/td][td][center]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Überlebend[/center][/td][/tr]", "Schiffname/ Anzahl/ Zerstört/ Überlebend", $outBB);
-        $outBB = str_replace("[tr][td][center]Deffanlagen[/center][/td][td][center]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Anzahl[/center][/td][td][center]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Zerstört[/center][/td][td][center]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Überlebend[/center][/td][/tr]", "Verteidigunganlage/ Anzahl/ Zerstört/ Überlebend", $outBB);
-        $outBB = str_replace("[tr][td] [/td][td]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Verteidiger[/td][td]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Angreifer[/td][td]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Plünderung[/td][/tr]", "Ressource/ Verteidiger/ Angreifer/ Plünderungen", $outBB);
-        $outBB = str_replace("[/td][td]", " / ", $outBB);
-        $outBB = str_replace("[tr][td]", "", $outBB);
-        $outBB = str_replace("[/td]", "", $outBB);
-        $outBB = str_replace("[td]", "", $outBB);
-        $outBB = str_replace("[/tr]", "", $outBB);
-
-    }*/
-
-    if (empty($_POST['optionHr'])) {        //horizonale Linien nicht aktiv
-        $outBB = str_replace("[hr]", "---", $outBB);
-    }
-
-    if (empty($_POST['optionColspan']) == false) {        //verkürzte Colspans aktiv
-        $outBB = str_replace(" colspan", "", $outBB);
-    }
-
-    if (empty($_POST['optionAlign'])) { //Ausrichtung nicht aktiv
-        $outBB = str_replace("[center]", "", $outBB);
-        $outBB = str_replace("[/center]", "", $outBB);
-        $outBB = str_replace("[left]", "", $outBB);
-        $outBB = str_replace("[/left]", "", $outBB);
-        $outBB = str_replace("[right]", "", $outBB);
-        $outBB = str_replace("[/right]", "", $outBB);
-    }
-
-    if (empty($_POST['optionColor'])) { //Farbe nicht aktiv
-        $outBB = preg_replace ( '/\[color=.+?]/', '', $outBB);
-        $outBB = str_replace("[/color]", "", $outBB);
-    }
-
-
-    if (empty($_POST['optionForm'])) { //Format (fett, kursiv, unterstrichen) nicht aktiv
-        $outBB = str_replace("[b]", "", $outBB);
-        $outBB = str_replace("[/b]", "", $outBB);
-        $outBB = str_replace("[i]", "", $outBB);
-        $outBB = str_replace("[/i]", "", $outBB);
-        $outBB = str_replace("[u]", "", $outBB);
-        $outBB = str_replace("[/u]", "", $outBB);
-    }
-
-    echo "       <textarea name='bbcode' rows='10' style='width: 95%;' onclick='this.select()' readonly>" . $outBB . "</textarea>";
-
-    // Eventuell HTML-Code ausgeben
-    /*if (empty($_POST['optionHtml']) == false) {
-        echo "  <tr>";
-        echo "    <td colspan='2'><br><hr><br></td>";
-        echo "  </tr>";
-        echo "  <tr>";
-        echo "     <td class='left top'>";
-        //$outHTML = str_replace("<","&lt;",$outHTML);
-        //$outHTML = str_replace(">","&gt;",$outHTML);
-        //$outHTML = str_replace("&","&;",$outHTML);
-        echo "     <b>HTML-Code:</b></td>";
-        echo "     <td><textarea name='HTMLCode' cols='100' rows='10' readonly>" . $outHTML . "</textarea>";
-        echo "     </td>";
-        echo "  </tr>";
-    }*/
-    echo "</table>";
-}
-
-function file_get_contents_utf8($fn)
-{
-    $content = file_get_contents($fn);
-
-    if (!empty($content)) {
-        return mb_convert_encoding($content, 'UTF-8', mb_detect_encoding($content, 'UTF-8, ISO-8859-1', true));
-    } else {
-        return false;
-    }
-
-}

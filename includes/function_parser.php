@@ -54,11 +54,11 @@ function ResetPlaniedata($iUpdateTime)
     );
 
     $db->db_update($db_tb_scans, $data, "WHERE `userchange_time` = {$iUpdateTime} OR `typchange_time` = {$iUpdateTime}  OR `objektchange_time` = {$iUpdateTime};")
-    or error(GENERAL_ERROR, 'DB ResetPlaniedata Fehler!', '', __FILE__, __LINE__, '');
+        or error(GENERAL_ERROR, 'DB ResetPlaniedata Fehler!', '', __FILE__, __LINE__, '');
 }
 
 /**
- * @desc     ungültige Gebäude/Deffdaten eines bestimmten Planeten löschen
+ * @desc     Gebäude/Deffdaten eines bestimmten Planeten löschen
  *
  * @author   masel (masel678@googlemail.com)
  *
@@ -97,12 +97,12 @@ function ResetPlaniedataByCoords($strCoords)
     );
 
     $db->db_update($db_tb_scans, $data, "WHERE `coords` = '{$strCoords}';")
-    or error(GENERAL_ERROR, 'DB ResetPlaniedataByCoords Fehler!', '', __FILE__, __LINE__, '');
+        or error(GENERAL_ERROR, 'DB ResetPlaniedataByCoords Fehler!', '', __FILE__, __LINE__, '');
 
-    //delete buildingscans
+    //vorhandene Gebäudeinfos löschen
     $sql_del="DELETE FROM `{$db_tb_scans_geb}` WHERE `coords` = '{$strCoords}';";
     $result = $db->db_query($sql_del)
-    or error(GENERAL_ERROR, 'Could not delete buildingscan information.', '', __FILE__, __LINE__, $sql_del);
+        or error(GENERAL_ERROR, 'Could not delete buildingscan information.', '', __FILE__, __LINE__, $sql_del);
 }
 
 /**
@@ -142,7 +142,7 @@ function ResetGeodata($iTypchangeTime)
     );
 
     $db->db_update($db_tb_scans, $data, "WHERE `typchange_time`={$iTypchangeTime};")
-    or error(GENERAL_ERROR, 'DB ResetGeodata Fehler!', '', __FILE__, __LINE__, '');
+        or error(GENERAL_ERROR, 'DB ResetGeodata Fehler!', '', __FILE__, __LINE__, '');
 }
 
 /**
@@ -182,7 +182,7 @@ function ResetGeodataByCoords($strCoords)
     );
 
     $db->db_update($db_tb_scans, $data, "WHERE `coords` = '{$strCoords}';")
-    or error(GENERAL_ERROR, 'DB ResetGeodataByCoords Fehler!', '', __FILE__, __LINE__, '');
+        or error(GENERAL_ERROR, 'DB ResetGeodataByCoords Fehler!', '', __FILE__, __LINE__, '');
 }
 
 /**
@@ -209,7 +209,7 @@ function AddAllychangetoHistory($iUpdateTime)
             ON DUPLICATE KEY UPDATE `{$db_tb_spielerallychange}`.`name`=`{$db_tb_spielerallychange}`.`name`"; //means ON DUPLICATE KEY 'DO NOTHING'
 
     $result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'DB AddAllychangetoHistory Fehler!', '', __FILE__, __LINE__, $sql);
+        or error(GENERAL_ERROR, 'DB AddAllychangetoHistory Fehler!', '', __FILE__, __LINE__, $sql);
 }
 
 /**
@@ -236,7 +236,7 @@ function AddAllychangetoHistoryByUser($strSpielerName)
             ON DUPLICATE KEY UPDATE `{$db_tb_spielerallychange}`.`name`=`{$db_tb_spielerallychange}`.`name`"; //means ON DUPLICATE KEY 'DO NOTHING'
 
     $result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'DB AddAllychangetoHistoryByUser Fehler!', '', __FILE__, __LINE__, $sql);
+        or error(GENERAL_ERROR, 'DB AddAllychangetoHistoryByUser Fehler!', '', __FILE__, __LINE__, $sql);
 }
 
 /**
@@ -265,7 +265,7 @@ function SyncAllies($iUpdateTime)
     }
 
     $result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'DB TransferAllytoScans Fehler!', '', __FILE__, __LINE__, $sql);
+        or error(GENERAL_ERROR, 'DB TransferAllytoScans Fehler!', '', __FILE__, __LINE__, $sql);
 
     deleteInvalidAlliances();
 }
@@ -330,25 +330,32 @@ function getNameByCoords($strCoords)
  * @param string  $strUserName   Spielername
  *
  * @return string Allianz
- *
- * @todo   Funktion sollte gecached werden, damit nicht unnötig viele Aufrufe erfolgen?
  */
 function getAllianceByUser($strUserName)
 {
     global $db, $db_tb_spieler;
+    static $aUserAlly;
 
+    $strUserName = trim($strUserName);
     if (empty($strUserName)) {
-        return '';
+        return false;
     }
 
     $strUserName = $db->escape($strUserName);
 
-    $sql = "SELECT `allianz` FROM `{$db_tb_spieler}` WHERE `name` = '$strUserName';";
-    $result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-    $row = $db->db_fetch_array($result);
+    if (!isset($aUserAlly[$strUserName])) {
 
-    return $row['allianz'];
+        $sql = "SELECT `allianz` FROM `{$db_tb_spieler}` WHERE `name` = '$strUserName';";
+        $result = $db->db_query($sql)
+            or error(GENERAL_ERROR, 'Could not query userally information.', '', __FILE__, __LINE__, $sql);
+        $row = $db->db_fetch_array($result);
+
+        $aUserAlly[$strUserName] = $row['allianz'];
+
+    }
+
+    return $aUserAlly[$strUserName];
+
 }
 
 /**
@@ -731,7 +738,7 @@ function getBuildingNameByIWID($iBuildingIWID) {
  *
  * @author masel (masel678@googlemail.com)
  *
- * @param $aBuildings
+ * @param array $aBuildings
  *
  * @return string
  *
@@ -761,5 +768,52 @@ function makeBuildingTable($aBuildings) {
     }
 
     return $strBuildingTable;
+
+}
+
+/**
+ * @desc   bereinigt Produktionswert von Resstransfer
+ *
+ * @author masel (masel678@googlemail.com)
+ *
+ * @param float $fProductionValue unbereinigter Produktionswert
+ *
+ * @return float bereinigter Produktionswert
+ */
+function getRealProduction($fProductionValue)
+{
+    if (empty($fProductionValue)) {
+        return 0;
+    } elseif ($fProductionValue < 197000) { //kein Lagertransfer
+        return $fProductionValue;
+    } else {
+
+        if ($fProductionValue < 1997000) { //Lagertransfer auf Kampfbasis Alpha o.ä.
+
+            $iMinTransferSpeed = 200000;
+
+        } elseif ($fProductionValue < 19997000) { //Lagertransfer auf Kampfbasis Beta o.ä.
+
+            $iMinTransferSpeed = 2000000;
+
+        } else { //Lagertransfer auf Kampfbasis Gamma
+
+            $iMinTransferSpeed = 20000000;
+
+        }
+
+        $fTransferIncreaseStep = round(log($fProductionValue / $iMinTransferSpeed) / log(1.1));
+
+        $fTransferSpeed        = pow(1.1, $fTransferIncreaseStep) * $iMinTransferSpeed;
+        $fRealProductionValue  = $fProductionValue - $fTransferSpeed;
+
+        if ($fRealProductionValue < -3000) { //Verbrauch kann nicht größer sein -> Transfergeschwindigkeit ist zu hoch ermittelt
+            $fTransferSpeed       = pow(1.1, $fTransferIncreaseStep - 1) * $iMinTransferSpeed;
+            $fRealProductionValue = $fProductionValue - $fTransferSpeed;
+        }
+
+        return $fRealProductionValue;
+
+    }
 
 }

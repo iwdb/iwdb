@@ -75,9 +75,10 @@ function parse_de_wirtschaft_planiress($return)
 
                 $scan_data[$resource_name]           = $resource->iResourceVorrat;
 
-                $scan_data[$resource_name . '_prod'] = $resource->fResourceProduction;
-                if ((($scan_data['kolo_typ'] === 'Kampfbasis') OR ($scan_data['kolo_typ'] === 'Kampfbasis') OR ($scan_data['kolo_typ'] === 'Kampfbasis')) AND ($scan_data[$resource_name . '_prod']>100000)) { //Resstransfer ist keine Prodde...
-                    $scan_data[$resource_name . '_prod'] = 0;
+                if ((($scan_data['kolo_typ'] === 'Kampfbasis') OR ($scan_data['kolo_typ'] === 'Artefaktbasis') OR ($scan_data['kolo_typ'] === 'Sammelbasis')) AND ($resource_name === "chem")) { // Chem-Prodde/Verbrauch ggf. bereinigen um Chemtransfer zur Basis
+                    $scan_data[$resource_name . '_prod'] = getRealProduction($scan_data[$resource_name . '_prod']);
+                } else {
+                    $scan_data[$resource_name . '_prod'] = $resource->fResourceProduction;
                 }
 
                 if (!is_null($resource->iResourceBunker)) {
@@ -100,6 +101,7 @@ function parse_de_wirtschaft_planiress($return)
             $db->db_insertupdate($db_tb_lager, $scan_data)
                 or error(GENERAL_ERROR, 'Could not update ress information.', '', __FILE__, __LINE__);
 
+            //automatische Wasserbestellung
             if (($scan_data['wasser'] == '0') AND ($scan_data['kolo_typ'] == 'Kolonie')) {
                 $SQLdata = array(
                     'user'          => $AccName,

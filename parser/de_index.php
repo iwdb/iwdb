@@ -201,7 +201,7 @@ function parse_de_index($return)
                             $typ   = $object["object"];
                             $menge = $object["count"];
 
-                            if ($typ != 'Eisen' && $typ != 'Stahl' && $typ != 'VV4A' && $typ != 'chem. Elemente' && $typ != 'Eis' && $typ != 'Wasser' && $typ != 'Energie') {
+                            if ($typ != 'Eisen' && $typ != 'Stahl' && $typ != 'VV4A' && $typ != 'chem. Elemente' && $typ != 'Eis' && $typ != 'Wasser' && $typ != 'Energie' && $typ != 'Bevölkerung') {
                                 $scan_data['schiffe'][$typ] = $menge;
                             } else {
                                 $scan_data['pos'][$typ] = $menge;
@@ -400,7 +400,6 @@ function parse_de_index($return)
                 }
 
             } else if ($aContainer->strIdentifier == "de_index_schiff") {         //Werften
-                //new dBug($aContainer);
                 foreach ($aContainer->objResultData->aSchiff as $plan) {
                     foreach ($plan as $ship_types) {
                         //! Mac: @todo: laufende Schiffe auswerten, ggf. aus Sitting entfernen oder Aufträge schieben
@@ -455,6 +454,9 @@ function save_data($scan_data)
     }
     if (isset($scan_data['pos']['Energie'])) {
         $fields += array('energie' => $scan_data['pos']['Energie']);
+    }
+    if (isset($scan_data['pos']['Bevölkerung'])) {
+        $fields += array('volk' => $scan_data['pos']['Bevölkerung']);
     }
 
     if (isset($scan_data['schiffe'])) {

@@ -201,10 +201,10 @@ function parse_de_index($return)
                             $typ   = $object["object"];
                             $menge = $object["count"];
 
-                            if ($typ != 'Eisen' && $typ != 'Stahl' && $typ != 'VV4A' && $typ != 'chem. Elemente' && $typ != 'Eis' && $typ != 'Wasser' && $typ != 'Energie' && $typ != 'Bevölkerung') {
-                                $scan_data['schiffe'][$typ] = $menge;
-                            } else {
+                            if (($typ === 'Eisen') OR ($typ === 'Stahl') OR ($typ === 'VV4A') OR ($typ === 'chem. Elemente') OR ($typ === 'Eis') OR ($typ === 'Wasser') OR ($typ === 'Energie') OR (preg_match('/Bev.+lkerung/', $typ))) {
                                 $scan_data['pos'][$typ] = $menge;
+                            } else {
+                                $scan_data['schiffe'][$typ] = $menge;
                             }
                         }
 

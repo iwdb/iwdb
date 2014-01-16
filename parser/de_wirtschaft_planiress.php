@@ -73,10 +73,10 @@ function parse_de_wirtschaft_planiress($return)
                     $resource_name = "chem";
                 }
 
-                $scan_data[$resource_name]           = $resource->iResourceVorrat;
+                $scan_data[$resource_name] = $resource->iResourceVorrat;
 
                 if ((($scan_data['kolo_typ'] === 'Kampfbasis') OR ($scan_data['kolo_typ'] === 'Artefaktbasis') OR ($scan_data['kolo_typ'] === 'Sammelbasis')) AND ($resource_name === "chem")) { // Chem-Prodde/Verbrauch ggf. bereinigen um Chemtransfer zur Basis
-                    $scan_data[$resource_name . '_prod'] = getRealProduction($scan_data[$resource_name . '_prod']);
+                    $scan_data[$resource_name . '_prod'] = getRealProduction($resource->fResourceProduction);
                 } else {
                     $scan_data[$resource_name . '_prod'] = $resource->fResourceProduction;
                 }

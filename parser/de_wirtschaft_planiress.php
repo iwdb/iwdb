@@ -41,7 +41,7 @@ function parse_de_wirtschaft_planiress($return)
 {
     if ($return->bSuccessfullyParsed) {
 
-        global $selectedusername, $db, $db_tb_lager, $db_tb_ressuebersicht, $db_tb_bestellung;
+        global $selectedusername, $db, $db_tb_lager, $db_tb_ressuebersicht, $db_tb_bestellung, $db_tb_sitterauftrag;
 
         $AccName = getAccNameFromKolos($return->objResultData->aKolos);
         if ($AccName === false) { //kein Eintrag gefunden -> ausgewählten Accname verwenden
@@ -104,20 +104,17 @@ function parse_de_wirtschaft_planiress($return)
             //automatische Wasserbestellung
             if (($scan_data['wasser'] == '0') AND ($scan_data['kolo_typ'] == 'Kolonie')) {
                 $SQLdata = array(
-                    'user'          => $AccName,
-                    'team'          => '(Alle)',
-                    'coords_gal'    => $scan_data['coords_gal'],
-                    'coords_sys'    => $scan_data['coords_sys'],
-                    'coords_planet' => $scan_data['coords_planet'],
-                    'text'          => 'Automatische Wasserbestellung',
-                    'time'          => CURRENT_UNIX_TIME,
-                    'wasser'        => (abs($scan_data_total['wasser']) + 1000),
-                    'offen_wasser'  => (abs($scan_data_total['wasser']) + 1000),
-                    'time_created'  => CURRENT_UNIX_TIME
+                    'user'		=> $AccName,
+                    'planet' 	=> ($scan_data['coords_gal'] . ":" . $scan_data['coords_sys'] . ":" . $scan_data['coords_planet']),
+                    'auftrag' 	=> 'automatischer Auftrag : bitte Wasser zukaufen',
+                    'date' 		=> CURRENT_UNIX_TIME,
+					'date_b1' 	=> CURRENT_UNIX_TIME,
+					'date_b2' 	=> CURRENT_UNIX_TIME,
+					'typ' 		=> 'Sonstiges'
                 );
 
-                $db->db_insert($db_tb_bestellung, $SQLdata)
-                    or error(GENERAL_ERROR, 'Could not insert h2o order!', '', __FILE__, __LINE__);
+                $db->db_insert($db_tb_sitterauftrag, $SQLdata)
+                    or error(GENERAL_ERROR, 'Could not insert h2o sitterauftrag!', '', __FILE__, __LINE__);
             }
 
         }

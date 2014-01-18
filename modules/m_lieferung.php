@@ -266,7 +266,7 @@ $views = array(
             'Lieferung' => 2,
             'Start'     => 2,
             'Ziel'      => 2,
-            'Transport' => 8,
+            'Transport' => 9,
         ),
         'columns' => array(
             'art'         => 'Art',
@@ -282,6 +282,7 @@ $views = array(
             'eis'         => 'Eis',
             'wasser'      => 'Wasser',
             'energie'     => 'Energie',
+			'volk'		  => 'Volk',
             'schiffe'     => 'Schiffe',
         ),
         'sums'    => array(
@@ -292,6 +293,7 @@ $views = array(
             'eis'     => 'Eis',
             'wasser'  => 'Wasser',
             'energie' => 'Energie',
+			'volk'    => 'Volk',
         ),
         'key'     => 'key',
         'expand'  => array(
@@ -419,7 +421,7 @@ foreach ($data as $row) {
     //echo ">";
     // Expandbereich ausgeben
     if (isset($expand) && $params['expand'] == $key && isset($row['expand']) && count($row['expand'])) {
-        next_row('titlebg', 'colspan=' . (count($view['columns']) + 3));
+        next_row('titlebg', 'colspan=' . (count($view['columns']) + 4));
         echo "<b>" . $expand['title'] . "</b>";
         next_row('windowbg2', '');
         foreach ($expand['columns'] as $expandcolumnkey => $expandcolumnname) {
@@ -445,11 +447,11 @@ foreach ($data as $row) {
         }
         next_cell("windowbg1");
         echo '&nbsp;';
-        next_row('windowbg2', 'colspan=' . (count($view['columns']) + 3));
+        next_row('windowbg2', 'colspan=' . (count($view['columns']) + 4));
         echo "&nbsp;";
     }
 }
-next_row('windowbg2', 'colspan=' . (count($view['columns']) + 3));
+next_row('windowbg2', 'colspan=' . (count($view['columns']) + 4));
 echo "<b>Summe</b>";
 next_row('windowbg1', 'nowrap valign=top style="background-color: white;"');
 foreach ($view['columns'] as $viewcolumnkey => $viewcolumnname) {
@@ -483,6 +485,7 @@ function format_value($row, $key, $value, $expand = false)
         || $key == 'eis'
         || $key == 'wasser'
         || $key == 'energie'
+		|| $key == 'volk'
     ) {
         return number_format($value, 0, "", ".");
     } else if ($key == 'time') {

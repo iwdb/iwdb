@@ -110,23 +110,12 @@ function parse_de_wirtschaft_planiress2($return)
                 $db->db_insert($db_tb_sitterauftrag, $SQLdata)
                     or error(GENERAL_ERROR, 'Could not insert sitterauftrag!', '', __FILE__, __LINE__);
 			}
-			if ($scan_data['bev_a']<'0') {
-				$SQLdata = array (
-                    'user' => $AccName,
-                    'coords_gal' => $scan_data['coords_gal'],
-					'coords_sys' => $scan_data['coords_sys'],
-					'coords_planet' => $scan_data['coords_planet'],
-					'team' => '(Alle)',
-                    'text' => 'Automatische Bestellung Bevölkerung',
-                    'time' => CURRENT_UNIX_TIME,
-                    'volk' => (abs($scan_data['bev_a'])+500),
-                    'offen_volk' => (abs($scan_data['bev_a'])+500),
-                    'time_created' => CURRENT_UNIX_TIME
-                );
-				
-                $db->db_insert($db_tb_bestellung, $SQLdata)
-                    or error(GENERAL_ERROR, 'Could not insert bev order!', '', __FILE__, __LINE__);
-			}
+			
+			$bev_null=0;
+			
+			$sql_del = "DELETE FROM `{$db_tb_bestellung}` WHERE (`volk`!='0' AND (`coords_gal`='".$scan_data['coords_gal']."' AND `coords_sys`='".$scan_data['coords_sys']."' AND `coords_planet`='".$scan_data['coords_planet']."'))";
+			$result_del = $db->db_query($sql_del)
+				or error(GENERAL_ERROR, 'Could not delete bev bestellung.', '', __FILE__, __LINE__, $sql);
 			
 			$plani =$scan_data['coords_gal'] . ":" . $scan_data['coords_sys'] . ":" . $scan_data['coords_planet'];
 			$sql = $db->db_query("SELECT `bed_bev` FROM `{$db_tb_scans}` WHERE `coords` = '" .$plani. "';");
@@ -148,6 +137,28 @@ function parse_de_wirtschaft_planiress2($return)
 				
                 $db->db_insert($db_tb_bestellung, $SQLdata)
                     or error(GENERAL_ERROR, 'Could not insert bev order!', '', __FILE__, __LINE__);
+					
+				$bev_null=1;
+			}
+			
+			if ($bev_null=0) {
+				if ($scan_data['bev_a']<'0') {
+					$SQLdata = array (
+						'user' => $AccName,
+						'coords_gal' => $scan_data['coords_gal'],
+						'coords_sys' => $scan_data['coords_sys'],
+						'coords_planet' => $scan_data['coords_planet'],
+						'team' => '(Alle)',
+						'text' => 'Automatische Bestellung Bevölkerung',
+						'time' => CURRENT_UNIX_TIME,
+						'volk' => (abs($scan_data['bev_a'])+500),
+						'offen_volk' => (abs($scan_data['bev_a'])+500),
+						'time_created' => CURRENT_UNIX_TIME
+					);
+					
+					$db->db_insert($db_tb_bestellung, $SQLdata)
+						or error(GENERAL_ERROR, 'Could not insert bev order!', '', __FILE__, __LINE__);
+				}
 			}
         }
 

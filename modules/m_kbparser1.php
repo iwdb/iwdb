@@ -180,7 +180,7 @@ function getMessageBasebombSuccessful() {
 }
 
 //Nachrichten für gescheitertes Basisbomben
-function getMessageBasebombUnsuccessful() {
+function getMessageBasebombFailed() {
     $aMessages = array(
         "Der Wachhabende Offizier konnte den Selbstzerstörungsknopf nicht finden, daher steht die Basis noch.",
         "Die feindlichen Bomber produzierten ein wunderschönes Feuerwerk, die Besatzung war begeistert und die Basis steht noch.",
@@ -203,9 +203,31 @@ function getMessageBevbomb() {
     return $aMessages[array_rand($aMessages, 1)];
 }
 
-function generateKBparserform($xml, $modulname, $KBLink)
+function generateKBlinkForm($modulname) {
+    $html  = '<form method="post">';
+    $html .= '  <input type="hidden" name="action" value="'.$modulname.'">';
+    $html .= '  <input type="hidden" name="parsstatus" value="read">';
+    $html .= '  <table border="1" cellpadding="2" cellspacing="1" width="95%">';
+    $html .= '    <tr>';
+    $html .= '      <td class="left" width="50">';
+    $html .= '    	  KB-Link:';
+    $html .= '      </td>';
+    $html .= '      <td  class="center">';
+    $html .= '    	  <input type="text" name="KBLink" autofocus="autofocus" placeholder="KB-Link" style="width:95%;">';
+    $html .= '      </td>';
+    $html .= '      <td class="center" width="50">';
+    $html .= '        <input type="submit" value="Go" width="45" style="color:#FFFFFF; background-color: #00688B;">';
+    $html .= '      </td>';
+  	$html .= '    </tr>';
+    $html .= '  </table>';
+	$html .= '</form>';
+
+    return $html;
+}
+
+function generateKBparserForm($xml, $modulname, $KBLink)
 {
-    $html =  "<form method='post'>";
+    $html  =  "<form method='post'>";
     $html .=  "<input type='hidden' name='action' value='" . $modulname . "'>";
     $html .=  "<input type='hidden' name='parsstatus' value='write'>";
     $html .=  "<table class='table_format' style='width: 95%;'>";
@@ -233,7 +255,7 @@ function generateKBparserform($xml, $modulname, $KBLink)
     // Kampf auf dem Planeten
     $html .=  "  <tr>";
     $html .=  "     <td class='left' colspan='8' style='color:#000000; background-color:#CAE1FF;' >";
-    $html .=  "        <input type='hidden' name='mainline' type='text' value='" . urlencode("Kampf auf dem Planeten [b]" . (string)$xml->plani_data->koordinaten->string['value'] . "[/b]. Besitzer ist [b]" . (string)$xml->plani_data->user->name['value'] . (empty($xml->plani_data->user->allianz_tag['value']) ? "" : " [" . (string)$xml->plani_data->user->allianz_tag['value'] . "]") . "[/b]") . "'>";
+    $html .=  "        <input type='hidden' name='mainline' type='text' value='" . rawurlencode("Kampf auf dem Planeten [b]" . (string)$xml->plani_data->koordinaten->string['value'] . "[/b]. Besitzer ist [b]" . (string)$xml->plani_data->user->name['value'] . (empty($xml->plani_data->user->allianz_tag['value']) ? "" : " [" . (string)$xml->plani_data->user->allianz_tag['value'] . "]") . "[/b]") . "'>";
     $html .=  "        Kampf auf dem Planeten <b>" . (string)$xml->plani_data->koordinaten->string['value'] . "</b>. Besitzer ist <b>" . (string)$xml->plani_data->user->name['value'] . (empty($xml->plani_data->user->allianz_tag['value']) ? "" : " [" . (string)$xml->plani_data->user->allianz_tag['value'] . "]") . "</b>";
     $html .=  "     </td>";
     $html .=  "  </tr>";
@@ -247,11 +269,11 @@ function generateKBparserform($xml, $modulname, $KBLink)
     } else {
         $html .=  "<span style='color:red; font-weight:bold;'>Verteidiger</span>.";
     }
-    $html .=  "        <input type='hidden' name='dateline' type='text' value='" . urlencode("Die Schlacht endete " . strftime("am [b]%d.%m.%Y[/b] um [b]%H:%M:%S[/b] ", (int)$xml->timestamp['value']) . " mit einem Sieg für den ");
+    $html .=  "        <input type='hidden' name='dateline' type='text' value='" . rawurlencode("Die Schlacht endete " . strftime("am [b]%d.%m.%Y[/b] um [b]%H:%M:%S[/b] ", (int)$xml->timestamp['value']) . " mit einem Sieg für den ");
     if ((int)$xml->resultat->id['value'] === 1) {
-        $html .=  urlencode("[color=green][b]Angreifer[/b][/color].");
+        $html .=  rawurlencode("[color=green][b]Angreifer[/b][/color].");
     } else {
-        $html .=  urlencode("[color=red][b]Verteidiger[/b][/color].");
+        $html .=  rawurlencode("[color=red][b]Verteidiger[/b][/color].");
     }
     $html .=  "'>";
     $html .=  "     </td>";
@@ -265,7 +287,7 @@ function generateKBparserform($xml, $modulname, $KBLink)
             $html .=  "  <tr>";
             $html .=  "     <td class='left' colspan='8' style='color:#000000; background-color:#CAE1FF;' >";
             $html .=  "       Angreifende Flotte von <b>" . (string)$user_data->name['value'] . (empty($user_data->allianz_tag['value']) ? "" : " [" . (string)$user_data->allianz_tag['value'] . "]") . "</b>, Startplanet war <b>" . (string)$user_data->startplanet->koordinaten->string['value'] . "</b>.";
-            $html .=  "       <input type='hidden' name='atter" . $i . "' type='text' value='" . urlencode("[b]" . (string)$user_data->name['value'] . (empty($user_data->allianz_tag['value']) ? "" : " [" . (string)$user_data->allianz_tag['value'] . "]") . "[/b] von " . (string)$user_data->startplanet->koordinaten->string['value']) . "'>";
+            $html .=  "       <input type='hidden' name='atter" . $i . "' type='text' value='" . rawurlencode("[b]" . (string)$user_data->name['value'] . (empty($user_data->allianz_tag['value']) ? "" : " [" . (string)$user_data->allianz_tag['value'] . "]") . "[/b] von " . (string)$user_data->startplanet->koordinaten->string['value']) . "'>";
             $html .=  "     </td>";
             $html .=  "  </tr>";
             //Schiffe
@@ -286,7 +308,7 @@ function generateKBparserform($xml, $modulname, $KBLink)
                     $html .=  "  <tr>";
                     $html .=  "    <td class='left'>";
                     $html .=  (string)$schiffe_data->name['value'];
-                    $html .=  "      <input type='hidden' name='atterschiffname" . $i . "_" . $j . "' type='text' value='" . urlencode((string)$schiffe_data->name['value']) . "'>";
+                    $html .=  "      <input type='hidden' name='atterschiffname" . $i . "_" . $j . "' type='text' value='" . rawurlencode((string)$schiffe_data->name['value']) . "'>";
                     $html .=  "    </td>";
                     $html .=  "    <td class='right'>";
                     $html .=  number_format((float)$schiffe_data->anzahl_start['value'], 0, ',', '.');
@@ -353,7 +375,7 @@ function generateKBparserform($xml, $modulname, $KBLink)
                 $html .=  "  <tr>";
                 $html .=  "     <td class='left' colspan='8'>";
                 $html .=  "        Der Kommandant der angreifenden Flotte überbrachte folgende Botschaft:<br>" . (string)$user_data->bloedsinn->msg;
-                $html .=  "        <input type='hidden' name='attermsg" . $i . "' type='text' value='" . urlencode("Der Kommandant der angreifenden Flotte überbrachte folgende Botschaft:[/td][/tr][tr][td colspan=4][color=brown][i]" . (string)$user_data->bloedsinn->msg . "[/i][/color]'>");
+                $html .=  "        <input type='hidden' name='attermsg" . $i . "' type='text' value='" . rawurlencode("Der Kommandant der angreifenden Flotte überbrachte folgende Botschaft:[/td][/tr][tr][td colspan=4][color=brown][i]" . (string)$user_data->bloedsinn->msg . "[/i][/color]'>");
                 $html .=  "     </td>";
                 $html .=  "  </tr>";
             }
@@ -368,7 +390,7 @@ function generateKBparserform($xml, $modulname, $KBLink)
         $html .=  "  <tr>";
         $html .=  "     <td class='left' colspan='8' style='color:#000000; background-color:#CAE1FF;'>";
         $html .=  "       Verteidiger war <b>" . (string)$xml->pla_def->user->name['value'] . (empty($xml->pla_def->user->allianz_tag['value']) ? "" : " [" . (string)$xml->pla_def->user->allianz_tag['value'] . "]") . "</b>";
-        $html .=  "       <input type='hidden' name='pladeffer1' type='text' value='" . urlencode("[b]" . (string)$xml->pla_def->user->name['value'] . (empty($xml->pla_def->user->allianz_tag['value']) ? "" : " [" . (string)$xml->pla_def->user->allianz_tag['value'] . "]") . "[/b]") . "'>";
+        $html .=  "       <input type='hidden' name='pladeffer1' type='text' value='" . rawurlencode("[b]" . (string)$xml->pla_def->user->name['value'] . (empty($xml->pla_def->user->allianz_tag['value']) ? "" : " [" . (string)$xml->pla_def->user->allianz_tag['value'] . "]") . "[/b]") . "'>";
         $html .=  "     </td>";
         $html .=  "  </tr>";
 
@@ -391,7 +413,7 @@ function generateKBparserform($xml, $modulname, $KBLink)
                 $html .=  "  <tr>";
                 $html .=  "    <td class='left' >";
                 $html .=  (string)$def_data->name['value'];
-                $html .=  "      <input type='hidden' name='pladefturm_" . $j . "' type='text' value='" . urlencode((string)$def_data->name['value']) . "'>";
+                $html .=  "      <input type='hidden' name='pladefturm_" . $j . "' type='text' value='" . rawurlencode((string)$def_data->name['value']) . "'>";
                 $html .=  "    </td>";
                 $html .=  "    <td class='right' >";
                 $html .=  number_format((float)$def_data->anzahl_start['value'], 0, ',', '.');
@@ -456,7 +478,7 @@ function generateKBparserform($xml, $modulname, $KBLink)
                 $html .=  "  <tr>";
                 $html .=  "    <td class='left' >";
                 $html .=  (string)$schiff_data->name['value'];
-                $html .=  "      <input type='hidden' name='pladefschiff_" . $j . "' type='text' value='" . urlencode((string)$schiff_data->name['value']) . "'>";
+                $html .=  "      <input type='hidden' name='pladefschiff_" . $j . "' type='text' value='" . rawurlencode((string)$schiff_data->name['value']) . "'>";
                 $html .=  "    </td>";
                 $html .=  "    <td class='right' >";
                 $html .=  number_format((float)$schiff_data->anzahl_start['value'], 0, ',', '.');
@@ -512,7 +534,7 @@ function generateKBparserform($xml, $modulname, $KBLink)
             $html .=  "  <tr>";
             $html .=  "     <td class='left' colspan='8' style='color:#000000; background-color:#CAE1FF;' >";
             $html .=  "       Verteidigende Flotte von <b>" . $deff_user->name['value'] . (empty($deff_user->allianz_tag['value']) ? "" : " [" . (string)$deff_user->allianz_tag['value'] . "]") . "</b>";
-            $html .=  "       <input type='hidden' name='deffer" . $i . "' type='text' value='" . urlencode("[b]" . $deff_user->name['value'] . (empty($deff_user->allianz_tag['value']) ? "" : " [" . (string)$deff_user->allianz_tag['value'] . "]") . "[/b]") . "'>";
+            $html .=  "       <input type='hidden' name='deffer" . $i . "' type='text' value='" . rawurlencode("[b]" . $deff_user->name['value'] . (empty($deff_user->allianz_tag['value']) ? "" : " [" . (string)$deff_user->allianz_tag['value'] . "]") . "[/b]") . "'>";
             $html .=  "     </td>";
             $html .=  "  </tr>";
             //schiffe
@@ -531,7 +553,7 @@ function generateKBparserform($xml, $modulname, $KBLink)
                 $html .=  "  <tr>";
                 $html .=  "    <td class='left' >";
                 $html .=  (string)$schiff_data->name['value'];
-                $html .=  "      <input type='hidden' name='defferschiffname" . $i . "_" . $j . "' type='text' value='" . urlencode((string)$schiff_data->name['value']) . "'>";
+                $html .=  "      <input type='hidden' name='defferschiffname" . $i . "_" . $j . "' type='text' value='" . rawurlencode((string)$schiff_data->name['value']) . "'>";
                 $html .=  "    </td>";
                 $html .=  "    <td class='right' >";
                 $html .=  number_format((float)$schiff_data->anzahl_start['value'], 0, ',', '.');
@@ -598,13 +620,13 @@ function generateKBparserform($xml, $modulname, $KBLink)
 
         foreach ($xml->resverluste->att->resource as $loss_data) {
             $html .=  "  <tr>";
-            $html .=  "     <td class='left'  >";
-            $html .=  (string)$loss_data->name['value'];
-            $html .=  "     </td>";
-            $html .=  "     <td colspan='3' class='right'>";
-            $html .=  number_format((float)$loss_data->anzahl['value'], 0, ",", ".");
-            $html .=  "       <input type='hidden' name='attverlust" . (string)$loss_data->id['value'] . "' type='text' value='" . number_format((float)$loss_data->anzahl['value'], 0, ",", ".") . "'>";
-            $html .=  "     </td>";
+            $html .=  "    <td class='left'  >";
+            $html .=  "      " . (string)$loss_data->name['value'];
+            $html .=  "    </td>";
+            $html .=  "    <td colspan='3' class='right'>";
+            $html .=  "      " . number_format((float)$loss_data->anzahl['value'], 0, ",", ".");
+            $html .=  "      <input type='hidden' name='attverlust" . (string)$loss_data->id['value'] . "' type='text' value='" . number_format((float)$loss_data->anzahl['value'], 0, ",", ".") . "'>";
+            $html .=  "    </td>";
             $html .=  "    <td class='center' >";
             $html .=  "      <input type='checkbox' name='attverlustformf" . (string)$loss_data->id['value'] . "' value='f'>";
             $html .=  "    </td>";
@@ -616,21 +638,21 @@ function generateKBparserform($xml, $modulname, $KBLink)
             $html .=  "    </td>";
             $html .=  "    <td class='center' >";
             $html .=  "      <select name='attverlustformc" . (string)$loss_data->id['value'] . "'>";
-            $html .=  "         <option>keine</option>";
-            $html .=  "         <option style='color:red' value='red'>rot</option>";
-            $html .=  "         <option style='color:yellow' value='yellow'>gelb</option>";
-            $html .=  "         <option style='color:pink' value='pink'>pink</option>";
-            $html .=  "         <option style='color:green' value='green'>grün</option>";
-            $html .=  "         <option style='color:orange' value='orange'>orange</option>";
-            $html .=  "         <option style='color:purple' value='purple'>violett</option>";
-            $html .=  "         <option style='color:blue' value='blue'>blau</option>";
-            $html .=  "         <option style='color:beige' value='beige'>beige</option>";
-            $html .=  "         <option style='color:brown' value='brown'>braun</option>";
-            $html .=  "         <option style='color:teal' value='teal'>türkis</option>";
-            $html .=  "         <option style='color:navy' value='navy'>dunkelblau</option>";
-            $html .=  "         <option style='color:maroon' value='maroon'>dunkelrot</option>";
-            $html .=  "         <option style='color:limegreen' value='limegreen'>hellgrün</option>";
-            $html .=  "       </select>";
+            $html .=  "        <option>keine</option>";
+            $html .=  "        <option style='color:red' value='red'>rot</option>";
+            $html .=  "        <option style='color:yellow' value='yellow'>gelb</option>";
+            $html .=  "        <option style='color:pink' value='pink'>pink</option>";
+            $html .=  "        <option style='color:green' value='green'>grün</option>";
+            $html .=  "        <option style='color:orange' value='orange'>orange</option>";
+            $html .=  "        <option style='color:purple' value='purple'>violett</option>";
+            $html .=  "        <option style='color:blue' value='blue'>blau</option>";
+            $html .=  "        <option style='color:beige' value='beige'>beige</option>";
+            $html .=  "        <option style='color:brown' value='brown'>braun</option>";
+            $html .=  "        <option style='color:teal' value='teal'>türkis</option>";
+            $html .=  "        <option style='color:navy' value='navy'>dunkelblau</option>";
+            $html .=  "        <option style='color:maroon' value='maroon'>dunkelrot</option>";
+            $html .=  "        <option style='color:limegreen' value='limegreen'>hellgrün</option>";
+            $html .=  "      </select>";
             $html .=  "    </td>";
             $html .=  "  </tr>";
         }
@@ -653,13 +675,13 @@ function generateKBparserform($xml, $modulname, $KBLink)
         $html .=  "  </tr>";
         foreach ($xml->resverluste->def->resource as $loos_data) {
             $html .=  "  <tr>";
-            $html .=  "     <td class='left' >";
-            $html .=  (string)$loos_data->name['value'];
-            $html .=  "     </td>";
-            $html .=  "     <td colspan='3' class='right' >";
-            $html .=  number_format((float)$loos_data->anzahl['value'], 0, ",", ".");
-            $html .=  "       <input type='hidden' name='defverlust" . (string)$loos_data->id['value'] . "' type='text' value='" . number_format((float)$loos_data->anzahl['value'], 0, ",", ".") . "'>";
-            $html .=  "     </td>";
+            $html .=  "    <td class='left' >";
+            $html .=  "      " . (string)$loos_data->name['value'];
+            $html .=  "    </td>";
+            $html .=  "    <td colspan='3' class='right' >";
+            $html .=  "      " . number_format((float)$loos_data->anzahl['value'], 0, ",", ".");
+            $html .=  "      <input type='hidden' name='defverlust" . (string)$loos_data->id['value'] . "' type='text' value='" . number_format((float)$loos_data->anzahl['value'], 0, ",", ".") . "'>";
+            $html .=  "    </td>";
             $html .=  "    <td class='center' >";
             $html .=  "      <input type='checkbox' name='defverlustformf" . (string)$loos_data->id['value'] . "' value='f'>";
             $html .=  "    </td>";
@@ -671,21 +693,21 @@ function generateKBparserform($xml, $modulname, $KBLink)
             $html .=  "    </td>";
             $html .=  "    <td class='center' >";
             $html .=  "      <select name='defverlustformc" . (string)$loos_data->id['value'] . "'>";
-            $html .=  "         <option>keine</option>";
-            $html .=  "         <option style='color:red' value='red'>rot</option>";
-            $html .=  "         <option style='color:yellow' value='yellow'>gelb</option>";
-            $html .=  "         <option style='color:pink' value='pink'>pink</option>";
-            $html .=  "         <option style='color:green' value='green'>grün</option>";
-            $html .=  "         <option style='color:orange' value='orange'>orange</option>";
-            $html .=  "         <option style='color:purple' value='purple'>violett</option>";
-            $html .=  "         <option style='color:blue' value='blue'>blau</option>";
-            $html .=  "         <option style='color:beige' value='beige'>beige</option>";
-            $html .=  "         <option style='color:brown' value='brown'>braun</option>";
-            $html .=  "         <option style='color:teal' value='teal'>türkis</option>";
-            $html .=  "         <option style='color:navy' value='navy'>dunkelblau</option>";
-            $html .=  "         <option style='color:maroon' value='maroon'>dunkelrot</option>";
-            $html .=  "         <option style='color:limegreen' value='limegreen'>hellgrün</option>";
-            $html .=  "       </select>";
+            $html .=  "        <option>keine</option>";
+            $html .=  "        <option style='color:red' value='red'>rot</option>";
+            $html .=  "        <option style='color:yellow' value='yellow'>gelb</option>";
+            $html .=  "        <option style='color:pink' value='pink'>pink</option>";
+            $html .=  "        <option style='color:green' value='green'>grün</option>";
+            $html .=  "        <option style='color:orange' value='orange'>orange</option>";
+            $html .=  "        <option style='color:purple' value='purple'>violett</option>";
+            $html .=  "        <option style='color:blue' value='blue'>blau</option>";
+            $html .=  "        <option style='color:beige' value='beige'>beige</option>";
+            $html .=  "        <option style='color:brown' value='brown'>braun</option>";
+            $html .=  "        <option style='color:teal' value='teal'>türkis</option>";
+            $html .=  "        <option style='color:navy' value='navy'>dunkelblau</option>";
+            $html .=  "        <option style='color:maroon' value='maroon'>dunkelrot</option>";
+            $html .=  "        <option style='color:limegreen' value='limegreen'>hellgrün</option>";
+            $html .=  "      </select>";
             $html .=  "    </td>";
             $html .=  "  </tr>";
         }
@@ -710,13 +732,13 @@ function generateKBparserform($xml, $modulname, $KBLink)
         foreach ($xml->pluenderung->resource as $loos_data) {
 
             $html .=  "  <tr>";
-            $html .=  "     <td class='left'>";
-            $html .=  (string)$loos_data->name['value'];
-            $html .=  "     </td>";
-            $html .=  "     <td colspan='3' class='right'>";
-            $html .=  number_format((float)$loos_data->anzahl['value'], 0, ",", ".");
-            $html .=  "       <input type='hidden' name='weg" . (string)$loos_data->id['value'] . "' type='text' value='" . number_format((float)$loos_data->anzahl['value'], 0, ",", ".") . "'>";
-            $html .=  "     </td>";
+            $html .=  "    <td class='left'>";
+            $html .=  "      " . (string)$loos_data->name['value'];
+            $html .=  "    </td>";
+            $html .=  "    <td colspan='3' class='right'>";
+            $html .=  "      " . number_format((float)$loos_data->anzahl['value'], 0, ",", ".");
+            $html .=  "      <input type='hidden' name='weg" . (string)$loos_data->id['value'] . "' type='text' value='" . number_format((float)$loos_data->anzahl['value'], 0, ",", ".") . "'>";
+            $html .=  "    </td>";
             $html .=  "    <td class='center'>";
             $html .=  "      <input type='checkbox' name='wegformf" . (string)$loos_data->id['value'] . "' value='f'>";
             $html .=  "    </td>";
@@ -728,21 +750,21 @@ function generateKBparserform($xml, $modulname, $KBLink)
             $html .=  "    </td>";
             $html .=  "    <td class='center'>";
             $html .=  "      <select name='wegformc" . (string)$loos_data->id['value'] . "'>";
-            $html .=  "         <option>keine</option>";
-            $html .=  "         <option style='color:red' value='red'>rot</option>";
-            $html .=  "         <option style='color:yellow' value='yellow'>gelb</option>";
-            $html .=  "         <option style='color:pink' value='pink'>pink</option>";
-            $html .=  "         <option style='color:green' value='green'>grün</option>";
-            $html .=  "         <option style='color:orange' value='orange'>orange</option>";
-            $html .=  "         <option style='color:purple' value='purple'>violett</option>";
-            $html .=  "         <option style='color:blue' value='blue'>blau</option>";
-            $html .=  "         <option style='color:beige' value='beige'>beige</option>";
-            $html .=  "         <option style='color:brown' value='brown'>braun</option>";
-            $html .=  "         <option style='color:teal' value='teal'>türkis</option>";
-            $html .=  "         <option style='color:navy' value='navy'>dunkelblau</option>";
-            $html .=  "         <option style='color:maroon' value='maroon'>dunkelrot</option>";
-            $html .=  "         <option style='color:limegreen' value='limegreen'>hellgrün</option>";
-            $html .=  "       </select>";
+            $html .=  "        <option>keine</option>";
+            $html .=  "        <option style='color:red' value='red'>rot</option>";
+            $html .=  "        <option style='color:yellow' value='yellow'>gelb</option>";
+            $html .=  "        <option style='color:pink' value='pink'>pink</option>";
+            $html .=  "        <option style='color:green' value='green'>grün</option>";
+            $html .=  "        <option style='color:orange' value='orange'>orange</option>";
+            $html .=  "        <option style='color:purple' value='purple'>violett</option>";
+            $html .=  "        <option style='color:blue' value='blue'>blau</option>";
+            $html .=  "        <option style='color:beige' value='beige'>beige</option>";
+            $html .=  "        <option style='color:brown' value='brown'>braun</option>";
+            $html .=  "        <option style='color:teal' value='teal'>türkis</option>";
+            $html .=  "        <option style='color:navy' value='navy'>dunkelblau</option>";
+            $html .=  "        <option style='color:maroon' value='maroon'>dunkelrot</option>";
+            $html .=  "        <option style='color:limegreen' value='limegreen'>hellgrün</option>";
+            $html .=  "      </select>";
             $html .=  "    </td>";
             $html .=  "  </tr>";
         }
@@ -753,40 +775,40 @@ function generateKBparserform($xml, $modulname, $KBLink)
         if (!empty($xml->bomben->basis_zerstoert['value'])) { //Basisangriff
 
             $html .=  "  <tr>";
-            $html .=  "     <td class='left' colspan='8' style='color:#000000; background-color:#CAE1FF;'>";
-            $html .=  "       Die Basis wurde von <b>" . (string)$xml->bomben->user->name['value'] . "</b>";
-            $html .=  "       <input type='hidden' name='bomb1' type='text' value='" . urlencode("Der Planet wurde von [b]" . (string)$xml->bomben->user->name['value'] . "[/b] ") . "'>";
-            $html .=  "       <input name='bomb2' type='text' value='bombadiert.' size='30' >";
-            $html .=  "     </td>";
+            $html .=  "    <td class='left' colspan='8' style='color:#000000; background-color:#CAE1FF;'>";
+            $html .=  "      Die Basis wurde von <b>" . (string)$xml->bomben->user->name['value'] . "</b>";
+            $html .=  "      <input type='hidden' name='bomb1' type='text' value='" . rawurlencode("Die Basis wurde von [b]" . (string)$xml->bomben->user->name['value'] . "[/b] ") . "'>";
+            $html .=  "      <input name='bomb2' type='text' value='bombadiert.' size='30' >";
+            $html .=  "    </td>";
             $html .=  "  </tr>";
 
             if ($xml->bomben->basis_zerstoert['value'] == 1) {     //erfolgreich
                 $html .=  "  <tr>";
-                $html .=  "     <td class='left' colspan='8'>";
-                $html .=  "      <input name='bomb3' type='text' value='".urlencode(getMessageBasebombSuccessful())."' size='150' >";
-                $html .=  "     </td>";
+                $html .=  "    <td class='left' colspan='8'>";
+                $html .=  "      <input name='bomb3' type='text' value='".rawurlencode(getMessageBasebombSuccessful())."' size='150' >";
+                $html .=  "    </td>";
                 $html .=  "  </tr>";
             } else {                                               //gescheitert
                 $html .=  "  <tr>";
-                $html .=  "     <td class='left' colspan='8'>";
-                $html .=  "      <input name='bomb3' type='text' value='".urlencode(getMessageBasebombUnsuccessful())."' size='150' >";
-                $html .=  "     </td>";
+                $html .=  "    <td class='left' colspan='8'>";
+                $html .=  "      <input name='bomb3' type='text' value='".rawurlencode(getMessageBasebombFailed())."' size='150' >";
+                $html .=  "    </td>";
                 $html .=  "  </tr>";
             }
 
         } else {
 
             $html .=  "  <tr>";
-            $html .=  "     <td class='left' colspan='8' style='color:#000000; background-color:#CAE1FF;'>";
-            $html .=  "       Der Planet wurde von <b>" . (string)$xml->bomben->user->name['value'] . "</b>";
-            $html .=  "       <input type='hidden' name='bomb1' type='text' value='" . urlencode("Der Planet wurde von [b]" . (string)$xml->bomben->user->name['value'] . "[/b] ") . "'>";
-            $html .=  "       <input name='bomb2' type='text' value='bombadiert.' size='30' >";
-            $html .=  "     </td>";
+            $html .=  "    <td class='left' colspan='8' style='color:#000000; background-color:#CAE1FF;'>";
+            $html .=  "      Der Planet wurde von <b>" . (string)$xml->bomben->user->name['value'] . "</b>";
+            $html .=  "      <input type='hidden' name='bomb1' type='text' value='" . rawurlencode("Der Planet wurde von [b]" . (string)$xml->bomben->user->name['value'] . "[/b] ") . "'>";
+            $html .=  "      <input name='bomb2' type='text' value='bombadiert.' size='30' >";
+            $html .=  "    </td>";
             $html .=  "  </tr>";
 
             if (isset($xml->bomben->bombentrefferchance['value'])) {
                 $html .=  "  <tr>";
-                $html .=  "     <td class='left' colspan='8'>";
+                $html .=  "    <td class='left' colspan='8'>";
                 if ($xml->bomben->bombentrefferchance['value'] == 100) {
                     $html .=  "      <input name='bombtreff1' type='text' value='Es gab klare Sicht für die Bomberpiloten, die Trefferchance lag bei' size='80'>";
                 } elseif ($xml->bomben->bombentrefferchance['value'] > 75) {
@@ -797,17 +819,17 @@ function generateKBparserform($xml, $modulname, $KBLink)
                     $html .=  "      <input name='bombtreff1' type='text' value='Alles war mit Pfefferminzwolken vernebelt, die Trefferchance lag bei' size='80'>";
                 }
                 $html .=  " <b>" . $xml->bomben->bombentrefferchance['value'] . "%</b>";
-                $html .=  "      <input type='hidden' name='bombtreff2' type='text' value='" . urlencode(" [b]" . $xml->bomben->bombentrefferchance['value'] . "%[/b]") . "'>";
+                $html .=  "      <input type='hidden' name='bombtreff2' type='text' value='" . rawurlencode(" [b]" . $xml->bomben->bombentrefferchance['value'] . "%[/b]") . "'>";
                 $html .=  "      <input name='bombtreff3' type='text' value='.' size='50'>";
                 $html .=  "     </td>";
                 $html .=  "  </tr>";
             }
 
-            if (empty($xml->bomben->geb_zerstoert)) { //keine Gebäude
+            if (empty($xml->bomben->geb_zerstoert)) { //keine Gebäude zerstört
                 $html .=  "  <tr>";
-                $html .=  "     <td class='left' colspan='8'>";
-                $html .=  "      <input name='bomb3' type='text' value='".urlencode('Es wurden keine Gebäude zerstört. Haha.')."' size='75'>";
-                $html .=  "     </td>";
+                $html .=  "    <td class='left' colspan='8'>";
+                $html .=  "      <input name='bomb3' type='text' value='".rawurlencode('Es wurden keine Gebäude zerstört. Haha.')."' size='75'>";
+                $html .=  "    </td>";
                 $html .=  "  </tr>";
             } else { //mit Gebäuden
                 $html .=  "  <tr>";
@@ -822,14 +844,14 @@ function generateKBparserform($xml, $modulname, $KBLink)
                 $i = 1;
                 foreach ($xml->bomben->geb_zerstoert->geb as $loss_data) {
                     $html .=  "  <tr>";
-                    $html .=  "     <td class='left' >";
-                    $html .=  (string)$loss_data->name['value'];
-                    $html .=  "       <input type='hidden' name='bombgeb" . $i . "' type='text' value='" . urlencode((string)$loss_data->name['value']) . "'>";
-                    $html .=  "     </td>";
-                    $html .=  "     <td colspan='3' class='right'>";
-                    $html .=  number_format((float)$loss_data->anzahl['value'], 0, ',', '.');
-                    $html .=  "       <input type='hidden' name='bombgebanz" . $i . "' type='text' value='" . number_format((float)$loss_data->anzahl['value'], 0, ",", ".") . "'>";
-                    $html .=  "     </td>";
+                    $html .=  "    <td class='left' >";
+                    $html .=  "      " . (string)$loss_data->name['value'];
+                    $html .=  "      <input type='hidden' name='bombgeb" . $i . "' type='text' value='" . rawurlencode((string)$loss_data->name['value']) . "'>";
+                    $html .=  "    </td>";
+                    $html .=  "    <td colspan='3' class='right'>";
+                    $html .=  "      " . number_format((float)$loss_data->anzahl['value'], 0, ',', '.');
+                    $html .=  "      <input type='hidden' name='bombgebanz" . $i . "' type='text' value='" . number_format((float)$loss_data->anzahl['value'], 0, ",", ".") . "'>";
+                    $html .=  "    </td>";
                     $html .=  "    <td class='center' >";
                     $html .=  "      <input type='checkbox' name='bombgebformf" . $i . "' value='f'>";
                     $html .=  "    </td>";
@@ -841,21 +863,21 @@ function generateKBparserform($xml, $modulname, $KBLink)
                     $html .=  "    </td>";
                     $html .=  "    <td class='center' >";
                     $html .=  "      <select name='bombgebformc" . $i . "'>";
-                    $html .=  "         <option>keine</option>";
-                    $html .=  "         <option style='color:red' value='red'>rot</option>";
-                    $html .=  "         <option style='color:yellow' value='yellow'>gelb</option>";
-                    $html .=  "         <option style='color:pink' value='pink'>pink</option>";
-                    $html .=  "         <option style='color:green' value='green'>grün</option>";
-                    $html .=  "         <option style='color:orange' value='orange'>orange</option>";
-                    $html .=  "         <option style='color:purple' value='purple'>violett</option>";
-                    $html .=  "         <option style='color:blue' value='blue'>blau</option>";
-                    $html .=  "         <option style='color:beige' value='beige'>beige</option>";
-                    $html .=  "         <option style='color:brown' value='brown'>braun</option>";
-                    $html .=  "         <option style='color:teal' value='teal'>türkis</option>";
-                    $html .=  "         <option style='color:navy' value='navy'>dunkelblau</option>";
-                    $html .=  "         <option style='color:maroon' value='maroon'>dunkelrot</option>";
-                    $html .=  "         <option style='color:limegreen' value='limegreen'>hellgrün</option>";
-                    $html .=  "       </select>";
+                    $html .=  "        <option>keine</option>";
+                    $html .=  "        <option style='color:red' value='red'>rot</option>";
+                    $html .=  "        <option style='color:yellow' value='yellow'>gelb</option>";
+                    $html .=  "        <option style='color:pink' value='pink'>pink</option>";
+                    $html .=  "        <option style='color:green' value='green'>grün</option>";
+                    $html .=  "        <option style='color:orange' value='orange'>orange</option>";
+                    $html .=  "        <option style='color:purple' value='purple'>violett</option>";
+                    $html .=  "        <option style='color:blue' value='blue'>blau</option>";
+                    $html .=  "        <option style='color:beige' value='beige'>beige</option>";
+                    $html .=  "        <option style='color:brown' value='brown'>braun</option>";
+                    $html .=  "        <option style='color:teal' value='teal'>türkis</option>";
+                    $html .=  "        <option style='color:navy' value='navy'>dunkelblau</option>";
+                    $html .=  "        <option style='color:maroon' value='maroon'>dunkelrot</option>";
+                    $html .=  "        <option style='color:limegreen' value='limegreen'>hellgrün</option>";
+                    $html .=  "      </select>";
                     $html .=  "    </td>";
                     $html .=  "  </tr>";
                     $i++;
@@ -865,12 +887,12 @@ function generateKBparserform($xml, $modulname, $KBLink)
 
         if (!empty($xml->bomben->bev_zerstoert['value'])) { // Bevölkerung
             $html .=  "  <tr>";
-            $html .=  "     <td class='left' colspan='8'>";
+            $html .=  "    <td class='left' colspan='8'>";
             $html .=  "      <input name='bombbev1' type='text' value='' size='80'>";
-            $html .=  " <b>" . number_format((float)$xml->bomben->bev_zerstoert['value'], 0, ",", ".") . "</b>";
-            $html .=  "      <input type='hidden' name='bombbev2' type='text' value='" . urlencode(" [b]" . number_format((float)$xml->bomben->bev_zerstoert['value'], 0, ",", ".") . "[/b] ") . "'>";
+            $html .=  "        <b>" . number_format((float)$xml->bomben->bev_zerstoert['value'], 0, ",", ".") . "</b>";
+            $html .=  "      <input type='hidden' name='bombbev2' type='text' value='" . rawurlencode(" [b]" . number_format((float)$xml->bomben->bev_zerstoert['value'], 0, ",", ".") . "[/b] ") . "'>";
             $html .=  "      <input name='bombbev3' type='text' value='" . getMessageBevbomb() . "' size='50'>";
-            $html .=  "     </td>";
+            $html .=  "    </td>";
             $html .=  "  </tr>";
         }
     }
@@ -879,7 +901,7 @@ function generateKBparserform($xml, $modulname, $KBLink)
 
     $html .=  "  <tr>";
     $html .=  "     <td class='center' colspan='8'>";
-    $html .=  "       <input type='hidden' name='KBLink' type='text' value='" . urlencode($KBLink) . "'>";
+    $html .=  "       <input type='hidden' name='KBLink' type='text' value='" . rawurlencode($KBLink) . "'>";
     $html .=  "       <input type='submit' value='BB-Code generieren' class='btn'>";
     $html .=  "     </td>";
     $html .=  "  </tr>";
@@ -896,10 +918,10 @@ function generateBBcode() {
     if (empty($_POST['optionLink'])) {       //KB-Link in Quote-Tags nicht aktiv
         $outBB = "[quote][table]";
     } else {
-        $outBB = "[quote=" . urldecode(getVar('KBLink')) . "][table]";
+        $outBB = "[quote=" . rawurldecode(getVar('KBLink')) . "][table]";
     }
-    $outBB .= "[tr][td colspan=4]" . urldecode(getVar('mainline')) . "[/td][/tr]"; //Kampf auf dem ...
-    $outBB .= "[tr][td colspan=4]" . urldecode(getVar('dateline')) . "[/td][/tr]"; //Die Schlacht endete mit ...
+    $outBB .= "[tr][td colspan=4]" . rawurldecode(getVar('mainline')) . "[/td][/tr]"; //Kampf auf dem ...
+    $outBB .= "[tr][td colspan=4]" . rawurldecode(getVar('dateline')) . "[/td][/tr]"; //Die Schlacht endete mit ...
 
     // Angreifer
     $outBB .= "[tr][td colspan=4][hr][/td][/tr]"; //horizontale Linie
@@ -907,11 +929,11 @@ function generateBBcode() {
 
     $i     = 1;
     while (!empty($_POST["atter" . $i])) {
-        $outBB .= "[tr][td colspan=4]" . urldecode(getVar("atter" . $i)) . "[/td][/tr]"; //Angreifende Flotte ...
+        $outBB .= "[tr][td colspan=4]" . rawurldecode(getVar("atter" . $i)) . "[/td][/tr]"; //Angreifende Flotte ...
         $j     = 1;
         while (!empty($_POST["atterschiffname" . $i . "_" . $j])) {
             if (getVar("atterschiffstart" . $i . "_" . $j) !== "") {
-                $outBB .= "[tr][td]" . makeFormatedString(urldecode(getVar("atterschiffname" . $i . "_" . $j)), getVar("Attformf" . $i . "_" . $j), getVar("Attformk" . $i . "_" . $j), getVar("Attformu" . $i . "_" . $j), getVar("Attformc" . $i . "_" . $j)) . "[/td]";
+                $outBB .= "[tr][td]" . makeFormatedString(rawurldecode(getVar("atterschiffname" . $i . "_" . $j)), getVar("Attformf" . $i . "_" . $j), getVar("Attformk" . $i . "_" . $j), getVar("Attformu" . $i . "_" . $j), getVar("Attformc" . $i . "_" . $j)) . "[/td]";
                 $outBB .= "[td][right]" . makeFormatedString(getVar("atterschiffstart" . $i . "_" . $j), getVar("Attformf" . $i . "_" . $j), getVar("Attformk" . $i . "_" . $j), getVar("Attformu" . $i . "_" . $j), getVar("Attformc" . $i . "_" . $j)) . "[/right][/td]";
                 $outBB .= "[td][right]" . makeFormatedString(getVar("atterschiffweg" . $i . "_" . $j), getVar("Attformf" . $i . "_" . $j), getVar("Attformk" . $i . "_" . $j), getVar("Attformu" . $i . "_" . $j), getVar("Attformc" . $i . "_" . $j)) . "[/right][/td]";
                 $outBB .= "[td][right]" . makeFormatedString(getVar("atterschiffende" . $i . "_" . $j), getVar("Attformf" . $i . "_" . $j), getVar("Attformk" . $i . "_" . $j), getVar("Attformu" . $i . "_" . $j), getVar("Attformc" . $i . "_" . $j)) . "[/right][/td][/tr]";
@@ -925,7 +947,7 @@ function generateBBcode() {
             $outBB .= "[tr][td colspan=4]Diese wilden Barbarben haben unseren kleinen Kindern die Lollis geklaut!! Das schreit gradezu nach Rache.[/td][/tr]";
         }
         if (!empty($_POST["attermsg" . $i])) {
-            $outBB .= "[tr][td colspan=4]" . urldecode(getVar("attermsg" . $i)) . "[/td][/tr]";
+            $outBB .= "[tr][td colspan=4]" . rawurldecode(getVar("attermsg" . $i)) . "[/td][/tr]";
         }
         $i++;
     }
@@ -935,11 +957,11 @@ function generateBBcode() {
     $outBB .= "[tr][td][u]Verteidiger[/u][/td][td][right][u]Anzahl[/u][/right][/td][td][right][u]Zerstört[/u][/right][/td][td][right][u]Überlebende[/u][/right][/td][/tr]";
 
     if (!empty($_POST["pladeffer"])) {
-        $outBB .= "[tr][td colspan=4]" . urldecode(getVar("pladeffer")) . "[/td][/tr]"; // Verteidiger war ...
+        $outBB .= "[tr][td colspan=4]" . rawurldecode(getVar("pladeffer")) . "[/td][/tr]"; // Verteidiger war ...
 
         $j     = 1;
         while (!empty($_POST["pladefturm_" . $j])) {
-            $outBB .= "[tr][td]" . makeFormatedString(urldecode(getVar("pladefturm_" . $j)), getVar("Pladefturm_form_f_" . $j), getVar("Pladefturm_form_k_" . $j), getVar("Pladefturm_form_u_" . $j), getVar("Pladefturm_form_c_" . $j)) . "[/td]";
+            $outBB .= "[tr][td]" . makeFormatedString(rawurldecode(getVar("pladefturm_" . $j)), getVar("Pladefturm_form_f_" . $j), getVar("Pladefturm_form_k_" . $j), getVar("Pladefturm_form_u_" . $j), getVar("Pladefturm_form_c_" . $j)) . "[/td]";
             $outBB .= "[td][right]" . makeFormatedString(getVar("pladefturm_start_" . $j), getVar("Pladefturm_form_f_" . $j), getVar("Pladefturm_form_k_" . $j), getVar("Pladefturm_form_u_" . $j), getVar("Pladefturm_form_c_" . $j)) . "[/right][/td]";
             $outBB .= "[td][right]" . makeFormatedString(getVar("pladefturm_varlust_" . $j), getVar("Pladefturm_form_f_" . $j), getVar("Pladefturm_form_k_" . $j), getVar("Pladefturm_form_u_" . $j), getVar("Pladefturm_form_c_" . $j)) . "[/right][/td]";
             $outBB .= "[td][right]" . makeFormatedString(getVar("pladefturm_ende_" . $j), getVar("Pladefturm_form_f_" . $j), getVar("Pladefturm_form_k_" . $j), getVar("Pladefturm_form_u_" . $j), getVar("Pladefturm_form_c_" . $j)) . "[/right][/td][/tr]";
@@ -948,7 +970,7 @@ function generateBBcode() {
 
         $j = 1;
         while (!empty($_POST["pladefschiff_" . $j])) {
-            $outBB .= "[tr][td]" . makeFormatedString(urldecode(getVar("pladefschiff_" . $j)), getVar("Pladefschiff_form_f_" . $j), getVar("Pladefschiff_form_k_" . $j), getVar("Pladefschiff_form_u_" . $j), getVar("Pladefschiff_form_c_" . $j)) . "[/td]";
+            $outBB .= "[tr][td]" . makeFormatedString(rawurldecode(getVar("pladefschiff_" . $j)), getVar("Pladefschiff_form_f_" . $j), getVar("Pladefschiff_form_k_" . $j), getVar("Pladefschiff_form_u_" . $j), getVar("Pladefschiff_form_c_" . $j)) . "[/td]";
             $outBB .= "[td][right]" . makeFormatedString(getVar("pladefschiff_start_" . $j), getVar("Pladefschiff_form_f_" . $j), getVar("Pladefschiff_form_k_" . $j), getVar("Pladefschiff_form_u_" . $j), getVar("Pladefschiff_form_c_" . $j)) . "[/right][/td]";
             $outBB .= "[td][right]" . makeFormatedString(getVar("pladefschiff_verlust_" . $j), getVar("Pladefschiff_form_f_" . $j), getVar("Pladefschiff_form_k_" . $j), getVar("Pladefschiff_form_u_" . $j), getVar("Pladefschiff_form_c_" . $j)) . "[/right][/td]";
             $outBB .= "[td][right]" . makeFormatedString(getVar("pladefschiff_ende_" . $j), getVar("Pladefschiff_form_f_" . $j), getVar("Pladefschiff_form_k_" . $j), getVar("Pladefschiff_form_u_" . $j), getVar("Pladefschiff_form_c_" . $j)) . "[/right][/td][/tr]";
@@ -959,11 +981,11 @@ function generateBBcode() {
     // Deffer
     $i = 1;
     while (!empty($_POST["deffer" . $i])) {
-        $outBB .= "[tr][td colspan=4]" . urldecode(getVar("deffer" . $i)) . "[/td][/tr]"; //Verteidigende Flotte ...
+        $outBB .= "[tr][td colspan=4]" . rawurldecode(getVar("deffer" . $i)) . "[/td][/tr]"; //Verteidigende Flotte ...
         $j     = 1;
         while (!empty($_POST["defferschiffname" . $i . "_" . $j])) {
             if (!empty($_POST["defferschiffstart" . $i . "_" . $j])) {
-                $outBB .= "[tr][td]" . makeFormatedString(urldecode(getVar("defferschiffname" . $i . "_" . $j)), getVar("Deffformf" . $i . "_" . $j), getVar("Deffformk" . $i . "_" . $j), getVar("Deffformu" . $i . "_" . $j), getVar("Deffformc" . $i . "_" . $j)) . "[/td]";
+                $outBB .= "[tr][td]" . makeFormatedString(rawurldecode(getVar("defferschiffname" . $i . "_" . $j)), getVar("Deffformf" . $i . "_" . $j), getVar("Deffformk" . $i . "_" . $j), getVar("Deffformu" . $i . "_" . $j), getVar("Deffformc" . $i . "_" . $j)) . "[/td]";
                 $outBB .= "[td][right]" . makeFormatedString(getVar("defferschiffstart" . $i . "_" . $j), getVar("Deffformf" . $i . "_" . $j), getVar("Deffformk" . $i . "_" . $j), getVar("Deffformu" . $i . "_" . $j), getVar("Deffformc" . $i . "_" . $j)) . "[/right][/td]";
                 $outBB .= "[td][right]" . makeFormatedString(getVar("defferschiffweg" . $i . "_" . $j), getVar("Deffformf" . $i . "_" . $j), getVar("Deffformk" . $i . "_" . $j), getVar("Deffformu" . $i . "_" . $j), getVar("Deffformc" . $i . "_" . $j)) . "[/right][/td]";
                 $outBB .= "[td][right]" . makeFormatedString(getVar("defferschiffende" . $i . "_" . $j), getVar("Deffformf" . $i . "_" . $j), getVar("Deffformk" . $i . "_" . $j), getVar("Deffformu" . $i . "_" . $j), getVar("Deffformc" . $i . "_" . $j)) . "[/right][/td][/tr]";
@@ -1034,28 +1056,28 @@ function generateBBcode() {
     //Bomben
     if (!empty($_POST['bomb1'])) {
         $outBB .= "[tr][td colspan=4][hr][/td][/tr]"; //horizontale Linie
-        $outBB .= "[tr][td colspan=4]" . urldecode($_POST['bomb1']) . urldecode($_POST['bomb2']) . "[/td][/tr]"; // Der Planet wurde ...
+        $outBB .= "[tr][td colspan=4]" . rawurldecode($_POST['bomb1']) . rawurldecode($_POST['bomb2']) . "[/td][/tr]"; // Der Planet wurde ...
         if (!empty($_POST['bombtreff1'])) {  // Bombendtrefferchance
-            $outBB .= "[tr][td colspan=4]" . $_POST['bombtreff1'] . urldecode($_POST['bombtreff2']) . $_POST['bombtreff3'] . "[/td][/tr]";
+            $outBB .= "[tr][td colspan=4]" . $_POST['bombtreff1'] . rawurldecode($_POST['bombtreff2']) . $_POST['bombtreff3'] . "[/td][/tr]";
         }
         if (!empty($_POST['bomb3'])) { // KB oder keine Gebs
-            $outBB .= "[tr][td colspan=4]" . urldecode($_POST['bomb3']) . "[/td][/tr]";
+            $outBB .= "[tr][td colspan=4]" . rawurldecode($_POST['bomb3']) . "[/td][/tr]";
         } else {
             $i     = 1;
             $outBB .= "[tr][td colspan=4]Folgende Gebäude wurden zerstört:[/td][/tr]";
             while (!empty($_POST["bombgeb" . $i])) {
-                $outBB .= "[tr][td]" . makeFormatedString(urldecode($_POST["bombgeb" . $i]), isset($_POST["bombgebformf" . $i]), isset($_POST["bombgebformk" . $i]), isset($_POST["bombgebformu" . $i]), $_POST["bombgebformc" . $i]) . "[/td][td][right]" . makeFormatedString($_POST["bombgebanz" . $i], isset($_POST["bombgebformf" . $i]), isset($_POST["bombgebformk" . $i]), isset($_POST["bombgebformu" . $i]), $_POST["bombgebformc" . $i]) . "[/right][/td][/tr]";
+                $outBB .= "[tr][td]" . makeFormatedString(rawurldecode($_POST["bombgeb" . $i]), isset($_POST["bombgebformf" . $i]), isset($_POST["bombgebformk" . $i]), isset($_POST["bombgebformu" . $i]), $_POST["bombgebformc" . $i]) . "[/td][td][right]" . makeFormatedString($_POST["bombgebanz" . $i], isset($_POST["bombgebformf" . $i]), isset($_POST["bombgebformk" . $i]), isset($_POST["bombgebformu" . $i]), $_POST["bombgebformc" . $i]) . "[/right][/td][/tr]";
                 $i++;
             }
         }
         if (!empty($_POST['bombbev2'])) {
-            $outBB .= "[tr][td colspan=4]" . $_POST['bombbev1'] . urldecode($_POST['bombbev2']) . $_POST['bombbev3'] . "[/td][/tr]";
+            $outBB .= "[tr][td colspan=4]" . $_POST['bombbev1'] . rawurldecode($_POST['bombbev2']) . $_POST['bombbev3'] . "[/td][/tr]";
         }
     }
 
     // KBLink am Ende
     $outBB .= "[tr][td colspan=4][hr][/td][/tr]"; //horizontale Linie
-    $outBB .= "[tr][td colspan=4][url=" . urldecode(getVar("KBLink")) . "]Link zum externen Kampfbericht[/url][/td][/tr]";
+    $outBB .= "[tr][td colspan=4][url=" . rawurldecode(getVar("KBLink")) . "]Link zum externen Kampfbericht[/url][/td][/tr]";
     $outBB .= "[/table][/quote]";
 
     // Lange Schiffnamen killen
@@ -1119,41 +1141,20 @@ doc_title("KB Parser für BB-Code");
 $parsstatus = getVar('parsstatus');
 if (empty($parsstatus)) { //Angabe für die Datei
 
-    echo "<form method='post'>";
-    echo "<input type='hidden' name='action' value='".$modulname."'>";
-    echo "<input type='hidden' name='parsstatus' value='read'>";
-    echo <<< EOT
-	 <table border="1" cellpadding="2" cellspacing="1" rules="none" width="95%">
-  		<tr>
-    		<td class="left" width="50">
-      		KB-Link:
-    		</td>
-    		<td  class="center">
-      			<input type="text" name="KBLink" autofocus="autofocus" placeholder="KB-Link" style="width:95%;">
-    		</td>
-    		<td  class="center" width="50">
-      			<input type="submit" value="Go" width="45" style="color:#FFFFFF; background-color: #00688B;">
-    		</td>
-  		</tr>
-	 </table>
-	 </form>
-EOT;
-    if (empty($KBLink)) {
-        echo "KB-Link nicht vergessen :) ";
-    }
+    echo generateKBlinkForm($modulname);
 
 } elseif ($parsstatus === "read") {   // KB einlesen und für die Formatierung ausgeben
 
     $KBLink = trim(getVar('KBLink'));
     if (preg_match('#^https?://www.?\.icewars\.de/portal/kb/de/kb\.php\?id=[\d]+.{1,5}md_hash=[\w]{32}$#', $KBLink) !== 1) {
-        echo "<div class='system_error'>Keinen KB-Link eingetragen!</div>";
+        echo "<div class='system_warning'>Keinen KB-Link eingetragen!</div>";
         $parsstatus = "";
     } else {
         $KBLink = $KBLink . "&typ=xml";
         $KBLink = str_replace("&amp;", "&", $KBLink);
         $xml = simplexml_load_file_ex($KBLink);
         if (!empty($xml)) {
-            echo generateKBparserform($xml, $modulname, $KBLink);
+            echo generateKBparserForm($xml, $modulname, $KBLink);
         } else {
             echo "<div class='system_error'>XML-Fehler: {$KBLink} konnte nicht geladen werden.</div>";
         }

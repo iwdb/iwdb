@@ -390,7 +390,7 @@ function generateKBparserForm($xml, $modulname, $KBLink)
         $html .=  "  <tr>";
         $html .=  "     <td class='left' colspan='8' style='color:#000000; background-color:#CAE1FF;'>";
         $html .=  "       Verteidiger war <b>" . (string)$xml->pla_def->user->name['value'] . (empty($xml->pla_def->user->allianz_tag['value']) ? "" : " [" . (string)$xml->pla_def->user->allianz_tag['value'] . "]") . "</b>";
-        $html .=  "       <input type='hidden' name='pladeffer1' type='text' value='" . rawurlencode("[b]" . (string)$xml->pla_def->user->name['value'] . (empty($xml->pla_def->user->allianz_tag['value']) ? "" : " [" . (string)$xml->pla_def->user->allianz_tag['value'] . "]") . "[/b]") . "'>";
+        $html .=  "       <input type='hidden' name='pladeffer' type='text' value='" . rawurlencode("[b]" . (string)$xml->pla_def->user->name['value'] . (empty($xml->pla_def->user->allianz_tag['value']) ? "" : " [" . (string)$xml->pla_def->user->allianz_tag['value'] . "]") . "[/b]") . "'>";
         $html .=  "     </td>";
         $html .=  "  </tr>";
 

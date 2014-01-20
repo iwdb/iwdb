@@ -963,7 +963,7 @@ function generateBBcode() {
         while (!empty($_POST["pladefturm_" . $j])) {
             $outBB .= "[tr][td]" . makeFormatedString(rawurldecode(getVar("pladefturm_" . $j)), getVar("Pladefturm_form_f_" . $j), getVar("Pladefturm_form_k_" . $j), getVar("Pladefturm_form_u_" . $j), getVar("Pladefturm_form_c_" . $j)) . "[/td]";
             $outBB .= "[td][right]" . makeFormatedString(getVar("pladefturm_start_" . $j), getVar("Pladefturm_form_f_" . $j), getVar("Pladefturm_form_k_" . $j), getVar("Pladefturm_form_u_" . $j), getVar("Pladefturm_form_c_" . $j)) . "[/right][/td]";
-            $outBB .= "[td][right]" . makeFormatedString(getVar("pladefturm_varlust_" . $j), getVar("Pladefturm_form_f_" . $j), getVar("Pladefturm_form_k_" . $j), getVar("Pladefturm_form_u_" . $j), getVar("Pladefturm_form_c_" . $j)) . "[/right][/td]";
+            $outBB .= "[td][right]" . makeFormatedString(getVar("pladefturm_verlust_" . $j), getVar("Pladefturm_form_f_" . $j), getVar("Pladefturm_form_k_" . $j), getVar("Pladefturm_form_u_" . $j), getVar("Pladefturm_form_c_" . $j)) . "[/right][/td]";
             $outBB .= "[td][right]" . makeFormatedString(getVar("pladefturm_ende_" . $j), getVar("Pladefturm_form_f_" . $j), getVar("Pladefturm_form_k_" . $j), getVar("Pladefturm_form_u_" . $j), getVar("Pladefturm_form_c_" . $j)) . "[/right][/td][/tr]";
             $j++;
         }

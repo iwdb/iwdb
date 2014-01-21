@@ -298,12 +298,11 @@ function deleteInvalidAlliances()
  * @param string  $strCoords   Koordinaten des Planeten
  *
  * @return string              Spielername
- *
- * @todo   Funktion sollte gecached werden, damit nicht unnötig viele Aufrufe erfolgen?
  */
 function getNameByCoords($strCoords)
 {
     global $db, $db_tb_scans;
+    static $aCoordUsers;
 
     if (empty($strCoords)) {
         return '';
@@ -311,12 +310,18 @@ function getNameByCoords($strCoords)
 
     $strCoords = $db->escape($strCoords);
 
-    $sql = "SELECT `user` FROM `{$db_tb_scans}` WHERE `coords` = '$strCoords';";
-    $result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-    $row = $db->db_fetch_array($result);
+    if (!isset($aCoordUsers[$strCoords])) {
 
-    return $row['user'];
+        $sql = "SELECT `user` FROM `{$db_tb_scans}` WHERE `coords` = '$strCoords';";
+        $result = $db->db_query($sql)
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $row = $db->db_fetch_array($result);
+
+        $aCoordUsers[$strCoords] = $row['user'];
+
+    }
+
+    return $aCoordUsers[$strCoords];
 }
 
 /**
@@ -380,7 +385,7 @@ function updateUserAlliance($strSpielerName, $strAlliance, $iTime)
         return '';
     }
 
-    $strSpielerName    = $db->escape($strSpielerName);
+    $strSpielerName = $db->escape($strSpielerName);
     $strAlliance = $db->escape($strAlliance);
     $iTime    = (int)$iTime;
 
@@ -464,6 +469,7 @@ function updateUserAlliance($strSpielerName, $strAlliance, $iTime)
 function getObjectByCoords($strCoords)
 {
     global $db, $db_tb_scans;
+    static $aPlanetObjects;
 
     if (empty($strCoords)) {
         return '';
@@ -471,12 +477,18 @@ function getObjectByCoords($strCoords)
 
     $strCoords = $db->escape($strCoords);
 
-    $sql = "SELECT `objekt` FROM `{$db_tb_scans}` WHERE `coords` = '$strCoords';";
-    $result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-    $row = $db->db_fetch_array($result);
+    if (!isset($aPlanetObjects[$strCoords])) {
 
-    return $row['objekt'];
+        $sql = "SELECT `objekt` FROM `{$db_tb_scans}` WHERE `coords` = '$strCoords';";
+        $result = $db->db_query($sql)
+            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $row = $db->db_fetch_array($result);
+
+        $aPlanetObjects[$strCoords] = $row['objekt'];
+
+    }
+
+    return $aPlanetObjects[$strCoords];
 }
 
 /**
@@ -494,13 +506,13 @@ function getObjectPictureByCoords($strCoords)
     $objectPicture = '';
 
     if ($objekt === 'Kolonie') {
-        $objectPicture = "<img src='" . BILDER_PATH . "kolo.png'>";
+        $objectPicture = "<img src='" . BILDER_PATH . "kolo.png' title='Kolonie'>";
     } else if ($objekt === 'Sammelbasis') {
-        $objectPicture = "<img src='" . BILDER_PATH . "ress_basis.png'>";
+        $objectPicture = "<img src='" . BILDER_PATH . "ress_basis.png' title='Sammelbasis'>";
     } else if ($objekt === 'Artefaktbasis') {
-        $objectPicture = "<img src='" . BILDER_PATH . "artefakt_basis.png'>";
+        $objectPicture = "<img src='" . BILDER_PATH . "artefakt_basis.png' title='Artefaktbasis'>";
     } else if ($objekt === 'Kampfbasis') {
-        $objectPicture = "<img src='" . BILDER_PATH . "kampf_basis.png'>";
+        $objectPicture = "<img src='" . BILDER_PATH . "kampf_basis.png' title='Kampfbasis'>";
     }
 
     return $objectPicture;

@@ -233,10 +233,9 @@ if (!empty($textinput)) {
                 $parserObj->parseText($parserResult);
 
                 if ($parserResult->bSuccessfullyParsed) {
-                    if (!empty($parserResult->aErrors) && count($parserResult->aErrors) > 0) {
-                        echo "info:<br />";
+                    if (!empty($parserResult->aErrors) && is_array($parserResult->aErrors)) {
                         foreach ($parserResult->aErrors as $t) {
-                            echo "...$t <br />";
+                            echo "<div class='doc_message'>" . $t . "</div>";
                         }
                     } else {
                         $lparser = $parserResult->strIdentifier;
@@ -279,10 +278,9 @@ if (!empty($textinput)) {
                 } else {
                     $parser_error=true;
                     doc_message("Input (" . $parserObj->getName() . ") wurde erkannt, konnte aber nicht fehlerfrei geparsed werden!");
-                    if (!empty($parserResult->aErrors) && count($parserResult->aErrors) > 0) {
-                        echo "error:<br />";
+                    if (!empty($parserResult->aErrors) && is_array($parserResult->aErrors)) {
                         foreach ($parserResult->aErrors as $t) {
-                            echo "...$t <br />";
+                            echo "<div class='system_warning'>" . $t . "</div>";
                         }
                     }
                 }

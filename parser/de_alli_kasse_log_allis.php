@@ -23,47 +23,28 @@ if (!defined('IRA')) {
 
 function parse_de_alli_kasse_log_allis($return)
 {
-    global $db, $db_tb_kasse_outgoing, $db_tb_user, $user_id;
+    global $db, $db_tb_kasse_outgoing, $user_allianz;
 
-    // ally vom user herausfinden
-    $allianz = "";
-
-    //wenn vorhanden aus den parseinformationen holen
-    if (!empty($return->objResultData->strAlliance)) {
-        $allianz = $return->objResultData->strAlliance;
-    }
-
-    //oder aus den IWDB Accinformationen
-    if (empty($allianz)) {
-
-        $sql = "SELECT allianz FROM " . $db_tb_user . " WHERE id = '" . $user_id . "'";
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-        while ($row = $db->db_fetch_array($result)) {
-            $allianz = $row['allianz'];
-        }
-    }
-
-    if (empty($allianz)) {
-        echo "zugehörige Allianz konnte nicht ermittelt werden<br />";
+    if (empty($user_allianz)) {
+        echo "<div class='system_warning'>Allianz nicht festgelegt</div>";
 
         return;
     }
 
+    $logentries = array();
     foreach ($return->objResultData->aLogs as $log) {
-        $strTime = strftime('%Y-%m-%d %H:%M:00', $log->iDateTime);
+        $logentry = array();
 
-        $sql = "REPLACE INTO $db_tb_kasse_outgoing (payedfrom, payedto, amount, time_of_pay, allianz)" .
-               " VALUES ('$log->strFromUser', '$log->strAlliTag', '$log->iCredits', '$strTime', '$allianz')";
-        $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $logentry['payedfrom']   = $log->strFromUser;
+        $logentry['payedto']     = $log->strAlliTag;
+        $logentry['amount']      = $log->iCredits;
+        $logentry['time_of_pay'] = strftime('%Y-%m-%d %H:%M:%S', $log->iDateTime);
+        $logentry['allianz']     = $user_allianz;
 
-        /*
-		(!isset($out) || empty($out)) ? $out = "<p><u>Auszahlungen der letzten drei Wochen:</u><p>" : $out = ' ';
-        echo $out;
-
-        echo "{" . strftime(CONFIG_DATETIMEFORMAT, $log->iDateTime)
-                . "} Allizahlung [$allianz] von " . $log->strFromUser . " an " . $log->strAlliTag
-                . " mit " . $log->iCredits . " Credits erkannt." . "<br />\n"; */
+        $logentries[] = $logentry;
     }
+
+    $db->db_insert_multiple($db_tb_kasse_outgoing, array_keys(reset($logentries)), $logentries);
+
+    echo "<div class='doc_message'>" . count($logentries) . " Einträge erfolgreich geparsed</div>";
 }

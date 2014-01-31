@@ -22,29 +22,10 @@ if (!defined('IRA')) {
 
 function parse_de_alli_kasse_member($return)
 {
-    global $db, $db_tb_user, $user_id;
+    global $user_allianz;
 
-    // ally vom user herausfinden
-    $allianz = "";
-
-    //wenn vorhanden aus den parseinformationen holen
-    if (!empty($return->objResultData->strAlliance)) {
-        $allianz = $return->objResultData->strAlliance;
-    }
-
-    //oder aus den IWDB Accinformationen
-    if (empty($allianz)) {
-
-        $sql = "SELECT allianz FROM " . $db_tb_user . " WHERE id = '" . $user_id . "'";
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-        while ($row = $db->db_fetch_array($result)) {
-            $allianz = $row['allianz'];
-        }
-    }
-
-    if (empty($allianz)) {
-        echo "zugehörige Allianz konnte nicht ermittelt werden<br />";
+    if (empty($user_allianz)) {
+        echo "<div class='system_warning'>Allianz nicht festgelegt</div>";
 
         return;
     }
@@ -59,7 +40,7 @@ function parse_de_alli_kasse_member($return)
     //echo "<p><u>Bisherige Einzahlungen:</u></p>";
     foreach ($members as $member) {
         //Array ( [0] => EINZAHLER 14.04.2007 15:07 117.256,53 1.712 pro Tag [1] => EINZAHLER [2] => 117256.53 )
-        updateIncoming($member->strUser, $member->fCreditsPaid, $allianz);
+        updateIncoming($member->strUser, $member->fCreditsPaid, $user_allianz);
         //echo $member->strUser . "&nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;&nbsp;" . $member->fCreditsPaid . "<br>\n";
     }
 }

@@ -22,40 +22,20 @@ if (!defined('IRA')) {
 
 function parse_de_alli_kasse_inhalt($return)
 {
-    global $db, $db_tb_kasse_content, $db_tb_user, $user_id;
+    global $db, $db_tb_kasse_content, $user_allianz;
 
-    // ally vom user herausfinden
-    $allianz = "";
-
-    //wenn vorhanden aus den parseinformationen holen
-    if (!empty($return->objResultData->strAlliance)) {
-        $allianz = $return->objResultData->strAlliance;
-    }
-
-    //oder aus den IWDB Accinformationen
-    if (empty($allianz)) {
-
-        $sql = "SELECT allianz FROM " . $db_tb_user . " WHERE id = '" . $user_id . "'";
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-        while ($row = $db->db_fetch_array($result)) {
-            $allianz = $row['allianz'];
-        }
-    }
-
-    if (empty($allianz)) {
-        echo "zugehörige Allianz konnte nicht ermittelt werden<br />";
+    if (empty($user_allianz)) {
+        echo "<div class='system_warning'>Allianz nicht festgelegt</div>";
 
         return;
     }
 
-    $content = $return->objResultData->fCredits;
+    $SQLdata = array();
+    $SQLdata['amount'] = $return->objResultData->fCredits;
+    $SQLdata['time_of_insert'] = strftime('%Y-%m-%d %H:%M:%S', CURRENT_UNIX_TIME);
+    $SQLdata['allianz'] = $user_allianz;
 
-    $sql = "REPLACE INTO $db_tb_kasse_content (amount, time_of_insert, allianz)" .
-           " VALUES ($content, '" . strftime('%Y-%m-%d %H:%M:00', CURRENT_UNIX_TIME) . "', '$allianz')";
+    $db->db_update($db_tb_kasse_content, $SQLdata);
 
-    $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-
-    //echo "<p><b>Allykasse updated: $content</b></p>\n";
+    echo "<div class='doc_message'>Inhalt (" . number_format($SQLdata['amount'], 2, ",", ".") . " Credits) aktualisiert</div>";
 }

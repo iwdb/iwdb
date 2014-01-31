@@ -43,6 +43,8 @@ function parse_de_alli_kasse_member($return)
         updateIncoming($member->strUser, $member->fCreditsPaid, $user_allianz);
         //echo $member->strUser . "&nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;&nbsp;" . $member->fCreditsPaid . "<br>\n";
     }
+
+    echo "<div class='doc_message'>" . count($members) . " Mitgliedereinzahlungen aktualisiert</div>";
 }
 
 function updateIncoming($user, $amount, $ally)

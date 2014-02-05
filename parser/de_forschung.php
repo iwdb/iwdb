@@ -41,6 +41,9 @@ function parse_de_forschung($return)
 {
     global $db, $db_tb_research, $db_tb_user_research, $db_tb_research2user, $selectedusername;
 
+    debug_var("input", $return);
+
+    $iResearchCount = 0;
     $research2id = array();
 
     $sql = "SELECT ID, name FROM " . $db_tb_research . " ORDER BY ID ASC";
@@ -50,11 +53,7 @@ function parse_de_forschung($return)
         $research2id[$row["name"]] = $row['ID'];
     }
 
-    $akt_fp        = array();
-    $akt_forschung = 0;
-    $akt_date      = 0;
-
-    if (count($return->objResultData->aResearchsResearched) > 2) { //! ausgeklappte/vollstaendige Forschungsseite -> vollst. Reset der Daten
+    if (count($return->objResultData->aResearchsResearched) > 2) { //! ausgeklappte/vollständige Forschungsseite -> vollständiger Reset der Daten
         $sql = "DELETE FROM
                     $db_tb_research2user
                 WHERE
@@ -76,6 +75,14 @@ function parse_de_forschung($return)
             $result = $db->db_query($sql)
                 or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
         }
+
+        //Forschungspunkte aktualisieren
+        if (empty($research->iFP_akt)) {      //für Kompatibilität mit älterer Parserlib
+            $research->iFP_akt = $research->iFP * ($research->iResearchCosts / 100.);
+        }
+        updateResearchFP($research->strResearchName, $research->iFP_akt);
+
+        ++$iResearchCount;
     }
 
     foreach ($return->objResultData->aResearchsResearched as $research) {
@@ -95,21 +102,45 @@ function parse_de_forschung($return)
         } else {
             echo "Forschungs ID für '$research->strResearchName' konnte nicht bestimmt werden<br />";
         }
-        $akt_fp[$research->strResearchName] = $research->iFP * ($research->iResearchCosts / 100.);
+
+        //Forschungspunkte aktualisieren
+        if (empty($research->iFP_akt)) {      //für Kompatibilität mit älterer Parserlib
+            $research->iFP_akt = $research->iFP * ($research->iResearchCosts / 100.);
+        }
+        updateResearchFP($research->strResearchName, $research->iFP_akt);
+
+        ++$iResearchCount;
     }
 
     foreach ($return->objResultData->aResearchsOpen as $research) {
-        $akt_fp[$research->strResearchName] = $research->iFP * ($research->iResearchCosts / 100.);
+        //Forschungspunkte aktualisieren
+        if (empty($research->iFP_akt)) {      //für Kompatibilität mit älterer Parserlib
+            $research->iFP_akt = $research->iFP * ($research->iResearchCosts / 100.);
+        }
+        updateResearchFP($research->strResearchName, $research->iFP_akt);
+
+        ++$iResearchCount;
     }
 
-    foreach ($akt_fp as $key => $value) {
-        $sql = "UPDATE " . $db_tb_research . " SET" .
-            " FPakt=" . $value . "," .
-            " time=" . CURRENT_UNIX_TIME .
-            " WHERE name='" . $key . "'";
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    echo "<div class='system_notification'> " . $iResearchCount . " Forschungen aktualisiert.</div>";
+
+}
+
+function updateResearchFP($strResearchName, $iFP) {
+    Global $db, $db_tb_research;
+
+    if (!empty($strResearchName)) {
+        return false;
     }
 
-    doc_message('done');
+    $strResearchName = $db->escape($strResearchName);
+    $iFP = (int)$iFP;
+
+    $sql = "UPDATE " . $db_tb_research . " SET" .
+        " FPakt=" . $iFP . "," .
+        " time=" . CURRENT_UNIX_TIME .
+        " WHERE name='" . $strResearchName . "'";
+    $result = $db->db_query($sql);
+
+    return $result;
 }

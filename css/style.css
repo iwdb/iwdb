@@ -52,7 +52,6 @@ td {
     font-size: 12px;
 }
 
-
 /* Links in der Hilfe */
 .help a {
     text-decoration: underline;
@@ -115,6 +114,7 @@ td {
     background-color: #000000;
     text-align: center;
 }
+
 @media all and (max-height: 600px) {
     #iwdb_logo {
         display: none;
@@ -162,8 +162,7 @@ td {
 
 /* Hintergrund */
 .background {
-    background-color: #F5F9FA;
-    background-image: url(../bilder/bg.gif);
+    background: #F5F9FA url(../bilder/bg.gif);
 }
 
 /* grosser Text */
@@ -243,9 +242,7 @@ table.doc_main {
     width: 100%;
     padding: 5px;
     border-spacing: 1px;
-    border-color: black;
-    border-style: solid;
-    border-width: 1px;
+    border: 1px solid black;
 }
 
 /* Sichtfenster Innen */
@@ -254,7 +251,6 @@ td.doc_main {
     background-color: #FFFFFF;
     color: #000000;
 }
-
 
 /* blaue Schrift */
 .doc_blue {
@@ -337,11 +333,8 @@ input {
     height: 1.5em;
     color: #22282E;
     background-color: ivory;
-	-moz-border-radius:5px; /* Firefox */
-	-webkit-border-radius:5px; /* Chrome, Safari */
-	-khtml-border-radius:5px; /* Konqueror */
-	border-radius:5px; /* CSS3 */
-	/*behavior:url(border-radius.htc);*/ /* Internet Explorer */
+    -webkit-border-radius: 5px; /* old Chrome, Safari */
+    border-radius: 5px; /* CSS3 */
 }
 
 /* Buttons */
@@ -355,8 +348,8 @@ input[type=button] {
     border: 1px solid #22282E;
     background-color: #FFFFFF;
     vertical-align: middle;
-	cursor: pointer;
-	-webkit-appearance: button;
+    cursor: pointer;
+    -webkit-appearance: button;
 }
 
 /* number inputs */
@@ -369,11 +362,8 @@ textarea {
     color: #22282E;
     border: 1px solid #22282E;
     background-color: #FFFFFF;
-	-moz-border-radius:5px; /* Firefox */
-	-webkit-border-radius:5px; /* Chrome, Safari */
-	-khtml-border-radius:5px; /* Konqueror */
-	border-radius:5px; /* CSS3 */
-	/*behavior:url(border-radius.htc);*/ /* Internet Explorer */
+    -webkit-border-radius: 5px; /* old Chrome, Safari */
+    border-radius: 5px; /* CSS3 */
 }
 
 /* Auswahllisten */
@@ -381,11 +371,8 @@ select {
     color: #22282E;
     border: 1px solid #22282E;
     background-color: #FFFFFF;
-	-moz-border-radius:5px; /* Firefox */
-	-webkit-border-radius:5px; /* Chrome, Safari */
-	-khtml-border-radius:5px; /* Konqueror */
-	border-radius:5px; /* CSS3 */
-	/*behavior:url(border-radius.htc);*/ /* Internet Explorer */
+    -webkit-border-radius: 5px; /* old Chrome, Safari */
+    border-radius: 5px; /* CSS3 */
 }
 
 textarea:focus,
@@ -396,11 +383,10 @@ input[type="time"]:focus,
 input[type="number"]:focus,
 input[type="color"]:focus,
 .uneditable-input:focus {
-  border-color: rgba(82, 168, 236, 0.8);
-  outline: 0;
-  outline: thin dotted \9;
+    border-color: rgba(82, 168, 236, 0.8);
+    outline: 0;
+    outline: thin dotted \9;
 }
-
 
 /* Fadein bei unerledigten Sitteraufträgen */
 #fadein {
@@ -451,13 +437,12 @@ h4 {
     font-size: 12px;
     text-align: center;
     margin: 0.75em;
-    font-weight:normal;
+    font-weight: normal;
 }
 
 img,
-.borderless,
-#gebtable,
-#gebtable td {
+abbr,
+.borderless {
     border: 0 !important;
 }
 
@@ -553,21 +538,25 @@ td[abbr=both] {
 #lagertabelle {
     width: 100%;
 }
+
 @media all and (max-width: 1200px) {
     #lagertabelle td {
         font-size: 8px;
     }
 }
+
 @media all and (min-width: 1200px) {
     #lagertabelle td {
         font-size: 9px;
     }
 }
+
 @media all and (min-width: 1300px) {
     #lagertabelle td {
         font-size: 10px;
     }
 }
+
 @media all and (min-width: 1400px) {
     #lagertabelle td {
         font-size: 12px;
@@ -788,8 +777,8 @@ abbr {
 }
 
 table.zentriert {
-    margin-left:auto; 
-    margin-right:auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* veraltet */
@@ -806,58 +795,55 @@ table.zentriert {
 TOOLTIP
 */
 
-#tooltip
-{
-	font-family: Ubuntu, sans-serif;
-	font-size: 0.875em;
-	text-align: center;
-	text-shadow: 0 1px rgba( 0, 0, 0, .5 );
-	line-height: 1.5;
-	color: #fff;
-	background: #333;
-	background: -webkit-gradient( linear, left top, left bottom, from( rgba( 0, 0, 0, .6 ) ), to( rgba( 0, 0, 0, .8 ) ) );
-	background: -webkit-linear-gradient( top, rgba( 0, 0, 0, .6 ), rgba( 0, 0, 0, .8 ) );
-	background: -ms-radial-gradient( top, rgba( 0, 0, 0, .6 ), rgba( 0, 0, 0, .8 ) );
-	background: linear-gradient( top, rgba( 0, 0, 0, .6 ), rgba( 0, 0, 0, .8 ) );
-	-webkit-border-radius: 5px;
-	border-radius: 5px;
-	border-top: 1px solid #fff;
-	-webkit-box-shadow: 0 3px 5px rgba( 0, 0, 0, .3 );
-	box-shadow: 0 3px 5px rgba( 0, 0, 0, .3 );
-	position: absolute;
-	z-index: 100;
-	padding: 15px;
+#tooltip {
+    font-family: Ubuntu, sans-serif;
+    font-size: 0.875em;
+    text-align: center;
+    text-shadow: 0 1px rgba(0, 0, 0, .5);
+    line-height: 1.5;
+    color: #fff;
+    background: #333;
+    background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.8) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.8) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.8) 100%); /* IE10+ */
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.8) 100%); /* W3C */
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    border-top: 1px solid #fff;
+    -webkit-box-shadow: 0 3px 5px rgba(0, 0, 0, .3);
+    box-shadow: 0 3px 5px rgba(0, 0, 0, .3);
+    position: absolute;
+    z-index: 100;
+    padding: 15px;
 }
-#tooltip:after
-{
-	width: 0;
-	height: 0;
-	border-left: 10px solid transparent;
-	border-right: 10px solid transparent;
-    border-top: 10px solid #333;
-	border-top-color: rgba( 0, 0, 0, .7 );
-	content: '';
-	position: absolute;
-	left: 50%;
-	bottom: -10px;
-	margin-left: -10px;
+
+#tooltip:after {
+    width: 0;
+    height: 0;
+    border-top: 10px solid rgba(0, 0, 0, .7);
+    border-right: 10px solid transparent;
+    border-left: 10px solid transparent;
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -10px;
+    margin-left: -10px;
 }
-#tooltip.top:after
-{
+
+#tooltip.top:after {
     border-top-color: transparent;
-    border-bottom: 10px solid #333;
-    border-bottom-color: rgba( 0, 0, 0, .6 );
-	top: -20px;
-	bottom: auto;
+    border-bottom: 10px solid rgba(0, 0, 0, .6);
+    top: -20px;
+    bottom: auto;
 }
-.tooltip.left:after
-{
-	left: 10px;
-	margin: 0;
+
+.tooltip.left:after {
+    left: 10px;
+    margin: 0;
 }
-.tooltip.right:after
-{
-	right: 10px;
-	left: auto;
-	margin: 0;
+
+.tooltip.right:after {
+    right: 10px;
+    left: auto;
+    margin: 0;
 }

@@ -212,7 +212,6 @@ if (!getVar("nobody")) {
                                     include("modules/" . $action . ".php");
                                 }
 
-
                                 if ($action == 'deluser' AND $user_status === "admin") {
 
                                     $sql = "DELETE FROM " . $db_tb_user . " WHERE sitterlogin='" . $sitterlogin . "'";

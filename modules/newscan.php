@@ -302,6 +302,7 @@ if (!empty($textinput)) {
                     echo "    <td class='windowbg1 left'>" . (($parser[$key][1] > 1) ? (plural($parser[$key][2])) : $parser[$key][2]) . "</td>\n";
                     echo "  </tr>\n";
                 }
+
                 // Closure hook for module after all needed things were inserted.
                 // E.g. recalculating research levels after new researches were added.
                 if (function_exists("finish_" . $key)) {
@@ -325,7 +326,6 @@ if (!empty($textinput)) {
     $dauer = $stop - $start;
     echo '<br>Dauer: ' . round($dauer, 4) . ' sec<br>';
 
-    return;
 }
 
 if (AJAX_REQUEST === false) {            //normale ausgabe

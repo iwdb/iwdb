@@ -143,7 +143,7 @@ $action = getVar('action');
 if ($action === 'own') {
     $login = $user_sitterlogin;
 } else {
-    $login = getVar('login');
+    $login = validateIwAccname(getVar('login'));
 }
 
 $mode = getVar('mode');

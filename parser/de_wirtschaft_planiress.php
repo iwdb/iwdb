@@ -39,6 +39,9 @@ if (!defined('DEBUG_LEVEL')) {
 
 function parse_de_wirtschaft_planiress($return)
 {
+    debug_var('parser-modul', 'de_wirtschaft_planiress');
+    debug_var('input', $return);
+
     if ($return->bSuccessfullyParsed) {
 
         global $selectedusername, $db, $db_tb_lager, $db_tb_ressuebersicht, $db_tb_bestellung, $db_tb_sitterauftrag;
@@ -47,7 +50,7 @@ function parse_de_wirtschaft_planiress($return)
         if ($AccName === false) { //kein Eintrag gefunden -> ausgewählten Accname verwenden
             $AccName = $selectedusername;
         }
-        debug_var('wirtschaft_planiress', $AccName);
+        debug_var('$AccName', $AccName);
 
         $scan_data_total = array();
         $scan_data_total['user'] = $AccName;

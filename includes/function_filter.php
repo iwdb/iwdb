@@ -14,9 +14,7 @@
  */
 function ensureSortDirection($sortDirection, $sortDirectionStandard = 'ASC')
 {
-
     return ensureValue($sortDirection, array('asc', 'desc', 'ASC', 'DESC'), $sortDirectionStandard);
-
 }
 
 /**
@@ -34,7 +32,6 @@ function ensureSortDirection($sortDirection, $sortDirectionStandard = 'ASC')
  */
 function ensureValue($inputValue, $possibleValues, $standardValue = null)
 {
-
     if (empty($possibleValues)) {
         return false;
     }
@@ -65,7 +62,6 @@ function ensureValue($inputValue, $possibleValues, $standardValue = null)
  */
 function filter_int($numberstring, $default_value = null, $min_value = null, $max_value = null)
 {
-
     $filtered_number = filter_var($numberstring, FILTER_SANITIZE_NUMBER_INT);
     if (($filtered_number !== false) AND ($filtered_number !== '')) { //Ergebnis nicht fehlgeschlagen oder nicht leer
 
@@ -107,7 +103,6 @@ function filter_int($numberstring, $default_value = null, $min_value = null, $ma
  */
 function filter_number($numberstring, $default_value = false, $min_value = false, $max_value = false)
 {
-
     $filtered_number = '';
 
     $numberstring = trim($numberstring);
@@ -161,7 +156,6 @@ function filter_number($numberstring, $default_value = false, $min_value = false
 // masel: veraltet -> filter_number nutzen
 function stripNumber($numberstring, $thousand = '.', $comma = ',')
 {
-
     $numbers = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
 
     //alles entfernen was keine Zahl ist
@@ -226,7 +220,6 @@ function stripNumber($numberstring, $thousand = '.', $comma = ',')
  */
 function filter_coords($coords)
 {
-
     $coords = trim($coords);
 
     if (empty($coords)) {
@@ -264,12 +257,13 @@ function validateIwAccname($name)
     if (empty($IwAccnames)) {
         $IwAccnames = Array();
 
-        $sql = "SELECT `sitterlogin` FROM  `$db_tb_user`";
+        $sql = "SELECT `sitterlogin` FROM `$db_tb_user` WHERE `sitterlogin` = '".$name ."' LIMIT 1;";
         $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query iw accnames.', '', __FILE__, __LINE__, $sql);
+            or error(GENERAL_ERROR, 'Could not query iw accname.', '', __FILE__, __LINE__, $sql);
 
-        while ($row = $db->db_fetch_array($result)) {
-            $IwAccnames[] = $row['sitterlogin'];
+        $row = $db->db_fetch_array($result);
+        if (!empty($row)) {
+            $IwAccnames[$name] = $row['sitterlogin'];
         }
     }
 
@@ -300,9 +294,9 @@ function validateIwdbAccname($name)
     }
     $name = $db->escape($name);
 
-    $sql = "SELECT `id` FROM  `$db_tb_user` WHERE `id` = '".$name ."'";
+    $sql = "SELECT `id` FROM  `$db_tb_user` WHERE `id` = '".$name ."' LIMIT 1;";
     $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query iwdb accnames.', '', __FILE__, __LINE__, $sql);
+        or error(GENERAL_ERROR, 'Could not query iwdb accname.', '', __FILE__, __LINE__, $sql);
 
     $row = $db->db_fetch_array($result);
     if (!empty($row['id'])) {

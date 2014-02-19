@@ -246,7 +246,7 @@ function parse_de_index($return)
                         if (($automatic_creds_order_minvalue > 0)) { //Bestelldaten ok
 
                             foreach ($aContainer->objResultData->aData as $ParsedRess) {
-                                if ($ParsedRess->strResourceName == 'Credits') {
+                                if ($ParsedRess->strResourceName === 'Credits') {
                                     if (((int)$ParsedRess->iResourceVorrat < $automatic_creds_order_minvalue)) { //weniger als MinimalCredits vorhanden
 
                                         //Menge der fehlenden Credits berechnen
@@ -591,13 +591,13 @@ function display_de_index()
 
             if (isset($scan_data['pos'])) {
                 foreach ($scan_data['pos'] as $typ => $menge) {
-                    echo $menge . " " . $typ . "<br>";
+                    echo "<div>".number_format((float)$menge, 0, ',', '.') . " " . $typ . "</div>";
                 }
             }
 
             if (isset($scan_data['schiffe'])) {
                 foreach ($scan_data['schiffe'] as $typ => $menge) {
-                    echo $menge . " " . $typ . "<br>";
+                    echo "<div>".number_format((float)$menge, 0, ',', '.') . " " . $typ . "</div>";
                 }
             }
         }

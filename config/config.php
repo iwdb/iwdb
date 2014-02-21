@@ -41,6 +41,7 @@ define('LOG_PATH', "log/");
 define('BILDER_PATH', "bilder/");
 define('GEBAEUDE_BILDER_PATH', BILDER_PATH."gebs/");
 define('BANNER_PATH', BILDER_PATH."banner/");
+define('MENUSTYLES_PATH', "menustyles/");
 define('TECHTREE_BILDER_PATH', BILDER_PATH."techtree/");
 //für evl aktuellere techtrees
 //define('TECHTREE_BILDER_PATH', "//wuz.php-friends.de/techtree/");           //do not add http: or https:

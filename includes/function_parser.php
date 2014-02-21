@@ -325,7 +325,7 @@ function getNameByCoords($strCoords)
 }
 
 /**
- * @desc   Bestimmung von Allianznamen aufgrund von Spielername
+ * @desc   Bestimmung von Allianznamen anhand des IW-Spielernamens
  *
  * @author Mac (MacXY@herr-der-mails.de)
  *
@@ -517,6 +517,38 @@ function getObjectPictureByCoords($strCoords)
 
     return $objectPicture;
 }
+
+function getLastBombByCoords($strCoords) {
+    global $db, $db_tb_kb, $db_tb_kb_bomb;
+    static $aPlanetBombs;
+
+    if (empty($strCoords)) {
+        return '';
+    }
+
+    $strCoords = $db->escape($strCoords);
+
+    if (!isset($aPlanetBombs[$strCoords])) {
+
+        $aPlanetBombs[$strCoords] = array();
+
+        $coords = explode(":", $strCoords);
+        $sql_bomb = "SELECT time AS bombtime, `ID_KB`, `hash` FROM `{$db_tb_kb}` WHERE ((`ID_KB` IN (SELECT `ID_KB` FROM `{$db_tb_kb_bomb}`)) AND (`{$db_tb_kb}`.`koords_gal`='".$coords[0]."' AND `{$db_tb_kb}`.`koords_sol`='".$coords[1]."' AND `{$db_tb_kb}`.`koords_pla`='".$coords[2]."')) ORDER BY bombtime DESC LIMIT 1";
+        $result_bomb = $db->db_query($sql_bomb)
+            or error(GENERAL_ERROR, 'Could not query incomings information.', '', __FILE__, __LINE__, $sql_bomb);
+        $row_bomb = $db->db_fetch_array($result_bomb);
+        if (!empty($row_bomb['ID_KB'])) {
+
+            $aPlanetBombs[$strCoords]['time'] = $row_bomb['bombtime'];
+            $aPlanetBombs[$strCoords]['link'] = "http://www.icewars.de/portal/kb/de/kb.php?id=" . $row_bomb['ID_KB'] . "&md_hash=" . $row_bomb['hash'];
+
+        }
+
+    }
+
+    return $aPlanetBombs[$strCoords];
+}
+
 
 /**
  * @desc   bestimmt die IWDB-GebäudeId anhand des Gebäudenamens

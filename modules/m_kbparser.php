@@ -179,7 +179,7 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 
 <form action="index.php?action=kbp" method="post">
     <textarea name="Eingabe" cols="80" rows="5" placeholder="KB eingeben" autofocus="autofocus"></textarea><br/>
-    <input type="submit" value="KB haben will!">
+    <input type="submit" value="KBs haben will!">
 </form>
 
 </body>

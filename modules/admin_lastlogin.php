@@ -57,15 +57,16 @@ doc_title("Admin Loginzeit");
 	</thead>
 	<tbody>
 		<?php
-		$sql = "SELECT `id`, `logindate`, `password` FROM `{$db_tb_user}` ORDER BY `logindate`, `id`";
+		$sql = "SELECT `id`, `logindate`, `password` FROM `{$db_tb_user}` ORDER BY `logindate`, `id`;";
 		$result = $db->db_query($sql)
 			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
 
 		while ($row = $db->db_fetch_array($result)) {
 			$nopassword    = (empty($row['password'])) ? " kein Passwort gesetzt" : "";
 			$logindate     = $row['logindate'];
-			$lastlogindate = (empty($logindate)) ? "noch nie"
-				: strftime(CONFIG_DATETIMEFORMAT, $logindate);
+			$lastlogindate = (empty($logindate))
+                ? "noch nie"
+                : strftime(CONFIG_DATETIMEFORMAT, $logindate);
 			$lastloggedon  = (empty($logindate))
 				? ""
 				: floor((CURRENT_UNIX_TIME - $logindate) / DAY) . " Tage her";

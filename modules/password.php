@@ -69,14 +69,15 @@ if (!empty($username)) {
     doc_message("Passwort an gespeicherte EMail-Adresse versendet.");
 } else {
     ?>
-    <form method='POST' action='index.php?action=password' enctype='multipart/form-data'>
+    <form method='post'>
+        <input type='hidden' name='action' value='password'>
         <table class='table_format' style="margin: 0 auto;">
             <tr>
                 <td class='windowbg2'>Username:&nbsp;</td>
-                <td class='windowbg1'><input style='width: 200px' type='text' name='username' placeholder='IW-Login-Name' required='required'></td>
+                <td class='windowbg1'><input style='width: 200px' type='text' name='username' placeholder='IW-Login-Name' required='required' autocomplete='off'></td>
             </tr>
             <tr>
-                <td class='titlebg center' colspan='2'><input type='submit' value='OK' name='B1' class='submit'></td>
+                <td class='titlebg center' colspan='2'><input type='submit' value='anfordern'></td>
             </tr>
         </table>
         <a href='index.php'>Zurück zur Startseite</a>

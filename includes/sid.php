@@ -64,7 +64,7 @@ if ($user_id === false) { //keine gültige Session vorhanden
     $login_password = $db->escape(getVar('login_password'));
     $login_cookie   = (bool)getVar('login_cookie');
 
-    if ((!empty($action)) AND (($action == "memberlogin2")) AND (!empty($login_id) AND (!empty($login_password)))) {
+    if ((!empty($action)) AND (($action === "memberlogin2")) AND (!empty($login_id) AND (!empty($login_password)))) {
 
         $returndata = loginUser($login_id, $login_password);
 
@@ -158,7 +158,6 @@ if ((!empty($action) AND ($action === "memberlogout2")) OR ($login_ok === false)
 // fill in some variables, so that these variables ar not
 // unknown to the rest of the script
 $user_adminsitten     = SITTEN_DISABLED;
-$user_password        = "";
 $user_sitten          = "0";
 $user_fremdesitten    = "0";
 $user_vonfremdesitten = "0";
@@ -167,7 +166,7 @@ $user_rules           = "0";
 
 // get user status
 if ($login_ok) {
-    $sql = "SELECT `status`, `gesperrt`, `allianz`, `password`, `allow_ip_change`, `sitterlogin`, `sitterskin`, `rules`, `sitterpwd`," .
+    $sql = "SELECT `status`, `gesperrt`, `allianz`, `allow_ip_change`, `sitterlogin`, `sitterskin`, `rules`, `sitterpwd`," .
         " `sitten`, `planibilder`, `gebbilder`, `adminsitten`, `gebaeude`, `peitschen`," .
         " `gengebmod`, `genbauschleife`, `genmaurer`, `menu_default`," .
         " `gal_start`, `gal_end`, `sys_start`, `sys_end`, `buddlerfrom`, `fremdesitten`, `vonfremdesitten`, `uniprop`" .
@@ -181,7 +180,6 @@ if ($login_ok) {
     if ($user_gesperrt === false) {
         $user_status          = $row['status'];
         $user_allianz         = $row['allianz'];
-        $user_password        = $row['password'];
         $user_allow_ip_change = !empty($row['allow_ip_change']);
         $user_sitterlogin     = $row['sitterlogin'];
         $user_sitterskin      = $row['sitterskin'];

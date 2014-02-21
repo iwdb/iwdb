@@ -156,10 +156,10 @@ function changePassword($id, $password)
 
     $sql = "SELECT `password` FROM `{$db_tb_user}` WHERE `id` = '" . $id . "'";
     $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query user password.', '', __FILE__, __LINE__, $sql);
+        or error(GENERAL_ERROR, 'Could not query user password hash.', '', __FILE__, __LINE__, $sql);
     $userdata = $db->db_fetch_array($result);
     if ($userdata['password'] !== $password_hash) {
-        throw new Exception('writing new password failed!');
+        throw new Exception('writing new password hash failed!');
     }
 
 }

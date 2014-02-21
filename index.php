@@ -194,10 +194,6 @@ if (!getVar("nobody")) {
                             <?php
                             }
 
-                            if (($user_password == "a338268847bac752d23c30b410570c2c") || ($user_password == "2f5a63d542da883a490dd61ef46fe2a9")) {
-                                echo "<br><div class='system_notification'><b>*moep* Achtung! Ändere bitte dein Passwort im Profil. Danke.</b></div><br><br>";
-                            }
-
                             if ((empty($user_sitterpwd)) && ($user_sitten == "1")) {
                                 echo "<br><div class='system_notification'><b>*moep* Achtung! Du hast zwar anderen das Sitten erlaubt, aber kein Sitterpasswort eingetragen.</b></div><br><br>";
                             }

@@ -184,17 +184,12 @@ if (getVar('today') && getVar('toyear') && getVar('tomonth')) {
     $toyear  = $heute['year'];
 }
 
-global $db_tb_user, $user_id;
-//Allianz des Users herausfinden
-$sql = "SELECT allianz FROM " . $db_tb_user . " WHERE id = '" . $user_id . "'";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-while ($row = $db->db_fetch_array($result)) {
-    $allianz = $row['allianz'];
-}
-if (strtolower($user_status) == 'admin' && getVar('allianz')) {
-    $allianz = getVar('allianz');
-    $allianz = urldecode($allianz);
+global $db_tb_user, $user_id, $db;
+
+$allianz = $user_allianz;
+if (strtolower($user_status) === 'admin' && getVar('allianz')) {
+    $allianz = urldecode(getVar('allianz'));
+    $allianz = $db->escape($allianz);
 }
 
 doc_title("Allianzkasse");
@@ -227,7 +222,7 @@ if (strtolower($user_status) == 'admin') {
         echo "<p><SELECT NAME='allianz' size=1>\n";
         foreach ($ally as $alli) {
             echo "<OPTION VALUE='" . urlencode($alli) . "'";
-            if ($allianz == $alli) {
+            if ($allianz === $alli) {
                 echo " selected='selected'";
             }
             echo ">\n";
@@ -473,8 +468,7 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
 			
 	<?php
 		
-} else if ($type == 'content') { //anzeigen, wie viel wann in der kasse war
-
+} else if ($type === 'content') { //anzeigen, wie viel wann in der kasse war
 
     $whereclause = "AND ";
     if (isset($fromdate)) {

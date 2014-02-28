@@ -114,6 +114,9 @@ if ($link_id == false) {
 // Tabellen mit IWDB-Prefix aus der DB lesen
 $sql    = "SELECT `table_name` FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `table_schema` = '$db_name' AND `table_name` LIKE '$db_prefix%';";
 $result = $db->db_query($sql);
+if ($db->db_num_rows($result) == 0) {
+    exit('<div style="text-align:center;color:red">Keine Datenbanktabellen gefunden!</div>');
+}
 while ($row = $db->db_fetch_array($result)) {
     $tbname    = "db_tb_" . mb_substr($row['table_name'], mb_strlen($db_prefix));
     ${$tbname} = $row['table_name'];

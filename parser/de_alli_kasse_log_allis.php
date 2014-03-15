@@ -21,7 +21,7 @@ if (!defined('IRA')) {
  * @subpackage parsermodule
  */
 
-function parse_de_alli_kasse_log_allis($return)
+function parse_de_alli_kasse_log_allis($aParserData)
 {
     global $db, $db_tb_kasse_outgoing, $user_allianz;
 
@@ -32,7 +32,7 @@ function parse_de_alli_kasse_log_allis($return)
     }
 
     $logentries = array();
-    foreach ($return->objResultData->aLogs as $log) {
+    foreach ($aParserData->objResultData->aLogs as $log) {
         $logentry = array();
 
         $logentry['payedfrom']   = $log->strFromUser;

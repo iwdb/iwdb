@@ -12,17 +12,17 @@ require_once("de_xml.php"); //unixml-parser input_unixml ist dort
  *
  * verarbeitet Systemxml-Strings zu SimpleXMLElement Objekten und gibt sie an den unixml-parser weiter
  *
- * @param $xmldata object Daten von der parserlib
+ * @param $aParserData object Daten von der parserlib
  *
  * @return bool Verarbeitung erfolgreich
  */
 
-function parse_de_universum($xmldata)
+function parse_de_universum($aParserData)
 {
-    if ($xmldata->objResultData instanceof DTOParserUniversumXmlTextC) {
+    if ($aParserData->objResultData instanceof DTOParserUniversumXmlTextC) {
         //we have an array of xml-strings
 
-        foreach ($xmldata->objResultData->aXmlText as $XmlText) {
+        foreach ($aParserData->objResultData->aXmlText as $XmlText) {
 
             $XmlText   = mb_convert_encoding($XmlText, "ISO-8859-1"); //zurückkonvertieren zu "ISO-8859-1" weil in der xml so angegeben aber IWDB Input ist utf-8
             $xmlobject = simplexml_load_string($XmlText);
@@ -37,7 +37,7 @@ function parse_de_universum($xmldata)
 
         }
 
-    } elseif ($xmldata->objResultData instanceof DTOParserUniversumResultC) {
+    } elseif ($aParserData->objResultData instanceof DTOParserUniversumResultC) {
         echo "<div class='system_warning'>Input erfolgreich erkannt. Passende Verarbeitung ist aber bisher nicht vorhanden.</div>";
 
         return false;

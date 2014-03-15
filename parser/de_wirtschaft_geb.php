@@ -37,22 +37,21 @@ if (!defined('DEBUG_LEVEL')) {
     define('DEBUG_LEVEL', 0);
 }
 
-function parse_de_wirtschaft_geb($return)
+function parse_de_wirtschaft_geb($aParserData)
 {
     global $db, $db_tb_gebaeude_spieler, $selectedusername;
 
-    $AccName = getAccNameFromKolos($return->objResultData->aKolos);
+    $AccName = getAccNameFromKolos($aParserData->objResultData->aKolos);
     if ($AccName === false) { //kein Eintrag gefunden -> ausgewählten Accname verwenden
         $AccName = $selectedusername;
     }
 
     //alle alten Einträge des Accs weg
     $sql = "DELETE FROM " . $db_tb_gebaeude_spieler . " WHERE user='" . $AccName . "'";
-    $result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $db->db_query($sql);
 
     $aCoords_old = array();
-    foreach ($return->objResultData->aAreas as $area) {
+    foreach ($aParserData->objResultData->aAreas as $area) {
         foreach ($area->aBuildings as $building) {
             foreach ($building->aCounts as $coords => $iGebcount) {
 
@@ -70,12 +69,11 @@ function parse_de_wirtschaft_geb($return)
                     $aCoords_old = $aCoords;
                 }
 
-
                 $SQLdata = array (
                     'coords_gal' => (int)$aCoords[0],
                     'coords_sys' => (int)$aCoords[1],
                     'coords_planet' => (int)$aCoords[2],
-                    'kolo_typ' => $return->objResultData->aKolos[$coords]->strObjectType,
+                    'kolo_typ' => $aParserData->objResultData->aKolos[$coords]->strObjectType,
                     'user'  => $AccName,
                     'category' => htmlspecialchars(trim($area->strAreaName), ENT_QUOTES, 'UTF-8'),
                     'building' => htmlspecialchars($building->strBuildingName, ENT_QUOTES, 'UTF-8'),

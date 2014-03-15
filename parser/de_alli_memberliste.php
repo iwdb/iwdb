@@ -37,14 +37,13 @@ if (!defined('DEBUG_LEVEL')) {
     define('DEBUG_LEVEL', 0);
 }
 
-function parse_de_alli_memberliste($result)
+function parse_de_alli_memberliste($aParserData)
 {
     //Allianz des User auslesen der geparsed wird
     global $user_id, $db, $db_tb_user;
 
     $sql = "SELECT `allianz` FROM `{$db_tb_user}` WHERE id='" . $user_id . "';";
-    $sqlres = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $sqlres = $db->db_query($sql);
     $row     = $db->db_fetch_array($sqlres);
     $allianz = $row['allianz'];
     echo "Member werden folgender Allianz zugeordnet: [" . $allianz . "]<br />";
@@ -52,17 +51,16 @@ function parse_de_alli_memberliste($result)
     //! bisherige Member der Allianz suchen
     $oldMember = array();
     $sql       = "SELECT `sitterlogin` FROM `{$db_tb_user}` WHERE allianz = '" . $allianz . "'";
-    $sqlres = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $sqlres = $db->db_query($sql);
     while ($row = $db->db_fetch_array($sqlres)) {
         array_push($oldMember, $row["sitterlogin"]);
     }
 
-    $bDateOfEntryVisible = $result->objResultData->bDateOfEntryVisible;
-    $bUserTitleVisible   = $result->objResultData->bUserTitleVisible;
+    $bDateOfEntryVisible = $aParserData->objResultData->bDateOfEntryVisible;
+    $bUserTitleVisible   = $aParserData->objResultData->bUserTitleVisible;
 
     $aktMember = array();
-    foreach ($result->objResultData->aMembers as $object_user) {
+    foreach ($aParserData->objResultData->aMembers as $object_user) {
         $scan_udata = array();
         array_push($aktMember, $object_user->strName);
 
@@ -105,25 +103,21 @@ function updateuser($scan_data)
         " '" . $scan_data['sitterlogin'] . "', '" . CURRENT_UNIX_TIME . "', '" .
         $scan_data['gebp'] . "', '" . $scan_data['fp'] . "', '" .
         $scan_data['gesamtp'] . "', '" . $scan_data['ptag'] . "' )";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $db->db_query($sql);
 
     // Prüfe Mitglied, ob es bereits in der DB gespeichert ist.
-    $sql = "SELECT sitterlogin FROM " . $db_tb_user .
-        " WHERE sitterlogin='" . $scan_data['sitterlogin'] . "'";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $sql = "SELECT sitterlogin FROM " . $db_tb_user . " WHERE sitterlogin='" . $scan_data['sitterlogin'] . "'";
+    $result = $db->db_query($sql);
     $row = $db->db_fetch_array($result);
 
-    if (isset($row['sitterlogin'])) {
+    if (!empty($row['sitterlogin'])) {
         // Das Mitglied existiert bereits. Daten in Tabelle user aktualisieren.
         foreach ($scan_data as $key => $data) {
             $update = (empty($update)) ? $key . "='" . $data . "'" : $update . ", " . $key . "='" . $data . "'";
         }
 
         $sql = "UPDATE " . $db_tb_user . " SET " . $update . " WHERE sitterlogin='" . $scan_data['sitterlogin'] . "'";
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $db->db_query($sql);
 
         return 1;
     } else {
@@ -137,8 +131,7 @@ function updateuser($scan_data)
                 : $sql_data . ", '" . $data . "'";
         }
         $sql = "INSERT INTO " . $db_tb_user . " (" . $sql_key . ") VALUES (" . $sql_data . ")";
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $db->db_query($sql);
 
         return 2;
     }

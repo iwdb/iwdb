@@ -42,163 +42,160 @@ if (!defined('DEBUG_LEVEL')) {
     define('DEBUG_LEVEL', 0);
 }
 
-function parse_de_info_schiff($return)
+function parse_de_info_schiff($aParserData)
 {
-    if ($return->bSuccessfullyParsed) {
-        global $db, $db_tb_schiffstyp;
+    global $db, $db_tb_schiffstyp;
 
-        $ship_data['schiff'] = $return->objResultData->strSchiffName;
+    $ship_data['schiff'] = $aParserData->objResultData->strSchiffName;
 
-        if (!empty($return->objResultData->aCosts)) {
+    if (!empty($aParserData->objResultData->aCosts)) {
 
-            $ship_data['kosten_eisen']   = 0;
-            $ship_data['kosten_stahl']   = 0;
-            $ship_data['kosten_vv4a']    = 0;
-            $ship_data['kosten_chemie']  = 0;
-            $ship_data['kosten_eis']     = 0;
-            $ship_data['kosten_wasser']  = 0;
-            $ship_data['kosten_energie'] = 0;
-            $ship_data['kosten_bev']     = 0;
+        $ship_data['kosten_eisen']   = 0;
+        $ship_data['kosten_stahl']   = 0;
+        $ship_data['kosten_vv4a']    = 0;
+        $ship_data['kosten_chemie']  = 0;
+        $ship_data['kosten_eis']     = 0;
+        $ship_data['kosten_wasser']  = 0;
+        $ship_data['kosten_energie'] = 0;
+        $ship_data['kosten_bev']     = 0;
 
-            foreach ($return->objResultData->aCosts as $cost) {
-                switch ($cost['strResourceName']) {
-                    case 'Eisen':
-                        $ship_data['kosten_eisen'] = $cost['iResourceCount'];
-                        break;
-                    case 'Stahl':
-                        $ship_data['kosten_stahl'] = $cost['iResourceCount'];
-                        break;
-                    case 'VV4A':
-                        $ship_data['kosten_vv4a'] = $cost['iResourceCount'];
-                        break;
-                    case 'chem. Elemente':
-                        $ship_data['kosten_chemie'] = $cost['iResourceCount'];
-                        break;
-                    case 'Eis':
-                        $ship_data['kosten_eis'] = $cost['iResourceCount'];
-                        break;
-                    case 'Wasser':
-                        $ship_data['kosten_wasser'] = $cost['iResourceCount'];
-                        break;
-                    case 'Energie':
-                        $ship_data['kosten_energie'] = $cost['iResourceCount'];
-                        break;
-                    case 'Bevölkerung':
-                        $ship_data['kosten_bev'] = $cost['iResourceCount'];
-                        break;
-                }
-
-
+        foreach ($aParserData->objResultData->aCosts as $cost) {
+            switch ($cost['strResourceName']) {
+                case 'Eisen':
+                    $ship_data['kosten_eisen'] = $cost['iResourceCount'];
+                    break;
+                case 'Stahl':
+                    $ship_data['kosten_stahl'] = $cost['iResourceCount'];
+                    break;
+                case 'VV4A':
+                    $ship_data['kosten_vv4a'] = $cost['iResourceCount'];
+                    break;
+                case 'chem. Elemente':
+                    $ship_data['kosten_chemie'] = $cost['iResourceCount'];
+                    break;
+                case 'Eis':
+                    $ship_data['kosten_eis'] = $cost['iResourceCount'];
+                    break;
+                case 'Wasser':
+                    $ship_data['kosten_wasser'] = $cost['iResourceCount'];
+                    break;
+                case 'Energie':
+                    $ship_data['kosten_energie'] = $cost['iResourceCount'];
+                    break;
+                case 'Bevölkerung':
+                    $ship_data['kosten_bev'] = $cost['iResourceCount'];
+                    break;
             }
 
+
         }
 
-        if (isset($return->objResultData->iGschwdSol)) {
-            $ship_data['GeschwindigkeitSol'] = $return->objResultData->iGschwdSol;
-        }
-        if (isset($return->objResultData->iGschwdGal)) {
-            $ship_data['GeschwindigkeitGal'] = $return->objResultData->iGschwdGal;
-        }
-        if (isset($return->objResultData->bCanLeaveGalaxy)) {
-            $ship_data['canLeaveGalaxy'] = $return->objResultData->bCanLeaveGalaxy;
-        }
-        if (isset($return->objResultData->bCanBeTransported)) {
-            $ship_data['canBeTransported'] = $return->objResultData->bCanBeTransported;
-        }
-        if (isset($return->objResultData->iVerbrauchBrause)) {
-            $ship_data['VerbrauchChemie'] = $return->objResultData->iVerbrauchBrause;
-        }
-        if (isset($return->objResultData->iVerbrauchEnergie)) {
-            $ship_data['VerbrauchEnergie'] = $return->objResultData->iVerbrauchEnergie;
-        }
-
-        if (isset($return->objResultData->iAttack)) {
-            $ship_data['angriff'] = $return->objResultData->iAttack;
-        }
-        if (isset($return->objResultData->strWeaponClass)) {
-            $ship_data['waffenklasse'] = $return->objResultData->strWeaponClass;
-        }
-        if (isset($return->objResultData->iDefence)) {
-            $ship_data['verteidigung'] = $return->objResultData->iDefence;
-        }
-        if (isset($return->objResultData->iArmour_kin)) {
-            $ship_data['panzerung_kinetisch'] = $return->objResultData->iArmour_kin;
-        }
-        if (isset($return->objResultData->iArmour_electr)) {
-            $ship_data['panzerung_elektrisch'] = $return->objResultData->iArmour_electr;
-        }
-        if (isset($return->objResultData->iArmour_grav)) {
-            $ship_data['panzerung_gravimetrisch'] = $return->objResultData->iArmour_grav;
-        }
-        if (isset($return->objResultData->iShields)) {
-            $ship_data['schilde'] = $return->objResultData->iShields;
-        }
-        if (isset($return->objResultData->iAccuracy)) {
-            $ship_data['accuracy'] = $return->objResultData->iAccuracy;
-        }
-        if (isset($return->objResultData->iMobility)) {
-            $ship_data['mobility'] = $return->objResultData->iMobility;
-        }
-        if (isset($return->objResultData->iNoEscort)) {
-            $ship_data['numEscort'] = $return->objResultData->iNoEscort;
-        }
-        if (isset($return->objResultData->fBonusAtt)) {
-            $ship_data['escortBonusAtt'] = $return->objResultData->fBonusAtt;
-        }
-        if (isset($return->objResultData->fBonusDef)) {
-            $ship_data['escortBonusDef'] = $return->objResultData->fBonusDef;
-        }
-
-        if (isset($return->objResultData->strWerftTyp)) {
-            $ship_data['werftTyp'] = $return->objResultData->strWerftTyp;
-        }
-        if (isset($return->objResultData->iProductionTime)) {
-            $ship_data['dauer'] = $return->objResultData->iProductionTime;
-        }
-
-        if (isset($return->objResultData->bIsTransporter)) {
-            $ship_data['isTransporter'] = $return->objResultData->bIsTransporter;
-        }
-        if (isset($return->objResultData->iKapa1)) {
-            $ship_data['klasse1'] = $return->objResultData->iKapa1;
-        } else {
-            $ship_data['klasse1'] = 0;
-        }
-        if (isset($return->objResultData->iKapa2)) {
-            $ship_data['klasse2'] = $return->objResultData->iKapa2;
-        } else {
-            $ship_data['klasse2'] = 0;
-        }
-        if (isset($return->objResultData->iKapaBev)) {
-            $ship_data['bev'] = $return->objResultData->iKapaBev;
-        } else {
-            $ship_data['bev'] = 0;
-        }
-
-        if (isset($return->objResultData->bIsCarrier)) {
-            $ship_data['isCarrier'] = $return->objResultData->bIsCarrier;
-        }
-        if (isset($return->objResultData->iShipKapa1)) {
-            $ship_data['shipKapa1'] = $return->objResultData->iShipKapa1;
-        } else {
-            $ship_data['shipKapa1'] = 0;
-        }
-        if (isset($return->objResultData->iShipKapa2)) {
-            $ship_data['shipKapa2'] = $return->objResultData->iShipKapa2;
-        } else {
-            $ship_data['shipKapa2'] = 0;
-        }
-        if (isset($return->objResultData->iShipKapa3)) {
-            $ship_data['shipKapa3'] = $return->objResultData->iShipKapa3;
-        } else {
-            $ship_data['shipKapa3'] = 0;
-        }
-
-        $ship_data['aktualisiert'] = CURRENT_UNIX_TIME;
-
-        $db->db_insertupdate($db_tb_schiffstyp, $ship_data)
-            or error(GENERAL_ERROR, 'Could not insert ship information.', '', __FILE__, __LINE__);
-
-        doc_message($ship_data['schiff'] . ' aktualisiert');
     }
+
+    if (isset($aParserData->objResultData->iGschwdSol)) {
+        $ship_data['GeschwindigkeitSol'] = $aParserData->objResultData->iGschwdSol;
+    }
+    if (isset($aParserData->objResultData->iGschwdGal)) {
+        $ship_data['GeschwindigkeitGal'] = $aParserData->objResultData->iGschwdGal;
+    }
+    if (isset($aParserData->objResultData->bCanLeaveGalaxy)) {
+        $ship_data['canLeaveGalaxy'] = $aParserData->objResultData->bCanLeaveGalaxy;
+    }
+    if (isset($aParserData->objResultData->bCanBeTransported)) {
+        $ship_data['canBeTransported'] = $aParserData->objResultData->bCanBeTransported;
+    }
+    if (isset($aParserData->objResultData->iVerbrauchBrause)) {
+        $ship_data['VerbrauchChemie'] = $aParserData->objResultData->iVerbrauchBrause;
+    }
+    if (isset($aParserData->objResultData->iVerbrauchEnergie)) {
+        $ship_data['VerbrauchEnergie'] = $aParserData->objResultData->iVerbrauchEnergie;
+    }
+
+    if (isset($aParserData->objResultData->iAttack)) {
+        $ship_data['angriff'] = $aParserData->objResultData->iAttack;
+    }
+    if (isset($aParserData->objResultData->strWeaponClass)) {
+        $ship_data['waffenklasse'] = $aParserData->objResultData->strWeaponClass;
+    }
+    if (isset($aParserData->objResultData->iDefence)) {
+        $ship_data['verteidigung'] = $aParserData->objResultData->iDefence;
+    }
+    if (isset($aParserData->objResultData->iArmour_kin)) {
+        $ship_data['panzerung_kinetisch'] = $aParserData->objResultData->iArmour_kin;
+    }
+    if (isset($aParserData->objResultData->iArmour_electr)) {
+        $ship_data['panzerung_elektrisch'] = $aParserData->objResultData->iArmour_electr;
+    }
+    if (isset($aParserData->objResultData->iArmour_grav)) {
+        $ship_data['panzerung_gravimetrisch'] = $aParserData->objResultData->iArmour_grav;
+    }
+    if (isset($aParserData->objResultData->iShields)) {
+        $ship_data['schilde'] = $aParserData->objResultData->iShields;
+    }
+    if (isset($aParserData->objResultData->iAccuracy)) {
+        $ship_data['accuracy'] = $aParserData->objResultData->iAccuracy;
+    }
+    if (isset($aParserData->objResultData->iMobility)) {
+        $ship_data['mobility'] = $aParserData->objResultData->iMobility;
+    }
+    if (isset($aParserData->objResultData->iNoEscort)) {
+        $ship_data['numEscort'] = $aParserData->objResultData->iNoEscort;
+    }
+    if (isset($aParserData->objResultData->fBonusAtt)) {
+        $ship_data['escortBonusAtt'] = $aParserData->objResultData->fBonusAtt;
+    }
+    if (isset($aParserData->objResultData->fBonusDef)) {
+        $ship_data['escortBonusDef'] = $aParserData->objResultData->fBonusDef;
+    }
+
+    if (isset($aParserData->objResultData->strWerftTyp)) {
+        $ship_data['werftTyp'] = $aParserData->objResultData->strWerftTyp;
+    }
+    if (isset($aParserData->objResultData->iProductionTime)) {
+        $ship_data['dauer'] = $aParserData->objResultData->iProductionTime;
+    }
+
+    if (isset($aParserData->objResultData->bIsTransporter)) {
+        $ship_data['isTransporter'] = $aParserData->objResultData->bIsTransporter;
+    }
+    if (isset($aParserData->objResultData->iKapa1)) {
+        $ship_data['klasse1'] = $aParserData->objResultData->iKapa1;
+    } else {
+        $ship_data['klasse1'] = 0;
+    }
+    if (isset($aParserData->objResultData->iKapa2)) {
+        $ship_data['klasse2'] = $aParserData->objResultData->iKapa2;
+    } else {
+        $ship_data['klasse2'] = 0;
+    }
+    if (isset($aParserData->objResultData->iKapaBev)) {
+        $ship_data['bev'] = $aParserData->objResultData->iKapaBev;
+    } else {
+        $ship_data['bev'] = 0;
+    }
+
+    if (isset($aParserData->objResultData->bIsCarrier)) {
+        $ship_data['isCarrier'] = $aParserData->objResultData->bIsCarrier;
+    }
+    if (isset($aParserData->objResultData->iShipKapa1)) {
+        $ship_data['shipKapa1'] = $aParserData->objResultData->iShipKapa1;
+    } else {
+        $ship_data['shipKapa1'] = 0;
+    }
+    if (isset($aParserData->objResultData->iShipKapa2)) {
+        $ship_data['shipKapa2'] = $aParserData->objResultData->iShipKapa2;
+    } else {
+        $ship_data['shipKapa2'] = 0;
+    }
+    if (isset($aParserData->objResultData->iShipKapa3)) {
+        $ship_data['shipKapa3'] = $aParserData->objResultData->iShipKapa3;
+    } else {
+        $ship_data['shipKapa3'] = 0;
+    }
+
+    $ship_data['aktualisiert'] = CURRENT_UNIX_TIME;
+
+    $db->db_insertupdate($db_tb_schiffstyp, $ship_data);
+
+    doc_message($ship_data['schiff'] . ' aktualisiert');
 }

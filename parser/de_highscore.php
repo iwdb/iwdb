@@ -37,18 +37,18 @@ if (!defined('DEBUG_LEVEL')) {
     define('DEBUG_LEVEL', 0);
 }
 
-function parse_de_highscore($result)
+function parse_de_highscore($aParserData)
 {
-    $aktualisierungszeit = $result->objResultData->iTimestamp;
-    $bDateOfEntryVisible = $result->objResultData->bDateOfEntryVisible;
-    $strHighscoreType    = $result->objResultData->strType;
+    $aktualisierungszeit = $aParserData->objResultData->iTimestamp;
+    $bDateOfEntryVisible = $aParserData->objResultData->bDateOfEntryVisible;
+    $strHighscoreType    = $aParserData->objResultData->strType;
 
     $aHighscoreTypen     = array('Demokraten', 'Diktatoren', 'Kommunisten', 'Monarchen', 'Barbaren');
     $aStaatsformen       = array('Demokrat', 'Diktator', 'Kommunist', 'Monarch', 'Barbar');
     $strStaatsform       = str_replace($aHighscoreTypen, $aStaatsformen, $strHighscoreType);
 
     $count = 0;
-    foreach ($result->objResultData->aMembers as $object_user) {
+    foreach ($aParserData->objResultData->aMembers as $object_user) {
         $scan_data = array();
 
         $scan_data['name']    = $object_user->strName;
@@ -123,11 +123,9 @@ function save_playerdata($scan_data)
     //andere Spielerdaten eintragen
     unset($scan_data['allianz']);
 
-    $db->db_insertupdate($db_tb_spieler, $scan_data)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+    $db->db_insertupdate($db_tb_spieler, $scan_data);
 
     //Punkte in die Kartendaten übertragen
-    $db->db_update($db_tb_scans, array('punkte' => $gesamtp), "WHERE user='$name'")
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+    $db->db_update($db_tb_scans, array('punkte' => $gesamtp), "WHERE user='$name'");
 
 }

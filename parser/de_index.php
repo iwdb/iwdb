@@ -39,15 +39,15 @@ if (!defined('DEBUG_LEVEL')) {
 
 //****************************************************************************
 
-function parse_de_index($return)
+function parse_de_index($aParserData)
 {
     global $db, $db_tb_scans, $db_tb_user_research, $selectedusername, $scan_datas, $db_tb_params, $db_tb_bestellung, $db_tb_sitterauftrag, $db_tb_research;
 
-    debug_var('Input', $return);
+    debug_var('Input', $aParserData);
 
     //get Accname from Koords
     $AccName = false;
-    foreach ($return->objResultData->aContainer as $aContainer) {
+    foreach ($aParserData->objResultData->aContainer as $aContainer) {
         if (($aContainer->strIdentifier == "de_index_geb") AND ($aContainer->bSuccessfullyParsed)) {
             $AccName = getAccNameFromKolos($aContainer->objResultData->aGeb);
         }
@@ -56,7 +56,7 @@ function parse_de_index($return)
         $AccName = $selectedusername;
     }
 
-    if ($return->objResultData->bOngoingResearch == false) { // keine laufende Forschung
+    if ($aParserData->objResultData->bOngoingResearch == false) { // keine laufende Forschung
 
     	$SQLdata = array (
             'user' => $AccName,
@@ -65,8 +65,7 @@ function parse_de_index($return)
             'time' => CURRENT_UNIX_TIME
         );
 
-        $result = $db->db_insertupdate($db_tb_user_research, $SQLdata)
-            or error(GENERAL_ERROR, 'Could not update researchtime.', '', __FILE__, __LINE__);
+        $db->db_insertupdate($db_tb_user_research, $SQLdata);
 
         //# alle Forschungsaufträge des Spielers anpassen
 
@@ -78,8 +77,7 @@ function parse_de_index($return)
             if ($res_order_time_diff > 0) { //alle Forschungsaufträge liegen in der Zukunft -> alle vorziehen
 
                 $sql = "UPDATE `{$db_tb_sitterauftrag}` SET `date` = `date`-{$res_order_time_diff}, `date_b1` = `date_b1`-{$res_order_time_diff}, `date_b2` = `date_b2`-{$res_order_time_diff} WHERE `user` = '{$AccName}' AND `typ` = 'Forschung';";
-                $db->db_query($sql)
-                    or error(GENERAL_ERROR, 'Could not update researchtime.', '', __FILE__, __LINE__, $sql);
+                $db->db_query($sql);
                 debug_var("Forschungsanpassung", "Zeiten der Forschungsaufträge bei {$AccName} angepasst");
 
             }
@@ -88,12 +86,11 @@ function parse_de_index($return)
         echo "<div class='system_warning'>Es läuft keine Forschung bei {$AccName}!</div>";
     }
 
-    foreach ($return->objResultData->aContainer as $aContainer) {
+    foreach ($aParserData->objResultData->aContainer as $aContainer) {
         if ($aContainer->bSuccessfullyParsed) {
             if ($aContainer->strIdentifier == "de_index_fleet") {                  //Flotten
                 $fleetType = $aContainer->objResultData->strType; //own OR opposite
 
-                $flottentyp = "";
                 if ($fleetType == "own") {
                     $flottentyp = "eigene Flotten, * = Anzahl Schiffe, + = Anzahl Ress";
                 } else {
@@ -170,8 +167,7 @@ function parse_de_index($return)
                             $sql .= " AND coords_sys=" . $scan_data['coords_to_sys'];
                             $sql .= " AND coords_planet=" . $scan_data['coords_to_planet'];
 
-                            $result = $db->db_query($sql)
-                                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                            $result = $db->db_query($sql);
                             if ($row = $db->db_fetch_array($result)) {
                                 $scan_data['user_to'] = $row['user'];
                             }
@@ -184,8 +180,7 @@ function parse_de_index($return)
                             $sql .= " AND coords_sys=" . $scan_data['coords_from_sys'];
                             $sql .= " AND coords_planet=" . $scan_data['coords_from_planet'];
 
-                            $result = $db->db_query($sql)
-                                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                            $result = $db->db_query($sql);
                             if ($row = $db->db_fetch_array($result)) {
                                 $scan_data['user_from'] = $row['user'];
                             }
@@ -291,8 +286,7 @@ function parse_de_index($return)
                                                     'time_created' => CURRENT_UNIX_TIME
                                                 );
 
-                                                $db->db_insert($db_tb_bestellung, $SQLdata)
-                                                    or error(GENERAL_ERROR, 'Could not insert credits order!', '', __FILE__, __LINE__);
+                                                $db->db_insert($db_tb_bestellung, $SQLdata);
 
                                                 doc_message('weniger als ' . number_format((float)$automatic_creds_order_minvalue, 0, ',', '.') . ' Credits bei ' . $AccName . ' -> ' . number_format((float)$creds_order_value, 0, ',', '.') . ' Credits automatisch bestellt');
 
@@ -306,8 +300,7 @@ function parse_de_index($return)
                                                         'credits'       => $creds_order_value,
                                                         'offen_credits' => $creds_order_value
                                                     );
-                                                    $db->db_update($db_tb_bestellung, $data, "WHERE `id`=" . $order_id)
-                                                        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+                                                    $db->db_update($db_tb_bestellung, $data, "WHERE `id`=" . $order_id);
 
                                                     if (count($creds_order) > 1) {
                                                         //Creditsbestellungen aus anderen Bestellungen streichen
@@ -318,8 +311,7 @@ function parse_de_index($return)
                                                                 'credits'       => 0,
                                                                 'offen_credits' => 0
                                                             );
-                                                            $db->db_update($db_tb_bestellung, $data, "WHERE `id`=" . $order_id)
-                                                                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+                                                            $db->db_update($db_tb_bestellung, $data, "WHERE `id`=" . $order_id);
                                                         }
                                                     }
 
@@ -349,28 +341,24 @@ function parse_de_index($return)
                     . "`date` = {$aContainer->objResultData->aResearch[0]->iResearchEnd}, "
                     . "`time` = " . CURRENT_UNIX_TIME . ";";
 
-                $result = $db->db_query($sql)
-                    or error(GENERAL_ERROR, 'Could not update research.', '', __FILE__, __LINE__, $sql);
+                $db->db_query($sql);
                 debug_var("Forschungsanpassung", "Forschung bei {$AccName} aktualisiert");
 
                 //Zeitanpassung der nächsten Forschungssitteraufträge
 
                 //nächsten Forschungsauftrag holen
                 $sql = "SELECT `id`, `resid` FROM `{$db_tb_sitterauftrag}` WHERE `user` = '{$AccName}' AND `typ` = 'Forschung' ORDER BY `date` ASC LIMIT 1;";
-                $result = $db->db_query($sql)
-                    or error(GENERAL_ERROR, 'Could not get research information.', '', __FILE__, __LINE__, $sql);
+                $result = $db->db_query($sql);
 
                 if ($row = $db->db_fetch_array($result)) {
                     if ($row['resid'] == $research_id) { //nächster Forschungssitterauftrag läuft bereits -> Sitterauftrag löschen
                         $sql = "DELETE FROM `{$db_tb_sitterauftrag}` WHERE `id`='{$row['id']}'";
-                        $db->db_query($sql)
-                            or error(GENERAL_ERROR, 'Could not delete sitterorder.', '', __FILE__, __LINE__, $sql);
+                        $db->db_query($sql);
                     }
 
                     //nochmal nächsten Forschungsauftrag holen
                     $sql = "SELECT `date` FROM `{$db_tb_sitterauftrag}` WHERE `user` = '{$AccName}' AND `typ` = 'Forschung' ORDER BY `date` ASC LIMIT 1;";
-                    $result = $db->db_query($sql)
-                        or error(GENERAL_ERROR, 'Could not get next sitterorder.', '', __FILE__, __LINE__, $sql);
+                    $result = $db->db_query($sql);
 
                     if ($row = $db->db_fetch_array($result)) {
 
@@ -380,8 +368,7 @@ function parse_de_index($return)
                         if ($res_order_time_diff > 0) { //folgenden Forschungsaufträge liegen zu weit in der Zukunft -> alle vorziehen
 
                             $sql = "UPDATE `{$db_tb_sitterauftrag}` SET `date` = `date`-".$res_order_time_diff.", `date_b1` = `date_b1`-".$res_order_time_diff.", `date_b2` = `date_b2`-".$res_order_time_diff." WHERE `user` = '{$AccName}' AND `typ` = 'Forschung';";
-                            $db->db_query($sql)
-                                or error(GENERAL_ERROR, 'Could not modify sitterorder.', '', __FILE__, __LINE__, $sql);
+                            $db->db_query($sql);
 
                             debug_var("Forschungsanpassung", "Zeiten der Forschungsaufträge bei {$AccName} angepasst");
 
@@ -420,7 +407,7 @@ function parse_de_index($return)
 
 function save_data($scan_data)
 {
-    global $db, $db_tb_lieferung, $db_tb_scans, $db_tb_incomings, $config_allytag;
+    global $db, $db_tb_lieferung, $db_tb_scans, $db_tb_incomings;
 
     $fields = array(
         'time'               => $scan_data['time'],
@@ -473,17 +460,11 @@ function save_data($scan_data)
 
         //bei Transporten oder Massdriverpaketen sollten Ressmengen mit dastehen, sonst werden die Transporte ignoriert
         if (!empty($scan_data['pos'])) {
-
-            $db->db_insertignore($db_tb_lieferung, $fields)
-                or error(GENERAL_ERROR, 'Could not insert transports.', '', __FILE__, __LINE__);
-
+            $db->db_insertignore($db_tb_lieferung, $fields);
         }
 
     } else {
-
-        $db->db_insertignore($db_tb_lieferung, $fields)
-            or error(GENERAL_ERROR, 'Could not insert transports.', '', __FILE__, __LINE__);
-
+        $db->db_insertignore($db_tb_lieferung, $fields);
     }
 
     if ($scan_data['art'] == "Angriff") {
@@ -494,8 +475,7 @@ function save_data($scan_data)
 			 WHERE coords_gal=" . $scan_data['coords_to_gal'] . "
 			   AND coords_sys=" . $scan_data['coords_to_sys'] . "
 			   AND coords_planet=" . $scan_data['coords_to_planet'];
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $db->db_query($sql);
 
     } elseif (($scan_data['art'] == "Sondierung (Schiffe/Def/Ress)") || ($scan_data['art'] == "Sondierung (Gebäude/Ress)")) {
 
@@ -505,8 +485,7 @@ function save_data($scan_data)
 			 WHERE coords_gal=" . $scan_data['coords_to_gal'] . "
 			   AND coords_sys=" . $scan_data['coords_to_sys'] . "
 			   AND coords_planet=" . $scan_data['coords_to_planet'];
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $db->db_query($sql);
 
     }
 
@@ -522,14 +501,12 @@ function save_data($scan_data)
 
             //nicht mehr fliegende Incs löschen
             $sql = "DELETE FROM `{$db_tb_incomings}` WHERE `listedtime`<>" . CURRENT_UNIX_TIME . " AND `name_to`='" . $scan_data['user_to'] . "' AND `arrivaltime`>".CURRENT_UNIX_TIME;
-            $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $db->db_query($sql);
 
             //Löschen der Einträge älter als 20 min in der Tabelle incomings, es sollen nur aktuelle Sondierungen und Angriffe eingetragen sein
             //ToDo : evtl Trennung Sondierung und Angriffe, damit die Sondierungen früher entfernt sind
             $sql = "DELETE FROM `{$db_tb_incomings}` WHERE `arrivaltime`<" . (CURRENT_UNIX_TIME - 20 * MINUTE);
-            $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $db->db_query($sql);
 
             //nur incomings auf die eigene oder verbündete Allianzen und maximal 20 min in der Vergangenheit eintragen
             if (
@@ -554,8 +531,7 @@ function save_data($scan_data)
                     'listedtime'   => CURRENT_UNIX_TIME
                 );
                 debug_var('sql-Daten', $SQLdata);
-                $db->db_insertignore($db_tb_incomings, $SQLdata)
-                    or error(GENERAL_ERROR, 'Could not insert incoming.', '', __FILE__, __LINE__);
+                $db->db_insertignore($db_tb_incomings, $SQLdata);
             }
         }
     }

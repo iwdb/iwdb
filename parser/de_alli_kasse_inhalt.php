@@ -20,7 +20,7 @@ if (!defined('IRA')) {
  * @subpackage parsermodule
  */
 
-function parse_de_alli_kasse_inhalt($return)
+function parse_de_alli_kasse_inhalt($aParserData)
 {
     global $db, $db_tb_kasse_content, $user_allianz;
 
@@ -30,10 +30,11 @@ function parse_de_alli_kasse_inhalt($return)
         return;
     }
 
-    $SQLdata = array();
-    $SQLdata['amount'] = $return->objResultData->fCredits;
-    $SQLdata['time_of_insert'] = strftime('%Y-%m-%d %H:%M:00', CURRENT_UNIX_TIME);
-    $SQLdata['allianz'] = $user_allianz;
+    $SQLdata = array(
+        'amount'         => $aParserData->objResultData->fCredits,
+        'time_of_insert' => strftime('%Y-%m-%d %H:%M:00', CURRENT_UNIX_TIME),
+        'allianz'        => $user_allianz
+    );
 
     $db->db_insertupdate($db_tb_kasse_content, $SQLdata);
 

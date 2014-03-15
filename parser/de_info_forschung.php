@@ -37,12 +37,12 @@ if (!defined('DEBUG_LEVEL')) {
     define('DEBUG_LEVEL', 0);
 }
 
-function parse_de_info_forschung($return)
+function parse_de_info_forschung($aParserData)
 {
-    debug_var("input", $return);
+    debug_var("input", $aParserData);
 
     $scan_data = array();
-    $research  = $return->objResultData;
+    $research  = $aParserData->objResultData;
 
     $scan_data['research']    = $research->strResearchName;
     $scan_data['description'] = $research->strResearchComment;
@@ -108,15 +108,13 @@ function update_research($scan_data)
 
     // Forschungsgebiet heraussuchen
     $sql = "SELECT ID FROM `{$db_tb_researchfield}` WHERE `name`='" . $scan_data['gebiet'] . "';";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     $row    = $db->db_fetch_array($result);
     $gebiet = $row['ID'];
 
     if (empty($gebiet)) {
-        $db->db_insert($db_tb_researchfield, array('name' => $scan_data['gebiet']))
-            or error(GENERAL_ERROR, 'Could not insert information.', '', __FILE__, __LINE__);
+        $db->db_insert($db_tb_researchfield, array('name' => $scan_data['gebiet']));
 
         $gebiet = $db->db_insert_id();
         if (empty($gebiet)) {
@@ -126,16 +124,13 @@ function update_research($scan_data)
 
     // Abgeleitete Gebaeude, Forschungen und Prototypen entfernen
     $sql = "DELETE FROM `{$db_tb_research2building}` WHERE `rId`=" . $rid;
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $db->db_query($sql);
 
     $sql = "DELETE FROM `{$db_tb_research2prototype}` WHERE `rId`=" . $rid;
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $db->db_query($sql);
 
     $sql = "DELETE FROM `{$db_tb_research2research}` WHERE `rOld`=" . $rid . " OR `rNew`=" . $rid;
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $db->db_query($sql);
 
     // Deklarationen aufsplitten
     $declares = "";
@@ -215,15 +210,13 @@ function update_research($scan_data)
         'time'         => CURRENT_UNIX_TIME
     );
 
-    $result = $db->db_update($db_tb_research, $data, "WHERE ID=" . $rid)
-        or error(GENERAL_ERROR, 'Could not update research information.', '', __FILE__, __LINE__);
+    $db->db_update($db_tb_research, $data, "WHERE ID=" . $rid);
 
     // Check if the prototype is in the database and set the research/ship pair.
     if (!empty($scan_data['Prototyp'])) {
         $pid = find_ship_id($scan_data['Prototyp']);
 
-        $db->db_insert($db_tb_research2prototype, array('rid' => $rid, 'pid' => $pid))
-            or error(GENERAL_ERROR, 'Could not insert information.', '', __FILE__, __LINE__);
+        $db->db_insert($db_tb_research2prototype, array('rid' => $rid, 'pid' => $pid));
     }
 
     // Actual research depends on these researches
@@ -280,8 +273,7 @@ function find_building_id($name)
     $name = str_replace("Katzeundmausabwehrstockproduktionsfabrik", "Katze und Maus Stock Abwehrfabrik", $name);
 
     $sql = "SELECT `ID` FROM `{$db_tb_gebaeude}` WHERE name='" . $name . "';";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $row = $db->db_fetch_array($result);
 
     if (!empty($row)) {
@@ -290,8 +282,7 @@ function find_building_id($name)
 
     } else {
         // Not found, so insert new
-        $result = $db->db_insert($db_tb_gebaeude, array('name' => $name))
-            or error(GENERAL_ERROR, 'Could not insert geb information.', '', __FILE__, __LINE__);
+        $db->db_insert($db_tb_gebaeude, array('name' => $name));
 
         echo "<div class='doc_blue'>Neues Gebäude: " . $name . "</div>\n";
 
@@ -311,14 +302,12 @@ function insert_building_on_research($research, $building, $level)
 
     $sql = "SELECT COUNT(*) AS Zahl FROM `{$db_tb_research2building}`
             WHERE `rId`=" . $resid . " AND `bId`=" . $bldid . " AND `lvl`=" . $level;
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $row    = $db->db_fetch_array($result);
     $anzahl = $row['Zahl'];
 
     if ($anzahl == 0) {
-        $db->db_insert($db_tb_research2building, array('rId' => $resid, 'bId' => $bldid, 'lvl' => $level))
-            or error(GENERAL_ERROR, 'Could not insert information.', '', __FILE__, __LINE__);
+        $db->db_insert($db_tb_research2building, array('rId' => $resid, 'bId' => $bldid, 'lvl' => $level));
     }
 }
 
@@ -331,8 +320,7 @@ function find_ship_id($shipname)
 
     // Find first ship identifier
     $sql = "SELECT `ID` FROM `{$db_tb_schiffstyp}` WHERE `schiff`='" . $shipname . "';";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $row = $db->db_fetch_array($result);
 
     // Not found, so insert new
@@ -341,8 +329,7 @@ function find_ship_id($shipname)
         return $row['ID'];
 
     } else {
-        $result = $db->db_insert($db_tb_schiffstyp, array('schiff' => $shipname))
-            or error(GENERAL_ERROR, 'Could not insert geb information.', '', __FILE__, __LINE__);
+        $db->db_insert($db_tb_schiffstyp, array('schiff' => $shipname));
 
         echo "<div class='doc_blue'>Neuer Schiffstyp: " . $shipname . "</div>\n";
 
@@ -361,14 +348,12 @@ function insert_research_on_research($oldres, $newres)
     $newid = find_research_id($newres, false);
 
     $sql = "SELECT COUNT(*) AS Zahl FROM `{$db_tb_research2research}` WHERE `rNew`=" . $newid . " AND `rOld`=" . $oldid;
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $row    = $db->db_fetch_array($result);
     $anzahl = $row['Zahl'];
 
     if ($anzahl == 0) {
-        $db->db_insert($db_tb_research2research, array('rOld' => $oldid, 'rNew' => $newid))
-            or error(GENERAL_ERROR, 'Could not insert information.', '', __FILE__, __LINE__);
+        $db->db_insert($db_tb_research2research, array('rOld' => $oldid, 'rNew' => $newid));
     }
 }
 
@@ -383,15 +368,12 @@ function insert_research_on_building($research, $building)
     $bldid = find_building_id($building);
 
     $sql = "SELECT COUNT(*) AS Zahl FROM `{$db_tb_building2research}` WHERE `rId`=" . $resid . " AND `bId`=" . $bldid;
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $row    = $db->db_fetch_array($result);
     $anzahl = $row['Zahl'];
 
     if ($anzahl == 0) {
-        $result = $db->db_insert($db_tb_building2research, array('rId' => $resid,'bId' => $bldid))
-            or error(GENERAL_ERROR, 'Could not insert information.', '', __FILE__, __LINE__);
-
+        $db->db_insert($db_tb_building2research, array('rId' => $resid,'bId' => $bldid));
     }
 }
 
@@ -403,29 +385,24 @@ function finish_de_info_forschung()
     global $db, $db_tb_research2research, $db_tb_building2research,
            $db_tb_research2building, $db_tb_research;
 
-    $db->db_update($db_tb_research, array('rLevel' => 0))
-        or error(GENERAL_ERROR, 'Could not update information.', '', __FILE__, __LINE__);
+    $db->db_update($db_tb_research, array('rLevel' => 0));
 
     $sql = "SELECT DISTINCT `ID` AS rid FROM `{$db_tb_research}`;";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     while (($research_data = $db->db_fetch_array($result)) !== false) {
         $sql = "SELECT DISTINCT `rNew` FROM `{$db_tb_research2research}` WHERE `rNew`=" . $research_data['rid'];
 
-        $result2 = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result2 = $db->db_query($sql);
         $row = $db->db_fetch_array($result2);
 
         $sql = "SELECT COUNT(*) AS Zahl FROM `{$db_tb_building2research}` WHERE `rId`=" . $research_data['rid'];
-        $result3 = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result3 = $db->db_query($sql);
         $row2   = $db->db_fetch_array($result3);
         $anzahl = $row2['Zahl'];
 
         if ($anzahl == 0 && empty($row)) {
-            $db->db_update($db_tb_research, array('rLevel' => 1), "WHERE ID=" . $research_data['rid'])
-                or error(GENERAL_ERROR, 'Could not update information.', '', __FILE__, __LINE__);
+            $db->db_update($db_tb_research, array('rLevel' => 1), "WHERE ID=" . $research_data['rid']);
         }
     }
 
@@ -440,52 +417,43 @@ function finish_de_info_forschung()
         $level++;
 
         $sql = "SELECT count(*) as Zahl FROM `{$db_tb_research}` WHERE `rLevel`=" . $level;
-        $result3 = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result3 = $db->db_query($sql);
         $row2   = $db->db_fetch_array($result3);
         $anzahl = $row2['Zahl'];
 
         if ($anzahl > 0) {
             $sql = "SELECT DISTINCT `ID` AS rid FROM `{$db_tb_research}` WHERE `rLevel`=" . $level;
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result = $db->db_query($sql);
 
             while (($research_data = $db->db_fetch_array($result)) !== false) {
                 $sql = "SELECT `rNew` FROM `{$db_tb_research2research}` WHERE `rOld`=" . $research_data['rid'];
 
-                $result3 = $db->db_query($sql)
-                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                $result3 = $db->db_query($sql);
 
                 while (($row2 = $db->db_fetch_array($result3)) !== false) {
-                    $db->db_update($db_tb_research, array('rLevel' => $level + 1), "WHERE ID=" . $row2['rNew'])
-                        or error(GENERAL_ERROR, 'Could not update information.', '', __FILE__, __LINE__);
+                    $db->db_update($db_tb_research, array('rLevel' => $level + 1), "WHERE ID=" . $row2['rNew']);
                 }
             }
         }
     }
 
     $sql = "SELECT DISTINCT `ID` AS rid FROM `{$db_tb_research}` WHERE `rLevel`=0";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     while (($research_data = $db->db_fetch_array($result)) !== false) {
         $sql = "SELECT `bID` FROM `{$db_tb_building2research}` WHERE `rId`=" . $research_data['rid'];
-        $result2 = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result2 = $db->db_query($sql);
 
         while (($row = $db->db_fetch_array($result2)) !== false) {
             $sql = "SELECT `rid` FROM `{$db_tb_research2building}` WHERE `bId`=" . $row['bID'];
-            $result3 = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result3 = $db->db_query($sql);
 
             if (($row2 = $db->db_fetch_array($result3)) !== false) {
                 $sql = "SELECT `rLevel` FROM `{$db_tb_research}` WHERE `ID`=" . $row2['rid'];
-                $result4 = $db->db_query($sql)
-                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                $result4 = $db->db_query($sql);
 
                 if (($row3 = $db->db_fetch_array($result4)) !== false) {
-                    $db->db_update($db_tb_research, array('rLevel' => $row3['rLevel'] + 1), "WHERE ID=" . $research_data['rid'])
-                        or error(GENERAL_ERROR, 'Could not update information.', '', __FILE__, __LINE__);
+                    $db->db_update($db_tb_research, array('rLevel' => $row3['rLevel'] + 1), "WHERE ID=" . $research_data['rid']);
                 }
             }
         }

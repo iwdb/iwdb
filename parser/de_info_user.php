@@ -42,61 +42,54 @@ if (!defined('DEBUG_LEVEL')) {
     define('DEBUG_LEVEL', 0);
 }
 
-function parse_de_info_user($return)
+function parse_de_info_user($aParserData)
 {
-    if ($return->bSuccessfullyParsed) {
+    debug_var('Input', $aParserData);
 
-        debug_var('Input', $return);
+    global $db, $db_tb_spieler;
 
-        global $db, $db_tb_spieler;
+    $playerinfo              = $aParserData->objResultData;
+    $playerinfo->strUserName = $db->escape($playerinfo->strUserName);
 
-        $playerinfo              = $return->objResultData;
-        $playerinfo->strUserName = $db->escape($playerinfo->strUserName);
+    $sql    = "SELECT name, allianz FROM `{$db_tb_spieler}` WHERE name='" . $playerinfo->strUserName . "';";
+    $result = $db->db_query($sql);
+    $row    = $db->db_fetch_array($result);
 
-        $sql = "SELECT name, allianz FROM `{$db_tb_spieler}` WHERE name='" . $playerinfo->strUserName . "';";
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $data = array(
+        'name'              => $playerinfo->strUserName,
+        'allianz'           => $playerinfo->strUserAllianceTag,
+        'allianzrang'       => $playerinfo->strUserAllianceJob,
+        'acctype'           => $playerinfo->strAccType,
+        'dabeiseit'         => $playerinfo->iEntryDate,
+        'playerupdate_time' => CURRENT_UNIX_TIME,
+        'gebp'              => $playerinfo->iGebPkt,
+        'fp'                => $playerinfo->iFP,
+        'gesamtp'           => ($playerinfo->iGebPkt + $playerinfo->iFP),
+        'pktupdate_time'    => CURRENT_UNIX_TIME,
+        'Hauptplanet'       => $playerinfo->strCoords,
+    );
 
-        $row = $db->db_fetch_array($result);
+    $db->db_insertupdate($db_tb_spieler, $data);
 
-        $data = array (
-            'name'              => $playerinfo->strUserName,
-            'allianz'           => $playerinfo->strUserAllianceTag,
-            'allianzrang'       => $playerinfo->strUserAllianceJob,
-            'acctype'           => $playerinfo->strAccType,
-            'dabeiseit'         => $playerinfo->iEntryDate,
-            'playerupdate_time' => CURRENT_UNIX_TIME,
-            'gebp'              => $playerinfo->iGebPkt,
-            'fp'                => $playerinfo->iFP,
-            'gesamtp'           => ($playerinfo->iGebPkt + $playerinfo->iFP),
-            'pktupdate_time'    => CURRENT_UNIX_TIME,
-            'Hauptplanet'       => $playerinfo->strCoords,
-        );
+    if (!empty($row)) { //Spieler war schon vorhanden
 
-        $db->db_insertupdate($db_tb_spieler, $data)
-            or error(GENERAL_ERROR, 'Could not insert player information.', '', __FILE__, __LINE__);
+        if ($row['allianz'] !== $playerinfo->strUserAllianceTag) { //Allianz hat sich geändert
 
-        if (!empty($row)) { //Spieler war schon vorhanden
+            $data = array(
+                'exallianz'       => $row['allianz'],
+                'allychange_time' => CURRENT_UNIX_TIME,
+            );
+            $db->db_update($db_tb_spieler, $data, "WHERE `name`='" . $playerinfo->strUserName . "'");
 
-            if ($row['allianz'] !== $playerinfo->strUserAllianceTag) { //Allianz hat sich geändert
+            //geänderte Allianzdaten angleichen
+            AddAllychangetoHistory(CURRENT_UNIX_TIME);
+            SyncAllies(CURRENT_UNIX_TIME);
 
-                $data = array(
-                    'exallianz'       => $row['allianz'],
-                    'allychange_time' => CURRENT_UNIX_TIME,
-                );
-                $result = $db->db_update($db_tb_spieler, $data, "WHERE `name`='" . $playerinfo->strUserName . "'")
-                    or error(GENERAL_ERROR, 'Could not update player alliance information.', '', __FILE__, __LINE__, $sql);
-
-                //geänderte Allianzdaten angleichen
-                AddAllychangetoHistory(CURRENT_UNIX_TIME);
-                SyncAllies(CURRENT_UNIX_TIME);
-
-            }
-
-            doc_message("Spieler " . $playerinfo->strUserName . " aktualisiert");
-
-        } else { //neuer Spieler
-            doc_message("Spieler " . $playerinfo->strUserName . " hinzugefügt");
         }
+
+        doc_message("Spieler " . $playerinfo->strUserName . " aktualisiert");
+
+    } else { //neuer Spieler
+        doc_message("Spieler " . $playerinfo->strUserName . " hinzugefügt");
     }
 }

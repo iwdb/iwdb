@@ -37,43 +37,40 @@ if (!defined('DEBUG_LEVEL')) {
     define('DEBUG_LEVEL', 0);
 }
 
-function parse_de_forschung($return)
+function parse_de_forschung($aParserData)
 {
     global $db, $db_tb_research, $db_tb_user_research, $db_tb_research2user, $selectedusername;
 
-    debug_var("input", $return);
+    debug_var("input", $aParserData);
 
     $iResearchCount = 0;
     $research2id = array();
 
     $sql = "SELECT ID, name FROM " . $db_tb_research . " ORDER BY ID ASC";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     while ($row = $db->db_fetch_array($result)) {
         $research2id[$row["name"]] = $row['ID'];
     }
 
-    if (count($return->objResultData->aResearchsResearched) > 2) { //! ausgeklappte/vollständige Forschungsseite -> vollständiger Reset der Daten
+    if (count($aParserData->objResultData->aResearchsResearched) > 2) { //! ausgeklappte/vollständige Forschungsseite -> vollständiger Reset der Daten
         $sql = "DELETE FROM
                     $db_tb_research2user
                 WHERE
                     `userid` = '$selectedusername'
                 ";
-        $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $db->db_query($sql);
     } else {
         echo "Es wurden nur die sichtbaren Forschungen eingetragen! Verwende \"Alle Forschungen anzeigen\" für eine vollständige Eintragung<br />";
     }
 
     //! Mac: hier könnten mit Genetik auch zwei Forschungen laufen, deswegen in der Schleife
-    foreach ($return->objResultData->aResearchsProgress as $research) {
+    foreach ($aParserData->objResultData->aResearchsProgress as $research) {
         $akt_forschung = isset($research2id[$research->strResearchName]) ? $research2id[$research->strResearchName] : "";
         $akt_date      = $research->iUserResearchTime;
         if (!empty($akt_forschung) && !empty($akt_data)) {
             $sql = "INSERT INTO " . $db_tb_user_research .
                 " SET user='" . $selectedusername . "', rid='" . $akt_forschung . "', date=" . $akt_date;
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $db->db_query($sql);
         }
 
         //Forschungspunkte aktualisieren
@@ -85,7 +82,7 @@ function parse_de_forschung($return)
         ++$iResearchCount;
     }
 
-    foreach ($return->objResultData->aResearchsResearched as $research) {
+    foreach ($aParserData->objResultData->aResearchsResearched as $research) {
         $rid = isset($research2id[$research->strResearchName]) ? $research2id[$research->strResearchName] : "";
         if (!empty($rid)) {
             $sql = "INSERT
@@ -97,8 +94,7 @@ function parse_de_forschung($return)
                         ON DUPLICATE KEY UPDATE
                             rid = $rid
                         ";
-            $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $db->db_query($sql);
         } else {
             echo "Forschungs ID für '$research->strResearchName' konnte nicht bestimmt werden<br />";
         }
@@ -112,7 +108,7 @@ function parse_de_forschung($return)
         ++$iResearchCount;
     }
 
-    foreach ($return->objResultData->aResearchsOpen as $research) {
+    foreach ($aParserData->objResultData->aResearchsOpen as $research) {
         //Forschungspunkte aktualisieren
         if (empty($research->iFP_akt)) {      //für Kompatibilität mit älterer Parserlib
             $research->iFP_akt = $research->iFP * ($research->iResearchCosts / 100.);

@@ -20,7 +20,7 @@ if (!defined('IRA')) {
  * @subpackage parsermodule
  */
 
-function parse_de_alli_kasse_member($return)
+function parse_de_alli_kasse_member($aParserData)
 {
     global $user_allianz;
 
@@ -36,7 +36,7 @@ function parse_de_alli_kasse_member($return)
      * Allerdings erfolgt ein Reset bei Allianzwechsel
      * -> Eintrag also pro Spieler und Allianz (und Beitrittsdatum) nötig
      */
-    $members = $return->objResultData->aMember;
+    $members = $aParserData->objResultData->aMember;
     //echo "<p><u>Bisherige Einzahlungen:</u></p>";
     foreach ($members as $member) {
         //Array ( [0] => EINZAHLER 14.04.2007 15:07 117.256,53 1.712 pro Tag [1] => EINZAHLER [2] => 117256.53 )
@@ -52,8 +52,7 @@ function updateIncoming($user, $amount, $ally)
     global $db, $db_tb_kasse_incoming;
     $sum_old = 0.0;
     $sql     = "SELECT sum(amount) FROM $db_tb_kasse_incoming WHERE user like '" . $user . "' AND allianz like '" . $ally . "' AND time_of_insert != ".CURRENT_UNIX_TIME;
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not get member cash incomming!', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     while ($row = $db->db_fetch_array($result)) {
         $sum_old = $row['sum(amount)'];
     }
@@ -62,6 +61,5 @@ function updateIncoming($user, $amount, $ally)
 
     $sql = "REPLACE INTO $db_tb_kasse_incoming (user, amount, time_of_insert, allianz)" .
            " VALUES ('$user', $amount, '" . strftime('%Y-%m-%d %H:%M:00', CURRENT_UNIX_TIME) . "', '$ally')";
-    $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not update member cash incomming!', '', __FILE__, __LINE__, $sql);
+    $db->db_query($sql);
 }

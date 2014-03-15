@@ -44,23 +44,23 @@ $anzahl_kb_neu = 0;
 $anzahl_sb     = 0;
 $anzahl_unixml = 0;
 
-function parse_de_xml($return)
+function parse_de_xml($aParserData)
 {
     global $anzahl_kb, $anzahl_kb_neu, $anzahl_sb, $anzahl_unixml;
 
-    foreach ($return->objResultData->aKbLinks as $xmlinfo) {
+    foreach ($aParserData->objResultData->aKbLinks as $xmlinfo) {
         if (parse_kbxml($xmlinfo)) {
             ++$anzahl_kb;
         }
     }
 
-    foreach ($return->objResultData->aSbLinks as $xmlinfo) {
+    foreach ($aParserData->objResultData->aSbLinks as $xmlinfo) {
         if (parse_sbxml($xmlinfo)) {
             ++$anzahl_sb;
         }
     }
 
-    foreach ($return->objResultData->aUniversumLinks as $xmlinfo) {
+    foreach ($aParserData->objResultData->aUniversumLinks as $xmlinfo) {
         if (parse_unixml($xmlinfo)) {
             ++$anzahl_unixml;
         }
@@ -353,8 +353,7 @@ function save_sbxml($scan_data)
 
     $results = array();
     $sql = "SELECT * FROM `{$db_tb_scans}` WHERE `coords_gal`=" . $scan_data['coords_gal'] . " AND `coords_sys`=" . $scan_data['coords_sys'] . " AND `coords_planet`=" . $scan_data['coords_planet'];
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query planet information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $row = $db->db_fetch_array($result);
 
     // Nebel vorhanden
@@ -427,19 +426,15 @@ function save_sbxml($scan_data)
 
             //vorhandene Gebäudeinfos löschen
             $sql_del="DELETE FROM `{$db_tb_scans_geb}` WHERE `coords` = '{$scan_coords}';";
-            $result = $db->db_query($sql_del)
-                or error(GENERAL_ERROR, 'Could not delete buildingscan information.', '', __FILE__, __LINE__, $sql_del);
-
-            $result = $db->db_insert_multiple($db_tb_scans_geb, array_keys(reset($scan_data['buildings'])), $scan_data['buildings'])
-                or error(GENERAL_ERROR, 'Could not insert buildingscan information.', '', __FILE__, __LINE__);
+            $db->db_query($sql_del);
+            $db->db_insert_multiple($db_tb_scans_geb, array_keys(reset($scan_data['buildings'])), $scan_data['buildings']);
 
             unset($scan_data['buildings']);
         }
 
         //Planetendaten aktualisieren
         $where = " WHERE `coords_gal`=" . $scan_data['coords_gal'] . " AND `coords_sys`=" . $scan_data['coords_sys'] . " AND `coords_planet`=" . $scan_data['coords_planet'];
-        $db->db_update($db_tb_scans, $scan_data, $where)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+        $db->db_update($db_tb_scans, $scan_data, $where);
 
         $results[] = "Scan " . $scan_data['coords'] . " aktualisiert.";
 
@@ -447,16 +442,12 @@ function save_sbxml($scan_data)
 
         //Gebäudeinformationen in eigene Tabelle eintragen
         if (!empty($scan_data['buildings'])) {
-
-            $result = $db->db_insert_multiple($db_tb_scans_geb, array_keys(reset($scan_data['buildings'])), $scan_data['buildings'])
-                or error(GENERAL_ERROR, 'Could not insert buildingscan information.', '', __FILE__, __LINE__);
-
+            $db->db_insert_multiple($db_tb_scans_geb, array_keys(reset($scan_data['buildings'])), $scan_data['buildings']);
             unset($scan_data['buildings']);
         }
 
         // Planeten-Eintrag noch nicht vorhanden -> Planeteninformationen einfügen
-        $db->db_insert($db_tb_scans, $scan_data)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $db->db_insert($db_tb_scans, $scan_data);
 
         $results[] = "Scan " . $scan_data['coords'] . " hinzugefügt.";
 
@@ -465,8 +456,7 @@ function save_sbxml($scan_data)
     //Geoscanpunkt vergeben
     if (isset($scan_data['geoscantime'])) {
         $sql1 = "UPDATE `{$db_tb_user}` SET `geopunkte`=`geopunkte`+1 WHERE `sitterlogin`='" . $selectedusername . "';";
-        $result_u = $db->db_query($sql1)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql1);
+        $db->db_query($sql1);
     }
 	
 	return $results;
@@ -484,8 +474,7 @@ function parse_kbxml($xmldata)
 
     // Überprüfen, ob KB schon in Datenbank
     $sql = "SELECT `ID_KB` FROM `{$db_tb_kb}` WHERE `ID_KB` = '$id'";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     // Wenn keiner da weiter
     if ($db->db_num_rows($result) == 0) {
@@ -690,8 +679,7 @@ function parse_kbxml($xmldata)
             'typ'              => $kb['typ'],
             'resultat'         => $kb['resultat']
         );
-        $result = $db->db_insert($db_tb_kb, $sqldata)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $db->db_insert($db_tb_kb, $sqldata);
 
         // Def
         if (isset($kb['def'])) {
@@ -705,8 +693,7 @@ function parse_kbxml($xmldata)
                     $sql .= ", ('$kb[id]', '$value[id]', '$value[start]', '$value[verlust]')";
                 }
             }
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not update kb deff information.', '', __FILE__, __LINE__, $sql);
+            $db->db_query($sql);
         }
 
         // Verluste
@@ -724,8 +711,7 @@ function parse_kbxml($xmldata)
 					('$kb[id]', '$value[id]', '$value[seite]', '$value[anzahl]')";
                 }
             }
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $db->db_query($sql);
         }
 
         // Plünderung
@@ -743,8 +729,7 @@ function parse_kbxml($xmldata)
 					('$kb[id]', '$value[id]', '$value[anzahl]')";
                 }
             }
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $db->db_query($sql);
         }
 
         // Bomb
@@ -762,8 +747,7 @@ function parse_kbxml($xmldata)
                 }
             }
             $sql .= ") $values )";
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $db->db_query($sql);
 
             // Gebäude
             if (!empty($kb['bomb']['geb'])) {
@@ -780,8 +764,7 @@ function parse_kbxml($xmldata)
                             ('$kb[id]', '$value[id]', '$value[anzahl]')";
                     }
                 }
-                $result = $db->db_query($sql)
-                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                $db->db_query($sql);
             }
         }
 
@@ -805,9 +788,8 @@ function parse_kbxml($xmldata)
 						VALUES
 							('$kb[id]', '$kb[time]', '$value[art]', '$value[name]', '$value[ally]')";
                 }
-                $result = $db->db_query($sql)
-                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-                $ID_FLOTTE = @mysql_insert_id();
+                $db->db_query($sql);
+                $ID_FLOTTE = $db->db_insert_id();
                 $sql       = "
 					INSERT INTO {$db_tb_kb_flotten_schiffe}
 						(ID_FLOTTE, ID_IW_SCHIFF, anz_start, anz_verlust)
@@ -821,8 +803,7 @@ function parse_kbxml($xmldata)
 						('$ID_FLOTTE', '$value2[id]', '$value2[anzahl_start]', '$value2[anzahl_verlust]')";
                     }
                 }
-                $result = $db->db_query($sql)
-                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                $db->db_query($sql);
             }
         }
 
@@ -832,8 +813,7 @@ function parse_kbxml($xmldata)
 
         // links sammeln die bereits in der db drinnen sind
         $sqlL = "SELECT link FROM " . $db_tb_raidview;
-        $resultL = $db->db_query($sqlL)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlL);
+        $resultL = $db->db_query($sqlL);
         $links = array();
         while ($rowL = $db->db_fetch_array($resultL)) {
             $links[] = $rowL['link'];
@@ -912,8 +892,7 @@ function parse_kbxml($xmldata)
                     VALUES 
                         ('NULL','$plani','$zeit',$eisen,$stahl,$vv4a,$chem,$eis,$wasser,$energie,'$selectedusername','$geraidet','$link','$v_eisen','$v_stahl','$v_vv4a','$v_chem','$v_eis','$v_wasser','$v_energie','$g_eisen','$g_stahl','$g_vv4a','$g_chem','$g_eis','$g_wasser','$g_energie')";
 
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $db->db_query($sql);
 
             //echo "neuer KB: <a href='".$link."' target='_new'>" . $link=substr($link, 42, 60) . "</a>\n";
         }
@@ -949,6 +928,8 @@ function parse_kbxml($xmldata)
         );
 
     } else { // nur BBCode holen
+
+        $bbcode = '';
         if (!empty($link)) {
             if ($handle = @fopen($link . '&typ=bbcode', "r")) {
                 $bbcode = '';
@@ -1041,20 +1022,17 @@ function input_unixml($xml)
     }
 
     $sql = "SELECT count(*) AS Anzahl FROM `{$db_tb_scans}` WHERE `time` = {$aktualisierungszeit};";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query planet information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $row = $db->db_fetch_array($result);
     $planets_with_same_time_before = $row['Anzahl'];
 
     $sql = "SELECT count(*) AS Anzahl FROM `{$db_tb_sysscans}` WHERE `date` = {$aktualisierungszeit};";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query planet information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $row = $db->db_fetch_array($result);
     $systems_with_same_time_before = $row['Anzahl'];
 
     $sql = "SELECT count(*) AS Anzahl FROM `{$db_tb_spieler}` WHERE `playerupdate_time` = {$aktualisierungszeit};";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query planet information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $row = $db->db_fetch_array($result);
     $players_with_same_time_before = $row['Anzahl'];
 
@@ -1115,8 +1093,7 @@ function input_unixml($xml)
                     }
 
                     $sql_system_update = mb_substr($sql_system_update, 0, -1) . $sql_system_update_end; //letztes "," des SQL-Queries entfernen und ON DUPLICATE KEY UPDATE - Teil anhängen
-                    $result = $db->db_query($sql_system_update)
-                        or error(GENERAL_ERROR, 'DB System Insertfehler!', '', __FILE__, __LINE__, $sql_system_update);
+                    $db->db_query($sql_system_update);
 
                     $SystemsUpdated   += count($SystemsToUpdate);
                     $SystemsToUpdate   = Array();
@@ -1132,8 +1109,7 @@ function input_unixml($xml)
             if ($numPlanetData >= DB_MAX_INSERTS) { //eingestellte Maximalanzahl der Datensätze für die DB erreicht
                 // -> sql String zusammenbauen und in die DB einfügen
                 $sql_planet_update = mb_substr($sql_planet_update, 0, -1) . $sql_planet_update_end; //letztes "," des SQL-Queries entfernen und ON DUPLICATE KEY UPDATE - Teil anhängen
-                $result = $db->db_query($sql_planet_update)
-                    or error(GENERAL_ERROR, 'DB Planeten Insertfehler!', '', __FILE__, __LINE__, $sql_planet_update);
+                $db->db_query($sql_planet_update);
 
                 $numPlanetData     = 0; //Planetendatensatzzähler und sql-query zurücksetzen
                 $sql_planet_update = $sql_planet_update_begin;
@@ -1153,8 +1129,7 @@ function input_unixml($xml)
                         }
 
                         $sql_player_update = mb_substr($sql_player_update, 0, -1) . $sql_player_update_end; //letztes "," des SQL-Queries entfernen und ON DUPLICATE KEY UPDATE - Teil anhängen
-                        $result = $db->db_query($sql_player_update)
-                            or error(GENERAL_ERROR, 'DB Spieler Insertfehler!', '', __FILE__, __LINE__, $sql_player_update);
+                        $db->db_query($sql_player_update);
 
                         $PlayerDataToUpdate = Array(); //neue Spieler und sql-query zurücksetzen
                         $sql_player_update  = $sql_player_update_begin;
@@ -1175,8 +1150,7 @@ function input_unixml($xml)
 
     if (!empty($numPlanetData)) { //letzten Planetendaten in die DB laden
         $sql_planet_update = mb_substr($sql_planet_update, 0, -1) . $sql_planet_update_end; //letztes "," des SQL-Queries entfernen und ON DUPLICATE KEY UPDATE - Teil anhängen
-        $result = $db->db_query($sql_planet_update)
-            or error(GENERAL_ERROR, 'DB Updatefehler!', '', __FILE__, __LINE__, $sql_planet_update);
+        $db->db_query($sql_planet_update);
 
         unset($sql_planet_update);
     }
@@ -1187,8 +1161,7 @@ function input_unixml($xml)
         }
 
         $sql_system_update = mb_substr($sql_system_update, 0, -1) . $sql_system_update_end; //letztes "," des SQL-Queries entfernen und ON DUPLICATE KEY UPDATE - Teil anhängen
-        $result = $db->db_query($sql_system_update)
-            or error(GENERAL_ERROR, 'DB System Insertfehler!', '', __FILE__, __LINE__, $sql_system_update);
+        $db->db_query($sql_system_update);
 
         $SystemsUpdated += count($SystemsToUpdate);
         if ($SystemsUpdated === 1) {
@@ -1204,8 +1177,7 @@ function input_unixml($xml)
         }
 
         $sql_player_update = mb_substr($sql_player_update, 0, -1) . $sql_player_update_end;
-        $result = $db->db_query($sql_player_update)
-            or error(GENERAL_ERROR, 'DB Updatefehler!', '', __FILE__, __LINE__, $sql_player_update);
+        $db->db_query($sql_player_update);
 
         unset($PlayerData);
         unset($PlayerDataToUpdate);
@@ -1225,22 +1197,19 @@ function input_unixml($xml)
 
     //Zahl der aktualisierten Planeten, Systeme und Spieler berechnen
     $sql = "SELECT count(*) AS Anzahl FROM `{$db_tb_scans}` WHERE `time` = {$aktualisierungszeit};";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query planet information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $row                        = $db->db_fetch_array($result);
     $planets_with_same_time_now = $row['Anzahl'];
     $planets_updated            = $planets_with_same_time_now - $planets_with_same_time_before;
 
     $sql = "SELECT count(*) AS Anzahl FROM `{$db_tb_sysscans}` WHERE `date` = {$aktualisierungszeit};";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query planet information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $row                        = $db->db_fetch_array($result);
     $systems_with_same_time_now = $row['Anzahl'];
     $systems_updated            = $systems_with_same_time_now - $systems_with_same_time_before;
 
     $sql = "SELECT count(*) AS Anzahl FROM `{$db_tb_spieler}` WHERE `playerupdate_time` = {$aktualisierungszeit};";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query planet information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $row                        = $db->db_fetch_array($result);
     $players_with_same_time_now = $row['Anzahl'];
     $players_updated            = $players_with_same_time_now - $players_with_same_time_before;
@@ -1248,8 +1217,7 @@ function input_unixml($xml)
     //Systemscanpunkte vergeben
     if ($systems_updated > 0) {
         $sql = "UPDATE `{$db_tb_user}` SET `syspunkte`=`syspunkte`+{$systems_updated} WHERE `id`='" . $selectedusername . "';";
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $db->db_query($sql);
     }
 
     if ($SystemsUpdated === 1) {

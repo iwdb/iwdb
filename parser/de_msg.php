@@ -37,9 +37,9 @@ if (!defined('DEBUG_LEVEL')) {
     define('DEBUG_LEVEL', 0);
 }
 
-function parse_de_msg($return)
+function parse_de_msg($aParserData)
 {
-    global $db, $db_tb_raid, $db_tb_transferliste, $db_tb_user, $db_tb_fremdsondierung, $selectedusername;
+    global $db, $db_tb_transferliste, $db_tb_user, $db_tb_fremdsondierung, $selectedusername;
 
     $transp_skipped     = 0;
     $transp_failed      = 0;
@@ -47,7 +47,7 @@ function parse_de_msg($return)
     $gave_orbit_ignored = 0;
 
     //! Rückkehr enthält keine relevanten Informationen
-//	foreach ($return->objResultData->aReverseMsgs as $msg)
+//	foreach ($aParserData->objResultData->aReverseMsgs as $msg)
 //	{
 //		if (empty($msg->strCoords)) {
 //			echo "error: " . $msg->eParserType . " " . $msg->strMsgTitle . "<br />";
@@ -76,7 +76,7 @@ Es wurden folgende Gebäude zerstört
 1 Orbitales Habitat
 Achja bei dem ganzen Chaos kamen 142 Leute ums Leben.
     */
-    foreach (array_merge($return->objResultData->aTransportMsgs, $return->objResultData->aGaveMsgs, $return->objResultData->aMassdriverMsgs) as $msg) {
+    foreach (array_merge($aParserData->objResultData->aTransportMsgs, $aParserData->objResultData->aGaveMsgs, $aParserData->objResultData->aMassdriverMsgs) as $msg) {
         if (!$msg->bSuccessfullyParsed) {
             echo "..... failed Transport/Übergabe/Massdriver Msg!<br />";
             if (!empty($msg->aErrors)) {
@@ -133,8 +133,7 @@ Achja bei dem ganzen Chaos kamen 142 Leute ums Leben.
         $sql = "SELECT COUNT(*) AS anzahl FROM " . $db_tb_transferliste .
             " WHERE zeitmarke=" . $transfair_date . " AND buddler='" . $buddler .
             "' AND fleeter='" . $fleeter . "'";
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result = $db->db_query($sql);
 
         $row = $db->db_fetch_array($result);
         // Not found, so insert new
@@ -158,14 +157,11 @@ Achja bei dem ganzen Chaos kamen 142 Leute ums Leben.
                 " WHERE zeitmarke=" . $transfair_date .
                 " AND buddler='" . $buddler . "' AND fleeter='" . $fleeter . "'";
         }
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $db->db_query($sql);
 
         // Aktualisierungszeit für Transportberichte setzen
-        $sql = "UPDATE " . $db_tb_user . " SET lasttransport='" . CURRENT_UNIX_TIME .
-            "' WHERE sitterlogin='" . $buddler . "'";
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $sql = "UPDATE " . $db_tb_user . " SET lasttransport='" . CURRENT_UNIX_TIME . "' WHERE sitterlogin='" . $buddler . "'";
+        $db->db_query($sql);
 
         ++$transp_succ;
 
@@ -177,12 +173,12 @@ Achja bei dem ganzen Chaos kamen 142 Leute ums Leben.
 //		}
     }
 
-    if (!empty($return->objResultData->aScanFailMsgs)) {
+    if (!empty($aParserData->objResultData->aScanFailMsgs)) {
         echo "<div class='system_notification'>Fehlgeschlagene Sondierung erkannt.</div><br>";
-        finish_fehlscan($return->objResultData->aScanFailMsgs);
+        finish_fehlscan($aParserData->objResultData->aScanFailMsgs);
     }
 
-    foreach ($return->objResultData->aScanGeoMsgs as $msg) {
+    foreach ($aParserData->objResultData->aScanGeoMsgs as $msg) {
         //! @todo:
         if (!$msg->bSuccessfullyParsed) {
             echo ".....  fehlgeschlagener Geoscan<br />";
@@ -197,7 +193,7 @@ Achja bei dem ganzen Chaos kamen 142 Leute ums Leben.
 
     $transfair_failed  = 0;
     $transfair_skipped = 0;
-    foreach ($return->objResultData->aTransfairMsgs as $msg) {
+    foreach ($aParserData->objResultData->aTransfairMsgs as $msg) {
         if (!$msg->bSuccessfullyParsed) {
             echo "..... fehlgeschlagene Tranportnachricht!<br />";
             if (!empty($msg->aErrors)) {
@@ -281,7 +277,7 @@ Achja bei dem ganzen Chaos kamen 142 Leute ums Leben.
 
 //! ..... Stationieren not yet implemented
 
-    foreach ($return->objResultData->aSondierungMsgs as $msg) {
+    foreach ($aParserData->objResultData->aSondierungMsgs as $msg) {
         $parsertyp = ($msg->eParserType == "Sondierung (Schiffe/Def/Ress)") ? "schiffe" : "gebaeude";
 
         //! Hier die Namen für die Koordinaten aus der Datenbank holen
@@ -307,11 +303,10 @@ Achja bei dem ganzen Chaos kamen 142 Leute ums Leben.
         $sql .= ") VALUES( '$msg->strCoordsTo', '$name_to', '$alliance_to', '$msg->strCoordsFrom', '$msg->strNameFrom', '$msg->strAllianceFrom', '$parsertyp', $msg->iMsgDateTime, '$msg->bSuccess' ) "
             . "ON DUPLICATE KEY UPDATE
                     name_to='$name_to', allianz_to='$alliance_to', koords_from='$msg->strCoordsFrom', name_from='$msg->strNameFrom', allianz_from='$msg->strAllianceFrom', sondierung_art='$parsertyp', erfolgreich='$msg->bSuccess'";
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $db->db_query($sql);
     }
 
-    foreach ($return->objResultData->aMsgs as $msg) {
+    foreach ($aParserData->objResultData->aMsgs as $msg) {
         if (!$msg->bSuccessfullyParsed) {
             echo "..... fehlgeschlagene UserMsg!<br />";
             echo implode("<br />", $msg->aErrors);
@@ -369,8 +364,7 @@ function finish_fehlscan($fehlscans)
         $terminus = "";
         $x13      = "";
         $sql      = "SELECT * FROM " . $db_tb_lieferung . " WHERE coords_to_gal=" . $fehlscan->aCoords["gal"] . " AND coords_to_sys=" . $fehlscan->aCoords["sys"] . " AND coords_to_planet=" . $fehlscan->aCoords["planet"] . " AND art LIKE '%Sondierung%' ORDER BY time DESC";
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result = $db->db_query($sql);
         if ($row = $db->db_fetch_array($result)) {
             if (preg_match('/(\d+)\s+Sonde\s+X11/', $row['schiffe'], $match) > 0) {
                 $x11 = $match[1];
@@ -387,8 +381,7 @@ function finish_fehlscan($fehlscans)
         next_row("windowbg1", "");
         echo $fehlscan->strCoords;
         $sql = "SELECT * FROM " . $db_tb_scans . " WHERE coords_gal=" . $fehlscan->aCoords["gal"] . " AND coords_sys=" . $fehlscan->aCoords["sys"] . " AND coords_planet=" . $fehlscan->aCoords["planet"];
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result = $db->db_query($sql);
         if ($row = $db->db_fetch_array($result)) {
             $spieler = $row['user'];
             $allianz = $row['allianz'];

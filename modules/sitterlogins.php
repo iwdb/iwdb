@@ -55,15 +55,13 @@ function NumToStaatsform($num)
 }
 
 $sql = "SELECT AVG(sitterpunkte) FROM " . $db_tb_user . " WHERE sitterpunkte <> 0";
-$result_avg = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result_avg = $db->db_query($sql);
 $row_avg = $db->db_fetch_array($result_avg);
 
 $sitterlogins = array();
 $sql = "SELECT sitterlogin FROM " . $db_tb_user . " WHERE sitterpwd <> '' " . (($user_status == "admin") ? "" : "AND sitten = '1' ");
 $sql .= "ORDER BY sitterlogin ASC";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     $sitterlogins[] = $row['sitterlogin'];
 }

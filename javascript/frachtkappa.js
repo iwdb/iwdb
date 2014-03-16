@@ -7,7 +7,7 @@
 function frachtkappaRechnen() {
     var class1kappa_benoetigt, class1kappa_vorhanden, class1kappa_nochbenoetigt, class2kappa_benoetigt, class2kappa_vorhanden, class2kappa_nochbenoetigt;
 
-    class1kappa_benoetigt = (document.getElementById('eisen').value * 1)
+    class1kappa_benoetigt = document.getElementById('eisen').value
         + (document.getElementById('stahl').value * 2)
         + (document.getElementById('chemie').value * 3)
         + (document.getElementById('vv4a').value * 4);
@@ -19,7 +19,7 @@ function frachtkappaRechnen() {
 
     class2kappa_benoetigt = (document.getElementById('eis').value * 2)
         + (document.getElementById('wasser').value * 2)
-        + (document.getElementById('energie').value * 1);
+        + document.getElementById('energie').value;
 
     class2kappa_vorhanden = (document.getElementById('luche_vorhanden').value * 2000)
         + (document.getElementById('eisbaeren_vorhanden').value * 10000)

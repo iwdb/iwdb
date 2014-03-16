@@ -83,4 +83,3 @@ switch ($uaction) {
         include("./modules/admin_schiffstypen.php");
         break;
 }
-?>

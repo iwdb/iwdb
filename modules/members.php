@@ -34,8 +34,7 @@ if (!defined('IRA')) {
 }
 
 $sql = "SELECT MAX(date) AS MDATE FROM " . $db_tb_punktelog;
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 
 $lastreport = "";
 
@@ -63,8 +62,7 @@ $select_none = getVar('select_none');
 $fitthis = getVar('fitthis');
 
 $sql = "SELECT sitterlogin FROM " . $db_tb_user . " ORDER BY sitterlogin DESC";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 
 if (!empty($graph)) {
     while ($row = $db->db_fetch_array($result)) {
@@ -151,8 +149,7 @@ if (!empty($graph)) {
 //die Fleeter mit ihren Farben auslesen
 $fletocolo = array();
 $sql = "SELECT id,color FROM " . $db_tb_user . " WHERE budflesol LIKE 'Fleeter'";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     $fletocolo[urlencode($row['id'])] = $row['color'];
 }
@@ -175,8 +172,7 @@ if ($user_fremdesitten != "1") {
     $sql .= " WHERE allianz='" . $user_allianz . "'";
 }
 $sql .= " ORDER BY " . $order . " " . $ordered;
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query user information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 
 while ($row = $db->db_fetch_array($result)) {
     $row['rang'] = str_replace("Memberverwalter", "MV", $row['rang']);
@@ -199,8 +195,7 @@ while ($row = $db->db_fetch_array($result)) {
                 $color = $fletocolo[urlencode($row['buddlerfrom'])];
             } else {
                 $sqlC = "SELECT color FROM " . $db_tb_user . " WHERE id = '" . $row['buddlerfrom'] . "'";
-                $resultC = $db->db_query($sqlC)
-                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlC);
+                $resultC = $db->db_query($sqlC);
                 $rowC  = $db->db_fetch_array($resultC);
                 $color = $rowC['color'];
             }

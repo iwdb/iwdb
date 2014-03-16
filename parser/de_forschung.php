@@ -39,9 +39,8 @@ if (!defined('DEBUG_LEVEL')) {
 
 function parse_de_forschung($aParserData)
 {
-    global $db, $db_tb_research, $db_tb_user_research, $db_tb_research2user, $selectedusername;
-
-    debug_var("input", $aParserData);
+    global $selectedusername;
+    global $db, $db_tb_research, $db_tb_user_research, $db_tb_research2user;
 
     $iResearchCount = 0;
     $research2id = array();

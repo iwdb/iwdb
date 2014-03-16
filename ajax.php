@@ -93,8 +93,7 @@ function getIncomings($timestamp)
     global $db, $db_tb_incomings;
 
     $sql = "SELECT COUNT(*) AS newEntries FROM `{$db_tb_incomings}` WHERE (`listedtime`>{$timestamp} OR `savedUpdateTime`>{$timestamp} OR `recalledUpdateTime`>{$timestamp}) ORDER BY `arrivaltime` ASC";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query incomings information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $row = $db->db_fetch_array($result);
     if (empty($row['newEntries'])) {
 

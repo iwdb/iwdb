@@ -40,14 +40,12 @@ doc_title('Presets');
 $delid = (int)getVar('delid');
 if (!empty($delid)) {
     $sql = "SELECT fromuser, name FROM " . $db_tb_preset . " WHERE id LIKE '" . $delid . "'";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query preset information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $row = $db->db_fetch_array($result);
 
     if (($row['fromuser'] === $user_sitterlogin) OR ($user_status === "admin")) {
         $sql = "DELETE FROM " . $db_tb_preset . " WHERE id = '" . $delid . "'";
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result = $db->db_query($sql);
         echo "<div class='system_notification'>Preset '" . $row['name'] . " von '" . $row['fromuser'] . "' gelöscht.</div>";
     }
 }
@@ -72,8 +70,7 @@ if (!empty($delid)) {
     } else {
         $sql = "SELECT id, name, fromuser FROM " . $db_tb_preset . " WHERE fromuser = '" . $id . "'";
     }
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query preset information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     while ($row = $db->db_fetch_array($result)) {
         ?>

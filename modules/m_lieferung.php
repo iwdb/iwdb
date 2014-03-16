@@ -187,8 +187,7 @@ $users['(Alle)'] = '(Alle)';
 $teams           = array();
 $teams['(Alle)'] = '(Alle)';
 $sql             = "SELECT * FROM " . $db_tb_user . " ORDER BY id";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     $users[$row['id']] = $row['id'];
     if (!empty($row['buddlerfrom'])) {
@@ -201,8 +200,7 @@ $config['teams'] = $teams;
 // Abkürzungen fuer Schiffe abfragen
 $sql = "SELECT * FROM $db_tb_schiffstyp";
 debug_var("sql", $sql);
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query scans_historie information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     $config['schiffstyp_abk'][$row['schiff']] = $row['abk'];
 }
@@ -231,8 +229,7 @@ if (!empty($params['user_to']) && $params['user_to'] != '(Alle)') {
     $sql .= "'" . $params['user_to'] . "'";
 }
 debug_var("sql", $sql);
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query scans_historie information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 
 // Abfrage auswerten
 $data = array();
@@ -568,4 +565,3 @@ function makeurl($newparams)
 
     return $url;
 }
-?>

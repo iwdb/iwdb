@@ -39,7 +39,8 @@ if (!defined('DEBUG_LEVEL')) {
 
 function parse_de_wirtschaft_geb($aParserData)
 {
-    global $db, $db_tb_gebaeude_spieler, $selectedusername;
+    global $selectedusername;
+    global $db, $db_tb_gebaeude_spieler;
 
     $AccName = getAccNameFromKolos($aParserData->objResultData->aKolos);
     if ($AccName === false) { //kein Eintrag gefunden -> ausgewählten Accname verwenden

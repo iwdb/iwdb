@@ -43,8 +43,7 @@ if (empty($galaxy)) {
 }
 
 $sqlALI = "SELECT allianz FROM " . $db_tb_allianzstatus . " WHERE status='own' OR status='wing'";
-$resultALI = $db->db_query($sqlALI)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlALI);
+$resultALI = $db->db_query($sqlALI);
 
 $i            = 0;
 $arrrayofAlis = array();
@@ -63,8 +62,7 @@ if ($showmembers) {
     $allymember = array();
     $sql        = "SELECT DISTINCT allianz,coords_sys FROM " . $db_tb_scans . " WHERE coords_gal='" . $galaxy . "';";
 
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     while ($row = $db->db_fetch_array($result)) {
         if (in_array($row['allianz'], $arrrayofAlis, true)) {
@@ -81,8 +79,7 @@ if ($showmembers) {
                 $sql = "SELECT DISTINCT user, allianz FROM " . $db_tb_scans .
                     " WHERE coords_gal='" . $galaxy .
                     "' AND coords_sys='" . $row['coords_sys'] . "';";
-                $result2 = $db->db_query($sql)
-                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                $result2 = $db->db_query($sql);
 
                 while ($row2 = $db->db_fetch_array($result2)) {
                     if (in_array($row2['allianz'], $arrrayofAlis, true)) {
@@ -131,8 +128,7 @@ if ($galaxy < $config_map_system_max) {
 echo "</div></p>";
 
 $sql_scan = "SELECT MIN(date) AS scantime FROM `{$db_tb_sysscans}` WHERE `gal`='".$galaxy."'";
-$result_scan = $db->db_query($sql_scan)
-	or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql2);
+$result_scan = $db->db_query($sql_scan);
 $row_scan = $db->db_fetch_array($result_scan);
 echo 'Galaxie zuletzt gescannt: ' . strftime(CONFIG_DATETIMEFORMAT, $row_scan['scantime']);
 echo "<br />";
@@ -151,8 +147,7 @@ if (defined('NEBULA') && NEBULA === true) {
     $sql = "SELECT sys, objekt, date FROM " . $db_tb_sysscans .
         " WHERE gal = '" . $galaxy . "' ORDER BY sys";
 }
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 
 $maxsys = 0;
 while ($row = $db->db_fetch_array($result)) {
@@ -181,8 +176,7 @@ for ($i = 1; $i <= $maxsys; $i++) {
         $sql = "SELECT objekt FROM " . $db_tb_scans .
             " WHERE coords_sys='" . $i .
             "' AND coords_gal='" . $galaxy . "'";
-        $result_leer = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result_leer = $db->db_query($sql);
         $row_leer = $db->db_num_rows($result_leer);
         if ($row_leer > 0) {
             $sys[$i] = "#FF0000";

@@ -159,8 +159,7 @@ global $db, $db_tb_user_research, $db_tb_research, $db_tb_user;
 doc_title('aktuell laufende Forschungen');
 
 $sql = "SELECT * FROM `{$db_tb_user_research}` LEFT JOIN `{$db_tb_user}` ON `{$db_tb_user_research}`.`user` = `{$db_tb_user}`.`id` WHERE `{$db_tb_user}`.`sitten`='1' ORDER BY `date` ASC;";
-$result_user_research = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result_user_research = $db->db_query($sql);
 
 $data = array();
 
@@ -186,8 +185,7 @@ $data = array();
 	<?php
 	while ($row_user_research = $db->db_fetch_array($result_user_research)) {
 		$sql = "SELECT `name` FROM `{$db_tb_research}` WHERE `id` ='" . $row_user_research['rId'] . "';";
-		$result_research = $db->db_query($sql)
-			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+		$result_research = $db->db_query($sql);
 		$row_research = $db->db_fetch_array($result_research);
 
 		if (!empty($row_user_research['date'])) {
@@ -260,9 +258,8 @@ doc_title('erforschte Forschungen eines Spielers anschauen');
 		<option value ="">Spieler auswählen ...</option>
 			<?php
 			$sql = "SELECT `id` FROM `{$db_tb_user}`";
-			$result = $db->db_query($sql)
-				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
-			while ($row = mysql_fetch_object($result)) { 
+			$result = $db->db_query($sql);
+			while ($row = $db->db_fetch_object($result)) {
 				echo '<option>'; 
 				echo $row->id; 
 				echo '</option>';  
@@ -280,8 +277,7 @@ if (isset($_POST['formSubmit']) ) {
 	echo 'Bisher erforschte Forschungen von ' . $_POST['spieler'] . ' anschauen';
 	
 	$sql = "SELECT * FROM `{$db_tb_research2user}` WHERE `userid` = '" . $_POST['spieler'] . "'";
-	$result = $db->db_query($sql)
-		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+	$result = $db->db_query($sql);
 		
 	?>
 	<table data-sortlist="[[0,0]]"class="tablesorter-blue" style="width:90%">
@@ -296,8 +292,7 @@ if (isset($_POST['formSubmit']) ) {
 			<?php
 			while ($row = $db->db_fetch_array($result)) {
 				$sql = "SELECT `name` FROM `{$db_tb_research}` WHERE `id` ='" . $row['rid'] . "'";
-				$result_forsch = $db->db_query($sql)
-					or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+				$result_forsch = $db->db_query($sql);
 				$row1 = $db->db_fetch_array($result_forsch);
 			?>
 			<tr>

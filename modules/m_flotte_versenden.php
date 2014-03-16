@@ -197,8 +197,7 @@ case "top":
     $auftraege = array();
     $sql = "SELECT * FROM $db_tb_versand_auftrag WHERE user='" . $user_sitterlogin . "' AND time=" . $params['time'];
 	debug_var("sql", $sql);
-    $result = $db->db_query($sql)
-		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 	while ($row = $db->db_fetch_array($result)) {
 		$auftraege[$row['pos']] = array(
 			"pos" => $row['pos'],
@@ -217,8 +216,7 @@ case "top":
                              $db_tb_scans.`coords_sys`=$db_tb_bestellung_schiffe.`coords_sys` AND
 			        $db_tb_scans.`coords_planet`=$db_tb_bestellung_schiffe.`coords_planet`) AS planet
 				FROM $db_tb_bestellung_schiffe WHERE id=" . $auftrag['reference']);
-			$result = $db->db_query($sql)
-				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+			$result = $db->db_query($sql);
 			if ($row = $db->db_fetch_array($result)) {
 				$auftraege[$pos] = array_merge($auftraege[$pos], array(
 					"coords_gal" => $row['coords_gal'],
@@ -237,8 +235,7 @@ case "top":
 					     $db_tb_schiffstyp
 					WHERE $db_tb_bestellung_schiffe_pos.`bestellung_id`=" . $row["id"] . "
 					  AND $db_tb_bestellung_schiffe_pos.`schiffstyp_id`=$db_tb_schiffstyp.`id`");
-				$result_pos = $db->db_query($sql_pos)
-					or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+				$result_pos = $db->db_query($sql_pos);
 				while ($row_pos = $db->db_fetch_array($result_pos)) {
 					$auftraege[$pos]['pos'][] = array(
 						"name" => empty($row_pos['abk']) ? $row_pos['schiff'] : $row_pos['abk'],
@@ -257,8 +254,7 @@ case "top":
                              $db_tb_scans.`coords_sys`=$db_tb_bestellung.`coords_sys` AND
 			        $db_tb_scans.`coords_planet`=$db_tb_bestellung.`coords_planet`) AS planet
 				FROM $db_tb_bestellung WHERE id=" . $auftrag['reference']);
-			$result = $db->db_query($sql)
-				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+			$result = $db->db_query($sql);
 			if ($row = $db->db_fetch_array($result)) {
 				$auftraege[$pos] = array_merge($auftraege[$pos], array(
 					"coords_gal" => $row['coords_gal'],
@@ -489,7 +485,7 @@ function calc() {
 	var kapa1 = 0;
 	var kapa2 = 0;
 	if (document.ress.eisen_active.checked)
-		kapa1 += (document.ress.eisen.value * 1);
+		kapa1 += document.ress.eisen.value;
 	if (document.ress.stahl_active.checked)
 		kapa1 += (document.ress.stahl.value * 2);
 	if (document.ress.chemie_active.checked)
@@ -501,7 +497,7 @@ function calc() {
 	if (document.ress.wasser_active.checked)
 		kapa2 += (document.ress.wasser.value * 2);
 	if (document.ress.energie_active.checked)
-		kapa2 += (document.ress.energie.value * 1);	
+		kapa2 += document.ress.energie.value;
 	document.getElementById("systrans").innerHTML = Math.ceil(kapa1 / 5000);
 	document.getElementById("gorgol").innerHTML = Math.ceil(kapa1 / 20000);
 	document.getElementById("kamel").innerHTML = Math.ceil(kapa1 / 75000);
@@ -534,30 +530,26 @@ default:
 			debug_var("current", $current = getVar("mark_" . $index++));
 			if (!empty($current)) {
 				debug_var("sql", $sql = "INSERT INTO $db_tb_versand_auftrag (`user`,`time`,`pos`,`reference`,`art`) VALUES ('" . $user_sitterlogin . "'," . $params['time'] . "," . $index . "," . $current . ",'" . $params['art'] . "')");
-				$db->db_query($sql)
-					or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+				$db->db_query($sql);
 			}
 		} while (!empty($current));
 	}
 	// Aktuellen Auftrag ermitteln
 	if (!empty($params['pos'])) {
 		$sql = "SELECT * FROM $db_tb_versand_auftrag WHERE `user`='" . $user_sitterlogin .  "' AND time=" . $params['time'] . " AND pos=" . $params['pos'];
-		$result = $db->db_query($sql)
-			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+		$result = $db->db_query($sql);
 		if ($row = $db->db_fetch_array($result)) {
 			// Schiff-Bestellung lesen
 			if ($params['art'] == "bestellung_schiffe") {
 				$sql = "SELECT * FROM $db_tb_bestellung_schiffe WHERE `id`=" . $row['reference'];
-				$result = $db->db_query($sql)
-					or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+				$result = $db->db_query($sql);
 				if ($row = $db->db_fetch_array($result))
 					// URL aufbauen
 					$content = "http://sandkasten.icewars.de/game/index.php?action=flotten_send&gal=" . $row['coords_gal'] . "&sol=" . $row['coords_sys'] . "&pla=" . $row['coords_planet'];
 			// Ressourcen-Bestellung lesen
 			} else if ($params['art'] == "bestellung") {
 				$sql = "SELECT * FROM $db_tb_bestellung WHERE `id`=" . $row['reference'];
-				$result = $db->db_query($sql)
-					or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+				$result = $db->db_query($sql);
 				if ($row = $db->db_fetch_array($result))
 					// URL aufbauen
 					$content = "http://sandkasten.icewars.de/game/index.php?action=flotten_send&gal=" . $row['coords_gal'] . "&sol=" . $row['coords_sys'] . "&pla=" . $row['coords_planet'];
@@ -571,4 +563,3 @@ default:
 	echo "</frameset>";
 	echo "<noframes><body>Die Seite verwendet Frames.</body></noframes>";
 }
-?>

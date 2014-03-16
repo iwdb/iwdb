@@ -25,7 +25,7 @@ function parse_de_alli_kasse_member($aParserData)
     global $user_allianz;
 
     if (empty($user_allianz)) {
-        echo "<div class='system_warning'>Allianz nicht festgelegt</div>";
+        echo "<div class='system_warning'>User-Allianz nicht festgelegt</div>";
 
         return;
     }
@@ -50,6 +50,7 @@ function parse_de_alli_kasse_member($aParserData)
 function updateIncoming($user, $amount, $ally)
 {
     global $db, $db_tb_kasse_incoming;
+
     $sum_old = 0.0;
     $sql     = "SELECT sum(amount) FROM $db_tb_kasse_incoming WHERE user like '" . $user . "' AND allianz like '" . $ally . "' AND time_of_insert != ".CURRENT_UNIX_TIME;
     $result = $db->db_query($sql);

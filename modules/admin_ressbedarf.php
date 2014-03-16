@@ -56,8 +56,7 @@ if (!empty($editress)) {
 	if (!empty($editress)) {
 				
 		$sql = "SELECT `coords`, `planetenname`, `typ`, `bed_eisen`, `bed_stahl`, `bed_vv4a`, `bed_chemie`, `bed_eis`, `bed_wasser`, `bed_energie`, `bed_bev` FROM `{$db_tb_scans}` WHERE (`user` LIKE '" . $spieler . "' AND `objekt` = 'Kolonie')";
-		$result = $db->db_query($sql)
-			or error(GENERAL_ERROR, 'Could not update planidata information.', '', __FILE__, __LINE__, $sql);
+		$result = $db->db_query($sql);
 	
 		while ($row = $db->db_fetch_array($result)) {
 			$coords_bed_eisen 	= getVar($row['coords'] . '_bed_eisen');
@@ -80,8 +79,7 @@ if (!empty($editress)) {
 				'bed_bev'		=> $coords_bed_bev
 			);
 						
-			$db->db_update($db_tb_scans, $data, "WHERE `coords`='" . $row['coords'] ."'")
-				or error(GENERAL_ERROR, 'Could not update ressbedarf information.', '', __FILE__, __LINE__);
+			$db->db_update($db_tb_scans, $data, "WHERE `coords`='" . $row['coords'] ."'");
 		}
 	}
 	?>
@@ -148,8 +146,7 @@ if (!empty($editress)) {
 			echo '</div><br>';
 			
 			$sql = "SELECT `coords`, `planetenname`, `typ`, `bed_eisen`, `bed_stahl`, `bed_vv4a`, `bed_chemie`, `bed_eis`, `bed_wasser`, `bed_energie`, `bed_bev` FROM `{$db_tb_scans}` WHERE (`user` LIKE '" . $params['playerSelection'] . "' AND `objekt` = 'Kolonie')";
-			$result = $db->db_query($sql)
-				or error(GENERAL_ERROR, 'Could not update planidata information.', '', __FILE__, __LINE__, $sql);
+			$result = $db->db_query($sql);
 			
 			while ($row = $db->db_fetch_array($result)) {
 				?>

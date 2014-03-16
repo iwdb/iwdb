@@ -218,8 +218,7 @@ $sql = "SELECT SQL_CACHE IF(`{$db_tb_scans}`.`allianz`='','<i>Solo</i>',`{$db_tb
      WHERE `coords_gal` >= " . $galamin . " AND `coords_gal` <= " . $galamax . " AND `user` != ''
      GROUP BY Allianz WITH ROLLUP";
 
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 
 $i = 0;
 while ($rowGal = $db->db_fetch_array($result)) {

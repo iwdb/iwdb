@@ -164,8 +164,7 @@ echo " 	 <br />\n";
 echo " 	 <br />\n";
 
 $sql = "SELECT `sitterlogin`, `budflesol` FROM `" . $db_tb_user . "`";
-$result_sitterlogin = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result_sitterlogin = $db->db_query($sql);
 
 $data = array();
 
@@ -229,8 +228,7 @@ $fak_bev	= 0;
 		<?php
 		while ($row_sitterlogin = $db->db_fetch_array($result_sitterlogin)) {
 			$sql1 = "SELECT buddler, SUM(eisen), SUM(stahl), SUM(vv4a), SUM(chem), SUM(eis), SUM(wasser), SUM(energie), SUM(volk) FROM `" . $db_tb_transferliste . "` WHERE `buddler` = '" . $row_sitterlogin['sitterlogin'] . "';";
-			$result_sum = $db->db_query($sql1)
-				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql1);
+			$result_sum = $db->db_query($sql1);
 			$row_sum = $db->db_fetch_array($result_sum);
 			
 			?>
@@ -319,8 +317,7 @@ echo " 	 <br />\n";
 echo " 	 <br />\n";
 
 $sql = "SELECT `sitterlogin`, `budflesol` FROM `" . $db_tb_user . "`";
-$result_sitterlogin = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result_sitterlogin = $db->db_query($sql);
 
 $data = array();
 
@@ -384,8 +381,7 @@ $fak_bev	= 0;
 		<?php
 		while ($row_sitterlogin = $db->db_fetch_array($result_sitterlogin)) {
 			$sql1 = "SELECT fleeter, SUM(eisen), SUM(stahl), SUM(vv4a), SUM(chem), SUM(eis), SUM(wasser), SUM(energie), SUM(volk) FROM `" . $db_tb_transferliste . "` WHERE `fleeter` = '" . $row_sitterlogin['sitterlogin'] . "';";
-			$result_sum = $db->db_query($sql1)
-				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql1);
+			$result_sum = $db->db_query($sql1);
 			$row_sum = $db->db_fetch_array($result_sum);
 			
 			?>

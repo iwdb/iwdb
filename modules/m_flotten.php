@@ -184,8 +184,7 @@ foreach ($results as $result)
 
 // Schiffstypen abfragen
 $sql = "SELECT * FROM " . $db_tb_schiffstyp;
-$result = $db->db_query($sql)
-	or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result))
 	$config['schiffstyp'][$row['id_iw']] = $row;
 
@@ -219,8 +218,7 @@ $sql = "SELECT * FROM " . $db_tb_allianzstatus .
 
 
 
-$result = $db->db_query($sql)
-	or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result))
 	$config['allistatus_krieg'][$row['allianz']] = $row['allianz'];
 
@@ -234,8 +232,7 @@ if (isset($config['allistatus_krieg'])) {
 		" WHERE (" . $db_tb_kb_flotten . ".ally IN ('" . implode("','", $config['allistatus_krieg']) . "') AND " . $db_tb_kb . ".time>'1385170574')" .
 		//" WHERE " . $db_tb_kb_flotten . ".ally IN ('" . implode("','", $config['allistatus_krieg']) . "')" .
 		" ORDER BY " . $db_tb_kb . ".time DESC");
-	$result = $db->db_query($sql)
-		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+	$result = $db->db_query($sql);
 	while ($row = $db->db_fetch_array($result)) {
 		$gegner = array();
 		if (!empty($row['verteidiger']) && $row['name'] != $row['verteidiger'])
@@ -246,8 +243,7 @@ if (isset($config['allistatus_krieg'])) {
 			" WHERE " . $db_tb_kb_flotten . ".ID_KB=" . $row['ID_KB'] .
 			" AND " . $db_tb_kb_flotten . ".name<>'" . $row['name'] . "'" .
 			" AND " . $db_tb_kb_flotten . ".name<>'" . $row['verteidiger'] . "'");
-		$resultinner = $db->db_query($sqlinner)
-			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlinner);
+		$resultinner = $db->db_query($sqlinner);
 		while ($rowinner = $db->db_fetch_array($resultinner))
 			$gegner[] = array('ally' => $rowinner['ally'], 'name' => $rowinner['name']);		
 		$schiffe = array();
@@ -257,8 +253,7 @@ if (isset($config['allistatus_krieg'])) {
 			" FROM " . $db_tb_kb_flotten_schiffe .
 			" WHERE " . $db_tb_kb_flotten_schiffe . ".ID_FLOTTE=" . $row['ID_FLOTTE'] .
 			"   AND " . $db_tb_kb_flotten_schiffe . ".anz_start-" . $db_tb_kb_flotten_schiffe . ".anz_verlust>0");
-		$resultinner = $db->db_query($sqlinner)
-			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlinner);
+		$resultinner = $db->db_query($sqlinner);
 		while ($rowinner = $db->db_fetch_array($resultinner))
 			if (isset($config['schiffe'][$rowinner['ID_IW_SCHIFF']]))
 				$schiffe[$rowinner['ID_IW_SCHIFF']] = $rowinner;
@@ -379,4 +374,3 @@ function makeduration($time) {
 		return $minutes == 1 ? "1 Minute" : $minutes . "min";
 	}
 }
-?>

@@ -42,8 +42,7 @@ doc_title("Passwort vergessen");
 $username = $db->escape(getVar('username'));
 if (!empty($username)) {
     $sql = "SELECT email FROM " . $db_tb_user .  " WHERE id = '" . $username . "';";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     $row = $db->db_fetch_array($result);
     if (!empty($row['email'])) {
@@ -53,8 +52,7 @@ if (!empty($username)) {
             " SET password = '" . md5($newpass) .
             "' WHERE id = '" . $username . "'";
 
-        $result_u = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result_u = $db->db_query($sql);
 
         $empfaenger = $row['email'];
         $betreff    = "Neues Passwort";

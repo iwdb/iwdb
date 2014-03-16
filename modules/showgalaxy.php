@@ -220,21 +220,18 @@ if ($newpreset) {
         $sql = "INSERT INTO " . $db_tb_preset . " (name, typ, objekt, user, exact, allianz, ";
         $sql .= "merkmal, eisengehalt, chemievorkommen, eisdichte, lebensbedingungen, order1, order1_d, order2, order2_d, order3, order3_d, grav_von, grav_bis, fmod, kgmod, dgmod, ksmod, dsmod, gal_start, gal_end, sys_start, sys_end, max, fromuser, ansicht) VALUES ('" . $presetname2 . "', '" . $typ . "', '" . $objekt . "', '" . $user . "', '" . $exact . "', '" . $allianz;
         $sql .= "', '" . $merkmal . "', '" . $eisengehalt . "', '" . $chemievorkommen . "', '" . $eisdichte . "', '" . $lebensbedingungen . "', '" . $order1 . "', '" . $order1_d . "', '" . $order2 . "', '" . $order2_d . "', '" . $order3 . "', '" . $order3_d . "', '" . $grav_von . "', '" . $grav_bis . "', '" . $fmod . "', '" . $kgmod . "', '" . $dgmod . "', '" . $ksmod . "', '" . $dsmod . "', '" . $gal_start . "', '" . $gal_end . "', '" . $sys_start . "', '" . $sys_end . "', '" . $max . "', '" . $fromuser . "', '" . $ansicht . "')";
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result = $db->db_query($sql);
 
         echo "<div class='system_notification'>Neues Preset '" . $presetname2 . "' hinzugefügt.</div>";
     } else {
         $sql = "SELECT fromuser, name FROM " . $db_tb_preset . " WHERE id = '" . $presetname1 . "'";
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result = $db->db_query($sql);
         $row = $db->db_fetch_array($result);
 
         if (($row['fromuser'] == $user_sitterlogin) || ($user_status == "admin")) {
             $sql = "UPDATE " . $db_tb_preset . " SET typ = '" . $typ . "', objekt = '" . $objekt . "', user = '" . $user . "', exact = '" . $exact . "', allianz = '" . $allianz;
             $sql .= "', merkmal = '" . $merkmal . "', eisengehalt = '" . $eisengehalt . "', chemievorkommen = '" . $chemievorkommen . "', eisdichte = '" . $eisdichte . "', lebensbedingungen = '" . $lebensbedingungen . "', order1 = '" . $order1 . "', order1_d = '" . $order1_d . "', order2 = '" . $order2 . "', order2_d = '" . $order2_d . "', order3 = '" . $order3 . "', order3_d = '" . $order3_d . "', gal_start = '" . $gal_start . "', gal_end = '" . $gal_end . "', sys_start = '" . $sys_start . "', sys_end = '" . $sys_end . "', max = '" . $max . "', fromuser = '" . $fromuser . "', ansicht = '" . $ansicht . "', kgmod = '" . $kgmod . "', dgmod = '" . $dgmod . "', ksmod = '" . $ksmod . "', dsmod = '" . $dsmod . "', dsmod = '" . $dsmod . "' WHERE id = '" . $presetname1 . "'";
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result = $db->db_query($sql);
             echo "<div class='system_notification'>Preset '" . $row['name'] . " (" . $row['fromuser'] . ")' aktualisiert.</div>";
 
         } else {
@@ -459,8 +456,7 @@ if ($newpreset) {
     $rating = $rating_normal . $rating_best_tt . $rating_eisen_tt . $rating_chemie_tt . $rating_eis_tt;
 
     $sql = "SELECT *" . $rating . " FROM " . $db_tb_scans . " " . $where . " " . $order . $limit;
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     if (($showWithoutScan === false) && ($gal_end == $gal_start) && ($sys_end == $sys_start) && (!empty($gal_end)) && (!empty($gal_start))) {      //einzelnes System
         ?>
@@ -539,8 +535,7 @@ if ($newpreset) {
         if (!empty($gal_start) && !empty($sys_start) && $gal_start == $gal_end && $sys_start == $sys_end) {
             $syssql = "SELECT date, nebula FROM " . $db_tb_sysscans . " WHERE gal=" . $gal_start . " AND sys=" . $sys_start;
 
-            $result1 = $db->db_query($syssql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $syssql);
+            $result1 = $db->db_query($syssql);
             $row1 = $db->db_fetch_array($result1);
 
             if (!empty($row1)) {
@@ -635,8 +630,7 @@ if ($newpreset) {
                     echo "<div style='font-weight: bold;'>[<a href='index.php?action=showgalaxy&reserv=1&clean_reserv=1&ansicht=geologisch'><span style='color:red;'>Leichen löschen</span></a>]</div>";
                 } else {
                     $sql99 = "UPDATE `" . $db_tb_scans . "` SET `reserviert`=NULL WHERE `user`!=''";
-                    $result99 = $db->db_query($sql99)
-                        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql99);
+                    $result99 = $db->db_query($sql99);
 
                     doc_message('Leichen wurden gelöscht...');
                     echo 'Seite [<a href="index.php?action=showgalaxy&reserv=1&ansicht=geologisch">neu laden</a>], um Änderungen zu sehen!';
@@ -678,8 +672,7 @@ if ($newpreset) {
         while ($row = $db->db_fetch_array($result)) {
             if (!empty($row['allianz'])) {
                 $sql = "SELECT status FROM " . $db_tb_allianzstatus . " WHERE allianz LIKE '" . $row['allianz'] . "'";
-                $result_status = $db->db_query($sql)
-                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                $result_status = $db->db_query($sql);
                 $row_status = $db->db_fetch_array($result_status);
                 if (!empty($config_allianzstatus[$row_status['status']])) {
                     $color = $config_allianzstatus[$row_status['status']];
@@ -945,4 +938,6 @@ if ($newpreset) {
         }
     } ?>
     </table>
-<?php }?>
+<?php
+}
+?>

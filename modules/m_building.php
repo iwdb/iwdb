@@ -181,8 +181,7 @@ if (empty($id)) {
     $oldcat = 0;
 
     $sqlB = "SELECT id, name, bild, typ, idcat, category FROM " . $db_tb_gebaeude . " WHERE inactive != 1 ORDER BY category ASC ";
-    $resultB = $db->db_query($sqlB)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlB);
+    $resultB = $db->db_query($sqlB);
     while ($rowB = $db->db_fetch_array($resultB)) {
 
         if ($rowB['category'] != $oldcat) {
@@ -212,8 +211,7 @@ if (empty($id)) {
 } else {
 
     $sqlB = "SELECT * FROM " . $db_tb_gebaeude . " WHERE id = " . $id . " ";
-    $resultB = $db->db_query($sqlB)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlB);
+    $resultB = $db->db_query($sqlB);
     $rowB = $db->db_fetch_array($resultB);
 
     $build['name']  = $rowB['name'];
@@ -382,16 +380,14 @@ if (empty($id)) {
 
 
                 $sqlR = "SELECT id FROM `{$db_tb_research}` WHERE `name` = '" . $research . "';";
-                $resultR = $db->db_query($sqlR)
-                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlR);
+                $resultR = $db->db_query($sqlR);
                 $rowR  = $db->db_fetch_array($resultR);
                 $resid = $rowR['id'];
 
                 if (!empty($resid)) {
 
                     $sql = "SELECT * FROM `{$db_tb_research2user}` WHERE `rid`=" . $resid . " AND `userid`='" . $user_sitterlogin . "';";
-                    $result = $db->db_query($sql)
-                        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                    $result = $db->db_query($sql);
 
                     if ($db->db_num_rows($result) > 0) {
                         $colorme_on   = " <span class=\"doc_green\"> ";
@@ -441,16 +437,14 @@ if (empty($id)) {
                 $research = trim($research);
 
                 $sqlR = "SELECT `id` FROM `{$db_tb_research}` WHERE `name` = '" . $research . "';";
-                $resultR = $db->db_query($sqlR)
-                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlR);
+                $resultR = $db->db_query($sqlR);
                 $rowR  = $db->db_fetch_array($resultR);
                 $resid = $rowR['id'];
 
                 if (!empty($resid)) {
 
                     $sql = "SELECT * FROM `{$db_tb_research2user}` WHERE `rid`=" . $resid ." AND `userid`='" . $user_sitterlogin . "';";
-                    $result = $db->db_query($sql)
-                        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                    $result = $db->db_query($sql);
 
                     if ($db->db_num_rows($result) > 0) {
                         $colorme_on   = " <span class='doc_green'> ";
@@ -505,8 +499,7 @@ if (empty($id)) {
                 $gebaeude = trim($gebaeude);
 
                 $sqlR = "SELECT `id` FROM `{$db_tb_gebaeude}` WHERE `name` = '" . $gebaeude . "';";
-                $resultR = $db->db_query($sqlR)
-                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlR);
+                $resultR = $db->db_query($sqlR);
                 $rowR  = $db->db_fetch_array($resultR);
                 $resid = $rowR['id'];
 
@@ -538,8 +531,7 @@ if (empty($id)) {
                 $gebaeude = trim($gebaeude);
 
                 $sqlR = "SELECT `id` FROM `{$db_tb_gebaeude}` WHERE `name` = '" . $gebaeude . "';";
-                $resultR = $db->db_query($sqlR)
-                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlR);
+                $resultR = $db->db_query($sqlR);
                 $rowR  = $db->db_fetch_array($resultR);
                 $resid = $rowR['id'];
 

@@ -215,8 +215,7 @@ $config['planeten'] = array();
 
 $sql = "SELECT coords, planetenname FROM " . $db_tb_scans . " WHERE user='" . $user_sitterlogin . "' ORDER BY sortierung";
 debug_var('sql', $sql);
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     $config['planeten'][$row['coords']] = $row['coords'] . " " . $row['planetenname'];
 }
@@ -228,8 +227,7 @@ $config['projects_prio'] = array();
 
 $sql = "SELECT name, prio FROM " . $db_tb_bestellung_projekt . " WHERE schiff=0 ORDER BY prio ASC";
 debug_var("sql", $sql);
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     $config['projects'][$row['name']]      = $row['name'] . ($row['prio'] < 999 ? " (Priorität " . $row['prio'] . ")" : "");
     $config['projects_prio'][$row['name']] = $row['prio'];
@@ -239,8 +237,7 @@ while ($row = $db->db_fetch_array($result)) {
 if (!empty($params['delete'])) {
     $sql = "DELETE FROM " . $db_tb_bestellung . " WHERE id=" . $params['delete'];
     debug_var('sql', $sql);
-    $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $db->db_query($sql);
 
     $results[]        = "<div class='system_notification'>Datensatz gelöscht.</div>";
     $params['delete'] = '';
@@ -312,8 +309,7 @@ unset($fields['planet']);
 
 // Edit-Daten modifizieren
 if ($button_edit) {
-    $db->db_update($db_tb_bestellung, $fields, "WHERE `id`=" . $params['edit'])
-        or error(GENERAL_ERROR, 'Could not update ress order.', '', __FILE__, __LINE__, $sql);
+    $db->db_update($db_tb_bestellung, $fields, "WHERE `id`=" . $params['edit']);
 
     $results[] = "<div class='system_notification'>Datensatz aktualisiert.</div>";
 }
@@ -321,8 +317,7 @@ if ($button_edit) {
 // Edit-Daten hinzufügen
 if ($button_add) {
     $sql = "SELECT count(*) AS Anzahl FROM `{$db_tb_bestellung}` WHERE `coords_gal`=" . $fields['coords_gal'] . " AND `coords_planet`=" . $fields['coords_planet'] . " AND `coords_sys`=" . $fields['coords_sys'];
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query order information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $row = $db->db_fetch_array($result);
 
     if ($row['Anzahl'] > 0) {
@@ -330,8 +325,7 @@ if ($button_add) {
     } else {
         $fields['time_created'] = CURRENT_UNIX_TIME;
 
-        $db->db_insert($db_tb_bestellung, $fields)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+        $db->db_insert($db_tb_bestellung, $fields);
 
         $params['edit'] = $db->db_insert_id();
 
@@ -343,8 +337,7 @@ if ($button_add) {
 if (!$button_edit AND !$button_add AND (!empty($params['edit']))) {
     $sql = "SELECT * FROM `{$db_tb_bestellung}` WHERE `id`=" . $params['edit'];
     debug_var('sql', $sql);
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     if ($row = $db->db_fetch_array($result)) {
         foreach ($row as $name => $value) {
@@ -397,8 +390,7 @@ if (isset($params['playerSelection']) && $params['playerSelection'] != '(Alle)')
 $sql .= " ORDER BY `prio` DESC, `$db_tb_bestellung`.`time` DESC, `$db_tb_bestellung`.`user` ASC, `$db_tb_bestellung`.`coords_gal` ASC, `$db_tb_bestellung`.`coords_sys` ASC, `$db_tb_bestellung`.`coords_planet` ASC;";
 
 debug_var("sql", $sql);
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
 
     // Koordinaten
@@ -442,8 +434,7 @@ while ($row = $db->db_fetch_array($result)) {
 			AND $db_tb_lieferung.`time`>" . $row['time_created'] . "
 			ORDER BY $db_tb_lieferung.`time`";
         debug_var("sql_lieferung", $sql_lieferung);
-        $result_lieferung = $db->db_query($sql_lieferung)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result_lieferung = $db->db_query($sql_lieferung);
 
         while ($row_lieferung = $db->db_fetch_array($result_lieferung)) {
             $coords_from                = $row_lieferung['coords_from_gal'] . ":" . $row_lieferung['coords_from_sys'] . ":" . $row_lieferung['coords_from_planet'];
@@ -533,8 +524,7 @@ foreach ($data as $id_bestellung => $bestellung) {
         $orderdata = $orderdata + array('erledigt' => 1);
     }
 
-    $db->db_update($db_tb_bestellung, $orderdata, "WHERE `id`=" . $id_bestellung)
-        or error(GENERAL_ERROR, 'Could not update ress order.', '', __FILE__, __LINE__, $sql);
+    $db->db_update($db_tb_bestellung, $orderdata, "WHERE `id`=" . $id_bestellung);
 
     // Mengen formatieren
     $data[$id_bestellung]['offen'] = makeRessTable($data[$id_bestellung]['offen'], '', '');

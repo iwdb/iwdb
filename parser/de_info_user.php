@@ -44,8 +44,6 @@ if (!defined('DEBUG_LEVEL')) {
 
 function parse_de_info_user($aParserData)
 {
-    debug_var('Input', $aParserData);
-
     global $db, $db_tb_spieler;
 
     $playerinfo              = $aParserData->objResultData;

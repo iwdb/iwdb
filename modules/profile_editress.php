@@ -90,8 +90,7 @@ if (!empty($sitterlogin)) {
 				// Ausgabe der Presets und Löschlink //
 				$sql = "SELECT `coords`, `planetenname`, `typ`, `bed_eisen`, `bed_stahl`, `bed_vv4a`, `bed_chemie`, `bed_eis`, `bed_wasser`, `bed_energie`, `bed_bev` FROM `{$db_tb_scans}` WHERE (`user` LIKE '" . $sitterlogin . "' AND `objekt` = 'Kolonie')";
 	
-				$result = $db->db_query($sql)
-					or error(GENERAL_ERROR, 'Could not update planidata information.', '', __FILE__, __LINE__, $sql);
+				$result = $db->db_query($sql);
 				while ($row = $db->db_fetch_array($result)) {
 					if (!empty($editplaneten)) {
 						
@@ -120,8 +119,7 @@ if (!empty($sitterlogin)) {
 						$coords_bed_bev = getVar($temp);
 						
 						$sql = "UPDATE `{$db_tb_scans}` SET `bed_eisen`='" . $coords_bed_eisen . "', `bed_stahl`='" . $coords_bed_stahl . "', `bed_vv4a`='" . $coords_bed_vv4a . "', `bed_chemie`='" . $coords_bed_chemie . "', `bed_eis`='" . $coords_bed_eis . "', `bed_wasser`='" . $coords_bed_wasser . "', `bed_energie`='" . $coords_bed_energie . "', `bed_bev`='" . $coords_bed_bev . "'  WHERE (`coords`='" . $row['coords'] . "' AND `user` LIKE '" . $sitterlogin . "')";
-						$result_planet = $db->db_query($sql)
-							or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+						$result_planet = $db->db_query($sql);
 					}
 					?>
 					<tr>

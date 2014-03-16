@@ -71,25 +71,21 @@ if (!empty($edit)) {
     $auftragids   = explode("|", $auftragid);
 
     $sql = "SELECT * FROM " . $db_tb_sitterauftrag . " WHERE id = " . $auftragids[0];
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $row_first = $db->db_fetch_array($result);
 
     $sql = "SELECT * FROM " . $db_tb_sitterauftrag . " WHERE id = " . $auftragids[(count($auftragids) - 1)];
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $row_last = $db->db_fetch_array($result);
 
     if ((!empty($del)) && ($user_status === "admin")) {
         foreach ($auftragids as $delid) {
             $sql = "SELECT * FROM " . $db_tb_sitterauftrag . " WHERE id = " . $delid;
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result = $db->db_query($sql);
             $row = $db->db_fetch_array($result);
 
             $sql = "SELECT planetenname, dgmod FROM " . $db_tb_scans . " WHERE coords = '" . $row['planet'] . "'";
-            $result_planet = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result_planet = $db->db_query($sql);
             $row_planet = $db->db_fetch_array($result_planet);
 
             $bauschleifenmod = 1;
@@ -103,19 +99,16 @@ if (!empty($edit)) {
             }
             $logtext = $db->escape($row_planet['planetenname'] . " [" . $row['planet'] . "]<br>" . auftrag($row['typ'], $row['bauschleife'], $row['bauid'], $row['auftrag'], $row['schiffanz'], $row_planet['dgmod'], $row['user'], $bauschleifenmod) . "<br><font color='#FF0000'><b>gelöscht von " . $user_sitterlogin . ((empty($comment)) ? "" : ": " . nl2br($comment)) . "</b></font>");
             $sql     = "INSERT INTO " . $db_tb_sitterlog . " (sitterlogin, fromuser, date, action) VALUES ('" . $row['user'] . "', '" . $user_sitterlogin . "', '" . CURRENT_UNIX_TIME . "', '" . $logtext . "')";
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result = $db->db_query($sql);
 
             $sql = "DELETE FROM " . $db_tb_sitterauftrag . " WHERE id = '" . $delid . "'";
-            $result_del = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result_del = $db->db_query($sql);
         }
         $alert .= "<div class='system_notification'>Auftrag gelöscht.</div>";
     } else {
         if (!empty($comment)) {
             $sql = "UPDATE " . $db_tb_sitterauftrag . " SET auftrag = '" . $row_last['auftrag'] . "\nvon " . $user_sitterlogin . ": " . $comment . "' WHERE id = '" . $auftragids[(count($auftragids) - 1)] . "'";
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result = $db->db_query($sql);
             $alert .= "<div class='system_notification'>Kommentar hinzugefügt.</div>";
         }
         if (!empty($date_parse)) {
@@ -155,14 +148,12 @@ if (!empty($edit)) {
         }
 
         $sql = "UPDATE " . $db_tb_sitterauftrag . " SET date = '" . $date . "', date_b1 = '" . $date_b1 . "', date_b2 = '" . $date_b2 . "' WHERE id = '" . $auftragids[0] . "'";
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result = $db->db_query($sql);
 
         // Sitterpunkte vergeben
         if ($row_first['user'] !== $user_sitterlogin) {
             $sql = "UPDATE " . $db_tb_user . " SET sitterpunkte = sitterpunkte + " . $config_sitterpunkte_auftrag . " WHERE sitterlogin = '" . $user_sitterlogin . "'";
-            $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result = $db->db_query($sql);
         }
 
         dates($auftragids[0], $row_first['user']);
@@ -175,14 +166,12 @@ if (!empty($edit)) {
 
     //Start Log
     $sql = "SELECT date, date_b1, date_b2, user, planet, auftrag, bauid, bauschleife, schiffanz, typ FROM " . $db_tb_sitterauftrag . " WHERE id = " . $auftragids[0];
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $row = $db->db_fetch_array($result);
 
     // Planetendaten //
     $sql = "SELECT planetenname, dgmod FROM " . $db_tb_scans . " WHERE coords = '" . $row['planet'] . "'";
-    $result_planet = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result_planet = $db->db_query($sql);
     $row_planet = $db->db_fetch_array($result_planet);
 
     //Log
@@ -216,28 +205,24 @@ if (!empty($erledigt)) {
     $erledigtids = explode("|", $erledigt);
 
     $sql = "SELECT * FROM " . $db_tb_sitterauftrag . " WHERE id = " . $erledigtids[0];
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $row = $db->db_fetch_array($result);
 
     if (!empty($row['typ'])) {
         $sql = "SELECT genbauschleife, peitschen FROM " . $db_tb_user . " WHERE sitterlogin = '" . $row['user'] . "'";
-        $result_user = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result_user = $db->db_query($sql);
         $row_user           = $db->db_fetch_array($result_user);
         $bauschleifenlaenge = (empty($row_user['genbauschleife'])) ? 2 : 3;
         $peitschen          = $row_user['peitschen'];
 
         // Planetendaten //
         $sql = "SELECT planetenname, dgmod FROM " . $db_tb_scans . " WHERE coords = '" . $row['planet'] . "'";
-        $result_planet = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result_planet = $db->db_query($sql);
         $row_planet = $db->db_fetch_array($result_planet);
 
         if (($row['date'] > CURRENT_UNIX_TIME) || (empty($row['refid']))) {
             $sql = "DELETE FROM " . $db_tb_sitterauftrag . " WHERE id = '" . $erledigtids[0] . "'";
-            $result_del = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result_del = $db->db_query($sql);
 
             // Log //
             $bauschleifenmod = 1;
@@ -255,14 +240,12 @@ if (!empty($erledigt)) {
             }
             $logtext = $db->escape($logtext);
             $sql     = "INSERT INTO " . $db_tb_sitterlog . " (sitterlogin, fromuser, date, action) VALUES ('" . $row['user'] . "', '" . $user_sitterlogin . "', '" . CURRENT_UNIX_TIME . "', '" . $logtext . "')";
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result = $db->db_query($sql);
 
             // Punkte //
             if ($row['user'] != $user_sitterlogin) {
                 $sql = "UPDATE " . $db_tb_user . " SET sitterpunkte = sitterpunkte + " . $config_sitterpunkte_auftrag . " WHERE sitterlogin = '" . $user_sitterlogin . "'";
-                $result = $db->db_query($sql)
-                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                $result = $db->db_query($sql);
             }
 
             $alert .= "<div class='system_notification'>Auftrag als erledigt markiert.</div>";
@@ -305,8 +288,7 @@ if (!empty($erledigt)) {
             }
 
             $sql = "SELECT bauschleife, refid FROM " . $db_tb_sitterauftrag . " WHERE id = '" . $erledigtids[(count($erledigtids) - 1)] . "'";
-            $result_act = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result_act = $db->db_query($sql);
             $row_act = $db->db_fetch_array($result_act);
             $nextid  = $row_act['refid'];
             if (empty($nextid)) {
@@ -318,8 +300,7 @@ if (!empty($erledigt)) {
             while (($count < $bauschleifenlaenge) && (isset($row_act))) {
                 // Auftragsabhaengigkeiten //
                 $sql = "SELECT bauschleife, refid FROM " . $db_tb_sitterauftrag . " WHERE id = '" . $row_act['refid'] . "'";
-                $result_act = $db->db_query($sql)
-                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                $result_act = $db->db_query($sql);
                 $row_act = $db->db_fetch_array($result_act);
                 if ($row_act['bauschleife'] != "1") {
                     unset($row_act);
@@ -332,8 +313,7 @@ if (!empty($erledigt)) {
 
             if (empty($alert)) {
                 $sql = "UPDATE " . $db_tb_sitterauftrag . " SET date = '" . $date . "', date_b1 = '" . $date_b1 . "', date_b2 = '" . $date_b2 . "' WHERE id = '" . $nextid . "'";
-                $result_update = $db->db_query($sql)
-                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                $result_update = $db->db_query($sql);
                 dates($nextid, $row['user']);
             }
 
@@ -341,13 +321,11 @@ if (!empty($erledigt)) {
                 foreach ($erledigtids as $erledigtid) {
                     // Log //
                     $sql = "SELECT * FROM " . $db_tb_sitterauftrag . " WHERE id = " . $erledigtid;
-                    $result_x = $db->db_query($sql)
-                        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                    $result_x = $db->db_query($sql);
                     $row_x = $db->db_fetch_array($result_x);
 
                     $sql = "SELECT peitschen FROM " . $db_tb_user . " WHERE sitterlogin = '" . $row_x['user'] . "'";
-                    $result_user = $db->db_query($sql)
-                        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                    $result_user = $db->db_query($sql);
                     $row_user = $db->db_fetch_array($result_user);
 
                     $bauschleifenmod = 1;
@@ -362,19 +340,16 @@ if (!empty($erledigt)) {
 
                     $logtext = $db->escape($row_planet['planetenname'] . " [" . $row['planet'] . "]<br>" . auftrag($row_x['typ'], $row_x['bauschleife'], $row_x['bauid'], $row_x['auftrag'], $row_x['schiffanz'], $row_planet['dgmod'], $row_x['user'], $bauschleifenmod));
                     $sql     = "INSERT INTO " . $db_tb_sitterlog . " (sitterlogin, fromuser, date, action) VALUES ('" . $row['user'] . "', '" . $user_sitterlogin . "', '" . CURRENT_UNIX_TIME . "', '" . $logtext . " ')";
-                    $result_log = $db->db_query($sql)
-                        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                    $result_log = $db->db_query($sql);
 
                     $sql = "DELETE FROM " . $db_tb_sitterauftrag . " WHERE id = '" . $erledigtid . "'";
-                    $result_del = $db->db_query($sql)
-                        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                    $result_del = $db->db_query($sql);
 
                 }
                 // Punkte //
                 if ($row['user'] != $user_sitterlogin) {
                     $sql = "UPDATE " . $db_tb_user . " SET sitterpunkte = sitterpunkte + " . $config_sitterpunkte_auftrag . " WHERE sitterlogin = '" . $user_sitterlogin . "'";
-                    $result = $db->db_query($sql)
-                        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                    $result = $db->db_query($sql);
                 }
 
                 $alert .= "<div class='system_notification'>Auftrag als erledigt markiert.</div>";
@@ -502,8 +477,7 @@ include("dauerauftraege.php");
 <?php
 // Aufträge durchgehen //
 $sql = "SELECT AVG(sitterpunkte) FROM " . $db_tb_user . " WHERE sitterpunkte <> 0";
-$result_avg = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result_avg = $db->db_query($sql);
 $row_avg = $db->db_fetch_array($result_avg);
 
 $sql = "SELECT t1.* FROM " . $db_tb_sitterauftrag . " as t1 LEFT JOIN " . $db_tb_sitterauftrag . " as t2 ON t1.id = t2.refid WHERE t2.refid is null AND t1.date_b2 <= " . CURRENT_UNIX_TIME;
@@ -511,8 +485,7 @@ if ($user_fremdesitten == "0") {
     $sql .= " AND (SELECT allianz FROM " . $db_tb_user . " WHERE id=t1.user) = '" . $user_allianz . "'";
 }
 $sql .= " ORDER BY t1.date ASC, t1.date_b2 ASC";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 while($row = $db->db_fetch_array($result))
 {
 if ($row['date'] < CURRENT_UNIX_TIME) {
@@ -523,23 +496,20 @@ if ($row['date_b1'] < CURRENT_UNIX_TIME) {
 }
 if (($row['date_b1'] < CURRENT_UNIX_TIME) || ($row['date_b2'] < CURRENT_UNIX_TIME)) {
     $sql = "UPDATE " . $db_tb_sitterauftrag . " SET date_b1 = '" . $row['date_b1'] . "', date_b2 = '" . $row['date_b2'] . "' WHERE id = '" . $row['id'] . "'";
-    $result_u = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result_u = $db->db_query($sql);
     dates($row['id'], $row['user']);
 }
 
 $count = 0;
 // Planetendaten //
 $sql = "SELECT planetenname, dgmod FROM " . $db_tb_scans . " WHERE coords = '" . $row['planet'] . "'";
-$result_planet = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result_planet = $db->db_query($sql);
 $row_planet = $db->db_fetch_array($result_planet);
 
 $row_act = $row;
 
 $sql = "SELECT genbauschleife, peitschen, ikea FROM " . $db_tb_user . " WHERE sitterlogin = '" . $row['user'] . "'";
-$result_user = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result_user = $db->db_query($sql);
 $row_user = $db->db_fetch_array($result_user);
 $bauschleifenlaenge = (empty($row_user['genbauschleife'])) ? 2 : 3;
 $peitschen = $row_user['peitschen'];
@@ -553,8 +523,7 @@ while (($count < $bauschleifenlaenge) && (isset($row_act))) {
     $num = ($row['date'] <= CURRENT_UNIX_TIME) ? 2 : 1;
     if (!empty($ikea) && $row_act['typ'] == "Gebaeude") {
         $sql = "SELECT * FROM " . $db_tb_gebaeude . " WHERE id = '" . $row_act['bauid'] . "'";
-        $result_gebaeude = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result_gebaeude = $db->db_query($sql);
         $row_gebaeude = $db->db_fetch_array($result_gebaeude);
         if ($row_gebaeude['category'] == " 5. Förderungsanlagen") {
             $num = 4;
@@ -574,8 +543,7 @@ while (($count < $bauschleifenlaenge) && (isset($row_act))) {
 
     // Auftragsabhaengigkeiten //
     $sql = "SELECT id, auftrag, bauid, bauschleife, typ, refid, user, date_b1, date_b2, date, schiffanz FROM " . $db_tb_sitterauftrag . " WHERE id = '" . $row_act['refid'] . "' AND date <= '" . (CURRENT_UNIX_TIME + $sitter_wie_lange_vorher_zeigen) . "';";
-    $result_act = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result_act = $db->db_query($sql);
     $row_act = $db->db_fetch_array($result_act);
     if (($row_act['bauschleife'] != "1") || (!isset($row_act['id']))) {
         unset($row_act);
@@ -586,18 +554,15 @@ while (($count < $bauschleifenlaenge) && (isset($row_act))) {
 }
 // Sitteraktivitaet //
 $sql = "SELECT sitterpunkte FROM " . $db_tb_user . "  WHERE sitterlogin = '" . $row['user'] . "'";
-$result_user = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result_user = $db->db_query($sql);
 $row_user = $db->db_fetch_array($result_user);
 
 $sql = "SELECT id FROM " . $db_tb_sitterlog . " WHERE sitterlogin = '" . $user_sitterlogin . "' AND fromuser = '" . $row['user'] . "' AND fromuser <> '" . $user_sitterlogin . "'";
-$result_punkte = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result_punkte = $db->db_query($sql);
 
 // letzter Login //
 $sql = "SELECT fromuser, date, MAX(date) FROM " . $db_tb_sitterlog . " WHERE sitterlogin = '" . $row['user'] . "' AND action = 'login' GROUP BY date";
-$result_lastlogin = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result_lastlogin = $db->db_query($sql);
 
 unset($row_lastlogin);
 while ($row_lastlogins = $db->db_fetch_array($result_lastlogin)) {
@@ -868,18 +833,15 @@ if (isset($row_lastlogin)) {
         $sql .= " AND (SELECT allianz FROM " . $db_tb_user . " WHERE id=" . $db_tb_sitterauftrag . ".user) = '" . $user_allianz . "'";
     }
     $sql .= " ORDER BY date_b2 ASC, date_b1 ASC, date ASC";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     while ($row = $db->db_fetch_array($result)) {
         // Planetendaten //
         $sql = "SELECT planetenname, dgmod FROM " . $db_tb_scans . " WHERE coords = '" . $row['planet'] . "'";
-        $result_planet = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result_planet = $db->db_query($sql);
         $row_planet = $db->db_fetch_array($result_planet);
 
         $sql = "SELECT peitschen FROM " . $db_tb_user . " WHERE sitterlogin = '" . $row['user'] . "'";
-        $result_user = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result_user = $db->db_query($sql);
         $row_user = $db->db_fetch_array($result_user);
 
         $bauschleifenmod = 1;

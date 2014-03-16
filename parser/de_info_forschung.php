@@ -39,8 +39,6 @@ if (!defined('DEBUG_LEVEL')) {
 
 function parse_de_info_forschung($aParserData)
 {
-    debug_var("input", $aParserData);
-
     $scan_data = array();
     $research  = $aParserData->objResultData;
 
@@ -87,8 +85,8 @@ function display_de_info_forschung()
 //
 function update_research($scan_data)
 {
-    global $db, $db_tb_research, $db_tb_research2prototype, $researchid, $db_tb_researchfield,
-           $db_tb_research2research, $db_tb_research2building, $config_gameversion, $user_id;
+    global $user_id;
+    global $db, $db_tb_research, $db_tb_research2prototype, $researchid, $db_tb_researchfield, $db_tb_research2research, $db_tb_research2building, $config_gameversion;
 
     // Anpassung des Forschungstitels
     $scan_data['research'] = str_replace(
@@ -382,8 +380,7 @@ function insert_research_on_building($research, $building)
 //
 function finish_de_info_forschung()
 {
-    global $db, $db_tb_research2research, $db_tb_building2research,
-           $db_tb_research2building, $db_tb_research;
+    global $db, $db_tb_research2research, $db_tb_building2research, $db_tb_research2building, $db_tb_research;
 
     $db->db_update($db_tb_research, array('rLevel' => 0));
 

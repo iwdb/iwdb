@@ -190,16 +190,14 @@ if (file_exists("./config/m_research.cfg.php")) {
             }
 
             $sql = "SELECT ID FROM " . $db_tb_research . " WHERE name='" . $evoData['keyResearch'] . "';";
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result = $db->db_query($sql);
             $result1    = $db->db_fetch_array($result);
             $researchID = $result1["ID"];
 
             // Wenn vorhanden, nachsehen ob der User diese Forschung schon hat.
             if (!empty($researchID)) {
                 $sql = "SELECT rid FROM " . $db_tb_research2user . " WHERE rid=" . $researchID . " AND userid='" . $user_sitterlogin . "'";
-                $result = $db->db_query($sql)
-                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                $result = $db->db_query($sql);
                 $result2 = $db->db_fetch_array($result);
                 if (!empty($result2["rid"])) {
                     $selectEvo    = $evoNumber;
@@ -239,4 +237,3 @@ if (file_exists("./config/m_research.cfg.php")) {
     echo "<br>";
     echo "Danke an H.G. Blob für die Grafiken der Techtrees. :)";
 }
-?>

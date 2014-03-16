@@ -258,8 +258,7 @@ function validateIwAccname($name)
         $IwAccnames = Array();
 
         $sql = "SELECT `sitterlogin` FROM `$db_tb_user` WHERE `sitterlogin` = '".$name ."' LIMIT 1;";
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query iw accname.', '', __FILE__, __LINE__, $sql);
+        $result = $db->db_query($sql);
 
         $row = $db->db_fetch_array($result);
         if (!empty($row)) {
@@ -295,8 +294,7 @@ function validateIwdbAccname($name)
     $name = $db->escape($name);
 
     $sql = "SELECT `id` FROM  `$db_tb_user` WHERE `id` = '".$name ."' LIMIT 1;";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query iwdb accname.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     $row = $db->db_fetch_array($result);
     if (!empty($row['id'])) {

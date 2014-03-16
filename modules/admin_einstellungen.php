@@ -51,24 +51,19 @@ if (!empty($bs)) {
     $sound_standard = (int)GetVar('sound_standard');
     $sound_login    = (int)GetVar('sound_login');
 
-    $db->db_update($db_tb_params, array('value' => $sound_standard), "WHERE name = 'sound_standard'")
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
+    $db->db_update($db_tb_params, array('value' => $sound_standard), "WHERE name = 'sound_standard'");
 
-    $db->db_update($db_tb_params, array('value' => $sound_login), "WHERE name = 'sound_login'")
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
+    $db->db_update($db_tb_params, array('value' => $sound_login), "WHERE name = 'sound_login'");
 
     $sqlM = "ALTER TABLE `{$db_tb_menu}` CHANGE `sound` `sound` TINYINT( 1 ) DEFAULT '" . $sound_standard . "'";
-    $resultM = $db->db_query($sqlM)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlM);
+    $resultM = $db->db_query($sqlM);
 
-    $db->db_update($db_tb_menu, array('sound' => 0))
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+    $db->db_update($db_tb_menu, array('sound' => 0));
 
     $sound_menu = GetVar('sound_menu');
     foreach ($sound_menu as $menuid) {
         $sqlM = "UPDATE `{$db_tb_menu}` SET sound = 1 WHERE id = " . $menuid . ";";
-        $resultM = $db->db_query($sqlM)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlM);
+        $resultM = $db->db_query($sqlM);
     }
 
 }
@@ -78,8 +73,7 @@ $menu_not = array();
 
 //auslesen aller Menüpunkte, um eine Liste zu erstellen, wo der Sound abgespielt werden soll
 $sqlM = "SELECT `action`,`sound`,`id` FROM `{$db_tb_menu}`;";
-$resultM = $db->db_query($sqlM)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlM);
+$resultM = $db->db_query($sqlM);
 
 while ($rowM = $db->db_fetch_array($resultM)) {
 
@@ -102,8 +96,7 @@ while ($rowM = $db->db_fetch_array($resultM)) {
 
 //auslesen des standards
 $sqlP = "SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'sound_standard';";
-$resultP = $db->db_query($sqlP)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
+$resultP = $db->db_query($sqlP);
 $rowP = $db->db_fetch_array($resultP);
 
 if (!empty($rowP['value'])) {
@@ -115,8 +108,7 @@ if (!empty($rowP['value'])) {
 }
 
 $sqlP = "SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'sound_login';";
-$resultP = $db->db_query($sqlP)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
+$resultP = $db->db_query($sqlP);
 $rowP = $db->db_fetch_array($resultP);
 
 $sel_login = '';
@@ -184,19 +176,16 @@ if (!empty($be)) {
     GetVar('bericht_fuer_sitter');
 
     $sqlP = "UPDATE `{$db_tb_params}` SET `value` = '" . $bericht_fuer_rang . "' WHERE `name` = 'bericht_fuer_rang';";
-    $resultP = $db->db_query($sqlP)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
+    $resultP = $db->db_query($sqlP);
 
     $sqlP = "UPDATE `{$db_tb_params}` SET `value` = '" . $bericht_fuer_sitter . "' WHERE `name` = 'bericht_fuer_sitter';";
-    $resultP = $db->db_query($sqlP)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
+    $resultP = $db->db_query($sqlP);
 
 }
 
 //auslesen rang
 $sqlP = "SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'bericht_fuer_rang';";
-$resultP = $db->db_query($sqlP)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
+$resultP = $db->db_query($sqlP);
 $rowP = $db->db_fetch_array($resultP);
 
 $sel_all = '';
@@ -227,8 +216,7 @@ if (!empty($rowP['value'])) {
 
 //auslesen sitter
 $sqlP = "SELECT value FROM `{$db_tb_params}` WHERE name = 'bericht_fuer_sitter' ";
-$resultP = $db->db_query($sqlP)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
+$resultP = $db->db_query($sqlP);
 $rowP = $db->db_fetch_array($resultP);
 
 $sitval0 = '';
@@ -302,16 +290,13 @@ if (isset($db_tb_bestellung)) {
         if (($automatic_creds_order === 'true') AND (!empty($automatic_creds_order_minvalue))) {
 
             $sql = "INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('automatic_creds_order', 'true') ON DUPLICATE KEY UPDATE `value`='true';";
-            $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not update automatic_creds_order information.', '', __FILE__, __LINE__, $sql);
+            $db->db_query($sql);
 
             $sql = "INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('automatic_creds_order_minvalue', '" . $automatic_creds_order_minvalue . "') ON DUPLICATE KEY UPDATE `value`='" . $automatic_creds_order_minvalue . "';";
-            $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not update automatic_creds_order_minvalue information.', '', __FILE__, __LINE__, $sql);
+            $db->db_query($sql);
 
             $sql = "INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('automatic_creds_order_minpayout', '" . $automatic_creds_order_minpayout . "') ON DUPLICATE KEY UPDATE `value`='" . $automatic_creds_order_minpayout . "';";
-            $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not update automatic_creds_order_minpayout information.', '', __FILE__, __LINE__, $sql);
+            $db->db_query($sql);
 
 
         } else {
@@ -335,16 +320,14 @@ if (isset($db_tb_bestellung)) {
         }
 
         $sql = "SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'automatic_creds_order_minvalue';";
-        $sth = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not get automatic_creds_order_minvalue information.', '', __FILE__, __LINE__, $sql);
+        $sth = $db->db_query($sql);
 
         $row = $db->db_fetch_array($sth);
 
         $automatic_creds_order_minvalue = number_format((float)$row['value'], 0, ',', '.');
 
         $sql = "SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'automatic_creds_order_minpayout';";
-        $sth = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not get automatic_creds_order_minpayout information.', '', __FILE__, __LINE__, $sql);
+        $sth = $db->db_query($sql);
 
         $row = $db->db_fetch_array($sth);
 
@@ -412,36 +395,28 @@ if (GetVar('stunden_change')) {
 	$max_eisen = GetVar('lager_eisen');
 	
 	$sql = "INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('hour_eisen', '" . $hour_eisen . "') ON DUPLICATE KEY UPDATE `value`='" . $hour_eisen . "';";
-            $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not update hour information.', '', __FILE__, __LINE__, $sql);
+            $db->db_query($sql);
 	
 	$sql = "INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('hour_stahl', '" . $hour_stahl . "') ON DUPLICATE KEY UPDATE `value`='" . $hour_stahl . "';";
-            $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not update hour information.', '', __FILE__, __LINE__, $sql);
+            $db->db_query($sql);
 	
 	$sql = "INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('hour_vv4a', '" . $hour_vv4a . "') ON DUPLICATE KEY UPDATE `value`='" . $hour_vv4a . "';";
-            $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not update hour information.', '', __FILE__, __LINE__, $sql);
+            $db->db_query($sql);
 	
 	$sql = "INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('hour_chemie', '" . $hour_chemie . "') ON DUPLICATE KEY UPDATE `value`='" . $hour_chemie . "';";
-            $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not update hour information.', '', __FILE__, __LINE__, $sql);
+            $db->db_query($sql);
 	
 	$sql = "INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('hour_eis', '" . $hour_eis . "') ON DUPLICATE KEY UPDATE `value`='" . $hour_eis . "';";
-            $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not update hour information.', '', __FILE__, __LINE__, $sql);
+            $db->db_query($sql);
 	
 	$sql = "INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('hour_wasser', '" . $hour_wasser . "') ON DUPLICATE KEY UPDATE `value`='" . $hour_wasser . "';";
-            $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not update hour information.', '', __FILE__, __LINE__, $sql);
+            $db->db_query($sql);
 	
 	$sql = "INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('hour_energie', '" . $hour_energie . "') ON DUPLICATE KEY UPDATE `value`='" . $hour_energie . "';";
-            $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not update hour information.', '', __FILE__, __LINE__, $sql);
+            $db->db_query($sql);
 				
 	$sql = "INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('max_eisen', '" . $max_eisen . "') ON DUPLICATE KEY UPDATE `value`='" . $max_eisen . "';";
-            $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not update hour information.', '', __FILE__, __LINE__, $sql);
+            $db->db_query($sql);
 	
 }
 

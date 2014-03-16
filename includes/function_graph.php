@@ -43,8 +43,7 @@ function build_graph($users, $table, $user_col, $date_col, $value_col, $fitthis)
 	}
 
 	$sql = "SELECT max(" . $value_col . "), min(" . $value_col . "), max(" . $date_col . "), min(" . $date_col . ") FROM " . $table . $where;
-	$result = $db->db_query($sql)
-		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+	$result = $db->db_query($sql);
 	$row = $db->db_fetch_array($result);
 
 	$value_max = $row['max(' . $value_col . ')'];
@@ -69,8 +68,10 @@ function build_graph($users, $table, $user_col, $date_col, $value_col, $fitthis)
 
 	$user_max = count($users);
 
-	$graph = @ImageCreate($config_xsize, $config_ysize)
-		or error(GENERAL_ERROR, 'Could not create new GD image.', '', __FILE__, __LINE__, $sql);
+	$graph = @ImageCreate($config_xsize, $config_ysize);
+    if ($graph === false) {
+        error(GENERAL_ERROR, 'Could not create new GD image.', '', __FILE__, __LINE__);
+    }
 
 	$font_width = ImageFontWidth( 2 );
 	$font_height = ImageFontHeight( 2 );
@@ -123,8 +124,7 @@ function build_graph($users, $table, $user_col, $date_col, $value_col, $fitthis)
 			$color = ImageColorAllocate($graph, $rot, $gruen, $blau);
 	
 			$sql = "SELECT " . $value_col . ", " . $date_col . " FROM " . $table . " WHERE " . $user_col . " = '" . $userid . "' ORDER BY " . $date_col;
-			$result = $db->db_query($sql)
-				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+			$result = $db->db_query($sql);
 			while ( $row = $db->db_fetch_array($result) )
 			{
 				$xactual = $config_borderleft + ($row[$date_col] - $date_min) * $date_grid;

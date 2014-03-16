@@ -43,8 +43,7 @@ doc_title('Raids von ' . $coords);
 
 if (!empty($coords)) {
     $sql = "SELECT * FROM " . $db_tb_raid . " WHERE coords='" . $coords . "' ORDER BY date DESC";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     while ($row = $db->db_fetch_array($result)) {
         ?>
         <table class="table_format" style="width: 80%;">

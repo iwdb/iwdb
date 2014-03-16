@@ -345,8 +345,7 @@ function build_graph_transfer($users, $fitthis, $date_min, $date_max, $typ)
                 " GROUP BY UNIX_TIMESTAMP( DATE( FROM_UNIXTIME( zeitmarke ) ) ) " .
                 " ORDER BY Punkte DESC";
 
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result = $db->db_query($sql);
             $value = 0;
             if ($row = $db->db_fetch_array($result)) {
                 $value = $row['punkte'];
@@ -541,8 +540,7 @@ function build_graph_transfer($users, $fitthis, $date_min, $date_max, $typ)
                 " GROUP BY UNIX_TIMESTAMP( DATE( FROM_UNIXTIME( zeitmarke ) ) ) " .
                 " ORDER BY UNIX_TIMESTAMP( DATE( FROM_UNIXTIME( zeitmarke ) ) ) ASC";
 
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result = $db->db_query($sql);
 
             while ($row = $db->db_fetch_array($result)) {
                 $xactual = $config_borderleft + ($row['zeitmarke'] - $date_min) * $date_grid;
@@ -779,8 +777,7 @@ function showbuddlertransfers($buddler, $transferday)
         " AND UNIX_TIMESTAMP( DATE( FROM_UNIXTIME( zeitmarke ) ) ) = " . $transferday .
         " ORDER BY " . $order . " " . $ordered;
 
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     while ($row = $db->db_fetch_array($result)) {
         $count++;
@@ -970,8 +967,7 @@ function showbuddler($buddler)
         " GROUP BY UNIX_TIMESTAMP( DATE( FROM_UNIXTIME( zeitmarke ) ) ) " .
         " ORDER BY " . $order . " " . $ordered;
 
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     while ($row = $db->db_fetch_array($result)) {
         $count++;
@@ -1085,14 +1081,12 @@ function showallfleeters()
         $sql .= " AND " . $db_tb_user . ".allianz='" . $user_allianz . "'";
     }
     $sql .= " ORDER BY fleeter ASC";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $db->db_query($sql);
     /*
     $sql = "SELECT DISTINCT fleeter FROM " . $db_tb_transferliste .
            " ORDER BY fleeter ASC";
     */
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     while ($row = $db->db_fetch_array($result)) {
         start_table();
@@ -1187,8 +1181,7 @@ function showallfleeters()
             " GROUP BY buddler " .
             " ORDER BY " . $order . " " . $ordered;
 
-        $result2 = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result2 = $db->db_query($sql);
 
         while ($row2 = $db->db_fetch_array($result2)) {
             $count++;
@@ -1207,8 +1200,7 @@ function showallfleeters()
             $query     = "SELECT lasttransport" .
                 " FROM " . $db_tb_user .
                 " WHERE sitterlogin = '" . $row2['buddler'] . "'";
-            $result_query = $db->db_query($query)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $query);
+            $result_query = $db->db_query($query);
 
             $row_query = $db->db_fetch_array($result_query);
             if (empty($row_query['lasttransport'])) {

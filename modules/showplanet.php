@@ -47,8 +47,7 @@ doc_title('Planet');
 
 //alle Planieinformationen holen
 $sql_planie = "SELECT * FROM `{$db_tb_scans}` WHERE `coords`='" . $coords . "'";
-$result_planie = $db->db_query($sql_planie)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_planie);
+$result_planie = $db->db_query($sql_planie);
 $row_planie = $db->db_fetch_array($result_planie);
 
 //Planetenreservierung aktualisieren
@@ -57,8 +56,7 @@ if ((!empty($reserveplanie)) AND (empty($row_planie['reserviert']) OR ($row_plan
     $reserve_to = (getVar('reservieren')) ? $user_sitterlogin : "";
 
     if ($reserve_to !== $row_planie['reserviert']) {
-        $result = $db->db_update($db_tb_scans, array('reserviert' => $reserve_to), "WHERE coords='" . $coords . "'")
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+        $result = $db->db_update($db_tb_scans, array('reserviert' => $reserve_to), "WHERE coords='" . $coords . "'");
 
         echo "<div class='system_notification'>Planetenreservierung geändert.</div>";
         $row_planie['reserviert'] = $reserve_to;
@@ -71,12 +69,10 @@ if (!empty($submitnotice)) {
 
     $notice = getVar('notice');
 
-    $result = $db->db_update($db_tb_scans, array('rnb' => $notice), "WHERE coords='" . $coords . "'")
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+    $result = $db->db_update($db_tb_scans, array('rnb' => $notice), "WHERE coords='" . $coords . "'");
 
     $sql_name = "SELECT `user` FROM `{$db_tb_scans}` WHERE `coords`='" . $coords . "'";
-    $result_name = $db->db_query($sql_name)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_name);
+    $result_name = $db->db_query($sql_name);
     $row_name = $db->db_fetch_array($result_name);
     $name     = $row_name['user'];
 
@@ -85,33 +81,28 @@ if (!empty($submitnotice)) {
         'umode'    => getVar('umode'),
 		'einmaurer'=> getVar('einmaurer')
     );
-    $result = $db->db_update($db_tb_spieler, $data, "WHERE `name`='" . $name . "'")
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+    $result = $db->db_update($db_tb_spieler, $data, "WHERE `name`='" . $name . "'");
 
 } else {
     //Notizen aufrufen
 
     $sql = "SELECT `rnb` FROM `{$db_tb_scans}` WHERE `coords`='" . $coords . "'";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $result = $db->db_fetch_array($result);
     $notice = $result["rnb"];
 
     $sql_name = "SELECT `user` FROM `{$db_tb_scans}` WHERE `coords`='" . $coords . "'";
-    $result_name = $db->db_query($sql_name)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_name);
+    $result_name = $db->db_query($sql_name);
     $name = $result_name['user'];
 
     $sql_spieler = "SELECT `gesperrt`, `umode`, `einmaurer` FROM `{$db_tb_spieler}` WHERE `name`='" . $name . "'";
-    $result_spieler = $db->db_query($sql_spieler)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_spieler);
+    $result_spieler = $db->db_query($sql_spieler);
     $result_spieler = $db->db_fetch_array($result_spieler);
 }
 
 //Allianzstatus holen
 $sql_allystatus = "SELECT `status` FROM `{$db_tb_allianzstatus}` WHERE `allianz` LIKE '" . $row_planie['allianz'] . "'";
-$result_allystatus = $db->db_query($sql_allystatus)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_allystatus);
+$result_allystatus = $db->db_query($sql_allystatus);
 $row_allystatus = $db->db_fetch_array($result_allystatus);
 if (isset($config_allianzstatus[$row_allystatus['status']])) {
     $color = $config_allianzstatus[$row_allystatus['status']];
@@ -121,8 +112,7 @@ if (isset($config_allianzstatus[$row_allystatus['status']])) {
 
 //Spielerstatus holen
 $sql_spieler = "SELECT `umode`, `gesperrt`, `einmaurer` FROM `{$db_tb_spieler}` WHERE `name`='" . $row_planie['user'] . "'";
-$result_spieler = $db->db_query($sql_spieler)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_spieler);
+$result_spieler = $db->db_query($sql_spieler);
 $row_spieler = $db->db_fetch_array($result_spieler);
 
 $rating = rating($row_planie);

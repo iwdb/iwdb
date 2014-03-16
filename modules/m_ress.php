@@ -169,7 +169,7 @@ $switch = $row['switch'];
 //Zeit ändern?
 ?>
     <form action="index.php?action=m_ress" method="post">
-        <p>Anzeigen der Produktion für <input type="number" name="switch" size="3" value="<?php $switch ?>"> Stunden <input type="submit" value="speichern" name="form"></p>
+        <p>Anzeigen der Produktion für <input type="number" name="switch" size="3" value="<?php echo $switch ?>"> Stunden <input type="submit" value="speichern" name="form"></p>
     </form>
 <?php
 

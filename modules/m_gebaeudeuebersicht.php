@@ -157,8 +157,7 @@ doc_title('Gebäudeübersicht');
 
 //Gebäudedaten holen
 $sql = "SELECT `name`, `id`, `bild` FROM `{$db_tb_gebaeude}`;";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query scans_historie information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     $buildings[$row['name']] = array(
         "id"   => $row['id'],
@@ -202,8 +201,7 @@ if (!$user_fremdesitten) {
     $sql .= " AND " . $db_tb_user . ".allianz='" . $user_allianz . "'";
 }
 $sql .= " ORDER BY category,user,coords_gal,coords_sys,coords_planet";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query scans_historie information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 
 // Abfrage auswerten
 $categories           = array();

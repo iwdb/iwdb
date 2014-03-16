@@ -247,8 +247,7 @@ if (!empty($universum) || !empty($flotteversenden)) {
 
     $sql = "DELETE FROM " . $db_tb_target . " WHERE user='" . $user_sitterlogin . "' AND name LIKE 'Automatische Zielliste%'";
     debug_var("sql", $sql);
-    $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $db->db_query($sql);
     $index = 1;
     do {
         $current = getVar("target_" . $index++);
@@ -259,8 +258,7 @@ if (!empty($universum) || !empty($flotteversenden)) {
 				INSERT INTO " . $db_tb_target . "(`user`,`name`,`coords_gal`,`coords_sys`,`coords_planet`)
 				VALUES ('" . $user_sitterlogin . "','" . $name . "'," . $coords[0] . "," . $coords[1] . "," . $coords[2] . ")"
             );
-            $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $db->db_query($sql);
         }
     } while (!empty($current));
     $results[] = "<div class='system_notification'>Zielliste gespeichert.</div><br>";
@@ -310,8 +308,7 @@ if (!empty($fehlscan)) {
             $sql .= " AND coords_sys=" . $coords_sys;
             $sql .= " AND coords_planet=" . $coords_planet;
             debug_var("sql", $sql);
-            $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $db->db_query($sql);
         }
         $results[] = "<div class='system_notification'>Fehlscan auf " . $coords_gal . ":" . $coords_sys . ":" . $coords_planet . " gespeichert.</div><br>";
     }
@@ -326,8 +323,7 @@ $config['users'] = array();
 
 $sql = "SELECT * FROM " . $db_tb_user;
 debug_var('sql', $sql);
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     $config['users'][$row['id']] = $row['id'];
 }
@@ -337,8 +333,7 @@ $config['allistatus'] = array();
 $config['statusalli'] = array();
 
 $sql = "SELECT status,allianz FROM " . $db_tb_allianzstatus . " WHERE name='" . $user_allianz . "'";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     $config['allistatus'][$row['allianz']]  = $row['status'];
     $config['statusalli'][$row['status']][] = $row['allianz'];
@@ -413,8 +408,7 @@ if (!empty($params['delete'])) {
     $sql .= " WHERE ";
     $sql .= "coords_gal=" . $explode[0] . " AND coords_sys=" . $explode[1] . " AND coords_planet=" . $explode[2];
     debug_var('sql', $sql);
-    $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $db->db_query($sql);
     $results[]        = "<div class='system_notification'>Datensatz gelöscht.</div><br>";
     $params['delete'] = '';
     $params['edit']   = '';
@@ -429,8 +423,7 @@ if (!empty($button_edit)) {
     $sql .= " WHERE ";
     $sql .= "coords_gal=" . $explode[0] . " AND coords_sys=" . $explode[1] . " AND coords_planet=" . $explode[2];
     debug_var('sql', $sql);
-    $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $db->db_query($sql);
     $results[] = "<div class='system_notification'>Datensatz aktualisiert.</div><br>";
 }
 
@@ -443,8 +436,7 @@ if (empty($button_edit) && empty($button_add) && !empty($params['edit'])) {
     $sql .= " WHERE ";
     $sql .= "coords_gal=" . $explode[0] . " AND coords_sys=" . $explode[1] . " AND coords_planet=" . $explode[2];
     debug_var('sql', $sql);
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     if ($row = $db->db_fetch_array($result)) {
         if (!empty($row['reserveraiduser'])) {
             $edit['reserveraiduser']  = $row['reserveraiduser'];
@@ -522,8 +514,7 @@ doc_title($modultitle);
 
 // Wann wurde die Highscore das letzte Mal aktualisiert?
 $sql = "SELECT MAX(`pktupdate_time`) AS time FROM `{$db_tb_spieler}`;";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 $row = $db->db_fetch_array($result);
 $row['time'] = strftime(CONFIG_DATETIMEFORMAT, $row['time']);
 echo "<br>";
@@ -986,8 +977,7 @@ if (empty($params['view'])) {
     $count = 0;
     $sql   = $sql_select . $sql_from . $sql_where . $sql_order;
     debug_var("sql", $sql);
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     debug_var("Ergebnisse in der DB", $db->db_num_rows($result));
     while ($row = $db->db_fetch_array($result)) {
         unset($sd_01);
@@ -1031,8 +1021,7 @@ if (empty($params['view'])) {
             $sql_angriff .= " (art='Angriff' OR art='Sondierung' OR art='Sondierung (Schiffe/Def/Ress)' OR art='Sondierung (Gebäude/Ress)') AND";
             $sql_angriff .= " time>" . (CURRENT_UNIX_TIME - 15 * MINUTE);
             $sql_angriff .= " ORDER BY time DESC";
-            $result_angriff = $db->db_query($sql_angriff)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result_angriff = $db->db_query($sql_angriff);
             while ($row_angriff = $db->db_fetch_array($result_angriff)) {
                 if ($row_angriff['art'] == 'Angriff') {
                     $comment .= "<div style='color: red'>Angriff von " . $row_angriff['user_from'] . " von " . $row_angriff['coords_from_gal'] . ":" . $row_angriff['coords_from_sys'] . ":" . $row_angriff['coords_from_planet'] . " aus bis " . strftime(CONFIG_DATETIMEFORMAT, $row_angriff['time']) . "</div>";

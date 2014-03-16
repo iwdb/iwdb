@@ -41,41 +41,35 @@ if (!empty($newlog)) {
     $auftrag     = getVar('auftrag');
 
     $sql = "SELECT id FROM " . $db_tb_sitterlog . " WHERE sitterlogin = '" . $sitterlogin . "' AND fromuser = '" . $user_sitterlogin . "' AND action <> 'login' AND date > " . (CURRENT_UNIX_TIME - $config_sitterpunkte_timeout);
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $anz = $db->db_num_rows($result);
 
     // Log
     $logtext = nl2br($auftrag);
     $sql     = "INSERT INTO " . $db_tb_sitterlog . " (sitterlogin, fromuser, date, action) VALUES ('" . $sitterlogin . "', '" . $user_sitterlogin . "', '" . CURRENT_UNIX_TIME . "', '" . $logtext . "')";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     // Punkte //
     if (($sitterlogin != $user_sitterlogin) && ($anz == 0)) {
         $sql = "UPDATE " . $db_tb_user . " SET sitterpunkte = sitterpunkte + " . $config_sitterpunkte_auftrag_frei . " WHERE sitterlogin = '" . $user_sitterlogin . "'";
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result = $db->db_query($sql);
     }
 }
 
 $sql = "SELECT AVG(sitterpunkte) FROM " . $db_tb_user . " WHERE sitterpunkte <> 0";
-$result_avg = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result_avg = $db->db_query($sql);
 $row_avg = $db->db_fetch_array($result_avg);
 
 $sitterlogins = array();
 $sql = "SELECT sitterlogin FROM " . $db_tb_user . " WHERE sitterpwd <> '' " . (($user_status == "admin") ? "" : "AND sitten = '1' ") . "ORDER BY sitterlogin ASC";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     $sitterlogins[] = $row['sitterlogin'];
 }
 
 $count = 0;
 $sql = "SELECT sitterlogin, sitterpwd, sitten, sitterpunkte, peitschen, sittercomment FROM " . $db_tb_user . " WHERE sittercomment <> '' ORDER BY sitterlogin ASC";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 $anz = $db->db_num_rows($result);
 if (!empty($anz)) {
     ?>
@@ -103,12 +97,10 @@ if (!empty($anz)) {
         while ($row = $db->db_fetch_array($result)) {
             if ((($user_status == "admin") || ($row['sitten'] == 1)) && (!empty($row['sitterpwd']))) {
                 $sql = "SELECT id FROM " . $db_tb_sitterlog . " WHERE sitterlogin = '" . $user_sitterlogin . "' AND fromuser = '" . $row['sitterlogin'] . "' AND fromuser <> '" . $user_sitterlogin . "'";
-                $result_punkte = $db->db_query($sql)
-                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                $result_punkte = $db->db_query($sql);
 
                 $sql = "SELECT fromuser, date, MAX(date) FROM " . $db_tb_sitterlog . " WHERE sitterlogin = '" . $row['sitterlogin'] . "' AND action = 'login' GROUP BY date";
-                $result_lastlogin = $db->db_query($sql)
-                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                $result_lastlogin = $db->db_query($sql);
 
                 $row_lastlogin['MAX(date)'] = 0;
                 $row_lastlogin['date']      = 0;

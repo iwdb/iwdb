@@ -91,8 +91,7 @@ function getmoduleinfo($file)
 $delid = (int)getVar('delid');
 if (!empty($delid)) {
     $sql = "DELETE FROM " . $db_tb_menu . " WHERE id='" . $delid . "'";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 }
 
 
@@ -105,8 +104,7 @@ if (getVar('new')) {
     unset($fehler);
     // nach höchstem Menüeintrag suchen
     $sql = "SELECT * FROM " . $db_tb_menu . " ORDER BY menu DESC, submenu DESC LIMIT 0, 1";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     $row   = $db->db_fetch_array($result);
     $hmenu = $row['menu'] + 1;
@@ -128,8 +126,7 @@ if (getVar('new')) {
                 'extlink'   => 'n',
                 'sittertyp' => getVar('new_sittertyp')
             );
-            $db->db_insert($db_tb_menu, $SQLdata)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $db->db_insert($db_tb_menu, $SQLdata);
 
         } else {
             echo $fehler;
@@ -159,8 +156,7 @@ if (getVar('edit')) {
         );
         $eid = (int)getVar('eid');
 
-        $db->db_update($db_tb_menu, $SQLdata, "WHERE id = '" . $eid . "'")
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $db->db_update($db_tb_menu, $SQLdata, "WHERE id = '" . $eid . "'");
 
     } else {
         echo $fehler;
@@ -180,8 +176,7 @@ if (!empty($sort) AND !empty($id)) {
     //  -> Sortierwunsch UP
     if ($sort === "up") {
         $sql = "SELECT * FROM " . $db_tb_menu . " ORDER BY menu DESC, submenu DESC";
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result = $db->db_query($sql);
 
         $merk = 0;
         while ($row = $db->db_fetch_array($result)) {
@@ -206,28 +201,24 @@ if (!empty($sort) AND !empty($id)) {
             $sql = "UPDATE " . $db_tb_menu . "
               Set menu='" . $row1['menu'] . "',submenu='" . $row1['submenu'] . "'
               WHERE id = '" . $id2 . "'";
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result = $db->db_query($sql);
 
             $sql = "UPDATE " . $db_tb_menu . "
               Set menu='" . $row2['menu'] . "',submenu='" . $row2['submenu'] . "'
               WHERE id = '" . $id1 . "'";
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result = $db->db_query($sql);
         }
         //  -> Wenn beide Menüzeilen Titel sind einfach die Variablen menu und submenu tauschen
         if (($row1['submenu'] == 0) AND ($row2['submenu'] == 0)) {
             $sql = "UPDATE " . $db_tb_menu . "
               Set menu='" . $row1['menu'] . "',submenu='" . $row1['submenu'] . "'
               WHERE id = '" . $id2 . "'";
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result = $db->db_query($sql);
 
             $sql = "UPDATE " . $db_tb_menu . "
               Set menu='" . $row2['menu'] . "',submenu='" . $row2['submenu'] . "'
               WHERE id = '" . $id1 . "'";
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result = $db->db_query($sql);
         }
         //  -> Wenn ein Modul nach oben geschoben wird und sich darüber ein Titel befindet.
         // die Nummeration des Titels bleibt unverändert, das Modul bekommt den Menüwert der weiter darüberliegenden Zeile und den Submenüwert plus eins
@@ -238,16 +229,14 @@ if (!empty($sort) AND !empty($id)) {
                 $sql   = "UPDATE " . $db_tb_menu . "
               Set menu='" . $row3['menu'] . "',submenu='" . $subm3 . "'
               WHERE id = '" . $id1 . "'";
-                $result = $db->db_query($sql)
-                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                $result = $db->db_query($sql);
             } else {
                 $menu3 = $row2['menu'] - 1;
                 $subm3 = 1;
                 $sql   = "UPDATE " . $db_tb_menu . "
               Set menu='" . $menu3 . "',submenu='" . $subm3 . "'
               WHERE id = '" . $id1 . "'";
-                $result = $db->db_query($sql)
-                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                $result = $db->db_query($sql);
             }
         }
         //  -> Wenn ein Titel nach oben geschoben wird und sich darüber ein Modul befindet.
@@ -255,8 +244,7 @@ if (!empty($sort) AND !empty($id)) {
         if (($row1['submenu'] == 0) AND ($row2['submenu'] != 0)) {
             // Auslesen aller darunter liegenden Mudule und Zwischenspeichern in einem Array
             $sql = "SELECT * FROM " . $db_tb_menu . " where menu = '" . $row1['menu'] . "' ORDER BY submenu ASC";
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result = $db->db_query($sql);
 
             $i = 0;
             while ($row = $db->db_fetch_array($result)) {
@@ -270,8 +258,7 @@ if (!empty($sort) AND !empty($id)) {
             $sql = "UPDATE " . $db_tb_menu . "
              Set menu='" . $row1['menu'] . "',submenu='1'
              WHERE id = '" . $id2 . "'";
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result = $db->db_query($sql);
 
             // danach die gemerkten Module wenn welche vorhanden sind
             if (!empty($zeile)) {
@@ -281,8 +268,7 @@ if (!empty($sort) AND !empty($id)) {
                     $sql = "UPDATE " . $db_tb_menu . "
                  Set submenu='" . $i . "'
                  WHERE id = '" . $value . "'";
-                    $result = $db->db_query($sql)
-                        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                    $result = $db->db_query($sql);
                 }
             }
         }
@@ -290,8 +276,7 @@ if (!empty($sort) AND !empty($id)) {
     //  -> Sortierwunsch down
     if ($sort === "down") {
         $sql = "SELECT * FROM " . $db_tb_menu . " ORDER BY menu ASC, submenu ASC";
-        $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result = $db->db_query($sql);
         $merk = 0;
         while ($row = $db->db_fetch_array($result)) {
             if ($merk == 2) {
@@ -315,33 +300,28 @@ if (!empty($sort) AND !empty($id)) {
             $sql = "UPDATE " . $db_tb_menu . "
               Set menu='" . $row1['menu'] . "',submenu='" . $row1['submenu'] . "'
               WHERE id = '" . $id2 . "'";
-            $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result = $db->db_query($sql);
             $sql = "UPDATE " . $db_tb_menu . "
               Set menu='" . $row2['menu'] . "',submenu='" . $row2['submenu'] . "'
               WHERE id = '" . $id1 . "'";
-            $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result = $db->db_query($sql);
         }
         //  -> Wenn beide Menüzeilen Titel sind einfach die Variablen menu und submenu tauschen
         if (($row1['submenu'] == 0) AND ($row2['submenu'] == 0)) {
             $sql = "UPDATE " . $db_tb_menu . "
               Set menu='" . $row1['menu'] . "',submenu='" . $row1['submenu'] . "'
               WHERE id = '" . $id2 . "'";
-            $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result = $db->db_query($sql);
             $sql = "UPDATE " . $db_tb_menu . "
               Set menu='" . $row2['menu'] . "',submenu='" . $row2['submenu'] . "'
               WHERE id = '" . $id1 . "'";
-            $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result = $db->db_query($sql);
         }
         //  -> Wenn ein Modul nach unten geschoben wird und sich darunter ein Titel befindet.
         if (($row1['submenu'] != 0) AND ($row2['submenu'] == 0)) {
             // Auslesen aller darunter liegenden Module und Zwischenspeichern in einem Array
             $sql = "SELECT * FROM " . $db_tb_menu . " where menu = '" . $row2['menu'] . "' ORDER BY submenu ASC";
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result = $db->db_query($sql);
 
             $i = 0;
             while ($row = $db->db_fetch_array($result)) {
@@ -355,8 +335,7 @@ if (!empty($sort) AND !empty($id)) {
             $sql = "UPDATE " . $db_tb_menu . "
              Set menu='" . $row2['menu'] . "',submenu='1'
              WHERE id = '" . $id1 . "'";
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result = $db->db_query($sql);
             // danach die gemerkten Module wenn welche vorhanden sind
             if (!empty($zeile)) {
                 $i = 1;
@@ -365,8 +344,7 @@ if (!empty($sort) AND !empty($id)) {
                     $sql = "UPDATE " . $db_tb_menu . "
                  Set submenu='" . $i . "'
                  WHERE id = '" . $value . "'";
-                    $result = $db->db_query($sql)
-                        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                    $result = $db->db_query($sql);
                 }
             }
         }
@@ -374,8 +352,7 @@ if (!empty($sort) AND !empty($id)) {
         if (($row1['submenu'] == 0) AND ($row2['submenu'] != 0)) {
             // feststellen ob es über dem Titel noch ein weites Menü gibt
             $sql = "SELECT * FROM " . $db_tb_menu . " ORDER BY menu DESC, submenu DESC";
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result = $db->db_query($sql);
 
             $merk = 0;
             while ($row = $db->db_fetch_array($result)) {
@@ -394,16 +371,14 @@ if (!empty($sort) AND !empty($id)) {
                 $sql   = "UPDATE " . $db_tb_menu . "
               Set menu='" . $row4['menu'] . "',submenu='" . $subm4 . "'
               WHERE id = '" . $id2 . "'";
-                $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                $result = $db->db_query($sql);
             } else {
                 $menu3 = $row1['menu'] - 1;
                 $subm3 = 1;
                 $sql   = "UPDATE " . $db_tb_menu . "
               Set menu='" . $menu3 . "',submenu='" . $subm3 . "'
               WHERE id = '" . $id2 . "'";
-                $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                $result = $db->db_query($sql);
             }
         }
     }
@@ -412,21 +387,18 @@ if (!empty($sort) AND !empty($id)) {
 echo "<br>";
 
 $sql = "SELECT * FROM " . $db_tb_menu . " ORDER BY menu ASC, submenu ASC LIMIT 0, 1";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 $row = $db->db_fetch_array($result);
 $hid = $row['id'];
 
 $sql = "SELECT * FROM " . $db_tb_menu . " ORDER BY menu DESC, submenu DESC LIMIT 0, 1";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 $row = $db->db_fetch_array($result);
 $lid = $row['id'];
 
 // -> Hier auslesen der Menübereiche.
 $sql = "SELECT * FROM " . $db_tb_menu . " ORDER BY menu ASC, submenu ASC";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 
 echo "<table width='90%' class='bordercolor' border='0' cellpadding='2' cellspacing='1' >";
 

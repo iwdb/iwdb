@@ -139,8 +139,7 @@ function createMenu()
     // Auslesen der vorhanden Menütabelle
     $sql = "SELECT menu, submenu, title, status, action, extlink, sittertyp FROM " .
         $db_tb_menu . " ORDER BY menu ASC, submenu ASC";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     // -> Nun ein Formular das das vorhandene Menü anzeigt und zusätzlich freie Slots bietet
     // -> wo man wählen kann wo dieses Modul seinen Platz im Menü bekommen soll.
@@ -240,8 +239,7 @@ function insertMenuItem($m_menu, $m_submenu, $modultitle, $modulstatus, $actionp
         'extlink'   => 'n',
         'sittertyp' => '0'
     );
-    $db->db_insert($db_tb_menu, $SQLdata)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+    $db->db_insert($db_tb_menu, $SQLdata);
 
     echo "<div class='system_notification'>Menü-Eintrag " . $modultitle . " in die Datenbank eingefügt</div>";
 }
@@ -258,8 +256,7 @@ function removeMenuItems()
     global $db, $db_tb_menu;
 
     $sql = "DELETE FROM " . $db_tb_menu . " WHERE action LIKE '" . $modulname . "%'";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $db->db_query($sql);
 
     echo "<div class='system_notification'>Menü-Einträge entfernt</div>";
 }

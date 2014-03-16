@@ -214,8 +214,7 @@ if (!empty($universum) || !empty($flotteversenden)) {
 
     $sql = "DELETE FROM " . $db_tb_target . " WHERE user='" . $user_sitterlogin . "' AND name LIKE 'Automatische Zielliste%'";
     debug_var("sql", $sql);
-    $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $db->db_query($sql);
     $index = 0;
     do {
         $current = getVar("target_" . $index++);
@@ -226,8 +225,7 @@ if (!empty($universum) || !empty($flotteversenden)) {
 				VALUES ('" . $user_sitterlogin . "','" . $name . "'," . $coords[0] . "," . $coords[1] . "," . $coords[2] . ")";
 
             debug_var("sql", $sql);
-            $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $db->db_query($sql);
         }
     } while (!empty($current));
     $results[] = "<div class='system_notification'>Zielliste gespeichert.</div><br>";
@@ -247,8 +245,7 @@ $playerSelectionOptions += getAllyAccTypesSelect() + getAllyTeamsSelect() + getA
 // Planeten des Spielers abfragen
 $sql = "SELECT * FROM " . $db_tb_scans . " WHERE user='" . $user_sitterlogin . "'";
 debug_var('sql', $sql);
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     $planets['key'] = 'value';
 }
@@ -290,8 +287,7 @@ if (isset($params['delete']) && $params['delete'] != '') {
     }
     $sql .= implode($delete_tokens, " AND ");
     debug_var('sql', $sql);
-    $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $db->db_query($sql);
     $results[]        = "<div class='system_notification'>Datensatz gelöscht.</div><br>";
     $params['delete'] = '';
     $params['edit']   = '';
@@ -353,8 +349,7 @@ if (!empty($button_edit)) {
     }
     $sql .= implode($key_tokens, " AND ");
     debug_var('sql', $sql);
-    $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $db->db_query($sql);
     $results[] = "<div class='system_notification'>Datensatz aktualisiert.</div><br>";
 }
 
@@ -367,8 +362,7 @@ if (!empty($params['edit'])) {
     }
     $sql .= implode($key_tokens, " AND ");
     debug_var('sql', $sql);
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     if ($row = $db->db_fetch_array($result)) {
         foreach ($row as $name => $value) {
             $edit[$name] = $value;
@@ -539,8 +533,7 @@ $sql .= ",$db_tb_user.budflesol";
 //$sql .= "," . $db_tb_lager . ".coords_planet";
 //debug_var('sql', $sql);
 
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     $key        = $row['coords_gal'] . ":" . $row['coords_sys'] . ":" . $row['coords_planet'];
     $expanded   = $params['expand'] == $key;
@@ -1524,8 +1517,7 @@ function lagersoll($name, $ressart, $gal, $sys, $plan, $prod, $soll, $lager) {
 			$SQLdata = array (
 				'eisen_soll' => $soll
 			);
-			$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+			$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")");
 			break;
 		
 		case '2':
@@ -1542,8 +1534,8 @@ function lagersoll($name, $ressart, $gal, $sys, $plan, $prod, $soll, $lager) {
 			$SQLdata = array (
 				'stahl_soll' => $soll
 			);
-			$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+			$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")");
+
 			break;
 		
 		case '3':
@@ -1560,8 +1552,8 @@ function lagersoll($name, $ressart, $gal, $sys, $plan, $prod, $soll, $lager) {
 			$SQLdata = array (
 				'vv4a_soll' => $soll
 			);
-			$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
-				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+			$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")");
+
 			break;
 		
 		case '4':
@@ -1581,8 +1573,8 @@ function lagersoll($name, $ressart, $gal, $sys, $plan, $prod, $soll, $lager) {
 			$SQLdata = array (
 				'chem_soll' => $soll
 			);
-			$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
-				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+			$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")");
+
 			break;
 		
 		case '5':
@@ -1605,8 +1597,8 @@ function lagersoll($name, $ressart, $gal, $sys, $plan, $prod, $soll, $lager) {
 			$SQLdata = array (
 				'eis_soll' => $soll
 			);
-			$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
-				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+			$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")");
+
 			break;
 		
 		case '6':
@@ -1629,8 +1621,8 @@ function lagersoll($name, $ressart, $gal, $sys, $plan, $prod, $soll, $lager) {
 			$SQLdata = array (
 				'wasser_soll' => $soll
 			);
-			$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
-				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+			$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")");
+
 			break;
 		
 		case '7':
@@ -1653,10 +1645,9 @@ function lagersoll($name, $ressart, $gal, $sys, $plan, $prod, $soll, $lager) {
 			$SQLdata = array (
 				'energie_soll' => $soll
 			);
-			$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")")
-				or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+			$db->db_update($db_tb_lager, $SQLdata, "WHERE (`coords_gal`=" . $gal . " AND `coords_sys`=" . $sys . " AND `coords_planet`=" . $plan .")");
+
 			break;
 	}
 	return $soll;
 }
-?>

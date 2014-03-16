@@ -39,7 +39,8 @@ if (!defined('DEBUG_LEVEL')) {
 
 function parse_de_msg($aParserData)
 {
-    global $db, $db_tb_transferliste, $db_tb_user, $db_tb_fremdsondierung, $selectedusername;
+    global $selectedusername;
+    global $db, $db_tb_transferliste, $db_tb_user, $db_tb_fremdsondierung;
 
     $transp_skipped     = 0;
     $transp_failed      = 0;

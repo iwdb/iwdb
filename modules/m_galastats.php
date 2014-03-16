@@ -178,8 +178,7 @@ $showto    = (($showto >= 1) AND ($showto <= $config_map_galaxy_max)) ? $showto 
 
 //erstmal alle besiedelten Planis aus der DB holen:
 $sql = "SELECT coords_gal, coords_sys, coords_planet, allianz, punkte, user, typ, objekt FROM " . $db_tb_scans . " WHERE objekt not like '---'";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 
 $i = 0;
 while ($rowGal = $db->db_fetch_array($result)) {

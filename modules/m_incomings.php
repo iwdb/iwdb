@@ -94,8 +94,7 @@ function workInstallDatabase()
         ",
     );
     foreach ($sqlscript as $sql) {
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not install incomings-table.', '', __FILE__, __LINE__, $sql);
+        $db->db_query($sql);
     }
     echo "<div class='system_success'>Installation: Datenbankänderungen = <b>OK</b></div>";
 
@@ -151,8 +150,7 @@ function workUninstallDatabase()
     );
 
     foreach ($sqlscript as $sql) {
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $db->db_query($sql);
     }
     echo "<div class='system_success'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
 

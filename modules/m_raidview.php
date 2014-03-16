@@ -176,8 +176,7 @@ function make_link($order, $ordered)
 
 // user aus Tabelle holen und gruppieren
 $sql = "SELECT `user` FROM `{$db_tb_raidview}` GROUP BY `user`;";
-$result2 = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result2 = $db->db_query($sql);
 
 start_table();
 start_row("titlebg center bold", "style='width:10%' colspan='3'");
@@ -223,8 +222,7 @@ while ($row = $db->db_fetch_array($result2)) {
 
 // Ressourcen aus raidview holen und nach Datum sortieren
     $sql = "SELECT * FROM " . $db_tb_raidview . " WHERE user= '" . $user . "' ORDER BY date DESC";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     $count     = 0;
     $eisen     = 0;
@@ -382,8 +380,7 @@ while ($row = $db->db_fetch_array($result2)) {
 
             // Ressourcen aus raidview holen und nach Datum sortieren
             $sql = "SELECT * FROM " . $db_tb_raidview . " WHERE user= '" . $_GET['user'] . "' ORDER BY date DESC LIMIT 0,300";
-            $result3 = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result3 = $db->db_query($sql);
 
             $count     = 0;
             $eisen     = 0;

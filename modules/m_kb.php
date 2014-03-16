@@ -170,8 +170,7 @@ function workInstallDatabase()
 
     );
     foreach ($sqlscript as $sql) {
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $db->db_query($sql);
     }
     echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
 }
@@ -227,8 +226,7 @@ function workUninstallDatabase()
     );
 
     foreach ($sqlscript as $sql) {
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+        $db->db_query($sql);
     }
     echo "<div class='system_notification'>Deinstallation: Datenbankänderungen = <b>OK</b></div>";
 }
@@ -363,8 +361,7 @@ if ($NI_War) {
                 'w_freund' => $h_freund,
                 'w_feind' => $h_feind
             );
-            $db->db_insert($db_tb_kb_war, $SQLdata)
-                or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__);
+            $db->db_insert($db_tb_kb_war, $SQLdata);
 
             $a_id = $db->db_insert_id();
 
@@ -374,8 +371,7 @@ if ($NI_War) {
                 'w_freund' => $h_freund,
                 'w_feind' => $h_feind
             );
-            $db->db_update($db_tb_kb_war, $SQLdata, "WHERE w_id = $a_id")
-                or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__);
+            $db->db_update($db_tb_kb_war, $SQLdata, "WHERE w_id = $a_id");
 
         }
     }
@@ -384,20 +380,20 @@ if ($NI_War) {
 //Löschen Krieg  incl. Kampfberichte!
 if ($DJ_War && $a_id > 0) {
     $sSQL = "DELETE FROM `" . $db_tb_kb_war . "` WHERE w_id = $a_id";
-    $result = $db->db_query($sSQL) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sSQL);
+    $result = $db->db_query($sSQL);
 
     $sSQL = "DELETE FROM `" . $db_tb_kb_kb . "` WHERE w_id = $a_id";
-    $result = $db->db_query($sSQL) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sSQL);
+    $result = $db->db_query($sSQL);
 
     $sSQL = "DELETE FROM `" . $db_tb_kb_kaputt . "` WHERE w_id = $a_id";
-    $result = $db->db_query($sSQL) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sSQL);
+    $result = $db->db_query($sSQL);
 
     $a_id = 0;
 }
 
 //War-Auswahl einlesen
 $sql = "SELECT * from `" . $db_tb_kb_war . "` order by w_id desc";
-$select = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+$select = $db->db_query($sql);
 
 echo "<p><form method='POST' action='index.php?action=" . $modulname . "' enctype='multipart/form-data'>\n";
 echo "<input type='hidden' name='action' value='m_kb'>";
@@ -434,8 +430,7 @@ if ($New_War || $Edit_War) {
         $w_feind  = '';
     } else {
         $sql = "SELECT `w_freund`, `w_feind` FROM `{$db_tb_kb_war}` WHERE w_id = $a_id";
-        $select = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+        $select = $db->db_query($sql);
         $rowW     = $db->db_fetch_array($select);
         $w_freund = $rowW['w_freund'];
         $w_feind  = $rowW['w_feind'];
@@ -464,8 +459,7 @@ if ($New_War || $Edit_War) {
     } else {
         $SQLdata = array ('k_mauer' => ' ');
     }
-    $db->db_update($db_tb_kb_kb, $SQLdata, "WHERE k_opfer = '$k_opfer' ")
-         or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__);
+    $db->db_update($db_tb_kb_kb, $SQLdata, "WHERE k_opfer = '$k_opfer' ");
 
 } else if (isset($KBF) && ($KBF == 'J' || $KBF == 'N')) {
 //Fake-Angriff Toggle
@@ -474,8 +468,7 @@ if ($New_War || $Edit_War) {
     } else {
         $SQLdata = array ('k_art' => '');
     }
-    $db->db_update($db_tb_kb_kb, $SQLdata, "WHERE w_id = $a_id AND k_id = $k_id ")
-        or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__);
+    $db->db_update($db_tb_kb_kb, $SQLdata, "WHERE w_id = $a_id AND k_id = $k_id ");
 }
 //Abfrage löschen Krieg  incl. Kampfberichte!
 if ($Delete_War && $a_id > 0) {
@@ -499,7 +492,7 @@ if ($a_id > 0 && $kb_erfassen) {
     $w_freund = '';
     $w_feind  = '';
     $sql      = "SELECT * from `" . $db_tb_kb_war . "` where w_id = $a_id";
-    $select = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+    $select = $db->db_query($sql);
     $rowW     = $db->db_fetch_array($select);
     $w_freund = $rowW["w_freund"];
     $w_feind  = $rowW["w_feind"];
@@ -544,7 +537,7 @@ if ($Recalculate_War) { //Neuberechnung
     $sql .= "WHERE w_id = $a_id ";
     $sql .= "ORDER BY k_time desc";
     echo $sql . '<br><br>';
-    $select = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+    $select = $db->db_query($sql);
 //  while ($row = $db->db_fetch_array($select)) {
 // http://www.icewars.de/portal/kb/de/kb.php?id=621254&md_hash=89b20849a70af19071ad0c9532fe7db4
 // http://www.icewars.de/portal/kb/de/kb.php?id=621253&md_hash=5a9c7bc001142a06899b4ef6018cb7a1
@@ -556,7 +549,7 @@ if ($Recalculate_War) { //Neuberechnung
 //   echo $k_kb . '<br>';
         $sSQL = "DELETE FROM `" . $db_tb_kb_kaputt . "` WHERE w_id = $a_id AND k_id = $k_id";
 //   echo $sSQL . '<br>';
-        $result = $db->db_query($sSQL) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sSQL);
+        $result = $db->db_query($sSQL);
         kb_parsen($row['k_kb']);
 //  echo $hxml;
     }
@@ -637,8 +630,7 @@ if ($a_id > 0 && ($K_Long || $K_Short)) {
     $sql = "SELECT * from `" . $db_tb_kb_kb . "` WHERE w_id = $a_id AND k_typ <> 'X' $and_Ncoords ";
     $sql .= "$abDatum order by k_time desc";
 
-    $select = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+    $select = $db->db_query($sql);
 
     echo "<span class='wfreund center'>&nbsp;&nbsp;$w_freund&nbsp;&nbsp;</span> <-> <span class='wfeind'>&nbsp;&nbsp;$link_w_feind&nbsp;&nbsp;</span>";
 
@@ -723,7 +715,7 @@ if ($a_id > 0 && ($K_Long || $K_Short)) {
         $sql .= "WHERE w_id = $a_id AND k_typ = 'E' ";
         $sql .= "GROUP BY k_ally, k_attally ";
         $sql .= "ORDER BY k_ally, k_attally ";
-        $select = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+        $select = $db->db_query($sql);
         while ($rowKB = $db->db_fetch_array($select)) {
             ausgabe_zeile($rowKB, 'SA', 'Freund-Summen je Verteidiger/Angreifer', $K_Long, 'E', '');
         }
@@ -736,7 +728,7 @@ if ($a_id > 0 && ($K_Long || $K_Short)) {
         $sql .= "WHERE w_id = $a_id AND k_typ = 'E' ";
         $sql .= "GROUP BY k_attally ";
         $sql .= "ORDER BY k_attally ";
-        $select = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+        $select = $db->db_query($sql);
         while ($rowKB = $db->db_fetch_array($select)) {
             ausgabe_zeile($rowKB, 'SJ', 'Freund-Summen je Angreifer', $K_Long, 'E', '');
         }
@@ -747,7 +739,7 @@ if ($a_id > 0 && ($K_Long || $K_Short)) {
         $sql .= $sqlf;
         $sql .= "FROM `$db_tb_kb_kb` ";
         $sql .= "WHERE w_id = $a_id AND k_typ = 'E' ";
-        $select = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+        $select = $db->db_query($sql);
         while ($rowKB = $db->db_fetch_array($select)) {
             ausgabe_zeile($rowKB, 'SG', 'Freund-Gesamt-Summen', $K_Long, 'E', '');
         }
@@ -760,7 +752,7 @@ if ($a_id > 0 && ($K_Long || $K_Short)) {
         $sql .= "WHERE w_id = $a_id AND k_typ = 'F' ";
         $sql .= "GROUP BY k_ally, k_attally ";
         $sql .= "ORDER BY k_ally, k_attally ";
-        $select = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+        $select = $db->db_query($sql);
         while ($rowKB = $db->db_fetch_array($select)) {
             ausgabe_zeile($rowKB, 'SA', 'Feind-Summen je Verteidiger/Angreifer', $K_Long, 'F', '');
         }
@@ -772,7 +764,7 @@ if ($a_id > 0 && ($K_Long || $K_Short)) {
         $sql .= "WHERE w_id = $a_id AND k_typ = 'F' ";
         $sql .= "GROUP BY k_attally ";
         $sql .= "ORDER BY k_attally ";
-        $select = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+        $select = $db->db_query($sql);
         while ($rowKB = $db->db_fetch_array($select)) {
             ausgabe_zeile($rowKB, 'SJ', 'Feind-Summen je Angreifer', $K_Long, 'F', '');
         }
@@ -782,7 +774,7 @@ if ($a_id > 0 && ($K_Long || $K_Short)) {
         $sql .= $sqlf;
         $sql .= "FROM `$db_tb_kb_kb` ";
         $sql .= "WHERE w_id = $a_id AND k_typ = 'F' ";
-        $select = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+        $select = $db->db_query($sql);
         while ($rowKB = $db->db_fetch_array($select)) {
             ausgabe_zeile($rowKB, 'SG', 'Feind-Gesamt-Summen', $K_Long, 'F', '');
         }
@@ -868,7 +860,7 @@ function kb_parsen($file)
 //    $sql .= "  AND k_opfer = '" . htmlentities($kb_array['OPFER']) . "' ";
         $sql .= "  AND k_opfer = '" . $kb_array['OPFER'] . "' ";
         $sql .= "  AND k_mauer = 'X' ";
-        $select = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+        $select = $db->db_query($sql);
         $rowM = $db->db_fetch_array($select);
         if (mysql_errno() == 0) {
             if ($rowM['k_mauer'] == 'X') {
@@ -931,14 +923,12 @@ function kb_parsen($file)
         $sSQL .= ",k_rauch    = " . $kb_array['RAUCH'];
         $sSQL .= ",k_msg      = '" . htmlentities($kb_array['MSG'], ENT_QUOTES) . "'";
         $sSQL .= " WHERE w_id = $a_id AND k_id = $k_id";
-        $result = $db->db_query($sSQL)
-            or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sSQL);
+        $db->db_query($sSQL);
 
         $sSQL = "UPDATE `" . $db_tb_kb_kaputt . "` SET ";
         $sSQL .= " v_typ      = '" . $kb_array['TYP'] . "'";
         $sSQL .= " WHERE w_id = $a_id AND k_id = $k_id AND v_art = 'G'";
-        $result = $db->db_query($sSQL)
-            or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sSQL);
+        $db->db_query($sSQL);
 
         echo "<a href='$k_kb' target='_new'>$k_kb</a> <span class='doc_green'>KB erfolgreich eingelesen</span><br>";
         fill_planatt();
@@ -1371,10 +1361,10 @@ function delete_kb($a_id, $k_id)
     if (!$Recalculate_War) {
         if ((is_numeric($a_id) && $a_id > 0) && (is_numeric($k_id) && $k_id > 0)) {
             $sSQL = "DELETE FROM `" . $db_tb_kb_kb . "` WHERE w_id = $a_id AND k_id = $k_id";
-            $result = $db->db_query($sSQL) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sSQL);
+            $db->db_query($sSQL);
 
             $sSQL = "DELETE FROM `" . $db_tb_kb_kaputt . "` WHERE w_id = $a_id AND k_id = $k_id";
-            $result = $db->db_query($sSQL) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sSQL);
+            $db->db_query($sSQL);
         }
     }
 }
@@ -1390,7 +1380,6 @@ function insert_iw_kb()
     global $Recalculate_War;
 
     if (!$Recalculate_War) {
-//    echo "KB insert !!! <br>";
         $sSQL   = "INSERT INTO `" . $db_tb_kb_kb . "` (w_id, k_id, k_typ, k_kb) VALUES ($a_id, '', 'X', '$k_kb')";
         $db->db_query($sSQL);
         if (mysql_errno() == 0) {
@@ -1429,8 +1418,7 @@ function insert_iw_kaputt()
             $sSQL .= ", " . $kb_array['VANZE'];
             $sSQL .= ", " . $kb_array['VKLASSE'];
             $sSQL .= " )";
-            $db->db_query($sSQL)
-                or error(GENERAL_ERROR, 'sql Fehler', '', __FILE__, __LINE__, $sSQL);
+            $db->db_query($sSQL);
         }
     }
 }
@@ -1661,14 +1649,14 @@ function ausgabe_zeile($rowKB, $art, $bez, $K_Long, $typ, $ftoggle, $coords = ''
     $row_user['u_usertyp'] = '';
     if (!empty($db_tb_scans_user) && !empty($rowKB['k_opfer'])) {
         $sql = "SELECT * FROM $db_tb_scans_user WHERE u_user ='{$rowKB['k_opfer']}' ";
-        $select = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+        $select = $db->db_query($sql);
         $row_user = $db->db_fetch_array($select);
     }
 
     $gebscan = '';
     if (isset($rowKB['k_art']) && $rowKB['k_art'] == 'B' && $typ == 'E') {
         $sql = "SELECT gebscantime FROM $db_tb_scans WHERE coords='" . $rowKB['k_ort'] . "' ";
-        $select = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+        $select = $db->db_query($sql);
         $rowP = $db->db_fetch_array($select);
         $db->db_free_result($select);
         if ($rowKB['k_time'] > $rowP['gebscantime']) {
@@ -1695,7 +1683,7 @@ function ausgabe_zeile($rowKB, $art, $bez, $K_Long, $typ, $ftoggle, $coords = ''
             $sql .= "AND v_art = 'D' ";
             $sql .= "AND v_klasse between '3' AND '9' ";
 
-            $select = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+            $select = $db->db_query($sql);
             $rowF = $db->db_fetch_array($select);
             $db->db_free_result($select);
             if ($rowF['anzahl'] > 0) { // Deffschiffe gefunden
@@ -1986,7 +1974,7 @@ function verluste_jeAlly_R($a_ally, $d_ally, $ff)
         $sql .= "WHERE w_id = $a_id ";
         $sql .= "AND k_attally = '" . $a_ally[$i] . "' ";
         $sql .= "AND k_ally IN $sd_ally ";
-        $select = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+        $select = $db->db_query($sql);
         $rowA = $db->db_fetch_array($select);
         $db->db_free_result($select);
 
@@ -1996,7 +1984,7 @@ function verluste_jeAlly_R($a_ally, $d_ally, $ff)
         $sql .= "WHERE w_id = $a_id ";
         $sql .= "AND k_ally = '" . $a_ally[$i] . "' ";
         $sql .= "AND k_attally IN $sd_ally ";
-        $select = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+        $select = $db->db_query($sql);
         $rowD = $db->db_fetch_array($select);
         $db->db_free_result($select);
 
@@ -2006,7 +1994,7 @@ function verluste_jeAlly_R($a_ally, $d_ally, $ff)
         $sql .= "WHERE w_id = $a_id ";
         $sql .= "AND k_attally = '" . $a_ally[$i] . "' ";
         $sql .= "AND k_ally IN $sd_ally ";
-        $select = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+        $select = $db->db_query($sql);
         $rowP = $db->db_fetch_array($select);
         $db->db_free_result($select);
 
@@ -2385,7 +2373,7 @@ function verluste_jeAlly_G()
     $sql .= "GROUP BY g.category,g.idcat, v_bez ";
     $sql .= "ORDER BY g.category,g.idcat, v_bez ";
 
-    $selectG = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+    $selectG = $db->db_query($sql);
     while ($rowG = $db->db_fetch_array($selectG)) {
         $hdauer = 0;
         $fzeit  = 0;
@@ -2396,7 +2384,7 @@ function verluste_jeAlly_G()
         $sql  = "SELECT dauer ";
         $sql .= "FROM `$db_tb_gebaeude` ";
         $sql .= "WHERE name = '$hbez'";
-        $selectD = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+        $selectD = $db->db_query($sql);
         if ($rowD = $db->db_fetch_array($selectD)) {
             $hdauer = $rowD['dauer'];
         }
@@ -2428,7 +2416,7 @@ function verluste_jeAlly_G()
             $sql .= "AND v_bez  = '" . $rowG['v_bez'] . "' ";
             $sql .= "AND v_art  = 'G' ";
 //      echo $sql;
-            $selectA = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+            $selectA = $db->db_query($sql);
             $hAnz = 0;
             if ($rowA = $db->db_fetch_array($selectA)) {
                 $hAnz = $rowA['s_anzs'];
@@ -2478,7 +2466,7 @@ function verluste_jeAlly_G()
             $sql .= "AND v_bez  = '" . $rowG['v_bez'] . "' ";
             $sql .= "AND v_art  = 'G' ";
 //      echo $sql . '<br>';
-            $selectA = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+            $selectA = $db->db_query($sql);
             $hAnz = 0;
             if ($rowA = $db->db_fetch_array($selectA)) {
                 $hAnz = $rowA['s_anzs'];
@@ -2701,7 +2689,7 @@ function verluste_jeAlly_S()
     $sql .= "  AND (v_art = 'A' OR v_art = 'D') ";
     $sql .= "GROUP BY v_klasse, v_bez ";
     $sql .= "ORDER BY v_klasse, v_bez ";
-    $selectS = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+    $selectS = $db->db_query($sql);
     $hklasse = 99;
     while ($rowS = $db->db_fetch_array($selectS)) {
         $hbez = $rowS['v_bez'];
@@ -2747,7 +2735,7 @@ function verluste_jeAlly_S()
                 $sql .= "AND   k_ally    IN $sfeind_ally)) ";
                 $sql .= "AND v_bez  = '" . $rowS['v_bez'] . "' ";
                 $sql .= "AND (v_art = 'A' OR v_art = 'D') ";
-                $selectA = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+                $selectA = $db->db_query($sql);
                 $hAnz = 0;
                 if ($rowA = $db->db_fetch_array($selectA)) {
                     $hAnz = $rowA['s_anzs'];
@@ -2792,7 +2780,7 @@ function verluste_jeAlly_S()
                 $sql .= "AND v_bez  = '" . $rowS['v_bez'] . "' ";
                 $sql .= "AND (v_art = 'A' OR v_art = 'D') ";
 //      echo $sql . '<br>';
-                $selectA = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+                $selectA = $db->db_query($sql);
                 $hAnz = 0;
                 if ($rowA = $db->db_fetch_array($selectA)) {
                     $hAnz = $rowA['s_anzs'];
@@ -2886,7 +2874,7 @@ function verluste_jeAlly_V()
     $sql .= "  AND v_typ in ('E','F') ";
     $sql .= "GROUP BY v_bez ";
     $sql .= "ORDER BY v_bez ";
-    $selectS = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+    $selectS = $db->db_query($sql);
     while ($rowS = $db->db_fetch_array($selectS)) {
         if ($rowS['s_anzs'] > 0) {
             $z++;
@@ -2913,7 +2901,7 @@ function verluste_jeAlly_V()
                 $sql .= "AND k_attally IN $sfeind_ally ";
                 $sql .= "AND v_bez  = '" . $rowS['v_bez'] . "' ";
                 $sql .= "AND v_art = 'P' ";
-                $selectA = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+                $selectA = $db->db_query($sql);
                 $hAnz = 0;
                 if ($rowA = $db->db_fetch_array($selectA)) {
                     $hAnz = $rowA['s_anzs'];
@@ -2956,7 +2944,7 @@ function verluste_jeAlly_V()
                 $sql .= "AND v_bez  = '" . $rowS['v_bez'] . "' ";
                 $sql .= "AND v_art = 'P' ";
 
-                $selectA = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+                $selectA = $db->db_query($sql);
                 $hAnz = 0;
                 if ($rowA = $db->db_fetch_array($selectA)) {
                     $hAnz = $rowA['s_anzs'];
@@ -3078,7 +3066,7 @@ function verluste_jeAlly_F($aart)
         $sql .= "AND k_ally IN $sfeind_ally ";
         $sql .= "GROUP BY k_ort, k_time ";
         $hAnz = 0;
-        $selectA = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+        $selectA = $db->db_query($sql);
         while ($rowA = $db->db_fetch_array($selectA)) {
             $hAnz += 1; // $rowA['k_anz'];
         }
@@ -3117,7 +3105,7 @@ function verluste_jeAlly_F($aart)
         $sql .= "AND k_ally IN $sfreund_ally ";
         $sql .= "GROUP BY k_ort, k_time ";
         $hAnz = 0;
-        $selectA = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+        $selectA = $db->db_query($sql);
         while ($rowA = $db->db_fetch_array($selectA)) {
             $hAnz += 1; // $rowA['k_anz'];
         }
@@ -3244,7 +3232,7 @@ function verluste_jeAlly_A($aart)
         }
         $sql .= "GROUP BY k_ort, k_time ";
         $hAnz = 0;
-        $selectA = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+        $selectA = $db->db_query($sql);
         while ($rowA = $db->db_fetch_array($selectA)) {
             $hAnz += 1; // $rowA['k_anz'];
         }
@@ -3287,7 +3275,7 @@ function verluste_jeAlly_A($aart)
         }
         $sql .= "GROUP BY k_ort, k_time ";
         $hAnz = 0;
-        $selectA = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+        $selectA = $db->db_query($sql);
         while ($rowA = $db->db_fetch_array($selectA)) {
             $hAnz += 1; // $rowA['k_anz'];
         }
@@ -3355,7 +3343,7 @@ function verluste_jeAlly_A($aart)
             $sql .= "HAVING min(k_sieg) = '2' ";
         }
         $hAnz = 0;
-        $selectA = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+        $selectA = $db->db_query($sql);
         while ($rowA = $db->db_fetch_array($selectA)) {
             $hAnz += 1; // $rowA['k_anz'];
         }
@@ -3406,7 +3394,7 @@ function verluste_jeAlly_A($aart)
             $sql .= "HAVING min(k_sieg) = '2' ";
         }
         $hAnz = 0;
-        $selectA = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+        $selectA = $db->db_query($sql);
         while ($rowA = $db->db_fetch_array($selectA)) {
             $hAnz += 1; // $rowA['k_anz'];
         }
@@ -3472,7 +3460,7 @@ function verluste_jeAlly_A($aart)
             $sql .= "HAVING min(k_sieg) = '1' ";
         }
         $hAnz = 0;
-        $selectA = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+        $selectA = $db->db_query($sql);
         while ($rowA = $db->db_fetch_array($selectA)) {
             $hAnz += 1; // $rowA['k_anz'];
         }
@@ -3523,7 +3511,7 @@ function verluste_jeAlly_A($aart)
             $sql .= "HAVING min(k_sieg) = '1' ";
         }
         $hAnz = 0;
-        $selectA = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+        $selectA = $db->db_query($sql);
         while ($rowA = $db->db_fetch_array($selectA)) {
             $hAnz += 1; // $rowA['k_anz'];
         }
@@ -3588,7 +3576,7 @@ function verluste_jeAlly_A($aart)
         $sql .= "HAVING sum(k_plueisen + k_plustahl + k_pluvv4a + k_pluchem ";
         $sql .= "+ k_plueis + k_pluwas + k_pluene) > 0 ";
         $hAnz = 0;
-        $selectA = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+        $selectA = $db->db_query($sql);
         while ($rowA = $db->db_fetch_array($selectA)) {
             $hAnz += 1; // $rowA['k_anz'];
         }
@@ -3636,7 +3624,7 @@ function verluste_jeAlly_A($aart)
         $sql .= "HAVING sum(k_plueisen + k_plustahl + k_pluvv4a + k_pluchem ";
         $sql .= "+ k_plueis + k_pluwas + k_pluene) > 0 ";
         $hAnz = 0;
-        $selectA = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+        $selectA = $db->db_query($sql);
         while ($rowA = $db->db_fetch_array($selectA)) {
             $hAnz += 1; // $rowA['k_anz'];
         }
@@ -3696,7 +3684,7 @@ function verluste_jeAlly_A($aart)
         }
         $sql .= "GROUP BY k_ort, k_time ";
         $hAnz = 0;
-        $selectA = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+        $selectA = $db->db_query($sql);
         while ($rowA = $db->db_fetch_array($selectA)) {
             $hAnz += 1; // $rowA['k_anz'];
         }
@@ -3742,7 +3730,7 @@ function verluste_jeAlly_A($aart)
         }
         $sql .= "GROUP BY k_ort, k_time ";
         $hAnz = 0;
-        $selectA = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+        $selectA = $db->db_query($sql);
         while ($rowA = $db->db_fetch_array($selectA)) {
             $hAnz += 1; // $rowA['k_anz'];
         }
@@ -3803,7 +3791,7 @@ function verluste_jeAlly_A($aart)
         }
         $sql .= "GROUP BY k_ort, k_time ";
         $hAnz = 0;
-        $selectA = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+        $selectA = $db->db_query($sql);
         while ($rowA = $db->db_fetch_array($selectA)) {
             $hAnz += 1; // $rowA['k_anz'];
         }
@@ -3849,7 +3837,7 @@ function verluste_jeAlly_A($aart)
         }
         $sql .= "GROUP BY k_ort, k_time ";
         $hAnz = 0;
-        $selectA = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+        $selectA = $db->db_query($sql);
         while ($rowA = $db->db_fetch_array($selectA)) {
             $hAnz += 1; // $rowA['k_anz'];
         }
@@ -3949,7 +3937,7 @@ function angriffe_jeFC($art)
     }
     $sql .= "GROUP BY  k_attally, k_attspiel, k_ort, k_time, k_art ";
     $sql .= "ORDER BY k_attally, k_attspiel, k_ort, k_time, k_art ";
-    $selectA = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+    $selectA = $db->db_query($sql);
     while ($rowA = $db->db_fetch_array($selectA)) {
         if ($rowA['k_attspiel'] != $hSpieler) {
             if (!empty($hSpieler)) {
@@ -4031,7 +4019,7 @@ function angriffe_jeFC_zeile($hSpieler, $hAlly, $hAngriff, $hBomb, $hFake, $hPlo
         $sql .= "WHERE w_id  = $a_id ";
         $sql .= "  AND k_art = 'B' ";
         $sql .= "  AND k_attspiel = '$hSpieler' )";
-        $selectG = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+        $selectG = $db->db_query($sql);
         $rowG = $db->db_fetch_array($selectG);
         $db->db_free_result($selectG);
     } else {
@@ -4080,7 +4068,7 @@ function angriffe_jeFC_coords($hSpieler, $sRaids, $hclass)
     $sql .= " AND k_typ <> 'X' ";
     $sql .= " AND k_attspiel = '$hSpieler' ";
     $sql .= " ORDER BY k_time desc";
-    $select = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+    $select = $db->db_query($sql);
 
     echo "<form method='POST' action='index.php?action=" . $modulname . "&amp;a_id=$a_id" . $k_zeigen . "' enctype='multipart/form-data'>\n";
     echo "<input name='a_id' value=$a_id type='hidden'>";
@@ -4176,7 +4164,7 @@ function kb_parser($k_id)
         $sql = "SELECT * FROM `$db_tb_kb_kb` ";
         $sql .= "WHERE w_id  = $a_id ";
         $sql .= "  AND k_id  = $k_id ";
-        $selectKB = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+        $selectKB = $db->db_query($sql);
         $rowKB = $db->db_fetch_array($selectKB);
         $db->db_free_result($selectKB);
 
@@ -4194,7 +4182,7 @@ function kb_parser($k_id)
         $sql .= "  AND v_art = 'P' ";
         $sql .= "GROUP BY v_klasse, v_bez, v_art ";
         $sql .= "ORDER BY s_art, v_klasse, v_bez, v_art ";
-        $selectS = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+        $selectS = $db->db_query($sql);
 
         $vbez  = '';
         $hangr = "Angreifer";
@@ -4336,7 +4324,7 @@ function kb_parser($k_id)
             $sql .= "  AND v_art = 'G' ";
             $sql .= "ORDER BY g.category, g.idcat, v_bez ";
 
-            $selectG = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+            $selectG = $db->db_query($sql);
             $gzeit = 0;
             while ($rowG = $db->db_fetch_array($selectG)) {
                 $hdauer = 0;
@@ -4372,7 +4360,7 @@ function kb_parser($k_id)
         $sql = "UPDATE `$db_tb_kb_kb` SET k_forum = 'J' ";
         $sql .= "WHERE w_id  = $a_id ";
         $sql .= "  AND k_id  = $k_id ";
-        $selectForum = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+        $selectForum = $db->db_query($sql);
     }
 }
 
@@ -4431,7 +4419,7 @@ function kb_parser_bez($hbez, $a_id, $k_id, $hart)
     $sql .= "  AND v_typ in ('E','F') ";
     $sql .= "  AND v_art = '$hart' ";
     $sql .= "  AND v_bez = '$hbez' ";
-    $selectZ = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+    $selectZ = $db->db_query($sql);
     $rowZ = $db->db_fetch_array($selectZ);
     $db->db_free_result($selectZ);
     if (!isset($rowZ['v_anzs'])) {
@@ -4485,7 +4473,7 @@ function fill_planatt()
     $sql .= "  AND v_name = '" . $kb_array['OPFER'] . "'";
     $sql .= " ORDER BY v_klasse ";
 
-    $select = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+    $select = $db->db_query($sql);
     while ($row = $db->db_fetch_array($select)) {
         $hclass = fill_schiffclass($row['v_bez']);
         $hatt .= $hclass . $ha . $row['v_bez'] . $hm . $row['v_anze'] . $he;
@@ -4499,7 +4487,7 @@ function fill_planatt()
     $sql .= "  AND v_art = 'P' ";
 //  $sql    .= " ORDER BY v_klasse ";
 
-    $select = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+    $select = $db->db_query($sql);
     $hclass = "<tr class='scan_row1'> \n";
     while ($row = $db->db_fetch_array($select)) {
         $hatt .= $hclass . $ha . $row['v_bez'] . $hm . $row['v_anze'] . $he;
@@ -4515,7 +4503,7 @@ function fill_planatt()
     $sql .= "  AND v_name <> '" . $kb_array['OPFER'] . "'";
     $sql .= " ORDER BY v_name, v_klasse ";
 //  echo $sql . '<br>';
-    $select = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+    $select = $db->db_query($sql);
     $hattSp = '';
     while ($row = $db->db_fetch_array($select)) {
         if ($hattSp != $row['v_name']) {
@@ -4535,7 +4523,7 @@ function fill_schiffclass($hbez)
 {
     global $db, $db_tb_schiffstyp;
     $sqlS = "SELECT typ from `" . $db_tb_schiffstyp . "` WHERE schiff = '$hbez'";
-    $selectS = $db->db_query($sqlS) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sqlS);
+    $selectS = $db->db_query($sqlS);
     $rowS = $db->db_fetch_array($selectS);
     $db->db_free_result($selectS);
 
@@ -4567,7 +4555,7 @@ function update_planatt()
 
     $sql = "SELECT coords, time, time_att, att FROM " . $db_tb_scans .
         " WHERE coords='" . $kb_array['ORT'] . "'";
-    $result = $db->db_query($sql) or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $row = $db->db_fetch_array($result);
     $db->db_free_result($result);
 
@@ -4584,8 +4572,7 @@ function update_planatt()
             'time'     => $htime,
             'att'      => $hatt
         );
-        $db->db_update($db_tb_scans, $SQLdata, "WHERE coords='" . $row['coords'] . "'")
-            or error(GENERAL_ERROR, 'sql Fehler.', '', __FILE__, __LINE__);
+        $db->db_update($db_tb_scans, $SQLdata, "WHERE coords='" . $row['coords'] . "'");
     }
 }
 

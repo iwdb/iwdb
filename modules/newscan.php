@@ -124,8 +124,7 @@ if (!isset($sitterschleife) AND (AJAX_REQUEST === false)) {
                     global $user_status, $user_sitten;
 
                     $sqlP = "SELECT value FROM `{$db_tb_params}` WHERE name = 'bericht_fuer_rang';";
-                    $resultP = $db->db_query($sqlP)
-                        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
+                    $resultP = $db->db_query($sqlP);
                     $rowP = $db->db_fetch_array($resultP);
 
                     $allow1 = false;
@@ -141,8 +140,7 @@ if (!isset($sitterschleife) AND (AJAX_REQUEST === false)) {
                     }
 
                     $sqlP = "SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'bericht_fuer_sitter';";
-                    $resultP = $db->db_query($sqlP)
-                        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlP);
+                    $resultP = $db->db_query($sqlP);
                     $rowP = $db->db_fetch_array($resultP);
 
                     $allow2 = false;
@@ -170,8 +168,7 @@ if (!isset($sitterschleife) AND (AJAX_REQUEST === false)) {
                         echo "   <select name='seluser' style='width: 200px;'>";
 
                         $sql = "SELECT sitterlogin FROM " . $db_tb_user . " ORDER BY id ASC";
-                        $result = $db->db_query($sql)
-                        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                        $result = $db->db_query($sql);
 
                         while ($row = $row = $db->db_fetch_array($result)) {
                             echo "      <option value='" . $row['sitterlogin'] . "'" . ($selectedusername == $row['sitterlogin'] ? " selected" : "") . ">" . $row['sitterlogin'] . "</option>";
@@ -235,7 +232,7 @@ if (!empty($textinput)) {
                 if ($parserResult->bSuccessfullyParsed) {
                     if (!empty($parserResult->aErrors) && is_array($parserResult->aErrors)) {
                         foreach ($parserResult->aErrors as $t) {
-                            echo "<div class='doc_message'>" . $t . "</div>";
+                            echo "<div class='system_notification'>" . $t . "</div>";
                         }
                     } else {
                         $lparser = $parserResult->strIdentifier;
@@ -244,13 +241,9 @@ if (!empty($textinput)) {
 
                             if (function_exists('parse_' . $lparser)) {
 
-                                if (isset($debug)) {
-                                    echo "<div class='system_debug_blue'>";
-                                    echo "Rufe Parserfunktion parse_" . $lparser . " mit folgendem Parameter:<br />\n";
-                                    echo "<br /><pre>";
-                                    print_r($parserResult);
-                                    echo "</pre><br />";
-                                    echo "</div>";
+                                if (!empty($debug)) {
+                                    echo "<div class='system_debug_blue'>Rufe Parserfunktion parse_" . $lparser . " mit folgendem input:</div>\n";
+                                    new dBug($parserResult);
                                 }
 
                                 call_user_func('parse_' . $lparser, $parserResult);

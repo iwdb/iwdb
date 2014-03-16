@@ -63,6 +63,9 @@ $MINUTES = MINUTE;
 $HOURS = HOUR;
 $DAYS = DAY;
 
+require_once './includes/errorHandler.php';         //Fehler handler laden
+set_error_handler("errorHandler");
+
 // some other constants
 // ToDo: clean them up
 define('DEBUG', true);
@@ -130,8 +133,7 @@ if (empty($action)) {
 require_once("./includes/sid.php");
 
 $sql = "SELECT `gesperrt` FROM `{$db_tb_user}` WHERE `id` = '{$user_id}';";
-$result_g = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query user information.', '', __FILE__, __LINE__, $sql);
+$result_g = $db->db_query($sql);
 $row_g = $db->db_fetch_array($result_g);
 if ($row_g['gesperrt']) {
     die ('<div style="text-align:center;color:red">Dein Account ist gesperrt worden!</div>');

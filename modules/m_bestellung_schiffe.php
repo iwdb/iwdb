@@ -203,8 +203,7 @@ $config['planeten'] = array();
 
 $sql = "SELECT coords, planetenname FROM " . $db_tb_scans . " WHERE user='" . $user_sitterlogin . "' ORDER BY sortierung";
 debug_var('sql', $sql);
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     $config['planeten'][$row['coords']] = $row['coords'] . " " . $row['planetenname'];
 }
@@ -213,8 +212,7 @@ $config['planeten'][] = "(anderer)";
 // Projekte abfragen
 $sql = "SELECT name, prio FROM " . $db_tb_bestellung_projekt . " WHERE schiff=1 ORDER BY prio ASC";
 debug_var("sql", $sql);
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     $config['projects'][$row['name']]      = $row['name'] . ($row['prio'] < 999 ? " (Priorität " . $row['prio'] . ")" : "");
     $config['projects_prio'][$row['name']] = $row['prio'];
@@ -225,8 +223,7 @@ $schiffstypen = array();
 
 $sql = "SELECT * FROM " . $db_tb_schiffstyp . " WHERE bestellbar=1 ORDER BY typ, abk";
 debug_var('sql', $sql);
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     $schiffstypen[$row['schiff']] = array(
         'id'  => $row['id'],
@@ -240,13 +237,11 @@ $config['schiffstypen'] = $schiffstypen;
 if (!empty($params['delete'])) {
     
 	$sql = "SELECT `user`, `id` FROM `{$db_tb_bestellung_schiffe}` WHERE id=" . $params['delete'];
-	$result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+	$result = $db->db_query($sql);
 	$row = $db->db_fetch_array($result);
 	
 	$sql1 = "SELECT `offen` FROM `{$db_tb_bestellung_schiffe_pos}` WHERE `bestellung_id`=" . $row['id'];
-	$result1 = $db->db_query($sql1)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql1);
+	$result1 = $db->db_query($sql1);
 	$row1 = $db->db_fetch_array($result1);
 	
 	if ($row1['offen']=='0') {
@@ -262,18 +257,15 @@ if (!empty($params['delete'])) {
 		'date'			=> CURRENT_UNIX_TIME,
 		'action'		=> $logtext
 	);
-	$db->db_insert($db_tb_sitterlog, $SQLdata)
-      or error(GENERAL_ERROR, 'Could not insert log deleting ship order!', '', __FILE__, __LINE__);
+	$db->db_insert($db_tb_sitterlog, $SQLdata);
 	
 	$sql = "DELETE FROM `" . $db_tb_bestellung_schiffe_pos . "` WHERE `bestellung_id`=" . $params['delete'];
-    debug_var('sql', $sql);
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+
+    $result = $db->db_query($sql);
 
     $sql = "DELETE FROM " . $db_tb_bestellung_schiffe . " WHERE id=" . $params['delete'];
     debug_var('sql', $sql);
-    $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $db->db_query($sql);
 		
 	$results[]        = "<div class='system_notification'>Datensatz gelöscht.</div><br>";
     $params['delete'] = '';
@@ -334,8 +326,7 @@ unset($fields['planet']);
 
 // Edit-Daten modifizieren
 if ($button_edit) {
-    $db->db_update($db_tb_bestellung_schiffe, $fields, "WHERE `id`=" . $params['edit'])
-        or error(GENERAL_ERROR, 'Could not update ship order.', '', __FILE__, __LINE__, $sql);
+    $db->db_update($db_tb_bestellung_schiffe, $fields, "WHERE `id`=" . $params['edit']);
 
     $results[] = "<div class='system_notification'>Datensatz aktualisiert.</div><br>";
 }
@@ -344,15 +335,13 @@ if ($button_edit) {
 $doppelbelegung = "false";
 if (!empty($button_add)) {
     $sql = "SELECT * FROM `" . $db_tb_bestellung_schiffe . "` WHERE coords_gal=" . $fields['coords_gal'] . " AND coords_planet=" . $fields['coords_planet'] . " AND coords_sys=" . $fields['coords_sys'] . ";";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     if ($row = $db->db_fetch_array($result)) {
         $results[]      = "<div class='system_notification'>Pro Planet kann nur eine Bestellung hinzugefügt werden.</div><br>";
         $doppelbelegung = "true";
     } else {
         $fields['time_created'] = CURRENT_UNIX_TIME;
-        $db->db_insert($db_tb_bestellung_schiffe, $fields)
-            or error(GENERAL_ERROR, 'Could not insert order information.', '', __FILE__, __LINE__, $sql);
+        $db->db_insert($db_tb_bestellung_schiffe, $fields);
 
         $params['edit'] = $db->db_insert_id();
 
@@ -363,8 +352,7 @@ if (!empty($button_add)) {
 // Edit-Daten hinzufügen/modifizeren
 if (($button_add OR $button_edit) && $doppelbelegung != "true") {
     $sql = "DELETE FROM " . $db_tb_bestellung_schiffe_pos . " WHERE bestellung_id=" . $params['edit'];
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     foreach ($config['schiffstypen'] as $schiffstyp) {
         $menge = $edit['schiff_' . $schiffstyp['id']];
         if (!empty($menge)) {
@@ -376,8 +364,7 @@ if (($button_add OR $button_edit) && $doppelbelegung != "true") {
                 'offen'         => (int)$menge
             );
 
-            $db->db_insert($db_tb_bestellung_schiffe_pos, $sqldata)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+            $db->db_insert($db_tb_bestellung_schiffe_pos, $sqldata);
 
         }
     }
@@ -387,8 +374,7 @@ if (($button_add OR $button_edit) && $doppelbelegung != "true") {
 if (!$button_edit AND !$button_add AND is_numeric($params['edit'])) {
     $sql = "SELECT * FROM " . $db_tb_bestellung_schiffe . " WHERE id=" . $params['edit'];
     debug_var('sql', $sql);
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     if ($row = $db->db_fetch_array($result)) {
         foreach ($row as $name => $value) {
             $edit[$name] = $value;
@@ -396,8 +382,7 @@ if (!$button_edit AND !$button_add AND is_numeric($params['edit'])) {
     }
     $sql = "SELECT * FROM " . $db_tb_bestellung_schiffe_pos . " WHERE bestellung_id=" . $params['edit'];
     debug_var('sql', $sql);
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     while ($row = $db->db_fetch_array($result)) {
         $edit['schiff_' . $row['schiffstyp_id']] = $row['menge'];
         debug_var('edit[schiff_' . $row['schiffstyp_id'] . ']', $edit['schiff_' . $row['schiffstyp_id']]);
@@ -450,8 +435,7 @@ if (isset($params['playerSelection']) && $params['playerSelection'] != '(Alle)')
 $sql .= " ORDER BY `prio` DESC, `$db_tb_bestellung_schiffe`.`time` DESC, `$db_tb_bestellung_schiffe`.`user` ASC, `$db_tb_bestellung_schiffe`.`coords_gal` ASC, `$db_tb_bestellung_schiffe`.`coords_sys` ASC, `$db_tb_bestellung_schiffe`.`coords_planet` ASC;";
 
 debug_var("sql", $sql);
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     // Koordinaten
     $coords = $row['coords_gal'] . ":" . $row['coords_sys'] . ":" . $row['coords_planet'];
@@ -477,8 +461,7 @@ while ($row = $db->db_fetch_array($result)) {
 		FROM $db_tb_bestellung_schiffe_pos, $db_tb_schiffstyp
 		WHERE bestellung_id=" . $row['id'] . " AND $db_tb_bestellung_schiffe_pos.schiffstyp_id=$db_tb_schiffstyp.id";
     debug_var("sql_pos", $sql_pos);
-    $result_pos = $db->db_query($sql_pos)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result_pos = $db->db_query($sql_pos);
     while ($row_pos = $db->db_fetch_array($result_pos)) {
         $data[$row['id']]['pos'][$row_pos['schiff']]   = $row_pos['menge'];
         $data[$row['id']]['offen'][$row_pos['schiff']] = $row_pos['menge'];
@@ -503,8 +486,7 @@ while ($row = $db->db_fetch_array($result)) {
 			ORDER BY $db_tb_lieferung.`time`";
 
         debug_var("sql_lieferung", $sql_lieferung);
-        $result_lieferung = $db->db_query($sql_lieferung)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result_lieferung = $db->db_query($sql_lieferung);
         while ($row_lieferung = $db->db_fetch_array($result_lieferung)) {
             $coords_from                = $row_lieferung['coords_from_gal'] . ":" . $row_lieferung['coords_from_sys'] . ":" . $row_lieferung['coords_from_planet'];
             $key                        = $coords_from . "-" . $row_lieferung['time'];
@@ -561,8 +543,7 @@ foreach ($data as $id_bestellung => $bestellung) {
                         " WHERE `bestellung_id`=" . $id_bestellung .
                         "   AND `schiffstyp_id`=(SELECT `id` FROM $db_tb_schiffstyp WHERE schiff='" . $key . "')";
                     debug_var("sql", $sql);
-                    $db->db_query($sql)
-                        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                    $db->db_query($sql);
                 }
                 if ($verwendet) {
                     $data[$id_bestellung]['expand'][] = array(
@@ -592,8 +573,7 @@ foreach ($data as $id_bestellung => $bestellung) {
 		SET " . $db_tb_bestellung_schiffe . ".erledigt=" . ($kontrollsumme ? '0' : '1') . "
 		WHERE " . $db_tb_bestellung_schiffe . ".id=" . $id_bestellung;
     debug_var("sql_erledigt", $sql_erledigt);
-    $db->db_query($sql_erledigt)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $db->db_query($sql_erledigt);
     // Mengen formatieren
     if (!empty($data[$id_bestellung]['offen'])) {
         $data[$id_bestellung]['offen'] = makeschifftable($data[$id_bestellung]['offen']);
@@ -881,8 +861,7 @@ end_table();
 end_form();
 
 $sql = "SELECT schiffstyp_id,SUM(offen) AS maxanz FROM " . $db_tb_bestellung_schiffe_pos . " WHERE offen!='' GROUP BY schiffstyp_id";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 
 $data = array();
 ?>
@@ -1123,8 +1102,7 @@ function getNameByID($id) {
 	
 	$sql = "SELECT `schiff` FROM `{$db_tb_schiffstyp}` WHERE `id` = '$id';";
 
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $row = $db->db_fetch_array($result);
 
     return $row['schiff'];

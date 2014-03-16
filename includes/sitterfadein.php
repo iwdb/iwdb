@@ -40,8 +40,7 @@ global $db, $db_tb_sitterauftrag;
 
 //auslesen ob das Modul Sound haben darf
 $sqlM = "SELECT sound FROM " . $db_tb_menu . " WHERE action = '" . $action . "';";
-$resultM = $db->db_query($sqlM)
-    or error(GENERAL_ERROR, 'Could not query sound setting.', '', __FILE__, __LINE__, $sqlM);
+$resultM = $db->db_query($sqlM);
 $rowM = $db->db_fetch_array($resultM);
 
 $SitternoticeInModul = false;
@@ -52,8 +51,7 @@ if (!empty($rowM['sound'])) {
 if (empty($action) OR $action === 'memberlogin2') {
     //beim Login soll da abgespielt werden?
     $sqlP = "SELECT value FROM " . $db_tb_params . " WHERE name = 'sound_login' ";
-    $resultP = $db->db_query($sqlP)
-        or error(GENERAL_ERROR, 'Could not query sound setting.', '', __FILE__, __LINE__, $sqlP);
+    $resultP = $db->db_query($sqlP);
     $rowP = $db->db_fetch_array($resultP);
     if (!empty($rowP['value'])) {
         $SitternoticeInModul = true;
@@ -63,8 +61,7 @@ if (empty($action) OR $action === 'memberlogin2') {
 if (($login_ok) AND ($SitternoticeInModul)) {
     //was soll abgespielt werden?
     $sqlS = "SELECT sound FROM " . $db_tb_user . " WHERE id = '" . $user_id . "' ";
-    $resultS = $db->db_query($sqlS)
-        or error(GENERAL_ERROR, 'Could not query sound setting.', '', __FILE__, __LINE__, $sqlS);
+    $resultS = $db->db_query($sqlS);
     $rowS = $db->db_fetch_array($resultS);
 
     //0=ausgeschaltet, 1=fenster, 2=fenster mit sound, 3=fenster (blinkend), 4=fenster (blinkend) mit sound
@@ -106,16 +103,14 @@ if (($login_ok) AND ($SitternoticeInModul)) {
         $iForschungsauftraege = 0;
         if (($user_adminsitten == SITTEN_BOTH) || ($user_adminsitten == SITTEN_ONLY_LOGINS)) {
             $sql = "SELECT count(*) AS anzahl FROM " . $db_tb_sitterauftrag . " WHERE date_b2 < " . CURRENT_UNIX_TIME;
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result = $db->db_query($sql);
             $row = $db->db_fetch_array($result);
 
             $iSitterauftraege = $row['anzahl'];
             $db->db_free_result($result);
 
             $sql = "SELECT count(*) AS anzahl FROM " . $db_tb_sitterauftrag . " WHERE date_b2 < " . CURRENT_UNIX_TIME . " AND typ = 'Forschung'";
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result = $db->db_query($sql);
             $row = $db->db_fetch_array($result);
 
             $iForschungsauftraege = $row['anzahl'];

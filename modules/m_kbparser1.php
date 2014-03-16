@@ -1166,4 +1166,3 @@ if (empty($parsstatus)) { //Angabe für die Datei
     echo "<textarea name='bbcode' rows='10' style='width: 95%;' onclick='this.select()' readonly>" . generateBBcode() . "</textarea>";
 
 }
-

@@ -154,8 +154,7 @@ echo '</abbr><br>';
 
 //Daten von
 $sql_updated = "SELECT MAX(`playerupdate_time`) AS updated FROM `{$db_tb_spieler}`;";
-$result = $db->db_query($sql_updated)
-    or error(GENERAL_ERROR, 'Could not query player information.', '', __FILE__, __LINE__, $sql_updated);
+$result = $db->db_query($sql_updated);
 $playerdata = $db->db_fetch_array($result);
 $playerupdatetime = $playerdata['updated'];
 if (empty($playerdata)) {
@@ -176,8 +175,7 @@ if (empty($playerdata)) {
         <?php
         // letzten 50 Allywechsel abfragen
         $sql = "SELECT `name`, `fromally`, `toally`, `time` FROM `{$db_tb_spielerallychange}` ORDER BY `time` DESC LIMIT 0,50";
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query scans_historie information.', '', __FILE__, __LINE__, $sql);
+        $result = $db->db_query($sql);
 
         // Abfrage auswerten
         while ($row = $db->db_fetch_array($result)) {

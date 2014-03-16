@@ -195,8 +195,7 @@ if (strtolower($user_status) === 'admin' && getVar('allianz')) {
 doc_title("Allianzkasse");
 
 $sql = "SELECT MAX(time_of_insert) AS TOI FROM " . $db_tb_kasse_content;
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 
 $lastreport = "";
 
@@ -213,8 +212,7 @@ echo "<form name='frm'>\n";
 if (strtolower($user_status) == 'admin') {
     $ally = Array();
     $sql  = "SELECT DISTINCT allianz FROM $db_tb_kasse_content;";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     while ($row = $db->db_fetch_array($result)) {
         $ally[] = $row['allianz'];
     }
@@ -318,8 +316,7 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
 	<?php
 		
     $sql = "SELECT payedto, sum(amount) as sumof FROM " . $db_tb_kasse_outgoing . " WHERE allianz='" . $allianz . "' " . $whereclause . " GROUP BY payedto ";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     while ($row = $db->db_fetch_array($result)) {
     ?>
@@ -377,8 +374,7 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
 	<?php
 	
 	$sql = "SELECT payedfrom, sum(amount) as sumof FROM " . $db_tb_kasse_outgoing . " WHERE allianz='" . $allianz . "' " . $whereclause . " GROUP BY payedfrom ";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     while ($row = $db->db_fetch_array($result)) {
 		?>
@@ -438,8 +434,7 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
 	<?php
 	
     $sql = "SELECT payedfrom, payedto, sum(amount) as sumof FROM " . $db_tb_kasse_outgoing . " WHERE allianz='$allianz' $whereclause GROUP BY payedfrom, payedto";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     while ($row = $db->db_fetch_array($result)) {     
 		?>
@@ -501,8 +496,7 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
 	<?php
 	
     $sql = "SELECT amount, time_of_insert FROM " . $db_tb_kasse_content . " WHERE allianz='$allianz' $whereclause ORDER BY time_of_insert ASC";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     while ($row = $db->db_fetch_array($result)) {
         $time  = strtotime($row['time_of_insert']);
@@ -563,8 +557,7 @@ if ($type == 'payedto') { //ausrechnen, was jeder member so bekommen hat
 	<?php
 	
     $sql = "SELECT user, sum(amount) as sumof FROM " . $db_tb_kasse_incoming . " WHERE allianz='$allianz' $whereclause GROUP BY user";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     while ($row = $db->db_fetch_array($result)) {
         ?>

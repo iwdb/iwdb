@@ -9,12 +9,10 @@ function getIncomingsTables()
     //Löschen der Einträge in der Tabelle incomings, es sollen nur aktuelle Sondierungen und Angriffe eingetragen sein
     //ToDo : evtl Trennung Sondierung und Angriffe, damit die Sondierungen früher entfernt sind
     $sql = "DELETE FROM " . $db_tb_incomings . " WHERE arrivaltime<" . (CURRENT_UNIX_TIME - 20 * MINUTE);
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not delete incomings information.', '', __FILE__, __LINE__, $sql);
+    $db->db_query($sql);
 
     $sql = "SELECT koords_to, name_to, allianz_to, koords_from, name_from, allianz_from, arrivaltime, art, saved, recalled FROM " . $db_tb_incomings . " WHERE art = 'Sondierung (Schiffe/Def/Ress)' OR art = 'Sondierung (Gebäude/Ress)' ORDER BY arrivaltime ASC";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query incomings information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     //Tabelle für die Sondierungen
     ?>
@@ -159,8 +157,7 @@ function getIncomingsTables()
     echo " 	 <br />\n";
 
     $sql = "SELECT koords_to, name_to, allianz_to, koords_from, name_from, allianz_from, arrivaltime, saved, recalled FROM " . $db_tb_incomings . " WHERE art = 'Angriff' ORDER BY arrivaltime ASC";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query incomings information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     //Tabelle für die Angriffe
     ?>
@@ -266,8 +263,7 @@ function getIncomingsTables()
 					//$sql_bomb = "SELECT `time`, `ID_KB`, `hash` FROM `{$db_tb_kb}` WHERE (`koords_gal`='".$coords[0]."' AND `koords_sol`='".$coords[1]."' AND `koords_pla`='".$coords[2]."')";
 					//$sql_bomb = "SELECT `time`, `ID_KB`, `hash` FROM `{$db_tb_kb}` LEFT JOIN `{$db_tb_kb_bomb}` ON `{$db_tb_kb}`.`ID_KB`=`{$db_tb_kb_bomb}`.`ID_KB` WHERE (`{$db_tb_kb}`.`koords_gal`='".$coords[0]."' AND `{$db_tb_kb}`.`koords_sol`='".$coords[1]."' AND `{$db_tb_kb}`.`koords_pla`='".$coords[2]."')";
 					$sql_bomb = "SELECT MAX(time) AS bombtime, `ID_KB`, `hash` FROM `{$db_tb_kb}` WHERE ((`ID_KB` IN (SELECT `ID_KB` FROM `{$db_tb_kb_bomb}`)) AND (`{$db_tb_kb}`.`koords_gal`='".$coords[0]."' AND `{$db_tb_kb}`.`koords_sol`='".$coords[1]."' AND `{$db_tb_kb}`.`koords_pla`='".$coords[2]."'))";
-					$result_bomb = $db->db_query($sql_bomb)
-						or error(GENERAL_ERROR, 'Could not query incomings information.', '', __FILE__, __LINE__, $sql_bomb);
+					$result_bomb = $db->db_query($sql_bomb);
 					$row_bomb = $db->db_fetch_array($result_bomb);
 					echo '<div>';
 					$time = strftime(CONFIG_DATETIMEFORMAT, $row_bomb['bombtime']);

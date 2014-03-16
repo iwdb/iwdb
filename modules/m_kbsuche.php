@@ -198,8 +198,7 @@ echo 	"<form method=\"POST\" action=\"index.php?action=" . $modulname .
 <?php
 
 $sql = "SELECT `coords`, `date`, `link`, `geraided`, `user`  FROM `{$db_tb_raidview}` WHERE (`geraided`='" . $_POST['namen'] ."' AND `user`!='')";
-$result = $db->db_query($sql)
-       or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 
 ?>
 <table data-sortlist='[[0,1]]' class='tablesorter-blue' id='ergebnisse' style='width:95%'>

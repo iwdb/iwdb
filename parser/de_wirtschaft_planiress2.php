@@ -46,7 +46,6 @@ function parse_de_wirtschaft_planiress2($aParserData)
     if ($AccName === false) { //kein Eintrag gefunden -> ausgewählten Accname verwenden
         $AccName = $selectedusername;
     }
-    debug_var('wirtschaft_planiress2', $AccName);
 
     if (!empty($db_tb_ressuebersicht)) {
 
@@ -61,7 +60,6 @@ function parse_de_wirtschaft_planiress2($aParserData)
             $scan_data_total['bev_q'] = $scan_data_total['bev_a'] * 100 / $scan_data_total['bev_g'];
         }
         $scan_data_total['datum'] = CURRENT_UNIX_TIME;
-        debug_var('wirtschaft_planiress2', $scan_data_total);
 
         $db->db_insertupdate($db_tb_ressuebersicht, $scan_data_total);
     }
@@ -90,7 +88,6 @@ function parse_de_wirtschaft_planiress2($aParserData)
         $scan_data['zufr']   = $kolo->fZufr;
         $scan_data['zufr_w'] = $kolo->fZufrGrowing;
         $scan_data['time']   = CURRENT_UNIX_TIME;
-        debug_var('wirtschaft_planiress2', $scan_data);
 
         $db->db_insertupdate($db_tb_lager, $scan_data);
 

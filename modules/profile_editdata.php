@@ -167,13 +167,12 @@ if (!empty($editprofile) AND (($id === $user_id) OR ($user_status === "admin")))
         echo "<br><div class='system_notification'>Sitterpasswörter gelöscht.</div>";
     }
 
-    $result = $db->db_update($db_tb_user, $userd, "WHERE `id`='{$id}';")
-        or error(GENERAL_ERROR, 'Could not update user information.', '', __FILE__, __LINE__);
+    $result = $db->db_update($db_tb_user, $userd, "WHERE `id`='{$id}';");
+
     echo "<div class='system_notification'>Userdaten aktualisiert.</div>";
 
     $sql = "SELECT t1.* FROM " . $db_tb_sitterauftrag . " as t1 LEFT JOIN " . $db_tb_sitterauftrag . " as t2 ON t1.id = t2.refid WHERE t2.refid is null AND t1.user='" . $id . "'";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     while ($row = $db->db_fetch_array($result)) {
         if ($row['typ'] == "Gebaeude") {
             dates($row['id'], $id);
@@ -183,8 +182,7 @@ if (!empty($editprofile) AND (($id === $user_id) OR ($user_status === "admin")))
 
 $groups = array();
 $sql = "SELECT * FROM `$db_tb_group`;";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     $groups[$row["id"]] = array(
         "id"       => $row["id"],
@@ -200,27 +198,23 @@ if (isset($selectedgroups) && is_array($selectedgroups)) {
 }
 if (!empty($editprofile) && $user_status === "admin") {
     $sql = "DELETE FROM $db_tb_group_user WHERE $db_tb_group_user.`user_id`='" . $id . "'";
-    $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $db->db_query($sql);
     if (isset($selectedgroups) && is_array($selectedgroups)) {
         foreach ($selectedgroups as $selectedgroup) {
             $sql = "INSERT INTO $db_tb_group_user (group_id,user_id) VALUES (" . $selectedgroup . ",'" . $id . "')";
-            $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $db->db_query($sql);
         }
     }
 } else {
     $sql = "SELECT * FROM `{$db_tb_group_user}` WHERE `{$db_tb_group_user}`.`user_id`='{$id}';";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     while ($row = $db->db_fetch_array($result)) {
         $groups[$row["group_id"]]["selected"] = true;
     }
 }
 
 $sql = "SELECT * FROM `{$db_tb_user}` WHERE `id` = '{$id}';";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 $row = $db->db_fetch_array($result);
 foreach ($row as $key => $data) {
     ${$key} = $data;
@@ -385,8 +379,7 @@ switch ($sound) {
         <select name="preset" style="width: 100px;">
             <?php
             $sql = "SELECT id, name FROM " . $db_tb_preset . " WHERE (fromuser = '" . $id . "' OR fromuser = '') ORDER BY fromuser, name";
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result = $db->db_query($sql);
             while ($row = $db->db_fetch_array($result)) {
                 echo ($preset == $row['id']) ? "<option value='" . $row['id'] . "' selected>" . $row['name'] . "</option>\n" : "<option value='" . $row['id'] . "'>" . $row['name'] . "</option>\n";
             }
@@ -720,8 +713,7 @@ switch ($sound) {
             echo $sitterpunkte;
         }
         $sql = "SELECT AVG(sitterpunkte) FROM " . $db_tb_user . " WHERE sitterpunkte <> 0";
-        $result_avg = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result_avg = $db->db_query($sql);
         $row_avg = $db->db_fetch_array($result_avg);
 
         echo "Durchschnitt: " . round($row_avg['AVG(sitterpunkte)']);

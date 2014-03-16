@@ -155,8 +155,7 @@ function changePassword($id, $password)
     $db->db_update($db_tb_user, $SQLdata, "WHERE `id` = '" . $id . "'");
 
     $sql = "SELECT `password` FROM `{$db_tb_user}` WHERE `id` = '" . $id . "'";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query user password hash.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $userdata = $db->db_fetch_array($result);
     if ($userdata['password'] !== $password_hash) {
         throw new Exception('writing new password hash failed!');
@@ -290,12 +289,10 @@ function blockedIP($ip) {
 
     // zu alte falsche Logins löschen
     $sql = "DELETE FROM `{$db_tb_wronglogin}` WHERE `date`<" . (CURRENT_UNIX_TIME - $config_wronglogin_timeout);
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not delete wrong login information.', '', __FILE__, __LINE__, $sql);
+    $db->db_query($sql);
 
     $sql = "SELECT count(*) as numWrongLogins FROM `{$db_tb_wronglogin}` WHERE `ip`='" . $ip . "';";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $row = $db->db_fetch_array($result);
     if ($row['numWrongLogins'] >=$config_wronglogins) {
         return true;

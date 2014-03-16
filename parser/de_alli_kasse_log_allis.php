@@ -23,10 +23,11 @@ if (!defined('IRA')) {
 
 function parse_de_alli_kasse_log_allis($aParserData)
 {
-    global $db, $db_tb_kasse_outgoing, $user_allianz;
+    global $user_allianz;
+    global $db, $db_tb_kasse_outgoing;
 
     if (empty($user_allianz)) {
-        echo "<div class='system_warning'>Allianz nicht festgelegt</div>";
+        echo "<div class='system_warning'>User-Allianz nicht festgelegt</div>";
 
         return;
     }

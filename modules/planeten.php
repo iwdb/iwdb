@@ -63,8 +63,7 @@ doc_title('Planetenliste');
     }
     $sql .= " AND t2.sitterlogin<>''";
     
-    $result = $db->db_query($sql)
-		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     $sitpre = "";
     $num = 0;

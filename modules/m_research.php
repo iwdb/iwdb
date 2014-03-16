@@ -146,18 +146,15 @@ function find_the_building_id($name)
 
     // Find first building identifier
     $sql = "SELECT ID FROM " . $db_tb_gebaeude . " WHERE name='" . $name . "'";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $row = $db->db_fetch_array($result);
 
     // Not found, so insert new
     if (empty($row)) {
         $sql2 = "INSERT INTO " . $db_tb_gebaeude . "(name) VALUES('" . $name . "')";
-        $result = $db->db_query($sql2)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql2);
+        $db->db_query($sql2);
 
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql2);
+        $result = $db->db_query($sql);
         $row = $db->db_fetch_array($result);
     }
 
@@ -408,12 +405,7 @@ if ($search AND preg_match('/\+.*:(.*):.*\+/', $search, $treffer)) {
 echo "</form>\n\n";
 
 $sql = "SELECT * FROM " . $db_tb_research . " WHERE ID=" . $resid;
-$result = $db->db_query($sql)
-    or error(
-    GENERAL_ERROR,
-    'Could not query config information.', '',
-    __FILE__, __LINE__, $sql
-);
+$result = $db->db_query($sql);
 
 $research_data = $db->db_fetch_array($result);
 $db->db_free_result($result);
@@ -564,8 +556,7 @@ function fill_selection($selected_id)
 
     $fields = array();
     $sql    = "SELECT id, name FROM " . $db_tb_researchfield . " ORDER BY id";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     while (($research_data = $db->db_fetch_array($result)) !== false) {
         $resid          = $research_data['id'];
@@ -575,8 +566,7 @@ function fill_selection($selected_id)
 
     $sql = "SELECT ID, name, gebiet FROM " . $db_tb_research .
         " ORDER BY gebiet ASC, name ASC";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     //$count     = 0;
     $gebietalt = 0;
@@ -620,8 +610,7 @@ function find_resfield($id)
     global $db, $db_tb_researchfield;
 
     $sql = "SELECT name FROM " . $db_tb_researchfield . " WHERE id=" . $id;
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     $row = $db->db_fetch_array($result);
     $db->db_free_result($result);
@@ -645,8 +634,7 @@ function create_depends_on($resid)
         " AS t1 INNER JOIN " . $db_tb_research .
         " AS t2 ON t1.rOld=t2.id WHERE t1.rNew=" . $resid;
 
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     $retVal = "";
     $lind   = false;
@@ -683,8 +671,7 @@ function create_allows($resid)
         " AS t1 INNER JOIN " . $db_tb_research .
         " AS t2 ON t1.rNew=t2.id WHERE t1.rOld=" . $resid;
 
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     $retVal = "";
     $lind   = false;
@@ -724,8 +711,7 @@ function create_depends_on_building($resid)
         " AS t1 INNER JOIN " . $db_tb_gebaeude .
         " AS t2 ON t1.bId=t2.id WHERE t1.rId=" . $resid;
 
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     if ($db->db_num_rows($result) > 0) {
         $retVal = "<table>\n";
@@ -765,8 +751,7 @@ function create_allows_building($resid, $isLevel)
     $sql .= " ORDER BY bname ASC, t1.lvl ASC";
 
     $retVal = "";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     if ($db->db_num_rows($result) > 0) {
         $retVal .= "<table>\n";
@@ -802,8 +787,7 @@ function create_allows_prototype($resid)
 
     $retVal = "";
 
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     if ($db->db_num_rows($result) > 0) {
         $retVal .= "<table>\n";
@@ -833,8 +817,7 @@ function dependencies($resid)
            $db_tb_research2user, $user_sitterlogin, $modulname, $config_gameversion;
 
     $sql = "SELECT * FROM " . $db_tb_research . " WHERE ID=" . $resid;
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $research_data = $db->db_fetch_array($result);
 
     $gebiet             = $research_data['gebiet'];
@@ -844,8 +827,7 @@ function dependencies($resid)
     }
 
     $sql = "SELECT rOld AS rid FROM " . $db_tb_research2research . " WHERE rNew=" . $resid;
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
 
     $retVal = "";
@@ -857,8 +839,7 @@ function dependencies($resid)
     }
 
     $sql = "SELECT bId FROM " . $db_tb_building2research . " WHERE rId=" . $resid;
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     while (($data = $db->db_fetch_array($result)) !== false) {
         $bldg             = $data['bId'];
@@ -867,8 +848,7 @@ function dependencies($resid)
 
     $sql = "SELECT * FROM " . $db_tb_research2user . " WHERE rid=" . $resid .
         " AND userid='" . $user_sitterlogin . "'";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     if ($db->db_num_rows($result) > 0) {
         $colorme_on   = " <span class='doc_green'> ";
@@ -912,8 +892,7 @@ function getBuilding($bid)
 
     $sql = "SELECT name, bild FROM " . $db_tb_gebaeude . " WHERE id=" . $bid;
 
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     $retval = "";
     while (($research_data = $db->db_fetch_array($result)) !== false) {

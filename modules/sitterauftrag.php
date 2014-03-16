@@ -71,8 +71,7 @@ $editauftrag = getVar('editauftrag');
 // speichere Planetendaten in Array //
 $planets = Array();
 $sql = "SELECT coords, planetenname, dgmod FROM " . $db_tb_scans . " WHERE user = '" . $id . "' ORDER BY sortierung,coords_gal ASC, coords_sys ASC, coords_planet";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     if (empty($row['dgmod'])) {
         $row['dgmod'] = 1;
@@ -88,16 +87,14 @@ $thisid = '';
 
 if (!empty($parentid)) {
     $sql = "SELECT refid, date, date_b1, date_b2, date_b2, planet, bauschleife, schieben, typ, bauid FROM " . $db_tb_sitterauftrag . " WHERE id='" . $parentid . "'";
-    $result_parent = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result_parent = $db->db_query($sql);
     $row_parent = $db->db_fetch_array($result_parent);
 
     $refid = $row_parent['refid'];
     // Daten für "anhängen" //
     if ((empty($delid)) && (empty($editauftrag))) {
         $sql = "SELECT dauer FROM " . $db_tb_gebaeude . " WHERE id='" . $row_parent['bauid'] . "'";
-        $result_geb = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result_geb = $db->db_query($sql);
         $row_geb = $db->db_fetch_array($result_geb);
 
         $serie       = 1;
@@ -211,8 +208,7 @@ if ((!empty($editauftrag)) && (empty($umenu))) {
             } else {
                 $sql = "INSERT INTO " . $db_tb_sitterauftrag . " (date, date_b1, date_b2, user, byuser, planet, auftrag, bauid, bauschleife, schieben, schiffanz, refid, typ) VALUES ('" . $date . "', '" . $date_b1 . "', '" . $date_b2 . "', '" . $id . "', '" . $user_sitterlogin . "', '" . $planet . "', '" . $auftrag . "', '" . $bauid . "', '" . $bauschleife . "', '" . $schieben . "', '" . $schiffanz . "', '" . $refid . "', '" . $typ . "')";
             }
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result = $db->db_query($sql);
             $thisid = $db->db_insert_id();
             $alert  = "<div class='system_notification'>Sitterauftrag erstellt.</div>";
             dates($thisid, $id);
@@ -220,8 +216,7 @@ if ((!empty($editauftrag)) && (empty($umenu))) {
             // refid bei Parent aktualisieren //
             if (!empty($parentid)) {
                 $sql = "UPDATE " . $db_tb_sitterauftrag . " SET refid = '" . $thisid . "' WHERE id = '" . $parentid . "'";
-                $result = $db->db_query($sql)
-                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                $result = $db->db_query($sql);
             }
 
             // falls Serie noch nicht zuende, Menü ausgeben //
@@ -235,8 +230,7 @@ if ((!empty($editauftrag)) && (empty($umenu))) {
             } else {
                 $sql = "UPDATE " . $db_tb_sitterauftrag . " SET date = '" . $date . "', date_b1 = '" . $date_b1 . "', date_b2 = '" . $date_b2 . "', user = '" . $id . "', planet = '" . $planet . "', auftrag  = '" . $auftrag . "', bauid = '" . $bauid . "', bauschleife = '" . $bauschleife . "', schieben = '" . $schieben . "', schiffanz = '" . $schiffanz . "' WHERE id = '" . $auftragid . "'";
             }
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result = $db->db_query($sql);
             $alert = "<div class='system_notification'>Sitterauftrag aktualisiert.</div>";
             if (empty($parentid)) {
                 dates($auftragid, $id);
@@ -251,8 +245,7 @@ $delserie = getVar('delserie');
 if (!empty($delserie)) {
     // id im parent aktualisieren //
     $sql = "UPDATE " . $db_tb_sitterauftrag . " SET refid = '0' WHERE refid = '" . $delserie . "'";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     $alert = "<div class='system_notification'>Serienelement ausgegliedert.</div>";
 }
@@ -260,19 +253,16 @@ if (!empty($delserie)) {
 if (!empty($delid)) {
     // nachfolgende zeiten aktualisieren //
     $sql = "SELECT id FROM " . $db_tb_sitterauftrag . " WHERE refid = '" . $delid . "'";
-    $result_bev = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result_bev = $db->db_query($sql);
     $row_bev = $db->db_fetch_array($result_bev);
 
     // id im parent aktualisieren //
     $sql = "UPDATE " . $db_tb_sitterauftrag . " SET refid = '" . $row_parent['refid'] . "' WHERE refid = '" . $delid . "'";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     // löschen //
     $sql = "DELETE FROM " . $db_tb_sitterauftrag . " WHERE user = '" . $id . "' AND id = '" . $delid . "'";
-    $result_del = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result_del = $db->db_query($sql);
 
     dates($row_bev['id'], $id);
 
@@ -425,19 +415,16 @@ if (!empty($alert)) {
     $sql .= " LEFT JOIN " . $db_tb_scans . " as t3";
     $sql .= " ON t1.planet = t3.coords";
     $sql .= " WHERE t2.refid is null AND t1.user='" . $id . "' ORDER BY " . $params['order'];
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     while ((isset($result_act) && ($row = $db->db_fetch_array($result_act))) || ($row = $db->db_fetch_array($result))) {
         $sql = "SELECT t1.*,t2.planet_farbe FROM " . $db_tb_sitterauftrag . " as t1";
         $sql .= " LEFT JOIN " . $db_tb_scans . " as t2";
         $sql .= " ON t1.planet = t2.coords";
         $sql .= " WHERE id = '" . $row['refid'] . "'";
-        $result_act = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result_act = $db->db_query($sql);
 
         $sql = "SELECT id FROM " . $db_tb_sitterauftrag . " WHERE refid = '" . $row['id'] . "'";
-        $result_bev = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result_bev = $db->db_query($sql);
         $row_bev = $db->db_fetch_array($result_bev);
 
         $bauschleifenmod = 1;
@@ -534,8 +521,7 @@ if (!empty($umenu)) {
 
     if (!empty($auftragid)) {
         $sql = "SELECT * FROM " . $db_tb_sitterauftrag . " WHERE id='" . $auftragid . "'";
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result = $db->db_query($sql);
         $row = $db->db_fetch_array($result);
 
         $planet      = $row['planet'];
@@ -554,8 +540,7 @@ if (!empty($umenu)) {
         }
 
         $sql = "SELECT id FROM " . $db_tb_sitterauftrag . " WHERE refid = '" . $auftragid . "'";
-        $result_bev = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result_bev = $db->db_query($sql);
         $row_bev = $db->db_fetch_array($result_bev);
         $thisid  = $row_bev['id'];
     } else {
@@ -583,8 +568,7 @@ if (!empty($umenu)) {
             }
 
             $sql = "SELECT dauer, category FROM " . $db_tb_gebaeude . " WHERE id='" . $geb . "'";
-            $result_geb = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result_geb = $db->db_query($sql);
             $row_geb = $db->db_fetch_array($result_geb);
 
             $modmaurer = (($user_genmaurer == 1) && ((strpos($row_geb['category'], "Bunker") !== false) || (strpos($row_geb['category'], "Lager") !== false))) ? 0.5 : 1;
@@ -771,8 +755,7 @@ if (!empty($umenu)) {
                     $typprev = '';
                     $schiff = '';
                     $sql = "SELECT `typ`, `id`, `abk` FROM `{$db_tb_schiffstyp}` ORDER BY `typ` ASC";
-                    $result_schiff = $db->db_query($sql)
-                        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                    $result_schiff = $db->db_query($sql);
                     while ($row_schiff = $db->db_fetch_array($result_schiff)) {
                         if ($typprev != $row_schiff['typ']) {
                             echo "<optgroup label='" . $row_schiff['typ'] . "' title='" . $row_schiff['typ'] . "'></optgroup>\n";
@@ -837,8 +820,7 @@ if (!empty($umenu)) {
                     $colnum = 0;
 
                     $sql = "SELECT * FROM " . $db_tb_gebaeude . " WHERE inactive = '0' ORDER BY category ASC, idcat ASC;";
-                    $result = $db->db_query($sql)
-                        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                    $result = $db->db_query($sql);
 
                     if (empty($user_gengebmod)) {
                         $user_gengebmod = 1;
@@ -946,8 +928,7 @@ function fill_selection($selected_research_id)
     $fields = array();
 
     $sql = "SELECT `id`, `name` FROM `{$db_tb_researchfield}` ORDER BY `id`;";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     while (($research_data = $db->db_fetch_array($result)) !== false) {
         $resid          = $research_data['id'];
@@ -961,8 +942,7 @@ function fill_selection($selected_research_id)
     }
 
     $sql = "SELECT `ID`, `name`, `gebiet` FROM " . $db_tb_research . $where . " ORDER BY `gebiet` ASC, `name` ASC;";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     $gebietalt = 0;
     $retVal    = "";
@@ -998,8 +978,7 @@ function find_research_name($researchid)
 
     // Find first research identifier
     $sql = "SELECT name FROM " . $db_tb_research . " WHERE ID=" . $researchid;
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     $row = $db->db_fetch_array($result);
 
@@ -1048,8 +1027,7 @@ function find_research_for_building($bid, $level = 0)
     global $db, $db_tb_research2building;
 
     $sql = "SELECT rId FROM " . $db_tb_research2building . " WHERE lvl=" . $level . " AND bId=" . $bid;
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     $row = $db->db_fetch_array($result);
     $db->db_free_result($result);

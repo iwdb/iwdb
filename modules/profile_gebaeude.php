@@ -56,8 +56,7 @@ if (!empty($editgebaeude)) {
 <form method="POST" action="index.php?action=profile&uaction=gebaeude" enctype="multipart/form-data">
     <?php
     $sql = "SELECT gengebmod, genmaurer, gebaeude FROM " . $db_tb_user . " WHERE id = '" . $id . "'";
-    $result_user = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result_user = $db->db_query($sql);
     $row_user = $db->db_fetch_array($result_user);
 
     if (empty($editgebaeude)) {
@@ -66,8 +65,7 @@ if (!empty($editgebaeude)) {
         $inactive = '';
     }
     $sql = "SELECT category FROM " . $db_tb_gebaeude . " GROUP BY category ORDER BY category asc";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     while ($row = $db->db_fetch_array($result)) {
         ?>
         <table class="table_format" style="width: 90%;">
@@ -92,8 +90,7 @@ if (!empty($editgebaeude)) {
             </tr>
             <?php
             $sql = "SELECT bild, name, id, dauer, category FROM " . $db_tb_gebaeude . " WHERE category='" . $row['category'] . "' AND inactive <> '1' ORDER BY idcat ASC";
-            $result_gebaeude = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result_gebaeude = $db->db_query($sql);
 
             while ($row_gebaeude = $db->db_fetch_array($result_gebaeude)) {
                 $modmaurer = (($row_user['genmaurer'] == 1) && ((strpos($row_gebaeude['category'], "Bunker") !== false) || (strpos($row_gebaeude['category'], "Lager") !== false))) ? 0.5 : 1;
@@ -150,8 +147,7 @@ if (!empty($editgebaeude)) {
     <?php
     }
     if (!empty($editgebaeude)) {
-        $db->db_update($db_tb_user, array('gebaeude' => $inactive), "WHERE sitterlogin = '" . $sitterlogin . "'")
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+        $db->db_update($db_tb_user, array('gebaeude' => $inactive), "WHERE sitterlogin = '" . $sitterlogin . "'");
     }
     ?>
     <table class="table_format" style="width: 90%;">

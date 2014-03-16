@@ -66,8 +66,7 @@ if ($action === 'memberlogout2') {
 if (($action === 'rules') AND (getVar('accept_rules')) AND ($login_ok)) {
     $user_rules = "1";
 
-    $result = $db->db_update($db_tb_user, array('rules' => 1), "WHERE id='$user_id'")
-        or error(GENERAL_ERROR, 'Could not update rules information.', '', __FILE__, __LINE__);
+    $result = $db->db_update($db_tb_user, array('rules' => 1), "WHERE id='$user_id'");
 
     $action = $config_default_action;
 }
@@ -76,35 +75,28 @@ if (($action === 'rules') AND (getVar('accept_rules')) AND ($login_ok)) {
 $sitterlogin = $db->escape(getVar('sitterlogin'));
 if ((($user_adminsitten == SITTEN_BOTH) OR ($user_adminsitten == SITTEN_ONLY_LOGINS)) AND ($action == "sitterlogins") AND (!empty($sitterlogin)) AND ($login_ok)) {
     $sql = "DELETE FROM " . $db_tb_sitterlog . " WHERE date<" . (CURRENT_UNIX_TIME - $config_sitterlog_timeout);
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     $sql = "SELECT id FROM " . $db_tb_sitterlog . " WHERE sitterlogin = '" . $sitterlogin . "' AND fromuser = '" . $user_sitterlogin . "' AND action = 'login' AND date > " . (CURRENT_UNIX_TIME - $config_sitterpunkte_timeout);
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $anz = $db->db_num_rows($result);
 
     $sql = "INSERT INTO " . $db_tb_sitterlog . " (sitterlogin, fromuser, date, action) VALUES ('" . $sitterlogin . "', '" . $user_sitterlogin . "', '" . CURRENT_UNIX_TIME . "', 'login')";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     // User
     $sql = "UPDATE " . $db_tb_user . " SET lastsitterloggedin=0 WHERE lastsitteruser='" . $user_sitterlogin . "'";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $sql = "UPDATE " . $db_tb_user . " SET lastsitterlogin=" . CURRENT_UNIX_TIME . ",lastsitteruser='" . $user_sitterlogin . "',lastsitterloggedin=1 WHERE id='" . $sitterlogin . "'";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     if (($sitterlogin != $user_sitterlogin) && ($anz == 0)) {
         $sql = "UPDATE " . $db_tb_user . " SET sitterpunkte = sitterpunkte + " . $config_sitterpunkte_login . " WHERE sitterlogin = '" . $user_sitterlogin . "'";
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result = $db->db_query($sql);
     }
 
     $sql = "SELECT sitterpwd FROM " . $db_tb_user . " WHERE sitterlogin = '" . $sitterlogin . "'";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $row = $db->db_fetch_array($result);
     if (!empty($row['sitterpwd'])) {
         $redirectLocation = "http://icewars.de/index.php?action=login&name=" . urlencode($sitterlogin) . "&pswd=" . $row['sitterpwd'] . "&sitter=1&ismd5=1&submit=true";
@@ -211,52 +203,40 @@ if (!getVar("nobody")) {
                                 if ($action == 'deluser' AND $user_status === "admin") {
 
                                     $sql = "DELETE FROM " . $db_tb_user . " WHERE sitterlogin='" . $sitterlogin . "'";
-                                    $result = $db->db_query($sql)
-                                        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                                    $result = $db->db_query($sql);
 
                                     $sql = "DELETE FROM " . $db_tb_punktelog . " WHERE user='" . $sitterlogin . "'";
-                                    $result = $db->db_query($sql)
-                                        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                                    $result = $db->db_query($sql);
 
                                     $sql = "DELETE FROM " . $db_tb_schiffe . " WHERE user='" . $sitterlogin . "'";
-                                    $result = $db->db_query($sql)
-                                        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                                    $result = $db->db_query($sql);
 
                                     $sql = "DELETE FROM " . $db_tb_preset . " WHERE fromuser='" . $sitterlogin . "'";
-                                    $result = $db->db_query($sql)
-                                        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                                    $result = $db->db_query($sql);
 
                                     $sql = "DELETE FROM " . $db_tb_lager . " WHERE user='" . $sitterlogin . "'";
-                                    $result = $db->db_query($sql)
-                                        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                                    $result = $db->db_query($sql);
 
                                     $sql = "DELETE FROM " . $db_tb_ressuebersicht . " WHERE user='" . $sitterlogin . "'";
-                                    $result = $db->db_query($sql)
-                                        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                                    $result = $db->db_query($sql);
 
                                     $sql = "DELETE FROM " . $db_tb_research2user . " WHERE userid='" . $sitterlogin . "'";
-                                    $result = $db->db_query($sql)
-                                        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                                    $result = $db->db_query($sql);
 
                                     $sql = "DELETE FROM " . $db_tb_group_user . " WHERE user_id='" . $sitterlogin . "'";
-                                    $result = $db->db_query($sql)
-                                        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                                    $result = $db->db_query($sql);
 
                                     $sql = "DELETE FROM " . $db_tb_group_sort . " WHERE user_id='" . $sitterlogin . "'";
-                                    $result = $db->db_query($sql)
-                                        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                                    $result = $db->db_query($sql);
 
                                     $sql = "DELETE FROM " . $db_tb_gebaeude_spieler . " WHERE user='" . $sitterlogin . "'";
-                                    $result = $db->db_query($sql)
-                                        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                                    $result = $db->db_query($sql);
 
                                     $sql = "DELETE FROM " . $db_tb_bestellung . " WHERE user='" . $sitterlogin . "'";
-                                    $result = $db->db_query($sql)
-                                        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                                    $result = $db->db_query($sql);
 
                                     $sql = "DELETE FROM " . $db_tb_user_research . " WHERE user='" . $sitterlogin . "'";
-                                    $result = $db->db_query($sql)
-                                        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                                    $result = $db->db_query($sql);
 
                                     doc_title('Account löschen');
                                     doc_message('Account ' . $sitterlogin . ' gelöscht!');

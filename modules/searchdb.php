@@ -120,8 +120,7 @@ $merkmale = array(
 );
 
 $sql = "SELECT * FROM " . $db_tb_user . " WHERE sitterlogin = '" . $user_sitterlogin . "'";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 $row = $db->db_fetch_array($result);
 
 $gal_start = $row['gal_start']; $gal_end = $row['gal_end']; $sys_start = $row['sys_start']; $sys_end = $row['sys_end'];
@@ -133,8 +132,7 @@ $preset = (empty($preset)) ? $row['preset'] : $preset;
 
 if (!empty($preset)) {
     $sql = "SELECT * FROM " . $db_tb_preset . " WHERE id = '" . $preset . "'";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $row = $db->db_fetch_array($result);
     foreach ($row as $key => $data) {
         if ($data <> "x") {
@@ -153,8 +151,7 @@ doc_title('Planet suchen');
             <select name="preset" style="width: 100px;" onchange="this.form.submit();">
                 <?php
                 $sql = "SELECT id, name FROM " . $db_tb_preset . " WHERE (fromuser = '" . $user_sitterlogin . "' OR fromuser = '')";
-                $result = $db->db_query($sql)
-                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                $result = $db->db_query($sql);
                 while ($row = $db->db_fetch_array($result)) {
                     echo ($preset == $row['id']) ? "<option value='" . $row['id'] . "' selected>" . $row['name'] . "</option>\n" : "<option value='" . $row['id'] . "'>" . $row['name'] . "</option>\n";
                 }
@@ -463,8 +460,7 @@ doc_title('Planet suchen');
             } else {
                 $sql = "SELECT id, name FROM " . $db_tb_preset . " WHERE fromuser = '" . $user_sitterlogin . "'";
             }
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result = $db->db_query($sql);
             while ($row = $db->db_fetch_array($result)) {
                 echo ($preset == $row['id']) ? "<option value='" . $row['id'] . "' selected>" . $row['name'] . "</option>\n" : "<option value='" . $row['id'] . "'>" . $row['name'] . "</option>\n";
             }

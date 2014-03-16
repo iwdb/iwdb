@@ -39,7 +39,8 @@ if (!defined('DEBUG_LEVEL')) {
 
 function parse_de_mil_schiff_uebersicht($aParserData)
 {
-    global $db, $db_tb_schiffstyp, $db_tb_schiffe, $db_tb_user, $selectedusername;
+    global $selectedusername;
+    global $db, $db_tb_schiffstyp, $db_tb_schiffe, $db_tb_user;
 
     $AccName = getAccNameFromKolos($aParserData->objResultData->aKolos);
     if ($AccName === false) { //kein Eintrag gefunden -> ausgewählten Accname verwenden

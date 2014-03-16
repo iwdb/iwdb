@@ -204,14 +204,12 @@ $akt          = 0;
 // nur eigene Allianz
 $sql = "SELECT sitterlogin, sitten, budflesol FROM $db_tb_user";
 $sql .= " WHERE sitten = '1' AND sitterpwd <> '' AND sitterpwd IS NOT NULL AND allianz = '{$user_allianz}' ORDER BY sitterlogin ASC;";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 $budflesol = 0;
 while ($row = $db->db_fetch_array($result)) {
     $sql = "SELECT t1.* FROM " . $db_tb_sitterauftrag . " as t1 LEFT JOIN " . $db_tb_sitterauftrag . " as t2 ON t1.id = t2.refid WHERE t2.refid is null AND t1.date_b2 <= " . CURRENT_UNIX_TIME;
     $sql .= " AND t1.user = '" . $row['sitterlogin'] . "' ";
-    $result_auftrag = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result_auftrag = $db->db_query($sql);
     $row_auftrag = $db->db_fetch_array($result_auftrag);
 
     $offen = false;
@@ -278,8 +276,7 @@ if (isset($sitterlogins[$akt])) {
     echo " <span class='bigtext bold'>&nbsp;$sitterlogins[$akt]&nbsp;";
     // Ikea/Peitschen nachlesen
     $sql = "SELECT ikea, peitschen FROM $db_tb_user WHERE sitterlogin = '" . $sitterlogins[$akt] . "'";
-    $resultiw = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $resultiw = $db->db_query($sql);
     $rowiw = $db->db_fetch_array($resultiw);
     if ($rowiw['ikea'] == 'L') {
         echo "<abbr title='Lehrling des Ikea'><span class='IKEA'>Ikea</abbr>";

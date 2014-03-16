@@ -70,16 +70,14 @@ $alliances['alle'] = 'alle';
 $alliances['Solo'] = 'Solo';
 
 $sql = "SELECT DISTINCT allianz FROM " . $db_tb_spieler . " WHERE allianz != '' ORDER BY allianz ASC;";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     $alliances[urlencode($row['allianz'])] = $row['allianz'];
 }
 
 //Spielertabelle nicht mit Scanstabelle sync (zum testen)
 $sql = "SELECT DISTINCT allianz FROM " . $db_tb_scans . " WHERE allianz != '' ORDER BY allianz ASC;";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     $alliances[urlencode($row['allianz'])] = $row['allianz'];
 }
@@ -119,15 +117,13 @@ if (!empty($allianz)) {
         FROM `{$db_tb_spieler}`
         WHERE `allianz` LIKE '$allianz';";
 
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result = $db->db_query($sql);
         $allianzSpieler = $db->db_fetch_array($result);
 
         $bgcolor = '';
         if ($allianz !== '%' AND $allianz !== '') { //'%' sind alle Spieler, '' sind Solos -> Status macht irgendwie keinen Sinn...
             $sql = "SELECT `status` FROM " . $db_tb_allianzstatus . " WHERE allianz like '$allianz';";
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result = $db->db_query($sql);
             $row = $db->db_fetch_array($result);
             if (!empty($row['status'])) {
                 $status  = $row['status'];
@@ -150,8 +146,7 @@ if (!empty($allianz)) {
         } else {
             //auslesen, von welcher bis welcher Gala die ally vertreten ist
             $sql = "SELECT min(coords_gal) as galmin, max(coords_gal) as galmax FROM " . $db_tb_scans . " WHERE allianz like '$allianz' AND user!=''";
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result = $db->db_query($sql);
             $row    = $db->db_fetch_array($result);
             $galamin = $row['galmin'];
             $galamax = $row['galmax'];
@@ -180,8 +175,7 @@ if (!empty($allianz)) {
 
         //alle planis der ally aus der db holen und verarbeiten:
         $sql = "SELECT coords, coords_gal, coords_sys, coords_planet, user, allianz, planetenname, typ, objekt, gebscantime, schiffscantime, geoscantime FROM " . $db_tb_scans . " WHERE allianz LIKE '$allianz' AND user!='' ORDER BY user, coords_gal, coords_sys, coords_planet ASC";
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result = $db->db_query($sql);
 
         $i = 0;
         while ($row = $db->db_fetch_array($result)) {
@@ -454,8 +448,7 @@ if (!empty($allianz)) {
                 next_row("windowbg3 center", "style='width:22%'");
 
                 $sql = "SELECT `staatsform`,`allianzrang`,`Hauptplanet`,`acctype`,`status`,`gesamtp` FROM `{$db_tb_spieler}` WHERE `name` = '" . $playername . "';";
-                $result = $db->db_query($sql)
-                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                $result = $db->db_query($sql);
                 $row = $db->db_fetch_array($result);
 
                 echo '<b>' . $playername . '</b>';

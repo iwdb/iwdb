@@ -39,16 +39,13 @@ if (!defined('DEBUG_LEVEL')) {
 
 function parse_de_wirtschaft_planiress($aParserData)
 {
-    debug_var('parser-modul', 'de_wirtschaft_planiress');
-    debug_var('input', $aParserData);
-
-    global $selectedusername, $db, $db_tb_lager, $db_tb_ressuebersicht, $db_tb_sitterauftrag;
+    global $selectedusername;
+    global $db, $db_tb_lager, $db_tb_ressuebersicht, $db_tb_sitterauftrag;
 
     $AccName = getAccNameFromKolos($aParserData->objResultData->aKolos);
     if ($AccName === false) { //kein Eintrag gefunden -> ausgewählten Accname verwenden
         $AccName = $selectedusername;
     }
-    debug_var('$AccName', $AccName);
 
     $scan_data_total          = array();
     $scan_data_total['user']  = $AccName;
@@ -97,8 +94,6 @@ function parse_de_wirtschaft_planiress($aParserData)
             }
             $scan_data_total[$resource_name] += $scan_data[$resource_name . '_prod'];
         }
-
-        debug_var('wirtschaft_planiress', $scan_data);
         $db->db_insertupdate($db_tb_lager, $scan_data);
 
         //automatische Wasserbestellung
@@ -122,7 +117,6 @@ function parse_de_wirtschaft_planiress($aParserData)
     $sql = "DELETE FROM `{$db_tb_lager}` WHERE `user` = '{$AccName}' AND `time` != " . CURRENT_UNIX_TIME . ";";
     $db->db_query($sql);
 
-    debug_var('wirtschaft_planiress', $scan_data_total);
     $db->db_insertupdate($db_tb_ressuebersicht, $scan_data_total);
 
     echo "<div class='system_notification'>Produktion Teil 1 bei {$AccName} aktualisiert/hinzugefügt.</div>";

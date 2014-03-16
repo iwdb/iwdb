@@ -176,36 +176,28 @@ jQuery(document).ready(function() {
 
 <?php
 $sql_plani = "SELECT `coords` FROM `{$db_tb_scans}` WHERE `user`='" . $user_sitterlogin . "'";
-$result_plani = $db->db_query($sql_plani)
-	or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_plani);
+$result_plani = $db->db_query($sql_plani);
 	
 $sql_klplanw = "SELECT `schiff` FROM `{$db_tb_schiffstyp}` WHERE `{$db_tb_schiffstyp}`.`werftTyp`='kleine' AND `{$db_tb_schiffstyp}`.`typ`!='admin' ORDER BY `{$db_tb_schiffstyp}`.`schiff` ASC";
-$result_klplanw = $db->db_query($sql_klplanw)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_klplanw);
+$result_klplanw = $db->db_query($sql_klplanw);
 
 $sql_klorw = "SELECT `schiff` FROM `{$db_tb_schiffstyp}` WHERE `{$db_tb_schiffstyp}`.`werftTyp`='kleine' AND `{$db_tb_schiffstyp}`.`typ`!='admin' ORDER BY `{$db_tb_schiffstyp}`.`schiff` ASC";
-$result_klorw = $db->db_query($sql_klorw)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_klorw);
+$result_klorw = $db->db_query($sql_klorw);
 
 $sql_miorw = "SELECT `schiff` FROM `{$db_tb_schiffstyp}` WHERE `{$db_tb_schiffstyp}`.`werftTyp`='mittlere' AND `{$db_tb_schiffstyp}`.`typ`!='admin' ORDER BY `{$db_tb_schiffstyp}`.`schiff` ASC";
-$result_miorw = $db->db_query($sql_miorw)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_miw);
+$result_miorw = $db->db_query($sql_miorw);
 
 $sql_miw = "SELECT `schiff` FROM `{$db_tb_schiffstyp}` WHERE `{$db_tb_schiffstyp}`.`werftTyp`='mittlere' AND `{$db_tb_schiffstyp}`.`typ`!='admin' ORDER BY `{$db_tb_schiffstyp}`.`schiff` ASC";
-$result_miplanw = $db->db_query($sql_miw)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_miw);
+$result_miplanw = $db->db_query($sql_miw);
 		
 $sql_grw = "SELECT `schiff` FROM `{$db_tb_schiffstyp}` WHERE `{$db_tb_schiffstyp}`.`werftTyp`='große' AND `{$db_tb_schiffstyp}`.`typ`!='admin' ORDER BY `{$db_tb_schiffstyp}`.`schiff` ASC";
-$result_grw = $db->db_query($sql_grw)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_grw);
+$result_grw = $db->db_query($sql_grw);
 		
 $sql_dnw = "SELECT `schiff` FROM `{$db_tb_schiffstyp}` WHERE `{$db_tb_schiffstyp}`.`werftTyp`='Dreadnought' AND `{$db_tb_schiffstyp}`.`typ`!='admin' ORDER BY `{$db_tb_schiffstyp}`.`schiff` ASC";
-$result_dnw = $db->db_query($sql_dnw)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_dnw);
+$result_dnw = $db->db_query($sql_dnw);
 		
 $sql_geb = "SELECT `name` FROM `{$db_tb_gebbaukosten}` ORDER BY `{$db_tb_gebbaukosten}`.`name` ASC";
-$result_geb = $db->db_query($sql_geb)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_geb);
+$result_geb = $db->db_query($sql_geb);
 		
 	
 if (!isset($_POST['auswahl_plani']) OR empty($_POST['auswahl_plani'])) {
@@ -1029,48 +1021,39 @@ $selectedValue_plan4 = $_POST['plan4'];
 	<?php
 	
 	$sql9 = "SELECT `coords_gal`, `coords_sys`, `coords_planet` FROM `{$db_tb_scans}` WHERE `coords`='" . $_POST['auswahl_plani'] . "'";
-	$result9 = $db->db_query($sql9)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql9);
+	$result9 = $db->db_query($sql9);
 	$row9 = $db->db_fetch_array($result9);
 	
 	$sql8 = "SELECT `eisen_prod`, `stahl_prod`, `vv4a_prod`, `chem_prod`, `eis_prod`, `wasser_prod`, `energie_prod` FROM `{$db_tb_lager}` WHERE (`coords_gal`='" . $row9['coords_gal'] . "' AND `coords_sys`='" . $row9['coords_sys'] . "' AND `coords_planet`='" . $row9['coords_planet'] . "')";
-	$result8 = $db->db_query($sql8)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql8);
+	$result8 = $db->db_query($sql8);
 	$row8 = $db->db_fetch_array($result8);
 	
 	$sql1 = "SELECT schiff, kosten_eisen/dauer AS eisen, kosten_stahl/dauer AS stahl, kosten_vv4a/dauer AS vv4a, kosten_chemie/dauer AS chemie, kosten_eis/dauer AS eis, kosten_wasser/dauer as wasser, kosten_energie/dauer as energie, kosten_bev, kosten_creds/dauer as creds FROM `{$db_tb_schiffstyp}` WHERE `{$db_tb_schiffstyp}`.`schiff`='" . $_POST['schiffe_klplanw'] . "'";
-	$result1 = $db->db_query($sql1)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql1);
+	$result1 = $db->db_query($sql1);
 	$row1 = $db->db_fetch_array($result1);
 	
 	$sql2 = "SELECT schiff, kosten_eisen/dauer AS eisen, kosten_stahl/dauer AS stahl, kosten_vv4a/dauer AS vv4a, kosten_chemie/dauer AS chemie, kosten_eis/dauer AS eis, kosten_wasser/dauer as wasser, kosten_energie/dauer as energie, kosten_bev, kosten_creds/dauer as creds FROM `{$db_tb_schiffstyp}` WHERE `{$db_tb_schiffstyp}`.`schiff`='" . $_POST['schiffe_klorw'] . "'";
-	$result2 = $db->db_query($sql2)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql2);
+	$result2 = $db->db_query($sql2);
 	$row2 = $db->db_fetch_array($result2);
 	
 	$sql3 = "SELECT schiff, kosten_eisen/dauer AS eisen, kosten_stahl/dauer AS stahl, kosten_vv4a/dauer AS vv4a, kosten_chemie/dauer AS chemie, kosten_eis/dauer AS eis, kosten_wasser/dauer as wasser, kosten_energie/dauer as energie, kosten_bev, kosten_creds/dauer as creds FROM `{$db_tb_schiffstyp}` WHERE `{$db_tb_schiffstyp}`.`schiff`='" . $_POST['schiffe_miplanw'] . "'";
-	$result3 = $db->db_query($sql3)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql3);
+	$result3 = $db->db_query($sql3);
 	$row3 = $db->db_fetch_array($result3);
 	
 	$sql4 = "SELECT schiff, kosten_eisen/dauer AS eisen, kosten_stahl/dauer AS stahl, kosten_vv4a/dauer AS vv4a, kosten_chemie/dauer AS chemie, kosten_eis/dauer AS eis, kosten_wasser/dauer as wasser, kosten_energie/dauer as energie, kosten_bev, kosten_creds/dauer as creds FROM `{$db_tb_schiffstyp}` WHERE `{$db_tb_schiffstyp}`.`schiff`='" . $_POST['schiffe_miorw'] . "'";
-	$result4 = $db->db_query($sql4)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql4);
+	$result4 = $db->db_query($sql4);
 	$row4 = $db->db_fetch_array($result4);
 	
 	$sql5 = "SELECT schiff, kosten_eisen/dauer AS eisen, kosten_stahl/dauer AS stahl, kosten_vv4a/dauer AS vv4a, kosten_chemie/dauer AS chemie, kosten_eis/dauer AS eis, kosten_wasser/dauer as wasser, kosten_energie/dauer as energie, kosten_bev, kosten_creds/dauer as creds FROM `{$db_tb_schiffstyp}` WHERE `{$db_tb_schiffstyp}`.`schiff`='" . $_POST['schiffe_grw'] . "'";
-	$result5 = $db->db_query($sql5)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql5);
+	$result5 = $db->db_query($sql5);
 	$row5 = $db->db_fetch_array($result5);
 	
 	$sql6 = "SELECT schiff, kosten_eisen/dauer AS eisen, kosten_stahl/dauer AS stahl, kosten_vv4a/dauer AS vv4a, kosten_chemie/dauer AS chemie, kosten_eis/dauer AS eis, kosten_wasser/dauer as wasser, kosten_energie/dauer as energie, kosten_bev, kosten_creds/dauer as creds FROM `{$db_tb_schiffstyp}` WHERE `{$db_tb_schiffstyp}`.`schiff`='" . $_POST['schiffe_dnw'] . "'";
-	$result6 = $db->db_query($sql6)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql6);
+	$result6 = $db->db_query($sql6);
 	$row6 = $db->db_fetch_array($result6);
 	
 	$sql7 = "SELECT name, dauer, kosten_eisen/dauer AS eisen, kosten_stahl/dauer AS stahl, kosten_vv4a/dauer AS vv4a, kosten_chemie/dauer AS chemie, kosten_eis/dauer AS eis, kosten_wasser/dauer as wasser, kosten_energie/dauer as energie, kosten_bev, kosten_creds/dauer as creds FROM `{$db_tb_gebbaukosten}` WHERE `{$db_tb_gebbaukosten}`.`name`='" . $_POST['gebbau'] . "'";
-	$result7 = $db->db_query($sql7)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql7);
+	$result7 = $db->db_query($sql7);
 	$row7 = $db->db_fetch_array($result7);
 	
 	if ($_POST['staatsform']==="Kommunist") {

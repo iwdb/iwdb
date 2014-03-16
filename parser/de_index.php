@@ -41,9 +41,7 @@ if (!defined('DEBUG_LEVEL')) {
 
 function parse_de_index($aParserData)
 {
-    global $db, $db_tb_scans, $db_tb_user_research, $selectedusername, $scan_datas, $db_tb_params, $db_tb_bestellung, $db_tb_sitterauftrag, $db_tb_research;
-
-    debug_var('Input', $aParserData);
+    global $db, $db_tb_scans, $db_tb_user_research, $selectedusername, $scan_datas, $db_tb_params, $db_tb_bestellung, $db_tb_sitterauftrag;
 
     //get Accname from Koords
     $AccName = false;
@@ -530,7 +528,6 @@ function save_data($scan_data)
                     'arrivaltime'  => $scan_data['time'],
                     'listedtime'   => CURRENT_UNIX_TIME
                 );
-                debug_var('sql-Daten', $SQLdata);
                 $db->db_insertignore($db_tb_incomings, $SQLdata);
             }
         }

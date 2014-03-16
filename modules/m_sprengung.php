@@ -222,8 +222,7 @@ $Limit = " Limit 400";
 // Abfrage ausführen
 $sql = "SELECT coords,typ,(eisengehalt/dgmod) AS Eisen_eff,(chemievorkommen/dgmod) AS Chem_eff,(eisdichte/dgmod) AS Eis_eff,lebensbedingungen,DGmod, (geoscantime + reset_timestamp) AS reset_timestamp_2 FROM " . $db_tb_scans . $sql_where . $Limit;
 
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query scans_historie information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 
 // Abfrage auswerten
 while ($row = $db->db_fetch_array($result)) {

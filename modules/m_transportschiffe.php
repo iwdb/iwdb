@@ -309,8 +309,7 @@ $sql = "SELECT  $db_tb_user.id AS 'user',
 $sql .= " FROM $db_tb_user";
 $sql .= " WHERE " . sqlPlayerSelection($params['playerSelection']);
 
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query scans_historie information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 
 $num_sys=1;
 $num_gorg=2;
@@ -341,8 +340,7 @@ while ($row = $db->db_fetch_array($result)) {
     $sql_detail .= " AND $db_tb_scans.coords_sys=$db_tb_lager.coords_sys";
     $sql_detail .= " AND $db_tb_scans.coords_planet=$db_tb_lager.coords_planet) AS 'planetenname'";
     $sql_detail .= " FROM $db_tb_lager WHERE user='" . $row['user'] . "'";
-    $result_detail = $db->db_query($sql_detail)
-        or error(GENERAL_ERROR, 'Could not query scans_historie information.', '', __FILE__, __LINE__, $sql_detail);
+    $result_detail = $db->db_query($sql_detail);
     while ($row_detail = $db->db_fetch_array($result_detail)) {
         // Alle positiven Produktions-Summen benoetigen Transen-Kapa
         if ($row_detail['eisen_prod'] > 0) {
@@ -422,8 +420,7 @@ while ($row = $db->db_fetch_array($result)) {
     }
     // Abfragen anfliegender übergaben
     $sql_detail = "SELECT * FROM $db_tb_lieferung WHERE user_to<>user_from AND user_to='" . $row['user'] . "' AND time > " . CURRENT_UNIX_TIME . " AND art='Übergabe'";
-    $result_detail = $db->db_query($sql_detail)
-        or error(GENERAL_ERROR, 'Could not query scans_historie information.', '', __FILE__, __LINE__, $sql_detail);
+    $result_detail = $db->db_query($sql_detail);
     while ($row_detail = $db->db_fetch_array($result_detail)) {
         $tokens = explode('<br>', $row_detail['schiffe']);
         foreach ($tokens as $pos) {
@@ -1176,8 +1173,7 @@ function getSchiffeKolo ($transe, $gal, $sys, $plan) {
 	$klasse2=0;
 	
 	$sql_prodde = "SELECT eisen_prod, stahl_prod, vv4a_prod, chem_prod, eis_prod, wasser_prod, energie_prod FROM `{$db_tb_lager}` WHERE (coords_gal=" . $gal . " AND coords_sys=" . $sys . " AND coords_planet=" . $plan .")";
-	$result_prodde = $db->db_query($sql_prodde)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_prodde);
+	$result_prodde = $db->db_query($sql_prodde);
 	$row_prodde = $db->db_fetch_array($result_prodde);
 	
 	if ($row_prodde['eisen_prod']>0)

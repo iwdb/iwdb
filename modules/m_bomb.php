@@ -181,8 +181,7 @@ $sql .= " WHERE status='Krieg'";
 //if ($user_status <> 'admin')
 $sql .= " AND name='" . $user_allianz . "'";
 
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     $config['allistatus_krieg'][$row['allianz']] = $row['allianz'];
 }
@@ -195,16 +194,14 @@ $sql .= " WHERE status='own'";
 //if ($user_status <> 'admin')
 $sql .= " AND name='" . $user_allianz . "'";
 
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     $config['allistatus_own'][$row['allianz']] = $row['allianz'];
 }
 
 // Gebaeude abfragen
 $sql = "SELECT * FROM " . $db_tb_gebaeude;
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     if (!empty($row['id_iw'])) {
         $config['gebaeude'][$row['id_iw']] = $row;
@@ -236,8 +233,7 @@ function query_bombs($allis)
         //" WHERE " . $db_tb_kb . ".verteidiger_ally IN ('" . implode("','", $allis) . "')" .
         " ORDER BY " . $db_tb_kb_bomb . ".time DESC";
 
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     while ($row = $db->db_fetch_array($result)) {
         $bauzeit = 0;
         $urls    = array();
@@ -251,8 +247,7 @@ function query_bombs($allis)
             "   AND " . $db_tb_kb . ".time<" . ($row['time'] + 1 * 60 * 1000) .
             " ORDER BY " . $db_tb_kb . ".time ASC";
 
-        $resultinner = $db->db_query($sqlinner)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlinner);
+        $resultinner = $db->db_query($sqlinner);
         while ($rowinner = $db->db_fetch_array($resultinner)) {
             $urls[] = 'http://www.icewars.de/portal/kb/de/kb.php?id=' . $rowinner['ID_KB'] . '&md_hash=' . $rowinner['hash'];
         }
@@ -261,8 +256,7 @@ function query_bombs($allis)
             $db_tb_kb_bomb_geb . ".*" .
             "  FROM " . $db_tb_kb_bomb_geb .
             " WHERE " . $db_tb_kb_bomb_geb . ".ID_KB=" . $row['ID_KB'];
-        $resultinner = $db->db_query($sqlinner)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlinner);
+        $resultinner = $db->db_query($sqlinner);
         while ($rowinner = $db->db_fetch_array($resultinner)) {
             if (!isset($config['gebaeude'][$rowinner['ID_IW_GEB']])) {
                 $results[] = "Unbekannte Gebäude ID '" . $rowinner['ID_IW_GEB'] . "'";

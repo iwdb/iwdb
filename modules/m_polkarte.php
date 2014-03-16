@@ -78,8 +78,7 @@ function workInstallDatabase()
 //  $sql ="ALTER TABLE `" . $db_tb_user . "`" .
 //	  " ADD `notice` text NOT NULL AFTER `titel`;";
 //
-//  $result = $db->db_query($sql)
-//	  or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+//  $result = $db->db_query($sql);
 
     echo "<div class='system_notification'>Installation: Datenbankänderungen = <b>OK</b></div>";
 }
@@ -182,8 +181,7 @@ if (!@include("./config/" . $modulname . ".cfg.php")) {
 // -> Und hier beginnt das eigentliche Modul
 
 $sqlALI = "SELECT allianz FROM " . $db_tb_allianzstatus . " WHERE status='own' OR status='wing'";
-$resultALI = $db->db_query($sqlALI)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sqlALI);
+$resultALI = $db->db_query($sqlALI);
 
 $i = 0;
 while ($rowALI = $db->db_fetch_array($resultALI)) {
@@ -206,8 +204,7 @@ if ($showmembers) {
     $allymember = array();
     $sql        = "SELECT DISTINCT coords_sys,allianz FROM " . $db_tb_scans .
         " WHERE coords_gal='" . $galaxy . "';";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     while ($row = $db->db_fetch_array($result)) {
         if (in_array($row['allianz'], $arrrayofAlis, true)) {
@@ -223,8 +220,7 @@ if ($showmembers) {
                     " WHERE coords_gal='" . $galaxy .
                     "' AND coords_sys='" . $row['coords_sys'] . "'";
 
-                $result2 = $db->db_query($sql)
-                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                $result2 = $db->db_query($sql);
 
                 while ($row2 = $db->db_fetch_array($result2)) {
                     if (in_array($row2['allianz'], $arrrayofAlis, true)) {
@@ -287,8 +283,7 @@ if (defined('NEBULA') && NEBULA === true) {
     $sql = "SELECT sys, objekt, FROM " . $db_tb_sysscans .
         " WHERE gal = '" . $galaxy . "' ORDER BY sys";
 }
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 
 $maxsys = 0;
 while ($row = $db->db_fetch_array($result)) {
@@ -305,8 +300,7 @@ while ($row = $db->db_fetch_array($result)) {
 
         while ($row_sys = $db->db_fetch_array($result_sys)) {
             $sql = "SELECT status FROM " . $db_tb_allianzstatus . " WHERE allianz LIKE '" . $row_sys['allianz'] . "'";
-            $result_status = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result_status = $db->db_query($sql);
             $row_status = $db->db_fetch_array($result_status);
             if ($row_status['status'] == $config_polstat['1v1']) {
                 $own = 1;
@@ -383,8 +377,7 @@ for ($i = 1; $i <= $maxsys; $i++) {
         $sql = "SELECT objekt FROM " . $db_tb_scans .
             " WHERE coords_sys='" . $i .
             "' AND coords_gal='" . $galaxy . "'";
-        $result_leer = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result_leer = $db->db_query($sql);
         $row_leer = $db->db_num_rows($result_leer);
         if ($row_leer > 0) {
             $sys[$i] = "#FF0000";
@@ -485,4 +478,3 @@ echo "  <td style='width: 100px;'>Von allem ein bissi was</td>\n";
 echo " </tr>\n";
 
 echo "</table>\n";
-?>

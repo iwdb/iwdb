@@ -205,8 +205,7 @@ $sql = "SELECT  $db_tb_user.id AS 'user',
 
 $sql .= " FROM $db_tb_user";
 $sql .= " WHERE " . sqlPlayerSelection($params['playerSelection']);
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query scans_historie information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 
 // Spielerauswahl Dropdown erstellen
 echo '<div class="playerSelectionbox">';

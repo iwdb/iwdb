@@ -176,8 +176,7 @@ $heute = getdate(CURRENT_UNIX_TIME);
 if (isset($params['delete']) && $params['delete'] != '') {
     $sql = "DELETE FROM " . $db_tb_bestellung_projekt . " WHERE name='" . $params['delete'] . "'";
     debug_var('sql', $sql);
-    $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $db->db_query($sql);
     $results[]        = "<div class='system_notification'>Datensatz geloescht.</div><br>";
     $params['delete'] = '';
     $params['edit']   = '';
@@ -217,8 +216,7 @@ if (!empty($button_edit)) {
     $sql .= "name='" . $params['name'] . "', prio='" . $params['prio'] . "', schiff=" . $params['schiff'];
     $sql .= " WHERE name='" . $params['hidden_name'] . "'";
     debug_var('sql', $sql);
-    $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $db->db_query($sql);
     $results[] = "<div class='system_notification'>Datensatz aktualisiert.</div><br>";
 }
 
@@ -230,8 +228,7 @@ if (!empty($button_add)) {
     $sql .= "'" . $params['name'] . "','" . $params['prio'] . "'," . $params['schiff'];
     $sql .= ");";
     debug_var('sql', $sql);
-    $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $db->db_query($sql);
     $results[] = "<div class='system_notification'>Datensatz hinzugefuegt.</div><br>";
 }
 
@@ -240,8 +237,7 @@ if (!empty($button_add)) {
 if (empty($button_edit) && empty($button_add) && $params['edit']) {
     $sql = "SELECT * FROM " . $db_tb_bestellung_projekt . " WHERE name='" . $params['edit'] . "'";
     debug_var('sql', $sql);
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     if ($row = $db->db_fetch_array($result)) {
         foreach ($row as $name => $value) {
             $edit[$name] = $value;
@@ -297,8 +293,7 @@ $views = array(
 $data = array();
 $sql  = "SELECT * FROM " . $db_tb_bestellung_projekt . " ORDER BY schiff,prio";
 debug_var("sql", $sql);
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     $data[] = array(
         'name'   => $row['name'],
@@ -421,4 +416,3 @@ function makeurl($newparams)
 
     return $url;
 }
-?>

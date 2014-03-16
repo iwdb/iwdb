@@ -79,8 +79,7 @@ end_form();
     <?php
     // Auftraege durchgehen //
     $sql = "SELECT `fromuser`, `date`, `action` FROM `{$db_tb_sitterlog}` WHERE `sitterlogin` = '" . $selecteduser . "' ORDER BY `date` DESC LIMIT " . $limit;
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     while ($row = $db->db_fetch_array($result)) {
         ?>
@@ -131,8 +130,7 @@ end_form();
     <?php
     // Aufträge durchgehen //
     $sql = "SELECT `sitterlogin`, `date`, `action` FROM `{$db_tb_sitterlog}` WHERE `fromuser` = '" . $selecteduser . "' ORDER BY `date` DESC LIMIT " . $limit;
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     while ($row = $db->db_fetch_array($result)) {
         ?>
         <tr class="left">

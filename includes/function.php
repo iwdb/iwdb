@@ -96,8 +96,7 @@ function dates($parentid, $user)
     global $db, $db_tb_sitterauftrag, $db_tb_gebaeude, $db_tb_scans, $db_tb_user;
 
     $sql = "SELECT coords, dgmod FROM " . $db_tb_scans . " WHERE user LIKE '" . $user . "'";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     while ($row = $db->db_fetch_array($result)) {
         if (empty($row['dgmod'])) {
             $row['dgmod'] = 1;
@@ -106,8 +105,7 @@ function dates($parentid, $user)
     }
 
     $sql = "SELECT gengebmod, genmaurer, peitschen, genbauschleife FROM " . $db_tb_user . " WHERE sitterlogin LIKE '" . $user . "'";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $row            = $db->db_fetch_array($result);
     $gengebmod      = (empty($row['gengebmod'])) ? 1 : $row['gengebmod'];
     $genmaurer      = $row['genmaurer'];
@@ -115,8 +113,7 @@ function dates($parentid, $user)
     $genbauschleife = $row['genbauschleife'];
 
     $sql = "SELECT refid, date, date_b1, date_b2, bauid, planet FROM " . $db_tb_sitterauftrag . " WHERE id = '" . $parentid . "'";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $row = $db->db_fetch_array($result);
 
     while (!empty($row['refid'])) {
@@ -138,8 +135,7 @@ function dates($parentid, $user)
         }
 
         $sql = "SELECT dauer, category FROM " . $db_tb_gebaeude . " WHERE id='" . $row['bauid'] . "'";
-        $result_geb = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result_geb = $db->db_query($sql);
         $row_geb = $db->db_fetch_array($result_geb);
 
         $modmaurer = (($genmaurer == 1) && ((strpos($row_geb['category'], "Bunker") !== false) || (strpos($row_geb['category'], "Lager") !== false))) ? 0.5 : 1;
@@ -156,8 +152,7 @@ function dates($parentid, $user)
         $date = $row['date'] + $row_geb['dauer'] * $planetmod * $gengebmod * $modmaurer * $bauschleifenmod;
 
         $sql = "SELECT bauschleife FROM " . $db_tb_sitterauftrag . " WHERE id = '" . $row['refid'] . "'";
-        $result_s = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result_s = $db->db_query($sql);
         $row_s = $db->db_fetch_array($result_s);
         if ($row_s['bauschleife'] != "1") {
             $date_b1 = $date;
@@ -165,12 +160,10 @@ function dates($parentid, $user)
         }
 
         $sql = "UPDATE " . $db_tb_sitterauftrag . " SET date = '" . $date . "', date_b1 = '" . $date_b1 . "', date_b2 = '" . $date_b2 . "', planet = '" . $planet . "' WHERE id = '" . $row['refid'] . "'";
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $db->db_query($sql);
 
         $sql = "SELECT refid, date, date_b1, date_b2, bauschleife, bauid, planet FROM " . $db_tb_sitterauftrag . " WHERE id = '" . $row['refid'] . "'";
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result = $db->db_query($sql);
         $row = $db->db_fetch_array($result);
     }
 }
@@ -187,8 +180,7 @@ function auftrag($typ, $bauschleife, $bauid, $text, $schiffanz, $planetenmod, $s
     }
 
     $sql = "SELECT gengebmod, genmaurer FROM " . $db_tb_user . " WHERE sitterlogin = '" . $sitterlogin . "'";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $row            = $db->db_fetch_array($result);
     $user_genmaurer = $row['genmaurer'];
     $user_gengebmod = $row['gengebmod'];
@@ -196,8 +188,7 @@ function auftrag($typ, $bauschleife, $bauid, $text, $schiffanz, $planetenmod, $s
     switch ($typ) {
         case "Gebaeude":
             $sql = "SELECT * FROM " . $db_tb_gebaeude . " WHERE id = '" . $bauid . "'";
-            $result_gebaeude = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result_gebaeude = $db->db_query($sql);
             $row_gebaeude = $db->db_fetch_array($result_gebaeude);
 
             $modmaurer = (($user_genmaurer == 1) && ((strpos($row_gebaeude['category'], "Bunker") !== false) || (strpos($row_gebaeude['category'], "Lager") !== false))) ? 0.5 : 1;
@@ -213,8 +204,7 @@ function auftrag($typ, $bauschleife, $bauid, $text, $schiffanz, $planetenmod, $s
             break;
         case "Schiffe":
             $sql = "SELECT abk FROM " . $db_tb_schiffstyp . " WHERE id = '" . $bauid . "'";
-            $result_schiff = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result_schiff = $db->db_query($sql);
             $row_schiff = $db->db_fetch_array($result_schiff);
 
             $return = "<b>" . $schiffanz . " " . $row_schiff['abk'] . "</b>\n" . ((empty($text)) ? "" : "<br><br>" . nl2br($text));
@@ -447,8 +437,7 @@ function validAccname($name)
         $IwAccnames = Array();
 
         $sql = "SELECT `sitterlogin` FROM  `$db_tb_user`";
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query iw accnames.', '', __FILE__, __LINE__, $sql);
+        $result = $db->db_query($sql);
 
         while ($row = $db->db_fetch_array($result)) {
             $IwAccnames[] = $row['sitterlogin'];
@@ -508,8 +497,7 @@ function rating($scan_data, $coords = '0:0:0')
     if (isset($coords) AND $coords != '0:0:0') {
 
         $sql = "SELECT * FROM " . $db_tb_scans . " WHERE coords='" . $coords . "'";
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result = $db->db_query($sql);
         $scan_data = $db->db_fetch_array($result);
 
     }
@@ -752,8 +740,7 @@ function convert_bbcode($string)
 
     //ToDo: implement some caching
     $sql = "SELECT `isregex`, `bbcode`, `htmlcode` FROM `{$db_tb_bbcodes}`;";
-    $result_bbcodes = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query bbcodes.', '', __FILE__, __LINE__, $sql);
+    $result_bbcodes = $db->db_query($sql);
     while ($row_bbcodes = $db->db_fetch_array($result_bbcodes)) {
         if (!empty($row_bbcodes['bbcode']) AND !empty($row_bbcodes['htmlcode'])) {
             if ($row_bbcodes['isregex']) {
@@ -780,8 +767,7 @@ function bbcode_buttons($id)
     $bbscriptcode .= "var smilies = new Array();\n";
 
     $sql = "SELECT `bbcode`, `htmlcode` FROM `{$db_tb_bbcodes}` WHERE `htmlcode` LIKE '%<img src=%' GROUP BY `htmlcode`;"; //Smiliebilder holen
-    $result_bbcodes = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query bbcodes.', '', __FILE__, __LINE__, $sql);
+    $result_bbcodes = $db->db_query($sql);
     while ($row_bbcodes = $db->db_fetch_array($result_bbcodes)) {
         if (!empty($row_bbcodes['bbcode'])) {
             $smilies[$row_bbcodes['bbcode']] = $row_bbcodes['htmlcode'];
@@ -814,8 +800,7 @@ function getAccNameFromKolos($aKolos)
     }
     $sqlKolos = implode(', ', $aKoloCoords);
     $sql = "SELECT `user`, COUNT(`user`) AS playerkolos FROM `{$db_tb_scans}` WHERE `coords` IN ($sqlKolos) AND `objekt` = 'Kolonie' GROUP BY `user` ORDER BY playerkolos DESC LIMIT 1;";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not get planet infomation.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $row = $db->db_fetch_array($result);
     if (!empty($row['user'])) { //Besitzer gefunden
         return $row['user'];
@@ -831,15 +816,13 @@ function find_research_id($researchname, $hidenew = false)
 
     // Find first research identifier
     $sql = "SELECT `ID` FROM `{$db_tb_research}` WHERE `name`='{$researchname}'";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query research information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $row = $db->db_fetch_array($result);
 
     // Not found, so insert new
     if (empty($row)) {
         $sql2 = "INSERT INTO `{$db_tb_research}` (`name`,`reingestellt`) VALUES('{$researchname}','{$user_id}')";
-        $result = $db->db_query($sql2)
-            or error(GENERAL_ERROR, 'Could not add research information.', '', __FILE__, __LINE__, $sql);
+        $db->db_query($sql2);
 
         if ($hidenew === false) {
             doc_message("Neue Forschung: " . $researchname . " hinzugefügt.");
@@ -937,8 +920,7 @@ function getAllyAccTypes($allianz = null)
     if (!is_null($allianz)) {
         $sql .= " WHERE allianz='" . $allianz . "'";
     }
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     while ($row = $db->db_fetch_array($result)) {
         $accTypes[] = $row['budflesol'];
     }
@@ -975,8 +957,7 @@ function getAllyTeams($allianz = null)
     if (!is_null($allianz)) {
         $sql .= " WHERE allianz='" . $allianz . "'";
     }
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     while ($row = $db->db_fetch_array($result)) {
         if (!empty($row['buddlerfrom'])) {
             $teams[] = $row['buddlerfrom'];
@@ -1008,8 +989,7 @@ function getAllyAccs($allianz = null)
     if (!is_null($allianz)) {
         $sql .= " WHERE allianz='" . $allianz . "'";
     }
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     while ($row = $db->db_fetch_array($result)) {
         $users[$row['sitterlogin']] = $row['sitterlogin'];
     }
@@ -1192,8 +1172,7 @@ function getAllyStatus($strAlly) {
     if (!isset($aAllyStatus[$strAlly])) {
 
         $sql = "SELECT `status` FROM `{$db_tb_allianzstatus}` WHERE `allianz`='" . $strAlly . "'";
-        $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result = $db->db_query($sql);
 
         $row = $db->db_fetch_array($result);
 

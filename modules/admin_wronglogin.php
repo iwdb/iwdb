@@ -44,8 +44,7 @@ doc_title("falsche Logins");
 $user = getVar('user');
 if (!empty($user)) {
     $sql = "DELETE FROM " . $db_tb_wronglogin . " WHERE user='" . $user . "'";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     doc_message("Loginsperre gelöscht");
 }
 
@@ -67,8 +66,7 @@ echo "<br>\n";
 	<tbody>
 		<?php
 		$sql = "SELECT `user` FROM `{$db_tb_wronglogin}` GROUP BY `user`";
-		$result = $db->db_query($sql)
-			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+		$result = $db->db_query($sql);
 
 		while ($row = $db->db_fetch_array($result)) {
 			?>
@@ -81,8 +79,7 @@ echo "<br>\n";
 				<td>
 					<?php
 					$sql = "SELECT `ip`, `date` FROM `{$db_tb_wronglogin}` WHERE `user` = '" . $row['user'] . "'";
-					$result_ip = $db->db_query($sql)
-						or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+					$result_ip = $db->db_query($sql);
 
 					while ($row_ip = $db->db_fetch_array($result_ip)) {
 						echo "<b>" . $row_ip['ip'] . "</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" .

@@ -51,8 +51,7 @@ start_form("admin&uaction=schiffstypen");
 
 if (!empty($editschiffe)) {
     $sql = "SELECT * FROM " . $db_tb_schiffstyp;
-    $result_schiffe = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result_schiffe = $db->db_query($sql);
 
     while ($row_schiffe = $db->db_fetch_array($result_schiffe)) {
         $schiff_abk        = getVar(($row_schiffe['id'] . '_abk'));
@@ -67,15 +66,13 @@ if (!empty($editschiffe)) {
             "', typ='" . $schiff_typ .
             "', bestellbar='" . $schiff_bestellbar .
             "' WHERE id = '" . $row_schiffe['id'] . "'";
-        $result_schiffeedit = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result_schiffeedit = $db->db_query($sql);
     }
 }
 
 $sql = "SELECT DISTINCT typ FROM " . $db_tb_schiffstyp .
     " ORDER BY typ asc";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 
 while ($row = $db->db_fetch_array($result)) {
     start_table(95);
@@ -93,8 +90,7 @@ while ($row = $db->db_fetch_array($result)) {
 
     $sql = "SELECT * FROM " . $db_tb_schiffstyp .
         " WHERE typ='" . $row['typ'] . "' ORDER BY schiff";
-    $result_schiffe = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result_schiffe = $db->db_query($sql);
     while ($row_schiffe = $db->db_fetch_array($result_schiffe)) {
         start_row("windowbg1");
         echo $row_schiffe['schiff'];
@@ -130,6 +126,4 @@ end_row();
 end_table();
 end_form();
 
-echo "<br>\n";
-
-?>
+echo "<br>";

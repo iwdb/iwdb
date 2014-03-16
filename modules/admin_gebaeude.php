@@ -69,8 +69,7 @@ $editgebaeude = (bool)getVar('editgebaeude');
 $newgebaeude  = (bool)getVar('newgebaeude');
 
 $sql = "SELECT id FROM " . $db_tb_gebaeude . " ORDER BY id ASC";
-$result_gebaeude = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result_gebaeude = $db->db_query($sql);
 
 while ($row_gebaeude = $db->db_fetch_array($result_gebaeude)) {
     if ($editgebaeude) {
@@ -115,8 +114,7 @@ while ($row_gebaeude = $db->db_fetch_array($result_gebaeude)) {
 
             }
 
-            $result_gebaeudeedit = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result_gebaeudeedit = $db->db_query($sql);
 
         }
     }
@@ -151,8 +149,7 @@ if ((!empty($lastid_name)) AND $newgebaeude) {
         'id_iw' => $id_iw
     );
 
-    $result = $db->db_insert($db_tb_gebaeude, $data)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+    $result = $db->db_insert($db_tb_gebaeude, $data);
 
     $lastid++;
 
@@ -225,8 +222,7 @@ echo "<br>\n";
 
 $sql = "SELECT DISTINCT category FROM " . $db_tb_gebaeude .
     " ORDER BY category asc";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 
 while ($row = $db->db_fetch_array($result)) {
     echo "<form method='POST' action='index.php?action=admin&uaction=gebaeude' enctype='multipart/form-data'>\n";
@@ -249,8 +245,7 @@ while ($row = $db->db_fetch_array($result)) {
     echo "</thead>\n";
 
     $sql = "SELECT * FROM " . $db_tb_gebaeude . " WHERE category='" . $row['category'] . "' ORDER BY idcat ASC";
-    $result_gebaeude = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result_gebaeude = $db->db_query($sql);
 
     while ($row_gebaeude = $db->db_fetch_array($result_gebaeude)) {
         $dauer    = dauer($row_gebaeude['dauer']);

@@ -22,10 +22,11 @@ if (!defined('IRA')) {
 
 function parse_de_alli_kasse_inhalt($aParserData)
 {
-    global $db, $db_tb_kasse_content, $user_allianz;
+    global $user_allianz;
+    global $db, $db_tb_kasse_content;
 
     if (empty($user_allianz)) {
-        echo "<div class='system_warning'>Allianz nicht festgelegt</div>";
+        echo "<div class='system_warning'>User-Allianz nicht festgelegt</div>";
 
         return;
     }
@@ -35,7 +36,6 @@ function parse_de_alli_kasse_inhalt($aParserData)
         'time_of_insert' => strftime('%Y-%m-%d %H:%M:00', CURRENT_UNIX_TIME),
         'allianz'        => $user_allianz
     );
-
     $db->db_insertupdate($db_tb_kasse_content, $SQLdata);
 
     echo "<div class='doc_message'>Inhalt (" . number_format($SQLdata['amount'], 2, ",", ".") . " Credits) aktualisiert</div>";

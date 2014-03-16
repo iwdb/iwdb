@@ -254,7 +254,7 @@ while ($row = $db->db_fetch_array($result)) {
 			}
 			
 			?>
-			<a href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>"><?php echo '<font color="'.$color.'">'.$row['coords'];'</font>'?></a>
+			<a href="index.php?action=showplanet&coords=<?php echo $row['coords'];?>"><?php echo '<font color="'.$color.'">'.$row['coords'].'</font>'; ?></a>
 			</abbr>
 		</td>
        <td>

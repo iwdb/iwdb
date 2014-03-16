@@ -160,8 +160,7 @@ global $db, $db_tb_user, $db_tb_raidgebiet;
 $kw = date('W',time());
 
 $sql = "DELETE FROM `{$db_tb_raidgebiet}` WHERE `kw`<'".($kw-2)."'";
-$result = $db->db_query($sql)
-	or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 
 ?>
 <table class='tablesorter-blue'>
@@ -217,8 +216,7 @@ $result = $db->db_query($sql)
 		
 		<?php
 		$sql_prevkw = "SELECT * FROM `{$db_tb_raidgebiet}` WHERE `kw`='" . ($kw-1) . "'";
-		$result_prevkw = $db->db_query($sql_prevkw)
-			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_prevkw);
+		$result_prevkw = $db->db_query($sql_prevkw);
 		$row_prevkw = $db->db_fetch_array($result_prevkw);
 		?>
 		<tr>
@@ -472,8 +470,7 @@ $result = $db->db_query($sql)
 		
 		<?php
 		$sql_aktkw = "SELECT * FROM `{$db_tb_raidgebiet}` WHERE `kw`='" . ($kw) . "'";
-		$result_aktkw = $db->db_query($sql_aktkw)
-			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_aktkw);
+		$result_aktkw = $db->db_query($sql_aktkw);
 		$row_aktkw = $db->db_fetch_array($result_aktkw);
 		?>
 		<tr>
@@ -678,8 +675,7 @@ $result = $db->db_query($sql)
 
 <?php
 $sql_nextkw = "SELECT * FROM `{$db_tb_raidgebiet}` WHERE `kw`='" . ($kw+1) . "'";
-$result_nextkw = $db->db_query($sql_nextkw)
-	or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql_nextkw);
+$result_nextkw = $db->db_query($sql_nextkw);
 $row_nextkw = $db->db_fetch_array($result_nextkw);
 ?>
 
@@ -944,7 +940,6 @@ if (GetVar('aktualisieren')) {
 		'3g11'	=>	$g_3_11,
 		'3g12'	=>	$g_3_12
 	);
-	$db->db_insertupdate($db_tb_raidgebiet, $data)
-		or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__);
+	$db->db_insertupdate($db_tb_raidgebiet, $data);
 }
 ?>

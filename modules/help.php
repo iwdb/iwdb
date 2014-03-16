@@ -47,10 +47,7 @@ doc_title('Hilfe');
             $topic = getVar('topic');
             $topic = (empty($topic)) ? "index" : $topic;
 
-            if (!preg_match('/^[a-zA-Z0-9_-]*$/', $topic)) {
-                error(GENERAL_ERROR, 'Malformed help topic string (' . $topic . ') .', '', __FILE__, __LINE__);
-                exit;
-            }
+            $topic = preg_replace('/^[a-zA-Z0-9_-]*$/', '', $topic);
 
             if (file_exists("help/" . $topic . ".htm") === true) {
                 include("help/" . $topic . ".htm");

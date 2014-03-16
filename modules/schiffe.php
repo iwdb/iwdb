@@ -50,8 +50,7 @@ $sql = "SELECT user FROM " . $db_tb_schiffe .
     "," . $db_tb_user . " WHERE " . $db_tb_schiffe . ".user=" . $db_tb_user . ".id AND " . $db_tb_user . ".allianz='" . $user_allianz . "'";
 $sql .= " AND " . sqlPlayerSelection($params['playerSelection']);
 $sql .= "GROUP BY user ORDER BY user DESC";
-$result_schiffe = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result_schiffe = $db->db_query($sql);
 
 while ($row_schiffe = $db->db_fetch_array($result_schiffe)) {
     if (!in_array($row_schiffe['user'], $users, true)) {
@@ -65,8 +64,7 @@ $scancolor = array();
 foreach ($users as $userx) {
     $sql = "SELECT lastshipscan FROM " . $db_tb_user .
         " WHERE sitterlogin='" . $userx . "'";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     if ($row = $db->db_fetch_array($result)) {
         if (empty($row['lastshipscan'])) {
@@ -98,16 +96,14 @@ echo makeField(
 echo '</div><br>';
 
 $sql = "SELECT `typ` FROM " . $db_tb_schiffstyp . " WHERE (`typ`!='Lebensformen') AND (`typ`!='admin') AND (`typ`!='alte Schiffe') GROUP BY typ ORDER BY typ asc";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 
 while ($row = $db->db_fetch_array($result)) {
     $schiffe = array();
 
     $sql = "SELECT id, abk FROM " . $db_tb_schiffstyp .
         " WHERE typ='" . $row['typ'] . "' ORDER BY schiff";
-    $result_schiffe = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result_schiffe = $db->db_query($sql);
 
     $schiffsanz = $db->db_num_rows($result_schiffe);
 
@@ -143,8 +139,7 @@ while ($row = $db->db_fetch_array($result)) {
         foreach ($schiffe as $data) {
             $sql = "SELECT anzahl FROM " . $db_tb_schiffe .
                 " WHERE ( user LIKE '" . $userx . "' AND schiff='" . $data . "')";
-            $result_anzahl = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result_anzahl = $db->db_query($sql);
             $row_anzahl = $db->db_fetch_array($result_anzahl);
             $shipprint .= "   <td class='right'>" .
                 $row_anzahl['anzahl'] . "</td>\n";
@@ -179,8 +174,7 @@ while ($row = $db->db_fetch_array($result)) {
     foreach ($schiffe as $data) {
         $sql = "SELECT SUM(anzahl) AS gesamtanzahl FROM " . $db_tb_schiffe .
             "," . $db_tb_user . " WHERE " . $db_tb_schiffe . ".user=" . $db_tb_user . ".id AND " . $db_tb_user . ".allianz='" . $user_allianz . "' AND schiff='" . $data . "'";
-        $result_anzahl = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result_anzahl = $db->db_query($sql);
 
         $row_anzahl = $db->db_fetch_array($result_anzahl);
         echo "    <th class='windowbg2 right'>" . $row_anzahl['gesamtanzahl'] . "</th>\n";

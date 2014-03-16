@@ -42,8 +42,7 @@ doc_title("Admin Allianzstatus");
 
 if (getVar('editallianz')) {
     $sql = "SELECT * FROM " . $db_tb_allianzstatus . " WHERE name='" . $user_allianz . "'";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     while ($row = $db->db_fetch_array($result)) {
         $temp1 = $row['id'] . '_allianz';
@@ -54,15 +53,13 @@ if (getVar('editallianz')) {
 
         if (empty($row_allianz)) {
             $sql = "DELETE FROM " . $db_tb_allianzstatus . " WHERE id='" . $row['id'] . "'";
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result = $db->db_query($sql);
         } else {
             $sql = "UPDATE " . $db_tb_allianzstatus .
                 " SET allianz='" . $row_allianz .
                 "', status='" . $row_status .
                 "' WHERE id = '" . $row['id'] . "'";
-            $result_allianzedit = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result_allianzedit = $db->db_query($sql);
         }
         $lastid = $row['id'];
     }
@@ -77,8 +74,7 @@ if (getVar('editallianz')) {
     if (!empty($last_allianz)) {
         $sql = "INSERT INTO " . $db_tb_allianzstatus . " (name, allianz, status)" .
             " VALUES ('" . $user_allianz . "','" . $last_allianz . "', '" . $last_status . "')";
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result = $db->db_query($sql);
     }
 
     doc_message("Allianzstatus aktualisiert");
@@ -94,8 +90,7 @@ end_row();
 
 
 $sql = 'SELECT * FROM ' . $db_tb_allianzstatus . ' WHERE name="' . $user_allianz . '"';
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 
 while ($row = $db->db_fetch_array($result)) {
     if (!empty($row['status'])

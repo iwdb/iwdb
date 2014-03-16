@@ -47,7 +47,7 @@ $hs_places = filter_int(getVar('to'), 5, 1, null);
 
 //Limitieren der Highscoreplätze auf die Anzahl der IW-Accounts
 $sql = "SELECT COUNT( DISTINCT sitterlogin ) AS 'igaccs' FROM " . $db_tb_user . ";";
-$result = $db->db_query($sql) or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 $row = $db->db_fetch_array($result);
 
 if ($hs_places > $row['igaccs']) {
@@ -224,8 +224,7 @@ function createRessieTable($ressie, $direction, $altress = "", $decimals = 2, $a
         $sql = $altsql;
     }
 
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     $count = 0;
     while ($count < $hs_places && $row = $db->db_fetch_array($result)) {

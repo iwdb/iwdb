@@ -46,8 +46,7 @@ if (($user_adminsitten == SITTEN_BOTH) || ($user_adminsitten == SITTEN_ONLY_LOGI
     if (!$user_fremdesitten) {
         $sql .= " AND (SELECT allianz FROM " . $db_tb_user . " WHERE " . $db_tb_user . ".id=" . $db_tb_sitterauftrag . ".user) = '" . $user_allianz . "'";
     }
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $row    = $db->db_fetch_array($result);
     $anzahl = $row['anzahl'];
     $db->db_free_result($result);
@@ -68,8 +67,7 @@ if (($user_adminsitten == SITTEN_BOTH) || ($user_adminsitten == SITTEN_ONLY_LOGI
 if (isset($db_tb_bestellung_schiffe)) {
     $sql = "SELECT COUNT(*) AS anzahl FROM " . $db_tb_bestellung_schiffe . " WHERE erledigt=0";
     $sql .= " AND (SELECT allianz FROM " . $db_tb_user . " WHERE " . $db_tb_user . ".id=" . $db_tb_bestellung_schiffe . ".user) = '" . $user_allianz . "'";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $row    = $db->db_fetch_array($result);
     $anzahl = $row['anzahl'];
     $db->db_free_result($result);
@@ -83,8 +81,7 @@ if (isset($db_tb_bestellung_schiffe)) {
 if (isset($db_tb_bestellung)) {
     $sql = "SELECT COUNT(*) AS anzahl FROM " . $db_tb_bestellung . " WHERE erledigt=0";
     $sql .= " AND (SELECT allianz FROM " . $db_tb_user . " WHERE " . $db_tb_user . ".id=" . $db_tb_bestellung . ".user) = '" . $user_allianz . "'";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $row    = $db->db_fetch_array($result);
     $anzahl = $row['anzahl'];
     $db->db_free_result($result);
@@ -96,8 +93,7 @@ if (isset($db_tb_bestellung)) {
 }
 
 $sql = "SELECT COUNT(*) AS 'anzahl' FROM $db_tb_lieferung, $db_tb_user WHERE art='Angriff' AND $db_tb_lieferung.user_to=$db_tb_user.id AND $db_tb_lieferung.time>" . (CURRENT_UNIX_TIME - 15 * MINUTE);
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 $row = $db->db_fetch_array($result);
 $anzahl = $row['anzahl'];
 $db->db_free_result($result);
@@ -112,8 +108,7 @@ $sql = "SELECT COUNT(*) AS 'anzahl'"
     . " WHERE (`lieferung`.`art` = 'Sondierung (Schiffe/Def/Ress)' OR `lieferung`.`art` = 'Sondierung (Gebäude/Ress)')"
     . " AND `lieferung`.`user_to` = `user`.`id`"
     . " AND `lieferung`.`time` > " . (CURRENT_UNIX_TIME - 5 * MINUTE);
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 $row = $db->db_fetch_array($result);
 $anzahl = $row['anzahl'];
 $db->db_free_result($result);
@@ -127,8 +122,7 @@ echo "<div id='iwdb_notices'>";
 
 if (isset($db_tb_incomings)) {
     $sql = "SELECT COUNT(*) AS 'anzahl' FROM $db_tb_incomings WHERE (art='Sondierung (Schiffe/Def/Ress)' OR art='Sondierung (Gebäude/Ress)') AND arrivaltime >" . (CURRENT_UNIX_TIME - 5 * MINUTE);
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $row = $db->db_fetch_array($result);
 
     $anzahl = $row['anzahl'];
@@ -136,8 +130,7 @@ if (isset($db_tb_incomings)) {
     $anz_incomings1 = $anzahl;
 
     $sql = "SELECT COUNT(*) AS 'anzahl' FROM $db_tb_incomings WHERE art='Angriff' AND arrivaltime >" . (CURRENT_UNIX_TIME - 15 * MINUTE);
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $row  = $db->db_fetch_array($result);
 
     $anzahl = $row['anzahl'];
@@ -157,8 +150,7 @@ include ('configmenu.php');
 //Hinweis für zur Verfügung stehenden UniXML-Scan im IW Account
 if (!empty($user_sitterlogin)) {
     $sql = "SELECT `NewUniXmlTime` FROM `$db_tb_user` WHERE `sitterlogin`='" . $user_sitterlogin . "';";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query NewUniXmlTime information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $row = $db->db_fetch_array($result);
     if (!empty($row['NewUniXmlTime']) AND ($row['NewUniXmlTime'] <= CURRENT_UNIX_TIME)) {
         echo "<div style='color:red; font-weight:bold; font-size:1.5em; border: 2px solid red; padding: 2px; margin: 5px 0px;'>Der Universumsscan als XML Datei steht zur Verfügung!</div>";
@@ -166,8 +158,7 @@ if (!empty($user_sitterlogin)) {
 }
 //Warnung für nicht eingelesene Ressourcenkoloübersicht seit 24 Stunden
 $sql = "SELECT MAX(time) AS time FROM `" . $db_tb_lager . "` WHERE `user`='" . $user_id . "';";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 $row = $db->db_fetch_array($result);
 if ($row['time'] < (CURRENT_UNIX_TIME - 24 * HOUR)) {
     echo "<div style='color:red; font-weight:bold; font-size:1.5em; border: 2px solid red; padding:2px; margin: 5px 0px;'>Deine Ressourcenkoloübersicht wurde seit 24h nicht mehr aktualisiert!</div>";
@@ -175,8 +166,7 @@ if ($row['time'] < (CURRENT_UNIX_TIME - 24 * HOUR)) {
 
 // Warnung nicht eingelesene Highscore seit 24 Stunden
 $sql = "SELECT MAX(`pktupdate_time`) AS time FROM `{$db_tb_spieler}`;";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 $row = $db->db_fetch_array($result);
 if ($row['time'] < (CURRENT_UNIX_TIME - 24 * HOUR)) {
     echo "<div style='color:red; font-weight:bold; font-size:1.5em; border: 2px solid red; padding:2px; margin: 5px 0px;'>Die Highscore wurde seit über 24h nicht mehr aktualisiert!</div>";
@@ -184,8 +174,7 @@ if ($row['time'] < (CURRENT_UNIX_TIME - 24 * HOUR)) {
 
 //Warnung für nicht eingelesene Schiffsübersicht seit 48 Stunden
 $sql = "SELECT `lastshipscan` FROM `{$db_tb_user}` WHERE `id`='" . $user_id . "' LIMIT 1;";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 $row = $db->db_fetch_array($result);
 if ($row['lastshipscan'] < (CURRENT_UNIX_TIME - 48 * HOUR)) {
     echo "<div style='color:red; font-weight:bold; font-size:1.5em; border: 2px solid red; padding:2px; margin: 5px 0px;'>Deine Schiffsübersicht wurde seit 48h nicht mehr aktualisiert!</div>";
@@ -193,8 +182,7 @@ if ($row['lastshipscan'] < (CURRENT_UNIX_TIME - 48 * HOUR)) {
 
 //Warnung für nicht eingelesene Gebäudeübersicht seit 48 Stunden
 $sql = "SELECT `time` FROM `" . $db_tb_gebaeude_spieler . "` WHERE `user`='" . $user_id . "' LIMIT 1";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 $row = $db->db_fetch_array($result);
 if ($row['time'] < (CURRENT_UNIX_TIME - 48 * HOUR)) {
     echo "<div style='color:red; font-weight:bold; font-size:1.5em; border: 2px solid red; padding:2px; margin: 5px 0px;'>Deine Gebäudeübersicht wurde seit 48h nicht mehr aktualisiert!</div>";
@@ -202,8 +190,7 @@ if ($row['time'] < (CURRENT_UNIX_TIME - 48 * HOUR)) {
 
 // Warnung nicht eingelesene Allikasse seit 72 Stunden
 $sql = "SELECT UNIX_TIMESTAMP(MAX(time_of_insert)) AS time FROM `" . $db_tb_kasse_content . '`;';
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 $row = $db->db_fetch_array($result);
 
 if ((CURRENT_UNIX_TIME - 72 * HOUR) > $row['time']) {
@@ -212,8 +199,7 @@ if ((CURRENT_UNIX_TIME - 72 * HOUR) > $row['time']) {
 
 // Warnung nicht eingelesene Mitgliederliste seit 96 Stunden
 $sql = "SELECT MAX(date) AS time FROM " . $db_tb_punktelog . '`;';
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 $row = $db->db_fetch_array($result);
 if ($row['time'] < (CURRENT_UNIX_TIME - 96 * HOUR)) {
     echo "<div style='color:red; font-weight:bold; font-size:1.5em; border: 2px solid red; padding:2px; margin: 5px 0px;'>Die Mitgliederliste wurde seit über 96h nicht mehr aktualisiert!</div>";
@@ -260,8 +246,7 @@ echo "</div>";
             // Menu auslesen
             $sql = "SELECT menu, submenu, title, status, action, extlink, sittertyp FROM " .
                 $db_tb_menu . " WHERE active=1 ORDER BY menu ASC, submenu ASC";
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result = $db->db_query($sql);
 
             $lastmenu = 0;
             $tableopen = 0;

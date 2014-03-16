@@ -167,8 +167,7 @@ echo ' 	 <br>';
 global $db, $db_tb_fremdsondierung;
 
 $sql = "SELECT * FROM `{$db_tb_fremdsondierung}` WHERE `timestamp` >" . (CURRENT_UNIX_TIME - 14 * DAY) . " ORDER BY `timestamp` DESC";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 $data = array();
 
 ?>

@@ -42,8 +42,7 @@ if (!empty($sitterlogin)) {
     if (!empty($editplaneten)) {
         echo "<div class='system_notification'>Planetendaten aktualisiert.</div>";
         $sql = "SELECT t1.* FROM " . $db_tb_sitterauftrag . " as t1 LEFT JOIN " . $db_tb_sitterauftrag . " as t2 ON t1.id = t2.refid WHERE t2.refid is null AND t1.user='" . $sitterlogin . "'";
-        $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result = $db->db_query($sql);
         while ($row = $db->db_fetch_array($result)) {
             if ($row['typ'] == "Gebaeude") {
                 dates($row['id'], $sitterlogin);
@@ -82,8 +81,7 @@ if (!empty($sitterlogin)) {
             // Ausgabe der Presets und Löschlink //
             $sql = "SELECT coords, planetenname, objekt, dsmod, dgmod, planet_farbe, sortierung FROM " . $db_tb_scans . " WHERE user LIKE '" . $sitterlogin . "'";
 
-            $result = $db->db_query($sql)
-                or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result = $db->db_query($sql);
             while ($row = $db->db_fetch_array($result)) {
                 if (!empty($editplaneten)) {
                     $temp         = $row['coords'] . '_dsmod';
@@ -99,8 +97,7 @@ if (!empty($sitterlogin)) {
                     $coords_sortierung = getVar($temp);
 
                     $sql = "UPDATE " . $db_tb_scans . " SET dsmod='" . str_replace(",", ".", $coords_dsmod) . "', dgmod='" . str_replace(",", ".", $coords_dgmod) . "', planet_farbe='" . str_replace(",", ".", $coords_planet_farbe) . "', sortierung='" . str_replace(",", ".", $coords_sortierung) . "' WHERE (coords='" . $row['coords'] . "' AND user LIKE '" . $sitterlogin . "')";
-                    $result_planet = $db->db_query($sql)
-                        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                    $result_planet = $db->db_query($sql);
                     $row['dsmod']        = str_replace(",", ".", $coords_dsmod);
                     $row['dgmod']        = str_replace(",", ".", $coords_dgmod);
                     $row['planet_farbe'] = str_replace(",", ".", $coords_planet_farbe);

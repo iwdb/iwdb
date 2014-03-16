@@ -191,8 +191,7 @@ $svg .= '<g fill="' . $config_color['unscanned'] . '" id="unscanned area">' . "\
 $existing_galas = array();
 for ($i = 1; $i <= $config_map_galaxy_max; $i++) {
     $sql = "SELECT MAX(sys) AS maxextends FROM " . $db_tb_sysscans . " WHERE gal=" . $i;
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
     $row = $db->db_fetch_array($result);
 
     $maxextends = $row['maxextends'];
@@ -220,8 +219,7 @@ $star_gates  = Array();
 $black_holes = Array();
 
 $sql = "SELECT gal, sys, objekt, date FROM " . $db_tb_sysscans . " ORDER BY gal,sys ASC";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     $color = getScanAgeColor($row['date']);
 

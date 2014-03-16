@@ -83,9 +83,6 @@ function parse_de_xml($aParserData)
 /*****************************************************************************/
 function parse_sbxml($xmldata)
 {
-	
-	global $db, $db_tb_scans, $db_tb_scans_geb;
-	
     $xml = simplexml_load_file_ex($xmldata->strUrl);
     if (empty($xml)) {
         echo "<div class='system_error'>XML-Fehler: {$xmldata->strUrl} konnte nicht geladen werden</div>\n";
@@ -335,9 +332,7 @@ function parse_sbxml($xmldata)
         }
     }
 
-    debug_var('$scan_data', $scan_data);
     $results = save_sbxml($scan_data);
-    debug_var("save_sbxml", $results);
     foreach ($results as $result) {
         doc_message($result);
     }
@@ -770,10 +765,6 @@ function parse_kbxml($xmldata)
 
         // Eintrag Flotte
         if (isset($kb['flotte'])) {
-            $sql = "
-				INSERT INTO {$db_tb_kb_flotten}
-					(ID_KB, TIME, art, NAME, ally)
-				VALUES";
             foreach ($kb['flotte'] as $value) {
                 if ($value['art'] == 3) {
                     $sql = "

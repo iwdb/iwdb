@@ -73,8 +73,7 @@ $data = array(
 
 // Retrieve defence
 $sql = "SELECT `name`, `id`, `abk`, `id_iw` FROM `{$db_tb_def}`;";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     $data['def'][$row['name']] = array(
         "id"    => $row['id'],
@@ -85,8 +84,7 @@ while ($row = $db->db_fetch_array($result)) {
 
 // Retrieve ships
 $sql = "SELECT `schiff`, `id_iw`, `abk` FROM `{$db_tb_schiffstyp}`;";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     $data['ship'][$row['schiff']] = array(
         "id"    => $row['id_iw'],
@@ -103,8 +101,7 @@ $sql = 'SELECT `coords_gal`, `coords_sys`, `coords_planet`' .
     ' WHERE `user`="' . $user_sitterlogin . '"' .
     ' AND `name`="' . $params['name'] . '"' .
     ' ORDER BY `coords_gal`, `coords_sys`, `coords_planet`;';
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     if (empty($params['galaxy'])) {
         $params['galaxy'] = $row['coords_gal'];
@@ -266,8 +263,7 @@ $data['alliancestatus'] = array();
 $sql = 'SELECT `allianz`, `status`' .
     ' FROM ' . $db_tb_allianzstatus .
     ' WHERE name="' . $user_allianz . "'";
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     $data['alliancestatus'][$row['allianz']] = $row['status'];
 }
@@ -280,8 +276,7 @@ $sql = 'SELECT *' .
     ' FROM ' . $db_tb_scans .
     ' WHERE coords_gal=' . $params['galaxy'] . ' AND coords_sys=' . $params['system'] .
     ' ORDER BY coords_planet';
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     $info = array();
     // Alliance status
@@ -390,8 +385,7 @@ while ($row = $db->db_fetch_array($result)) {
 $sql = 'SELECT *' .
     ' FROM ' . $db_tb_lager .
     ' WHERE coords_gal=' . $params['galaxy'] . ' AND coords_sys=' . $params['system'];
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     $data['planets'][$row['coords_gal'] . ':' . $row['coords_sys'] . ':' . $row['coords_planet']]['stock'] = $row;
 }
@@ -402,8 +396,7 @@ $sql = 'SELECT *' .
     ' WHERE coords_to_gal=' . $params['galaxy'] . ' AND coords_to_sys=' . $params['system'] .
     '   AND time>' . time() .
     ' ORDER BY coords_to_gal,coords_to_sys,coords_to_planet,time';
-$result = $db->db_query($sql)
-    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+$result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     $caption = strftime("%d.%m.%Y %H:%M", $row['time']);
     $caption .= ' ';

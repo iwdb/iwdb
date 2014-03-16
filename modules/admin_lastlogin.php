@@ -58,8 +58,7 @@ doc_title("Admin Loginzeit");
 	<tbody>
 		<?php
 		$sql = "SELECT `id`, `logindate`, `password` FROM `{$db_tb_user}` ORDER BY `logindate`, `id`;";
-		$result = $db->db_query($sql)
-			or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+		$result = $db->db_query($sql);
 
 		while ($row = $db->db_fetch_array($result)) {
 			$nopassword    = (empty($row['password'])) ? " kein Passwort gesetzt" : "";
@@ -90,9 +89,7 @@ doc_title("Admin Loginzeit");
 			</tr>
 		<?php
 		}
+        $db->db_free_result($result);
 		?>
 	</tbody>
 </table>
-<?php
-$db->db_free_result($result);
-?>

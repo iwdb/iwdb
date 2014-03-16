@@ -75,16 +75,14 @@ while ($row = $db->db_fetch_array($result)) {
     $user['url'] = $url;
     /*
         $sql = "SELECT * FROM " . $db_tb_sitterauftrag . " WHERE user='" . $row['id'] . "' ORDER BY date DESC";
-        $result_sitterorder = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+        $result_sitterorder = $db->db_query($sql);
         if ($row_sitterorder = $db->db_fetch_array($result_sitterorder)) {
             //$user['next_date'] = $row_sitterorder['date'];
             //$user['next_status'] = $user['next_date'] < CURRENT_UNIX_TIME ? 'due' : 'pending';
             $user['sitterorder']['planet'] = $row_sitterorder['planet'];
             if ($row_sitterorder['typ'] == 'Gebaeude') {
                 $sql = "SELECT * FROM " . $db_tb_gebaeude . " WHERE id=" . $row_sitterorder['bauid'];
-                $result_gebaeude = $db->db_query($sql)
-                    or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+                $result_gebaeude = $db->db_query($sql);
                 if ($row_gebaeude = $db->db_fetch_array($result_gebaeude)) {
                     $user['sitterorder']['image'] = $row_gebaeude['bild'];
                     $user['sitterorder']['text'] = $row_gebaeude['name'];
@@ -97,8 +95,7 @@ while ($row = $db->db_fetch_array($result)) {
         }
     */
     $sql = "SELECT * FROM " . $db_tb_lieferung . " WHERE user_to='" . $row['id'] . "' AND art IN ('Angriff','Sondierung','Sondierung (Schiffe/Def/Ress)','Sondierung (Gebäude/Ress)') AND time>" . (CURRENT_UNIX_TIME - (15 * MINUTE)) . " ORDER BY time DESC";
-    $result_angriff = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result_angriff = $db->db_query($sql);
     while ($row_angriff = $db->db_fetch_array($result_angriff)) {
         if ($row_angriff['time'] > (CURRENT_UNIX_TIME - ($row_angriff['art'] == 'Angriff' ? (15 * MINUTE) : (5 * MINUTE)))) {
             $key          = $row_angriff['art'] == 'Angriff' ? 'attack' : 'probe';
@@ -163,8 +160,7 @@ if (getVar('logout')) {
         }
     }
     $sql = "UPDATE " . $db_tb_user . " SET lastsitterloggedin=0 WHERE lastsitteruser='" . $user_sitterlogin . "'";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 }
 
 if (getVar('done')) {
@@ -173,8 +169,7 @@ if (getVar('done')) {
             $user['lastsitterloggedin'] = 0;
 
             $sql = "UPDATE " . $db_tb_user . " SET lastsitterloggedin=0,dauersittenlast=" . CURRENT_UNIX_TIME . " WHERE id='" . $user['id'] . "'";
-            $result = $db->db_query($sql)
-            or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+            $result = $db->db_query($sql);
         }
     }
 }
@@ -194,16 +189,13 @@ if (empty($login)) {
     $login_user['lastsitterloggedin'] = 1;
 
     $sql = "UPDATE " . $db_tb_user . " SET lastsitterloggedin=0 WHERE lastsitteruser='" . $user_sitterlogin . "'";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     $sql = "UPDATE " . $db_tb_user . " SET lastsitterlogin=" . $login_user['lastsitterlogin'] . ",lastsitteruser='" . $login_user['lastsitteruser'] . "',lastsitterloggedin=1 WHERE id='" . $login_user['id'] . "'";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 
     $sql = "INSERT INTO " . $db_tb_sitterlog . " (sitterlogin,fromuser,date,action) VALUES ('" . $login_user['id'] . "', '" . $user_sitterlogin . "', '" . $config_date . "', 'login')";
-    $result = $db->db_query($sql)
-        or error(GENERAL_ERROR, 'Could not query config information.', '', __FILE__, __LINE__, $sql);
+    $result = $db->db_query($sql);
 }
 
 // Select page mode

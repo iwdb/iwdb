@@ -6,10 +6,9 @@
     php_flag magic_quotes_gpc off
 </ifmodule>
 
-#hide .htaccess files (mostly standard just to be sure)
-<files .htaccess>
-    order allow,deny
-    deny from all
+#hide all dot files
+<files "^\.*">
+  deny from all
 </files>
 
 #caching für verschiedene Dateitypen aktivieren wenn Modul verfügbar

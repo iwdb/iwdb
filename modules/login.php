@@ -35,8 +35,6 @@ if (!defined('IRA')) {
 
 //****************************************************************************
 
-include "./menustyles/doc_default.php";
-
 doc_title('Login');
 
 if (($login_ok === false) AND (!empty($login_id) AND (!empty($login_password)))) {

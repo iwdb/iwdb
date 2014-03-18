@@ -35,8 +35,6 @@ if (!defined('IRA')) {
 
 //****************************************************************************
 
-include "./menustyles/doc_default.php";
-
 doc_title("Passwort vergessen");
 
 $username = $db->escape(getVar('username'));

@@ -70,7 +70,7 @@ function build_graph($users, $table, $user_col, $date_col, $value_col, $fitthis)
 
 	$graph = @ImageCreate($config_xsize, $config_ysize);
     if ($graph === false) {
-        error(GENERAL_ERROR, 'Could not create new GD image.', '', __FILE__, __LINE__);
+        trigger_error('Could not create new GD image.', E_USER_ERROR);
     }
 
 	$font_width = ImageFontWidth( 2 );

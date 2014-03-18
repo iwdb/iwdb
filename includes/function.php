@@ -30,6 +30,7 @@
  *****************************************************************************/
 
 // Funktion um die Fehlermeldungen zusammenzusetzen.
+//@deprecated
 function error($err_code, $err_msg = '', $err_title = '', $err_file = '', $err_line = '', $sql = '')
 {
     global $db, $error;
@@ -396,7 +397,8 @@ function getScanAgeColor($scandate)
 // Function for getting an html code between green and red, depending on the
 // given scandate. The date is green when 0 and red when reaching
 //
-// old use getScanAgeColor
+//@deprecated
+// use getScanAgeColor
 function scanAge($scandate)
 {
     global $config_map_timeout;

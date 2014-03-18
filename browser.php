@@ -8,6 +8,10 @@ require_once("includes/bootstrap.php");
 
 global $db, $db_tb_user, $db_tb_lieferung, $user_sitterlogin, $db_tb_sitterlog;
 
+if ($user_gesperrt) {
+    die ('<div style="text-align:center;color:red">Dein Account ist gesperrt worden!</div>');
+}
+
 if ((($login_ok === false)) || empty($user_sitterlogin) || !($user_adminsitten == SITTEN_BOTH || $user_adminsitten == SITTEN_ONLY_LOGINS)) {
     header("Location: " . APPLICATION_PATH_RELATIVE);
     exit;
@@ -36,8 +40,7 @@ $sql = "SELECT * FROM " . $db_tb_user . " where sitten=1";
 if (!empty($allianz)) {
     $sql .= " and allianz='" . $allianz . "'";
 }
-$result = $db->db_query($sql)
-    or die('Could not query user.');
+$result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     unset($user);
 

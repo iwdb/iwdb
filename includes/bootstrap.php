@@ -100,6 +100,7 @@ require_once './includes/function.php';             //sonstige Funktionen
 require_once './includes/function_filter.php';      //Filter und Validierungsfunktionen
 require_once './includes/function_parser.php';      //Parserhilfsfunktionen
 require_once './includes/function_security.php';    //Sicherheitsfunktionen
+require_once "./includes/function_doc.php";         //Seitenaufbau Hilfsfunktionen
 require_once './includes/db_mysql.php';             //MySQL DB Klasse
 
 define('REMOTE_IP', getRemoteIP());
@@ -131,10 +132,3 @@ if (empty($action)) {
 }
 
 require_once("./includes/sid.php");
-
-$sql = "SELECT `gesperrt` FROM `{$db_tb_user}` WHERE `id` = '{$user_id}';";
-$result_g = $db->db_query($sql);
-$row_g = $db->db_fetch_array($result_g);
-if ($row_g['gesperrt']) {
-    die ('<div style="text-align:center;color:red">Dein Account ist gesperrt worden!</div>');
-}

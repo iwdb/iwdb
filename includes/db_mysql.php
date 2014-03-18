@@ -114,7 +114,6 @@ class db
      * @param string $table Tabellenbezeichner
      * @param array  $data  Daten
      *
-     * @throws Exception
      * @return resource|bool Queryhandle bei Erfolg, boolean false bei Fehler
      *
      * @author masel
@@ -141,11 +140,11 @@ class db
             } elseif (is_string($value)) { //Wert ist String? -> escapen
                 $value = mysql_real_escape_string($value, $this->db_link_id);
                 if ($value === false) {
-                    throw new Exception('Value escaping failed!');
+                    trigger_error('Value escaping failed!', E_USER_ERROR);
                 }
                 $data[$key] = "'$value'";
             } elseif (!is_int($value) AND !is_float($value)){
-                throw new Exception('Invalid value!');
+                trigger_error('Invalid value!', E_USER_ERROR);
             }
 
         }
@@ -170,7 +169,6 @@ class db
      * @param array  $columnnames Spaltenbezeichner
      * @param array  $data        Daten
      *
-     * @throws Exception
      * @return resource|bool Queryhandle bei Erfolg, boolean false bei Fehler
      *
      * @author masel
@@ -202,11 +200,11 @@ class db
                 } elseif (is_string($value)) { //Wert ist String? -> escapen
                     $value = mysql_real_escape_string($value, $this->db_link_id);
                     if ($value === false) {
-                        throw new Exception('Value escaping failed!');
+                        trigger_error('Value escaping failed!', E_USER_ERROR);
                     }
                     $datarow[$key] = "'$value'";
                 } elseif (!is_int($value) AND !is_float($value)){
-                    throw new Exception('Invalid values!');
+                    trigger_error('Invalid values!', E_USER_ERROR);
                 }
 
             }
@@ -233,7 +231,6 @@ class db
      * @param array  $data          Daten
      * @param string $additionalSQL Zusätzliche sql Anweisungen
      *
-     * @throws Exception
      * @return bool|resource Queryhandle bei Erfolg, false bei Fehler
      *
      * @author   masel
@@ -243,9 +240,9 @@ class db
         unset($this->query_result);
 
         if (empty($table)) {
-            throw new Exception('invalid table!');
+            trigger_error('invalid db-table!', E_USER_ERROR);
         } elseif (empty($data) OR !is_array($data)) {
-            throw new Exception('invalid data!');
+            trigger_error('invalid data!', E_USER_ERROR);
         }
 
         $query = "Update `" . $table . "` SET ";
@@ -264,11 +261,11 @@ class db
             } elseif (is_string($value)) { //Wert ist String? -> escapen
                 $value = mysql_real_escape_string($value, $this->db_link_id);
                 if ($value === false) {
-                    throw new Exception('Value escaping failed!');
+                    trigger_error('Value escaping failed!', E_USER_ERROR);
                 }
                 $value = "'$value'";
             } elseif (!is_int($value) AND !is_float($value)){
-                throw new Exception('Invalid values!');
+                trigger_error('Invalid values!', E_USER_ERROR);
             }
             $datapairs[] = "`$key` = $value";
         }
@@ -294,7 +291,6 @@ class db
      * @param string $table Tabellenbezeichner
      * @param array  $data  Daten
      *
-     * @throws Exception
      * @return bool|resource Queryhandle bei Erfolg, false bei Fehler
      *
      * @author masel
@@ -321,11 +317,11 @@ class db
             } elseif (is_string($value)) { //Wert ist String? -> escapen
                 $value = mysql_real_escape_string($value, $this->db_link_id);
                 if ($value === false) {
-                    throw new Exception('Value escaping failed!');
+                    trigger_error('Value escaping failed!', E_USER_ERROR);
                 }
                 $data[$key] = "'$value'";
             } elseif (!is_int($value) AND !is_float($value)) {
-                throw new Exception('Invalid values!');
+                trigger_error('Invalid values!', E_USER_ERROR);
             }
 
         }
@@ -363,7 +359,6 @@ class db
      * @param string $table Tabellenbezeichner
      * @param array  $data  Daten
      *
-     * @throws Exception
      * @return bool|resource Queryhandle bei Erfolg, false bei Fehler
      *
      * @author masel
@@ -390,11 +385,11 @@ class db
             } elseif (is_string($value)) { //Wert ist String? -> escapen
                 $value = mysql_real_escape_string($value, $this->db_link_id);
                 if ($value === false) {
-                    throw new Exception('Value escaping failed!');
+                    trigger_error('Value escaping failed!', E_USER_ERROR);
                 }
                 $data[$key] = "'$value'";
             } elseif (!is_int($value) AND !is_float($value)){
-                throw new Exception('Invalid values!');
+                trigger_error('Invalid values!', E_USER_ERROR);
             }
 
         }

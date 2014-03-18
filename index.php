@@ -33,6 +33,10 @@ define('APPLICATION_PATH_URL', dirname($_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_
 
 require_once("./includes/bootstrap.php");
 
+if ($user_gesperrt) {
+    die ('<div style="text-align:center;color:red">Dein Account ist gesperrt worden!</div>');
+}
+
 if ($login_ok) {
     $IwdbLock = isIwdbLocked();
 
@@ -69,47 +73,15 @@ if (($action === 'rules') AND (getVar('accept_rules')) AND ($login_ok)) {
     $result = $db->db_update($db_tb_user, array('rules' => 1), "WHERE id='$user_id'");
 
     $action = $config_default_action;
+} elseif ($action === 'memberlogin2') {
+    $action = $config_default_action;
 }
 
 // Sitterlogin in einen Account
 $sitterlogin = $db->escape(getVar('sitterlogin'));
-if ((($user_adminsitten == SITTEN_BOTH) OR ($user_adminsitten == SITTEN_ONLY_LOGINS)) AND ($action == "sitterlogins") AND (!empty($sitterlogin)) AND ($login_ok)) {
-    $sql = "DELETE FROM " . $db_tb_sitterlog . " WHERE date<" . (CURRENT_UNIX_TIME - $config_sitterlog_timeout);
-    $result = $db->db_query($sql);
-
-    $sql = "SELECT id FROM " . $db_tb_sitterlog . " WHERE sitterlogin = '" . $sitterlogin . "' AND fromuser = '" . $user_sitterlogin . "' AND action = 'login' AND date > " . (CURRENT_UNIX_TIME - $config_sitterpunkte_timeout);
-    $result = $db->db_query($sql);
-    $anz = $db->db_num_rows($result);
-
-    $sql = "INSERT INTO " . $db_tb_sitterlog . " (sitterlogin, fromuser, date, action) VALUES ('" . $sitterlogin . "', '" . $user_sitterlogin . "', '" . CURRENT_UNIX_TIME . "', 'login')";
-    $result = $db->db_query($sql);
-
-    // User
-    $sql = "UPDATE " . $db_tb_user . " SET lastsitterloggedin=0 WHERE lastsitteruser='" . $user_sitterlogin . "'";
-    $result = $db->db_query($sql);
-    $sql = "UPDATE " . $db_tb_user . " SET lastsitterlogin=" . CURRENT_UNIX_TIME . ",lastsitteruser='" . $user_sitterlogin . "',lastsitterloggedin=1 WHERE id='" . $sitterlogin . "'";
-    $result = $db->db_query($sql);
-
-    if (($sitterlogin != $user_sitterlogin) && ($anz == 0)) {
-        $sql = "UPDATE " . $db_tb_user . " SET sitterpunkte = sitterpunkte + " . $config_sitterpunkte_login . " WHERE sitterlogin = '" . $user_sitterlogin . "'";
-        $result = $db->db_query($sql);
-    }
-
-    $sql = "SELECT sitterpwd FROM " . $db_tb_user . " WHERE sitterlogin = '" . $sitterlogin . "'";
-    $result = $db->db_query($sql);
-    $row = $db->db_fetch_array($result);
-    if (!empty($row['sitterpwd'])) {
-        $redirectLocation = "http://icewars.de/index.php?action=login&name=" . urlencode($sitterlogin) . "&pswd=" . $row['sitterpwd'] . "&sitter=1&ismd5=1&submit=true";
-        if (!empty($user_sitterskin)) {
-            $redirectLocation .= "&serverskin=1&serverskin_typ=" . $user_sitterskin;
-        }
-        if (!empty($user_allow_ip_change)) {
-            $redirectLocation .= "&ip_change=1";
-        }
-
-        header("Location: " . $redirectLocation);
-    }
-    exit;
+if (($action === "sitterlogins") AND $login_ok) {
+    include("modules/do_sitterlogin.php");
+    do_sitterlogin($sitterlogin);
 }
 ?>
 <!DOCTYPE html>
@@ -157,7 +129,7 @@ if (!getVar("nobody")) {
                     //hier hin verschoben da der IE iwie imemr sonst Mist baut ^^
                     include ('./includes/sitterfadein.php');
 
-                    if (getVar("action") === "profile") {
+                    if ($action === "profile") {
                         // Menue-Änderung voraus?
                         $newmenustyle = getVar("menu_default");
                         if ((!empty($newmenustyle)) && ($newmenustyle != $user_menu_default)) {
@@ -169,12 +141,6 @@ if (!getVar("nobody")) {
                         $user_menu_default = "default";
                     }
 
-                    $user_doc_style = $user_menu_default;
-                    if (!file_exists("./menustyles/doc_" . $user_doc_style . ".php")) {
-                        $user_doc_style = "default";
-                    }
-
-                    include "./menustyles/doc_" . $user_doc_style . ".php";
                     if (!getVar("nobody")) {
                         include "./menustyles/menu_" . $user_menu_default . ".php";
                     }
@@ -190,58 +156,16 @@ if (!getVar("nobody")) {
                                 echo "<br><div class='system_notification'><b>*moep* Achtung! Du hast zwar anderen das Sitten erlaubt, aber kein Sitterpasswort eingetragen.</b></div><br><br>";
                             }
 
-                            if (($login_ok) && ($user_rules == "1")) {
+                            if (($login_ok) AND ($user_rules === "1")) {
 
-                                if ($action === 'memberlogin2') {
-                                    include("modules/" . $config_default_action . ".php");
-                                }
-
-                                if (file_exists("modules/" . $action . ".php") === true) {
+                                if ($action === 'deluser') {
+                                    include("modules/delete_user.php");
+                                    delete_user($sitterlogin);
+                                } elseif (file_exists("modules/" . $action . ".php") === true) {
                                     include("modules/" . $action . ".php");
                                 }
 
-                                if ($action == 'deluser' AND $user_status === "admin") {
-
-                                    $sql = "DELETE FROM " . $db_tb_user . " WHERE sitterlogin='" . $sitterlogin . "'";
-                                    $result = $db->db_query($sql);
-
-                                    $sql = "DELETE FROM " . $db_tb_punktelog . " WHERE user='" . $sitterlogin . "'";
-                                    $result = $db->db_query($sql);
-
-                                    $sql = "DELETE FROM " . $db_tb_schiffe . " WHERE user='" . $sitterlogin . "'";
-                                    $result = $db->db_query($sql);
-
-                                    $sql = "DELETE FROM " . $db_tb_preset . " WHERE fromuser='" . $sitterlogin . "'";
-                                    $result = $db->db_query($sql);
-
-                                    $sql = "DELETE FROM " . $db_tb_lager . " WHERE user='" . $sitterlogin . "'";
-                                    $result = $db->db_query($sql);
-
-                                    $sql = "DELETE FROM " . $db_tb_ressuebersicht . " WHERE user='" . $sitterlogin . "'";
-                                    $result = $db->db_query($sql);
-
-                                    $sql = "DELETE FROM " . $db_tb_research2user . " WHERE userid='" . $sitterlogin . "'";
-                                    $result = $db->db_query($sql);
-
-                                    $sql = "DELETE FROM " . $db_tb_group_user . " WHERE user_id='" . $sitterlogin . "'";
-                                    $result = $db->db_query($sql);
-
-                                    $sql = "DELETE FROM " . $db_tb_group_sort . " WHERE user_id='" . $sitterlogin . "'";
-                                    $result = $db->db_query($sql);
-
-                                    $sql = "DELETE FROM " . $db_tb_gebaeude_spieler . " WHERE user='" . $sitterlogin . "'";
-                                    $result = $db->db_query($sql);
-
-                                    $sql = "DELETE FROM " . $db_tb_bestellung . " WHERE user='" . $sitterlogin . "'";
-                                    $result = $db->db_query($sql);
-
-                                    $sql = "DELETE FROM " . $db_tb_user_research . " WHERE user='" . $sitterlogin . "'";
-                                    $result = $db->db_query($sql);
-
-                                    doc_title('Account löschen');
-                                    doc_message('Account ' . $sitterlogin . ' gelöscht!');
-                                }
-                            } elseif (($login_ok) && ($user_rules != "1")) {
+                            } elseif (($login_ok) AND ($user_rules != "1")) {
                                 include("modules/rules.php");
                                 exit;
                             } else {

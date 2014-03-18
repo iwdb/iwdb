@@ -366,7 +366,7 @@ function build_graph_transfer($users, $fitthis, $date_min, $date_max, $typ)
 
     $graph = @imagecreatetruecolor($graph_xsize, $graph_ysize);
     if ($graph === false) {
-        error(GENERAL_ERROR, 'Could not create new GD image.', '', __FILE__, __LINE__);
+        trigger_error('Could not create new GD image.', E_USER_ERROR);
     }
 
     $font_width  = ImageFontWidth(2);

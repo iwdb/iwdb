@@ -533,7 +533,17 @@ class db
         return @mysql_free_result($result);
     }
 
+    function db_errno()
+    {
+        return mysql_errno($this->db_link_id);
+    }
+
     function db_error()
+    {
+        return mysql_error($this->db_link_id);
+    }
+
+    function db_error_ex()
     {
         if (!$this->db_link_id) {
             $result['code'] = @mysql_errno();

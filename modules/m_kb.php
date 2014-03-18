@@ -862,7 +862,7 @@ function kb_parsen($file)
         $sql .= "  AND k_mauer = 'X' ";
         $select = $db->db_query($sql);
         $rowM = $db->db_fetch_array($select);
-        if (mysql_errno() == 0) {
+        if ($db->db_errno() == 0) {
             if ($rowM['k_mauer'] == 'X') {
                 $kb_array['MAUER'] = 'X';
             }
@@ -1382,12 +1382,12 @@ function insert_iw_kb()
     if (!$Recalculate_War) {
         $sSQL   = "INSERT INTO `" . $db_tb_kb_kb . "` (w_id, k_id, k_typ, k_kb) VALUES ($a_id, '', 'X', '$k_kb')";
         $db->db_query($sSQL);
-        if (mysql_errno() == 0) {
-            $k_id = mysql_insert_id();
+        if ($db->db_errno() == 0) {
+            $k_id = $db->db_insert_id();
         } else {
             $kb_array['ERR'] = true;
             $k_id            = 0;
-            if (mysql_errno() == 1062) {
+            if ($db->db_errno() == 1062) {
                 echo "<a href='$k_kb' target='_new'>$k_kb</a> <span class='doc_red'>KB ist bereits vorhanden!</span><br>";
             } else {
                 sql_fehler($sSQL);
@@ -4578,7 +4578,9 @@ function update_planatt()
 
 function sql_fehler($sql)
 {
-    echo "<span class='doc_red'>$sql<br>Sql-Fehler: " . mysql_errno() . ": " . mysql_error() . "</span>";
+    global $db;
+
+    echo "<span class='doc_red'>$sql<br>Sql-Fehler: " . $db->db_errno() . ": " . $db->db_error() . "</span>";
 }
 
 function show_user_typ($usertyp = '')

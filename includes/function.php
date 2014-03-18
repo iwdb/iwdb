@@ -68,7 +68,7 @@ function error($err_code, $err_msg = '', $err_title = '', $err_file = '', $err_l
                     $debug_msg .= "<b>SQL Query:</b> " . $sql . "<br>\n";
                 }
 
-                $err_sql = $db->db_error();
+                $err_sql = $db->db_error_ex();
                 if ((!empty($err_sql['code'])) && (!empty($err_sql['msg']))) {
                     $debug_msg .= "<b>SQL Code:</b> " . $err_sql['code'] . " \n";
                     $debug_msg .= "<b>SQL Message:</b> " . $err_sql['msg'] . "<br>\n";

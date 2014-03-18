@@ -101,7 +101,7 @@ require_once './includes/function_filter.php';      //Filter und Validierungsfun
 require_once './includes/function_parser.php';      //Parserhilfsfunktionen
 require_once './includes/function_security.php';    //Sicherheitsfunktionen
 require_once "./includes/function_doc.php";         //Seitenaufbau Hilfsfunktionen
-require_once './includes/db_mysql.php';             //MySQL DB Klasse
+require_once './includes/db_mysqli.php';            //MySQLi DB Klasse
 
 define('REMOTE_IP', getRemoteIP());
 if ($phpids_enabled) {

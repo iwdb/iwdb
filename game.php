@@ -7,6 +7,10 @@ define('APPLICATION_PATH_URL', dirname($_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_
 require_once("includes/bootstrap.php");
 error_reporting(E_ALL & ~E_NOTICE);
 
+if ($user_gesperrt) {
+    die ('<div style="text-align:center;color:red">Dein Account ist gesperrt worden!</div>');
+}
+
 if (($login_ok === false) || empty($user_sitterlogin) || !($user_adminsitten == SITTEN_BOTH || $user_adminsitten == SITTEN_ONLY_LOGINS)) {
     header("Location: " . APPLICATION_PATH_RELATIVE);
     exit;

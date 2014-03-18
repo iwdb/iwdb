@@ -47,7 +47,7 @@ function parse_de_alli_kasse_log_member($aParserData)
         $logentries[] = $logentry;
     }
 
-    $db->db_insert_multiple($db_tb_kasse_outgoing, array_keys(reset($logentries)), $logentries);
+    $db->db_insertignore_multiple($db_tb_kasse_outgoing, array_keys(reset($logentries)), $logentries);
 
     echo "<div class='doc_message'>" . count($logentries) . " Einträge erfolgreich geparsed</div>";
 

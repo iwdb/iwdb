@@ -405,6 +405,70 @@ class db
 
     }
 
+    /**
+     * function db_insertignore_multiple
+     *
+     * Fügt die Daten des übergebenen Arrays in die Datenbank ein
+     * oder ignoriert die Eingabe falls schon vorhanden
+     *
+     * @param string $table       Tabellenbezeichner
+     * @param array  $columnnames Spaltenbezeichner
+     * @param array  $data        Daten
+     *
+     * @return resource|bool Queryhandle bei Erfolg, boolean false bei Fehler
+     *
+     * @author masel
+     */
+    function db_insertignore_multiple($table, $columnnames, $data)
+    {
+        unset($this->query_result);
+
+        if (empty($table) OR empty($columnnames) OR !is_array($columnnames) OR empty($data) OR !is_array($data)) {
+            return false;
+        }
+
+        $query = "INSERT INTO `" . $table . "` (";
+
+        //sql-query zusammenbauen
+
+        $query .= '`' . implode($columnnames, "`,`");
+        $query .= "`) VALUES";
+
+        foreach ($data as $datarow) {
+            foreach ($datarow as $key => $value) {
+
+                if ($value === null) {
+                    $datarow[$key] = "NULL";
+                } elseif ($value === false) { //boolean ist meist tinyint(1)
+                    $datarow[$key] = "0";
+                } elseif ($value === true) {
+                    $datarow[$key] = "1";
+                } elseif (is_string($value)) { //Wert ist String? -> escapen
+                    $value = mysql_real_escape_string($value, $this->db_link_id);
+                    if ($value === false) {
+                        trigger_error('Value escaping failed!', E_USER_ERROR);
+                    }
+                    $datarow[$key] = "'$value'";
+                } elseif (!is_int($value) AND !is_float($value)){
+                    trigger_error('Invalid values!', E_USER_ERROR);
+                }
+
+            }
+
+            $query .= " (";
+            $query .= implode($datarow, ",");
+            $query .= "),";
+        }
+
+        $query = mb_substr($query, 0, -1);
+        $query .= " ON DUPLICATE KEY UPDATE `".$columnnames[0]."`=`".$columnnames[0]."`;";   //means do nothing
+
+        $this->query_result = $this->db_query($query, $this->db_link_id);
+
+        return $this->query_result;
+
+    }
+
     function db_insert_id()
     {
         return mysql_insert_id($this->db_link_id);

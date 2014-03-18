@@ -262,7 +262,7 @@ $data['shiptrans2'] = array(
 $data['alliancestatus'] = array();
 $sql = 'SELECT `allianz`, `status`' .
     ' FROM ' . $db_tb_allianzstatus .
-    ' WHERE name="' . $user_allianz . "'";
+    ' WHERE name="' . $user_allianz . '";';
 $result = $db->db_query($sql);
 while ($row = $db->db_fetch_array($result)) {
     $data['alliancestatus'][$row['allianz']] = $row['status'];

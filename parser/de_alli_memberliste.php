@@ -107,7 +107,7 @@ function updateuser($scan_data)
         'gesamtp' => $scan_data['gesamtp'],
         'ptag' => $scan_data['ptag']
     );
-    $db->db_query($db_tb_punktelog, $aSqlData);
+    $db->db_insertignore($db_tb_punktelog, $aSqlData);
 
     // Prüfe Mitglied, ob es bereits in der DB gespeichert ist.
     $sql = "SELECT sitterlogin FROM " . $db_tb_user . " WHERE sitterlogin='" . $scan_data['sitterlogin'] . "'";

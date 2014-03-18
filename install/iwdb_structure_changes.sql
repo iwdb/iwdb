@@ -162,3 +162,7 @@ ALTER TABLE `prefix_scans` CHANGE `bed_bev` `bed_bev` INT UNSIGNED NOT NULL DEFA
 ALTER TABLE `prefix_spieler` CHANGE `einmaurer` `einmaurer` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0';
 ALTER TABLE `prefix_spieler` CHANGE `gesperrt` `gesperrt` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0';
 ALTER TABLE `prefix_spieler` CHANGE `umode` `umode` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0';
+
+-- 18.03.2014 masel: Punktelogtabelle angepasst
+ALTER TABLE  `prefix_punktelog` DROP  `id` ;
+ALTER TABLE  `prefix_punktelog` ADD PRIMARY KEY (  `user` ,  `date` ) COMMENT  '';

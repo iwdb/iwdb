@@ -254,10 +254,10 @@ echo "</div>";
             // Alle Menu-Eintraege durchgehen
             while ($row = $db->db_fetch_array($result)) {
                 // Ist sitten für diesen Menu-Eintrag erlaubt?
-                $sitterentry = ($user_adminsitten == SITTEN_BOTH)
+                $sitterentry = (($user_adminsitten == SITTEN_BOTH)
                     OR ($row['sittertyp'] == 0)
-                    OR ($user_adminsitten == SITTEN_ONLY_LOGINS AND ($row['sittertyp'] == 1 || $row['sittertyp'] == 3))
-                    OR ($user_adminsitten == SITTEN_ONLY_NEWTASKS AND ($row['sittertyp'] == 2 || $row['sittertyp'] == 3));
+                    OR (($user_adminsitten == SITTEN_ONLY_LOGINS) AND (($row['sittertyp'] == 1) OR ($row['sittertyp'] == 3)))
+                    OR (($user_adminsitten == SITTEN_ONLY_NEWTASKS) AND (($row['sittertyp'] == 2) OR ($row['sittertyp'] == 3))));
 
                 // Falls nicht, mit dem naechsten Eintrag weitermachen.
                 if (!$sitterentry) {

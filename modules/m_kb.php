@@ -4544,7 +4544,7 @@ function fill_schiffclass($hbez)
 function update_planatt()
 {
     global $hatt;
-    global $db, $db_tb_scans, $db_tb_scans_details;
+    global $db, $db_tb_scans;
     global $kb_array;
 
     $natt = "\n <table class='scan_table'> \n";

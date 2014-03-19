@@ -1129,11 +1129,17 @@ function sqlPlayerSelection($playerSelection = '(Alle)')
 function isIwdbLocked() {
     global $db, $db_tb_params;
 
-    $sql = "SELECT `text`,`value` FROM `{$db_tb_params}` WHERE `name` = 'gesperrt';";
+    $sql = "SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'gesperrt';";
     $result = $db->db_query($sql);
     $row = $db->db_fetch_array($result);
     $iwdb_locked = $row['value'];
-    $iwdb_lock_reason = $row['text'];
+
+    if ($iwdb_locked) {
+        $sql = "SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'gesperrt_grund';";
+        $result = $db->db_query($sql);
+        $row = $db->db_fetch_array($result);
+        $iwdb_lock_reason = $row['value'];
+    }
 
     if ($iwdb_locked === 'true') {
 
@@ -1169,17 +1175,24 @@ function getAllyStatus($strAlly) {
         return false;
     }
 
-    $strAlly = $db->escape($strAlly);
+    if (empty($aAllyStatus)) {               //status noch nicht abgefragt -> alle holen
 
-    if (!isset($aAllyStatus[$strAlly])) {
-
-        $sql = "SELECT `status` FROM `{$db_tb_allianzstatus}` WHERE `allianz`='" . $strAlly . "'";
+        $sql = "SELECT `allianz`, `status` FROM `{$db_tb_allianzstatus}`;";
         $result = $db->db_query($sql);
 
-        $row = $db->db_fetch_array($result);
+        while ($row = $db->db_fetch_array($result)) {
+            if (!empty($row['status'])) {
+                $aAllyStatus[$row['allianz']] = $row['status'];
+            }
+        }
 
-        $aAllyStatus[$strAlly] = $row['status'];
     }
 
-    return $aAllyStatus[$strAlly];
+    if (!empty($aAllyStatus[$strAlly])) {
+        $strAllyStatus = $aAllyStatus[$strAlly];
+    } else {
+        $strAllyStatus = '';
+    }
+
+    return $strAllyStatus;
 }

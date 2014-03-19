@@ -41,19 +41,22 @@ if ($user_status != "admin" && $user_status != "hc") {
 
 doc_title("Admin Einstellungen");
 
+global $db, $db_tb_params, $db_tb_menu;
+
 /*****************************************************************************/
 /* Fade-in Teil                                                              */
 /*****************************************************************************/
 
-$bs = GetVar('BS');
-if (!empty($bs)) {
+if (GetVar('BS')) {
 
     $sound_standard = (int)GetVar('sound_standard');
     $sound_login    = (int)GetVar('sound_login');
 
-    $db->db_update($db_tb_params, array('value' => $sound_standard), "WHERE name = 'sound_standard'");
+    $aSqlData = array('name' => 'sound_standard', 'value' => $sound_standard);
+    $db->db_insertupdate($db_tb_params, $aSqlData);
 
-    $db->db_update($db_tb_params, array('value' => $sound_login), "WHERE name = 'sound_login'");
+    $aSqlData = array('name' => 'sound_login', 'value' => $sound_login);
+    $db->db_insertupdate($db_tb_params, $aSqlData);
 
     $sqlM = "ALTER TABLE `{$db_tb_menu}` CHANGE `sound` `sound` TINYINT( 1 ) DEFAULT '" . $sound_standard . "'";
     $resultM = $db->db_query($sqlM);
@@ -168,18 +171,19 @@ if (!empty($rowP['value'])) {
 <br><br>
 <?php
 
-$be = GetVar('BE');
-if (!empty($be)) {
+/*******************************************************************************/
+/* 'Bericht einfügen für' Teil                                                 */
+/*******************************************************************************/
+if (GetVar('BE')) {
 
     $bericht_fuer_rang   = GetVar('bericht_fuer_rang');
-    $bericht_fuer_sitter = (int)
-    GetVar('bericht_fuer_sitter');
+    $bericht_fuer_sitter = (int)GetVar('bericht_fuer_sitter');
 
-    $sqlP = "UPDATE `{$db_tb_params}` SET `value` = '" . $bericht_fuer_rang . "' WHERE `name` = 'bericht_fuer_rang';";
-    $resultP = $db->db_query($sqlP);
+    $aSqlData = array('name' => 'bericht_fuer_rang', 'value' => $bericht_fuer_rang);
+    $db->db_insertupdate($db_tb_params, $aSqlData);
 
-    $sqlP = "UPDATE `{$db_tb_params}` SET `value` = '" . $bericht_fuer_sitter . "' WHERE `name` = 'bericht_fuer_sitter';";
-    $resultP = $db->db_query($sqlP);
+    $aSqlData = array('name' => 'bericht_fuer_sitter', 'value' => $bericht_fuer_sitter);
+    $db->db_insertupdate($db_tb_params, $aSqlData);
 
 }
 
@@ -289,19 +293,19 @@ if (isset($db_tb_bestellung)) {
 
         if (($automatic_creds_order === 'true') AND (!empty($automatic_creds_order_minvalue))) {
 
-            $sql = "INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('automatic_creds_order', 'true') ON DUPLICATE KEY UPDATE `value`='true';";
-            $db->db_query($sql);
+            $aSqlData = array('name' => 'automatic_creds_order', 'value' => 'true');
+            $db->db_insertupdate($db_tb_params, $aSqlData);
 
-            $sql = "INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('automatic_creds_order_minvalue', '" . $automatic_creds_order_minvalue . "') ON DUPLICATE KEY UPDATE `value`='" . $automatic_creds_order_minvalue . "';";
-            $db->db_query($sql);
+            $aSqlData = array('name' => 'automatic_creds_order_minvalue', 'value' => $automatic_creds_order_minvalue);
+            $db->db_insertupdate($db_tb_params, $aSqlData);
 
-            $sql = "INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('automatic_creds_order_minpayout', '" . $automatic_creds_order_minpayout . "') ON DUPLICATE KEY UPDATE `value`='" . $automatic_creds_order_minpayout . "';";
-            $db->db_query($sql);
-
+            $aSqlData = array('name' => 'automatic_creds_order_minpayout', 'value' => $automatic_creds_order_minpayout);
+            $db->db_insertupdate($db_tb_params, $aSqlData);
 
         } else {
 
-            $db->db_query("INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('automatic_creds_order', 'false') ON DUPLICATE KEY UPDATE `value`='false';");
+            $aSqlData = array('name' => 'automatic_creds_order', 'value' => 'false');
+            $db->db_insertupdate($db_tb_params, $aSqlData);
 
         }
 
@@ -385,77 +389,77 @@ if (isset($db_tb_bestellung)) {
 /*****************************************************************************/
 
 if (GetVar('stunden_change')) {
-	$hour_eisen = GetVar('stunden_eisen');
-	$hour_stahl = GetVar('stunden_stahl');
-	$hour_vv4a = GetVar('stunden_vv4a');
-	$hour_chemie = GetVar('stunden_chemie');
-	$hour_eis = GetVar('stunden_eis');
-	$hour_wasser = GetVar('stunden_wasser');
-	$hour_energie = GetVar('stunden_energie');
-	$max_eisen = GetVar('lager_eisen');
-	
-	$sql = "INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('hour_eisen', '" . $hour_eisen . "') ON DUPLICATE KEY UPDATE `value`='" . $hour_eisen . "';";
-            $db->db_query($sql);
-	
-	$sql = "INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('hour_stahl', '" . $hour_stahl . "') ON DUPLICATE KEY UPDATE `value`='" . $hour_stahl . "';";
-            $db->db_query($sql);
-	
-	$sql = "INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('hour_vv4a', '" . $hour_vv4a . "') ON DUPLICATE KEY UPDATE `value`='" . $hour_vv4a . "';";
-            $db->db_query($sql);
-	
-	$sql = "INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('hour_chemie', '" . $hour_chemie . "') ON DUPLICATE KEY UPDATE `value`='" . $hour_chemie . "';";
-            $db->db_query($sql);
-	
-	$sql = "INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('hour_eis', '" . $hour_eis . "') ON DUPLICATE KEY UPDATE `value`='" . $hour_eis . "';";
-            $db->db_query($sql);
-	
-	$sql = "INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('hour_wasser', '" . $hour_wasser . "') ON DUPLICATE KEY UPDATE `value`='" . $hour_wasser . "';";
-            $db->db_query($sql);
-	
-	$sql = "INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('hour_energie', '" . $hour_energie . "') ON DUPLICATE KEY UPDATE `value`='" . $hour_energie . "';";
-            $db->db_query($sql);
-				
-	$sql = "INSERT `{$db_tb_params}` (`name`, `value`) VALUES ('max_eisen', '" . $max_eisen . "') ON DUPLICATE KEY UPDATE `value`='" . $max_eisen . "';";
-            $db->db_query($sql);
-	
+	$hour_eisen = filter_int(GetVar('stunden_eisen'), '', 0); //default '', Minimum 0
+	$hour_stahl = filter_int(GetVar('stunden_stahl'), '', 0);
+	$hour_vv4a = filter_int(GetVar('stunden_vv4a'), '', 0);
+	$hour_chemie = filter_int(GetVar('stunden_chemie'), '', 0);
+	$hour_eis = filter_int(GetVar('stunden_eis'), '', 0);
+	$hour_wasser = filter_int(GetVar('stunden_wasser'), '', 0);
+	$hour_energie = filter_int(GetVar('stunden_energie'), '', 0);
+	$max_eisen = filter_int(GetVar('lager_eisen'), '', 0);
+
+    $aSqlData = array('name' => 'hour_eisen', 'value' => $hour_eisen);
+    $db->db_insertupdate($db_tb_params, $aSqlData);
+
+    $aSqlData = array('name' => 'hour_stahl', 'value' => $hour_stahl);
+    $db->db_insertupdate($db_tb_params, $aSqlData);
+
+    $aSqlData = array('name' => 'hour_vv4a', 'value' => $hour_vv4a);
+    $db->db_insertupdate($db_tb_params, $aSqlData);
+
+    $aSqlData = array('name' => 'hour_chemie', 'value' => $hour_chemie);
+    $db->db_insertupdate($db_tb_params, $aSqlData);
+
+    $aSqlData = array('name' => 'hour_eis', 'value' => $hour_eis);
+    $db->db_insertupdate($db_tb_params, $aSqlData);
+
+    $aSqlData = array('name' => 'hour_wasser', 'value' => $hour_wasser);
+    $db->db_insertupdate($db_tb_params, $aSqlData);
+
+    $aSqlData = array('name' => 'hour_energie', 'value' => $hour_energie);
+    $db->db_insertupdate($db_tb_params, $aSqlData);
+
+    $aSqlData = array('name' => 'max_eisen', 'value' => $max_eisen);
+    $db->db_insertupdate($db_tb_params, $aSqlData);
+
 }
 
-$sql = "SELECT `value`, `text` FROM `{$db_tb_params}` WHERE `name` = 'hour_eisen';";
+$sql = "SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'hour_eisen';";
 $result = $db->db_query($sql);
 $row = $db->db_fetch_array($result);
 $hour_eisen = $row['value'];
 
-$sql = "SELECT `value`, `text` FROM `{$db_tb_params}` WHERE `name` = 'hour_stahl';";
+$sql = "SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'hour_stahl';";
 $result = $db->db_query($sql);
 $row = $db->db_fetch_array($result);
 $hour_stahl = $row['value'];
 
-$sql = "SELECT `value`, `text` FROM `{$db_tb_params}` WHERE `name` = 'hour_vv4a';";
+$sql = "SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'hour_vv4a';";
 $result = $db->db_query($sql);
 $row = $db->db_fetch_array($result);
 $hour_vv4a = $row['value'];
 
-$sql = "SELECT `value`, `text` FROM `{$db_tb_params}` WHERE `name` = 'hour_chemie';";
+$sql = "SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'hour_chemie';";
 $result = $db->db_query($sql);
 $row = $db->db_fetch_array($result);
 $hour_chemie = $row['value'];
 
-$sql = "SELECT `value`, `text` FROM `{$db_tb_params}` WHERE `name` = 'hour_eis';";
+$sql = "SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'hour_eis';";
 $result = $db->db_query($sql);
 $row = $db->db_fetch_array($result);
 $hour_eis = $row['value'];
 
-$sql = "SELECT `value`, `text` FROM `{$db_tb_params}` WHERE `name` = 'hour_wasser';";
+$sql = "SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'hour_wasser';";
 $result = $db->db_query($sql);
 $row = $db->db_fetch_array($result);
 $hour_wasser = $row['value'];
 
-$sql = "SELECT `value`, `text` FROM `{$db_tb_params}` WHERE `name` = 'hour_energie';";
+$sql = "SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'hour_energie';";
 $result = $db->db_query($sql);
 $row = $db->db_fetch_array($result);
 $hour_energie = $row['value'];
 
-$sql = "SELECT `value`, `text` FROM `{$db_tb_params}` WHERE `name` = 'max_eisen';";
+$sql = "SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'max_eisen';";
 $result = $db->db_query($sql);
 $row = $db->db_fetch_array($result);
 $max_eisen = $row['value'];
@@ -553,23 +557,26 @@ $max_eisen = $row['value'];
 
 if (GetVar('iwdb_lock_change')) {
 
-    $iwdb_locked      = GetVar('iwdb_locked');
+    $iwdb_locked      = ensureValue(GetVar('iwdb_locked'), array('true', 'false'), 'false');
     $iwdb_lock_reason = $db->escape(GetVar('iwdb_lock_reason'));
-    if ($iwdb_locked === 'true') {
-        $sql    = "UPDATE `{$db_tb_params}` SET `value` =  'true', `text` = '" . $iwdb_lock_reason . "' WHERE  `name` =  'gesperrt' LIMIT 1;";
-        $result = $db->db_query($sql);
-    } else {
-        $sql    = "UPDATE `{$db_tb_params}` SET `value` = 'false', `text` = ''  WHERE `name` =  'gesperrt' LIMIT 1;";
-        $result = $db->db_query($sql);
-    }
+
+    $aSqlData = array('name' => 'gesperrt', 'value' => $iwdb_locked);
+    $db->db_insertupdate($db_tb_params, $aSqlData);
+
+    $aSqlData = array('name' => 'gesperrt_grund', 'value' => $iwdb_lock_reason);
+    $db->db_insertupdate($db_tb_params, $aSqlData);
 
 }
 
-$sql = "SELECT `value`, `text` FROM `{$db_tb_params}` WHERE `name` = 'gesperrt';";
+$sql = "SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'gesperrt';";
 $result = $db->db_query($sql);
 $row = $db->db_fetch_array($result);
 $iwdb_locked = $row['value'];
-$iwdb_lock_reason = $row['text'];
+
+$sql = "SELECT `value` FROM `{$db_tb_params}` WHERE `name` = 'gesperrt_grund';";
+$result = $db->db_query($sql);
+$row = $db->db_fetch_array($result);
+$iwdb_lock_reason = $row['value'];
 
 $sel_iwdb_locked = '';
 if ($iwdb_locked === 'true') {

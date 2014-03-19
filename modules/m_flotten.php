@@ -208,8 +208,7 @@ $config['schiffe_cat'] = array(
 );
 
 // Allianzen im Status 'Krieg' abfragen
-$sql = "SELECT * FROM " . $db_tb_allianzstatus .
-	" WHERE status='Krieg'";
+$sql = "SELECT * FROM " . $db_tb_allianzstatus . " WHERE status='Krieg'";
 		
 
 

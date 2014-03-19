@@ -94,6 +94,16 @@ if (!empty($anz)) {
             </td>
         </tr>
         <?php
+
+        $users_sitterpunkte     = array();
+        $users_sitterpunkte_anz = array();
+        $users_sitterlogin      = array();
+        $users_sitterpeitschen  = array();
+        $users_sittercomment    = array();
+        $users_sitten           = array();
+        $users_lastlogin        = array();
+        $users_lastlogin_user   = array();
+        $users_logged_in        = array();
         while ($row = $db->db_fetch_array($result)) {
             if ((($user_status == "admin") || ($row['sitten'] == 1)) && (!empty($row['sitterpwd']))) {
                 $sql = "SELECT id FROM " . $db_tb_sitterlog . " WHERE sitterlogin = '" . $user_sitterlogin . "' AND fromuser = '" . $row['sitterlogin'] . "' AND fromuser <> '" . $user_sitterlogin . "'";
@@ -183,10 +193,9 @@ if (!empty($anz)) {
                             </tr>
                             <tr>
                                 <td colspan='2' class='windowbg1 center'>
-                                    <input type="hidden" name="newlog" value="true"><input type="hidden"
-                                                                                           name="sitterlogin"
-                                                                                           value="<?php echo $data;?>"><input
-                                        type="submit" value="speichern" name="B1">
+                                    <input type="hidden" name="newlog" value="true">
+                                    <input type="hidden" name="sitterlogin" value="<?php echo $data;?>">
+                                    <input type="submit" value="speichern" name="B1">
                                 </td>
                             </tr>
                         </table>

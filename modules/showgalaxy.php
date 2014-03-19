@@ -671,7 +671,7 @@ if ($newpreset) {
         <?php
         while ($row = $db->db_fetch_array($result)) {
             if (!empty($row['allianz'])) {
-                $sql = "SELECT status FROM " . $db_tb_allianzstatus . " WHERE allianz LIKE '" . $row['allianz'] . "'";
+                $sql = "SELECT status FROM " . $db_tb_allianzstatus . " WHERE allianz='" . $row['allianz'] . "'";
                 $result_status = $db->db_query($sql);
                 $row_status = $db->db_fetch_array($result_status);
                 if (!empty($config_allianzstatus[$row_status['status']])) {

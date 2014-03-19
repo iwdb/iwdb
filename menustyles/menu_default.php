@@ -244,8 +244,7 @@ echo "</div>";
             <?php
 
             // Menu auslesen
-            $sql = "SELECT menu, submenu, title, status, action, extlink, sittertyp FROM " .
-                $db_tb_menu . " WHERE active=1 ORDER BY menu ASC, submenu ASC";
+            $sql = "SELECT menu, submenu, title, status, action, extlink, sittertyp FROM " . $db_tb_menu . " WHERE active=1 ORDER BY menu ASC, submenu ASC";
             $result = $db->db_query($sql);
 
             $lastmenu = 0;
@@ -256,11 +255,9 @@ echo "</div>";
             while ($row = $db->db_fetch_array($result)) {
                 // Ist sitten für diesen Menu-Eintrag erlaubt?
                 $sitterentry = ($user_adminsitten == SITTEN_BOTH)
-                    || ($row['sittertyp'] == 0)
-                    || ($user_adminsitten == SITTEN_ONLY_LOGINS
-                        && ($row['sittertyp'] == 1 || $row['sittertyp'] == 3))
-                    || ($user_adminsitten == SITTEN_ONLY_NEWTASKS
-                        && ($row['sittertyp'] == 2 || $row['sittertyp'] == 3));
+                    OR ($row['sittertyp'] == 0)
+                    OR ($user_adminsitten == SITTEN_ONLY_LOGINS AND ($row['sittertyp'] == 1 || $row['sittertyp'] == 3))
+                    OR ($user_adminsitten == SITTEN_ONLY_NEWTASKS AND ($row['sittertyp'] == 2 || $row['sittertyp'] == 3));
 
                 // Falls nicht, mit dem naechsten Eintrag weitermachen.
                 if (!$sitterentry) {

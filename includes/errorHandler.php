@@ -1,13 +1,13 @@
 <?php
 
-function errorHandler($errno, $errstr, $errfile, $errline)
+function errorHandler($errno, $errstr)
 {
     if (!(error_reporting() & $errno)) {
         // This error code is not included in error_reporting
         return '';
     }
 
-    //ToDo: add some loging
+    //ToDo: Limit logging?
 
     switch ($errno) {
         case E_USER_ERROR:
@@ -34,6 +34,12 @@ function errorHandler($errno, $errstr, $errfile, $errline)
         case E_NOTICE:
         case E_USER_NOTICE:
             $logfilename = 'notice_' . microtime(true) . '.log';
+            file_put_contents(LOG_PATH . $logfilename, print_r(debug_backtrace(), true), LOCK_EX);
+            break;
+
+        case E_DEPRECATED:
+        case E_USER_DEPRECATED:
+            $logfilename = 'deprecated_' . microtime(true) . '.log';
             file_put_contents(LOG_PATH . $logfilename, print_r(debug_backtrace(), true), LOCK_EX);
             break;
 

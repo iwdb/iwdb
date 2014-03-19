@@ -35,7 +35,7 @@ if (!defined('IRA')) {
 }
 
 //****************************************************************************
-global $db, $db_tb_scans, $db_tb_allianzstatus, $db_tb_spieler;
+global $db, $db_tb_scans, $db_tb_spieler;
 global $config_map_galaxy_min, $config_map_galaxy_max, $config_map_system_max;
 
 //Einstellungen
@@ -122,20 +122,17 @@ if (!empty($allianz)) {
 
         $bgcolor = '';
         if ($allianz !== '%' AND $allianz !== '') { //'%' sind alle Spieler, '' sind Solos -> Status macht irgendwie keinen Sinn...
-            $sql = "SELECT `status` FROM " . $db_tb_allianzstatus . " WHERE allianz like '$allianz';";
-            $result = $db->db_query($sql);
-            $row = $db->db_fetch_array($result);
-            if (!empty($row['status'])) {
-                $status  = $row['status'];
-                $bgcolor = 'background-color:' . $config_allianzstatus[$row['status']] . ';';
-                if ($status == 'own') {
-                    $status = 'eigene ally';
+            $strAllyStatus = getAllyStatus($allianz);
+            if (!empty($strAllyStatus)) {
+                $bgcolor = 'background-color:' . $config_allianzstatus[$strAllyStatus] . ';';
+                if ($strAllyStatus == 'own') {
+                    $strDiploStatus = 'eigene ally';
                 }
             } else {
-                $status = 'keiner';
+                $strDiploStatus = 'keiner';
             }
         } else {
-            $status  = '-';
+            $strDiploStatus  = '-';
         }
 
 
@@ -298,10 +295,10 @@ if (!empty($allianz)) {
         next_row("windowbg2 left", "style='width:25%'");
         echo "diplomatischer Status";
         next_cell("windowbg1 left", "style='width:25%; $bgcolor'");
-        if ($status === 'keiner') {
+        if ($strDiploStatus === 'keiner') {
             echo "<i>keiner</i>";
         } else {
-            echo $status;
+            echo $strDiploStatus;
         }
 
         next_cell("windowbg2 left", "style='width:25%'");

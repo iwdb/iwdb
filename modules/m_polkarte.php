@@ -299,34 +299,32 @@ while ($row = $db->db_fetch_array($result)) {
         $result_sys = $db->db_query($sql);
 
         while ($row_sys = $db->db_fetch_array($result_sys)) {
-            $sql = "SELECT status FROM " . $db_tb_allianzstatus . " WHERE allianz LIKE '" . $row_sys['allianz'] . "'";
-            $result_status = $db->db_query($sql);
-            $row_status = $db->db_fetch_array($result_status);
-            if ($row_status['status'] == $config_polstat['1v1']) {
+            $strAllyStatus = getAllyStatus($allianz);
+            if ($strAllyStatus == $config_polstat['1v1']) {
                 $own = 1;
             }
-            if ($row_status['status'] == $config_polstat['1v2']) {
+            if ($strAllyStatus == $config_polstat['1v2']) {
                 $own = 1;
             }
-            if ($row_status['status'] == $config_polstat['1v3']) {
+            if ($strAllyStatus == $config_polstat['1v3']) {
                 $own = 1;
             }
-            if ($row_status['status'] == $config_polstat['2v1']) {
+            if ($strAllyStatus == $config_polstat['2v1']) {
                 $vb = 1;
             }
-            if ($row_status['status'] == $config_polstat['2v2']) {
+            if ($strAllyStatus == $config_polstat['2v2']) {
                 $vb = 1;
             }
-            if ($row_status['status'] == $config_polstat['2v3']) {
+            if ($strAllyStatus == $config_polstat['2v3']) {
                 $vb = 1;
             }
-            if ($row_status['status'] == $config_polstat['3v1']) {
+            if ($strAllyStatus == $config_polstat['3v1']) {
                 $krieg = 1;
             }
-            if ($row_status['status'] == $config_polstat['3v2']) {
+            if ($strAllyStatus == $config_polstat['3v2']) {
                 $krieg = 1;
             }
-            if ($row_status['status'] == $config_polstat['3v3']) {
+            if ($strAllyStatus == $config_polstat['3v3']) {
                 $krieg = 1;
             }
         }

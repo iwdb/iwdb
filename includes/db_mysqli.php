@@ -92,7 +92,7 @@ class db
 
             $this->query_result = @mysqli_query($this->db_link_id, $query);
             if ($this->query_result == false) {
-                trigger_error("Database query error: " . mysqli_error($this->db_link_id) . '(' . mysqli_error($this->db_link_id) . ')', E_USER_ERROR);
+                trigger_error("Database query error: " . mysqli_error($this->db_link_id) . ' (' . mysqli_errno($this->db_link_id) . ')', E_USER_ERROR);
             }
 
             $this->query_count++;

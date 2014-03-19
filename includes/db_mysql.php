@@ -40,15 +40,15 @@ class db
     function db_connect($host = 'localhost', $user = 'iwdb', $password = 'iwdb', $database = 'iwdb', $persistency = true)
     {
         if ($persistency) {
-            $this->db_link_id = @mysql_pconnect($host, $user, $password);
+            $this->db_link_id = mysql_pconnect($host, $user, $password);
         } else {
-            $this->db_link_id = @mysql_connect($host, $user, $password);
+            $this->db_link_id = mysql_connect($host, $user, $password);
         }
 
         if ($this->db_link_id !== false) {
 
             $this->query_count = 0;
-            $this->db_version  = @mysql_get_server_info();
+            $this->db_version  = mysql_get_server_info();
             $this->db_queries  = array();
             $this->db_select($database);
 
@@ -68,7 +68,7 @@ class db
                 $this->db_free_result($this->query_result);
             }
 
-            return @mysql_close($this->db_link_id);
+            return mysql_close($this->db_link_id);
         } else {
             return false;
         }
@@ -76,7 +76,7 @@ class db
 
     function db_select($database)
     {
-        return @mysql_select_db($database);
+        return mysql_select_db($database);
     }
 
     function escape($string)
@@ -95,7 +95,7 @@ class db
 
             $this->query_result = @mysql_query($query, $this->db_link_id);
             if ($this->query_result == false) {
-                trigger_error("Database query error: " . @mysql_error($this->db_link_id), E_USER_ERROR);
+                trigger_error("Database query error: " . mysql_error($this->db_link_id) . ' (' . mysql_errno($this->db_link_id) . ')', E_USER_ERROR);
             }
 
             $this->query_count++;
@@ -481,7 +481,7 @@ class db
         }
 
         if ($query_id) {
-            return @mysql_num_rows($query_id);
+            return mysql_num_rows($query_id);
         } else {
             return false;
         }
@@ -494,7 +494,7 @@ class db
         }
 
         if ($query_id) {
-            return @mysql_fetch_row($query_id);
+            return mysql_fetch_row($query_id);
         } else {
             return false;
         }
@@ -507,7 +507,7 @@ class db
         }
 
         if ($query_id) {
-            return @mysql_fetch_array($query_id, MYSQL_ASSOC);
+            return mysql_fetch_array($query_id, MYSQL_ASSOC);
         } else {
             return false;
         }
@@ -520,7 +520,7 @@ class db
         }
 
         if ($query_id) {
-            $result = @mysql_fetch_object($query_id);
+            $result = mysql_fetch_object($query_id);
 
             return $result;
         } else {
@@ -530,7 +530,7 @@ class db
 
     function db_free_result($result)
     {
-        return @mysql_free_result($result);
+        return mysql_free_result($result);
     }
 
     function db_errno()
@@ -546,11 +546,11 @@ class db
     function db_error_ex()
     {
         if (!$this->db_link_id) {
-            $result['code'] = @mysql_errno();
-            $result['msg']  = @mysql_error();
+            $result['code'] = mysql_errno();
+            $result['msg']  = mysql_error();
         } else {
-            $result['code'] = @mysql_errno($this->db_link_id);
-            $result['msg']  = @mysql_error($this->db_link_id);
+            $result['code'] = mysql_errno($this->db_link_id);
+            $result['msg']  = mysql_error($this->db_link_id);
         }
 
         return $result;

@@ -101,7 +101,7 @@ if (!empty($submitnotice)) {
 }
 
 //Allianzstatus holen
-$sql_allystatus = "SELECT `status` FROM `{$db_tb_allianzstatus}` WHERE `allianz` LIKE '" . $row_planie['allianz'] . "'";
+$sql_allystatus = "SELECT `status` FROM `{$db_tb_allianzstatus}` WHERE `allianz`='" . $row_planie['allianz'] . "'";
 $result_allystatus = $db->db_query($sql_allystatus);
 $row_allystatus = $db->db_fetch_array($result_allystatus);
 if (isset($config_allianzstatus[$row_allystatus['status']])) {

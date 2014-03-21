@@ -159,6 +159,7 @@ $user_fremdesitten    = "0";
 $user_vonfremdesitten = "0";
 $user_allianz         = "";
 $user_rules           = "0";
+$user_gesperrt        = false;
 
 // get user status
 if ($login_ok) {

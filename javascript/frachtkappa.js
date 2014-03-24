@@ -7,7 +7,7 @@
 function frachtkappaRechnen() {
     var class1kappa_benoetigt, class1kappa_vorhanden, class1kappa_nochbenoetigt, class2kappa_benoetigt, class2kappa_vorhanden, class2kappa_nochbenoetigt;
 
-    class1kappa_benoetigt = document.getElementById('eisen').value
+    class1kappa_benoetigt = (document.getElementById('eisen').value * 1)
         + (document.getElementById('stahl').value * 2)
         + (document.getElementById('chemie').value * 3)
         + (document.getElementById('vv4a').value * 4);

@@ -511,3 +511,34 @@ ALTER TABLE  `prefix_wronglogin` CHANGE  `user`  `user` VARCHAR( 50 ) CHARACTER 
 ALTER TABLE  `prefix_wronglogin` CHANGE  `date`  `date` INT( 10 ) UNSIGNED NOT NULL DEFAULT  '0';
 ALTER TABLE  `prefix_wronglogin` CHANGE  `ip`  `ip` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  '';
 
+-- 25.04.2014 masel: change coords format back to signed
+
+ALTER TABLE `prefix_bestellung` CHANGE `coords_gal` `coords_gal` TINYINT NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_bestellung` CHANGE `coords_sys` `coords_sys` SMALLINT NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_bestellung` CHANGE `coords_planet` `coords_planet` TINYINT NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_bestellung_schiffe` CHANGE `coords_gal` `coords_gal` TINYINT NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_bestellung_schiffe` CHANGE `coords_sys` `coords_sys` SMALLINT NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_bestellung_schiffe` CHANGE `coords_planet` `coords_planet` TINYINT NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_gebaeude_spieler` CHANGE `coords_gal` `coords_gal` TINYINT NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_gebaeude_spieler` CHANGE `coords_sys` `coords_sys` SMALLINT NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_gebaeude_spieler` CHANGE `coords_planet` `coords_planet` TINYINT NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_kb` CHANGE `koords_gal` `koords_gal` TINYINT NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_kb` CHANGE `koords_sol` `koords_sol` SMALLINT NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_kb` CHANGE `koords_pla` `koords_pla` TINYINT NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_lager` CHANGE `coords_gal` `coords_gal` TINYINT NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_lager` CHANGE `coords_sys` `coords_sys` SMALLINT NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_lager` CHANGE `coords_planet` `coords_planet` TINYINT NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_lieferung` CHANGE `coords_from_gal` `coords_from_gal` TINYINT NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_lieferung` CHANGE `coords_from_sys` `coords_from_sys` SMALLINT NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_lieferung` CHANGE `coords_from_planet` `coords_from_planet` TINYINT NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_lieferung` CHANGE `coords_to_gal` `coords_to_gal` TINYINT NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_lieferung` CHANGE `coords_to_sys` `coords_to_sys` SMALLINT NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_lieferung` CHANGE `coords_to_planet` `coords_to_planet` TINYINT NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_scans` CHANGE `coords_gal` `coords_gal` TINYINT NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_scans` CHANGE `coords_sys` `coords_sys` SMALLINT NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_scans` CHANGE `coords_planet` `coords_planet` TINYINT NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_sysscans` CHANGE `gal` `gal` TINYINT NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_sysscans` CHANGE `sys` `sys` SMALLINT NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_target` CHANGE `coords_gal` `coords_gal` TINYINT NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_target` CHANGE `coords_sys` `coords_sys` SMALLINT NOT NULL DEFAULT '0';
+ALTER TABLE `prefix_target` CHANGE `coords_planet` `coords_planet` TINYINT NOT NULL DEFAULT '0';

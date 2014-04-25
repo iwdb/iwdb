@@ -1,13 +1,4 @@
--- phpMyAdmin SQL Dump
--- version 3.5.8.2
--- http://www.phpmyadmin.net
---
--- Host: localhost
--- Erstellungszeit: 19. Mrz 2014 um 19:33
--- Server Version: 10.0.8-MariaDB
--- PHP-Version: 5.5.10
-
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -55,9 +46,9 @@ CREATE TABLE `prefix_bestellung` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user` varchar(50) NOT NULL DEFAULT '' COMMENT 'Ziel',
   `team` varchar(100) NOT NULL DEFAULT '' COMMENT 'Lieferant',
-  `coords_gal` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `coords_sys` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `coords_planet` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `coords_gal` tinyint(4) NOT NULL DEFAULT '0',
+  `coords_sys` smallint(6) NOT NULL DEFAULT '0',
+  `coords_planet` tinyint(4) NOT NULL DEFAULT '0',
   `project` varchar(100) NOT NULL DEFAULT '',
   `text` varchar(1000) NOT NULL DEFAULT '',
   `time` int(10) unsigned NOT NULL DEFAULT '0',
@@ -84,7 +75,7 @@ CREATE TABLE `prefix_bestellung` (
   `time_created` int(10) unsigned NOT NULL DEFAULT '0',
   `erledigt` tinyint(1) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Bestellsystem';
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Bestellsystem';
 
 -- --------------------------------------------------------
 
@@ -109,9 +100,9 @@ CREATE TABLE `prefix_bestellung_schiffe` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user` varchar(50) NOT NULL DEFAULT '',
   `team` varchar(50) NOT NULL DEFAULT '',
-  `coords_gal` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `coords_sys` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `coords_planet` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `coords_gal` tinyint(4) NOT NULL DEFAULT '0',
+  `coords_sys` smallint(6) NOT NULL DEFAULT '0',
+  `coords_planet` tinyint(4) NOT NULL DEFAULT '0',
   `project` varchar(50) NOT NULL DEFAULT '',
   `text` varchar(254) NOT NULL DEFAULT '',
   `time` int(10) unsigned NOT NULL DEFAULT '0',
@@ -256,9 +247,9 @@ CREATE TABLE `prefix_gebaeude` (
 --
 
 CREATE TABLE `prefix_gebaeude_spieler` (
-  `coords_gal` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `coords_sys` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `coords_planet` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `coords_gal` tinyint(4) NOT NULL DEFAULT '0',
+  `coords_sys` smallint(6) NOT NULL DEFAULT '0',
+  `coords_planet` tinyint(4) NOT NULL DEFAULT '0',
   `kolo_typ` varchar(20) NOT NULL DEFAULT '',
   `user` varchar(50) NOT NULL DEFAULT '',
   `category` varchar(100) NOT NULL DEFAULT '',
@@ -393,9 +384,9 @@ CREATE TABLE `prefix_kb` (
   `verteidiger` varchar(50) NOT NULL DEFAULT '',
   `verteidiger_ally` varchar(50) NOT NULL DEFAULT '',
   `planet_name` varchar(50) NOT NULL DEFAULT '',
-  `koords_gal` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `koords_sol` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `koords_pla` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `koords_gal` tinyint(4) NOT NULL DEFAULT '0',
+  `koords_sol` smallint(6) NOT NULL DEFAULT '0',
+  `koords_pla` tinyint(4) NOT NULL DEFAULT '0',
   `typ` varchar(60) NOT NULL DEFAULT '',
   `resultat` varchar(60) NOT NULL DEFAULT '',
   KEY `koords_gal` (`koords_gal`,`koords_sol`,`koords_pla`),
@@ -507,9 +498,9 @@ CREATE TABLE `prefix_kb_verluste` (
 
 CREATE TABLE `prefix_lager` (
   `user` varchar(50) NOT NULL DEFAULT '',
-  `coords_gal` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `coords_sys` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `coords_planet` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `coords_gal` tinyint(4) NOT NULL DEFAULT '0',
+  `coords_sys` smallint(6) NOT NULL DEFAULT '0',
+  `coords_planet` tinyint(4) NOT NULL DEFAULT '0',
   `kolo_typ` varchar(20) NOT NULL DEFAULT '',
   `eisen` int(10) unsigned NOT NULL DEFAULT '0',
   `eisen_prod` float NOT NULL DEFAULT '0',
@@ -579,12 +570,12 @@ CREATE TABLE `prefix_lager` (
 
 CREATE TABLE `prefix_lieferung` (
   `time` int(10) unsigned NOT NULL DEFAULT '0',
-  `coords_from_gal` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `coords_from_sys` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `coords_from_planet` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `coords_to_gal` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `coords_to_sys` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `coords_to_planet` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `coords_from_gal` tinyint(4) NOT NULL DEFAULT '0',
+  `coords_from_sys` smallint(6) NOT NULL DEFAULT '0',
+  `coords_from_planet` tinyint(4) NOT NULL DEFAULT '0',
+  `coords_to_gal` tinyint(4) NOT NULL DEFAULT '0',
+  `coords_to_sys` smallint(6) NOT NULL DEFAULT '0',
+  `coords_to_planet` tinyint(4) NOT NULL DEFAULT '0',
   `user_from` varchar(50) DEFAULT NULL,
   `user_to` varchar(50) DEFAULT NULL,
   `eisen` int(10) unsigned NOT NULL DEFAULT '0',
@@ -879,9 +870,9 @@ CREATE TABLE `prefix_ressuebersicht` (
 
 CREATE TABLE `prefix_scans` (
   `coords` varchar(11) NOT NULL DEFAULT '',
-  `coords_gal` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `coords_gal` tinyint(4) NOT NULL DEFAULT '0',
   `coords_sys` smallint(6) NOT NULL DEFAULT '0',
-  `coords_planet` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `coords_planet` tinyint(4) NOT NULL DEFAULT '0',
   `user` varchar(50) NOT NULL DEFAULT '',
   `userchange_time` int(10) unsigned DEFAULT NULL,
   `allianz` varchar(50) NOT NULL DEFAULT '',
@@ -1193,8 +1184,8 @@ CREATE TABLE `prefix_spielerallychange` (
 
 CREATE TABLE `prefix_sysscans` (
   `id` varchar(7) NOT NULL DEFAULT '',
-  `gal` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `sys` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `gal` tinyint(4) NOT NULL DEFAULT '0',
+  `sys` smallint(6) NOT NULL DEFAULT '0',
   `objekt` varchar(20) NOT NULL DEFAULT '',
   `date` int(10) unsigned NOT NULL DEFAULT '0',
   `nebula` enum('','blau','gelb','gruen','rot','violett') NOT NULL DEFAULT '',
@@ -1210,9 +1201,9 @@ CREATE TABLE `prefix_sysscans` (
 CREATE TABLE `prefix_target` (
   `user` varchar(50) NOT NULL DEFAULT '',
   `name` varchar(255) NOT NULL DEFAULT '',
-  `coords_gal` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `coords_sys` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `coords_planet` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `coords_gal` tinyint(4) NOT NULL DEFAULT '0',
+  `coords_sys` smallint(6) NOT NULL DEFAULT '0',
+  `coords_planet` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`user`,`name`,`coords_gal`,`coords_sys`,`coords_planet`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -1353,7 +1344,7 @@ CREATE TABLE `prefix_wronglogin` (
   `date` int(10) unsigned NOT NULL DEFAULT '0',
   `ip` varchar(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -90,14 +90,6 @@ if (!empty($submitnotice)) {
     $result = $db->db_query($sql);
     $result = $db->db_fetch_array($result);
     $notice = $result["rnb"];
-
-    $sql_name = "SELECT `user` FROM `{$db_tb_scans}` WHERE `coords`='" . $coords . "'";
-    $result_name = $db->db_query($sql_name);
-    $name = $result_name['user'];
-
-    $sql_spieler = "SELECT `gesperrt`, `umode`, `einmaurer` FROM `{$db_tb_spieler}` WHERE `name`='" . $name . "'";
-    $result_spieler = $db->db_query($sql_spieler);
-    $result_spieler = $db->db_fetch_array($result_spieler);
 }
 
 //Allianzstatus holen

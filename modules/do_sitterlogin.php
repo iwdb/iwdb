@@ -2,7 +2,7 @@
 
 function do_sitterlogin($strSitterlogin)
 {
-    global $user_adminsitten, $user_sitterlogin;
+    global $user_adminsitten, $user_sitterlogin, $user_sitterskin;
     global $db, $db_tb_sitterlog, $db_tb_user;
     global $config_sitterlog_timeout, $config_sitterpunkte_timeout, $config_sitterpunkte_login;
 

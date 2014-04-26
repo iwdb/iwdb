@@ -63,9 +63,6 @@ $MINUTES = MINUTE;
 $HOURS = HOUR;
 $DAYS = DAY;
 
-require_once './includes/errorHandler.php';         //Fehler handler laden
-set_error_handler("errorHandler");
-
 // some other constants
 // ToDo: clean them up
 define('DEBUG', true);
@@ -102,6 +99,8 @@ require_once './includes/function_parser.php';      //Parserhilfsfunktionen
 require_once './includes/function_security.php';    //Sicherheitsfunktionen
 require_once "./includes/function_doc.php";         //Seitenaufbau Hilfsfunktionen
 require_once './includes/db_mysqli.php';            //MySQLi DB Klasse
+require_once './includes/errorHandler.php';         //Fehler handler
+set_error_handler("errorHandler");
 
 define('REMOTE_IP', getRemoteIP());
 if ($phpids_enabled) {
@@ -125,6 +124,11 @@ while ($row = $db->db_fetch_array($result)) {
     $tbname    = "db_tb_" . mb_substr($row['table_name'], mb_strlen($db_prefix));
     ${$tbname} = $row['table_name'];
 }
+//DB-Zugangsdaten werden nicht mehr gebraucht
+unset($db_host);
+unset($db_user);
+unset($db_pass);
+unset($db_name);
 
 $action = preg_replace('/[^a-zA-Z0-9_-]/', '', mb_substr(getVar('action'), 0, 100)); //get and filter actionstring (limited to 100 chars)
 if (empty($action)) {

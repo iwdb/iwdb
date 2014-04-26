@@ -40,3 +40,6 @@ if (!$objIDSResult->isEmpty()) {
     }
 
 }
+unset($objIDSInit);
+unset($objIDS);
+unset($objIDSResult);

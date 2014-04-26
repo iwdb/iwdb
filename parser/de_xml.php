@@ -729,20 +729,25 @@ function parse_kbxml($xmldata)
 
         // Bomb
         if (isset($kb['bomb'])) {
-            $sql    = "
-				INSERT INTO {$db_tb_kb_bomb}
-					(`ID_KB`, `time`";
-            $values = "
-				VALUES
-					('$kb[id]', '$kb[time]'";
-            foreach ($kb['bomb'] as $key => $value) {
-                if ($key != 'geb') {
-                    $sql .= ", `$key`";
-                    $values .= ", '$value'";
-                }
+            $aSqlData = array(
+                'ID_KB'         => $kb['id'],
+                'time'          => $kb['time'],
+                'koords_gal'    => $kb['koords_gal'],
+                'koords_sol'    => $kb['koords_sol'],
+                'koords_pla'    => $kb['koords_pla'],
+                'user'          => $kb['bomb']['user'],
+            );
+            if (isset($kb['bomb']['trefferchance'])) {
+                $aSql['trefferchance'] = $kb['bomb']['trefferchance'];
             }
-            $sql .= ") $values )";
-            $db->db_query($sql);
+            if (isset($kb['bomb']['basis'])) {
+                $aSql['basis'] = $kb['bomb']['basis'];
+            }
+            if (isset($kb['bomb']['bev'])) {
+                $aSql['bev'] = $kb['bomb']['bev'];
+            }
+
+            $db->db_insert($db_tb_kb_bomb, $aSqlData);
 
             // Gebäude
             if (!empty($kb['bomb']['geb'])) {

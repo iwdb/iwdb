@@ -262,8 +262,8 @@ function getIncomingsTables()
 					$coords = explode(":", $row['koords_to']);
 					//$sql_bomb = "SELECT `time`, `ID_KB`, `hash` FROM `{$db_tb_kb}` WHERE (`koords_gal`='".$coords[0]."' AND `koords_sol`='".$coords[1]."' AND `koords_pla`='".$coords[2]."')";
 					//$sql_bomb = "SELECT `time`, `ID_KB`, `hash` FROM `{$db_tb_kb}` LEFT JOIN `{$db_tb_kb_bomb}` ON `{$db_tb_kb}`.`ID_KB`=`{$db_tb_kb_bomb}`.`ID_KB` WHERE (`{$db_tb_kb}`.`koords_gal`='".$coords[0]."' AND `{$db_tb_kb}`.`koords_sol`='".$coords[1]."' AND `{$db_tb_kb}`.`koords_pla`='".$coords[2]."')";
-					$sql_bomb = "SELECT MAX(time) AS bombtime, `ID_KB`, `hash` FROM `{$db_tb_kb}` WHERE ((`ID_KB` IN (SELECT `ID_KB` FROM `{$db_tb_kb_bomb}`)) AND (`{$db_tb_kb}`.`koords_gal`='".$coords[0]."' AND `{$db_tb_kb}`.`koords_sol`='".$coords[1]."' AND `{$db_tb_kb}`.`koords_pla`='".$coords[2]."'))";
-					$result_bomb = $db->db_query($sql_bomb);
+                    $sql_bomb = "SELECT `time` AS 'bombtime', `ID_KB`, `hash` FROM `{$db_tb_kb}` WHERE `{$db_tb_kb}`.`ID_KB`=(SELECT `ID_KB` FROM `{$db_tb_kb_bomb}` WHERE koords_gal='".$coords[0]."' AND koords_sol='".$coords[1]."' and koords_pla='".$coords[2] . "' ORDER BY time DESC LIMIT 1);";
+                    $result_bomb = $db->db_query($sql_bomb);
 					$row_bomb = $db->db_fetch_array($result_bomb);
 					echo '<div>';
 					$time = strftime(CONFIG_DATETIMEFORMAT, $row_bomb['bombtime']);

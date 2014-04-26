@@ -402,6 +402,9 @@ CREATE TABLE `prefix_kb` (
 CREATE TABLE `prefix_kb_bomb` (
   `ID_KB` int(10) unsigned NOT NULL DEFAULT '0',
   `time` int(10) unsigned NOT NULL DEFAULT '0',
+  `koords_gal` tinyint(4) NOT NULL DEFAULT '0',
+  `koords_sol` smallint(6) NOT NULL DEFAULT '0',
+  `koords_pla` tinyint(4) NOT NULL DEFAULT '0',
   `user` varchar(50) NOT NULL DEFAULT '',
   `trefferchance` tinyint(3) unsigned NOT NULL DEFAULT '100',
   `basis` tinyint(1) unsigned NOT NULL DEFAULT '0',

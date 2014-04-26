@@ -542,3 +542,12 @@ ALTER TABLE `prefix_sysscans` CHANGE `sys` `sys` SMALLINT NOT NULL DEFAULT '0';
 ALTER TABLE `prefix_target` CHANGE `coords_gal` `coords_gal` TINYINT NOT NULL DEFAULT '0';
 ALTER TABLE `prefix_target` CHANGE `coords_sys` `coords_sys` SMALLINT NOT NULL DEFAULT '0';
 ALTER TABLE `prefix_target` CHANGE `coords_planet` `coords_planet` TINYINT NOT NULL DEFAULT '0';
+
+-- 26.04.2014 masel: add coords in bomb-table
+ALTER TABLE `prefix_kb_bomb` ADD `koords_gal` TINYINT NOT NULL DEFAULT '0' AFTER `time`, ADD `koords_sol` SMALLINT NOT NULL DEFAULT '0' AFTER `koords_gal`, ADD `koords_pla` TINYINT NOT NULL DEFAULT '0' AFTER `koords_sol`;
+UPDATE
+  `prefix_kb_bomb`
+SET
+  `prefix_kb_bomb`.`koords_gal`=(select `prefix_kb`.`koords_gal` FROM `prefix_kb` WHERE `prefix_kb`.`ID_KB`=`prefix_kb_bomb`.`ID_KB`),
+  `prefix_kb_bomb`.`koords_sol`=(select `prefix_kb`.`koords_sol` FROM `prefix_kb` WHERE `prefix_kb`.`ID_KB`=`prefix_kb_bomb`.`ID_KB`),
+  `prefix_kb_bomb`.`koords_pla`=(select `prefix_kb`.`koords_pla` FROM `prefix_kb` WHERE `prefix_kb`.`ID_KB`=`prefix_kb_bomb`.`ID_KB`);

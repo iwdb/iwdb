@@ -936,8 +936,6 @@ CREATE TABLE `prefix_scans` (
   `astro_pic` tinyint(3) unsigned DEFAULT NULL,
   `shadow_pic` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `bg_pic` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `time_att` int(10) unsigned NOT NULL DEFAULT '0',
-  `att` varchar(10000) NOT NULL DEFAULT '',
   `geolink` varchar(120) NOT NULL DEFAULT '',
   `geblink` varchar(120) NOT NULL DEFAULT '',
   `schifflink` varchar(120) NOT NULL DEFAULT '',

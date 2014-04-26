@@ -164,10 +164,8 @@ function workInstallDatabase()
      KEY w_id (w_id,k_id,v_ally,v_name,v_art)
     )",
         "ALTER TABLE " . $db_tb_scans . " " .
-            "ADD time_att INT(11) NOT NULL DEFAULT '0'," .
-            "ADD att      text NOT NULL DEFAULT '' ",
-
-
+            "ADD `time_att` int(10) unsigned DEFAULT '0'," .
+            "ADD `att` varchar(10000) NOT NULL DEFAULT ''",
     );
     foreach ($sqlscript as $sql) {
         $db->db_query($sql);
@@ -218,8 +216,8 @@ function workUninstallDatabase()
 
     $sqlscript = array(
         "ALTER TABLE " . $db_tb_scans . " " .
-            "DROP time_att," .
-            "DROP att ",
+            "DROP `time_att`," .
+            "DROP `att` ",
         "DROP TABLE " . $db_tb_kb_war,
         "DROP TABLE " . $db_tb_kb_kb,
         "DROP TABLE " . $db_tb_kb_kaputt
@@ -1380,18 +1378,23 @@ function insert_iw_kb()
     global $Recalculate_War;
 
     if (!$Recalculate_War) {
-        $sSQL   = "INSERT INTO `" . $db_tb_kb_kb . "` (w_id, k_id, k_typ, k_kb) VALUES ($a_id, '', 'X', '$k_kb')";
-        $db->db_query($sSQL);
-        if ($db->db_errno() == 0) {
+        $strSQL   = "SELECT COUNT(*) AS 'count' FROM `" . $db_tb_kb_kb . "` WHERE k_kb='$k_kb';";
+        $result = $db->db_query($strSQL);
+        $row = $db->db_fetch_array($result);
+        if (empty($row['count'])) {
+
+            $aData = array(
+                'w_id' => $a_id,
+                'k_typ' => 'X',
+                'k_kb' => $k_kb
+            );
+            $db->db_insertignore($db_tb_kb_kb, $aData);
+
             $k_id = $db->db_insert_id();
         } else {
             $kb_array['ERR'] = true;
             $k_id            = 0;
-            if ($db->db_errno() == 1062) {
-                echo "<a href='$k_kb' target='_new'>$k_kb</a> <span class='doc_red'>KB ist bereits vorhanden!</span><br>";
-            } else {
-                sql_fehler($sSQL);
-            }
+            echo "<a href='$k_kb' target='_new'>$k_kb</a> <span class='doc_red'>KB ist bereits vorhanden!</span><br>";
         }
     }
 }

@@ -548,6 +548,6 @@ ALTER TABLE `prefix_kb_bomb` ADD `koords_gal` TINYINT NOT NULL DEFAULT '0' AFTER
 UPDATE
   `prefix_kb_bomb`
 SET
-  `prefix_kb_bomb`.`koords_gal`=(select `prefix_kb`.`koords_gal` FROM `prefix_kb` WHERE `prefix_kb`.`ID_KB`=`prefix_kb_bomb`.`ID_KB`),
-  `prefix_kb_bomb`.`koords_sol`=(select `prefix_kb`.`koords_sol` FROM `prefix_kb` WHERE `prefix_kb`.`ID_KB`=`prefix_kb_bomb`.`ID_KB`),
-  `prefix_kb_bomb`.`koords_pla`=(select `prefix_kb`.`koords_pla` FROM `prefix_kb` WHERE `prefix_kb`.`ID_KB`=`prefix_kb_bomb`.`ID_KB`);
+  `prefix_kb_bomb`.`koords_gal`=(SELECT `prefix_kb`.`koords_gal` FROM `prefix_kb` WHERE `prefix_kb`.`ID_KB`=`prefix_kb_bomb`.`ID_KB` LIMIT 1),
+  `prefix_kb_bomb`.`koords_sol`=(SELECT `prefix_kb`.`koords_sol` FROM `prefix_kb` WHERE `prefix_kb`.`ID_KB`=`prefix_kb_bomb`.`ID_KB` LIMIT 1),
+  `prefix_kb_bomb`.`koords_pla`=(SELECT `prefix_kb`.`koords_pla` FROM `prefix_kb` WHERE `prefix_kb`.`ID_KB`=`prefix_kb_bomb`.`ID_KB` LIMIT 1);
